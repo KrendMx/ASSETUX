@@ -1,0 +1,30 @@
+:root {
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 18px;
+}
+
+html,
+button,
+input {
+  font-family: "Montserrat", sans-serif;
+}
+
+@media only screen and (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
