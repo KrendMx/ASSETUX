@@ -5,13 +5,11 @@ import Footer from "../Footer"
 import { useAppSelector } from "@/src/redux/hooks"
 import type { AppProps } from "next/app"
 
-type ContainerProps = {
-  burgerActive: boolean
-}
-
-const Container = styled.main<ContainerProps>`
-  margin-top: var(--header-height);
-  display: ${(props) => (props.burgerActive ? "none" : "block")};
+const Container = styled.main`
+  margin: var(--header-height) auto 0;
+  max-width: var(--max-width);
+  width: 100%;
+  padding: 0 var(--paddings);
 `
 
 type ComponentManagerProps = {
@@ -22,13 +20,16 @@ function ContentManager(props: ComponentManagerProps) {
   const { Component, pageProps } = props.appProps
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
 
+  if (burgerActive) {
+    return <BurgerMenu />
+  }
+
   return (
     <>
-      <Container burgerActive={burgerActive}>
+      <Container>
         <Component {...pageProps} />
-        <Footer />
       </Container>
-      {burgerActive && <BurgerMenu />}
+      <Footer />
     </>
   )
 }

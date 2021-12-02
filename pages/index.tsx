@@ -7,7 +7,7 @@ const Container = styled.div`
 `
 
 function Index() {
-  return <Container></Container>
+  return <Container>Index</Container>
 }
 
 export default Index
