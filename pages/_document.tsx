@@ -33,7 +33,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="/icon-32.png" type="image/png" sizes="32x32" />
+          <link rel="icon" href="/icon_white.png" type="image/png" />
         </Head>
         <body>
           <Main />
