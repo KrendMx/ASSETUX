@@ -1,8 +1,13 @@
 import React from "react"
 import styled from "styled-components"
 
-const Wrapper = styled.footer`
+type WrapperProps = {
+  hide: boolean
+}
+
+const Wrapper = styled.footer<WrapperProps>`
   background-color: var(--black);
+  display: ${(props) => (props.hide ? "none" : "block")};
 `
 
 const Container = styled.div`
@@ -14,12 +19,14 @@ const Container = styled.div`
   color: var(--white);
 `
 
-function Footer() {
+type FooterProps = {
+  hide: boolean
+}
+
+function Footer({ hide }: FooterProps) {
   return (
-    <Wrapper>
-      <Container>
-        Footer
-      </Container>
+    <Wrapper hide={hide}>
+      <Container>Footer</Container>
     </Wrapper>
   )
 }
