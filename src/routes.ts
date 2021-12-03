@@ -1,104 +1,104 @@
 export type Route = {
   href: string
-  title: string
+  key: string
 }
 
-export const Company: Route[] = [
+export const company: Route[] = [
   {
-    title: "About",
+    key: "about",
     href: "/404"
   },
   {
-    title: "Team",
+    key: "team",
     href: "/404"
   },
   {
-    title: "News Room",
+    key: "news",
     href: "/404"
   },
   {
-    title: "Partners",
+    key: "partners",
     href: "/404"
   },
   {
-    title: "Blockchains",
+    key: "blockchains",
     href: "/404"
   },
   {
-    title: "Currencies",
+    key: "currencies",
     href: "/404"
   }
 ]
 
-export const Partners: Route[] = [
+export const partners: Route[] = [
   {
-    title: "For Tokents",
+    key: "forTokens",
     href: "/404"
   },
   {
-    title: "For Wallets",
+    key: "forWallets",
     href: "/404"
   },
   {
-    title: "For Exchanges",
+    key: "forExchanges",
     href: "/404"
   },
   {
-    title: "For Services",
+    key: "forServices",
     href: "/404"
   },
   {
-    title: "Affiliate Prorgram",
+    key: "affiliate",
     href: "/404"
   },
   {
-    title: "API for Developers",
+    key: "devs",
     href: "/404"
   }
 ]
 
-export const Popular: Route[] = [
+export const popular: Route[] = [
   {
-    title: "USDT to BTC",
+    key: "USDTtoBTC",
     href: "/404"
   },
   {
-    title: "USDT to BTC",
+    key: "USDTtoBTC",
     href: "/404"
   },
   {
-    title: "USDT to BTC",
+    key: "USDTtoBTC",
     href: "/404"
   },
   {
-    title: "USDT to BTC",
+    key: "USDTtoBTC",
     href: "/404"
   },
   {
-    title: "USDT to BTC",
+    key: "USDTtoBTC",
     href: "/404"
   },
   {
-    title: "USDT to BTC",
+    key: "USDTtoBTC",
     href: "/404"
   }
 ]
 
-export const Legal: Route[] = [
+export const legal: Route[] = [
   {
-    title: "Terms of Use",
+    key: "term",
     href: "/404"
   },
   {
-    title: "Privacy Policy",
+    key: "privacy",
     href: "/404"
   },
   {
-    title: "For Partners",
+    key: "forPartners",
     href: "/404"
   },
   {
-    title: "AML/KYC",
+    key: "amlkyc",
     href: "/404"
   }
 ]

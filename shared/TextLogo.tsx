@@ -6,8 +6,8 @@ import Link from "next/link"
 const LogoContainer = styled.div`
   display: block;
   position: relative;
-  width: 73px;
-  height: 73px;
+  width: 45px;
+  height: 45px;
 `
 
 const LogoLink = styled.a`
@@ -15,6 +15,7 @@ const LogoLink = styled.a`
   flex-direction: row;
   align-items: center;
   text-decoration: none;
+  gap: 10px;
 `
 
 const LogoText = styled.span`
@@ -32,12 +33,14 @@ type TextLogoProps = {
   link: boolean
 }
 
+// TODO: доделать
+
 function TextLogo({ link }: TextLogoProps) {
   return (
     <Link href="/" passHref>
       <LogoLink>
         <LogoContainer>
-          <Image src="/icon_white.png" layout="fill" alt="Logo" quality={100} />
+          <Image src="/icon_black.png" layout="fill" alt="Logo" quality={100} />
         </LogoContainer>
         <LogoText>
           ASSET<ColoredLogoText>UX</ColoredLogoText>

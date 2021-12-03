@@ -16,28 +16,37 @@ const Container = styled.div`
   padding: 0 var(--paddings);
 `
 
+const ImageContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
 const LogoLink = styled.a`
   display: block;
   position: relative;
-  width: var(--header-height);
-  height: var(--header-height);
+  width: 38px;
+  height: 38px;
 `
 
 function MobileHeader() {
   return (
     <Wrapper>
       <Container>
-        <LanguageChange>EN</LanguageChange>
-        <Link href="/" passHref>
-          <LogoLink>
-            <Image
-              src="/icon_white.png"
-              layout="fill"
-              alt="Logo"
-              quality={100}
-            />
-          </LogoLink>
-        </Link>
+        <LanguageChange />
+        <ImageContainer>
+          <Link href="/" passHref>
+            <LogoLink>
+              <Image
+                src="/icon_black.png"
+                layout="fill"
+                alt="Logo"
+                quality={100}
+              />
+            </LogoLink>
+          </Link>
+        </ImageContainer>
         <BurgerButton />
       </Container>
     </Wrapper>

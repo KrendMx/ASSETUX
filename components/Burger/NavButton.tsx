@@ -17,15 +17,16 @@ const Button = styled.button<ButtonProps>`
   cursor: pointer;
   padding: 10px 0;
   color: ${(props) => (props.active ? "var(--blue)" : "var(--black)")};
+  font-size: 1em;
 
   svg {
-    font-size: 1.3rem;
+    font-size: 1.3em;
     transform: ${(props) => (props.active ? "rotate(0deg)" : "rotate(180deg)")};
   }
 `
 
 const ButtonTitle = styled.span`
-  font-size: 1.7rem;
+  font-size: 1.7em;
   font-weight: 600;
 `
 

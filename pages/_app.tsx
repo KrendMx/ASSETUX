@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import Head from "next/head"
+import { appWithTranslation } from "next-i18next"
 import type { AppProps } from "next/app"
 import { useRouter } from "next/router"
 import { Provider } from "react-redux"
@@ -29,10 +30,11 @@ function MyApp(props: AppProps) {
     }
 
     const handleResize = (event: UIEvent) => {
-      if ((event.target as Window).innerWidth < 550) {
+      if ((event.target as Window).innerWidth <= 550) {
         dispatch(setMobile(true))
       } else {
         dispatch(setMobile(false))
+        dispatch(setBurgerActive(false))
       }
     }
 
@@ -42,7 +44,7 @@ function MyApp(props: AppProps) {
 
     window.addEventListener("resize", handleResize)
 
-    if (window.innerWidth < 550) {
+    if (window.innerWidth <= 550) {
       dispatch(setMobile(true))
     }
 
@@ -81,4 +83,4 @@ function Wrapper(props: AppProps) {
   )
 }
 
-export default Wrapper
+export default appWithTranslation(Wrapper)

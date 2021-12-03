@@ -4,6 +4,7 @@ import Link from "next/link"
 import LanguageChange from "@/shared/Headers/LanguageChange"
 import Wrapper from "@/shared/Headers/Wrapper"
 import TextLogo from "@/shared/TextLogo"
+import { useTranslation } from "next-i18next"
 
 const OuterContainer = styled.div`
   max-width: var(--max-width);
@@ -30,7 +31,7 @@ const RightContainer = styled.div`
   align-items: center;
 
   @media only screen and (max-width: 800px) {
-    gap: 20px;
+    gap: 10px;
   }
 `
 
@@ -46,7 +47,7 @@ const NavLink = styled.a`
   justify-content: center;
   height: 100%;
   padding: 0 40px;
-  font-size: 0.95rem;
+  font-size: 0.95em;
   font-weight: 500;
   text-decoration: none;
   color: var(--black);
@@ -57,6 +58,8 @@ const NavLink = styled.a`
 `
 
 function Header() {
+  const { t } = useTranslation("header")
+
   return (
     <Wrapper>
       <OuterContainer>
@@ -65,16 +68,16 @@ function Header() {
           <RightContainer>
             <NavContainer>
               <Link href="/404" passHref>
-                <NavLink>Swap</NavLink>
+                <NavLink>{t("swap")}</NavLink>
               </Link>
               <Link href="/404" passHref>
-                <NavLink>Farms</NavLink>
+                <NavLink>{t("farms")}</NavLink>
               </Link>
               <Link href="/404" passHref>
-                <NavLink>Assetux Blog</NavLink>
+                <NavLink>{t("blog")}</NavLink>
               </Link>
             </NavContainer>
-            <LanguageChange>EN</LanguageChange>
+            <LanguageChange />
           </RightContainer>
         </InnerContainer>
       </OuterContainer>
