@@ -4,7 +4,6 @@ import styled from "styled-components"
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 47px;
 `
 
 const Row = styled.div`
@@ -12,6 +11,7 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 47px;
 `
 
 const MoreLink = styled.a`
@@ -24,7 +24,6 @@ const MoreLink = styled.a`
 const NewsLetter = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 21px;
 `
 
 const Element = styled.div`
@@ -34,6 +33,10 @@ const Element = styled.div`
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   background-color: var(--bgColor);
   font-size: 1em;
+
+  &:not(:last-child) {
+    margin-right: 21px;
+  }
 `
 
 function NewsRoom() {

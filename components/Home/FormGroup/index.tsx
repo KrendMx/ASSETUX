@@ -8,11 +8,19 @@ const Container = styled.section`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 50px;
+
+  & > *:not(:last-child) {
+    margin-right: 50px;
+  }
 
   @media only screen and (max-width: 960px) {
     flex-direction: column;
-    gap: 75px;
+    align-items: flex-start;
+
+    & > *:not(:last-child) {
+      margin-right: 0;
+      margin-bottom: 75px;
+    }
   }
 `
 

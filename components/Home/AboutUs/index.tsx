@@ -5,15 +5,9 @@ import Image from "next/image"
 const Container = styled.section`
   display: flex;
   flex-direction: row;
-  gap: 120px;
-
-  @media only screen and (max-width: 1200px) {
-    gap: 60px;
-  }
 
   @media only screen and (max-width: 960px) {
     flex-direction: column;
-    gap: 0;
     align-items: center;
   }
 `
@@ -23,15 +17,27 @@ const AboutContainer = styled.div`
   padding-top: 99px;
   display: flex;
   flex-direction: column;
-  gap: 33px;
+  margin-right: 120px;
+
+  & > h2 {
+    margin-bottom: 33px;
+  }
 
   p {
     color: #616161;
   }
 
+  @media only screen and (max-width: 1200px) {
+    margin-right: 60px;
+  }
+
   @media only screen and (max-width: 960px) {
     padding-top: 0;
-    gap: 20px;
+    margin-right: 0;
+
+    & > h2 {
+      margin-bottom: 20px;
+    }
   }
 `
 

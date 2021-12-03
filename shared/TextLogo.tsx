@@ -15,7 +15,10 @@ const LogoLink = styled.a`
   flex-direction: row;
   align-items: center;
   text-decoration: none;
-  gap: 10px;
+
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
 `
 
 const LogoText = styled.span`

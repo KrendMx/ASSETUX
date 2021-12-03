@@ -27,18 +27,18 @@ const RightContainer = styled.div`
   display: flex;
   height: 100%;
   flex-direction: row;
-  gap: 32px;
   align-items: center;
-
-  @media only screen and (max-width: 800px) {
-    gap: 10px;
-  }
 `
 
 const NavContainer = styled.nav`
   display: flex;
   height: 100%;
   flex-direction: row;
+  margin-right: 32px;
+
+  @media only screen and (max-width: 800px) {
+    margin-right: 10px;
+  }
 `
 
 const NavLink = styled.a`

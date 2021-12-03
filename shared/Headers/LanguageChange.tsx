@@ -12,7 +12,6 @@ const Button = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 2px;
   font-size: 18px;
   font-weight: 500;
   color: var(--black);
@@ -22,6 +21,7 @@ const Button = styled.button`
   cursor: pointer;
 
   svg {
+    margin-left: 2px;
     transform: rotate(180deg);
     font-size: 16px;
   }

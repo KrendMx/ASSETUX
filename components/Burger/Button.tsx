@@ -4,11 +4,6 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setBurgerActive } from "@/src/redux/uiSlice"
 
 const StyledButton = styled.button`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
   border: none;
   outline: none;
   background-color: transparent;
@@ -20,6 +15,10 @@ const Bar = styled.span`
   width: 20px;
   height: 3px;
   background-color: #000000;
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
 `
 
 function Button() {

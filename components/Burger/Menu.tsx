@@ -28,13 +28,16 @@ const SocialContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  gap: 22px;
   margin-top: 30px;
 `
 
 const LinkLogo = styled.a`
   text-decoration: none;
   color: var(--black);
+
+  &:not(:last-child) {
+    margin-right: 22px;
+  }
 `
 
 function Menu() {

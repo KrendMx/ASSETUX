@@ -27,6 +27,10 @@ const Container = styled.div`
     margin-bottom: 87px;
   }
 
+  @media only screen and (max-width: 1100px) {
+    font-size: 0.85rem;
+  }
+
   @media only screen and (max-width: 960px) {
     section:not(:last-child),
     section:nth-last-child(2) {
@@ -38,16 +42,12 @@ const Container = styled.div`
     padding: 24px 0;
   }
 
-  @media only screen and (max-width: 475px) {
-    font-size: 13px;
-  }
-
   @media only screen and (max-width: 410px) {
-    font-size: 11px;
+    font-size: 0.73rem;
   }
 
   @media only screen and (max-width: 355px) {
-    font-size: 9px;
+    font-size: 0.6rem;
   }
 `
 

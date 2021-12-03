@@ -3,13 +3,7 @@ import styled from "styled-components"
 import Link from "next/link"
 import type { Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
-
-const StyledList = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  font-size: 1rem;
-`
+import StyledList from "./StyledList"
 
 const StyledLink = styled.a`
   display: block;
@@ -18,6 +12,10 @@ const StyledLink = styled.a`
   padding: 7px 0;
   font-weight: 400;
   font-size: 0.8em;
+
+  @media only screen and (max-width: 550px) {
+    font-size: 1em;
+  }
 `
 
 type ListProps = {

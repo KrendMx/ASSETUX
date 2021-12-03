@@ -4,7 +4,10 @@ import styled from "styled-components"
 const Container = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 115px;
+
+  & > h2 {
+    margin-bottom: 115px;
+  }
 `
 
 const Table = styled.div`
