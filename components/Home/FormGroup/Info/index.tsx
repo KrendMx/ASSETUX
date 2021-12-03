@@ -33,7 +33,7 @@ function Info() {
       <TextColumn>
         <h1>
           {t("titleBeforeBuy")}{" "}
-          <ColoredSpan color="green">{t("buy")}</ColoredSpan>{" "}
+          <ColoredSpan color="green">{t("buy")}</ColoredSpan><br />
           {t("titleAfterBuy")}{" "}
           <ColoredSpan color="red">{t("sell")}</ColoredSpan>{" "}
           {t("titleAfterSell")}

@@ -18,6 +18,7 @@ const AboutContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 120px;
+  font-size: 1em;
 
   & > h2 {
     margin-bottom: 33px;
@@ -37,6 +38,24 @@ const AboutContainer = styled.div`
 
     & > h2 {
       margin-bottom: 20px;
+    }
+  }
+
+  @media only screen and (max-width: 1330px) {
+    p {
+      font-size: 1.35em;
+    }
+  }
+
+  @media only screen and (max-width: 960px) {
+    p {
+      font-size: 1.1em;
+    }
+  }
+
+  @media only screen and (max-width: 470px) {
+    p {
+      font-size: 1.4em;
     }
   }
 `
