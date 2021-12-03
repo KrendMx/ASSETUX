@@ -19,9 +19,8 @@ const Container = styled.section`
 `
 
 const AboutContainer = styled.div`
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   padding-top: 99px;
-  flex-basis: 50%;
   display: flex;
   flex-direction: column;
   gap: 33px;
@@ -49,12 +48,14 @@ const TextContainer = styled.div`
 `
 
 const ImageContainer = styled.div`
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   display: block;
   max-width: 596px;
-  width: 100%;
   max-height: 596px;
-  height: 100%;
+
+  @media only screen and (max-width: 960px) {
+    width: 100%;
+  }
 `
 
 function AboutUs() {
