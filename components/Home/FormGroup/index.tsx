@@ -8,6 +8,7 @@ const Container = styled.section`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 1em;
 
   & > *:not(:last-child) {
     margin-right: 50px;

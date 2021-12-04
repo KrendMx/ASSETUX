@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
 const Container = styled.section`
   display: flex;
@@ -18,20 +19,9 @@ const AboutContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 120px;
-  font-size: 1em;
 
   & > h2 {
     margin-bottom: 33px;
-  }
-
-  p {
-    color: #616161;
-  }
-
-  @media only screen and (max-width: 1340px) {
-    p {
-      font-size: 1.2em;
-    }
   }
 
   @media only screen and (max-width: 1200px) {
@@ -46,15 +36,16 @@ const AboutContainer = styled.div`
       margin-bottom: 20px;
     }
   }
-
-  @media only screen and (max-width: 495px) {
-    p {
-      font-size: 1.4em;
-    }
-  }
 `
 
-const TextContainer = styled.div`
+const TextContainer = styled(AdaptiveFont).attrs({
+  mobileFactor: 1.4,
+  tabletFactor: 1.2
+})`
+  p {
+    color: #616161;
+  }
+
   p:not(:last-child) {
     margin-bottom: 25px;
   }

@@ -1,25 +1,20 @@
 import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
-const Container = styled.article`
+const Container = styled(AdaptiveFont).attrs({
+  mobileFactor: 1.5,
+  tabletFactor: 1.2
+})`
   width: 383px;
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   background-color: var(--bgColor);
-  font-size: 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 19px 30px;
-
-  @media only screen and (max-width: 1340px) {
-    font-size: 1.2em;
-  }
-
-  @media only screen and (max-width: 495px) {
-    font-size: 1.5em;
-  }
 `
 
 const ImgContainer = styled.div`
@@ -68,7 +63,7 @@ const Date = styled.span`
 
 function Element() {
   return (
-    <Container>
+    <Container as="article">
       <ImgContainer>
         <Image
           src="/pablo_lost.png"
