@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { IoIosArrowUp } from "react-icons/io"
 import { useRouter } from "next/router"
@@ -27,9 +27,14 @@ const Button = styled.button`
   }
 `
 
-const Popup = styled.div`
+type PopupProps = {
+  hidden: boolean
+  offset: number
+}
+
+const Popup = styled.div<PopupProps>`
   position: absolute;
-  left: 0;
+  left: ${(props) => `-${props.offset}px`};
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -37,6 +42,11 @@ const Popup = styled.div`
   background-color: var(--bgColor);
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
+  visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
+
+  @media only screen and (max-width: 550px) {
+    left: 0;
+  }
 `
 
 const PopupRow = styled.a`
@@ -62,8 +72,13 @@ const mapLanguage = (locale: string) => {
 
 function LanguageChange() {
   const [popupActive, setPopupActive] = useState(false)
+  const [popupWidth, setPopupWidth] = useState(0)
+  const [buttonWidth, setButtonWidth] = useState(0)
   const router = useRouter()
   const { locale } = router
+
+  const popupRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const handleClick = () => {
@@ -77,31 +92,42 @@ function LanguageChange() {
     }
   }, [])
 
+  useEffect(() => {
+    if (popupRef.current) {
+      setPopupWidth(popupRef.current.clientWidth)
+    }
+    if (buttonRef.current) {
+      setButtonWidth(buttonRef.current.clientWidth)
+    }
+  }, [popupRef, buttonRef])
+
   return (
     <Container onClick={(event) => event.stopPropagation()}>
-      <Button onClick={() => setPopupActive(!popupActive)}>
+      <Button ref={buttonRef} onClick={() => setPopupActive(!popupActive)}>
         {locale && mapLanguage(locale)}
         <IoIosArrowUp />
       </Button>
-      {popupActive && (
-        <Popup>
-          {locale != "en" && (
-            <Link href="/" locale="en" passHref>
-              <PopupRow>EN</PopupRow>
-            </Link>
-          )}
-          {locale != "ru" && (
-            <Link href="/" locale="ru" passHref>
-              <PopupRow>RUS</PopupRow>
-            </Link>
-          )}
-          {locale != "de" && (
-            <Link href="/" locale="de" passHref>
-              <PopupRow>GER</PopupRow>
-            </Link>
-          )}
-        </Popup>
-      )}
+      <Popup
+        ref={popupRef}
+        hidden={!popupActive}
+        offset={(popupWidth - buttonWidth) / 2}
+      >
+        {locale != "en" && (
+          <Link href="/" locale="en" passHref>
+            <PopupRow>EN</PopupRow>
+          </Link>
+        )}
+        {locale != "ru" && (
+          <Link href="/" locale="ru" passHref>
+            <PopupRow>RUS</PopupRow>
+          </Link>
+        )}
+        {locale != "de" && (
+          <Link href="/" locale="de" passHref>
+            <PopupRow>GER</PopupRow>
+          </Link>
+        )}
+      </Popup>
     </Container>
   )
 }
