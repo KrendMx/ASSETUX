@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { IoIosArrowUp } from "react-icons/io"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import Image from "next/image"
 
 const Container = styled.div`
   position: relative;
@@ -44,17 +45,34 @@ const Popup = styled.div<PopupProps>`
   border-radius: 10px;
   visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
 
+  @media only screen and (max-width: 1130px) {
+    left: ${(props) => `-${props.offset * 2}px`};
+  }
+
   @media only screen and (max-width: 550px) {
     left: 0;
   }
 `
 
 const PopupRow = styled.a`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-size: 16px;
   font-weight: 500;
   color: var(--black);
   padding: 15px 20px;
   text-decoration: none;
+
+  & > *:not(:last-child) {
+    margin-right: 15px;
+  }
+`
+
+const CountryContainer = styled.div`
+  position: relative;
+  width: 14px;
+  height: 11px;
 `
 
 const mapLanguage = (locale: string) => {
@@ -119,12 +137,22 @@ function LanguageChange() {
         )}
         {locale != "ru" && (
           <Link href="/" locale="ru" passHref>
-            <PopupRow>RUS</PopupRow>
+            <PopupRow>
+              <CountryContainer>
+                <Image src="/russia!!!.png" layout="fill" alt="" />
+              </CountryContainer>
+              <span>RUS</span>
+            </PopupRow>
           </Link>
         )}
         {locale != "de" && (
           <Link href="/" locale="de" passHref>
-            <PopupRow>GER</PopupRow>
+            <PopupRow>
+              <CountryContainer>
+                <Image src="/germany.png" layout="fill" alt="" />
+              </CountryContainer>
+              <span>GER</span>
+            </PopupRow>
           </Link>
         )}
       </Popup>
