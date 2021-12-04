@@ -18,7 +18,7 @@ const TextColumn = styled.div`
     color: var(--gray);
   }
 
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     & > h1 {
       margin: 15px 0;
     }
@@ -33,7 +33,8 @@ function Info() {
       <TextColumn>
         <h1>
           {t("titleBeforeBuy")}{" "}
-          <ColoredSpan color="green">{t("buy")}</ColoredSpan><br />
+          <ColoredSpan color="green">{t("buy")}</ColoredSpan>
+          <br />
           {t("titleAfterBuy")}{" "}
           <ColoredSpan color="red">{t("sell")}</ColoredSpan>{" "}
           {t("titleAfterSell")}

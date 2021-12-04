@@ -20,6 +20,35 @@ const Container = styled.div`
   width: 100%;
   margin: var(--header-height) auto 0;
   padding: 0 var(--paddings);
+  font-size: 1rem;
+
+  @media only screen and (max-width: 1340px) {
+    font-size: 0.8rem;
+  }
+
+  @media only screen and (max-width: 1230px) {
+    font-size: 0.7rem;
+  }
+
+  @media only screen and (max-width: 1180px) {
+    font-size: 0.61rem;
+  }
+
+  @media only screen and (max-width: 1130px) {
+    font-size: 0.74rem;
+  }
+
+  @media only screen and (max-width: 550px) {
+    font-size: 1rem;
+  }
+
+  @media only screen and (max-width: 495px) {
+    font-size: 0.73rem;
+  }
+
+  @media only screen and (max-width: 375px) {
+    font-size: 0.6rem;
+  }
 `
 
 type ContentManagerProps = {

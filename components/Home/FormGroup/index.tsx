@@ -13,7 +13,7 @@ const Container = styled.section`
     margin-right: 50px;
   }
 
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     flex-direction: column;
     align-items: flex-start;
 

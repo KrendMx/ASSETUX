@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import Element from "./Element"
 
 const Container = styled.section`
   display: flex;
@@ -26,19 +27,6 @@ const NewsLetter = styled.div`
   flex-direction: row;
 `
 
-const Element = styled.div`
-  flex: 1 1 auto;
-  height: 418px;
-  border-radius: 10px;
-  box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
-  background-color: var(--bgColor);
-  font-size: 1em;
-
-  &:not(:last-child) {
-    margin-right: 21px;
-  }
-`
-
 function NewsRoom() {
   return (
     <Container>
@@ -47,8 +35,6 @@ function NewsRoom() {
         <MoreLink href="#">Show more</MoreLink>
       </Row>
       <NewsLetter>
-        <Element />
-        <Element />
         <Element />
       </NewsLetter>
     </Container>

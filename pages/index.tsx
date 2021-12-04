@@ -11,7 +11,7 @@ import type { GetStaticProps } from "next"
 const Container = styled.div`
   width: 100%;
   padding: 74px 0;
-  font-size: 1rem;
+  font-size: 1em;
 
   h1,
   h2 {
@@ -27,23 +27,7 @@ const Container = styled.div`
     margin-bottom: 87px;
   }
 
-  @media only screen and (max-width: 1330px) {
-    font-size: 0.8rem;
-  }
-
-  @media only screen and (max-width: 1220px) {
-    font-size: 0.7rem;
-  }
-
-  @media only screen and (max-width: 1160px) {
-    font-size: 0.61rem;
-  }
-
-  @media only screen and (max-width: 1100px) {
-    font-size: 0.74rem;
-  }
-
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     section:not(:last-child),
     section:nth-last-child(2) {
       margin-bottom: 98px;
@@ -52,15 +36,6 @@ const Container = styled.div`
 
   @media only screen and (max-width: 550px) {
     padding: 24px 0;
-    font-size: 1rem;
-  }
-
-  @media only screen and (max-width: 470px) {
-    font-size: 0.73rem;
-  }
-
-  @media only screen and (max-width: 355px) {
-    font-size: 0.6rem;
   }
 `
 

@@ -6,7 +6,7 @@ const Container = styled.section`
   display: flex;
   flex-direction: row;
 
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     flex-direction: column;
     align-items: center;
   }
@@ -28,11 +28,17 @@ const AboutContainer = styled.div`
     color: #616161;
   }
 
+  @media only screen and (max-width: 1340px) {
+    p {
+      font-size: 1.2em;
+    }
+  }
+
   @media only screen and (max-width: 1200px) {
     margin-right: 60px;
   }
 
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     padding-top: 0;
     margin-right: 0;
 
@@ -41,19 +47,7 @@ const AboutContainer = styled.div`
     }
   }
 
-  @media only screen and (max-width: 1330px) {
-    p {
-      font-size: 1.35em;
-    }
-  }
-
-  @media only screen and (max-width: 960px) {
-    p {
-      font-size: 1.1em;
-    }
-  }
-
-  @media only screen and (max-width: 470px) {
+  @media only screen and (max-width: 495px) {
     p {
       font-size: 1.4em;
     }
@@ -65,7 +59,7 @@ const TextContainer = styled.div`
     margin-bottom: 25px;
   }
 
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     p:not(:last-child) {
       margin-bottom: 15px;
     }
@@ -78,7 +72,7 @@ const ImageContainer = styled.div`
   max-width: 596px;
   max-height: 596px;
 
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 985px) {
     width: 100%;
   }
 `
