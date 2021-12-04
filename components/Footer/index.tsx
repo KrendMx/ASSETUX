@@ -31,6 +31,10 @@ const Container = styled.div`
     padding: 26px var(--paddings);
     row-gap: 25px;
   }
+
+  @media only screen and (max-width: 550px) {
+    padding-bottom: 45px;
+  }
 `
 
 const Group = styled.div`
@@ -92,26 +96,26 @@ function Footer({ hide }: FooterProps) {
         </Group>
         <Group>
           <h3>{t("legal")}</h3>
-          <List routes={legal} />
+          <List routes={legal} mobileSmall />
         </Group>
         <Group>
           <h3>{t("social")}</h3>
           <StyledList>
-            <IconElement>
+            <IconElement iconPath="/telegram_white.svg">
               <span>
                 <Bolder>Telegram channel</Bolder>
                 <br />
                 @assetux
               </span>
             </IconElement>
-            <IconElement>
+            <IconElement iconPath="/instagram_white.svg">
               <span>
                 <Bolder>Instagram page</Bolder>
                 <br />
                 @assetux
               </span>
             </IconElement>
-            <IconElement>
+            <IconElement iconPath="/facebook_white.svg">
               <span>
                 <Bolder>Facebook page</Bolder>
                 <br />
@@ -123,14 +127,14 @@ function Footer({ hide }: FooterProps) {
         <Group>
           <h3>{t("support")}</h3>
           <StyledList>
-            <IconElement>
+            <IconElement iconPath={!isMobile ? "/telegram_white.svg" : null}>
               <span>
                 <Bolder>Telegram chat</Bolder>
                 <br />
                 @assetux_support
               </span>
             </IconElement>
-            <IconElement>
+            <IconElement iconPath={!isMobile ? "/instagram_white.svg" : null}>
               <span>
                 <Bolder>E-mail</Bolder>
                 <br />

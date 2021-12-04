@@ -5,7 +5,11 @@ import type { Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
 import StyledList from "./StyledList"
 
-const StyledLink = styled.a`
+type StyledLinkProps = {
+  mobileSmall?: boolean
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
   display: block;
   text-decoration: none;
   color: var(--white);
@@ -13,16 +17,22 @@ const StyledLink = styled.a`
   font-weight: 400;
   font-size: 0.8em;
 
+  @media only screen and (max-width: 750px) {
+    font-size: ${(props) => (props.mobileSmall ? "0.7em" : "0.8em")};
+    padding: ${(props) => (props.mobileSmall ? "6px 0" : "7px 0")};
+  }
+
   @media only screen and (max-width: 550px) {
-    font-size: 1em;
+    font-size: ${(props) => (props.mobileSmall ? "0.86em" : "1em")};
   }
 `
 
 type ListProps = {
   routes: Route[]
+  mobileSmall?: boolean
 }
 
-function List({ routes }: ListProps) {
+function List({ routes, mobileSmall }: ListProps) {
   const { t } = useTranslation("routes")
 
   return (
@@ -30,7 +40,7 @@ function List({ routes }: ListProps) {
       {routes.map((route, index) => (
         <li key={index}>
           <Link href={route.href} passHref>
-            <StyledLink>{t(route.key)}</StyledLink>
+            <StyledLink mobileSmall={mobileSmall}>{t(route.key)}</StyledLink>
           </Link>
         </li>
       ))}
