@@ -13,6 +13,10 @@ const Container = styled.div`
   padding: 74px 0;
   font-size: 1em;
 
+  & > section {
+    padding: 0 var(--paddings);
+  }
+
   h1,
   h2 {
     font-size: 2.6em;

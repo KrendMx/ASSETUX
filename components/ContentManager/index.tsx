@@ -19,7 +19,6 @@ const Container = styled.div`
   max-width: var(--max-width);
   width: 100%;
   margin: var(--header-height) auto 0;
-  padding: 0 var(--paddings);
   font-size: 1rem;
 
   @media only screen and (max-width: 1340px) {

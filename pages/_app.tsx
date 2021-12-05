@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
@@ -12,11 +12,15 @@ import HeaderManager from "@/components/HeaderManager"
 import ContentManager from "@/components/ContentManager"
 import "@/styles/globals.css"
 
+// TODO:
+// 1) Add preloader to prevent the LCP warning
+
 const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {
   ssr: false
 })
 
 function MyApp(props: AppProps) {
+  const [appLoaded, setAppLoaded] = useState(false)
   const router = useRouter()
   const dispatch = useAppDispatch()
 
@@ -45,6 +49,7 @@ function MyApp(props: AppProps) {
 
     window.onload = () => {
       console.log("[App] Page loaded")
+      setAppLoaded(true)
     }
 
     window.addEventListener("resize", handleResize)
