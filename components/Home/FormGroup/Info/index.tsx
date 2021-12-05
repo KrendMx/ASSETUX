@@ -63,6 +63,10 @@ const Sponsors = styled.div`
     margin-right: 15px;
   }
 
+  @media only screen and (max-width: 1130px) {
+    width: 70%;
+  }
+
   @media only screen and (max-width: 985px) {
     width: 100%;
   }
