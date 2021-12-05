@@ -10,18 +10,17 @@ const Container = styled.section`
   align-items: center;
   font-size: 1em;
 
-  & > *:not(:last-child) {
-    margin-right: 50px;
-  }
-
   @media only screen and (max-width: 985px) {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 
     & > *:not(:last-child) {
-      margin-right: 0;
-      margin-bottom: 75px;
+      margin-bottom: 40px;
     }
+  }
+
+  @media only screen and (max-width: 550px) {
+    align-items: flex-start;
   }
 `
 

@@ -2,6 +2,8 @@ import React from "react"
 import styled from "styled-components"
 
 const Container = styled.div`
+  flex-grow: 0;
+  flex-shrink: 0;
   max-width: 469px;
   width: 100%;
   height: 579px;

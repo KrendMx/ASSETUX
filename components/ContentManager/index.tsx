@@ -39,15 +39,7 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: 550px) {
-    font-size: 1rem;
-  }
-
-  @media only screen and (max-width: 495px) {
-    font-size: 0.73rem;
-  }
-
-  @media only screen and (max-width: 355px) {
-    font-size: 0.6rem;
+    font-size: 3vw;
   }
 `
 

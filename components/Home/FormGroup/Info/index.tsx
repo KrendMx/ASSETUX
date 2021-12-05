@@ -2,13 +2,41 @@ import React from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import ColoredSpan from "./ColoredSpan"
+import Image from "next/image"
 
 const Container = styled.div`
+  min-width: 0;
   display: flex;
   flex-direction: column;
+
+  & > *:not(:last-child) {
+    margin-bottom: 90px;
+  }
+
+  @media only screen and (max-width: 1340px) {
+    & > *:not(:last-child) {
+      margin-bottom: 50px;
+    }
+  }
+
+  @media only screen and (max-width: 985px) {
+    width: 405px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    width: 100%;
+  }
 `
 
 const TextColumn = styled.div`
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+
   & > h1 {
     margin: 25px 0;
   }
@@ -23,6 +51,25 @@ const TextColumn = styled.div`
       margin: 15px 0;
     }
   }
+`
+
+const Sponsors = styled.div`
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & > *:not(:last-child) {
+    margin-right: 15px;
+  }
+
+  @media only screen and (max-width: 985px) {
+    width: 100%;
+  }
+`
+
+const SponsorContainer = styled.div`
+  flex: 1 1 auto;
 `
 
 function Info() {
@@ -41,6 +88,22 @@ function Info() {
         </h1>
         <span>{t("info")}</span>
       </TextColumn>
+      <Sponsors>
+        <SponsorContainer>
+          <Image
+            src="/binance.png"
+            width={383}
+            height={79}
+            alt="BINANCE CHAIN"
+          />
+        </SponsorContainer>
+        <SponsorContainer>
+          <Image src="/avalanche.png" width={349} height={64} alt="AVALANCHE" />
+        </SponsorContainer>
+        <SponsorContainer>
+          <Image src="/fantom.png" width={210} height={56} alt="fantom" />
+        </SponsorContainer>
+      </Sponsors>
     </Container>
   )
 }

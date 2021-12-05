@@ -63,6 +63,7 @@ function MyApp(props: AppProps) {
       router.events.off("routeChangeError", handleRouteError)
       window.removeEventListener("resize", handleResize)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

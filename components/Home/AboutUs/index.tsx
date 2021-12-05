@@ -39,7 +39,7 @@ const AboutContainer = styled.div`
 `
 
 const TextContainer = styled(AdaptiveFont).attrs({
-  mobileFactor: 1.4,
+  mobileFactor: 1.34,
   tabletFactor: 1.2
 })`
   p {
