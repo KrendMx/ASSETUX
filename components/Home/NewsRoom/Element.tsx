@@ -51,7 +51,7 @@ const Author = styled.a`
   font-weight: 500;
   color: var(--blue);
 
-  @media only screen and (max-width: 495px) {
+  @media only screen and (max-width: 550px) {
     font-size: 1.15em;
   }
 `

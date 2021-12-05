@@ -12,7 +12,7 @@ const AdaptiveFont = styled.div<AdaptiveFontProps>`
     font-size: ${(props) => `${props.tabletFactor}em`};
   }
 
-  @media only screen and (max-width: 495px) {
+  @media only screen and (max-width: 550px) {
     font-size: ${(props) => `${props.mobileFactor}em`};
   }
 `

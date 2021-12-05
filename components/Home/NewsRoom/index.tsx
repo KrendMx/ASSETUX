@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Element from "./Element"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
 const Container = styled.section`
   display: flex;
@@ -15,8 +16,10 @@ const Row = styled.div`
   margin-bottom: 47px;
 `
 
-const MoreLink = styled.a`
-  font-size: 1em;
+const MoreLink = styled(AdaptiveFont).attrs({
+  mobileFactor: 1.5,
+  tabletFactor: 1.2
+})`
   color: var(--blue);
   font-weight: 500;
   text-decoration: none;
@@ -32,7 +35,7 @@ function NewsRoom() {
     <Container>
       <Row>
         <h2>News Room</h2>
-        <MoreLink href="#">Show more</MoreLink>
+        <MoreLink as="a" href="#">Show more</MoreLink>
       </Row>
       <NewsLetter>
         <Element />
