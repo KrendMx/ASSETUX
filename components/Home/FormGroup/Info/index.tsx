@@ -95,17 +95,17 @@ function Info() {
       <Sponsors>
         <SponsorContainer>
           <Image
-            src="/binance.png"
+            src="/sponsors/binance.png"
             width={383}
             height={79}
             alt="BINANCE CHAIN"
           />
         </SponsorContainer>
         <SponsorContainer>
-          <Image src="/avalanche.png" width={349} height={64} alt="AVALANCHE" />
+          <Image src="/sponsors/avalanche.png" width={349} height={64} alt="AVALANCHE" />
         </SponsorContainer>
         <SponsorContainer>
-          <Image src="/fantom.png" width={210} height={56} alt="fantom" />
+          <Image src="/sponsors/fantom.png" width={210} height={56} alt="fantom" />
         </SponsorContainer>
       </Sponsors>
     </Container>

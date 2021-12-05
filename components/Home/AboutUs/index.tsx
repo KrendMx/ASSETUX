@@ -96,7 +96,7 @@ function AboutUs() {
       </AboutContainer>
       <ImageContainer>
         <Image
-          src="/pablo_savings.png"
+          src="/pablo/pablo_savings.png"
           width={200}
           height={200}
           alt="Pablo Savings"

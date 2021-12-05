@@ -4,6 +4,7 @@ import { IoIosArrowUp } from "react-icons/io"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Image from "next/image"
+import locales from "@/src/locales"
 
 const Container = styled.div`
   position: relative;
@@ -93,7 +94,7 @@ function LanguageChange() {
   const [popupWidth, setPopupWidth] = useState(0)
   const [buttonWidth, setButtonWidth] = useState(0)
   const router = useRouter()
-  const { locale } = router
+  const { locale: currentLocale, asPath } = router
 
   const popupRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -122,7 +123,7 @@ function LanguageChange() {
   return (
     <Container onClick={(event) => event.stopPropagation()}>
       <Button ref={buttonRef} onClick={() => setPopupActive(!popupActive)}>
-        {locale && mapLanguage(locale)}
+        {currentLocale && mapLanguage(currentLocale)}
         <IoIosArrowUp />
       </Button>
       <Popup
@@ -130,30 +131,18 @@ function LanguageChange() {
         hidden={!popupActive}
         offset={(popupWidth - buttonWidth) / 2}
       >
-        {locale != "en" && (
-          <Link href="/" locale="en" passHref>
-            <PopupRow>EN</PopupRow>
-          </Link>
-        )}
-        {locale != "ru" && (
-          <Link href="/" locale="ru" passHref>
-            <PopupRow>
-              <CountryContainer>
-                <Image src="/russia!!!.png" layout="fill" alt="" />
-              </CountryContainer>
-              <span>RUS</span>
-            </PopupRow>
-          </Link>
-        )}
-        {locale != "de" && (
-          <Link href="/" locale="de" passHref>
-            <PopupRow>
-              <CountryContainer>
-                <Image src="/germany.png" layout="fill" alt="" />
-              </CountryContainer>
-              <span>GER</span>
-            </PopupRow>
-          </Link>
+        {locales.map(
+          (locale) =>
+            currentLocale != locale && (
+              <Link href={asPath} key={locale} locale={locale} passHref>
+                <PopupRow>
+                  <CountryContainer>
+                    <Image src={`/flags/${locale}.png`} layout="fill" alt="" />
+                  </CountryContainer>
+                  <span>{mapLanguage(locale)}</span>
+                </PopupRow>
+              </Link>
+            )
         )}
       </Popup>
     </Container>

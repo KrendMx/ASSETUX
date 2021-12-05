@@ -1,7 +1,9 @@
+const locales = require("./src/locales")
+
 module.exports = {
   i18n: {
     defaultLocale: "en",
-    locales: ["en", "de", "ru"],
+    locales,
     localeExtension: "yaml"
   }
 }

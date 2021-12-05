@@ -43,7 +43,7 @@ function TextLogo({ link }: TextLogoProps) {
     <Link href="/" passHref>
       <LogoLink>
         <LogoContainer>
-          <Image src="/icon_black.png" layout="fill" alt="Logo" quality={100} />
+          <Image src="/icons/icon_black.png" layout="fill" alt="Logo" quality={100} />
         </LogoContainer>
         <LogoText>
           ASSET<ColoredLogoText>UX</ColoredLogoText>

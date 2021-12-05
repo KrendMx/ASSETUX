@@ -7,7 +7,8 @@ const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.5,
   tabletFactor: 1.2
 })`
-  width: 383px;
+  /* width: 383px; */
+  width: 100%;
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   background-color: var(--bgColor);
@@ -66,7 +67,7 @@ function Element() {
     <Container as="article">
       <ImgContainer>
         <Image
-          src="/pablo_lost.png"
+          src="/pablo/pablo_lost.png"
           layout="responsive"
           width={560}
           height={416}

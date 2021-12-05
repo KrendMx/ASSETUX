@@ -39,7 +39,7 @@ function MobileHeader() {
           <Link href="/" passHref>
             <LogoLink>
               <Image
-                src="/icon_black.png"
+                src="/icons/icon_black.png"
                 layout="fill"
                 alt="Logo"
                 quality={100}
