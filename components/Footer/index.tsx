@@ -101,21 +101,21 @@ function Footer({ hide }: FooterProps) {
         <Group>
           <h3>{t("social")}</h3>
           <StyledList>
-            <IconElement iconPath="/telegram_white.svg">
+            <IconElement iconPath="/social/telegram_white.svg">
               <span>
                 <Bolder>Telegram channel</Bolder>
                 <br />
                 @assetux
               </span>
             </IconElement>
-            <IconElement iconPath="/instagram_white.svg">
+            <IconElement iconPath="/social/instagram_white.svg">
               <span>
                 <Bolder>Instagram page</Bolder>
                 <br />
                 @assetux
               </span>
             </IconElement>
-            <IconElement iconPath="/facebook_white.svg">
+            <IconElement iconPath="/social/facebook_white.svg">
               <span>
                 <Bolder>Facebook page</Bolder>
                 <br />
@@ -127,14 +127,14 @@ function Footer({ hide }: FooterProps) {
         <Group>
           <h3>{t("support")}</h3>
           <StyledList>
-            <IconElement iconPath={!isMobile ? "/telegram_white.svg" : null}>
+            <IconElement iconPath={!isMobile ? "/social/telegram_white.svg" : null}>
               <span>
                 <Bolder>Telegram chat</Bolder>
                 <br />
                 @assetux_support
               </span>
             </IconElement>
-            <IconElement iconPath={!isMobile ? "/instagram_white.svg" : null}>
+            <IconElement iconPath={!isMobile ? "/social/instagram_white.svg" : null}>
               <span>
                 <Bolder>E-mail</Bolder>
                 <br />

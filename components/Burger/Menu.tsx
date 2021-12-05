@@ -62,7 +62,7 @@ function Menu() {
       <SocialContainer>
         <LinkLogo href="#">
           <Image
-            src="/facebook_dark.svg"
+            src="/social/facebook_dark.svg"
             width={21}
             height={21}
             alt="Facebook"
@@ -70,7 +70,7 @@ function Menu() {
         </LinkLogo>
         <LinkLogo href="#">
           <Image
-            src="/instagram_dark.svg"
+            src="/social/instagram_dark.svg"
             width={21}
             height={21}
             alt="Instagram"
@@ -78,7 +78,7 @@ function Menu() {
         </LinkLogo>
         <LinkLogo href="#">
           <Image
-            src="/telegram_dark.svg"
+            src="/social/telegram_dark.svg"
             width={21}
             height={21}
             alt="Telegram"
