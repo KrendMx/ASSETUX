@@ -1,34 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## App structure
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+```
+Wrapper (provide the redux store)
+└── MyApp
+    ├── HeaderManager
+    │   └── MobileHeader / Header
+    └── ContentManager (manage whether to hide page content and show mobile menu)
+        └── Wrapper (hideable)
+        │   └── Component
+        ├── Footer (hideable)
+        └── Menu
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Home page structure
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+Component
+└── Container
+    ├── FormGroup
+    │   ├── Form
+    │   └── Info
+    ├── CryptoSlide
+    ├── CryptoExplorer
+    ├── NewsRoom
+    └── AboutUs
+        ├── AboutContainer
+        └── ImageContainer
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Font adaptivity
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+* Main font-sizes are: 19px for desktop and 15px for mobile
+* The ContentManager component sets font-sizes for various screen sizes
+* To make a component adaptable:
+  * Ensure that there's no parent component that overrides font-size with px or em (only rem)
+  * Wrap the styled component in AdaptiveFont and provide mobileFactor and tabletFactor (if not, fonts'll be very small)
+  * Inside the wrapped component only use ems (e.g. for title font-size is 1.2em and for text below font-size is 1em)
