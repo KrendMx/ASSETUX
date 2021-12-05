@@ -4,7 +4,7 @@ import { IoIosArrowUp } from "react-icons/io"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import Image from "next/image"
-import locales from "@/src/locales"
+import locales from "../../locales"
 
 const Container = styled.div`
   position: relative;
