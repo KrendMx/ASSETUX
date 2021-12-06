@@ -7,9 +7,15 @@ import { useRouter } from "next/router"
 import { Provider } from "react-redux"
 import store from "@/src/redux/store"
 import { useAppDispatch } from "@/src/redux/hooks"
-import { setMobile, setBurgerActive } from "@/src/redux/uiSlice"
+import {
+  setMobile,
+  setTablet,
+  setDesktop,
+  setBurgerActive
+} from "@/src/redux/uiSlice"
 import HeaderManager from "@/components/HeaderManager"
 import ContentManager from "@/components/ContentManager"
+import { mobile, tablet } from "@/src/constats"
 import "@/styles/globals.css"
 
 // TODO:
@@ -39,10 +45,13 @@ function MyApp(props: AppProps) {
     }
 
     const handleResize = () => {
-      if (window.innerWidth <= 550) {
-        dispatch(setMobile(true))
+      if (window.innerWidth <= mobile) {
+        dispatch(setMobile())
+      } else if (window.innerWidth <= tablet) {
+        dispatch(setTablet())
+        dispatch(setBurgerActive(false))
       } else {
-        dispatch(setMobile(false))
+        dispatch(setDesktop())
         dispatch(setBurgerActive(false))
       }
     }
@@ -54,9 +63,7 @@ function MyApp(props: AppProps) {
 
     window.addEventListener("resize", handleResize)
 
-    if (window.innerWidth <= 550) {
-      dispatch(setMobile(true))
-    }
+    handleResize()
 
     router.events.on("routeChangeStart", handleRouteChange)
     router.events.on("routeChangeComplete", handleRouteComplete)

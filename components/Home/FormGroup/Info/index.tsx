@@ -3,6 +3,11 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import ColoredSpan from "./ColoredSpan"
 import Image from "next/image"
+import {
+  mobile,
+  tablet,
+  mobileLaoyutForTablet
+} from "@/src/constats"
 
 const Container = styled.div`
   min-width: 0;
@@ -13,13 +18,13 @@ const Container = styled.div`
     margin-bottom: 90px;
   }
 
-  @media only screen and (max-width: 1340px) {
+  @media only screen and (max-width: ${tablet}px) {
     & > *:not(:last-child) {
       margin-bottom: 50px;
     }
   }
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     width: 405px;
 
     & > *:not(:last-child) {
@@ -27,7 +32,7 @@ const Container = styled.div`
     }
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     width: 100%;
   }
 `
@@ -46,7 +51,7 @@ const TextColumn = styled.div`
     color: var(--gray);
   }
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     & > h1 {
       margin: 15px 0;
     }
@@ -67,7 +72,7 @@ const Sponsors = styled.div`
     width: 70%;
   }
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     width: 100%;
   }
 `
@@ -102,10 +107,20 @@ function Info() {
           />
         </SponsorContainer>
         <SponsorContainer>
-          <Image src="/sponsors/avalanche.png" width={349} height={64} alt="AVALANCHE" />
+          <Image
+            src="/sponsors/avalanche.png"
+            width={349}
+            height={64}
+            alt="AVALANCHE"
+          />
         </SponsorContainer>
         <SponsorContainer>
-          <Image src="/sponsors/fantom.png" width={210} height={56} alt="fantom" />
+          <Image
+            src="/sponsors/fantom.png"
+            width={210}
+            height={56}
+            alt="fantom"
+          />
         </SponsorContainer>
       </Sponsors>
     </Container>

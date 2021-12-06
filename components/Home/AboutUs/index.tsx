@@ -2,12 +2,13 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
+import { mobileLaoyutForTablet } from "@/src/constats"
 
 const Container = styled.section`
   display: flex;
   flex-direction: row;
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     flex-direction: column;
     align-items: center;
   }
@@ -28,7 +29,7 @@ const AboutContainer = styled.div`
     margin-right: 60px;
   }
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     padding-top: 0;
     margin-right: 0;
 
@@ -50,7 +51,7 @@ const TextContainer = styled(AdaptiveFont).attrs({
     margin-bottom: 25px;
   }
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     p:not(:last-child) {
       margin-bottom: 15px;
     }
@@ -63,7 +64,7 @@ const ImageContainer = styled.div`
   max-width: 596px;
   max-height: 596px;
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     width: 100%;
   }
 `

@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { mobile } from "@/src/constats"
 
 const Container = styled.div`
   flex-grow: 0;
@@ -12,7 +13,7 @@ const Container = styled.div`
   border-radius: 10px;
   align-self: center;
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     max-width: 100%;
   }
 `

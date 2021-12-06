@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Info from "./Info"
 import Form from "./Form"
+import { mobile, mobileLaoyutForTablet } from "@/src/constats"
 
 const Container = styled.section`
   display: flex;
@@ -10,7 +11,7 @@ const Container = styled.section`
   align-items: center;
   font-size: 1em;
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     flex-direction: column;
     align-items: center;
 
@@ -19,7 +20,7 @@ const Container = styled.section`
     }
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     align-items: flex-start;
   }
 `

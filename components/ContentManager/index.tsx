@@ -3,6 +3,7 @@ import styled from "styled-components"
 import BurgerMenu from "@/components/Burger/Menu"
 import Footer from "../Footer"
 import { useAppSelector } from "@/src/redux/hooks"
+import { mobile, tablet } from "@/src/constats"
 import type { AppProps } from "next/app"
 
 type WrapperProps = {
@@ -21,7 +22,7 @@ const Container = styled.div`
   margin: var(--header-height) auto 0;
   font-size: 1rem;
 
-  @media only screen and (max-width: 1340px) {
+  @media only screen and (max-width: ${tablet}px) {
     font-size: 0.8rem;
   }
 
@@ -29,7 +30,7 @@ const Container = styled.div`
     font-size: 0.7rem;
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     font-size: 3vw;
   }
 `

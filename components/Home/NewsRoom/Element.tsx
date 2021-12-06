@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
+import { mobile } from "@/src/constats"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.5,
@@ -52,7 +53,7 @@ const Author = styled.a`
   font-weight: 500;
   color: var(--blue);
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     font-size: 1.15em;
   }
 `

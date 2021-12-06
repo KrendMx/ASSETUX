@@ -6,6 +6,7 @@ import List from "./List"
 import StyledList from "./StyledList"
 import IconElement from "./IconElement"
 import { useAppSelector } from "@/src/redux/hooks"
+import { mobile } from "@/src/constats"
 
 type WrapperProps = {
   hide: boolean
@@ -32,7 +33,7 @@ const Container = styled.div`
     row-gap: 25px;
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     padding-bottom: 45px;
   }
 `
@@ -56,7 +57,7 @@ const Group = styled.div`
     }
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     & > h3 {
       font-size: 1.1em;
     }

@@ -4,6 +4,7 @@ import Link from "next/link"
 import type { Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
 import StyledList from "./StyledList"
+import { mobile } from "@/src/constats"
 
 type StyledLinkProps = {
   mobileSmall?: boolean
@@ -22,7 +23,7 @@ const StyledLink = styled.a<StyledLinkProps>`
     padding: ${(props) => (props.mobileSmall ? "6px 0" : "7px 0")};
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     font-size: ${(props) => (props.mobileSmall ? "0.86em" : "1em")};
   }
 `

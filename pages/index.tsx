@@ -6,6 +6,7 @@ import CryptoSlide from "@/components/Home/CryptoSlide"
 import CryptoExplorer from "@/components/Home/CryptoExplorer"
 import NewsRoom from "@/components/Home/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
+import { mobile, mobileLaoyutForTablet } from "@/src/constats"
 import type { GetStaticProps } from "next"
 
 const Container = styled.div`
@@ -31,14 +32,14 @@ const Container = styled.div`
     margin-bottom: 87px;
   }
 
-  @media only screen and (max-width: 985px) {
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     section:not(:last-child),
     section:nth-last-child(2) {
       margin-bottom: 98px;
     }
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     padding: 24px 0;
   }
 `

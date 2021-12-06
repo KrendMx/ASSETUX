@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import Image from "next/image"
 import locales from "../../locales"
+import { mobile } from "@/src/constats"
 
 const Container = styled.div`
   position: relative;
@@ -50,7 +51,7 @@ const Popup = styled.div<PopupProps>`
     left: ${(props) => `-${props.offset * 2}px`};
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: ${mobile}px) {
     left: 0;
   }
 `
