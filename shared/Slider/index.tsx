@@ -13,20 +13,39 @@ const preventerOpts = {
 }
 
 type SliderProps = {
-  children: JSX.Element[]
-  basis?: number
-  toShow?: number
+  children?: JSX.Element[] | JSX.Element
+  toShow: number
   gap: number
   padding: number
+  startOffset?: number
 }
 
-function Slider({ children, basis, toShow, gap, padding }: SliderProps) {
+function Slider({ children, toShow, gap, padding, startOffset }: SliderProps) {
   const [checkedBasis, setCheckedBasis] = useState(0)
-  const [containerOffset, setContainerOffset] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
+  const childrenLength = Array.isArray(children) ? children.length : 1
+  const swipeOffset = checkedBasis + gap
+  const checkedStartOffset = startOffset ? startOffset : 0
+
+  const next = () => {
+    if (currentIndex + toShow < childrenLength) {
+      setCurrentIndex(currentIndex + 1)
+    }
+  }
+
+  const previous = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    setContainerOffset(containerOffset - event.deltaY)
+    if (event.deltaY > 0) {
+      next()
+    } else {
+      previous()
+    }
   }
 
   const handleEnter = () => {
@@ -38,19 +57,52 @@ function Slider({ children, basis, toShow, gap, padding }: SliderProps) {
   }
 
   useEffect(() => {
-    if (containerRef.current) {
-      const contentWidth = containerRef.current.clientWidth
-      setCheckedBasis(
-        calculateBasis({ toShow, basis, contentWidth, gap, padding })
-      )
+    const handleResize = () => {
+      if (containerRef.current) {
+        const contentWidth = containerRef.current.clientWidth
+
+        setCheckedBasis(
+          calculateBasis({
+            toShow,
+            contentWidth,
+            gap,
+            padding,
+            startOffset: checkedStartOffset
+          })
+        )
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [containerRef])
+
+    handleResize()
+
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [containerRef, toShow, gap, padding, checkedStartOffset])
+
+  if (!children) {
+    return null
+  }
 
   return (
-    <Container padding={padding} ref={containerRef}>
-      <Content offsetX={containerOffset} gap={gap}>
-        {children &&
+    <Container
+      startOffset={checkedStartOffset}
+      padding={padding}
+      ref={containerRef}
+    >
+      <Content offsetX={currentIndex * -swipeOffset} gap={gap}>
+        {!Array.isArray(children) ? (
+          <Element
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
+            onWheel={handleWheel}
+            basis={checkedBasis}
+          >
+            {children}
+          </Element>
+        ) : (
           children.map((child, index) => (
             <Element
               onMouseEnter={handleEnter}
@@ -61,7 +113,8 @@ function Slider({ children, basis, toShow, gap, padding }: SliderProps) {
             >
               {child}
             </Element>
-          ))}
+          ))
+        )}
       </Content>
     </Container>
   )

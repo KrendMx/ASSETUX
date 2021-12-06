@@ -4,8 +4,10 @@ type ElementProps = {
   basis: number
 }
 
-const Element = styled.div<ElementProps>`
-  flex: 0 0 ${(props) => `${props.basis}px`};
-`
+const Element = styled.div.attrs<ElementProps>(({ basis }) => ({
+  style: {
+    flex: `0 0 ${basis}px`
+  }
+}))<ElementProps>``
 
 export default Element

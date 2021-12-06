@@ -8,41 +8,22 @@ const testObject = {
   toShow: 0
 }
 
-test("passed basis is equal to returned", () => {
-  const basis = 300
-
-  expect(
-    calculateBasis({
-      ...testObject,
-      basis
-    })
-  ).toEqual(basis)
-})
-
-test("if no toShow passed return 0", () => {
-  expect(
-    calculateBasis({
-      contentWidth: 0,
-      gap: 0,
-      padding: 0
-    })
-  ).toEqual(0)
-})
-
 test("maths", () => {
   const gap = 20
   const padding = 10
   const toShow = 2
   const contentWidth = 1000
+  const startOffset = 20
 
-  const expected = 480
+  const expected = 460
 
   expect(
     calculateBasis({
       gap,
       padding,
       toShow,
-      contentWidth
+      contentWidth,
+      startOffset
     })
   ).toEqual(expected)
 })
