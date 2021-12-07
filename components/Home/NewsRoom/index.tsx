@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Element from "./Element"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Slider from "@/shared/Slider"
-import { useAppSelector } from "@/src/redux/hooks"
+import useSliderConfig from "../sliderConfig"
 
 const Container = styled.section`
   display: flex;
@@ -37,27 +37,7 @@ const SliderContainer = styled.div`
 `
 
 function NewsRoom() {
-  const isTablet = useAppSelector((state) => state.ui.isTablet)
-  const isMobile = useAppSelector((state) => state.ui.isMobile)
-
-  let slidesToShow = 3
-  if (isTablet) {
-    slidesToShow = 2
-  } else if (isMobile) {
-    slidesToShow = 1
-  }
-
-  let gap = 19
-  if (isMobile) {
-    gap = 15
-  }
-
-  let startOffset = 125
-  if (isMobile) {
-    startOffset = 38
-  } else if (isTablet) {
-    startOffset = 18
-  }
+  const sliderConfig = useSliderConfig()
 
   return (
     <Container>
@@ -68,12 +48,7 @@ function NewsRoom() {
         </MoreLink>
       </Row>
       <SliderContainer>
-        <Slider
-          startOffset={startOffset}
-          gap={gap}
-          padding={5}
-          toShow={slidesToShow}
-        >
+        <Slider padding={5} {...sliderConfig}>
           <Element />
           <Element />
           <Element />

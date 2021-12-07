@@ -1,29 +1,29 @@
 import React from "react"
 import styled from "styled-components"
+import Slider from "@/shared/Slider"
+import Element from "./Element"
+import useSliderConfig from "../sliderConfig"
 
 const Container = styled.section`
-  display: flex;
-  flex-direction: row;
-`
+  display: block;
+  width: 100%;
+  height: 245px;
+  // override page padding
 
-const Element = styled.div`
-  flex: 1 1 auto;
-  height: 177px;
-  border-radius: 10px;
-  box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
-  background-color: var(--bgColor);
-
-  &:not(:last-child) {
-    margin-right: 21px;
-  }
+  padding: 0 !important;
 `
 
 function CryptoSlide() {
+  const sliderConfig = useSliderConfig()
+
   return (
     <Container>
-      <Element />
-      <Element />
-      <Element />
+      <Slider padding={5} {...sliderConfig}>
+        <Element />
+        <Element />
+        <Element />
+        <Element />
+      </Slider>
     </Container>
   )
 }
