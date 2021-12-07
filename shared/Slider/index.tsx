@@ -3,6 +3,7 @@ import { calculateBasis } from "./helpers"
 import Container from "./Container"
 import Content from "./Content"
 import Element from "./Element"
+import { useSwipeable } from "react-swipeable"
 
 const preventer = (event: Event) => {
   event.preventDefault()
@@ -10,6 +11,14 @@ const preventer = (event: Event) => {
 
 const preventerOpts = {
   passive: false
+}
+
+const swipeProps = {
+  delta: 10,
+  preventDefaultTouchmoveEvent: false,
+  trackTouch: true,
+  trackMouse: false,
+  rotationAngle: 0
 }
 
 type SliderProps = {
@@ -21,12 +30,29 @@ type SliderProps = {
 }
 
 function Slider({ children, toShow, gap, padding, startOffset }: SliderProps) {
+  const [swipedPixels, setSwipePixels] = useState(0)
   const [checkedBasis, setCheckedBasis] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const childrenLength = Array.isArray(children) ? children.length : 1
   const swipeOffset = checkedBasis + gap
   const checkedStartOffset = startOffset ? startOffset : 0
+
+  const swipeHandlers = useSwipeable({
+    onSwiping: (event) => {
+      setSwipePixels(event.deltaX)
+    },
+    onSwiped: () => {
+      setSwipePixels(0)
+    },
+    onSwipedLeft: () => {
+      next()
+    },
+    onSwipedRight: () => {
+      previous()
+    },
+    ...swipeProps
+  })
 
   const next = () => {
     if (currentIndex + toShow < childrenLength) {
@@ -92,25 +118,20 @@ function Slider({ children, toShow, gap, padding, startOffset }: SliderProps) {
       padding={padding}
       ref={containerRef}
     >
-      <Content offsetX={currentIndex * -swipeOffset} gap={gap}>
+      <Content
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        onWheel={handleWheel}
+        animate={swipedPixels == 0}
+        offsetX={currentIndex * -swipeOffset + swipedPixels}
+        gap={gap}
+        {...swipeHandlers}
+      >
         {!Array.isArray(children) ? (
-          <Element
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-            onWheel={handleWheel}
-            basis={checkedBasis}
-          >
-            {children}
-          </Element>
+          <Element basis={checkedBasis}>{children}</Element>
         ) : (
           children.map((child, index) => (
-            <Element
-              onMouseEnter={handleEnter}
-              onMouseLeave={handleLeave}
-              onWheel={handleWheel}
-              basis={checkedBasis}
-              key={index}
-            >
+            <Element basis={checkedBasis} key={index}>
               {child}
             </Element>
           ))

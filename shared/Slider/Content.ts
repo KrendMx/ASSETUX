@@ -3,17 +3,21 @@ import styled from "styled-components"
 type ContentProps = {
   gap: number
   offsetX: number
+  animate: boolean
 }
 
-const Content = styled.div<ContentProps>`
+const Content = styled.div.attrs<ContentProps>(({ offsetX }) => ({
+  style: {
+    transform: `translateX(${offsetX}px)`
+  }
+}))<ContentProps>`
   width: 100%;
   display: flex;
   flex-direction: row;
-  transform: ${(props) => `translateX(${props.offsetX}px)`};
-  transition: transform .3s linear;
-  
+  transition: ${(props) => (props.animate ? "transform 0.3s linear" : "")};
+
   & > *:not(:last-child) {
-    margin-right: ${(props) => `${props.gap}px`}
+    margin-right: ${(props) => `${props.gap}px`};
   }
 `
 
