@@ -1,4 +1,4 @@
-export const tablet = 1340
+export const tablet = 1130
 
 export const mobile = 550
 

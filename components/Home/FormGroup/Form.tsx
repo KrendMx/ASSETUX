@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { mobile } from "@/src/constats"
+import { mobile } from "@/src/constants"
 
 const Container = styled.div`
   flex-grow: 0;

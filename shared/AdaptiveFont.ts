@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { mobile, tablet } from "@/src/constats"
+import { mobile } from "@/src/constants"
 
 type AdaptiveFontProps = {
   mobileFactor: number
@@ -9,7 +9,7 @@ type AdaptiveFontProps = {
 const AdaptiveFont = styled.div<AdaptiveFontProps>`
   font-size: 1em;
 
-  @media only screen and (max-width: ${tablet}px) {
+  @media only screen and (max-width: 1340px) {
     font-size: ${(props) => `${props.tabletFactor}em`};
   }
 

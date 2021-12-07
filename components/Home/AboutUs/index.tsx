@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { mobileLaoyutForTablet } from "@/src/constats"
+import { mobileLaoyutForTablet } from "@/src/constants"
 
 const Container = styled.section`
   display: flex;

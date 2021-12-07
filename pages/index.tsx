@@ -6,7 +6,7 @@ import CryptoSlide from "@/components/Home/CryptoSlide"
 import CryptoExplorer from "@/components/Home/CryptoExplorer"
 import NewsRoom from "@/components/Home/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
-import { mobile, mobileLaoyutForTablet } from "@/src/constats"
+import { mobile, mobileLaoyutForTablet } from "@/src/constants"
 import type { GetStaticProps } from "next"
 
 const Container = styled.div`

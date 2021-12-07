@@ -4,7 +4,7 @@ import Link from "next/link"
 import type { Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
 import StyledList from "./StyledList"
-import { mobile } from "@/src/constats"
+import { mobile } from "@/src/constants"
 
 type StyledLinkProps = {
   mobileSmall?: boolean

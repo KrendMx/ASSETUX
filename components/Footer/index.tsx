@@ -6,7 +6,7 @@ import List from "./List"
 import StyledList from "./StyledList"
 import IconElement from "./IconElement"
 import { useAppSelector } from "@/src/redux/hooks"
-import { mobile } from "@/src/constats"
+import { mobile } from "@/src/constants"
 
 type WrapperProps = {
   hide: boolean

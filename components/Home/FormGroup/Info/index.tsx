@@ -5,9 +5,8 @@ import ColoredSpan from "./ColoredSpan"
 import Image from "next/image"
 import {
   mobile,
-  tablet,
   mobileLaoyutForTablet
-} from "@/src/constats"
+} from "@/src/constants"
 
 const Container = styled.div`
   min-width: 0;
@@ -18,7 +17,7 @@ const Container = styled.div`
     margin-bottom: 90px;
   }
 
-  @media only screen and (max-width: ${tablet}px) {
+  @media only screen and (max-width: 1340px) {
     & > *:not(:last-child) {
       margin-bottom: 50px;
     }

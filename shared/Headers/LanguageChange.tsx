@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import Image from "next/image"
 import locales from "../../locales"
-import { mobile } from "@/src/constats"
+import { mobile } from "@/src/constants"
 
 const Container = styled.div`
   position: relative;

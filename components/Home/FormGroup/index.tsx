@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Info from "./Info"
 import Form from "./Form"
-import { mobile, mobileLaoyutForTablet } from "@/src/constats"
+import { mobile, mobileLaoyutForTablet } from "@/src/constants"
 
 const Container = styled.section`
   display: flex;

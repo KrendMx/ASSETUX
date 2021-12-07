@@ -11,11 +11,12 @@ import {
   setMobile,
   setTablet,
   setDesktop,
-  setBurgerActive
+  setBurgerActive,
+  setMobileLayoutForTablet
 } from "@/src/redux/uiSlice"
 import HeaderManager from "@/components/HeaderManager"
 import ContentManager from "@/components/ContentManager"
-import { mobile, tablet } from "@/src/constats"
+import { mobile, tablet, mobileLaoyutForTablet } from "@/src/constants"
 import "@/styles/globals.css"
 
 // TODO:
@@ -47,6 +48,9 @@ function MyApp(props: AppProps) {
     const handleResize = () => {
       if (window.innerWidth <= mobile) {
         dispatch(setMobile())
+      } else if (window.innerWidth <= mobileLaoyutForTablet) {
+        dispatch(setMobileLayoutForTablet())
+        dispatch(setBurgerActive(false))
       } else if (window.innerWidth <= tablet) {
         dispatch(setTablet())
         dispatch(setBurgerActive(false))

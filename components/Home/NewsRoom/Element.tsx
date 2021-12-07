@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { mobile } from "@/src/constats"
+import { mobile } from "@/src/constants"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.5,
