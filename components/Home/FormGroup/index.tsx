@@ -21,7 +21,13 @@ const Container = styled.section`
   }
 
   @media only screen and (max-width: ${mobile}px) {
+    flex-direction: column-reverse;
     align-items: flex-start;
+
+    & > *:not(:last-child) {
+      margin-bottom: 0;
+      margin-top: 51px;
+    }
   }
 `
 

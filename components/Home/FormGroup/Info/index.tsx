@@ -33,6 +33,10 @@ const Container = styled.div`
 
   @media only screen and (max-width: ${mobile}px) {
     width: 100%;
+
+    & > *:not(:last-child) {
+      margin-bottom: 16px;
+    }
   }
 `
 
@@ -53,6 +57,12 @@ const TextColumn = styled.div`
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     & > h1 {
       margin: 15px 0;
+    }
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    & > h1 {
+      margin: 25px 0;
     }
   }
 `

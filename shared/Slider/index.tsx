@@ -4,6 +4,7 @@ import Container from "./Container"
 import Content from "./Content"
 import Element from "./Element"
 import { useSwipeable } from "react-swipeable"
+import { useAppSelector } from "@/src/redux/hooks"
 
 const preventer = (event: Event) => {
   event.preventDefault()
@@ -37,6 +38,7 @@ function Slider({ children, toShow, gap, padding, startOffset }: SliderProps) {
   const childrenLength = Array.isArray(children) ? children.length : 1
   const swipeOffset = checkedBasis + gap
   const checkedStartOffset = startOffset ? startOffset : 0
+  const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   const swipeHandlers = useSwipeable({
     onSwiping: (event) => {
@@ -67,10 +69,12 @@ function Slider({ children, toShow, gap, padding, startOffset }: SliderProps) {
   }
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (event.deltaY > 0) {
-      next()
-    } else {
-      previous()
+    if (!isMobile) {
+      if (event.deltaY > 0) {
+        next()
+      } else {
+        previous()
+      }
     }
   }
 

@@ -40,7 +40,7 @@ const Container = styled.div`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 24px 0;
+    padding: 44px 0 30px;
   }
 `
 

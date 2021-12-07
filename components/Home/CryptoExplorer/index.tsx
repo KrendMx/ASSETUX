@@ -6,7 +6,7 @@ const Container = styled.section`
   flex-direction: column;
 
   & > h2 {
-    margin-bottom: 115px;
+    margin-bottom: 15px;
   }
 `
 

@@ -7,7 +7,7 @@ const Container = styled.div`
   flex-shrink: 0;
   max-width: 469px;
   width: 100%;
-  height: 579px;
+  height: 580px;
   background-color: var(--bgColor);
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
