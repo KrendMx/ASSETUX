@@ -5,7 +5,6 @@ import Link from "next/link"
 
 const LogoContainer = styled.div`
   display: block;
-  position: relative;
   width: 45px;
   height: 45px;
 `
@@ -43,7 +42,14 @@ function TextLogo({ link }: TextLogoProps) {
     <Link href="/" passHref>
       <LogoLink>
         <LogoContainer>
-          <Image src="/icons/icon_black.png" layout="fill" alt="Logo" quality={100} />
+          <Image
+            src="/icons/icon_black.png"
+            width={45}
+            height={45}
+            layout="responsive"
+            alt="Logo"
+            quality={100}
+          />
         </LogoContainer>
         <LogoText>
           ASSET<ColoredLogoText>UX</ColoredLogoText>

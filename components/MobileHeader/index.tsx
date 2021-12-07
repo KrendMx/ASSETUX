@@ -25,7 +25,6 @@ const ImageContainer = styled.div`
 
 const LogoLink = styled.a`
   display: block;
-  position: relative;
   width: 38px;
   height: 38px;
 `
@@ -40,7 +39,9 @@ function MobileHeader() {
             <LogoLink>
               <Image
                 src="/icons/icon_black.png"
-                layout="fill"
+                layout="responsive"
+                width={38}
+                height={38}
                 alt="Logo"
                 quality={100}
               />

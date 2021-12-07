@@ -72,7 +72,7 @@ const PopupRow = styled.a`
 `
 
 const CountryContainer = styled.div`
-  position: relative;
+  display: block;
   width: 14px;
   height: 11px;
 `
@@ -138,7 +138,13 @@ function LanguageChange() {
               <Link href={asPath} key={locale} locale={locale} passHref>
                 <PopupRow>
                   <CountryContainer>
-                    <Image src={`/flags/${locale}.png`} layout="fill" alt="" />
+                    <Image
+                      src={`/flags/${locale}.png`}
+                      width={14}
+                      height={11}
+                      layout="responsive"
+                      alt=""
+                    />
                   </CountryContainer>
                   <span>{mapLanguage(locale)}</span>
                 </PopupRow>
