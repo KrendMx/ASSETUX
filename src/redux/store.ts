@@ -1,13 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit"
 import uiSlice from "./uiSlice"
+import { createWrapper } from "next-redux-wrapper"
 
-const store = configureStore({
-  reducer: {
-    ui: uiSlice
-  }
-})
+const makeStore = () =>
+  configureStore({
+    reducer: {
+      ui: uiSlice
+    }
+  })
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootStore = ReturnType<typeof makeStore>
+export type RootState = ReturnType<RootStore["getState"]>
+export type AppDispatch = RootStore["dispatch"]
 
-export default store
+export default createWrapper<RootStore>(makeStore)

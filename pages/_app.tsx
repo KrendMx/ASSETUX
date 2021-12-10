@@ -4,8 +4,7 @@ import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
 import type { AppProps } from "next/app"
 import { useRouter } from "next/router"
-import { Provider } from "react-redux"
-import store from "@/src/redux/store"
+import wrapper from "@/src/redux/store"
 import { useAppDispatch } from "@/src/redux/hooks"
 import {
   setMobile,
@@ -98,12 +97,4 @@ function MyApp(props: AppProps) {
   )
 }
 
-function Wrapper(props: AppProps) {
-  return (
-    <Provider store={store}>
-      <MyApp {...props} />
-    </Provider>
-  )
-}
-
-export default appWithTranslation(Wrapper)
+export default appWithTranslation(wrapper.withRedux(MyApp))

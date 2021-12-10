@@ -1,4 +1,8 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
+import { HYDRATE } from "next-redux-wrapper"
+import type { RootState } from "./store"
+
+const hydrate = createAction<RootState>(HYDRATE)
 
 export type UiState = {
   isMobile: boolean
@@ -41,6 +45,14 @@ export const uiSlice = createSlice({
       state.isTablet = false
       state.isMobile = false
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(hydrate, (state, action) => {
+      return {
+        ...state,
+        ...action.payload.ui
+      }
+    })
   }
 })
 
