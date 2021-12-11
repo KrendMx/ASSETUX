@@ -69,7 +69,7 @@ function NewsRoom() {
   return (
     <Container ref={containerRef}>
       <Row ref={rowRef}>
-        <h2>News Room</h2>
+        <h3>News Room</h3>
         <MoreLink as="a" href="#">
           Show more
         </MoreLink>

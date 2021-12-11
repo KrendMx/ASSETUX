@@ -17,6 +17,7 @@ function CurrencyForm() {
       <FormContainer>
         <InputSelect
           label="Blockchain"
+          id="blockchain"
           selectLabel="You are currently using Assetux on"
           options={[
             { value: "Binance Smart Chain", icon: "/icons/icon.png" },
@@ -52,6 +53,7 @@ function CurrencyForm() {
             <ExchangeRow />
             <InputSelect
               label="You get"
+              id="get"
               options={[
                 {
                   value: "Bitcoin",
@@ -66,7 +68,7 @@ function CurrencyForm() {
             />
             <Hideable hide={getActive}>
               <NetworkRow />
-              <InputSelect label="Wallet address" changeable />
+              <InputSelect label="Wallet address" id="wallet" changeable />
             </Hideable>
           </Hideable>
         </Hideable>

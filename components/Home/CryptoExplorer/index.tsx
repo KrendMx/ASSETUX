@@ -8,7 +8,7 @@ const Container = styled.section`
   max-width: var(--max-width);
   margin: 0 auto;
 
-  & > h2 {
+  & > h3 {
     margin-bottom: 15px;
   }
 `
@@ -24,7 +24,7 @@ const Table = styled.div`
 function CryptoExplorer() {
   return (
     <Container>
-      <h2>Crypto Explorer</h2>
+      <h3>Crypto Explorer</h3>
       <Table />
     </Container>
   )

@@ -66,6 +66,10 @@ const Group = styled.div`
   @media only screen and (max-width: 380px) {
     font-size: 0.8rem;
   }
+
+  @media only screen and (max-width: 310px) {
+    font-size: 0.7rem;
+  }
 `
 
 const Bolder = styled.span`

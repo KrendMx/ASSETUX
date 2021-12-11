@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Help from "../../Help"
 import { mobile } from "@/src/constants"
 
-const Container = styled.h5`
+const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;

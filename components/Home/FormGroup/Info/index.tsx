@@ -49,9 +49,10 @@ const TextColumn = styled.div`
     margin-bottom: 25px;
   }
 
-  & > span {
+  & > h2 {
     font-size: 1.1em;
     color: var(--gray);
+    font-weight: 400;
   }
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
@@ -104,7 +105,7 @@ function Info() {
           <ColoredSpan colorIn="red">{t("sell")}</ColoredSpan>{" "}
           {t("titleAfterSell")}
         </h1>
-        <span>{t("info")}</span>
+        <h2>{t("info")}</h2>
       </TextColumn>
       <Sponsors>
         <SponsorContainer>

@@ -129,7 +129,7 @@ function InputSelect({
                 <Bold>{selectedOption.shortDescription}</Bold>
               </>
             )}
-            <Arrow active={active}>
+            <Arrow active={active} aria-label="Open">
               <IoIosArrowDown />
             </Arrow>
           </InfoContainer>

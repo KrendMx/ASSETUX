@@ -24,7 +24,7 @@ const AboutContainer = styled.div`
   flex-direction: column;
   margin-right: 120px;
 
-  & > h2 {
+  & > h3 {
     margin-bottom: 33px;
   }
 
@@ -36,7 +36,7 @@ const AboutContainer = styled.div`
     padding-top: 0;
     margin-right: 0;
 
-    & > h2 {
+    & > h3 {
       margin-bottom: 20px;
     }
   }
@@ -76,7 +76,7 @@ function AboutUs() {
   return (
     <Container>
       <AboutContainer>
-        <h2>About us</h2>
+        <h3>About us</h3>
         <TextContainer>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

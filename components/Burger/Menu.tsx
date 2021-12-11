@@ -21,6 +21,10 @@ const Container = styled.div`
   ul {
     list-style: none;
   }
+
+  @media only screen and (max-width: 310px) {
+    font-size: 0.85rem;
+  }
 `
 
 const SocialContainer = styled.div`
