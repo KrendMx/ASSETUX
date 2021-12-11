@@ -17,9 +17,8 @@ const Wrapper = styled.main<WrapperProps>`
 `
 
 const Container = styled.div`
-  max-width: var(--max-width);
+  margin-top: var(--header-height);
   width: 100%;
-  margin: var(--header-height) auto 0;
   font-size: 1rem;
 
   @media only screen and (max-width: 1340px) {

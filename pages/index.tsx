@@ -24,22 +24,38 @@ const Container = styled.div`
     color: var(--black);
   }
 
-  section:not(:last-child) {
+  & > section:not(:last-child) {
     margin-bottom: 130px;
   }
 
-  section:nth-last-child(2) {
-    margin-bottom: 87px;
+  & > section:first-child {
+    margin-bottom: 111px;
+  }
+
+  & > section:nth-child(2) {
+    margin-bottom: 164px;
+  }
+
+  & > section:nth-last-child(2) {
+    margin-bottom: 68px;
   }
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
-    section:not(:last-child),
-    section:nth-last-child(2) {
+    & > section:not(:last-child),
+    & > section:nth-last-child(2) {
       margin-bottom: 98px;
     }
   }
 
   @media only screen and (max-width: ${mobile}px) {
+    & > section:first-child {
+      margin-bottom: 48px;
+    }
+
+    & > section:nth-child(2) {
+      margin-bottom: 79px;
+    }
+
     padding: 44px 0 30px;
   }
 `

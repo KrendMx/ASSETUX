@@ -10,6 +10,9 @@ const Container = styled.section`
   justify-content: space-between;
   align-items: center;
   font-size: 1em;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     flex-direction: column;

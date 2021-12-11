@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import Element from "./Element"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Slider from "@/shared/Slider"
 import useSliderConfig from "../sliderConfig"
+
+const desktopPaddings = 125
 
 const Container = styled.section`
   display: flex;
@@ -15,10 +17,13 @@ const Container = styled.section`
 
 const Row = styled.div`
   display: flex;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 47px;
+  margin-bottom: 28px;
   padding: 0 var(--paddings);
 `
 
@@ -37,18 +42,46 @@ const SliderContainer = styled.div`
 `
 
 function NewsRoom() {
-  const sliderConfig = useSliderConfig()
+  const [desktopOffset, setDesktopOffset] = useState(0)
+  const sliderConfig = useSliderConfig({ desktopOffset })
+  const rowRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (rowRef.current && containerRef.current) {
+        const windowWidth = containerRef.current.clientWidth
+        const freeSpace =
+          windowWidth - (rowRef.current.clientWidth - desktopPaddings * 2)
+        setDesktopOffset(freeSpace / 2)
+      }
+    }
+
+    handleResize()
+
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [rowRef, containerRef])
 
   return (
-    <Container>
-      <Row>
+    <Container ref={containerRef}>
+      <Row ref={rowRef}>
         <h2>News Room</h2>
         <MoreLink as="a" href="#">
           Show more
         </MoreLink>
       </Row>
       <SliderContainer>
-        <Slider padding={5} {...sliderConfig}>
+        <Slider {...sliderConfig}>
+          <Element />
+          <Element />
+          <Element />
+          <Element />
+          <Element />
+          <Element />
           <Element />
           <Element />
           <Element />

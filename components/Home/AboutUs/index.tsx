@@ -7,6 +7,9 @@ import { mobileLaoyutForTablet } from "@/src/constants"
 const Container = styled.section`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     flex-direction: column;

@@ -4,6 +4,9 @@ import styled from "styled-components"
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 
   & > h2 {
     margin-bottom: 15px;
