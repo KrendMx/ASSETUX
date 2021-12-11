@@ -7,7 +7,9 @@ import { useSwipeable } from "react-swipeable"
 import { useAppSelector } from "@/src/redux/hooks"
 
 const preventer = (event: Event) => {
-  event.preventDefault()
+  if (event.cancelable) {
+    event.preventDefault()
+  }
 }
 
 const preventerOpts = {
@@ -15,7 +17,7 @@ const preventerOpts = {
 }
 
 const swipeProps = {
-  delta: 10,
+  delta: 50,
   preventDefaultTouchmoveEvent: false,
   trackTouch: true,
   trackMouse: false,
@@ -138,6 +140,12 @@ function Slider({
         animate={swipedPixels == 0}
         offsetX={currentIndex * -swipeOffset + swipedPixels}
         gap={gap}
+        onTouchStart={() => {
+          window.addEventListener("touchmove", preventer, preventerOpts)
+        }}
+        onTouchEnd={() => {
+          window.removeEventListener("touchmove", preventer)
+        }}
         {...swipeHandlers}
       >
         {!Array.isArray(children) ? (
