@@ -46,7 +46,7 @@ const TextColumn = styled.div`
   flex-direction: column;
 
   & > h1 {
-    margin: 25px 0;
+    margin-bottom: 25px;
   }
 
   & > span {
@@ -56,13 +56,13 @@ const TextColumn = styled.div`
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     & > h1 {
-      margin: 15px 0;
+      margin-bottom: 15px;
     }
   }
 
   @media only screen and (max-width: ${mobile}px) {
     & > h1 {
-      margin: 25px 0;
+      margin-bottom: 25px;
     }
   }
 `
@@ -98,10 +98,10 @@ function Info() {
       <TextColumn>
         <h1>
           {t("titleBeforeBuy")}{" "}
-          <ColoredSpan color="green">{t("buy")}</ColoredSpan>
+          <ColoredSpan colorIn="green">{t("buy")}</ColoredSpan>
           <br />
           {t("titleAfterBuy")}{" "}
-          <ColoredSpan color="red">{t("sell")}</ColoredSpan>{" "}
+          <ColoredSpan colorIn="red">{t("sell")}</ColoredSpan>{" "}
           {t("titleAfterSell")}
         </h1>
         <span>{t("info")}</span>

@@ -131,7 +131,7 @@ function Slider({
 
   return (
     <Container
-      startOffset={checkedStartOffset}
+      startPadding={checkedStartOffset}
       horizPadding={horizPadding}
       vertPadding={vertPadding}
       ref={containerRef}

@@ -32,12 +32,12 @@ const Button = styled.button`
 
 type PopupProps = {
   hidden: boolean
-  offset: number
+  offsetX: number
 }
 
 const Popup = styled.div<PopupProps>`
   position: absolute;
-  left: ${(props) => `-${props.offset}px`};
+  left: ${(props) => `-${props.offsetX}px`};
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@ const Popup = styled.div<PopupProps>`
   visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
 
   @media only screen and (max-width: 1130px) {
-    left: ${(props) => `-${props.offset * 2}px`};
+    left: ${(props) => `-${props.offsetX * 2}px`};
   }
 
   @media only screen and (max-width: ${mobile}px) {
@@ -130,7 +130,7 @@ function LanguageChange() {
       <Popup
         ref={popupRef}
         hidden={!popupActive}
-        offset={(popupWidth - buttonWidth) / 2}
+        offsetX={(popupWidth - buttonWidth) / 2}
       >
         {locales.map(
           (locale) =>
