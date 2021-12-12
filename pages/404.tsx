@@ -25,7 +25,12 @@ function Error() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale!, ["header", "footer", "404"]))
+      ...(await serverSideTranslations(locale!, [
+        "header",
+        "footer",
+        "404",
+        "routes"
+      ]))
     }
   }
 }
