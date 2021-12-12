@@ -15,11 +15,6 @@ const Container = styled(AdaptiveFont).attrs({
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 19px 30px;
-
-  @media only screen and (max-width: ${mobile}px) {
-    padding: 20px 15px;
-  }
 `
 
 const ImgContainer = styled.div`
@@ -27,13 +22,18 @@ const ImgContainer = styled.div`
   width: 85%;
 `
 
-const InfoContainer = styled.div``
+const InfoContainer = styled.div`
+  padding: 32px 30px;
+
+  @media only screen and (max-width: ${mobile}px) {
+    padding: 20px 15px;
+  }
+`
 
 const Title = styled.h4`
   font-size: 1em;
   font-weight: 500;
   color: var(--black);
-  margin: 20px 0 0;
 `
 
 const Description = styled.p`
@@ -41,6 +41,10 @@ const Description = styled.p`
   font-size: 0.78em;
   color: var(--gray);
   margin: 15px 0 18px;
+
+  @media only screen and (max-width: ${mobile}px) {
+    margin: 13px 0 15px;
+  }
 `
 
 const Info = styled.div`
