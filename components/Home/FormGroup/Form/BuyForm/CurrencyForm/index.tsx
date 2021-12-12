@@ -62,9 +62,8 @@ function CurrencyForm() {
                 }
               ]}
               displayInSelect={1}
-              defaultValue="0.013"
               onActiveChange={(active) => setGetActive(active)}
-              changeable
+              value="2"
             />
             <Hideable hide={getActive}>
               <NetworkRow />

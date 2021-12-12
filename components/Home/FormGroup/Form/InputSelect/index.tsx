@@ -33,6 +33,8 @@ type InputSelectProps = {
   label?: string
   onSelect?: (selectedValue: string) => void
   onActiveChange?: (active: boolean) => void
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  value?: string
   options?: Option[]
   changeable?: boolean
   defaultIndex?: number
@@ -51,6 +53,8 @@ function InputSelect({
   changeable,
   selectLabel,
   id,
+  onChange,
+  value,
   displayIcon = false,
   defaultIndex = 0,
   defaultValue = "",
@@ -62,22 +66,37 @@ function InputSelect({
     hasOptions ? options[defaultIndex].value : null
   )
   const [userInput, setUserInput] = useState(defaultValue)
-  const hideLabel = active && changeable != undefined && changeable
+  const hideLabel =
+    active && ((changeable != undefined && changeable) || value != undefined)
   let selectedOption: Option | undefined
   if (hasOptions) {
     selectedOption = options.find((option) => option.value == selectedValue)
   }
   let displayedValue: string = ""
+
+  // these ifs are cool but it should be refactored
   if (changeable) {
     if (active) {
       if (selectedOption) {
         displayedValue = selectedOption.value
       }
     } else {
-      displayedValue = userInput
+      if (value) {
+        displayedValue = value
+      } else {
+        displayedValue = userInput
+      }
     }
   } else {
-    if (selectedOption) {
+    if (value) {
+      if (active) {
+        if (selectedOption) {
+          displayedValue = selectedOption.value
+        }
+      } else {
+        displayedValue = value
+      }
+    } else if (selectedOption) {
       displayedValue = selectedOption.value
     }
   }
@@ -88,6 +107,9 @@ function InputSelect({
   }
 
   const handleInput: ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (onChange) {
+      onChange(event)
+    }
     const value = event.target.value
     setUserInput(value)
   }
