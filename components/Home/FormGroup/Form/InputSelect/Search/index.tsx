@@ -25,6 +25,14 @@ const Item = styled.div<ItemProps>`
   @media only screen and (max-width: ${mobile}px) {
     padding: 11px 15px;
   }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+
+    & > * + * {
+      margin-left: 10px;
+    }
+  }
 `
 
 const Label = styled.h5`
@@ -39,6 +47,10 @@ const Label = styled.h5`
     font-size: 0.87em;
     margin-top: -2px;
     margin-bottom: 11px !important;
+  }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 3.5vw;
   }
 `
 
@@ -56,6 +68,11 @@ const Shadow = styled.div`
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   width: 40px;
   height: 40px;
+
+  @media only screen and (max-width: 370px) {
+    width: 30px;
+    height: 30px;
+  }
 `
 
 const Placeholder = styled(Shadow)`

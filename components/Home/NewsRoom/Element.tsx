@@ -8,7 +8,6 @@ const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.5,
   tabletFactor: 1.2
 })`
-  /* width: 383px; */
   width: 100%;
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
@@ -17,6 +16,10 @@ const Container = styled(AdaptiveFont).attrs({
   flex-direction: column;
   align-items: center;
   padding: 19px 30px;
+
+  @media only screen and (max-width: ${mobile}px) {
+    padding: 20px 15px;
+  }
 `
 
 const ImgContainer = styled.div`

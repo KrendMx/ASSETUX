@@ -14,6 +14,10 @@ const Container = styled(AdaptiveFont).attrs({
   align-items: flex-end;
   background-color: transparent;
   background-color: #f5f5f5;
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4.5vw;
+  }
 `
 
 const BuyButton = styled(Button)`

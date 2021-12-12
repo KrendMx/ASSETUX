@@ -21,6 +21,10 @@ const InfoContainer = styled.div<InfoContainerProps>`
   @media only screen and (max-width: ${mobile}px) {
     flex-basis: 75px;
   }
+
+  @media only screen and (max-width: 370px) {
+    flex-basis: 60px;
+  }
 `
 
 export default InfoContainer

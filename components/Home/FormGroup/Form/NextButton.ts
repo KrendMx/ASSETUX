@@ -19,6 +19,10 @@ const NextButton = styled.button`
   @media only screen and (max-width: ${mobile}px) {
     font-size: 1.065em;
   }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4.3vw;
+  }
 `
 
 export default NextButton

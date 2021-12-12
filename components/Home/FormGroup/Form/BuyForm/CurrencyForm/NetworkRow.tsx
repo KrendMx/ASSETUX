@@ -23,6 +23,12 @@ const Container = styled.div`
     align-items: center;
     margin: 12px 0;
   }
+
+  @media only screen and (max-width: 370px) {
+    & > span {
+      font-size: 2.8vw;
+    }
+  }
 `
 
 const QuestionMark = styled.span`

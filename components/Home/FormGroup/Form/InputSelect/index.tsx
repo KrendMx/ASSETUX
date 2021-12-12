@@ -22,6 +22,11 @@ const Placeholder = styled.div`
   background-color: var(--bgColor);
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
+
+  @media only screen and (max-width: 370px) {
+    width: 30px;
+    height: 30px;
+  }
 `
 
 type InputSelectProps = {

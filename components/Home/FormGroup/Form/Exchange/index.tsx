@@ -17,6 +17,10 @@ const Container = styled.div`
     font-size: 1.085em;
     margin: 11px 0;
   }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+  }
 `
 
 function Exchange() {

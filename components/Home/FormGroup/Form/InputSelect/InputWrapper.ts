@@ -25,6 +25,10 @@ const InputWrapper = styled.div<InputWrapperProps>`
   @media only screen and (max-width: ${mobile}px) {
     padding: 11px 15px;
   }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+  }
 `
 
 export default InputWrapper

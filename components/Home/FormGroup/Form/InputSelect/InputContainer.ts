@@ -15,6 +15,12 @@ const InputContainer = styled.div<InputContainerProps>`
     margin-top: ${(props) => (!props.swap ? "4px" : 0)};
     margin-left: ${(props) => (props.swap ? "19px" : 0)};
   }
+
+  @media only screen and (max-width: 370px) {
+    & > * + * {
+      margin-left: ${(props) => (props.swap ? "10px" : 0)};
+    }
+  }
 `
 
 export default InputContainer
