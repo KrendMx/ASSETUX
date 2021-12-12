@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, memo } from "react"
 import styled from "styled-components"
 import BurgerMenu from "@/components/Menus/Burger"
 import Footer from "../Footer"
@@ -38,6 +38,8 @@ type ContentManagerProps = {
   appProps: AppProps
 }
 
+const MemoizedFooter = memo(Footer)
+
 function ContentManager(props: ContentManagerProps) {
   const { Component, pageProps } = props.appProps
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
@@ -56,7 +58,9 @@ function ContentManager(props: ContentManagerProps) {
       <Wrapper hide={burgerActive || (languageCurrencyActive && isMobile)}>
         <Container>{MemoizedComponent}</Container>
       </Wrapper>
-      <Footer hide={burgerActive || (languageCurrencyActive && isMobile)} />
+      <MemoizedFooter
+        hide={burgerActive || (languageCurrencyActive && isMobile)}
+      />
       {burgerActive && <BurgerMenu />}
     </>
   )
