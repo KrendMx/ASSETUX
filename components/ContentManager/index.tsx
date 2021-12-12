@@ -56,7 +56,7 @@ function ContentManager(props: ContentManagerProps) {
       <Wrapper hide={burgerActive || (languageCurrencyActive && isMobile)}>
         <Container>{MemoizedComponent}</Container>
       </Wrapper>
-      <Footer hide={burgerActive || languageCurrencyActive} />
+      <Footer hide={burgerActive || (languageCurrencyActive && isMobile)} />
       {burgerActive && <BurgerMenu />}
     </>
   )
