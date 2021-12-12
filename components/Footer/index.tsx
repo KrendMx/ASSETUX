@@ -132,14 +132,18 @@ function Footer({ hide }: FooterProps) {
         <Group>
           <h3>{t("support")}</h3>
           <StyledList>
-            <IconElement iconPath={!isMobile ? "/social/telegram_white.svg" : null}>
+            <IconElement
+              iconPath={!isMobile ? "/social/telegram_white.svg" : null}
+            >
               <span>
                 <Bolder>Telegram chat</Bolder>
                 <br />
                 @assetux_support
               </span>
             </IconElement>
-            <IconElement iconPath={!isMobile ? "/social/instagram_white.svg" : null}>
+            <IconElement
+              iconPath={!isMobile ? "/social/instagram_white.svg" : null}
+            >
               <span>
                 <Bolder>E-mail</Bolder>
                 <br />

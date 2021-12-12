@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Link from "next/link"
-import LanguageChange from "@/shared/Headers/LanguageChange"
+import LanguageCurrencyChange from "@/shared/Headers/LanguageCurrencyChange"
 import Wrapper from "@/shared/Headers/Wrapper"
 import TextLogo from "@/shared/TextLogo"
 import { useTranslation } from "next-i18next"
@@ -55,6 +55,10 @@ const NavLink = styled.a`
   @media only screen and (max-width: 800px) {
     padding: 0 15px;
   }
+
+  @media only screen and (max-width: 600px) {
+    padding: 0 12px;
+  }
 `
 
 function Header() {
@@ -77,7 +81,7 @@ function Header() {
                 <NavLink>{t("blog")}</NavLink>
               </Link>
             </NavContainer>
-            <LanguageChange />
+            <LanguageCurrencyChange />
           </RightContainer>
         </InnerContainer>
       </OuterContainer>

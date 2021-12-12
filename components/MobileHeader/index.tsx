@@ -1,10 +1,10 @@
 import React from "react"
 import styled from "styled-components"
 import Wrapper from "@/shared/Headers/Wrapper"
-import LanguageChange from "@/shared/Headers/LanguageChange"
+import LanguageCurrencyChange from "@/shared/Headers/LanguageCurrencyChange"
 import Image from "next/image"
 import Link from "next/link"
-import BurgerButton from "@/components/Burger/Button"
+import BurgerButton from "@/components/BurgerButton"
 
 const Container = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ function MobileHeader() {
   return (
     <Wrapper>
       <Container>
-        <LanguageChange />
+        <LanguageCurrencyChange />
         <ImageContainer>
           <Link href="/" passHref>
             <LogoLink>
