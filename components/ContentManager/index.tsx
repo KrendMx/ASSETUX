@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useMemo } from "react"
 import styled from "styled-components"
-import BurgerMenu from "@/components/Burger/Menu"
+import BurgerMenu from "@/components/Menus/Burger"
 import Footer from "../Footer"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mobile } from "@/src/constants"
@@ -41,15 +41,22 @@ type ContentManagerProps = {
 function ContentManager(props: ContentManagerProps) {
   const { Component, pageProps } = props.appProps
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
+  const isMobile = useAppSelector((state) => state.ui.isMobile)
+  const languageCurrencyActive = useAppSelector(
+    (state) => state.ui.languageCurrencyActive
+  )
+
+  const MemoizedComponent = useMemo(
+    () => <Component {...pageProps} />,
+    [pageProps, Component]
+  )
 
   return (
     <>
-      <Wrapper hide={burgerActive}>
-        <Container>
-          <Component {...pageProps} />
-        </Container>
+      <Wrapper hide={burgerActive || (languageCurrencyActive && isMobile)}>
+        <Container>{MemoizedComponent}</Container>
       </Wrapper>
-      <Footer hide={burgerActive} />
+      <Footer hide={burgerActive || languageCurrencyActive} />
       {burgerActive && <BurgerMenu />}
     </>
   )
