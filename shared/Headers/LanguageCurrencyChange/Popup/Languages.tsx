@@ -2,7 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import Link from "next/link"
 import Image from "next/image"
-import locales from "../../../../locales"
+import { locales } from "@/src/locales"
+import type { LocalesType } from "@/src/locales"
 import PopupItem from "../PopupItem"
 import PopupRow from "../PopupRow"
 import { useRouter } from "next/router"
@@ -13,7 +14,7 @@ const CountryContainer = styled.div`
   height: 11px;
 `
 
-export const mapLanguage = (locale: string) => {
+export const mapLanguage = (locale: LocalesType) => {
   switch (locale) {
     case "en":
       return "EN"
@@ -21,8 +22,6 @@ export const mapLanguage = (locale: string) => {
       return "RUS"
     case "uk":
       return "UKR"
-    default:
-      return ""
   }
 }
 
@@ -38,7 +37,10 @@ function Languages({ onClick }: LanguagesProps) {
     <>
       {locales.map((locale) => (
         <Link href={asPath} key={locale} locale={locale} passHref>
-          <PopupRow onClick={onClick}>
+          <PopupRow onClick={() => {
+            window.localStorage.setItem("language", locale)
+            onClick()
+          }}>
             <CountryContainer>
               <Image
                 src={`/flags/${locale}.png`}

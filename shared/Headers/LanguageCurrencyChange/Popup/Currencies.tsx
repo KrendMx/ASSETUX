@@ -5,10 +5,11 @@ import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import PopupRow from "../PopupRow"
 import PopupItem from "../PopupItem"
 import { currencies } from "@/src/currencies"
+import type { CurrenciesType } from "@/src/currencies"
 
 const CurrencyContainer = styled.span``
 
-export const mapCurrency = (currency: string) => {
+export const mapCurrency = (currency: CurrenciesType) => {
   switch (currency) {
     case "GRN":
       return "₴"
@@ -16,8 +17,6 @@ export const mapCurrency = (currency: string) => {
       return "₽"
     case "USD":
       return "$"
-    default:
-      return ""
   }
 }
 

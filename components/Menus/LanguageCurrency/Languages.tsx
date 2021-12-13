@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import locales from "../../../locales"
+import { locales } from "@/src/locales"
+import type { LocalesType } from "@/src/locales"
 import Link from "next/link"
 import ActiveNavLink from "./ActiveNavLink"
 import Image from "next/image"
@@ -12,7 +13,7 @@ const CountryContainer = styled.div`
   height: 11px;
 `
 
-const mapLanguage = (locale: string) => {
+const mapLanguage = (locale: LocalesType) => {
   switch (locale) {
     case "en":
       return "English"
@@ -20,8 +21,6 @@ const mapLanguage = (locale: string) => {
       return "Russian"
     case "uk":
       return "Ukranian"
-    default:
-      return ""
   }
 }
 
@@ -35,7 +34,12 @@ function Languages() {
         {locales.map((locale) => (
           <li key={locale}>
             <Link href={asPath} locale={locale} passHref>
-              <ActiveNavLink active={currentLocale == locale}>
+              <ActiveNavLink
+                active={currentLocale == locale}
+                onClick={() => {
+                  window.localStorage.setItem("language", locale)
+                }}
+              >
                 <CountryContainer>
                   <Image
                     src={`/flags/${locale}.png`}

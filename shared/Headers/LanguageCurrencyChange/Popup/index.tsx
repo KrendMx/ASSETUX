@@ -4,7 +4,6 @@ import Currencies from "./Currencies"
 import Languages from "./Languages"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setLanguageCurrencyActive } from "@/src/redux/uiSlice"
-import { mobile } from "@/src/constants"
 
 type ContainerProps = {
   hidden: boolean
@@ -25,10 +24,6 @@ const Container = styled.div<ContainerProps>`
 
   @media only screen and (max-width: 1130px) {
     left: ${(props) => `-${props.offsetX * 2}px`};
-  }
-
-  @media only screen and (max-width: ${mobile}px) {
-    left: 0;
   }
 `
 

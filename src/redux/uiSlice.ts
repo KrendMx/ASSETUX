@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
-import { currencies } from "../currencies"
+import type { CurrenciesType } from "../currencies"
 import type { RootState } from "./store"
 
 const hydrate = createAction<RootState>(HYDRATE)
@@ -11,7 +11,7 @@ export type UiState = {
   isMobileLayoutForTablet: boolean
   burgerActive: boolean
   languageCurrencyActive: boolean
-  currentCurrency: typeof currencies[number]
+  currentCurrency: CurrenciesType
 }
 
 const initialState: UiState = {
@@ -53,11 +53,16 @@ export const uiSlice = createSlice({
     setLanguageCurrencyActive: (state, action: PayloadAction<boolean>) => {
       state.languageCurrencyActive = action.payload
     },
-    setCurrentCurrency: (
-      state,
-      action: PayloadAction<typeof currencies[number]>
-    ) => {
-      state.currentCurrency = action.payload
+    setCurrentCurrency: {
+      reducer(state, action: PayloadAction<CurrenciesType>) {
+        state.currentCurrency = action.payload
+      },
+      prepare(currency: CurrenciesType) {
+        window.localStorage.setItem("currency", currency)
+        return {
+          payload: currency
+        }
+      }
     }
   },
   extraReducers: (builder) => {

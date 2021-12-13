@@ -16,6 +16,8 @@ import {
 import HeaderManager from "@/components/HeaderManager"
 import ContentManager from "@/components/ContentManager"
 import { mobile, tablet, mobileLaoyutForTablet } from "@/src/constants"
+import { checkCurrency } from "@/src/currencies"
+import { checkLocale } from "@/src/locales"
 import "@/styles/globals.css"
 
 // TODO:
@@ -67,6 +69,8 @@ function MyApp(props: AppProps) {
     window.addEventListener("resize", handleResize)
 
     handleResize()
+    checkCurrency(dispatch)
+    checkLocale(router)
 
     router.events.on("routeChangeStart", handleRouteChange)
     router.events.on("routeChangeComplete", handleRouteComplete)

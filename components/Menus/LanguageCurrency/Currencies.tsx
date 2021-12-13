@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { currencies } from "@/src/currencies"
+import type { CurrenciesType } from "@/src/currencies"
 import ActiveNavLink from "./ActiveNavLink"
 import { mapCurrency } from "@/shared/Headers/LanguageCurrencyChange/Popup/Currencies"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
@@ -13,7 +14,7 @@ const Button = styled(ActiveNavLink)`
   cursor: pointer;
 `
 
-const mapCurrencyName = (currency: typeof currencies[number]) => {
+const mapCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case "GRN":
       return "Ukranian"
