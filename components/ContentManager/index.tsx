@@ -1,8 +1,10 @@
-import React, { useMemo, memo } from "react"
+import React, { useMemo, memo, useEffect, useRef } from "react"
 import styled from "styled-components"
 import BurgerMenu from "@/components/Menus/Burger"
+import LanguageCurrencyMenu from "@/components/Menus/LanguageCurrency"
 import Footer from "../Footer"
-import { useAppSelector } from "@/src/redux/hooks"
+import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
+import { setBurgerActive, setLanguageCurrencyActive } from "@/src/redux/uiSlice"
 import { mobile } from "@/src/constants"
 import type { AppProps } from "next/app"
 
@@ -42,11 +44,29 @@ const MemoizedFooter = memo(Footer)
 
 function ContentManager(props: ContentManagerProps) {
   const { Component, pageProps } = props.appProps
+  const dispatch = useAppDispatch()
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
   const languageCurrencyActive = useAppSelector(
     (state) => state.ui.languageCurrencyActive
   )
+  const lastActive = useRef<"burger" | "languageCurrency" | null>(null)
+
+  useEffect(() => {
+    if (burgerActive && languageCurrencyActive) {
+      if (lastActive.current == "burger") {
+        dispatch(setBurgerActive(false))
+      } else {
+        dispatch(setLanguageCurrencyActive(false))
+      }
+    } else {
+      if (burgerActive) {
+        lastActive.current = "burger"
+      } else if (languageCurrencyActive) {
+        lastActive.current = "languageCurrency"
+      }
+    }
+  }, [burgerActive, languageCurrencyActive, dispatch])
 
   const MemoizedComponent = useMemo(
     () => <Component {...pageProps} />,
@@ -62,6 +82,7 @@ function ContentManager(props: ContentManagerProps) {
         hide={burgerActive || (languageCurrencyActive && isMobile)}
       />
       {burgerActive && <BurgerMenu />}
+      {languageCurrencyActive && isMobile && <LanguageCurrencyMenu />}
     </>
   )
 }

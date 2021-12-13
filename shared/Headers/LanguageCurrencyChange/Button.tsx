@@ -29,10 +29,11 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   const languageCurrencyActive = useAppSelector(
     (state) => state.ui.languageCurrencyActive
   )
+  const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   useEffect(() => {
     const handleClick = () => {
-      dispatch(setLanguageCurrencyActive(false))
+      !isMobile && dispatch(setLanguageCurrencyActive(false))
     }
 
     window.addEventListener("click", handleClick)

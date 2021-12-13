@@ -1,5 +1,5 @@
 import React from "react"
-import NavGroup from "../NavGroup"
+import NavGroup from "./NavGroup"
 import { useTranslation } from "next-i18next"
 import { company, partners, legal, popular } from "@/src/routes"
 import Container from "../Container"
