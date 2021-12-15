@@ -6,8 +6,9 @@ type ArrowProps = {
 
 const Arrow = styled.button<ArrowProps>`
   display: flex;
+  padding: 10px;
   position: absolute;
-  right: 21px;
+  right: 11px;
   top: 50%;
   transform: translateY(-50%)
     ${(props) => (props.active ? "rotate(180deg)" : "")};

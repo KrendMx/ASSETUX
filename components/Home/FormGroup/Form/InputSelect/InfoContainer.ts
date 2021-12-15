@@ -12,7 +12,6 @@ const InfoContainer = styled.div<InfoContainerProps>`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  cursor: pointer;
 
   & > *:first-child {
     margin-bottom: ${(props) => (props.onlyImage || props.active ? 0 : "4px")};

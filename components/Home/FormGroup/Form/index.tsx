@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 import styled from "styled-components"
 import { mobile } from "@/src/constants"
 import Buttons from "./Buttons"
-import SellForm from "./SellForm"
-import BuyForm from "./BuyForm"
+import FormController from "./FormController"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
 const Container = styled.div`
@@ -37,16 +36,11 @@ const FormContainer = styled(AdaptiveFont).attrs({
 `
 
 function Form() {
-  const [buyButtonActive, setBuyButtonActive] = useState(true)
-
   return (
     <Container>
-      <Buttons
-        buyButtonActive={buyButtonActive}
-        setBuyButtonActive={setBuyButtonActive}
-      />
+      <Buttons />
       <FormContainer>
-        {buyButtonActive ? <BuyForm /> : <SellForm />}
+        <FormController />
       </FormContainer>
     </Container>
   )

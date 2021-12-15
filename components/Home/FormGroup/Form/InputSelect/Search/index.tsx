@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from "react"
 import styled from "styled-components"
 import Image from "next/image"
-import { mobile } from "@/src/constants"
+import { mobile, optimizeRemoteImages } from "@/src/constants"
+import type { Option } from "../types"
 
 type ItemProps = {
   selectable?: boolean
@@ -68,6 +69,12 @@ const Shadow = styled.div`
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   width: 40px;
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bgColor);
+  border-radius: 10px;
+  overflow: hidden;
 
   @media only screen and (max-width: 370px) {
     width: 30px;
@@ -75,16 +82,15 @@ const Shadow = styled.div`
   }
 `
 
-const Placeholder = styled(Shadow)`
-  background-color: var(--bgColor);
-  border-radius: 10px;
-  overflow: hidden;
-`
-
-const ImageContainer = styled(Shadow)`
+const ImageContainer = styled.div`
   position: relative;
-  border-radius: 10px;
-  overflow: hidden;
+  width: 24px;
+  height: 24px;
+
+  @media only screen and (max-width: 370px) {
+    width: 14px;
+    height: 14px;
+  }
 `
 
 const Input = styled.input`
@@ -103,13 +109,6 @@ const Input = styled.input`
     font-size: 1.067em;
   }
 `
-
-export type Option = {
-  icon?: string
-  shortDescription?: string
-  description?: string
-  value: string
-}
 
 type SearchProps = {
   options: Option[]
@@ -141,7 +140,7 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
     <>
       {label && <Label>{label}</Label>}
       <Item>
-        <Placeholder />
+        <Shadow />
         <Input
           type="text"
           placeholder="Start typing to search..."
@@ -158,13 +157,20 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
           selectable
         >
           {option.icon ? (
-            <ImageContainer>
-              <Image src={option.icon} layout="fill" alt="Logo" />
-            </ImageContainer>
+            <Shadow>
+              <ImageContainer>
+                <Image
+                  src={option.icon}
+                  layout="fill"
+                  alt="Logo"
+                  unoptimized={!optimizeRemoteImages}
+                />
+              </ImageContainer>
+            </Shadow>
           ) : (
-            <Placeholder />
+            <Shadow />
           )}
-          <ItemValue>{option.value}</ItemValue>
+          <ItemValue>{option.description}</ItemValue>
         </Item>
       ))}
     </>

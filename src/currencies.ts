@@ -2,9 +2,27 @@ import { AppDispatch } from "./redux/store"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import { locales } from "./locales"
 
-export const currencies = ["USD", "RUB", "GRN"] as const
+export const currencies = ["RUB", "UAH"] as const
 
 export type CurrenciesType = typeof currencies[number]
+
+export const mapCurrency = (currency: CurrenciesType) => {
+  switch (currency) {
+    case "UAH":
+      return "₴"
+    case "RUB":
+      return "₽"
+  }
+}
+
+export const mapCurrencyName = (currency: CurrenciesType) => {
+  switch (currency) {
+    case "UAH":
+      return "Ukranian Hrivna"
+    case "RUB":
+      return "Russian Ruble"
+  }
+}
 
 type Table = {
   [key: string]: CurrenciesType

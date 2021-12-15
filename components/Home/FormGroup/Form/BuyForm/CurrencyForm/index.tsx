@@ -6,11 +6,68 @@ import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
 import ExchangeRow from "../../Exchange"
 import NetworkRow from "./NetworkRow"
+import type { Option } from "../../InputSelect/types"
 
-function CurrencyForm() {
+type CurrencyFormProps = {
+  defaultBlockchain: number
+  blockchains: Option[] | null
+  defaultCurrency: number
+  currentCurrency: string | null
+  currencies: Option[] | null
+  defaultToken: number
+  currentToken: string | null
+  tokens: Option[] | null
+  rate: number | null
+  userInput: string
+  setUserInput: (value: string) => void
+  onBlockchainChange: (blockchain: string) => void
+  onCurrencyChange: (currency: string) => void
+  onTokenChange: (token: string) => void
+}
+
+function CurrencyForm({
+  defaultBlockchain,
+  blockchains,
+  defaultCurrency,
+  currentCurrency,
+  currencies,
+  defaultToken,
+  currentToken,
+  tokens,
+  rate,
+  userInput,
+  setUserInput,
+  onBlockchainChange,
+  onCurrencyChange,
+  onTokenChange
+}: CurrencyFormProps) {
   const [chainActive, setChainActive] = useState(false)
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
+
+  let checkedBlockchains: Option[] | undefined
+  if (blockchains) checkedBlockchains = blockchains
+  let checkedCurrencies: Option[] | undefined
+  if (currencies) checkedCurrencies = currencies
+  let checkedTokens: Option[] | undefined
+  if (tokens) checkedTokens = tokens
+
+  let tokenAmount = 0
+  if (rate && userInput != "") {
+    tokenAmount = +(Number(userInput) / rate).toFixed(6)
+  }
+
+  const handleInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value
+    const numberValue = Number(value)
+    if (!isNaN(numberValue)) {
+      setUserInput(value)
+    }
+  }
+
+  if (!checkedBlockchains || !checkedTokens || !checkedCurrencies || !rate) {
+    return <Container></Container>
+  }
 
   return (
     <Container>
@@ -19,51 +76,42 @@ function CurrencyForm() {
           label="Blockchain"
           id="blockchain"
           selectLabel="You are currently using Assetux on"
-          options={[
-            { value: "Binance Smart Chain", icon: "/icons/icon.png" },
-            { value: "Fantom", icon: "/icons/icon.png" },
-            { value: "Avalanche" },
-            { value: "Huobi Eco Chain", icon: "/icons/icon.png" }
-          ]}
+          options={checkedBlockchains}
           displayInSelect={3}
           onActiveChange={(active) => setChainActive(active)}
+          onSelect={onBlockchainChange}
+          defaultIndex={defaultBlockchain}
           displayIcon
         />
         <Hideable hide={chainActive}>
           <InputSelect
             label="You give"
             id="give"
-            defaultValue="10000"
-            options={[
-              {
-                value: "Russian Ruble",
-                description: "Rus ₽",
-                shortDescription: "RUB"
-              },
-              {
-                value: "Ukrain Hrivna",
-                description: "UAH",
-                shortDescription: "UAH"
-              }
-            ]}
+            value={userInput}
+            onChange={handleInput}
+            options={checkedCurrencies}
             onActiveChange={(active) => setGiveActive(active)}
+            onSelect={onCurrencyChange}
+            defaultIndex={defaultCurrency}
             changeable
           />
           <Hideable hide={giveActive}>
-            <ExchangeRow />
+            {currentToken && currentCurrency && (
+              <ExchangeRow
+                token={currentToken}
+                currency={currentCurrency}
+                rate={rate}
+              />
+            )}
             <InputSelect
               label="You get"
               id="get"
-              options={[
-                {
-                  value: "Bitcoin",
-                  description: "Bitcoin",
-                  shortDescription: "BTC"
-                }
-              ]}
+              options={checkedTokens}
               displayInSelect={1}
               onActiveChange={(active) => setGetActive(active)}
-              value="2"
+              defaultIndex={defaultToken}
+              onSelect={onTokenChange}
+              value={tokenAmount.toString()}
             />
             <Hideable hide={getActive}>
               <NetworkRow />

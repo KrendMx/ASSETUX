@@ -2,7 +2,7 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mapLanguage } from "./Popup/Languages"
-import { mapCurrency } from "./Popup/Currencies"
+import { mapCurrency } from "@/src/currencies"
 import { isLocaleDeclared } from "@/src/locales"
 
 function DynamicValue() {

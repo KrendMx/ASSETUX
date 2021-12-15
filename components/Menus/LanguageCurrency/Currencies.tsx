@@ -1,9 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { currencies } from "@/src/currencies"
-import type { CurrenciesType } from "@/src/currencies"
+import { currencies, mapCurrency, mapCurrencyName } from "@/src/currencies"
 import ActiveNavLink from "./ActiveNavLink"
-import { mapCurrency } from "@/shared/Headers/LanguageCurrencyChange/Popup/Currencies"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 
@@ -13,19 +11,6 @@ const Button = styled(ActiveNavLink)`
   background: transparent;
   cursor: pointer;
 `
-
-const mapCurrencyName = (currency: CurrenciesType) => {
-  switch (currency) {
-    case "GRN":
-      return "Ukranian"
-    case "RUB":
-      return "Russian Ruble"
-    case "USD":
-      return "United States Dollar"
-    default:
-      return ""
-  }
-}
 
 function Languages() {
   const dispatch = useAppDispatch()

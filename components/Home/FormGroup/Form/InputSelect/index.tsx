@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import type { ChangeEventHandler } from "react"
 import Image from "next/image"
 import styled from "styled-components"
@@ -8,12 +8,15 @@ import InputContainer from "./InputContainer"
 import Label from "./Label"
 import Input from "./Input"
 import InfoContainer from "./InfoContainer"
+import ImageBox from "./ImageBox"
 import ImageContainer from "./ImageContainer"
 import Bold from "./Bold"
 import Arrow from "./Arrow"
 import Container from "./Container"
 import Search from "./Search"
-import type { Option } from "./Search"
+import { ellipsisString } from "@/src/helpers"
+import { optimizeRemoteImages } from "@/src/constants"
+import type { Option } from "./types"
 
 const Placeholder = styled.div`
   flex-shrink: 0;
@@ -77,29 +80,43 @@ function InputSelect({
   // these ifs are cool but it should be refactored
   if (changeable) {
     if (active) {
-      if (selectedOption) {
-        displayedValue = selectedOption.value
+      if (selectedOption && selectedOption.description) {
+        displayedValue = selectedOption.description
       }
     } else {
-      if (value) {
+      if (value != undefined) {
         displayedValue = value
       } else {
         displayedValue = userInput
       }
     }
   } else {
-    if (value) {
+    if (value != undefined) {
       if (active) {
-        if (selectedOption) {
-          displayedValue = selectedOption.value
+        if (selectedOption && selectedOption.description) {
+          displayedValue = selectedOption.description
         }
       } else {
         displayedValue = value
       }
-    } else if (selectedOption) {
-      displayedValue = selectedOption.value
+    } else if (selectedOption && selectedOption.description) {
+      displayedValue = selectedOption.description
     }
   }
+
+  useEffect(() => {
+    if (options) {
+      setSelectedValue(options[defaultIndex].value)
+      onSelect && onSelect(options[defaultIndex].value)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultIndex])
+
+  useEffect(() => {
+    if (!selectedValue && options && options.length > 0) {
+      setSelectedValue(options[defaultIndex].value)
+    }
+  }, [options, defaultIndex, selectedValue])
 
   const toggle = () => {
     onActiveChange && onActiveChange(!active)
@@ -125,9 +142,24 @@ function InputSelect({
       <InputWrapper active={active} bigger={hideLabel}>
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && <Label htmlFor={id}>{label}</Label>}
-          {hideLabel && <Placeholder />}
+          {hideLabel &&
+            (selectedOption && selectedOption.icon ? (
+              <ImageBox>
+                <ImageContainer>
+                  <Image
+                    src={selectedOption.icon}
+                    layout="fill"
+                    alt="Logo"
+                    unoptimized={!optimizeRemoteImages}
+                  />
+                </ImageContainer>
+              </ImageBox>
+            ) : (
+              <Placeholder />
+            ))}
           <Input
             id={id}
+            autoComplete="off"
             type="text"
             disabled={!changeable || hideLabel}
             value={displayedValue}
@@ -137,26 +169,35 @@ function InputSelect({
         {selectedOption && (
           <InfoContainer
             onlyImage={selectedOption?.icon != undefined}
-            onClick={toggle}
             active={active}
           >
             {displayIcon ? (
               selectedOption.icon ? (
-                <ImageContainer>
-                  <Image src={selectedOption.icon} layout="fill" alt="Logo" />
-                </ImageContainer>
+                <ImageBox>
+                  <ImageContainer>
+                    <Image
+                      src={selectedOption.icon}
+                      layout="fill"
+                      alt="Logo"
+                      unoptimized={!optimizeRemoteImages}
+                    />
+                  </ImageContainer>
+                </ImageBox>
               ) : (
                 <Placeholder />
               )
             ) : (
               <>
                 {selectedOption.description && !hideLabel && (
-                  <Label>{selectedOption.description}</Label>
+                  <Label>
+                    {selectedOption.shortDescription &&
+                      ellipsisString(selectedOption.shortDescription, 5)}
+                  </Label>
                 )}
-                <Bold>{selectedOption.shortDescription}</Bold>
+                <Bold>{selectedOption.value}</Bold>
               </>
             )}
-            <Arrow active={active} aria-label="Open">
+            <Arrow active={active} aria-label="Open" onClick={toggle}>
               <IoIosArrowDown />
             </Arrow>
           </InfoContainer>

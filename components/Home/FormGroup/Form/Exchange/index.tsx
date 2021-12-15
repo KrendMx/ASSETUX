@@ -23,12 +23,18 @@ const Container = styled.div`
   }
 `
 
-function Exchange() {
+type ExchangeProps = {
+  token: string
+  currency: string
+  rate: number
+}
+
+function Exchange({ token, currency, rate }: ExchangeProps) {
   const [hovered, setHovered] = useState(false)
 
   return (
     <Container>
-      <ExchangeStat>1 BCT = 4,308,216.43 RUB</ExchangeStat>
+      <ExchangeStat>1 {token} = {rate} {currency}</ExchangeStat>
       <ExchangeHelp
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}

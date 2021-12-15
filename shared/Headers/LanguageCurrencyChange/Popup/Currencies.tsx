@@ -4,21 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import PopupRow from "../PopupRow"
 import PopupItem from "../PopupItem"
-import { currencies } from "@/src/currencies"
-import type { CurrenciesType } from "@/src/currencies"
+import { currencies, mapCurrency } from "@/src/currencies"
 
 const CurrencyContainer = styled.span``
-
-export const mapCurrency = (currency: CurrenciesType) => {
-  switch (currency) {
-    case "GRN":
-      return "₴"
-    case "RUB":
-      return "₽"
-    case "USD":
-      return "$"
-  }
-}
 
 type CurrenciesProps = {
   onClick: () => void

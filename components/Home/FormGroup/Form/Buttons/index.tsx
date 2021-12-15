@@ -1,7 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import Button from "./Button"
-import { useAppSelector } from "@/src/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { swapAction } from "@/src/redux/cryptoSlice"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
 const Container = styled(AdaptiveFont).attrs({
@@ -30,26 +31,19 @@ const SellButton = styled(Button)`
   border-top-right-radius: 10px;
 `
 
-type ButtonsProps = {
-  buyButtonActive: boolean
-  setBuyButtonActive: (active: boolean) => void
-}
-
-function Buttons({ buyButtonActive, setBuyButtonActive }: ButtonsProps) {
+function Buttons() {
+  const dispatch = useAppDispatch()
   const isMobile = useAppSelector((state) => state.ui.isMobile)
+  const action = useAppSelector((state) => state.crypto.action)
+
+  const isBuy = action == "BUY"
 
   return (
     <Container>
-      <BuyButton
-        active={buyButtonActive}
-        onClick={() => setBuyButtonActive(true)}
-      >
+      <BuyButton active={isBuy} onClick={() => dispatch(swapAction("BUY"))}>
         {isMobile ? "Buy Crypto" : "Buy Cryptocurrencies"}
       </BuyButton>
-      <SellButton
-        active={!buyButtonActive}
-        onClick={() => setBuyButtonActive(false)}
-      >
+      <SellButton active={!isBuy} onClick={() => dispatch(swapAction("SELL"))}>
         {isMobile ? "Sell Crypto" : "Sell Cryptocurrencies"}
       </SellButton>
     </Container>
