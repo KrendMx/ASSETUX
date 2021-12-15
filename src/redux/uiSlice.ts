@@ -20,7 +20,7 @@ const initialState: UiState = {
   isTablet: false,
   isMobileLayoutForTablet: false,
   languageCurrencyActive: false,
-  currentCurrency: "USD"
+  currentCurrency: "RUB"
 }
 
 export const uiSlice = createSlice({
