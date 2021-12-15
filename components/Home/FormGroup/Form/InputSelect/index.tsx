@@ -110,10 +110,10 @@ function InputSelect({
       onSelect && onSelect(options[defaultIndex].value)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultIndex])
+  }, [defaultIndex, options])
 
   useEffect(() => {
-    if (!selectedValue && options && options.length > 0) {
+    if (!selectedValue && options) {
       setSelectedValue(options[defaultIndex].value)
     }
   }, [options, defaultIndex, selectedValue])

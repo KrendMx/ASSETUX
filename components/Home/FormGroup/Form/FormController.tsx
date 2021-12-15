@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import { useAppSelector } from "@/src/redux/hooks"
 import dynamic from "next/dynamic"
 import BackendClient from "@/src/BackendClient"
@@ -11,7 +11,6 @@ import {
 import { rateCheckInterval } from "@/src/constants"
 import type { CurrenciesType } from "@/src/currencies"
 import type { Token, FiatProvider, FiatRate } from "@/src/BackendClient/types"
-import type { PaymentOption } from "./types"
 
 const SellForm = dynamic(() => import("./SellForm"))
 const BuyForm = dynamic(() => import("./BuyForm"))
@@ -41,26 +40,17 @@ const mapTokens = (tokens: Token[]) => {
   return mappedTokens
 }
 
-const mapPayments = (payments: FiatProvider[]) => {
-  const mappedPayments: PaymentOption[] = []
-  for (const currency of payments) {
-    mappedPayments.push({
-      value: currency.method,
-      min: currency.min,
-      max: currency.max
-    })
-  }
-
-  return mappedPayments
-}
-
 function FormController() {
   const action = useAppSelector((state) => state.crypto.action)
   const [blockchains, setBlockchains] = useState<Option[] | null>(null)
   const [tokens, setTokens] = useState<Option[] | null>(null)
-  const [payments, setPayments] = useState<PaymentOption[] | null>(null)
+  const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
+
+  const buyPayments = useMemo(() => {
+    return payments && payments.filter((payment) => payment.type == "BUY")
+  }, [payments])
 
   useEffect(() => {
     setBlockchains([
@@ -100,9 +90,9 @@ function FormController() {
       if (responses[1].status == 200) {
         const payments = responses[1].data
 
-        const mappedPayments = payments ? mapPayments(payments) : null
-
-        setPayments(mappedPayments)
+        if (payments) {
+          setPayments(payments)
+        }
       }
 
       if (responses[2].status == 200) {
@@ -123,8 +113,6 @@ function FormController() {
 
         if (fiatRates) {
           setFiatRates(fiatRates)
-
-          console.log(fiatRates)
         }
       }
     }, rateCheckInterval)
@@ -140,6 +128,7 @@ function FormController() {
       tokens={tokens}
       currencies={currencies}
       rates={fiatRates}
+      payments={buyPayments}
     />
   ) : (
     <SellForm />

@@ -12,6 +12,7 @@ const Container = styled.div`
   min-width: 0;
   display: flex;
   flex-direction: column;
+  margin-top: 110px;
 
   & > *:not(:last-child) {
     margin-bottom: 90px;
@@ -25,6 +26,7 @@ const Container = styled.div`
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     width: 405px;
+    margin-top: 0;
 
     & > *:not(:last-child) {
       margin-bottom: 30px;

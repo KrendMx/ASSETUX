@@ -24,9 +24,9 @@ const Container = styled.div`
 `
 
 type ExchangeProps = {
-  token: string
-  currency: string
-  rate: number
+  token: string | null
+  currency: string | null
+  rate: number | null
 }
 
 function Exchange({ token, currency, rate }: ExchangeProps) {
@@ -34,7 +34,9 @@ function Exchange({ token, currency, rate }: ExchangeProps) {
 
   return (
     <Container>
-      <ExchangeStat>1 {token} = {rate} {currency}</ExchangeStat>
+      <ExchangeStat>
+        1 {token} = {rate} {currency}
+      </ExchangeStat>
       <ExchangeHelp
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}

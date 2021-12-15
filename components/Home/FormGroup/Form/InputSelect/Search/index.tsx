@@ -9,7 +9,9 @@ type ItemProps = {
 }
 
 const Item = styled.div<ItemProps>`
-  padding: 12px 20px;
+  width: 100%;
+  height: 65px;
+  padding: 0 20px;
   border: 1px solid #d2d2d7;
   border-radius: 10px;
   display: flex;
@@ -24,7 +26,7 @@ const Item = styled.div<ItemProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 11px 15px;
+    padding: 0 15px;
   }
 
   @media only screen and (max-width: 370px) {

@@ -1,9 +1,14 @@
 import styled from "styled-components"
 import { mobile } from "@/src/constants"
+import Step from "./Steps"
 
-const Container = styled.div`
+type ContainerProps = {
+  step?: Step
+}
+
+const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: 465px;
+  height: ${(props) => (props.step == Step.Payment ? "617px" : "456px")};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;

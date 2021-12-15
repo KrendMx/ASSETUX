@@ -9,14 +9,17 @@ type InputWrapperProps = {
 const InputWrapper = styled.div<InputWrapperProps>`
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
   width: 100%;
+  height: 65px;
   border: 1px solid #d2d2d7;
   outline: none;
   box-shadow: ${(props) =>
     props.active ? "0px 0px 0.00000001px 3px #8bb0fa" : "none"};
   border-radius: 10px;
-  padding: ${(props) => (props.bigger ? "12px" : "10px")} 20px;
+  padding: 0 20px;
   font-size: 1rem;
 
   & > * + * {
@@ -24,7 +27,7 @@ const InputWrapper = styled.div<InputWrapperProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 11px 15px;
+    padding: 0 15px;
   }
 
   @media only screen and (max-width: 370px) {

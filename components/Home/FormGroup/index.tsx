@@ -8,7 +8,7 @@ const Container = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   font-size: 1em;
   width: 100%;
   max-width: var(--max-width);
