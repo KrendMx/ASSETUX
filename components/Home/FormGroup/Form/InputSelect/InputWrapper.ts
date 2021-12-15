@@ -13,7 +13,8 @@ const InputWrapper = styled.div<InputWrapperProps>`
   width: 100%;
   border: 1px solid #d2d2d7;
   outline: none;
-  box-shadow: ${(props) => (props.active ? "0px 0px 0px 3px #8bb0fa" : "none")};
+  box-shadow: ${(props) =>
+    props.active ? "0px 0px 0.00000001px 3px #8bb0fa" : "none"};
   border-radius: 10px;
   padding: ${(props) => (props.bigger ? "12px" : "10px")} 20px;
   font-size: 1rem;
