@@ -3,10 +3,9 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import ColoredSpan from "./ColoredSpan"
 import Image from "next/image"
-import {
-  mobile,
-  mobileLaoyutForTablet
-} from "@/src/constants"
+import { useAppSelector } from "@/src/redux/hooks"
+import Skeleton from "react-loading-skeleton"
+import { mobile, mobileLaoyutForTablet } from "@/src/constants"
 
 const Container = styled.div`
   min-width: 0;
@@ -93,21 +92,42 @@ const SponsorContainer = styled.div`
   flex: 1 1 auto;
 `
 
+const SkeletonHeader = styled.h1`
+  width: 75%;
+
+  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+    width: 100%;
+  }
+`
+
 function Info() {
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const { t } = useTranslation("home")
 
   return (
     <Container>
       <TextColumn>
-        <h1>
-          {t("titleBeforeBuy")}{" "}
-          <ColoredSpan colorIn="green">{t("buy")}</ColoredSpan>
-          <br />
-          {t("titleAfterBuy")}{" "}
-          <ColoredSpan colorIn="red">{t("sell")}</ColoredSpan>{" "}
-          {t("titleAfterSell")}
-        </h1>
-        <h2>{t("info")}</h2>
+        {appLoaded && (
+          <h1>
+            {t("titleBeforeBuy")}{" "}
+            <ColoredSpan colorIn="green">{t("buy")}</ColoredSpan>
+            <br />
+            {t("titleAfterBuy")}{" "}
+            <ColoredSpan colorIn="red">{t("sell")}</ColoredSpan>{" "}
+            {t("titleAfterSell")}
+          </h1>
+        )}
+        {!appLoaded && (
+          <SkeletonHeader>
+            <Skeleton count={2} />
+          </SkeletonHeader>
+        )}
+        {appLoaded && <h2>{t("info")}</h2>}
+        {!appLoaded && (
+          <SkeletonHeader as="h2">
+            <Skeleton count={1} />
+          </SkeletonHeader>
+        )}
       </TextColumn>
       <Sponsors>
         <SponsorContainer>

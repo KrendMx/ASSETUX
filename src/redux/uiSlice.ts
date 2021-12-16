@@ -12,6 +12,7 @@ export type UiState = {
   burgerActive: boolean
   languageCurrencyActive: boolean
   currentCurrency: CurrenciesType
+  appLoaded: boolean
 }
 
 const initialState: UiState = {
@@ -20,7 +21,8 @@ const initialState: UiState = {
   isTablet: false,
   isMobileLayoutForTablet: false,
   languageCurrencyActive: false,
-  currentCurrency: "RUB"
+  currentCurrency: "RUB",
+  appLoaded: false
 }
 
 export const uiSlice = createSlice({
@@ -63,6 +65,9 @@ export const uiSlice = createSlice({
           payload: currency
         }
       }
+    },
+    setAppLoaded: (state) => {
+      state.appLoaded = true
     }
   },
   extraReducers: (builder) => {
@@ -82,7 +87,8 @@ export const {
   setBurgerActive,
   setMobileLayoutForTablet,
   setLanguageCurrencyActive,
-  setCurrentCurrency
+  setCurrentCurrency,
+  setAppLoaded
 } = uiSlice.actions
 
 export default uiSlice.reducer

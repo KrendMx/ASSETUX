@@ -11,7 +11,7 @@ const NextButton = styled.button`
   background-color: var(--blue);
   border-radius: 10px;
   cursor: pointer;
-  padding: 15px;
+  height: 49px;
   display: flex;
   justify-content: center;
   align-items: center;

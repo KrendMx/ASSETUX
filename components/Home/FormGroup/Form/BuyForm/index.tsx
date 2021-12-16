@@ -11,6 +11,7 @@ type BuyFormProps = {
   tokens: Option[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
+  firstLoad: boolean
 }
 
 function BuyForm({
@@ -18,7 +19,8 @@ function BuyForm({
   currencies,
   tokens,
   rates,
-  payments
+  payments,
+  firstLoad
 }: BuyFormProps) {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedBlockchain, setSelectedBlockchain] = useState<string | null>(
@@ -105,6 +107,7 @@ function BuyForm({
       onBlockchainChange={(blockchain) => setSelectedBlockchain(blockchain)}
       onCurrencyChange={(currency) => setSelectedCurrency(currency)}
       onTokenChange={(token) => setSelectedToken(token)}
+      firstLoad={firstLoad}
     />
   )
 }

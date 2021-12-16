@@ -4,6 +4,7 @@ import Button from "./Button"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { swapAction } from "@/src/redux/cryptoSlice"
 import AdaptiveFont from "@/shared/AdaptiveFont"
+import Skeleton from "react-loading-skeleton"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.125,
@@ -31,8 +32,13 @@ const SellButton = styled(Button)`
   border-top-right-radius: 10px;
 `
 
+const SkeletonContainer = styled.span`
+  width: 75%;
+`
+
 function Buttons() {
   const dispatch = useAppDispatch()
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
   const action = useAppSelector((state) => state.crypto.action)
 
@@ -41,10 +47,30 @@ function Buttons() {
   return (
     <Container>
       <BuyButton active={isBuy} onClick={() => dispatch(swapAction("BUY"))}>
-        {isMobile ? "Buy Crypto" : "Buy Cryptocurrencies"}
+        {appLoaded ? (
+          isMobile ? (
+            "Buy Crypto"
+          ) : (
+            "Buy Cryptocurrencies"
+          )
+        ) : (
+          <SkeletonContainer>
+            <Skeleton />
+          </SkeletonContainer>
+        )}
       </BuyButton>
       <SellButton active={!isBuy} onClick={() => dispatch(swapAction("SELL"))}>
-        {isMobile ? "Sell Crypto" : "Sell Cryptocurrencies"}
+        {appLoaded ? (
+          isMobile ? (
+            "Sell Crypto"
+          ) : (
+            "Sell Cryptocurrencies"
+          )
+        ) : (
+          <SkeletonContainer>
+            <Skeleton />
+          </SkeletonContainer>
+        )}
       </SellButton>
     </Container>
   )

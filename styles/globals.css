@@ -31,6 +31,14 @@ input {
   font-family: "SF Pro Display", sans-serif;
 }
 
+.skeletonFlexContainer {
+  flex-grow: 1;
+}
+
+.skeletonResetLineHeight {
+  line-height: normal;
+}
+
 @media only screen and (max-width: 1130px) {
   :root {
     --paddings: 18px;

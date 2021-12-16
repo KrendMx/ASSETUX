@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import Help from "../../Help"
 import { mobile } from "@/src/constants"
+import Skeleton from "react-loading-skeleton"
 
 const Container = styled.div`
   width: 100%;
@@ -59,22 +60,34 @@ const QuestionMark = styled.span`
   }
 `
 
-function NetworkRow() {
+type NetworkRowProps = {
+  isLoading: boolean
+}
+
+function NetworkRow({ isLoading }: NetworkRowProps) {
   const [hovered, setHovered] = useState(false)
 
   return (
     <Container>
-      <span>Please make sure your wallet supports selected network</span>
-      <QuestionMark
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      />
-      {hovered && (
-        <Help offsetY={14}>
-          The network you selected is BSC, please confirm that your withdrawal
-          address supports the Binance Smart Chain network. If the other
-          platform does not support it, your assets may be lost.
-        </Help>
+      {!isLoading ? (
+        <>
+          <span>Please make sure your wallet supports selected network</span>
+          <QuestionMark
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          />
+          {hovered && (
+            <Help offsetY={14}>
+              The network you selected is BSC, please confirm that your
+              withdrawal address supports the Binance Smart Chain network. If
+              the other platform does not support it, your assets may be lost.
+            </Help>
+          )}
+        </>
+      ) : (
+        <Skeleton
+          containerClassName="skeletonFlexContainer"
+        />
       )}
     </Container>
   )

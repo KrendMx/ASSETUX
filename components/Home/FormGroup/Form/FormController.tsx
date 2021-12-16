@@ -47,6 +47,7 @@ function FormController() {
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
+  const [switchedTabs, setSwitchedTabs] = useState(false)
 
   const buyPayments = useMemo(() => {
     return payments && payments.filter((payment) => payment.type == "BUY")
@@ -122,6 +123,12 @@ function FormController() {
     }
   }, [])
 
+  useEffect(() => {
+    if (action == "SELL") {
+      setSwitchedTabs(true)
+    }
+  }, [action])
+
   return action == "BUY" ? (
     <BuyForm
       blockchains={blockchains}
@@ -129,6 +136,7 @@ function FormController() {
       currencies={currencies}
       rates={fiatRates}
       payments={buyPayments}
+      firstLoad={!switchedTabs}
     />
   ) : (
     <SellForm />

@@ -3,8 +3,8 @@
 ```
 Wrapper (provide the redux store)
 └── MyApp
-    ├── HeaderManager
-    │   └── MobileHeader / Header
+    ├── Header
+    │
     └── ContentManager (manage whether to hide page content and show mobile menu)
         └── Wrapper (hideable)
         │   └── Component

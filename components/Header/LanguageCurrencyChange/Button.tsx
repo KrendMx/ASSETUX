@@ -26,6 +26,7 @@ const Container = styled.button`
 
 const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   const dispatch = useAppDispatch()
+
   const languageCurrencyActive = useAppSelector(
     (state) => state.ui.languageCurrencyActive
   )
