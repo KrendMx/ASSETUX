@@ -2,8 +2,6 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import Link from "next/link"
-import { useAppSelector } from "@/src/redux/hooks"
-import Skeleton from "react-loading-skeleton"
 
 const LogoContainer = styled.div`
   display: block;
@@ -40,8 +38,6 @@ type TextLogoProps = {
 // TODO: доделать
 
 function TextLogo({ link }: TextLogoProps) {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
-
   return (
     <Link href="/" passHref>
       <LogoLink>
@@ -57,14 +53,8 @@ function TextLogo({ link }: TextLogoProps) {
           />
         </LogoContainer>
         <LogoText>
-          {appLoaded ? (
-            <>
-              <span>ASSET</span>
-              <ColoredLogoText>UX</ColoredLogoText>
-            </>
-          ) : (
-            <Skeleton width={90}/>
-          )}
+          <span>ASSET</span>
+          <ColoredLogoText>UX</ColoredLogoText>
         </LogoText>
       </LogoLink>
     </Link>

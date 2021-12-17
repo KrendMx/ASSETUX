@@ -1,13 +1,11 @@
 import React from "react"
 import styled from "styled-components"
-import Skeleton from "react-loading-skeleton"
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import Link from "next/link"
 import TextLogo from "@/shared/TextLogo"
 import { mobile } from "@/src/constants"
 import { useTranslation } from "next-i18next"
-import { useAppSelector } from "@/src/redux/hooks"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {
@@ -53,12 +51,7 @@ const NavLink = styled.a`
   }
 `
 
-const SkeletonContainer = styled.span`
-  width: 80px;
-`
-
 function Desktop() {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const { t } = useTranslation("header")
 
   return (
@@ -67,37 +60,13 @@ function Desktop() {
       <RightContainer>
         <NavContainer>
           <Link href="/404" passHref>
-            <NavLink>
-              {appLoaded ? (
-                t("swap")
-              ) : (
-                <SkeletonContainer>
-                  <Skeleton />
-                </SkeletonContainer>
-              )}
-            </NavLink>
+            <NavLink>{t("swap")}</NavLink>
           </Link>
           <Link href="/404" passHref>
-            <NavLink>
-              {appLoaded ? (
-                t("farms")
-              ) : (
-                <SkeletonContainer>
-                  <Skeleton />
-                </SkeletonContainer>
-              )}
-            </NavLink>
+            <NavLink>{t("farms")}</NavLink>
           </Link>
           <Link href="/404" passHref>
-            <NavLink>
-              {appLoaded ? (
-                t("blog")
-              ) : (
-                <SkeletonContainer>
-                  <Skeleton />
-                </SkeletonContainer>
-              )}
-            </NavLink>
+            <NavLink>{t("blog")}</NavLink>
           </Link>
         </NavContainer>
         <LanguageCurrencyChange />
