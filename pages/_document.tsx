@@ -34,6 +34,27 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" href="/icons/icon.png" type="image/png" />
+          <link
+            rel="preload"
+            as="font"
+            href="/fonts/SFProDisplay-Medium.woff2"
+            crossOrigin="anonymous"
+            type="font/woff2"
+          />
+          <link
+            rel="preload"
+            as="font"
+            href="/fonts/SFProDisplay-Regular.woff2"
+            crossOrigin="anonymous"
+            type="font/woff2"
+          />
+          <link
+            rel="preload"
+            as="font"
+            href="/fonts/SFProDisplay-Semibold.woff2"
+            crossOrigin="anonymous"
+            type="font/woff2"
+          />
         </Head>
         <body>
           <Main />
