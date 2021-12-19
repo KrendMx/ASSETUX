@@ -1,3 +1,7 @@
+export type UrlRequest = {
+  apiHost: string
+}
+
 export type FiatRate = {
   chain_id: string
   name: string
@@ -22,6 +26,15 @@ export type Token = {
   stable: boolean
   chain_id: number
   logo_uri: string
+}
+
+export type Blockchain = {
+  id: string
+  chain_id: number
+  active: boolean
+  title: string
+  url: string
+  logo: string
 }
 
 export type FiatProvider = {
@@ -50,4 +63,20 @@ export type GetFiatProviders = {
   status?: number
   message: string
   data?: FiatProvider[]
+}
+
+export type GetBlockchains = {
+  status?: number
+  message: string
+  data?: Blockchain[]
+}
+
+export type GetPaymentUrlProps = UrlRequest & {
+  ticker: string
+  provider: string
+  amount: number
+  cryptoAddress: string
+  tokenAddress: string
+  chainId: number
+  email: string
 }

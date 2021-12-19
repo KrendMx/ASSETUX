@@ -17,6 +17,10 @@ const Arrow = styled.button<ArrowProps>`
   background-color: transparent;
   font-size: 1em;
   cursor: pointer;
+
+  @media only screen and (max-width: 370px) {
+    right: 5px;
+  }
 `
 
 export default Arrow

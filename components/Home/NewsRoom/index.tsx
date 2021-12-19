@@ -3,6 +3,8 @@ import styled from "styled-components"
 import Element from "./Element"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Slider from "@/shared/Slider"
+import Skeleton from "react-loading-skeleton"
+import { useAppSelector } from "@/src/redux/hooks"
 import useSliderConfig from "../sliderConfig"
 
 const desktopPaddings = 125
@@ -25,6 +27,10 @@ const Row = styled.div`
   align-items: flex-end;
   margin-bottom: 28px;
   padding: 0 var(--paddings);
+
+  & > h3 {
+    flex-grow: 1;
+  }
 `
 
 const MoreLink = styled(AdaptiveFont).attrs({
@@ -42,6 +48,7 @@ const SliderContainer = styled.div`
 `
 
 function NewsRoom() {
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const [desktopOffset, setDesktopOffset] = useState(0)
   const sliderConfig = useSliderConfig({ desktopOffset })
   const rowRef = useRef<HTMLDivElement>(null)
@@ -69,10 +76,12 @@ function NewsRoom() {
   return (
     <Container ref={containerRef}>
       <Row ref={rowRef}>
-        <h3>News Room</h3>
-        <MoreLink as="a" href="#">
-          Show more
-        </MoreLink>
+        <h3>{appLoaded ? "News Room" : <Skeleton />}</h3>
+        {appLoaded && (
+          <MoreLink as="a" href="#">
+            Show more
+          </MoreLink>
+        )}
       </Row>
       <SliderContainer>
         <Slider {...sliderConfig}>

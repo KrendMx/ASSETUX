@@ -2,6 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
+import Skeleton from "react-loading-skeleton"
+import { useAppSelector } from "@/src/redux/hooks"
 import { mobile } from "@/src/constants"
 
 const Container = styled(AdaptiveFont).attrs({
@@ -20,10 +22,20 @@ const Container = styled(AdaptiveFont).attrs({
 const ImgContainer = styled.div`
   display: block;
   width: 85%;
+  position: relative;
+`
+
+const ImgSkeleton = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
 `
 
 const InfoContainer = styled.div`
   padding: 32px 30px;
+  width: 100%;
 
   @media only screen and (max-width: ${mobile}px) {
     padding: 20px 15px;
@@ -71,6 +83,8 @@ const Date = styled.span`
 `
 
 function Element() {
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+
   return (
     <Container as="article">
       <ImgContainer>
@@ -81,16 +95,36 @@ function Element() {
           height={416}
           alt=""
         />
+        {!appLoaded && (
+          <ImgSkeleton>
+            <Skeleton height="100%" />
+          </ImgSkeleton>
+        )}
       </ImgContainer>
       <InfoContainer>
-        <Title>The Apple Car Is Coming and Tesla Had Better Watch Out</Title>
+        <Title>
+          {appLoaded ? (
+            "The Apple Car Is Coming and Tesla Had Better Watch Out"
+          ) : (
+            <Skeleton />
+          )}
+        </Title>
         <Description>
-          The world’s biggest company by market value plans to launch a car with
-          full self-driving capabilities...
+          {appLoaded ? (
+            "The world’s biggest company by market value plans to launch a car with full self-driving capabilities..."
+          ) : (
+            <Skeleton count={2} />
+          )}
         </Description>
         <Info>
-          <Author>Finance</Author>
-          <Date>2 days ago</Date>
+          {appLoaded ? (
+            <>
+              <Author>Finance</Author>
+              <Date>2 days ago</Date>
+            </>
+          ) : (
+            <Skeleton />
+          )}
         </Info>
       </InfoContainer>
     </Container>

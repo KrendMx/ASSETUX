@@ -5,3 +5,11 @@ export type PaymentOption = {
   min: number
   max: number
 }
+
+export type TokenOption = {
+  value: string
+  icon: string
+  description: string
+  shortDescription: string
+  address: string
+}

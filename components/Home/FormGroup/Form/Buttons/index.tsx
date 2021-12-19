@@ -46,7 +46,10 @@ function Buttons() {
 
   return (
     <Container>
-      <BuyButton active={isBuy} onClick={() => dispatch(swapAction("BUY"))}>
+      <BuyButton
+        active={isBuy}
+        onClick={() => appLoaded && dispatch(swapAction("BUY"))}
+      >
         {appLoaded ? (
           isMobile ? (
             "Buy Crypto"
@@ -59,7 +62,10 @@ function Buttons() {
           </SkeletonContainer>
         )}
       </BuyButton>
-      <SellButton active={!isBuy} onClick={() => dispatch(swapAction("SELL"))}>
+      <SellButton
+        active={!isBuy}
+        onClick={() => appLoaded && dispatch(swapAction("SELL"))}
+      >
         {appLoaded ? (
           isMobile ? (
             "Sell Crypto"

@@ -1,20 +1,27 @@
 import React, { useState, useEffect, useMemo } from "react"
 import CurrencyForm from "./CurrencyForm"
 import { useAppSelector } from "@/src/redux/hooks"
+import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
-import type { PaymentOption } from "../types"
-import type { FiatRate, FiatProvider } from "@/src/BackendClient/types"
+import type { PaymentOption, TokenOption } from "../types"
+import type {
+  FiatRate,
+  FiatProvider,
+  Blockchain
+} from "@/src/BackendClient/types"
 
 type BuyFormProps = {
+  currentBlockchain: Blockchain | null
   blockchains: Option[] | null
   currencies: Option[] | null
-  tokens: Option[] | null
+  tokens: TokenOption[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
   firstLoad: boolean
 }
 
 function BuyForm({
+  currentBlockchain,
   blockchains,
   currencies,
   tokens,
@@ -23,13 +30,12 @@ function BuyForm({
   firstLoad
 }: BuyFormProps) {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
-  const [selectedBlockchain, setSelectedBlockchain] = useState<string | null>(
-    null
-  )
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
-  const [userInput, setUserInput] = useState("10000")
+  const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
+  const [email, setEmail] = useState("")
+  const [walletAddress, setWalletAddress] = useState("")
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
@@ -48,12 +54,33 @@ function BuyForm({
   const defaultCurrencyIndex = currencies
     ? currencies.findIndex((currency) => currency.value == currentCurrency)
     : 0
+  const defaultBlockchainIndex =
+    currentBlockchain && blockchains
+      ? blockchains.findIndex(
+          (blockchain) => blockchain.value == currentBlockchain.title
+        )
+      : 0
 
-  useEffect(() => {
-    if (!selectedBlockchain && blockchains) {
-      setSelectedBlockchain(blockchains[0].value)
+  const onSubmit = () => {
+    if (currentBlockchain && tokens) {
+      const tokenAddress = tokens.find(
+        (token) => token.value == selectedToken
+      )?.address
+
+      if (tokenAddress && selectedPayment) {
+        BackendClient.getPaymentUrl({
+          apiHost: currentBlockchain.url,
+          ticker: currentCurrency,
+          provider: selectedPayment,
+          amount: Number(giveAmount),
+          cryptoAddress: walletAddress,
+          chainId: currentBlockchain.chain_id,
+          tokenAddress,
+          email
+        })
+      }
     }
-  }, [blockchains, selectedBlockchain])
+  }
 
   useEffect(() => {
     setSelectedCurrency(currentCurrency)
@@ -90,24 +117,32 @@ function BuyForm({
 
   return (
     <CurrencyForm
-      defaultBlockchain={0}
+      defaultBlockchainIndex={defaultBlockchainIndex}
       blockchains={blockchains}
-      defaultCurrency={defaultCurrencyIndex == -1 ? 0 : defaultCurrencyIndex}
+      defaultCurrencyIndex={
+        defaultCurrencyIndex == -1 ? 0 : defaultCurrencyIndex
+      }
       currentCurrency={selectedCurrency}
       currencies={currencies}
-      defaultToken={0}
+      defaultTokenIndex={0}
       currentToken={selectedToken}
       tokens={tokens}
-      rate={currentRate}
-      userInput={userInput}
-      setUserInput={setUserInput}
+      defaultPaymentIndex={0}
+      currentPayment={selectedPayment}
       payments={processedPayments}
-      defaultPayment={0}
-      onPaymentChange={(payment) => setSelectedPayment(payment)}
-      onBlockchainChange={(blockchain) => setSelectedBlockchain(blockchain)}
-      onCurrencyChange={(currency) => setSelectedCurrency(currency)}
-      onTokenChange={(token) => setSelectedToken(token)}
+      currentWallet={walletAddress}
+      giveAmount={giveAmount}
+      email={email}
+      rate={currentRate}
       firstLoad={firstLoad}
+      onBlockchainChange={(blockchain) => {}}
+      onCurrencyChange={setSelectedCurrency}
+      onTokenChange={setSelectedToken}
+      onPaymentChange={setSelectedPayment}
+      onWalletChange={setWalletAddress}
+      onGiveAmountChange={setGiveAmount}
+      onEmailChange={setEmail}
+      onSubmit={onSubmit}
     />
   )
 }

@@ -12,6 +12,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 110px;
+  width: 100%;
 
   & > *:not(:last-child) {
     margin-bottom: 90px;
@@ -69,15 +70,9 @@ const TextColumn = styled.div`
   }
 `
 
-const Sponsors = styled.div`
+const SponsorsContainer = styled.div`
   width: 75%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  & > *:not(:last-child) {
-    margin-right: 15px;
-  }
+  position: relative;
 
   @media only screen and (max-width: 1130px) {
     width: 70%;
@@ -88,16 +83,41 @@ const Sponsors = styled.div`
   }
 `
 
+type SponsorsProps = {
+  isLoading: boolean
+}
+
+const Sponsors = styled.div<SponsorsProps>`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  visibility: ${(props) => (props.isLoading ? "hidden" : "visible")};
+
+  & > *:not(:last-child) {
+    margin-right: 15px;
+  }
+`
+
 const SponsorContainer = styled.div`
   flex: 1 1 auto;
 `
 
-const SkeletonHeader = styled.h1`
+const SkeletonContainer = styled.h1`
   width: 75%;
 
   @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
     width: 100%;
   }
+`
+
+const AbsoluteSkeletonContainer = styled(SkeletonContainer).attrs({
+  as: "div"
+})`
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 `
 
 function Info() {
@@ -118,43 +138,50 @@ function Info() {
           </h1>
         )}
         {!appLoaded && (
-          <SkeletonHeader>
+          <SkeletonContainer>
             <Skeleton count={2} />
-          </SkeletonHeader>
+          </SkeletonContainer>
         )}
         {appLoaded && <h2>{t("info")}</h2>}
         {!appLoaded && (
-          <SkeletonHeader as="h2">
+          <SkeletonContainer as="h2">
             <Skeleton count={1} />
-          </SkeletonHeader>
+          </SkeletonContainer>
         )}
       </TextColumn>
-      <Sponsors>
-        <SponsorContainer>
-          <Image
-            src="/sponsors/binance.png"
-            width={383}
-            height={79}
-            alt="BINANCE CHAIN"
-          />
-        </SponsorContainer>
-        <SponsorContainer>
-          <Image
-            src="/sponsors/avalanche.png"
-            width={349}
-            height={64}
-            alt="AVALANCHE"
-          />
-        </SponsorContainer>
-        <SponsorContainer>
-          <Image
-            src="/sponsors/fantom.png"
-            width={210}
-            height={56}
-            alt="fantom"
-          />
-        </SponsorContainer>
-      </Sponsors>
+      <SponsorsContainer>
+        <Sponsors isLoading={!appLoaded}>
+          <SponsorContainer>
+            <Image
+              src="/sponsors/binance.png"
+              width={383}
+              height={79}
+              alt="BINANCE CHAIN"
+            />
+          </SponsorContainer>
+          <SponsorContainer>
+            <Image
+              src="/sponsors/avalanche.png"
+              width={349}
+              height={64}
+              alt="AVALANCHE"
+            />
+          </SponsorContainer>
+          <SponsorContainer>
+            <Image
+              src="/sponsors/fantom.png"
+              width={210}
+              height={56}
+              alt="fantom"
+            />
+          </SponsorContainer>
+        </Sponsors>
+        {!appLoaded && (
+          <AbsoluteSkeletonContainer>
+            <Skeleton height={20} />
+          </AbsoluteSkeletonContainer>
+        )}
+      </SponsorsContainer>
     </Container>
   )
 }

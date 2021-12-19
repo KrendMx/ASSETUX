@@ -13,6 +13,7 @@ import {
   setMobileLayoutForTablet,
   setAppLoaded
 } from "@/src/redux/uiSlice"
+import { getBlockchains } from "@/src/redux/cryptoSlice"
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"
 import { mobile, tablet, mobileLaoyutForTablet } from "@/src/constants"
@@ -62,9 +63,10 @@ function MyApp(props: AppProps) {
 
     window.onload = () => {
       console.log("[App] Page loaded")
-      setTimeout(() => {
-        dispatch(setAppLoaded())
-      }, 2000)
+      dispatch(setAppLoaded())
+      // setTimeout(() => {
+      //   dispatch(setAppLoaded())
+      // }, 5000)
     }
 
     window.addEventListener("resize", handleResize)
@@ -72,6 +74,7 @@ function MyApp(props: AppProps) {
     handleResize()
     checkCurrency(dispatch)
     checkLocale(router)
+    dispatch(getBlockchains())
 
     router.events.on("routeChangeStart", handleRouteChange)
     router.events.on("routeChangeComplete", handleRouteComplete)

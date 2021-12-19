@@ -3,19 +3,19 @@ import { mobile } from "@/src/constants"
 import Step from "./Steps"
 
 type ContainerProps = {
-  step?: Step
+  formStep?: Step
 }
 
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: ${(props) => (props.step == Step.Payment ? "617px" : "456px")};
+  height: ${(props) => (props.formStep == Step.Payment ? "617px" : "456px")};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   @media only screen and (max-width: ${mobile}px) {
-    height: 425px;
+    height: ${(props) => (props.formStep == Step.Payment ? "581px" : "425px")};
   }
 `
 

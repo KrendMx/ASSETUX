@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Table from "./Table"
+import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 
 const Container = styled.section`
@@ -17,6 +18,10 @@ const TitleRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+
+  & > h3 {
+    flex-grow: 1;
+  }
 `
 
 const AllLink = styled(AdaptiveFont).attrs({
@@ -69,14 +74,17 @@ const Search = styled.div`
 
 function CryptoExplorer() {
   const isMobile = useAppSelector((state) => state.ui.isMobile)
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   return (
     <Container>
       <TitleRow>
-        <h3>Crypto Explorer</h3>
-        <AllLink as="a" href="#">
-          {isMobile ? "View all" : "View all supported currencies"}
-        </AllLink>
+        <h3>{appLoaded ? "Crypto Explorer" : <Skeleton />}</h3>
+        {appLoaded && (
+          <AllLink as="a" href="#">
+            {isMobile ? "View all" : "View all supported currencies"}
+          </AllLink>
+        )}
       </TitleRow>
       {/* <ControlRow>
         <ButtonRow>

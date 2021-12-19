@@ -66,6 +66,7 @@ input {
     url("/fonts/SFProDisplay-Semibold.woff") format("woff"),
     url("/fonts/SFProDisplay-Semibold.ttf") format("truetype");
   font-weight: 600;
+  font-display: block;
   font-style: normal;
 }
 
@@ -78,6 +79,7 @@ input {
     url("/fonts/SFProDisplay-Medium.woff") format("woff"),
     url("/fonts/SFProDisplay-Medium.ttf") format("truetype");
   font-weight: 500;
+  font-display: block;
   font-style: normal;
 }
 
@@ -90,5 +92,6 @@ input {
     url("/fonts/SFProDisplay-Regular.woff") format("woff"),
     url("/fonts/SFProDisplay-Regular.ttf") format("truetype");
   font-weight: 400;
+  font-display: block;
   font-style: normal;
 }

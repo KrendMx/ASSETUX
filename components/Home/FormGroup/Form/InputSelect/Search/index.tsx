@@ -57,6 +57,15 @@ const Label = styled.h5`
   }
 `
 
+const NoResultsLabel = styled(Label)`
+  margin: 0;
+  margin-top: 40px;
+
+  @media only screen and (max-width: ${mobile}px) {
+    margin-top: 32px;
+  } 
+`
+
 const ItemValue = styled.span`
   font-size: 1em;
   color: var(--gray);
@@ -150,31 +159,35 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
           onChange={handleInput}
         />
       </Item>
-      {searchedOptions.slice(0, display).map((option) => (
-        <Item
-          key={option.value}
-          onClick={() => {
-            onSelect(option.value)
-          }}
-          selectable
-        >
-          {option.icon ? (
-            <Shadow>
-              <ImageContainer>
-                <Image
-                  src={option.icon}
-                  layout="fill"
-                  alt="Logo"
-                  unoptimized={!optimizeRemoteImages}
-                />
-              </ImageContainer>
-            </Shadow>
-          ) : (
-            <Shadow />
-          )}
-          <ItemValue>{option.description}</ItemValue>
-        </Item>
-      ))}
+      {searchedOptions.length > 0 ? (
+        searchedOptions.slice(0, display).map((option) => (
+          <Item
+            key={option.value}
+            onClick={() => {
+              onSelect(option.value)
+            }}
+            selectable
+          >
+            {option.icon ? (
+              <Shadow>
+                <ImageContainer>
+                  <Image
+                    src={option.icon}
+                    layout="fill"
+                    alt="Logo"
+                    unoptimized={!optimizeRemoteImages}
+                  />
+                </ImageContainer>
+              </Shadow>
+            ) : (
+              <Shadow />
+            )}
+            <ItemValue>{option.description}</ItemValue>
+          </Item>
+        ))
+      ) : (
+        <NoResultsLabel>No results</NoResultsLabel>
+      )}
     </>
   )
 }

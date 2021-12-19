@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import type { ChangeEventHandler } from "react"
 import Image from "next/image"
 import styled from "styled-components"
@@ -46,6 +46,7 @@ type InputSelectProps = {
   displayInSelect?: number
   selectLabel?: string
   id?: string
+  error?: boolean
 }
 
 function InputSelect({
@@ -58,6 +59,7 @@ function InputSelect({
   id,
   onChange,
   value,
+  error = false,
   displayIcon = false,
   defaultIndex = 0,
   defaultValue = "",
@@ -69,6 +71,10 @@ function InputSelect({
     hasOptions ? options[defaultIndex].value : null
   )
   const [userInput, setUserInput] = useState(defaultValue)
+  const searchOptions = useMemo(
+    () => options?.filter((option) => option.value != selectedValue),
+    [selectedValue, options]
+  )
   const hideLabel =
     active && ((changeable != undefined && changeable) || value != undefined)
   let selectedOption: Option | undefined
@@ -139,7 +145,7 @@ function InputSelect({
 
   return (
     <Container resetFirstChild={selectLabel == "undefined"}>
-      <InputWrapper active={active} bigger={hideLabel}>
+      <InputWrapper active={active} error={error}>
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && <Label htmlFor={id}>{label}</Label>}
           {hideLabel &&
@@ -167,46 +173,48 @@ function InputSelect({
           />
         </InputContainer>
         {selectedOption && (
-          <InfoContainer
-            onlyImage={selectedOption?.icon != undefined}
-            active={active}
-          >
-            {displayIcon ? (
-              selectedOption.icon ? (
-                <ImageBox>
-                  <ImageContainer>
-                    <Image
-                      src={selectedOption.icon}
-                      layout="fill"
-                      alt="Logo"
-                      unoptimized={!optimizeRemoteImages}
-                    />
-                  </ImageContainer>
-                </ImageBox>
+          <>
+            <InfoContainer
+              onlyImage={selectedOption?.icon != undefined}
+              active={active}
+            >
+              {displayIcon ? (
+                selectedOption.icon ? (
+                  <ImageBox>
+                    <ImageContainer>
+                      <Image
+                        src={selectedOption.icon}
+                        layout="fill"
+                        alt="Logo"
+                        unoptimized={!optimizeRemoteImages}
+                      />
+                    </ImageContainer>
+                  </ImageBox>
+                ) : (
+                  <Placeholder />
+                )
               ) : (
-                <Placeholder />
-              )
-            ) : (
-              <>
-                {selectedOption.description && !hideLabel && (
-                  <Label>
-                    {selectedOption.shortDescription &&
-                      ellipsisString(selectedOption.shortDescription, 5)}
-                  </Label>
-                )}
-                <Bold>{selectedOption.value}</Bold>
-              </>
-            )}
+                <>
+                  {selectedOption.description && !hideLabel && (
+                    <Label>
+                      {selectedOption.shortDescription &&
+                        ellipsisString(selectedOption.shortDescription, 5)}
+                    </Label>
+                  )}
+                  <Bold>{selectedOption.value}</Bold>
+                </>
+              )}
+            </InfoContainer>
             <Arrow active={active} aria-label="Open" onClick={toggle}>
               <IoIosArrowDown />
             </Arrow>
-          </InfoContainer>
+          </>
         )}
       </InputWrapper>
-      {hasOptions && (
+      {searchOptions && (
         <Search
           display={displayInSelect}
-          options={options}
+          options={searchOptions}
           onSelect={handleSelect}
           label={selectLabel}
           hide={!active}

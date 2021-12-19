@@ -3,7 +3,7 @@ import { mobile } from "@/src/constants"
 
 type InputWrapperProps = {
   active: boolean
-  bigger: boolean
+  error: boolean
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -17,7 +17,11 @@ const InputWrapper = styled.div<InputWrapperProps>`
   border: 1px solid #d2d2d7;
   outline: none;
   box-shadow: ${(props) =>
-    props.active ? "0px 0px 0.00000001px 3px #8bb0fa" : "none"};
+    props.error
+      ? "0px 0px 0.00000001px 3px #FF3333"
+      : props.active
+      ? "0px 0px 0.00000001px 3px #8bb0fa"
+      : "none"};
   border-radius: 10px;
   padding: 0 20px;
   font-size: 1rem;

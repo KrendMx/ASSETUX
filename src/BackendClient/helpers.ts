@@ -29,3 +29,7 @@ export const handleRequest = async (
     }
   }
 }
+
+export const constructURL = (apiHost: string) => {
+  return `${process.env.NEXT_PUBLIC_HOST_PROTOCOL}://${apiHost}`
+}
