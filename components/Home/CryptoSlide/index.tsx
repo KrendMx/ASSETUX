@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect } from "react"
+import React, { useRef, useState, useEffect, useMemo } from "react"
 import styled from "styled-components"
 import Slider from "@/shared/Slider"
 import Element from "./Element"
+import { useAppSelector } from "@/src/redux/hooks"
 import useSliderConfig from "../sliderConfig"
-import { mobile } from "@/src/constants"
+import type { Token } from "@/src/BackendClient/types"
 
 const desktopPaddings = 125
 
@@ -24,11 +25,33 @@ const CenteredRow = styled.div`
   padding: 0 var(--paddings);
 `
 
+const mapTokens = (tokens: Token[]) => {
+  return tokens.map((token) => (
+    <Element key={token.id} icon={token.logo_uri} symbol={token.symbol} />
+  ))
+}
+
+const getSkeletons = () => {
+  const skeletons = []
+  for (let i = 0; i < 6; i++) {
+    skeletons.push(<Element key={i} />)
+  }
+  return skeletons
+}
+
 function CryptoSlide() {
+  const availableTokens = useAppSelector(
+    (state) => state.crypto.availableTokens
+  )
   const [desktopOffset, setDesktopOffset] = useState(0)
   const sliderConfig = useSliderConfig({ desktopOffset })
   const rowRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const mappedTokens = useMemo(
+    () => availableTokens && mapTokens(availableTokens),
+    [availableTokens]
+  )
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,17 +76,7 @@ function CryptoSlide() {
     <Container ref={containerRef}>
       <CenteredRow ref={rowRef} />
       <Slider {...sliderConfig}>
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
-        <Element />
+        {mappedTokens ? mappedTokens : getSkeletons()}
       </Slider>
     </Container>
   )

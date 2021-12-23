@@ -25,11 +25,13 @@ const Container = styled(AdaptiveFont).attrs({
 const BuyButton = styled(Button)`
   border-top-right-radius: ${(props) => (props.active ? "10px" : 0)};
   border-top-left-radius: 10px;
+  color: ${(props) => (props.active ? "var(--green)" : "#6E6E73")};
 `
 
 const SellButton = styled(Button)`
   border-top-left-radius: ${(props) => (props.active ? "10px" : 0)};
   border-top-right-radius: 10px;
+  color: ${(props) => (props.active ? "var(--red)" : "#6E6E73")};
 `
 
 const SkeletonContainer = styled.span`

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo, useRef } from "react"
 import { useAppSelector } from "@/src/redux/hooks"
-import dynamic from "next/dynamic"
 import BackendClient from "@/src/BackendClient"
+import SellForm from "./SellForm"
+import BuyForm from "./BuyForm"
 import { Option } from "./InputSelect/types"
 import {
   currencies as definedCurrencies,
@@ -12,9 +13,6 @@ import { rateCheckInterval } from "@/src/constants"
 import type { TokenOption } from "./types"
 import type { CurrenciesType } from "@/src/currencies"
 import type { Token, FiatProvider, FiatRate } from "@/src/BackendClient/types"
-
-const SellForm = dynamic(() => import("./SellForm"))
-const BuyForm = dynamic(() => import("./BuyForm"))
 
 const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
@@ -49,6 +47,10 @@ function FormController() {
   const availableBlockchains = useAppSelector(
     (state) => state.crypto.availableBlockchains
   )
+  const availableTokens = useAppSelector(
+    (state) => state.crypto.availableTokens
+  )
+  const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
   const [blockchains, setBlockchains] = useState<Option[] | null>(null)
   const [tokens, setTokens] = useState<TokenOption[] | null>(null)
@@ -72,30 +74,21 @@ function FormController() {
     if (selectedBlockchain) {
       const fetch = async () => {
         const responses = await Promise.all([
-          BackendClient.getTokens({ apiHost: selectedBlockchain.url }),
           BackendClient.getFiatProviders({ apiHost: selectedBlockchain.url }),
           BackendClient.getFiatRates({ apiHost: selectedBlockchain.url })
         ])
 
         if (!isUnmounted.current) {
           if (responses[0].status == 200) {
-            const tokens = responses[0].data
-
-            const mappedTokens = tokens ? mapTokens(tokens) : null
-
-            setTokens(mappedTokens)
-          }
-
-          if (responses[1].status == 200) {
-            const payments = responses[1].data
+            const payments = responses[0].data
 
             if (payments) {
               setPayments(payments)
             }
           }
 
-          if (responses[2].status == 200) {
-            const fiatRates = responses[2].data
+          if (responses[1].status == 200) {
+            const fiatRates = responses[1].data
 
             if (fiatRates) {
               setFiatRates(fiatRates)
@@ -156,6 +149,12 @@ function FormController() {
     }
   }, [availableBlockchains])
 
+  useEffect(() => {
+    if (availableTokens) {
+      setTokens(mapTokens(availableTokens))
+    }
+  }, [availableTokens])
+
   return action == "BUY" ? (
     <BuyForm
       blockchains={blockchains}
@@ -165,9 +164,19 @@ function FormController() {
       payments={buyPayments}
       firstLoad={!switchedTabs}
       currentBlockchain={selectedBlockchain}
+      currentToken={selectedToken}
     />
   ) : (
-    <SellForm />
+    <SellForm
+      blockchains={blockchains}
+      tokens={tokens}
+      currencies={currencies}
+      rates={fiatRates}
+      payments={payments}
+      firstLoad={false}
+      currentBlockchain={selectedBlockchain}
+      currentToken={selectedToken}
+    />
   )
 }
 

@@ -14,7 +14,6 @@ const Button = styled.button<ButtonProps>`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => (props.active ? "var(--bgColor)" : "#F5F5F5")};
-  color: ${(props) => (props.active ? "var(--green)" : "#6E6E73")};
   font-size: ${(props) => (props.active ? "0.95em" : "0.79em")};
   font-weight: ${(props) => (props.active ? 500 : 400)};
   cursor: pointer;

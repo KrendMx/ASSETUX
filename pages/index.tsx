@@ -1,13 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
+import dynamic from "next/dynamic"
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import FormGroup from "@/components/Home/FormGroup"
-import CryptoSlide from "@/components/Home/CryptoSlide"
-import CryptoExplorer from "@/components/Home/CryptoExplorer"
-import NewsRoom from "@/components/Home/NewsRoom"
-import AboutUs from "@/components/Home/AboutUs"
 import { mobile, mobileLaoyutForTablet } from "@/src/constants"
+import { getBlockchains, getTokens } from "@/src/redux/cryptoSlice"
 import type { GetStaticProps } from "next"
+
+const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
+const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
+const NewsRoom = dynamic(() => import("@/components/Home/NewsRoom"))
+const AboutUs = dynamic(() => import("@/components/Home/AboutUs"))
 
 const Container = styled.div`
   width: 100%;
@@ -60,6 +64,25 @@ const Container = styled.div`
   }
 `
 
+function CryptoManager() {
+  const dispatch = useAppDispatch()
+  const selectedBlockchain = useAppSelector(
+    (state) => state.crypto.selectedBlockchain
+  )
+
+  useEffect(() => {
+    dispatch(getBlockchains())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (selectedBlockchain) {
+      dispatch(getTokens())
+    }
+  }, [selectedBlockchain, dispatch])
+
+  return null
+}
+
 function Index() {
   return (
     <Container>
@@ -68,6 +91,8 @@ function Index() {
       <CryptoExplorer />
       <NewsRoom />
       <AboutUs />
+
+      <CryptoManager />
     </Container>
   )
 }

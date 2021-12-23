@@ -13,7 +13,6 @@ import {
   setMobileLayoutForTablet,
   setAppLoaded
 } from "@/src/redux/uiSlice"
-import { getBlockchains } from "@/src/redux/cryptoSlice"
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"
 import { mobile, tablet, mobileLaoyutForTablet } from "@/src/constants"
@@ -74,7 +73,6 @@ function MyApp(props: AppProps) {
     handleResize()
     checkCurrency(dispatch)
     checkLocale(router)
-    dispatch(getBlockchains())
 
     router.events.on("routeChangeStart", handleRouteChange)
     router.events.on("routeChangeComplete", handleRouteComplete)

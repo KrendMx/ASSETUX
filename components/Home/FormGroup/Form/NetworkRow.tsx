@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import Help from "../../Help"
+import Help from "./Help"
 import { mobile } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 

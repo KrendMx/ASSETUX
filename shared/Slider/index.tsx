@@ -6,6 +6,8 @@ import Element from "./Element"
 import { useSwipeable } from "react-swipeable"
 import { useAppSelector } from "@/src/redux/hooks"
 
+const swipeTimeout = 1 * 10e1
+
 const preventer = (event: Event) => {
   if (event.cancelable) {
     event.preventDefault()
@@ -44,6 +46,7 @@ function Slider({
   const [swipedPixels, setSwipePixels] = useState(0)
   const [checkedBasis, setCheckedBasis] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const lastSwipe = useRef<number | null>(null)
   const hovered = useRef(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const childrenLength = Array.isArray(children) ? children.length : 1
@@ -59,32 +62,41 @@ function Slider({
       setSwipePixels(0)
     },
     onSwipedLeft: () => {
-      next()
+      swipe("left")
     },
     onSwipedRight: () => {
-      previous()
+      swipe("right")
     },
     ...swipeProps
   })
 
-  const next = () => {
-    if (currentIndex + toShow < childrenLength) {
-      setCurrentIndex(currentIndex + 1)
+  const swipe = (direction: "left" | "right") => {
+    let canSwipe = false
+    if (direction == "left") {
+      canSwipe = currentIndex + toShow < childrenLength
+    } else {
+      canSwipe = currentIndex > 0
     }
-  }
-
-  const previous = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1)
+    if (canSwipe) {
+      const currentDate = Date.now()
+      if (
+        lastSwipe.current == null ||
+        currentDate - lastSwipe.current >= swipeTimeout
+      ) {
+        lastSwipe.current = currentDate
+        const newIndex =
+          direction == "left" ? currentIndex + 1 : currentIndex - 1
+        setCurrentIndex(newIndex)
+      }
     }
   }
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!isMobile && hovered.current) {
+    if (!isMobile && hovered.current && Math.abs(event.deltaY) > 5) {
       if (event.deltaY > 0) {
-        next()
+        swipe("left")
       } else {
-        previous()
+        swipe("right")
       }
     }
   }
@@ -140,6 +152,9 @@ function Slider({
         animate={swipedPixels == 0}
         offsetX={currentIndex * -swipeOffset + swipedPixels}
         gap={gap}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        onWheel={handleWheel}
         onTouchStart={() => {
           window.addEventListener("touchmove", preventer, preventerOpts)
         }}
@@ -149,23 +164,10 @@ function Slider({
         {...swipeHandlers}
       >
         {!Array.isArray(children) ? (
-          <Element
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-            onWheel={handleWheel}
-            basis={checkedBasis}
-          >
-            {children}
-          </Element>
+          <Element basis={checkedBasis}>{children}</Element>
         ) : (
           children.map((child, index) => (
-            <Element
-              onMouseEnter={handleEnter}
-              onMouseLeave={handleLeave}
-              onWheel={handleWheel}
-              basis={checkedBasis}
-              key={index}
-            >
+            <Element basis={checkedBasis} key={index}>
               {child}
             </Element>
           ))

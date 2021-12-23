@@ -1,14 +1,13 @@
 import React, { useState } from "react"
-import styled from "styled-components"
 import Container from "./Container"
 import InputSelect from "../../InputSelect"
-import Hideable from "@/shared/Hideable"
 import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
 import ExchangeRow from "../../Exchange"
-import NetworkRow from "./NetworkRow"
+import NetworkRow from "../../NetworkRow"
+import HideableWithMargin from "../../HideableWithMargin"
 import Step from "./Steps"
-import { mobile, emailRegexp, floatRegexp } from "@/src/constants"
+import { emailRegexp, floatRegexp } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import type { Error } from "./types"
@@ -23,18 +22,6 @@ const inputIds = {
   blockchains: "blockchains",
   payments: "payments"
 }
-
-type HideableWithMarginProps = {
-  margins?: boolean
-}
-
-const HideableWithMargin = styled(Hideable)<HideableWithMarginProps>`
-  margin-top: ${(props) => (props.margins ? "16px" : "0px")};
-
-  @media only screen and (max-width: ${mobile}px) {
-    margin-top: ${(props) => (props.margins ? "13px" : "0px")};
-  }
-`
 
 type CurrencyFormProps = {
   defaultBlockchainIndex: number

@@ -11,6 +11,7 @@ const Input = styled.input`
 
   &:disabled {
     opacity: 1;
+    -webkit-text-fill-color: var(--black);
     font-size: 1em;
     font-weight: 500;
     color: var(--black);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
-import CurrencyForm from "./CurrencyForm"
+import SelectForm from "./SelectForm"
 import { useAppSelector } from "@/src/redux/hooks"
 import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
@@ -7,11 +7,13 @@ import type { PaymentOption, TokenOption } from "../types"
 import type {
   FiatRate,
   FiatProvider,
-  Blockchain
+  Blockchain,
+  Token
 } from "@/src/BackendClient/types"
 
 type BuyFormProps = {
   currentBlockchain: Blockchain | null
+  currentToken: Token | null
   blockchains: Option[] | null
   currencies: Option[] | null
   tokens: TokenOption[] | null
@@ -22,6 +24,7 @@ type BuyFormProps = {
 
 function BuyForm({
   currentBlockchain,
+  currentToken,
   blockchains,
   currencies,
   tokens,
@@ -30,7 +33,6 @@ function BuyForm({
   firstLoad
 }: BuyFormProps) {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
-  const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
@@ -40,8 +42,8 @@ function BuyForm({
     PaymentOption[] | null
   >(null)
   const currentRate = useMemo(() => {
-    if (rates && selectedToken && selectedCurrency) {
-      const rate = rates.find((rate) => rate.name == selectedToken)
+    if (rates && currentToken && selectedCurrency) {
+      const rate = rates.find((rate) => rate.name == currentToken.symbol)
       if (rate) {
         return rate.buy[selectedCurrency]
       }
@@ -50,7 +52,7 @@ function BuyForm({
     }
 
     return null
-  }, [rates, selectedToken, selectedCurrency])
+  }, [rates, currentToken, selectedCurrency])
   const defaultCurrencyIndex = currencies
     ? currencies.findIndex((currency) => currency.value == currentCurrency)
     : 0
@@ -62,10 +64,8 @@ function BuyForm({
       : 0
 
   const onSubmit = () => {
-    if (currentBlockchain && tokens) {
-      const tokenAddress = tokens.find(
-        (token) => token.value == selectedToken
-      )?.address
+    if (currentBlockchain && currentToken) {
+      const tokenAddress = currentToken.address
 
       if (tokenAddress && selectedPayment) {
         BackendClient.getPaymentUrl({
@@ -85,12 +85,6 @@ function BuyForm({
   useEffect(() => {
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
-
-  useEffect(() => {
-    if (!selectedToken && tokens) {
-      setSelectedToken(tokens[0].value)
-    }
-  }, [tokens, selectedToken])
 
   useEffect(() => {
     if (selectedCurrency && payments) {
@@ -116,7 +110,7 @@ function BuyForm({
   }, [processedPayments, selectedPayment])
 
   return (
-    <CurrencyForm
+    <SelectForm
       defaultBlockchainIndex={defaultBlockchainIndex}
       blockchains={blockchains}
       defaultCurrencyIndex={
@@ -125,7 +119,7 @@ function BuyForm({
       currentCurrency={selectedCurrency}
       currencies={currencies}
       defaultTokenIndex={0}
-      currentToken={selectedToken}
+      currentToken={currentToken && currentToken.symbol}
       tokens={tokens}
       defaultPaymentIndex={0}
       currentPayment={selectedPayment}
@@ -137,7 +131,7 @@ function BuyForm({
       firstLoad={firstLoad}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
-      onTokenChange={setSelectedToken}
+      onTokenChange={(token) => {}}
       onPaymentChange={setSelectedPayment}
       onWalletChange={setWalletAddress}
       onGiveAmountChange={setGiveAmount}
