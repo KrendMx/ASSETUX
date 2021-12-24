@@ -92,7 +92,7 @@ function Slider({
   }
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!isMobile && hovered.current && Math.abs(event.deltaY) > 5) {
+    if (!isMobile && hovered.current && Math.abs(event.deltaY) > 20) {
       if (event.deltaY > 0) {
         swipe("left")
       } else {
@@ -148,10 +148,7 @@ function Slider({
       vertPadding={vertPadding}
       ref={containerRef}
     >
-      <Content
-        animate={swipedPixels == 0}
-        offsetX={currentIndex * -swipeOffset + swipedPixels}
-        gap={gap}
+      <div
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         onWheel={handleWheel}
@@ -163,16 +160,22 @@ function Slider({
         }}
         {...swipeHandlers}
       >
-        {!Array.isArray(children) ? (
-          <Element basis={checkedBasis}>{children}</Element>
-        ) : (
-          children.map((child, index) => (
-            <Element basis={checkedBasis} key={index}>
-              {child}
-            </Element>
-          ))
-        )}
-      </Content>
+        <Content
+          animate={swipedPixels == 0}
+          offsetX={currentIndex * -swipeOffset + swipedPixels}
+          gap={gap}
+        >
+          {!Array.isArray(children) ? (
+            <Element basis={checkedBasis}>{children}</Element>
+          ) : (
+            children.map((child, index) => (
+              <Element basis={checkedBasis} key={index}>
+                {child}
+              </Element>
+            ))
+          )}
+        </Content>
+      </div>
     </Container>
   )
 }
