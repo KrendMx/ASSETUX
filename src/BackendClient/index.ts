@@ -1,4 +1,5 @@
 import { handleRequest, constructURL } from "./helpers"
+import config from "../config"
 import type {
   GetFiatRates,
   GetTokens,
@@ -40,7 +41,7 @@ class BackendClient {
 
   public async getBlockchains(): Promise<GetBlockchains> {
     return handleRequest({
-      url: `${process.env.NEXT_PUBLIC_HOST_PROTOCOL}://bsc.${process.env.NEXT_PUBLIC_HOST}/api/blockchains`,
+      url: `${config.hostProtocol}://bsc.${config.host}/api/blockchains`,
       method: "GET",
       headers: this.headers
     })

@@ -1,4 +1,5 @@
 import axios from "axios"
+import config from "../config"
 import type { AxiosRequestConfig } from "axios"
 
 type ResponseType = {
@@ -31,5 +32,5 @@ export const handleRequest = async (
 }
 
 export const constructURL = (apiHost: string) => {
-  return `${process.env.NEXT_PUBLIC_HOST_PROTOCOL}://${apiHost}`
+  return `${config.hostProtocol}://${apiHost}`
 }
