@@ -5,7 +5,7 @@ import Content from "./Content"
 import Element from "./Element"
 import { useSwipeable } from "react-swipeable"
 import { useAppSelector } from "@/src/redux/hooks"
-import { preventerOpts, swipeProps, swipeTimeout } from "./config"
+import { preventerOpts, swipeProps, swipeTimeout, wheelDelta } from "./config"
 
 const preventer = (event: Event) => {
   if (event.cancelable) {
@@ -79,7 +79,7 @@ function Slider({
   }
 
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!isMobile && hovered.current && Math.abs(event.deltaY) > 20) {
+    if (!isMobile && hovered.current && Math.abs(event.deltaY) > wheelDelta) {
       if (event.deltaY > 0) {
         swipe("left")
       } else {

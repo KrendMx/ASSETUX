@@ -11,3 +11,5 @@ export const swipeProps = {
 }
 
 export const swipeTimeout = 1 * 10e1
+
+export const wheelDelta = 20
