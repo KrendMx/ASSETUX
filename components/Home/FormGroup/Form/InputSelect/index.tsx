@@ -47,6 +47,7 @@ type InputSelectProps = {
   selectLabel?: string
   id?: string
   error?: boolean
+  selectable?: boolean
 }
 
 function InputSelect({
@@ -63,7 +64,8 @@ function InputSelect({
   displayIcon = false,
   defaultIndex = 0,
   defaultValue = "",
-  displayInSelect = 3
+  displayInSelect = 3,
+  selectable = true
 }: InputSelectProps) {
   const hasOptions = options != undefined
   const [active, setActive] = useState(false)
@@ -145,7 +147,7 @@ function InputSelect({
 
   return (
     <Container resetFirstChild={selectLabel == "undefined"}>
-      <InputWrapper active={active} error={error}>
+      <InputWrapper active={active} error={error} selectable={selectable}>
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && <Label htmlFor={id}>{label}</Label>}
           {hideLabel &&
@@ -177,6 +179,7 @@ function InputSelect({
             <InfoContainer
               onlyImage={selectedOption?.icon != undefined}
               active={active}
+              selectable={selectable}
             >
               {displayIcon ? (
                 selectedOption.icon ? (
@@ -198,16 +201,20 @@ function InputSelect({
                   {selectedOption.description && !hideLabel && (
                     <Label>
                       {selectedOption.shortDescription &&
-                        ellipsisString(selectedOption.shortDescription, 5)}
+                        (selectable
+                          ? ellipsisString(selectedOption.shortDescription, 5)
+                          : selectedOption.shortDescription)}
                     </Label>
                   )}
                   <Bold>{selectedOption.value}</Bold>
                 </>
               )}
             </InfoContainer>
-            <Arrow active={active} aria-label="Open" onClick={toggle}>
-              <IoIosArrowDown />
-            </Arrow>
+            {selectable && (
+              <Arrow active={active} aria-label="Open" onClick={toggle}>
+                <IoIosArrowDown />
+              </Arrow>
+            )}
           </>
         )}
       </InputWrapper>

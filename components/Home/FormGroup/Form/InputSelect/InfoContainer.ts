@@ -4,10 +4,11 @@ import { mobile } from "@/src/constants"
 type InfoContainerProps = {
   onlyImage?: boolean
   active: boolean
+  selectable: boolean
 }
 
 const InfoContainer = styled.div<InfoContainerProps>`
-  flex: 0 0 80px;
+  flex: 0 0 ${(props) => (!props.selectable ? "50px" : "80px")};
   display: flex;
   flex-direction: column;
   align-items: flex-start;

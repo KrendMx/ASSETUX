@@ -4,6 +4,7 @@ import { mobile } from "@/src/constants"
 type InputWrapperProps = {
   active: boolean
   error: boolean
+  selectable: boolean
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -14,7 +15,8 @@ const InputWrapper = styled.div<InputWrapperProps>`
   flex-direction: row;
   width: 100%;
   height: 65px;
-  border: 1px solid #d2d2d7;
+  border: 1px solid
+    ${(props) => (props.selectable ? "#d2d2d7" : "var(--lightgray)")};
   outline: none;
   box-shadow: ${(props) =>
     props.error

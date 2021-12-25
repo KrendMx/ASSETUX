@@ -7,6 +7,7 @@ const Input = styled.input`
   font-weight: 500;
   color: var(--black);
   border: none;
+  background-color: var(--bgColor);
   outline: none;
 
   &:disabled {
