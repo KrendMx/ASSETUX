@@ -9,9 +9,12 @@ type ContainerProps = {
 }
 
 const Container = styled(AdaptiveFont).attrs({
-  mobileFactor: 1,
-  tabletFactor: 1
+  mobileFactor: 1.8,
+  tabletFactor: 1.25
 })<ContainerProps>`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: ${(props) => (props.active ? "245px" : "177px")};
   border-radius: 10px;
@@ -22,6 +25,11 @@ const Container = styled(AdaptiveFont).attrs({
 
   &:not(:last-child) {
     margin-right: 21px;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    height: 199px;
+    padding: 15px 14px;
   }
 `
 
@@ -45,6 +53,10 @@ const SymbolIconContainer = styled.div`
   & > * + * {
     margin-left: 15px;
   }
+
+  @media only screen and (max-width: ${mobile}px) {
+    font-size: 1em;
+  }
 `
 
 const IconContainer = styled.div`
@@ -55,6 +67,47 @@ const IconContainer = styled.div`
   border-radius: 8px;
   background-color: var(--bgColor);
   box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.12);
+`
+
+type ButtonRowProps = {
+  active: boolean
+}
+
+const ButtonRow = styled.div<ButtonRowProps>`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  opacity: ${(props) => (props.active ? 1 : 0)};
+
+  & > * + * {
+    margin-left: 11px;
+  }
+`
+
+const Button = styled.button`
+  flex: 1 1 auto;
+  display: flex;
+  height: 49px;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: 1px solid #d2d2d7;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.843em;
+
+  @media only screen and (max-width: ${mobile}px) {
+    font-size: 0.79em;
+  }
+`
+
+const BuyButton = styled(Button)`
+  color: var(--green);
+`
+
+const SellButton = styled(Button)`
+  color: var(--red);
 `
 
 type ElementProps = {
@@ -89,6 +142,10 @@ function Element({ icon, symbol }: ElementProps) {
         </SymbolIconContainer>
         <span>490$</span>
       </InfoRow>
+      <ButtonRow active={active}>
+        <BuyButton>Buy {symbol}</BuyButton>
+        <SellButton>Sell {symbol}</SellButton>
+      </ButtonRow>
     </Container>
   )
 }
