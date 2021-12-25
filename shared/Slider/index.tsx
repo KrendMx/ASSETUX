@@ -5,25 +5,12 @@ import Content from "./Content"
 import Element from "./Element"
 import { useSwipeable } from "react-swipeable"
 import { useAppSelector } from "@/src/redux/hooks"
-
-const swipeTimeout = 1 * 10e1
+import { preventerOpts, swipeProps, swipeTimeout } from "./config"
 
 const preventer = (event: Event) => {
   if (event.cancelable) {
     event.preventDefault()
   }
-}
-
-const preventerOpts = {
-  passive: false
-}
-
-const swipeProps = {
-  delta: 50,
-  preventDefaultTouchmoveEvent: false,
-  trackTouch: true,
-  trackMouse: false,
-  rotationAngle: 0
 }
 
 type SliderProps = {
