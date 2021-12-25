@@ -56,10 +56,6 @@ const Container = styled.div`
       margin-bottom: 48px;
     }
 
-    & > section:nth-child(2) {
-      margin-bottom: 79px;
-    }
-
     padding: 44px 0 30px;
   }
 `
