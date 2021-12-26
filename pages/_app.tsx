@@ -11,7 +11,8 @@ import {
   setDesktop,
   setBurgerActive,
   setMobileLayoutForTablet,
-  setAppLoaded
+  setAppLoaded,
+  setLanguageCurrencyActive
 } from "@/src/redux/uiSlice"
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"
@@ -36,6 +37,7 @@ function MyApp(props: AppProps) {
     const handleRouteChange = () => {
       console.log("[App] Route change")
       dispatch(setBurgerActive(false))
+      dispatch(setLanguageCurrencyActive(false))
     }
 
     const handleRouteComplete = () => {
