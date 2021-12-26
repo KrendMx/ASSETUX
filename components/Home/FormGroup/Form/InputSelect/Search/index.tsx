@@ -94,7 +94,6 @@ const Shadow = styled.div`
 `
 
 const ImageContainer = styled.div`
-  position: relative;
   width: 24px;
   height: 24px;
 
@@ -173,7 +172,9 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
                 <ImageContainer>
                   <Image
                     src={option.icon}
-                    layout="fill"
+                    width={24}
+                    height={24}
+                    layout="responsive"
                     alt="Logo"
                     unoptimized={!optimizeRemoteImages}
                   />

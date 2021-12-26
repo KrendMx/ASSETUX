@@ -156,7 +156,9 @@ function InputSelect({
                 <ImageContainer>
                   <Image
                     src={selectedOption.icon}
-                    layout="fill"
+                    width={24}
+                    height={24}
+                    layout="responsive"
                     alt="Logo"
                     unoptimized={!optimizeRemoteImages}
                   />
@@ -187,7 +189,9 @@ function InputSelect({
                     <ImageContainer>
                       <Image
                         src={selectedOption.icon}
-                        layout="fill"
+                        width={24}
+                        height={24}
+                        layout="responsive"
                         alt="Logo"
                         unoptimized={!optimizeRemoteImages}
                       />

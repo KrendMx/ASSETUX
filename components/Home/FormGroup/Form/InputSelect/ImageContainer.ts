@@ -1,7 +1,6 @@
 import styled from "styled-components"
 
 const ImageContainer = styled.div`
-  position: relative;
   display: block;
   width: 24px;
   height: 24px;
