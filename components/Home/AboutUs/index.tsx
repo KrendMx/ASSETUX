@@ -4,7 +4,7 @@ import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
-import { mobileLaoyutForTablet } from "@/src/constants"
+import { mobileLayoutForTablet } from "@/src/constants"
 
 const Container = styled.section`
   display: flex;
@@ -13,7 +13,7 @@ const Container = styled.section`
   max-width: var(--max-width);
   margin: 0 auto;
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     flex-direction: column;
     align-items: center;
   }
@@ -34,7 +34,7 @@ const AboutContainer = styled.div`
     margin-right: 60px;
   }
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     width: 100%;
     padding-top: 0;
     margin-right: 0;
@@ -57,7 +57,7 @@ const TextContainer = styled(AdaptiveFont).attrs({
     margin-bottom: 25px;
   }
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     p:not(:last-child) {
       margin-bottom: 15px;
     }
@@ -71,7 +71,7 @@ const ImageContainer = styled.div`
   max-width: 596px;
   max-height: 596px;
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     width: 100%;
   }
 `
@@ -83,7 +83,7 @@ const SkeletonContainer = styled.div`
   left: 0;
   top: 0;
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     padding: 20px;
   }
 `

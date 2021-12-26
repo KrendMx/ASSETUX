@@ -15,13 +15,14 @@ import {
 } from "@/src/redux/uiSlice"
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"
-import { mobile, tablet, mobileLaoyutForTablet } from "@/src/constants"
+import GlobalStyles from "@/styles/GlobalStyles"
+import { mobile, tablet, mobileLayoutForTablet } from "@/src/constants"
 import { checkCurrency } from "@/src/currencies"
 import { checkLocale } from "@/src/locales"
 import { SkeletonTheme } from "react-loading-skeleton"
 import type { AppProps } from "next/app"
 import "react-loading-skeleton/dist/skeleton.css"
-import "@/styles/globals.css"
+import "@/styles/fonts.css"
 
 const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {
   ssr: false
@@ -48,7 +49,7 @@ function MyApp(props: AppProps) {
     const handleResize = () => {
       if (window.innerWidth <= mobile) {
         dispatch(setMobile())
-      } else if (window.innerWidth <= mobileLaoyutForTablet) {
+      } else if (window.innerWidth <= mobileLayoutForTablet) {
         dispatch(setMobileLayoutForTablet())
         dispatch(setBurgerActive(false))
       } else if (window.innerWidth <= tablet) {
@@ -101,6 +102,7 @@ function MyApp(props: AppProps) {
         <ContentManager appProps={props} />
       </SkeletonTheme>
       <ScrollButton />
+      <GlobalStyles />
     </>
   )
 }

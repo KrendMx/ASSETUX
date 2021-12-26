@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react"
-import { calculateBasis } from "./helpers"
+import React, { useState, useRef } from "react"
 import Container from "./Container"
 import Content from "./Content"
 import Element from "./Element"
 import { useSwipeable } from "react-swipeable"
 import { useAppSelector } from "@/src/redux/hooks"
 import { preventerOpts, swipeProps, swipeTimeout, wheelDelta } from "./config"
+import type { ResponsiveProps } from "./types"
 
 const preventer = (event: Event) => {
   if (event.cancelable) {
@@ -19,7 +19,7 @@ type SliderProps = {
   gap: number
   horizPadding: number
   vertPadding: number
-  startOffset?: number
+  responsive?: ResponsiveProps[]
 }
 
 function Slider({
@@ -28,17 +28,14 @@ function Slider({
   gap,
   horizPadding,
   vertPadding,
-  startOffset
+  responsive
 }: SliderProps) {
   const [swipedPixels, setSwipePixels] = useState(0)
-  const [checkedBasis, setCheckedBasis] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const lastSwipe = useRef<number | null>(null)
   const hovered = useRef(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const childrenLength = Array.isArray(children) ? children.length : 1
-  const swipeOffset = checkedBasis + gap
-  const checkedStartOffset = startOffset ? startOffset : 0
   const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   const swipeHandlers = useSwipeable({
@@ -48,6 +45,8 @@ function Slider({
     onSwiped: () => {
       setSwipePixels(0)
     },
+    onSwipedDown: () => {}, // prevent scrolling
+    onSwipedUp: () => {}, // prevent scrolling
     onSwipedLeft: () => {
       swipe("left")
     },
@@ -98,42 +97,18 @@ function Slider({
     window.removeEventListener("wheel", preventer)
   }
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (containerRef.current) {
-        const contentWidth = containerRef.current.clientWidth
-
-        setCheckedBasis(
-          calculateBasis({
-            toShow,
-            contentWidth,
-            gap,
-            padding: horizPadding,
-            startOffset: checkedStartOffset
-          })
-        )
-      }
-    }
-
-    handleResize()
-
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [containerRef, toShow, gap, horizPadding, checkedStartOffset])
-
   if (!children) {
     return null
   }
 
   return (
     <Container
-      startPadding={checkedStartOffset}
       horizPadding={horizPadding}
       vertPadding={vertPadding}
       ref={containerRef}
+      toShow={toShow}
+      gap={gap}
+      responsive={responsive}
     >
       <div
         onMouseEnter={handleEnter}
@@ -149,16 +124,14 @@ function Slider({
       >
         <Content
           animate={swipedPixels == 0}
-          offsetX={currentIndex * -swipeOffset + swipedPixels}
-          gap={gap}
+          swipedPixels={swipedPixels}
+          currentIndex={currentIndex}
         >
           {!Array.isArray(children) ? (
-            <Element basis={checkedBasis}>{children}</Element>
+            <Element>{children}</Element>
           ) : (
             children.map((child, index) => (
-              <Element basis={checkedBasis} key={index}>
-                {child}
-              </Element>
+              <Element key={index}>{child}</Element>
             ))
           )}
         </Content>

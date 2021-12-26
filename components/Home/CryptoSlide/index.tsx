@@ -1,12 +1,11 @@
-import React, { useRef, useState, useEffect, useMemo } from "react"
+import React, { useMemo } from "react"
 import styled from "styled-components"
 import Slider from "@/shared/Slider"
 import Element from "./Element"
 import { useAppSelector } from "@/src/redux/hooks"
+import { mobile } from "@/src/constants"
 import useSliderConfig from "../sliderConfig"
 import type { Token } from "@/src/BackendClient/types"
-
-const desktopPaddings = 125
 
 const Container = styled.section`
   display: block;
@@ -15,14 +14,10 @@ const Container = styled.section`
 
   // override page padding
   padding: 0 !important;
-`
 
-const CenteredRow = styled.div`
-  margin: 0 auto;
-  width: 100%;
-  max-width: var(--max-width);
-  height: 0;
-  padding: 0 var(--paddings);
+  @media only screen and (max-width: ${mobile}px) {
+    height: auto;
+  }
 `
 
 const mapTokens = (tokens: Token[]) => {
@@ -43,38 +38,15 @@ function CryptoSlide() {
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
-  const [desktopOffset, setDesktopOffset] = useState(0)
-  const sliderConfig = useSliderConfig({ desktopOffset })
-  const rowRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const sliderConfig = useSliderConfig()
 
   const mappedTokens = useMemo(
     () => availableTokens && mapTokens(availableTokens),
     [availableTokens]
   )
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (rowRef.current && containerRef.current) {
-        const windowWidth = containerRef.current.clientWidth
-        const freeSpace =
-          windowWidth - (rowRef.current.clientWidth - desktopPaddings * 2)
-        setDesktopOffset(freeSpace / 2)
-      }
-    }
-
-    handleResize()
-
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [rowRef, containerRef])
-
   return (
-    <Container ref={containerRef}>
-      <CenteredRow ref={rowRef} />
+    <Container>
       <Slider {...sliderConfig}>
         {mappedTokens ? mappedTokens : getSkeletons()}
       </Slider>

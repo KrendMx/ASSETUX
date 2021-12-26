@@ -1,23 +1,25 @@
 import styled from "styled-components"
 
 type ContentProps = {
-  gap: number
-  offsetX: number
+  swipedPixels: number
   animate: boolean
+  currentIndex: number
 }
 
-const Content = styled.div.attrs<ContentProps>(({ offsetX }) => ({
-  style: {
-    transform: `translateX(${offsetX}px)`
-  }
-}))<ContentProps>`
+const Content = styled.div.attrs<ContentProps>(
+  ({ swipedPixels, currentIndex }) => ({
+    style: {
+      transform: `translateX(calc(var(--start-offset) + ${swipedPixels}px - (${currentIndex} * (var(--element-width) + var(--element-gap)))))`
+    }
+  })
+)<ContentProps>`
   width: 100%;
   display: flex;
   flex-direction: row;
   transition: ${(props) => (props.animate ? "transform 0.3s linear" : "")};
 
   & > *:not(:last-child) {
-    margin-right: ${(props) => `${props.gap}px`};
+    margin-right: var(--element-gap);
   }
 `
 

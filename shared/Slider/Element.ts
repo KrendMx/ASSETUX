@@ -1,13 +1,7 @@
 import styled from "styled-components"
 
-type ElementProps = {
-  basis: number
-}
-
-const Element = styled.div.attrs<ElementProps>(({ basis }) => ({
-  style: {
-    flex: `0 0 ${basis}px`
-  }
-}))<ElementProps>``
+const Element = styled.div`
+  flex: 0 0 var(--element-width);
+`
 
 export default Element

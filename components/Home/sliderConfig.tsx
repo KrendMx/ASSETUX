@@ -1,44 +1,30 @@
-import { useAppSelector } from "@/src/redux/hooks"
+import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
-type UseSliderConfigProps = {
-  desktopOffset: number
-}
-
-function useSliderConfig({ desktopOffset }: UseSliderConfigProps) {
-  const isMobileLayoutForTablet = useAppSelector(
-    (state) => state.ui.isMobileLayoutForTablet
-  )
-  const isMobile = useAppSelector((state) => state.ui.isMobile)
-  const isTablet = useAppSelector((state) => state.ui.isTablet)
-
-  let toShow = 3
-  if (isMobileLayoutForTablet) {
-    toShow = 2
-  } else if (isMobile) {
-    toShow = 1
-  }
-
-  let gap = 19
-  if (isMobile) {
-    gap = 15
-  }
-
-  let startOffset = desktopOffset
-  if (isMobile) {
-    startOffset = 38
-  } else if (isTablet || isMobileLayoutForTablet) {
-    startOffset = 18
-  }
-
+function useSliderConfig() {
+  const toShow = 3
+  const gap = 19
   const vertPadding = 19
   const horizPadding = 0
 
+  const responsive = [
+    {
+      resolution: mobileLayoutForTablet,
+      toShow: 2,
+      gap: 19
+    },
+    {
+      resolution: mobile,
+      toShow: 1,
+      gap: 15
+    }
+  ]
+
   return {
     gap,
-    startOffset,
     toShow,
     vertPadding,
-    horizPadding
+    horizPadding,
+    responsive
   }
 }
 

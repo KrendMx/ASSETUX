@@ -33,17 +33,19 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   useEffect(() => {
-    const handleClick = () => {
-      !isMobile && dispatch(setLanguageCurrencyActive(false))
-    }
+    if (!isMobile) {
+      const handleClick = () => {
+        dispatch(setLanguageCurrencyActive(false))
+      }
 
-    window.addEventListener("click", handleClick)
+      window.addEventListener("click", handleClick)
 
-    return () => {
-      window.removeEventListener("click", handleClick)
+      return () => {
+        window.removeEventListener("click", handleClick)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [isMobile])
 
   return (
     <Container

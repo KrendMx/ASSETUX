@@ -5,7 +5,7 @@ import ColoredSpan from "./ColoredSpan"
 import Image from "next/image"
 import { useAppSelector } from "@/src/redux/hooks"
 import Skeleton from "react-loading-skeleton"
-import { mobile, mobileLaoyutForTablet } from "@/src/constants"
+import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
 const Container = styled.div`
   min-width: 0;
@@ -24,7 +24,7 @@ const Container = styled.div`
     }
   }
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     width: 405px;
     margin-top: 0;
 
@@ -57,7 +57,7 @@ const TextColumn = styled.div`
     font-weight: 400;
   }
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     & > h1 {
       margin-bottom: 15px;
     }
@@ -78,7 +78,7 @@ const SponsorsContainer = styled.div`
     width: 70%;
   }
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     width: 100%;
   }
 `
@@ -106,7 +106,7 @@ const SponsorContainer = styled.div`
 const SkeletonContainer = styled.h1`
   width: 75%;
 
-  @media only screen and (max-width: ${mobileLaoyutForTablet}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     width: 100%;
   }
 `
