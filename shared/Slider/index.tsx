@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Container from "./Container"
 import Content from "./Content"
 import Element from "./Element"
@@ -34,6 +34,7 @@ function Slider({
   const [currentIndex, setCurrentIndex] = useState(0)
   const lastSwipe = useRef<number | null>(null)
   const hovered = useRef(false)
+  const responsiveToShow = useRef(toShow)
   const containerRef = useRef<HTMLDivElement>(null)
   const childrenLength = Array.isArray(children) ? children.length : 1
   const isMobile = useAppSelector((state) => state.ui.isMobile)
@@ -56,10 +57,38 @@ function Slider({
     ...swipeProps
   })
 
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth
+      let checkedToShow = toShow
+
+      if (responsive) {
+        for (const props of responsive) {
+          if (windowWidth <= props.resolution) {
+            checkedToShow = props.toShow
+          }
+        }
+      }
+
+      if (responsiveToShow.current != checkedToShow) {
+        setCurrentIndex(0)
+      }
+      responsiveToShow.current = checkedToShow
+    }
+
+    handleResize()
+
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [responsive, toShow])
+
   const swipe = (direction: "left" | "right") => {
     let canSwipe = false
     if (direction == "left") {
-      canSwipe = currentIndex + toShow < childrenLength
+      canSwipe = currentIndex + responsiveToShow.current < childrenLength
     } else {
       canSwipe = currentIndex > 0
     }

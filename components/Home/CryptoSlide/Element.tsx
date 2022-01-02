@@ -2,7 +2,9 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Image from "next/image"
+import { useAppSelector } from "@/src/redux/hooks"
 import { mobile, optimizeRemoteImages } from "@/src/constants"
+import Skeleton from "react-loading-skeleton"
 
 type ContainerProps = {
   active: boolean
@@ -59,7 +61,11 @@ const SymbolIconContainer = styled.div`
   }
 `
 
-const IconContainer = styled.div`
+type IconContainerProps = {
+  isLoading: boolean
+}
+
+const IconContainer = styled.div<IconContainerProps>`
   position: relative;
   width: 42px;
   height: 42px;
@@ -67,6 +73,10 @@ const IconContainer = styled.div`
   border-radius: 8px;
   background-color: var(--bgColor);
   box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.12);
+
+  & img {
+    opacity: ${(props) => (props.isLoading ? 0 : 1)};
+  }
 `
 
 type ButtonRowProps = {
@@ -81,6 +91,10 @@ const ButtonRow = styled.div<ButtonRowProps>`
 
   & > * + * {
     margin-left: 11px;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    opacity: 1;
   }
 `
 
@@ -116,7 +130,10 @@ type ElementProps = {
 }
 
 function Element({ icon, symbol }: ElementProps) {
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const [active, setActive] = useState(false)
+
+  const isLoading = !icon || !symbol || !appLoaded
 
   return (
     <Container
@@ -126,7 +143,7 @@ function Element({ icon, symbol }: ElementProps) {
     >
       <InfoRow>
         <SymbolIconContainer>
-          <IconContainer>
+          <IconContainer isLoading={isLoading}>
             {icon && (
               <Image
                 src={icon}
@@ -138,13 +155,19 @@ function Element({ icon, symbol }: ElementProps) {
               />
             )}
           </IconContainer>
-          <span>{symbol}</span>
+          {!isLoading && <span>{symbol}</span>}
+          {isLoading && <Skeleton width={80} />}
         </SymbolIconContainer>
-        <span>490$</span>
+        {!isLoading && <span>490$</span>}
+        {isLoading && <Skeleton width={75} />}
       </InfoRow>
       <ButtonRow active={active}>
-        <BuyButton>Buy {symbol}</BuyButton>
-        <SellButton>Sell {symbol}</SellButton>
+        <BuyButton>
+          {!isLoading ? `Buy ${symbol}` : <Skeleton width={90} />}
+        </BuyButton>
+        <SellButton>
+          {!isLoading ? `Sell ${symbol}` : <Skeleton width={90} />}
+        </SellButton>
       </ButtonRow>
     </Container>
   )

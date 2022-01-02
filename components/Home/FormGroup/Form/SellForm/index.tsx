@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
 import SelectForm from "./SelectForm"
-import { useAppSelector } from "@/src/redux/hooks"
 import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
@@ -10,29 +9,33 @@ import type {
   Blockchain,
   Token
 } from "@/src/BackendClient/types"
+import type { CurrenciesType } from "@/src/currencies"
 
 type SellFormProps = {
   currentBlockchain: Blockchain | null
   currentToken: Token | null
+  currentCurrency: CurrenciesType
   blockchains: Option[] | null
   currencies: Option[] | null
   tokens: TokenOption[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
   firstLoad: boolean
+  onTokenChange: (token: string) => void
 }
 
 function SellForm({
   currentBlockchain,
   currentToken,
+  currentCurrency,
   blockchains,
   currencies,
   tokens,
   rates,
   payments,
-  firstLoad
+  firstLoad,
+  onTokenChange
 }: SellFormProps) {
-  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
@@ -112,7 +115,7 @@ function SellForm({
       firstLoad={firstLoad}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
-      onTokenChange={(token) => {}}
+      onTokenChange={onTokenChange}
       onPaymentChange={setSelectedPayment}
       onWalletChange={setWalletAddress}
       onGiveAmountChange={setGiveAmount}

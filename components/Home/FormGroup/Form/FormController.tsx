@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from "react"
-import { useAppSelector } from "@/src/redux/hooks"
+import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
+import { setSelectedToken } from "@/src/redux/cryptoSlice"
 import BackendClient from "@/src/BackendClient"
 import SellForm from "./SellForm"
 import BuyForm from "./BuyForm"
@@ -41,6 +42,7 @@ const mapTokens = (tokens: Token[]) => {
 }
 
 function FormController() {
+  const dispatch = useAppDispatch()
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
@@ -50,6 +52,7 @@ function FormController() {
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
   const [blockchains, setBlockchains] = useState<Option[] | null>(null)
@@ -63,6 +66,17 @@ function FormController() {
   const buyPayments = useMemo(() => {
     return payments && payments.filter((payment) => payment.type == "BUY")
   }, [payments])
+
+  const handleTokenChange = (tokenSymbol: string) => {
+    if (availableTokens) {
+      const foundToken = availableTokens.find(
+        (token) => token.symbol == tokenSymbol
+      )
+      if (foundToken) {
+        dispatch(setSelectedToken(foundToken))
+      }
+    }
+  }
 
   useEffect(() => {
     return () => {
@@ -165,6 +179,8 @@ function FormController() {
       firstLoad={!switchedTabs}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
+      currentCurrency={currentCurrency}
+      onTokenChange={handleTokenChange}
     />
   ) : (
     <SellForm
@@ -176,6 +192,8 @@ function FormController() {
       firstLoad={false}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
+      currentCurrency={currentCurrency}
+      onTokenChange={handleTokenChange}
     />
   )
 }

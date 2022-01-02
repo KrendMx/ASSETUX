@@ -120,6 +120,7 @@ export const CryptoSlice = createSlice({
   }
 })
 
-export const { setSelectedBlockchain, swapAction } = CryptoSlice.actions
+export const { setSelectedToken, setSelectedBlockchain, swapAction } =
+  CryptoSlice.actions
 
 export default CryptoSlice.reducer

@@ -29,6 +29,7 @@ const FormContainer = styled(AdaptiveFont).attrs({
   width: 100%;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
+  background-color: var(--bgColor);
 
   @media only screen and (max-width: ${mobile}px) {
     padding: 21px 17px;
