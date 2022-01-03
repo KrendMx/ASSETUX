@@ -4,6 +4,7 @@ import Element from "./Element"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Slider from "@/shared/Slider"
 import Skeleton from "react-loading-skeleton"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import useSliderConfig from "../sliderConfig"
 
@@ -46,14 +47,14 @@ const SliderContainer = styled.div`
 `
 
 function NewsRoom() {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
   const sliderConfig = useSliderConfig()
 
   return (
     <Container>
       <Row>
-        <h3>{appLoaded ? "News Room" : <Skeleton />}</h3>
-        {appLoaded && (
+        <h3>{!showSkeleton ? "News Room" : <Skeleton />}</h3>
+        {!showSkeleton && (
           <MoreLink as="a" href="#">
             Show more
           </MoreLink>

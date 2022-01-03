@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
+import { allowSkeletons } from "../constants"
 import type { CurrenciesType } from "../currencies"
 import type { RootState } from "./store"
 
@@ -90,5 +91,13 @@ export const {
   setCurrentCurrency,
   setAppLoaded
 } = uiSlice.actions
+
+export const selectShowSkeleton = (state: RootState) => {
+  if (allowSkeletons) {
+    return !state.ui.appLoaded
+  }
+
+  return false
+}
 
 export default uiSlice.reducer

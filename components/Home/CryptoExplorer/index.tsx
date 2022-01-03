@@ -3,6 +3,7 @@ import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Table from "./Table"
 import Skeleton from "react-loading-skeleton"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 
 const Container = styled.section`
@@ -74,13 +75,13 @@ const Search = styled.div`
 
 function CryptoExplorer() {
   const isMobile = useAppSelector((state) => state.ui.isMobile)
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
 
   return (
     <Container>
       <TitleRow>
-        <h3>{appLoaded ? "Crypto Explorer" : <Skeleton />}</h3>
-        {appLoaded && (
+        <h3>{!showSkeleton ? "Crypto Explorer" : <Skeleton />}</h3>
+        {!showSkeleton && (
           <AllLink as="a" href="#">
             {isMobile ? "View all" : "View all supported currencies"}
           </AllLink>

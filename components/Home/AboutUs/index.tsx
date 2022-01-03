@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Skeleton from "react-loading-skeleton"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mobileLayoutForTablet } from "@/src/constants"
 
@@ -89,14 +90,14 @@ const SkeletonContainer = styled.div`
 `
 
 function AboutUs() {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
 
   return (
     <Container>
       <AboutContainer>
-        <h3>{appLoaded ? "About us" : <Skeleton width="50%" />}</h3>
+        <h3>{!showSkeleton ? "About us" : <Skeleton width="50%" />}</h3>
         <TextContainer>
-          {appLoaded ? (
+          {!showSkeleton ? (
             <>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -130,7 +131,7 @@ function AboutUs() {
           alt="Pablo Savings"
           layout="responsive"
         />
-        {!appLoaded && (
+        {showSkeleton && (
           <SkeletonContainer>
             <Skeleton height="100%" />
           </SkeletonContainer>

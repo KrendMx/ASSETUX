@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Button from "./Button"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { swapAction } from "@/src/redux/cryptoSlice"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -40,7 +41,7 @@ const SkeletonContainer = styled.span`
 
 function Buttons() {
   const dispatch = useAppDispatch()
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
   const action = useAppSelector((state) => state.crypto.action)
 
@@ -50,9 +51,9 @@ function Buttons() {
     <Container>
       <BuyButton
         active={isBuy}
-        onClick={() => appLoaded && dispatch(swapAction("BUY"))}
+        onClick={() => !showSkeleton && dispatch(swapAction("BUY"))}
       >
-        {appLoaded ? (
+        {!showSkeleton ? (
           isMobile ? (
             "Buy Crypto"
           ) : (
@@ -66,9 +67,9 @@ function Buttons() {
       </BuyButton>
       <SellButton
         active={!isBuy}
-        onClick={() => appLoaded && dispatch(swapAction("SELL"))}
+        onClick={() => !showSkeleton && dispatch(swapAction("SELL"))}
       >
-        {appLoaded ? (
+        {!showSkeleton ? (
           isMobile ? (
             "Sell Crypto"
           ) : (

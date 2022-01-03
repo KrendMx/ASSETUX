@@ -7,7 +7,7 @@ import ExchangeRow from "../../Exchange"
 import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
 import Step from "./Steps"
-import { emailRegexp, floatRegexp } from "@/src/constants"
+import { emailRegexp, floatRegexp, allowSkeletons } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import type { Error } from "./types"
@@ -98,6 +98,7 @@ function CurrencyForm({
   }
 
   const isLoading =
+    allowSkeletons &&
     firstLoad &&
     (!appLoaded ||
       !checkedBlockchains ||

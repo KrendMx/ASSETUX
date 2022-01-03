@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Image from "next/image"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mobile, optimizeRemoteImages } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
@@ -130,10 +131,10 @@ type ElementProps = {
 }
 
 function Element({ icon, symbol }: ElementProps) {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
   const [active, setActive] = useState(false)
 
-  const isLoading = !icon || !symbol || !appLoaded
+  const isLoading = showSkeleton && (!icon || !symbol || showSkeleton)
 
   return (
     <Container

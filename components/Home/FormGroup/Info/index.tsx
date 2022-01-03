@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import ColoredSpan from "./ColoredSpan"
 import Image from "next/image"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import Skeleton from "react-loading-skeleton"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
@@ -121,13 +122,13 @@ const AbsoluteSkeletonContainer = styled(SkeletonContainer).attrs({
 `
 
 function Info() {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
   const { t } = useTranslation("home")
 
   return (
     <Container>
       <TextColumn>
-        {appLoaded && (
+        {!showSkeleton && (
           <h1>
             {t("titleBeforeBuy")}{" "}
             <ColoredSpan colorIn="green">{t("buy")}</ColoredSpan>
@@ -137,20 +138,20 @@ function Info() {
             {t("titleAfterSell")}
           </h1>
         )}
-        {!appLoaded && (
+        {showSkeleton && (
           <SkeletonContainer>
             <Skeleton count={2} />
           </SkeletonContainer>
         )}
-        {appLoaded && <h2>{t("info")}</h2>}
-        {!appLoaded && (
+        {!showSkeleton && <h2>{t("info")}</h2>}
+        {showSkeleton && (
           <SkeletonContainer as="h2">
             <Skeleton count={1} />
           </SkeletonContainer>
         )}
       </TextColumn>
       <SponsorsContainer>
-        <Sponsors isLoading={!appLoaded}>
+        <Sponsors isLoading={showSkeleton}>
           <SponsorContainer>
             <Image
               src="/sponsors/binance.png"
@@ -176,7 +177,7 @@ function Info() {
             />
           </SponsorContainer>
         </Sponsors>
-        {!appLoaded && (
+        {showSkeleton && (
           <AbsoluteSkeletonContainer>
             <Skeleton height={20} />
           </AbsoluteSkeletonContainer>

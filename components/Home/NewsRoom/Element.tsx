@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Skeleton from "react-loading-skeleton"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mobile } from "@/src/constants"
 
@@ -77,13 +78,13 @@ const Author = styled.a`
   }
 `
 
-const Date = styled.span`
+const Date = styled.time`
   font-weight: 400;
   color: var(--gray);
 `
 
 function Element() {
-  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+  const showSkeleton = useAppSelector(selectShowSkeleton)
 
   return (
     <Container as="article">
@@ -95,7 +96,7 @@ function Element() {
           height={416}
           alt=""
         />
-        {!appLoaded && (
+        {showSkeleton && (
           <ImgSkeleton>
             <Skeleton height="100%" />
           </ImgSkeleton>
@@ -103,24 +104,24 @@ function Element() {
       </ImgContainer>
       <InfoContainer>
         <Title>
-          {appLoaded ? (
+          {!showSkeleton ? (
             "The Apple Car Is Coming and Tesla Had Better Watch Out"
           ) : (
             <Skeleton />
           )}
         </Title>
         <Description>
-          {appLoaded ? (
+          {!showSkeleton ? (
             "The world’s biggest company by market value plans to launch a car with full self-driving capabilities..."
           ) : (
             <Skeleton count={2} />
           )}
         </Description>
         <Info>
-          {appLoaded ? (
+          {!showSkeleton ? (
             <>
-              <Author>Finance</Author>
-              <Date>2 days ago</Date>
+              <Author href="#">Finance</Author>
+              <Date dateTime="2022-01-01">2 days ago</Date>
             </>
           ) : (
             <Skeleton />
