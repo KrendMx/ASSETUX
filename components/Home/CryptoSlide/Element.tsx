@@ -128,9 +128,11 @@ const SellButton = styled(Button)`
 type ElementProps = {
   icon?: string
   symbol?: string
+  onBuy?: () => void
+  onSell?: () => void
 }
 
-function Element({ icon, symbol }: ElementProps) {
+function Element({ icon, symbol, onBuy, onSell }: ElementProps) {
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const [active, setActive] = useState(false)
 
@@ -163,10 +165,10 @@ function Element({ icon, symbol }: ElementProps) {
         {isLoading && <Skeleton width={75} />}
       </InfoRow>
       <ButtonRow active={active}>
-        <BuyButton>
+        <BuyButton onClick={() => !isLoading && onBuy && onBuy()}>
           {!isLoading ? `Buy ${symbol}` : <Skeleton width={90} />}
         </BuyButton>
-        <SellButton>
+        <SellButton onClick={() => !isLoading && onSell && onSell()}>
           {!isLoading ? `Sell ${symbol}` : <Skeleton width={90} />}
         </SellButton>
       </ButtonRow>

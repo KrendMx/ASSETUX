@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react"
-import type { ChangeEventHandler } from "react"
 import Image from "next/image"
 import styled from "styled-components"
 import { IoIosArrowDown } from "react-icons/io"
@@ -17,6 +16,7 @@ import Search from "./Search"
 import { ellipsisString } from "@/src/helpers"
 import { optimizeRemoteImages } from "@/src/constants"
 import type { Option } from "./types"
+import type { ChangeEventHandler } from "react"
 
 const Placeholder = styled.div`
   flex-shrink: 0;
@@ -40,7 +40,6 @@ type InputSelectProps = {
   value?: string
   options?: Option[]
   changeable?: boolean
-  defaultIndex?: number
   defaultValue?: string
   displayIcon?: boolean
   displayInSelect?: number
@@ -48,6 +47,7 @@ type InputSelectProps = {
   id?: string
   error?: boolean
   selectable?: boolean
+  selectedValue?: string | null
 }
 
 function InputSelect({
@@ -60,18 +60,15 @@ function InputSelect({
   id,
   onChange,
   value,
+  selectedValue,
   error = false,
   displayIcon = false,
-  defaultIndex = 0,
   defaultValue = "",
   displayInSelect = 3,
   selectable = true
 }: InputSelectProps) {
   const hasOptions = options != undefined
   const [active, setActive] = useState(false)
-  const [selectedValue, setSelectedValue] = useState(
-    hasOptions ? options[defaultIndex].value : null
-  )
   const [userInput, setUserInput] = useState(defaultValue)
   const searchOptions = useMemo(
     () => options?.filter((option) => option.value != selectedValue),
@@ -112,20 +109,6 @@ function InputSelect({
     }
   }
 
-  useEffect(() => {
-    if (options) {
-      setSelectedValue(options[defaultIndex].value)
-      onSelect && onSelect(options[defaultIndex].value)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultIndex, options])
-
-  useEffect(() => {
-    if (!selectedValue && options) {
-      setSelectedValue(options[defaultIndex].value)
-    }
-  }, [options, defaultIndex, selectedValue])
-
   const toggle = () => {
     onActiveChange && onActiveChange(!active)
     setActive(!active)
@@ -141,7 +124,6 @@ function InputSelect({
 
   const handleSelect = (selectedValue: string) => {
     onSelect && onSelect(selectedValue)
-    setSelectedValue(selectedValue)
     toggle()
   }
 

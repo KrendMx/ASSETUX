@@ -56,15 +56,6 @@ function BuyForm({
 
     return null
   }, [rates, currentToken, selectedCurrency])
-  const defaultCurrencyIndex = currencies
-    ? currencies.findIndex((currency) => currency.value == currentCurrency)
-    : 0
-  const defaultBlockchainIndex =
-    currentBlockchain && blockchains
-      ? blockchains.findIndex(
-          (blockchain) => blockchain.value == currentBlockchain.title
-        )
-      : 0
 
   const onSubmit = () => {
     if (currentBlockchain && currentToken) {
@@ -114,17 +105,12 @@ function BuyForm({
 
   return (
     <SelectForm
-      defaultBlockchainIndex={defaultBlockchainIndex}
+      currentBlockchain={currentBlockchain && currentBlockchain.title}
       blockchains={blockchains}
-      defaultCurrencyIndex={
-        defaultCurrencyIndex == -1 ? 0 : defaultCurrencyIndex
-      }
       currentCurrency={selectedCurrency}
       currencies={currencies}
-      defaultTokenIndex={0}
       currentToken={currentToken && currentToken.symbol}
       tokens={tokens}
-      defaultPaymentIndex={0}
       currentPayment={selectedPayment}
       payments={processedPayments}
       currentWallet={walletAddress}

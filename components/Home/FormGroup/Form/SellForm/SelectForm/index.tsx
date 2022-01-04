@@ -23,15 +23,12 @@ const inputIds = {
 }
 
 type CurrencyFormProps = {
-  defaultBlockchainIndex: number
+  currentBlockchain: string | null
   blockchains: Option[] | null
-  defaultCurrencyIndex: number
   currentCurrency: string | null
   currencies: Option[] | null
-  defaultTokenIndex: number
   currentToken: string | null
   tokens: Option[] | null
-  defaultPaymentIndex: number
   currentPayment: string | null
   payments: PaymentOption[] | null
   currentWallet: string
@@ -48,15 +45,13 @@ type CurrencyFormProps = {
 }
 
 function CurrencyForm({
-  defaultBlockchainIndex,
+  currentBlockchain,
   blockchains,
-  defaultCurrencyIndex,
   currentCurrency,
   currencies,
-  defaultTokenIndex,
   currentToken,
   tokens,
-  defaultPaymentIndex,
+  currentPayment,
   payments,
   currentWallet,
   giveAmount,
@@ -148,7 +143,7 @@ function CurrencyForm({
             displayInSelect={3}
             onActiveChange={(active) => setChainActive(active)}
             onSelect={onBlockchainChange}
-            defaultIndex={defaultBlockchainIndex}
+            selectedValue={currentBlockchain}
             displayIcon
           />
         ) : (
@@ -164,8 +159,8 @@ function CurrencyForm({
               options={checkedCurrencies}
               onActiveChange={(active) => setGiveActive(active)}
               onSelect={onCurrencyChange}
-              defaultIndex={defaultCurrencyIndex}
               error={inputError[inputIds.give]}
+              selectedValue={currentCurrency}
               changeable
             />
           ) : (
@@ -180,7 +175,7 @@ function CurrencyForm({
                   options={checkedPayments}
                   onSelect={onPaymentChange}
                   onActiveChange={(active) => setPaymentActive(active)}
-                  defaultIndex={defaultPaymentIndex}
+                  selectedValue={currentPayment}
                   displayIcon
                 />
               ) : (
@@ -200,8 +195,8 @@ function CurrencyForm({
                   options={checkedTokens}
                   displayInSelect={1}
                   onActiveChange={(active) => setGetActive(active)}
-                  defaultIndex={defaultTokenIndex}
                   onSelect={onTokenChange}
+                  selectedValue={currentToken}
                   value={tokenAmount}
                 />
               ) : (
