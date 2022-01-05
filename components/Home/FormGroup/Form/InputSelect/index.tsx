@@ -144,7 +144,11 @@ function InputSelect({
         </InputContainer>
         {selectedOption && (
           <>
-            <InfoContainer onlyImage={displayIcon} selectable={selectable}>
+            <InfoContainer
+              onlyImage={displayIcon}
+              active={active}
+              selectable={selectable}
+            >
               {displayIcon ? (
                 <ImageBox>
                   {selectedOption.icon && (
