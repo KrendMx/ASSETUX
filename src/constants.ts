@@ -13,4 +13,4 @@ export const emailRegexp =
 
 export const floatRegexp = /^[0-9]+(\.)?[0-9]*$/
 
-export const allowSkeletons = false
+export const allowSkeletons = true

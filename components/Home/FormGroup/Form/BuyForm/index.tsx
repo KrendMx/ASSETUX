@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react"
+import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
@@ -76,7 +77,7 @@ function BuyForm({
     }
   }
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
 

@@ -60,11 +60,15 @@ function FormController() {
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
-  const [switchedTabs, setSwitchedTabs] = useState(false)
+  const firstLoad = useRef(true)
   const isUnmounted = useRef(false)
 
   const buyPayments = useMemo(() => {
     return payments && payments.filter((payment) => payment.type == "BUY")
+  }, [payments])
+
+  const sellPayments = useMemo(() => {
+    return payments && payments.filter((payment) => payment.type == "SELL")
   }, [payments])
 
   const handleTokenChange = (tokenSymbol: string) => {
@@ -144,12 +148,6 @@ function FormController() {
   }, [selectedBlockchain])
 
   useEffect(() => {
-    if (action == "SELL") {
-      setSwitchedTabs(true)
-    }
-  }, [action])
-
-  useEffect(() => {
     if (availableBlockchains) {
       setBlockchains(
         availableBlockchains.map((blockchain) => {
@@ -176,7 +174,7 @@ function FormController() {
       currencies={currencies}
       rates={fiatRates}
       payments={buyPayments}
-      firstLoad={!switchedTabs}
+      firstLoad={firstLoad.current}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
       currentCurrency={currentCurrency}
@@ -188,8 +186,8 @@ function FormController() {
       tokens={tokens}
       currencies={currencies}
       rates={fiatRates}
-      payments={payments}
-      firstLoad={false}
+      payments={sellPayments}
+      firstLoad={firstLoad.current}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
       currentCurrency={currentCurrency}
