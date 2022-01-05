@@ -4,7 +4,7 @@ import AdaptiveFont from "@/shared/AdaptiveFont"
 import Image from "next/image"
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
-import { mobile, optimizeRemoteImages } from "@/src/constants"
+import { mobile, optimizeRemoteImages, allowSkeletons } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 
 type ContainerProps = {
@@ -133,10 +133,10 @@ type ElementProps = {
 }
 
 function Element({ icon, symbol, onBuy, onSell }: ElementProps) {
-  const showSkeleton = useAppSelector(selectShowSkeleton)
+  const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const [active, setActive] = useState(false)
 
-  const isLoading = showSkeleton && (!icon || !symbol || showSkeleton)
+  const isLoading = allowSkeletons && (!appLoaded || !icon || !symbol)
 
   return (
     <Container
