@@ -3,7 +3,6 @@ import { mobile } from "@/src/constants"
 
 type InfoContainerProps = {
   onlyImage?: boolean
-  active: boolean
   selectable: boolean
 }
 
@@ -15,7 +14,7 @@ const InfoContainer = styled.div<InfoContainerProps>`
   justify-content: center;
 
   & > *:first-child {
-    margin-bottom: ${(props) => (props.onlyImage || props.active ? 0 : "4px")};
+    margin-bottom: ${(props) => (props.onlyImage ? 0 : "4px")};
   }
 
   @media only screen and (max-width: ${mobile}px) {

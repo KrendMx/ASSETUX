@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import Image from "next/image"
-import styled from "styled-components"
 import { IoIosArrowDown } from "react-icons/io"
 import InputWrapper from "./InputWrapper"
 import InputContainer from "./InputContainer"
@@ -17,20 +16,6 @@ import { ellipsisString } from "@/src/helpers"
 import { optimizeRemoteImages } from "@/src/constants"
 import type { Option } from "./types"
 import type { ChangeEventHandler } from "react"
-
-const Placeholder = styled.div`
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background-color: var(--bgColor);
-  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-
-  @media only screen and (max-width: 370px) {
-    width: 30px;
-    height: 30px;
-  }
-`
 
 type InputSelectProps = {
   label?: string
@@ -132,9 +117,9 @@ function InputSelect({
       <InputWrapper active={active} error={error} selectable={selectable}>
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && <Label htmlFor={id}>{label}</Label>}
-          {hideLabel &&
-            (selectedOption && selectedOption.icon ? (
-              <ImageBox>
+          {hideLabel && (
+            <ImageBox>
+              {selectedOption && selectedOption.icon && (
                 <ImageContainer>
                   <Image
                     src={selectedOption.icon}
@@ -145,10 +130,9 @@ function InputSelect({
                     unoptimized={!optimizeRemoteImages}
                   />
                 </ImageContainer>
-              </ImageBox>
-            ) : (
-              <Placeholder />
-            ))}
+              )}
+            </ImageBox>
+          )}
           <Input
             id={id}
             autoComplete="off"
@@ -160,14 +144,10 @@ function InputSelect({
         </InputContainer>
         {selectedOption && (
           <>
-            <InfoContainer
-              onlyImage={selectedOption?.icon != undefined}
-              active={active}
-              selectable={selectable}
-            >
+            <InfoContainer onlyImage={displayIcon} selectable={selectable}>
               {displayIcon ? (
-                selectedOption.icon ? (
-                  <ImageBox>
+                <ImageBox>
+                  {selectedOption.icon && (
                     <ImageContainer>
                       <Image
                         src={selectedOption.icon}
@@ -178,10 +158,8 @@ function InputSelect({
                         unoptimized={!optimizeRemoteImages}
                       />
                     </ImageContainer>
-                  </ImageBox>
-                ) : (
-                  <Placeholder />
-                )
+                  )}
+                </ImageBox>
               ) : (
                 <>
                   {selectedOption.description && !hideLabel && (
