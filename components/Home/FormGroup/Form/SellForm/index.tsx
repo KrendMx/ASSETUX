@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect } from "react"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { setCurrentRate } from "@/src/redux/cryptoSlice"
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
@@ -21,7 +23,6 @@ type SellFormProps = {
   tokens: TokenOption[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
-  firstLoad: boolean
   onTokenChange: (token: string) => void
 }
 
@@ -34,9 +35,10 @@ function SellForm({
   tokens,
   rates,
   payments,
-  firstLoad,
   onTokenChange
 }: SellFormProps) {
+  const dispatch = useAppDispatch()
+
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
@@ -44,18 +46,8 @@ function SellForm({
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-  const currentRate = useMemo(() => {
-    if (rates && currentToken && selectedCurrency) {
-      const rate = rates.find((rate) => rate.name == currentToken.symbol)
-      if (rate) {
-        return rate.sell[selectedCurrency]
-      }
 
-      return null
-    }
-
-    return null
-  }, [rates, currentToken, selectedCurrency])
+  const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
   const onSubmit = () => {}
 
@@ -86,6 +78,20 @@ function SellForm({
     }
   }, [processedPayments, selectedPayment])
 
+  useEffect(() => {
+    if (rates && currentToken && selectedCurrency) {
+      const rate = rates.find((rate) => rate.name == currentToken.symbol)
+
+      let sellRate: number | null = null
+
+      if (rate) {
+        sellRate = rate.sell[selectedCurrency]
+      }
+
+      dispatch(setCurrentRate(sellRate))
+    }
+  }, [rates, currentToken, selectedCurrency, dispatch])
+
   return (
     <SelectForm
       currentBlockchain={currentBlockchain && currentBlockchain.title}
@@ -99,7 +105,6 @@ function SellForm({
       currentWallet={walletAddress}
       giveAmount={giveAmount}
       rate={currentRate}
-      firstLoad={firstLoad}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

@@ -60,7 +60,6 @@ function FormController() {
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
-  const firstLoad = useRef(true)
   const isUnmounted = useRef(false)
 
   const buyPayments = useMemo(() => {
@@ -174,7 +173,6 @@ function FormController() {
       currencies={currencies}
       rates={fiatRates}
       payments={buyPayments}
-      firstLoad={firstLoad.current}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
       currentCurrency={currentCurrency}
@@ -187,7 +185,6 @@ function FormController() {
       currencies={currencies}
       rates={fiatRates}
       payments={sellPayments}
-      firstLoad={firstLoad.current}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
       currentCurrency={currentCurrency}

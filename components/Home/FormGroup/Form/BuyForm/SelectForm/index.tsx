@@ -36,7 +36,6 @@ type CurrencyFormProps = {
   giveAmount: string
   email: string
   rate: number | null
-  firstLoad: boolean
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
@@ -60,7 +59,6 @@ function CurrencyForm({
   giveAmount,
   email,
   rate,
-  firstLoad,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -94,7 +92,6 @@ function CurrencyForm({
 
   const isLoading =
     allowSkeletons &&
-    firstLoad &&
     (!appLoaded ||
       !checkedBlockchains ||
       !checkedTokens ||

@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect } from "react"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { setCurrentRate } from "@/src/redux/cryptoSlice"
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
@@ -21,7 +23,6 @@ type BuyFormProps = {
   tokens: TokenOption[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
-  firstLoad: boolean
   onTokenChange: (token: string) => void
 }
 
@@ -34,9 +35,10 @@ function BuyForm({
   tokens,
   rates,
   payments,
-  firstLoad,
   onTokenChange
 }: BuyFormProps) {
+  const dispatch = useAppDispatch()
+
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
@@ -45,18 +47,8 @@ function BuyForm({
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-  const currentRate = useMemo(() => {
-    if (rates && currentToken && selectedCurrency) {
-      const rate = rates.find((rate) => rate.name == currentToken.symbol)
-      if (rate) {
-        return rate.buy[selectedCurrency]
-      }
 
-      return null
-    }
-
-    return null
-  }, [rates, currentToken, selectedCurrency])
+  const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
   const onSubmit = () => {
     if (currentBlockchain && currentToken) {
@@ -104,6 +96,20 @@ function BuyForm({
     }
   }, [processedPayments, selectedPayment])
 
+  useEffect(() => {
+    if (rates && currentToken && selectedCurrency) {
+      const rate = rates.find((rate) => rate.name == currentToken.symbol)
+
+      let buyRate: number | null = null
+
+      if (rate) {
+        buyRate = rate.buy[selectedCurrency]
+      }
+
+      dispatch(setCurrentRate(buyRate))
+    }
+  }, [rates, currentToken, selectedCurrency, dispatch])
+
   return (
     <SelectForm
       currentBlockchain={currentBlockchain && currentBlockchain.title}
@@ -118,7 +124,6 @@ function BuyForm({
       giveAmount={giveAmount}
       email={email}
       rate={currentRate}
-      firstLoad={firstLoad}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

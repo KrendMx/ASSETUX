@@ -50,6 +50,7 @@ export type CryptoState = {
   selectedBlockchain: Blockchain | null
   availableTokens: Token[] | null
   selectedToken: Token | null
+  currentRate: number | null
   action: ActionType
 }
 
@@ -58,6 +59,7 @@ const initialState: CryptoState = {
   availableBlockchains: null,
   availableTokens: null,
   selectedToken: null,
+  currentRate: null,
   action: "BUY"
 }
 
@@ -70,6 +72,9 @@ export const CryptoSlice = createSlice({
     },
     setSelectedToken: (state, action: PayloadAction<Token>) => {
       state.selectedToken = action.payload
+    },
+    setCurrentRate: (state, action: PayloadAction<number | null>) => {
+      state.currentRate = action.payload
     },
     swapAction: (state, action: PayloadAction<ActionType | undefined>) => {
       if (action.payload) {
@@ -120,7 +125,11 @@ export const CryptoSlice = createSlice({
   }
 })
 
-export const { setSelectedToken, setSelectedBlockchain, swapAction } =
-  CryptoSlice.actions
+export const {
+  setSelectedToken,
+  setSelectedBlockchain,
+  swapAction,
+  setCurrentRate
+} = CryptoSlice.actions
 
 export default CryptoSlice.reducer
