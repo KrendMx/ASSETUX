@@ -117,13 +117,17 @@ function Slider({
   }
 
   const handleEnter = () => {
-    hovered.current = true
-    window.addEventListener("wheel", preventer, preventerOpts)
+    if (!isMobile) {
+      hovered.current = true
+      window.addEventListener("wheel", preventer, preventerOpts)
+    }
   }
 
   const handleLeave = () => {
-    hovered.current = false
-    window.removeEventListener("wheel", preventer)
+    if (!isMobile) {
+      hovered.current = false
+      window.removeEventListener("wheel", preventer)
+    }
   }
 
   if (!children) {
