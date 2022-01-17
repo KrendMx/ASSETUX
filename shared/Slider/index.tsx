@@ -6,6 +6,7 @@ import { useSwipeable } from "react-swipeable"
 import { useAppSelector } from "@/src/redux/hooks"
 import { preventerOpts, swipeProps, swipeTimeout, wheelDelta } from "./config"
 import type { ResponsiveProps } from "./types"
+import type { SwipeDirections } from "react-swipeable"
 
 const preventer = (event: Event) => {
   if (event.cancelable) {
@@ -32,6 +33,7 @@ function Slider({
 }: SliderProps) {
   const [swipedPixels, setSwipedPixels] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
+  const swipeDirection = useRef<SwipeDirections | "none">("none")
   const lastSwipe = useRef<number | null>(null)
   const hovered = useRef(false)
   const responsiveToShow = useRef(toShow)
@@ -40,15 +42,19 @@ function Slider({
   const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   const swipeHandlers = useSwipeable({
+    onSwipeStart: (event) => {
+      swipeDirection.current = event.dir
+    },
     onSwiping: (event) => {
-      if (event.dir == "Left") {
+      if (swipeDirection.current == "Left") {
         setSwipedPixels(event.deltaX + swipeProps.delta)
-      } else if (event.dir == "Right") {
+      } else if (swipeDirection.current == "Right") {
         setSwipedPixels(event.deltaX - swipeProps.delta)
       }
     },
     onSwiped: () => {
       setSwipedPixels(0)
+      swipeDirection.current = "none"
     },
     onSwipedDown: () => {}, // prevent scrolling
     onSwipedUp: () => {}, // prevent scrolling
