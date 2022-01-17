@@ -30,7 +30,7 @@ function Slider({
   vertPadding,
   responsive
 }: SliderProps) {
-  const [swipedPixels, setSwipePixels] = useState(0)
+  const [swipedPixels, setSwipedPixels] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const lastSwipe = useRef<number | null>(null)
   const hovered = useRef(false)
@@ -41,10 +41,14 @@ function Slider({
 
   const swipeHandlers = useSwipeable({
     onSwiping: (event) => {
-      setSwipePixels(event.deltaX)
+      if (event.dir == "Left") {
+        setSwipedPixels(event.deltaX + swipeProps.delta)
+      } else if (event.dir == "Right") {
+        setSwipedPixels(event.deltaX - swipeProps.delta)
+      }
     },
     onSwiped: () => {
-      setSwipePixels(0)
+      setSwipedPixels(0)
     },
     onSwipedDown: () => {}, // prevent scrolling
     onSwipedUp: () => {}, // prevent scrolling
