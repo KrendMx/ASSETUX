@@ -5,6 +5,7 @@ import { HiOutlineArrowUp } from "react-icons/hi"
 const offsetY = window.innerHeight
 
 const Button = styled.button`
+  z-index: 9999;
   position: fixed;
   bottom: 18px;
   left: 18px;
