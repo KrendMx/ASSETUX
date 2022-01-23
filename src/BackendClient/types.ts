@@ -80,3 +80,11 @@ export type GetPaymentUrlProps = UrlRequest & {
   chainId: number
   email: string
 }
+
+export type GetPaymentUrl = {
+  status?: number
+  message: string
+  data?: {
+    url: string
+  }
+}

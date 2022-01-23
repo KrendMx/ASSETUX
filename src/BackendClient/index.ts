@@ -6,7 +6,8 @@ import type {
   GetFiatProviders,
   GetBlockchains,
   UrlRequest,
-  GetPaymentUrlProps
+  GetPaymentUrlProps,
+  GetPaymentUrl
 } from "./types"
 
 class BackendClient {
@@ -50,15 +51,13 @@ class BackendClient {
   public async getPaymentUrl({
     apiHost,
     ...params
-  }: GetPaymentUrlProps): Promise<void> {
-    console.log(
-      await handleRequest({
-        url: `${constructURL(apiHost)}/api/buytoken/getpaymenturl`,
-        method: "POST",
-        headers: this.headers,
-        data: params
-      })
-    )
+  }: GetPaymentUrlProps): Promise<GetPaymentUrl> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/buytoken/getpaymenturl`,
+      method: "POST",
+      headers: this.headers,
+      data: params
+    })
   }
 }
 

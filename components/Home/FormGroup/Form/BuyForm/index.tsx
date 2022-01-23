@@ -50,12 +50,12 @@ function BuyForm({
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (currentBlockchain && currentToken) {
       const tokenAddress = currentToken.address
 
       if (tokenAddress && selectedPayment) {
-        BackendClient.getPaymentUrl({
+        const response = await BackendClient.getPaymentUrl({
           apiHost: currentBlockchain.url,
           ticker: currentCurrency,
           provider: selectedPayment,
@@ -65,6 +65,10 @@ function BuyForm({
           tokenAddress,
           email
         })
+
+        if (response.data) {
+          window.location.assign(response.data.url)
+        }
       }
     }
   }
