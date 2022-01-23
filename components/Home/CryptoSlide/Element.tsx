@@ -12,7 +12,7 @@ type ContainerProps = {
 }
 
 const Container = styled(AdaptiveFont).attrs({
-  mobileFactor: 1.8,
+  mobileFactor: 1,
   tabletFactor: 1.25
 })<ContainerProps>`
   display: flex;
@@ -33,6 +33,11 @@ const Container = styled(AdaptiveFont).attrs({
   @media only screen and (max-width: ${mobile}px) {
     height: 199px;
     padding: 15px 14px;
+    font-size: 20px;
+  }
+
+  @media only screen and (max-width: 375px) {
+    font-size: 1.8em;
   }
 `
 
