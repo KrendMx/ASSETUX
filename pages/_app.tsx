@@ -68,7 +68,7 @@ function MyApp(props: AppProps) {
       dispatch(setAppLoaded())
       // setTimeout(() => {
       //   dispatch(setAppLoaded())
-      // }, 5000)
+      // }, 2000)
     }
 
     window.addEventListener("resize", handleResize)
