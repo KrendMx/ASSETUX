@@ -63,7 +63,7 @@ const NoResultsLabel = styled(Label)`
 
   @media only screen and (max-width: ${mobile}px) {
     margin-top: 32px;
-  } 
+  }
 `
 
 const ItemValue = styled.span`
