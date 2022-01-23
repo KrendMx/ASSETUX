@@ -164,6 +164,7 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
             key={option.value}
             onClick={() => {
               onSelect(option.value)
+              setSearchContext("")
             }}
             selectable
           >
