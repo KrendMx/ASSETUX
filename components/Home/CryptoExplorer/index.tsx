@@ -11,6 +11,7 @@ import { cardsPerPage, perPageValues, cardsWidth } from "./constants"
 import { IoIosArrowRoundBack } from "react-icons/io"
 import { mobile } from "@/src/constants"
 import { generatePageNumbers } from "./helpers"
+import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
 const Container = styled.section`
   display: flex;
@@ -310,12 +311,14 @@ function CryptoExplorer() {
     return result
   }, [currentPage, pages])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth
 
       setDisplayCards(width < cardsWidth)
     }
+
+    handleResize()
 
     window.addEventListener("resize", handleResize)
 
