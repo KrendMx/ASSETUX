@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import styled from "styled-components"
 import { IoIosSearch } from "react-icons/io"
 import { mobile } from "@/src/constants"
@@ -34,21 +34,34 @@ const Input = styled.input`
   }
 `
 
-const IconContainer = styled.div`
+const IconButton = styled.button`
+  flex: 0 0 49px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-right: 10px;
   color: var(--gray);
   font-size: 25px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
 `
 
 function Search() {
+  const inputRef = useRef<HTMLInputElement>(null)
+
   return (
     <Container>
-      <Input placeholder="Search" />
-      <IconContainer>
+      <Input placeholder="Search" ref={inputRef} />
+      <IconButton
+        onClick={() => {
+          if (inputRef.current) {
+            inputRef.current.focus()
+          }
+        }}
+      >
         <IoIosSearch />
-      </IconContainer>
+      </IconButton>
     </Container>
   )
 }
