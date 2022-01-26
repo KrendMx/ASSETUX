@@ -6,4 +6,4 @@ export type TableProps = {
   currentPage?: number
 }
 
-type RowData = string | JSX.Element
+type RowData = string | number | JSX.Element

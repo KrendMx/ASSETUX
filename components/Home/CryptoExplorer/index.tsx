@@ -1,17 +1,21 @@
-import React, { useState, useMemo, useEffect } from "react"
+import React, { useState, useMemo, useEffect, useCallback } from "react"
 import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Table from "./Table"
 import Cards from "./Cards"
 import Search from "./Search"
 import Skeleton from "react-loading-skeleton"
+import { mapCurrency } from "@/src/currencies"
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
-import { useAppSelector } from "@/src/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { swapAction, setSelectedToken } from "@/src/redux/cryptoSlice"
 import { cardsPerPage, perPageValues, cardsWidth } from "./constants"
 import { IoIosArrowRoundBack } from "react-icons/io"
 import { mobile } from "@/src/constants"
 import { generatePageNumbers } from "./helpers"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
+import type { ActionType } from "@/src/redux/cryptoSlice"
+import type { Token } from "@/src/BackendClient/types"
 
 const Container = styled.section`
   display: flex;
@@ -154,103 +158,10 @@ const ActionButton = styled.button<ActionButtonProps>`
   color: ${(props) => (props.action == "sell" ? "var(--red)" : "var(--green)")};
 `
 
-const data = [
-  [
-    "LTE/RUB",
-    "0.0000001",
-    "0.0000001",
-    <ChangeField key={1} up>
-      +0.00%
-    </ChangeField>,
-    "$13.432",
-    <ActionButton key={1} action="buy">
-      Buy
-    </ActionButton>,
-    <ActionButton key={1} action="sell">
-      Sell
-    </ActionButton>
-  ],
-  [
-    "LTE/RUB",
-    "0.0000001",
-    "0.0000001",
-    <ChangeField key={2} up>
-      +0.00%
-    </ChangeField>,
-    "$13.432",
-    <ActionButton key={2} action="buy">
-      Buy
-    </ActionButton>,
-    <ActionButton key={2} action="sell">
-      Sell
-    </ActionButton>
-  ],
-  [
-    "LTE/RUB",
-    "0.0000001",
-    "0.0000001",
-    <ChangeField key={3} up>
-      +0.00%
-    </ChangeField>,
-    "$13.432",
-    <ActionButton key={3} action="buy">
-      Buy
-    </ActionButton>,
-    <ActionButton key={3} action="sell">
-      Sell
-    </ActionButton>
-  ],
-  [
-    "LTE/RUB",
-    "0.0000001",
-    "0.0000001",
-    <ChangeField key={4} up>
-      +0.00%
-    </ChangeField>,
-    "$13.432",
-    <ActionButton key={4} action="buy">
-      Buy
-    </ActionButton>,
-    <ActionButton key={4} action="sell">
-      Sell
-    </ActionButton>
-  ],
-  [
-    "LTE/RUB",
-    "0.0000001",
-    "0.0000001",
-    <ChangeField key={5} up>
-      +0.00%
-    </ChangeField>,
-    "$13.432",
-    <ActionButton key={5} action="buy">
-      Buy
-    </ActionButton>,
-    <ActionButton key={5} action="sell">
-      Sell
-    </ActionButton>
-  ],
-  [
-    "LTE/RUB",
-    "0.0000001",
-    "0.0000001",
-    <ChangeField key={6} up>
-      +0.00%
-    </ChangeField>,
-    "$13.432",
-    <ActionButton key={6} action="buy">
-      Buy
-    </ActionButton>,
-    <ActionButton key={6} action="sell">
-      Sell
-    </ActionButton>
-  ]
-]
-
 const tableHeadings = [
   "Ticker",
-  "Last Price",
-  "Assetux Price $",
+  "ASSETUX Buy",
+  "ASSETUX Sell",
   "Change 24h",
   "Volume 24h",
   "Trade",
@@ -259,57 +170,114 @@ const tableHeadings = [
 
 const cardRowNames = [
   "Ticker",
-  "Last Price",
-  "Assetux Price $",
+  "ASSETUX Buy",
+  "ASSETUX Sell",
   "Change 24h",
   "Volume 24h"
 ]
 
 function CryptoExplorer() {
+  const dispatch = useAppDispatch()
+
   const isMobile = useAppSelector((state) => state.ui.isMobile)
   const showSkeleton = useAppSelector(selectShowSkeleton)
+  const explorerData = useAppSelector((state) => state.crypto.explorerData)
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
   const [displayCards, setDisplayCards] = useState(false)
 
+  const handleAction = useCallback(
+    (action: ActionType, token: Token) => {
+      dispatch(swapAction(action))
+      dispatch(setSelectedToken(token))
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      })
+    },
+    [dispatch]
+  )
+
   const pages = useMemo(
     () =>
-      Math.ceil(data.length / (displayCards ? cardsPerPage : desktopPerPage)),
-    [data.length, desktopPerPage, displayCards]
+      explorerData &&
+      Math.ceil(
+        explorerData.length / (displayCards ? cardsPerPage : desktopPerPage)
+      ),
+    [explorerData, desktopPerPage, displayCards]
   )
 
   const pageButtons = useMemo(() => {
     const result: JSX.Element[] = []
-    const pageNumbers = generatePageNumbers(pages, currentPage)
+    if (pages) {
+      const pageNumbers = generatePageNumbers(pages, currentPage)
 
-    for (let i = 0; i < pageNumbers.length; i++) {
-      const pageNumber = pageNumbers[i]
+      for (let i = 0; i < pageNumbers.length; i++) {
+        const pageNumber = pageNumbers[i]
 
-      result.push(
-        <PageButton
-          key={pageNumber}
-          active={pageNumber == currentPage}
-          onClick={() => setCurrentPage(pageNumber)}
-        >
-          {pageNumber}
-        </PageButton>
-      )
-
-      const jumping =
-        i != pageNumbers.length && pageNumbers[i + 1] - pageNumbers[i] > 1
-
-      if (jumping) {
         result.push(
-          <PageButton key={`jumpButton-${pageNumber}`} nonClickable>
-            ...
+          <PageButton
+            key={pageNumber}
+            active={pageNumber == currentPage}
+            onClick={() => setCurrentPage(pageNumber)}
+          >
+            {pageNumber}
           </PageButton>
         )
+
+        const jumping =
+          i != pageNumbers.length && pageNumbers[i + 1] - pageNumbers[i] > 1
+
+        if (jumping) {
+          result.push(
+            <PageButton key={`jumpButton-${pageNumber}`} nonClickable>
+              ...
+            </PageButton>
+          )
+        }
       }
     }
 
     return result
   }, [currentPage, pages])
+
+  const processedExplorerData = useMemo(
+    () =>
+      explorerData
+        ?.filter((element) => element.currency == currentCurrency)
+        .map((element) => [
+          element.ticker,
+          `${element.buy} ${mapCurrency(currentCurrency)}`,
+          `${element.sell} ${mapCurrency(currentCurrency)}`,
+          <ChangeField
+            key={`change24h_${element.id}`}
+            up={element.change24 >= 0}
+          >
+            {`${element.change24 >= 0 ? "+" : ""}${element.change24.toFixed(
+              6
+            )}%`}
+          </ChangeField>,
+          element.volume24,
+          <ActionButton
+            key={`buy_${element.id}`}
+            action="buy"
+            onClick={() => handleAction("BUY", element.token)}
+          >
+            Buy
+          </ActionButton>,
+          <ActionButton
+            key={`sell_${element.id}`}
+            action="sell"
+            onClick={() => handleAction("SELL", element.token)}
+          >
+            Sell
+          </ActionButton>
+        ]),
+    [explorerData, handleAction, currentCurrency]
+  )
 
   useIsomorphicLayoutEffect(() => {
     const handleResize = () => {
@@ -331,18 +299,20 @@ function CryptoExplorer() {
     setCurrentPage(1)
   }, [displayCards])
 
+  const isLoading = showSkeleton || processedExplorerData == null
+
   return (
     <Container>
       <TitleRow>
-        <h3>{!showSkeleton ? "Crypto Explorer" : <Skeleton />}</h3>
-        {!showSkeleton && (
+        <h3>{!isLoading ? "Crypto Explorer" : <Skeleton />}</h3>
+        {!isLoading && (
           <AllLink as="a" href="#">
             {isMobile ? "View all" : "View all supported currencies"}
           </AllLink>
         )}
       </TitleRow>
       <ControlsRow>
-        {!showSkeleton ? (
+        {!isLoading ? (
           <>
             <Controls></Controls>
             <Search />
@@ -351,21 +321,25 @@ function CryptoExplorer() {
           <Skeleton containerClassName="skeletonFlexContainer" height={49} />
         )}
       </ControlsRow>
-      {showSkeleton ? (
-        <Skeleton height={530} />
+      {isLoading ? (
+        <Skeleton height={490} />
       ) : displayCards ? (
-        <Cards data={data} currentPage={currentPage} rowNames={cardRowNames} />
+        <Cards
+          data={processedExplorerData}
+          currentPage={currentPage}
+          rowNames={cardRowNames}
+        />
       ) : (
         <Table
           customHeadings={tableHeadings}
-          data={data}
+          data={processedExplorerData}
           currentPage={currentPage}
           displayPerPage={desktopPerPage}
           displayIndexes
         />
       )}
       <PageRow>
-        {showSkeleton ? (
+        {isLoading ? (
           <Skeleton containerClassName="skeletonFlexContainer" height={30} />
         ) : (
           <>
@@ -396,7 +370,7 @@ function CryptoExplorer() {
               </PageButton>
               {pageButtons}
               <PageButton
-                disabled={currentPage == pages}
+                disabled={pages == null || currentPage == pages}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 <ArrowContainer mirror>

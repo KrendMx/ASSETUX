@@ -13,6 +13,7 @@ import type {
   GetTokens,
   Token
 } from "../BackendClient/types"
+import { ExplorerData } from "@/components/Home/CryptoManager/types"
 
 const hydrate = createAction<RootState>(HYDRATE)
 
@@ -52,6 +53,7 @@ export type CryptoState = {
   selectedToken: Token | null
   currentRate: number | null
   action: ActionType
+  explorerData: ExplorerData[] | null
 }
 
 const initialState: CryptoState = {
@@ -60,7 +62,8 @@ const initialState: CryptoState = {
   availableTokens: null,
   selectedToken: null,
   currentRate: null,
-  action: "BUY"
+  action: "BUY",
+  explorerData: null
 }
 
 export const CryptoSlice = createSlice({
@@ -86,6 +89,9 @@ export const CryptoSlice = createSlice({
           state.action = "BUY"
         }
       }
+    },
+    setExplorerData: (state, action: PayloadAction<ExplorerData[] | null>) => {
+      state.explorerData = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -129,7 +135,8 @@ export const {
   setSelectedToken,
   setSelectedBlockchain,
   swapAction,
-  setCurrentRate
+  setCurrentRate,
+  setExplorerData
 } = CryptoSlice.actions
 
 export default CryptoSlice.reducer

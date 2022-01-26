@@ -4,4 +4,4 @@ export type CardsProps = {
   currentPage?: number
 }
 
-type CardData = string | JSX.Element
+type CardData = string | number | JSX.Element

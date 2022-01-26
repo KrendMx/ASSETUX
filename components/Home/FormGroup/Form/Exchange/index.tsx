@@ -41,10 +41,7 @@ function Exchange({ token, currency, rate, isLoading }: ExchangeProps) {
           <ExchangeStat>
             1 {token} = {rate} {currency}
           </ExchangeStat>
-          <ExchangeHelp
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          >
+          <ExchangeHelp onMouseEnter={() => {}} onMouseLeave={() => {}}>
             All fees included
           </ExchangeHelp>
           {hovered && (

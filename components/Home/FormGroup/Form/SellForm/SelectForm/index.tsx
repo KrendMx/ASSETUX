@@ -1,15 +1,14 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import Container from "./Container"
 import InputSelect from "../../InputSelect"
 import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
 import ExchangeRow from "../../Exchange"
-import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
-import Step from "./Steps"
-import { floatRegexp, allowSkeletons } from "@/src/constants"
+import { emailRegexp, floatRegexp, allowSkeletons } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
+import { stringToPieces } from "@/src/helpers"
 import type { Error } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
@@ -17,9 +16,11 @@ import type { Option } from "../../InputSelect/types"
 const inputIds = {
   get: "get",
   give: "give",
-  wallet: "wallet",
+  details: "details",
+  holder: "holder",
   blockchains: "blockchains",
-  payments: "payments"
+  payments: "payments",
+  email: "email"
 }
 
 type CurrencyFormProps = {
@@ -31,14 +32,18 @@ type CurrencyFormProps = {
   tokens: Option[] | null
   currentPayment: string | null
   payments: PaymentOption[] | null
-  currentWallet: string
+  currentDetails: string
+  currentHolder: string
+  currentEmail: string
   giveAmount: string
   rate: number | null
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
   onPaymentChange: (payment: string) => void
-  onWalletChange: (wallet: string) => void
+  onDetailsChange: (details: string) => void
+  onHolderChange: (holder: string) => void
+  onEmailChange: (email: string) => void
   onGiveAmountChange: (amount: string) => void
   onSubmit: () => void
 }
@@ -52,14 +57,18 @@ function CurrencyForm({
   tokens,
   currentPayment,
   payments,
-  currentWallet,
+  currentDetails,
+  currentHolder,
+  currentEmail,
   giveAmount,
   rate,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
   onPaymentChange,
-  onWalletChange,
+  onDetailsChange,
+  onHolderChange,
+  onEmailChange,
   onGiveAmountChange,
   onSubmit
 }: CurrencyFormProps) {
@@ -68,8 +77,12 @@ function CurrencyForm({
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
-  const [step, setStep] = useState(Step.Choice)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+
+  const piecedDetails = useMemo(
+    () => stringToPieces(currentDetails, 4, " "),
+    [currentDetails]
+  )
 
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
@@ -102,34 +115,47 @@ function CurrencyForm({
     }
   }
 
-  const handleWalletInput: React.ChangeEventHandler<HTMLInputElement> = (
+  const handleDetailsInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const value = event.target.value.replaceAll(" ", "")
+    const validated = /^[0-9]*$/.test(value)
+    validated && onDetailsChange(value)
+  }
+
+  const handleHolderInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     const value = event.target.value
-    onWalletChange(value)
+    onHolderChange(value)
+  }
+
+  const handleEmailInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const value = event.target.value
+    onEmailChange(value)
   }
 
   const handleNextStep = () => {
-    // validation
-
     let errorObject: Error = {}
-    errorObject[inputIds.wallet] = currentWallet == ""
+    errorObject[inputIds.holder] = currentHolder == ""
+    errorObject[inputIds.details] = currentDetails == ""
     errorObject[inputIds.give] = giveAmount == ""
+
+    if (currentEmail == "" || !emailRegexp.test(currentEmail)) {
+      errorObject[inputIds.email] = true
+    }
+
     setInputError(errorObject)
 
-    // actions
-
     if (!Object.values(errorObject).includes(true)) {
-      if (step == Step.Choice) {
-        setStep(Step.Payment)
-      } else if (step == Step.Payment) {
-        onSubmit()
-      }
+      onSubmit()
     }
   }
 
   return (
-    <Container formStep={step}>
+    <Container>
       <FormContainer>
         {!isLoading ? (
           <InputSelect
@@ -163,9 +189,29 @@ function CurrencyForm({
           ) : (
             <Skeleton height={65} />
           )}
-          <HideableWithMargin hide={giveActive} margins={step == Step.Payment}>
-            {step == Step.Payment &&
-              (!isLoading ? (
+          <HideableWithMargin hide={giveActive} margins>
+            <ExchangeRow
+              token={currentToken}
+              currency={currentCurrency}
+              rate={rate}
+              isLoading={isLoading}
+            />
+            {!isLoading ? (
+              <InputSelect
+                label="You get"
+                id={inputIds.get}
+                options={checkedTokens}
+                displayInSelect={1}
+                onActiveChange={(active) => setGetActive(active)}
+                onSelect={onTokenChange}
+                selectedValue={currentToken}
+                value={tokenAmount}
+              />
+            ) : (
+              <Skeleton height={65} />
+            )}
+            <HideableWithMargin hide={getActive} margins>
+              {!isLoading ? (
                 <InputSelect
                   label="Payment Method"
                   id={inputIds.payments}
@@ -177,42 +223,48 @@ function CurrencyForm({
                 />
               ) : (
                 <Skeleton height={65} />
-              ))}
-            <HideableWithMargin hide={paymentActive}>
-              <ExchangeRow
-                token={currentToken}
-                currency={currentCurrency}
-                rate={rate}
-                isLoading={isLoading}
-              />
-              {!isLoading ? (
-                <InputSelect
-                  label="You get"
-                  id={inputIds.get}
-                  options={checkedTokens}
-                  displayInSelect={1}
-                  onActiveChange={(active) => setGetActive(active)}
-                  onSelect={onTokenChange}
-                  selectedValue={currentToken}
-                  value={tokenAmount}
-                />
-              ) : (
-                <Skeleton height={65} />
               )}
-              <HideableWithMargin hide={getActive}>
-                <NetworkRow isLoading={isLoading} />
+              <HideableWithMargin hide={paymentActive} margins>
                 {!isLoading ? (
                   <InputSelect
-                    label="Wallet address"
-                    id={inputIds.wallet}
-                    onChange={handleWalletInput}
-                    value={currentWallet}
-                    error={inputError[inputIds.wallet]}
+                    label="Card Number"
+                    id={inputIds.details}
+                    onChange={handleDetailsInput}
+                    value={piecedDetails}
+                    error={inputError[inputIds.details]}
                     changeable
                   />
                 ) : (
                   <Skeleton height={65} />
                 )}
+                <HideableWithMargin hide={false} margins>
+                  {!isLoading ? (
+                    <InputSelect
+                      label="Card Holder"
+                      id={inputIds.holder}
+                      onChange={handleHolderInput}
+                      value={currentHolder}
+                      error={inputError[inputIds.holder]}
+                      changeable
+                    />
+                  ) : (
+                    <Skeleton height={65} />
+                  )}
+                </HideableWithMargin>
+                <HideableWithMargin hide={false} margins>
+                  {!isLoading ? (
+                    <InputSelect
+                      label="Email"
+                      id={inputIds.email}
+                      onChange={handleEmailInput}
+                      value={currentEmail}
+                      error={inputError[inputIds.email]}
+                      changeable
+                    />
+                  ) : (
+                    <Skeleton height={65} />
+                  )}
+                </HideableWithMargin>
               </HideableWithMargin>
             </HideableWithMargin>
           </HideableWithMargin>

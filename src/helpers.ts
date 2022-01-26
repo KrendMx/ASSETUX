@@ -5,3 +5,17 @@ export const ellipsisString = (value: string, maxLength: number) => {
 
   return value
 }
+
+export const stringToPieces = (
+  string: string,
+  pieceLength: number,
+  delimeter: string
+): string => {
+  const piecesLength = Math.ceil(string.length / pieceLength)
+  const pieces = new Array(piecesLength)
+  for (let i = 0; i < piecesLength; i++) {
+    pieces[i] = string.slice(i * pieceLength, i * pieceLength + pieceLength)
+  }
+
+  return pieces.join(delimeter)
+}

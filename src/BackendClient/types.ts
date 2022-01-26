@@ -26,6 +26,21 @@ export type Token = {
   stable: boolean
   chain_id: number
   logo_uri: string
+  fee?: {
+    id: number
+    token: number
+    pool: number
+    service: number
+  }
+  market_history?: MarketHistoryData[]
+}
+
+export type MarketHistoryData = {
+  id: number
+  token_id: number
+  price: number
+  delta: number
+  timestamp: string
 }
 
 export type Blockchain = {
@@ -87,4 +102,31 @@ export type GetPaymentUrl = {
   data?: {
     url: string
   }
+}
+
+export type SellTokenCreateProps = UrlRequest & {
+  cur_in: {
+    address: string
+    symbol: string
+    decimals: number
+    chain_id: number
+  }
+  cur_out: {
+    type: string
+    currency: string
+    pan: number
+    holder: string
+  }
+  email: string
+}
+
+export type SellTokenCreate = {
+  status?: number
+  message: string
+  data?:
+    | string
+    | {
+        wallet: string
+        orderId: number
+      }
 }

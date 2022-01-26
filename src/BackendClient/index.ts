@@ -7,7 +7,9 @@ import type {
   GetBlockchains,
   UrlRequest,
   GetPaymentUrlProps,
-  GetPaymentUrl
+  GetPaymentUrl,
+  SellTokenCreate,
+  SellTokenCreateProps
 } from "./types"
 
 class BackendClient {
@@ -57,6 +59,18 @@ class BackendClient {
       method: "POST",
       headers: this.headers,
       data: params
+    })
+  }
+
+  public async createSellTokenOrder({
+    apiHost,
+    ...data
+  }: SellTokenCreateProps): Promise<SellTokenCreate> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/create`,
+      method: "POST",
+      headers: this.headers,
+      data
     })
   }
 }

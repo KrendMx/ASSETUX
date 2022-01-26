@@ -54,7 +54,7 @@ function InputSelect({
 }: InputSelectProps) {
   const hasOptions = options != undefined
   const [active, setActive] = useState(false)
-  const [userInput, setUserInput] = useState(defaultValue)
+  const [userInput, setUserInput] = useState({ value: defaultValue })
   const searchOptions = useMemo(
     () => options?.filter((option) => option.value != selectedValue),
     [selectedValue, options]
@@ -77,7 +77,7 @@ function InputSelect({
       if (value != undefined) {
         displayedValue = value
       } else {
-        displayedValue = userInput
+        displayedValue = userInput.value
       }
     }
   } else {
@@ -104,7 +104,7 @@ function InputSelect({
       onChange(event)
     }
     const value = event.target.value
-    setUserInput(value)
+    setUserInput({ value })
   }
 
   const handleSelect = (selectedValue: string) => {

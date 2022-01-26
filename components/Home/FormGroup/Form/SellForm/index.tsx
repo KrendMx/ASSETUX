@@ -42,14 +42,42 @@ function SellForm({
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
-  const [walletAddress, setWalletAddress] = useState("")
+  const [email, setEmail] = useState("")
+  const [details, setDetails] = useState("")
+  const [holder, setHolder] = useState("")
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
-  const onSubmit = () => {}
+  const onSubmit = async () => {
+    if (
+      currentBlockchain &&
+      currentToken &&
+      selectedCurrency &&
+      selectedPayment
+    ) {
+      const response = await BackendClient.createSellTokenOrder({
+        apiHost: currentBlockchain.url,
+        cur_in: {
+          address: currentToken.address,
+          chain_id: currentBlockchain.chain_id,
+          decimals: currentToken.decimals,
+          symbol: currentToken.symbol
+        },
+        cur_out: {
+          currency: selectedCurrency,
+          pan: Number(details),
+          holder,
+          type: selectedPayment
+        },
+        email
+      })
+
+      console.log(response)
+    }
+  }
 
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
@@ -102,14 +130,18 @@ function SellForm({
       tokens={tokens}
       currentPayment={selectedPayment}
       payments={processedPayments}
-      currentWallet={walletAddress}
+      currentDetails={details}
+      currentHolder={holder}
+      currentEmail={email}
       giveAmount={giveAmount}
       rate={currentRate}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}
       onPaymentChange={setSelectedPayment}
-      onWalletChange={setWalletAddress}
+      onDetailsChange={setDetails}
+      onHolderChange={setHolder}
+      onEmailChange={setEmail}
       onGiveAmountChange={setGiveAmount}
       onSubmit={onSubmit}
     />
