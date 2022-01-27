@@ -201,48 +201,20 @@ function CryptoExplorer() {
     [dispatch]
   )
 
-  const pages = useMemo(
-    () =>
-      explorerData &&
-      Math.ceil(
-        explorerData.length / (displayCards ? cardsPerPage : desktopPerPage)
-      ),
-    [explorerData, desktopPerPage, displayCards]
-  )
+  const handleCardAction = useCallback(
+    (action: ActionType, dataIndex: number) => {
+      const token = explorerData
+        ? explorerData?.filter(
+            (element) => element.currency == currentCurrency
+          )[dataIndex]?.token
+        : null
 
-  const pageButtons = useMemo(() => {
-    const result: JSX.Element[] = []
-    if (pages) {
-      const pageNumbers = generatePageNumbers(pages, currentPage)
-
-      for (let i = 0; i < pageNumbers.length; i++) {
-        const pageNumber = pageNumbers[i]
-
-        result.push(
-          <PageButton
-            key={pageNumber}
-            active={pageNumber == currentPage}
-            onClick={() => setCurrentPage(pageNumber)}
-          >
-            {pageNumber}
-          </PageButton>
-        )
-
-        const jumping =
-          i != pageNumbers.length && pageNumbers[i + 1] - pageNumbers[i] > 1
-
-        if (jumping) {
-          result.push(
-            <PageButton key={`jumpButton-${pageNumber}`} nonClickable>
-              ...
-            </PageButton>
-          )
-        }
+      if (token) {
+        handleAction(action, token)
       }
-    }
-
-    return result
-  }, [currentPage, pages])
+    },
+    [handleAction, explorerData, currentCurrency]
+  )
 
   const processedExplorerData = useMemo(
     () =>
@@ -278,6 +250,50 @@ function CryptoExplorer() {
         ]),
     [explorerData, handleAction, currentCurrency]
   )
+
+  const pages = useMemo(
+    () =>
+      processedExplorerData &&
+      Math.ceil(
+        processedExplorerData.length /
+          (displayCards ? cardsPerPage : desktopPerPage)
+      ),
+    [processedExplorerData, desktopPerPage, displayCards]
+  )
+
+  const pageButtons = useMemo(() => {
+    const result: JSX.Element[] = []
+    if (pages) {
+      const pageNumbers = generatePageNumbers(pages, currentPage)
+
+      for (let i = 0; i < pageNumbers.length; i++) {
+        const pageNumber = pageNumbers[i]
+
+        result.push(
+          <PageButton
+            key={pageNumber}
+            active={pageNumber == currentPage}
+            onClick={() => setCurrentPage(pageNumber)}
+          >
+            {pageNumber}
+          </PageButton>
+        )
+
+        const jumping =
+          i != pageNumbers.length && pageNumbers[i + 1] - pageNumbers[i] > 1
+
+        if (jumping) {
+          result.push(
+            <PageButton key={`jumpButton-${pageNumber}`} nonClickable>
+              ...
+            </PageButton>
+          )
+        }
+      }
+    }
+
+    return result
+  }, [currentPage, pages])
 
   useIsomorphicLayoutEffect(() => {
     const handleResize = () => {
@@ -328,6 +344,7 @@ function CryptoExplorer() {
           data={processedExplorerData}
           currentPage={currentPage}
           rowNames={cardRowNames}
+          handleAction={handleCardAction}
         />
       ) : (
         <Table

@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: space-between;
 
   @media only screen and (max-width: ${mobile}px) {
-    height: 503px;
+    height: 635px;
   }
 `
 

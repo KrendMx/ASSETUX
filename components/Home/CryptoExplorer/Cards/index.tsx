@@ -72,7 +72,7 @@ const Button = styled.button<ButtonProps>`
   color: ${(props) => (props.action == "buy" ? "var(--green)" : "var(--red)")};
 `
 
-function Cards({ data, rowNames, currentPage = 1 }: CardsProps) {
+function Cards({ data, rowNames, handleAction, currentPage = 1 }: CardsProps) {
   const paginatedData = useMemo(
     () => data && paginate(data, cardsPerPage),
     [data]
@@ -96,13 +96,27 @@ function Cards({ data, rowNames, currentPage = 1 }: CardsProps) {
               ))}
             </RowSpacer>
             <ButtonsContainer>
-              <Button action="buy">Buy</Button>
-              <Button action="sell">Sell</Button>
+              <Button
+                action="buy"
+                onClick={() =>
+                  handleAction && handleAction("BUY", currentIndex)
+                }
+              >
+                Buy
+              </Button>
+              <Button
+                action="sell"
+                onClick={() =>
+                  handleAction && handleAction("SELL", currentIndex)
+                }
+              >
+                Sell
+              </Button>
             </ButtonsContainer>
           </Card>
         )
       }),
-    [paginatedData, currentPage, rowNames]
+    [paginatedData, currentPage, rowNames, handleAction]
   )
 
   return <Container>{processedCards}</Container>
