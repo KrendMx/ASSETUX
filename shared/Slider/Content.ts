@@ -17,6 +17,7 @@ const Content = styled.div.attrs<ContentProps>(
   display: flex;
   flex-direction: row;
   transition: ${(props) => (props.animate ? "transform 0.3s linear" : "")};
+  touch-action: pan-x;
 
   & > *:not(:last-child) {
     margin-right: var(--element-gap);

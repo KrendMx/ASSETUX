@@ -56,8 +56,6 @@ function Slider({
       setSwipedPixels(0)
       swipeDirection.current = "none"
     },
-    onSwipedDown: () => {}, // prevent scrolling
-    onSwipedUp: () => {}, // prevent scrolling
     onSwipedLeft: () => {
       swipe("left")
     },
@@ -157,12 +155,6 @@ function Slider({
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         onWheel={handleWheel}
-        onTouchStart={() => {
-          window.addEventListener("touchmove", preventer, preventerOpts)
-        }}
-        onTouchEnd={() => {
-          window.removeEventListener("touchmove", preventer)
-        }}
         {...swipeHandlers}
       >
         <Content

@@ -4,7 +4,7 @@ export const preventerOpts = {
 
 export const swipeProps = {
   delta: 50,
-  preventDefaultTouchmoveEvent: true,
+  preventDefaultTouchmoveEvent: false,
   trackTouch: true,
   trackMouse: false,
   rotationAngle: 0
