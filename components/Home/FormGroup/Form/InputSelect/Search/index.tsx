@@ -9,6 +9,7 @@ type ItemProps = {
 }
 
 const Item = styled.div<ItemProps>`
+  background: var(--white);
   width: 100%;
   height: 65px;
   padding: 0 20px;
@@ -109,6 +110,7 @@ const Input = styled.input`
   outline: none;
   font-size: 1em;
   color: var(--gray);
+  background: var(--white);
 
   &::placeholder {
     color: var(--gray);
@@ -132,9 +134,29 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
   const [searchContext, setSearchContext] = useState("")
   const searchedOptions = useMemo(() => {
     const lowerCasedCtx = searchContext.toLowerCase()
-    return options.filter((option) =>
-      option.value.toLowerCase().startsWith(lowerCasedCtx)
-    )
+
+    return options.filter((option) => {
+      let valuesToCheck = option.value.toLowerCase().split(" ")
+
+      if (option.description) {
+        valuesToCheck = valuesToCheck.concat(
+          option.description.toLowerCase().split(" ")
+        )
+      }
+
+      let good = false
+
+      for (const value of valuesToCheck) {
+        const result = value.startsWith(lowerCasedCtx)
+
+        if (result) {
+          good = true
+          break
+        }
+      }
+
+      return good
+    })
   }, [searchContext, options])
 
   const handleInput: React.ChangeEventHandler<HTMLInputElement> = (event) => {
