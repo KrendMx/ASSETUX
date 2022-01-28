@@ -63,12 +63,20 @@ function MyApp(props: AppProps) {
       }
     }
 
-    window.onload = () => {
+    const handleOnLoad = () => {
       console.log("[App] Page loaded")
       dispatch(setAppLoaded())
       // setTimeout(() => {
       //   dispatch(setAppLoaded())
       // }, 2000)
+    }
+
+    const alreadyLoaded = document.readyState == "complete"
+
+    if (alreadyLoaded) {
+      handleOnLoad()
+    } else {
+      window.onload = handleOnLoad
     }
 
     window.addEventListener("resize", handleResize)
