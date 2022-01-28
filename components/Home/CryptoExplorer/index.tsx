@@ -16,6 +16,7 @@ import { generatePageNumbers } from "./helpers"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import type { ActionType } from "@/src/redux/cryptoSlice"
 import type { Token } from "@/src/BackendClient/types"
+import type { ExplorerData } from "../CryptoManager/types"
 
 const Container = styled.section`
   display: flex;
@@ -176,6 +177,26 @@ const cardRowNames = [
   "Volume 24h"
 ]
 
+const checkExplorerDataByContext = (
+  explorerData: ExplorerData,
+  context: string
+): boolean => {
+  const lowerCasedCtx = context.toLowerCase()
+  const valuesToCheck = explorerData.token.name.toLowerCase().split(" ")
+  valuesToCheck.push(explorerData.token.symbol.toLowerCase())
+
+  let good = false
+
+  for (const value of valuesToCheck) {
+    if (value.startsWith(lowerCasedCtx)) {
+      good = true
+      break
+    }
+  }
+
+  return good
+}
+
 function CryptoExplorer() {
   const dispatch = useAppDispatch()
 
@@ -184,6 +205,7 @@ function CryptoExplorer() {
   const explorerData = useAppSelector((state) => state.crypto.explorerData)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 
+  const [searchContext, setSearchContext] = useState("")
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
   const [displayCards, setDisplayCards] = useState(false)
@@ -219,7 +241,11 @@ function CryptoExplorer() {
   const processedExplorerData = useMemo(
     () =>
       explorerData
-        ?.filter((element) => element.currency == currentCurrency)
+        ?.filter(
+          (element) =>
+            element.currency == currentCurrency &&
+            checkExplorerDataByContext(element, searchContext)
+        )
         .map((element) => [
           element.ticker,
           `${element.buy} ${mapCurrency(currentCurrency)}`,
@@ -248,7 +274,7 @@ function CryptoExplorer() {
             Sell
           </ActionButton>
         ]),
-    [explorerData, handleAction, currentCurrency]
+    [explorerData, handleAction, currentCurrency, searchContext]
   )
 
   const pages = useMemo(
@@ -335,7 +361,7 @@ function CryptoExplorer() {
         {!isLoading ? (
           <>
             <Controls></Controls>
-            <Search />
+            <Search onChange={setSearchContext} />
           </>
         ) : (
           <Skeleton containerClassName="skeletonFlexContainer" height={49} />

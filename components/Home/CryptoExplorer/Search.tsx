@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import styled from "styled-components"
 import { IoIosSearch } from "react-icons/io"
 import { mobile } from "@/src/constants"
@@ -47,12 +47,30 @@ const IconButton = styled.button`
   cursor: pointer;
 `
 
-function Search() {
+type SearchProps = {
+  onChange?: (value: string) => void
+}
+
+function Search({ onChange }: SearchProps) {
+  const [searchContext, setSearchContext] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value
+
+    setSearchContext(value)
+
+    onChange && onChange(value)
+  }
 
   return (
     <Container>
-      <Input placeholder="Search" ref={inputRef} />
+      <Input
+        placeholder="Search"
+        ref={inputRef}
+        value={searchContext}
+        onChange={handleChange}
+      />
       <IconButton
         onClick={() => {
           if (inputRef.current) {
