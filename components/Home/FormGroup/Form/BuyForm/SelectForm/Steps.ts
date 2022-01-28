@@ -1,6 +1,6 @@
 enum Step {
-  Choice,
-  Payment
+  Details,
+  Credentials
 }
 
 export default Step

@@ -39,6 +39,7 @@ function BuyForm({
 }: BuyFormProps) {
   const dispatch = useAppDispatch()
 
+  const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
@@ -52,6 +53,7 @@ function BuyForm({
 
   const onSubmit = async () => {
     if (currentBlockchain && currentToken) {
+      setProcessingRequest(true)
       const tokenAddress = currentToken.address
 
       if (tokenAddress && selectedPayment) {
@@ -66,6 +68,8 @@ function BuyForm({
           email
         })
 
+        setProcessingRequest(false)
+
         if (response.data) {
           window.location.assign(response.data.url)
         }
@@ -77,7 +81,7 @@ function BuyForm({
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (selectedCurrency && payments) {
       setProcessedPayments(
         payments
@@ -94,7 +98,7 @@ function BuyForm({
     }
   }, [selectedCurrency, payments])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!selectedPayment && processedPayments) {
       setSelectedPayment(processedPayments[0].value)
     }
@@ -128,6 +132,7 @@ function BuyForm({
       giveAmount={giveAmount}
       email={email}
       rate={currentRate}
+      processingRequest={processingRequest}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

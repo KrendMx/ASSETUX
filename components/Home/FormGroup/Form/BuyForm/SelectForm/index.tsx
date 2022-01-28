@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Container from "./Container"
 import InputSelect from "../../InputSelect"
+import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
 import ExchangeRow from "../../Exchange"
@@ -36,6 +37,7 @@ type CurrencyFormProps = {
   giveAmount: string
   email: string
   rate: number | null
+  processingRequest: boolean
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
@@ -59,6 +61,7 @@ function CurrencyForm({
   giveAmount,
   email,
   rate,
+  processingRequest,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -73,7 +76,7 @@ function CurrencyForm({
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
-  const [step, setStep] = useState(Step.Choice)
+  const [step, setStep] = useState(Step.Details)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   let checkedBlockchains: Option[] | undefined
@@ -125,12 +128,12 @@ function CurrencyForm({
     // validation
 
     let errorObject: Error = {}
-    errorObject[inputIds.wallet] = currentWallet == ""
     errorObject[inputIds.give] = giveAmount == ""
-    if (step == Step.Payment) {
+    if (step == Step.Credentials) {
       if (email == "" || !emailRegexp.test(email)) {
         errorObject[inputIds.email] = true
       }
+      errorObject[inputIds.wallet] = currentWallet == ""
     }
 
     setInputError(errorObject)
@@ -138,52 +141,52 @@ function CurrencyForm({
     // actions
 
     if (!Object.values(errorObject).includes(true)) {
-      if (step == Step.Choice) {
-        setStep(Step.Payment)
-      } else if (step == Step.Payment) {
+      if (step == Step.Details) {
+        setStep(Step.Credentials)
+      } else if (step == Step.Credentials) {
         onSubmit()
       }
     }
   }
 
-  return (
-    <Container formStep={step}>
-      <FormContainer>
-        {!isLoading ? (
-          <InputSelect
-            label="Blockchain"
-            id={inputIds.blockchains}
-            selectLabel="You are currently using Assetux on"
-            options={checkedBlockchains}
-            displayInSelect={3}
-            onActiveChange={(active) => setChainActive(active)}
-            onSelect={onBlockchainChange}
-            selectedValue={currentBlockchain}
-            displayIcon
-          />
-        ) : (
-          <Skeleton height={65} />
-        )}
-        <HideableWithMargin hide={chainActive} margins>
+  const renderFields = () => {
+    if (step == Step.Details) {
+      return (
+        <FormContainer>
           {!isLoading ? (
             <InputSelect
-              label="You give"
-              id={inputIds.give}
-              value={giveAmount}
-              onChange={handleGiveInput}
-              options={checkedCurrencies}
-              onActiveChange={(active) => setGiveActive(active)}
-              onSelect={onCurrencyChange}
-              error={inputError[inputIds.give]}
-              selectedValue={currentCurrency}
-              changeable
+              label="Blockchain"
+              id={inputIds.blockchains}
+              selectLabel="You are currently using Assetux on"
+              options={checkedBlockchains}
+              displayInSelect={3}
+              onActiveChange={(active) => setChainActive(active)}
+              onSelect={onBlockchainChange}
+              selectedValue={currentBlockchain}
+              displayIcon
             />
           ) : (
             <Skeleton height={65} />
           )}
-          <HideableWithMargin hide={giveActive} margins={step == Step.Payment}>
-            {step == Step.Payment &&
-              (!isLoading ? (
+          <HideableWithMargin hide={chainActive} margins>
+            {!isLoading ? (
+              <InputSelect
+                label="You give"
+                id={inputIds.give}
+                value={giveAmount}
+                onChange={handleGiveInput}
+                options={checkedCurrencies}
+                onActiveChange={(active) => setGiveActive(active)}
+                onSelect={onCurrencyChange}
+                error={inputError[inputIds.give]}
+                selectedValue={currentCurrency}
+                changeable
+              />
+            ) : (
+              <Skeleton height={65} />
+            )}
+            <HideableWithMargin hide={giveActive} margins>
+              {!isLoading ? (
                 <InputSelect
                   label="Payment Method"
                   id={inputIds.payments}
@@ -195,65 +198,76 @@ function CurrencyForm({
                 />
               ) : (
                 <Skeleton height={65} />
-              ))}
-            <HideableWithMargin hide={paymentActive}>
-              <ExchangeRow
-                token={currentToken}
-                currency={currentCurrency}
-                rate={rate}
-                isLoading={isLoading}
-              />
-              {!isLoading ? (
-                <InputSelect
-                  label="You get"
-                  id={inputIds.get}
-                  options={checkedTokens}
-                  displayInSelect={1}
-                  onActiveChange={(active) => setGetActive(active)}
-                  onSelect={onTokenChange}
-                  value={tokenAmount}
-                  selectedValue={currentToken}
-                />
-              ) : (
-                <Skeleton height={65} />
               )}
-              <HideableWithMargin hide={getActive}>
-                <NetworkRow isLoading={isLoading} />
+              <HideableWithMargin hide={paymentActive}>
+                <ExchangeRow
+                  token={currentToken}
+                  currency={currentCurrency}
+                  rate={rate}
+                  isLoading={isLoading}
+                />
                 {!isLoading ? (
                   <InputSelect
-                    label="Wallet address"
-                    id={inputIds.wallet}
-                    onChange={handleWalletInput}
-                    value={currentWallet}
-                    error={inputError[inputIds.wallet]}
-                    changeable
+                    label="You get"
+                    id={inputIds.get}
+                    options={checkedTokens}
+                    displayInSelect={1}
+                    onActiveChange={(active) => setGetActive(active)}
+                    onSelect={onTokenChange}
+                    value={tokenAmount}
+                    selectedValue={currentToken}
                   />
                 ) : (
                   <Skeleton height={65} />
                 )}
-                <HideableWithMargin hide={false} margins={step == Step.Payment}>
-                  {step == Step.Payment && (
-                    <InputSelect
-                      label="Email"
-                      id={inputIds.email}
-                      value={email}
-                      error={inputError[inputIds.email]}
-                      onChange={handleEmailInput}
-                      changeable
-                    />
-                  )}
-                </HideableWithMargin>
               </HideableWithMargin>
             </HideableWithMargin>
           </HideableWithMargin>
-        </HideableWithMargin>
-      </FormContainer>
+        </FormContainer>
+      )
+    } else if (step == Step.Credentials) {
+      return (
+        <FormContainer>
+          <InputSelectButton
+            label="Back to"
+            value="Order details"
+            onClick={() => setStep(Step.Details)}
+          />
+          <NetworkRow isLoading={isLoading} />
+          <InputSelect
+            label="Wallet address"
+            id={inputIds.wallet}
+            onChange={handleWalletInput}
+            value={currentWallet}
+            error={inputError[inputIds.wallet]}
+            changeable
+          />
+          <HideableWithMargin hide={false} margins>
+            <InputSelect
+              label="Email"
+              id={inputIds.email}
+              value={email}
+              error={inputError[inputIds.email]}
+              onChange={handleEmailInput}
+              changeable
+            />
+          </HideableWithMargin>
+        </FormContainer>
+      )
+    }
+  }
+
+  return (
+    <Container formStep={step}>
+      {renderFields()}
       {!chainActive &&
         !giveActive &&
         !getActive &&
         !paymentActive &&
         (!isLoading ? (
-          <NextButton onClick={handleNextStep}>Next Step</NextButton>
+          <NextButton onClick={handleNextStep}>
+            {processingRequest ? "Please wait..." : "Next Step"}
+          </NextButton>
         ) : (
           <Skeleton height={49} />
         ))}

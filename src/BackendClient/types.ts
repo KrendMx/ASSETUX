@@ -120,13 +120,13 @@ export type SellTokenCreateProps = UrlRequest & {
   email: string
 }
 
+export type SellTokenCreateData = {
+  wallet: string
+  orderId: number
+}
+
 export type SellTokenCreate = {
   status?: number
   message: string
-  data?:
-    | string
-    | {
-        wallet: string
-        orderId: number
-      }
+  data?: string | SellTokenCreateData
 }

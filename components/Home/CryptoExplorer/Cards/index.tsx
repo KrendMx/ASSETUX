@@ -2,11 +2,22 @@ import React, { useMemo } from "react"
 import styled from "styled-components"
 import { paginate } from "../helpers"
 import { cardsPerPage } from "../constants"
+import { mobile } from "@/src/constants"
 import type { CardsProps } from "./types"
 
 const Container = styled.div`
-  & > * + * {
-    margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+
+  @media only screen and (max-width: ${mobile}px) {
+    display: flex;
+    gap: 0;
+    flex-direction: column;
+
+    & > * + * {
+      margin-top: 15px;
+    }
   }
 `
 
@@ -72,10 +83,16 @@ const Button = styled.button<ButtonProps>`
   color: ${(props) => (props.action == "buy" ? "var(--green)" : "var(--red)")};
 `
 
-function Cards({ data, rowNames, handleAction, currentPage = 1 }: CardsProps) {
+function Cards({
+  data,
+  rowNames,
+  handleAction,
+  mobile,
+  currentPage = 1
+}: CardsProps) {
   const paginatedData = useMemo(
-    () => data && paginate(data, cardsPerPage),
-    [data]
+    () => data && paginate(data, mobile ? cardsPerPage : cardsPerPage * 2),
+    [data, mobile]
   )
 
   const processedCards = useMemo(

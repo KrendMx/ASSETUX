@@ -1,6 +1,7 @@
 import { ActionType } from "@/src/redux/cryptoSlice"
 
 export type CardsProps = {
+  mobile?: boolean
   rowNames?: string[]
   data?: CardData[][]
   currentPage?: number

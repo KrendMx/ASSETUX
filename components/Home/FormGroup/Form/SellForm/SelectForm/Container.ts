@@ -3,7 +3,7 @@ import { mobile } from "@/src/constants"
 
 const Container = styled.div`
   width: 100%;
-  height: 660px;
+  height: 500px;
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;

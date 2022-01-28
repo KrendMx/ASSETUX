@@ -256,9 +256,13 @@ function CryptoExplorer() {
       processedExplorerData &&
       Math.ceil(
         processedExplorerData.length /
-          (displayCards ? cardsPerPage : desktopPerPage)
+          (displayCards
+            ? isMobile
+              ? cardsPerPage
+              : cardsPerPage * 2
+            : desktopPerPage)
       ),
-    [processedExplorerData, desktopPerPage, displayCards]
+    [processedExplorerData, desktopPerPage, displayCards, isMobile]
   )
 
   const pageButtons = useMemo(() => {
@@ -341,6 +345,7 @@ function CryptoExplorer() {
         <Skeleton height={490} />
       ) : displayCards ? (
         <Cards
+          mobile={isMobile}
           data={processedExplorerData}
           currentPage={currentPage}
           rowNames={cardRowNames}

@@ -39,6 +39,7 @@ function SellForm({
 }: SellFormProps) {
   const dispatch = useAppDispatch()
 
+  const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
@@ -58,6 +59,8 @@ function SellForm({
       selectedCurrency &&
       selectedPayment
     ) {
+      setProcessingRequest(true)
+
       const response = await BackendClient.createSellTokenOrder({
         apiHost: currentBlockchain.url,
         cur_in: {
@@ -75,6 +78,8 @@ function SellForm({
         email
       })
 
+      setProcessingRequest(false)
+
       console.log(response)
     }
   }
@@ -83,7 +88,7 @@ function SellForm({
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (selectedCurrency && payments) {
       setProcessedPayments(
         payments
@@ -100,7 +105,7 @@ function SellForm({
     }
   }, [selectedCurrency, payments])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!selectedPayment && processedPayments) {
       setSelectedPayment(processedPayments[0].value)
     }
@@ -135,6 +140,7 @@ function SellForm({
       currentEmail={email}
       giveAmount={giveAmount}
       rate={currentRate}
+      processingRequest={processingRequest}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}
