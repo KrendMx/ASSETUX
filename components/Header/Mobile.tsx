@@ -26,6 +26,10 @@ const LogoLink = styled.a`
   display: block;
   width: 38px;
   height: 38px;
+
+  & img:-moz-loading {
+    visibility: hidden;
+  }
 `
 
 function Mobile() {

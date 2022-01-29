@@ -7,6 +7,10 @@ const LogoContainer = styled.div`
   display: block;
   width: 45px;
   height: 45px;
+
+  & img:-moz-loading {
+    visibility: hidden;
+  }
 `
 
 const LogoLink = styled.a`
