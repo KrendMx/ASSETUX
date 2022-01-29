@@ -5,9 +5,12 @@ import Element from "./Element"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
 import { mobile } from "@/src/constants"
+import { mapCurrency } from "@/src/currencies"
 import useSliderConfig from "../sliderConfig"
+import type { ExplorerData } from "../CryptoManager/types"
 import type { Token } from "@/src/BackendClient/types"
 import type { ActionType } from "@/src/redux/cryptoSlice"
+import type { CurrenciesType } from "@/src/currencies"
 
 const Container = styled.section`
   display: block;
@@ -22,19 +25,27 @@ const Container = styled.section`
   }
 `
 
-const mapTokens = (
-  tokens: Token[],
-  handleAction: (action: ActionType, token: Token) => void
+const mapExplorerData = (
+  explorerData: ExplorerData[],
+  handleAction: (action: ActionType, token: Token) => void,
+  currency: CurrenciesType,
+  action: ActionType
 ) => {
-  return tokens.map((token) => (
-    <Element
-      key={token.id}
-      icon={token.logo_uri}
-      symbol={token.symbol}
-      onBuy={() => handleAction("BUY", token)}
-      onSell={() => handleAction("SELL", token)}
-    />
-  ))
+  return explorerData
+    .filter((element) => element.currency == currency)
+    .map((element) => (
+      <Element
+        key={element.id}
+        icon={element.token.logo_uri}
+        symbol={element.token.symbol}
+        price={`${action == "SELL" ? element.sell : element.buy} ${mapCurrency(
+          currency
+        )}`}
+        change24h={element.change24}
+        onBuy={() => handleAction("BUY", element.token)}
+        onSell={() => handleAction("SELL", element.token)}
+      />
+    ))
 }
 
 const getSkeletons = () => {
@@ -47,9 +58,9 @@ const getSkeletons = () => {
 
 function CryptoSlide() {
   const dispatch = useAppDispatch()
-  const availableTokens = useAppSelector(
-    (state) => state.crypto.availableTokens
-  )
+  const explorerData = useAppSelector((state) => state.crypto.explorerData)
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const currentAction = useAppSelector((state) => state.crypto.action)
   const sliderConfig = useSliderConfig()
 
   const handleAction = useCallback(
@@ -66,8 +77,15 @@ function CryptoSlide() {
   )
 
   const mappedTokens = useMemo(
-    () => availableTokens && mapTokens(availableTokens, handleAction),
-    [availableTokens, handleAction]
+    () =>
+      explorerData &&
+      mapExplorerData(
+        explorerData,
+        handleAction,
+        currentCurrency,
+        currentAction
+      ),
+    [explorerData, handleAction, currentCurrency, currentAction]
   )
 
   return (
