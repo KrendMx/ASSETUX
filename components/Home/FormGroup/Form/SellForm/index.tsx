@@ -6,11 +6,12 @@ import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
 import type { Option } from "../InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
-import type {
+import {
   FiatRate,
   FiatProvider,
   Blockchain,
-  Token
+  Token,
+  SellTokenCreateData
 } from "@/src/BackendClient/types"
 import type { CurrenciesType } from "@/src/currencies"
 
@@ -49,6 +50,8 @@ function SellForm({
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
+  const [createOrderData, setCreateOrderData] =
+    useState<SellTokenCreateData | null>(null)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -71,7 +74,7 @@ function SellForm({
         },
         cur_out: {
           currency: selectedCurrency,
-          pan: Number(details),
+          pan: details,
           holder,
           type: selectedPayment
         },
@@ -79,8 +82,9 @@ function SellForm({
       })
 
       setProcessingRequest(false)
-
-      console.log(response)
+      if (response.data && typeof response.data.result != "string") {
+        setCreateOrderData(response.data.result)
+      }
     }
   }
 
@@ -140,6 +144,7 @@ function SellForm({
       currentEmail={email}
       giveAmount={giveAmount}
       rate={currentRate}
+      createOrderData={createOrderData}
       processingRequest={processingRequest}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}

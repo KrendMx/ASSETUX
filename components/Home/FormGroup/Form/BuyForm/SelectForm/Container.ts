@@ -8,14 +8,16 @@ type ContainerProps = {
 
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: ${(props) => (props.formStep == Step.Credentials ? "500px" : "500px")};
+  height: 568px;
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 34px 25px;
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => (props.formStep == Step.Credentials ? "480px" : "480px")};
+    height: 450px;
+    padding: 21px 17px;
   }
 `
 

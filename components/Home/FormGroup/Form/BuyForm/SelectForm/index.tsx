@@ -205,6 +205,7 @@ function CurrencyForm({
                   currency={currentCurrency}
                   rate={rate}
                   isLoading={isLoading}
+                  margins
                 />
                 {!isLoading ? (
                   <InputSelect

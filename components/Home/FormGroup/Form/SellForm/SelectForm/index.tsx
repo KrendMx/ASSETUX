@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import Container from "./Container"
 import InputSelect from "../../InputSelect"
 import InputSelectButton from "../../InputSelectButton"
@@ -6,14 +6,23 @@ import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
 import ExchangeRow from "../../Exchange"
 import HideableWithMargin from "../../HideableWithMargin"
+import ExchangeInfoContainer from "./ExchangeInfoContainer"
+import ExchangeInfoRow from "./ExchangeInfoRow"
+import {
+  ExchangeButtonsContainer,
+  RefundButton,
+  ExchangeButton
+} from "./ExchangeButtons"
 import { emailRegexp, floatRegexp, allowSkeletons } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import { stringToPieces } from "@/src/helpers"
 import { Step } from "./Steps"
+import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
 import type { Error } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
+import type { SellTokenCreateData } from "@/src/BackendClient/types"
 
 const inputIds = {
   get: "get",
@@ -39,6 +48,7 @@ type CurrencyFormProps = {
   currentEmail: string
   giveAmount: string
   rate: number | null
+  createOrderData: SellTokenCreateData | null
   processingRequest: boolean
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
@@ -66,6 +76,7 @@ function CurrencyForm({
   giveAmount,
   rate,
   processingRequest,
+  createOrderData,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -89,6 +100,12 @@ function CurrencyForm({
     [currentDetails]
   )
 
+  useEffect(() => {
+    if (createOrderData) {
+      setStep(Step.Exchange)
+    }
+  }, [createOrderData])
+
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
   let checkedCurrencies: Option[] | undefined
@@ -98,9 +115,9 @@ function CurrencyForm({
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
 
-  let tokenAmount = ""
+  let getAmount = ""
   if (rate && giveAmount != "") {
-    tokenAmount = (Number(giveAmount) / rate).toFixed(6)
+    getAmount = (Number(giveAmount) * rate).toString()
   }
 
   const isLoading =
@@ -192,12 +209,12 @@ function CurrencyForm({
                 label="You give"
                 id={inputIds.give}
                 value={giveAmount}
+                options={checkedTokens}
                 onChange={handleGiveInput}
-                options={checkedCurrencies}
                 onActiveChange={(active) => setGiveActive(active)}
-                onSelect={onCurrencyChange}
+                onSelect={onTokenChange}
                 error={inputError[inputIds.give]}
-                selectedValue={currentCurrency}
+                selectedValue={currentToken}
                 changeable
               />
             ) : (
@@ -209,17 +226,18 @@ function CurrencyForm({
                 currency={currentCurrency}
                 rate={rate}
                 isLoading={isLoading}
+                margins
               />
               {!isLoading ? (
                 <InputSelect
                   label="You get"
                   id={inputIds.get}
-                  options={checkedTokens}
+                  options={checkedCurrencies}
                   displayInSelect={1}
                   onActiveChange={(active) => setGetActive(active)}
-                  onSelect={onTokenChange}
-                  selectedValue={currentToken}
-                  value={tokenAmount}
+                  selectedValue={currentCurrency}
+                  onSelect={onCurrencyChange}
+                  value={getAmount}
                 />
               ) : (
                 <Skeleton height={65} />
@@ -284,17 +302,62 @@ function CurrencyForm({
         </FormContainer>
       )
     } else if (step == Step.Exchange) {
-      
+      return (
+        <>
+          <FormContainer>
+            <InputSelectButton
+              label="Back to"
+              value="Payment details"
+              onClick={() => setStep(Step.Payment)}
+            />
+            <ExchangeInfoContainer>
+              <ExchangeInfoRow
+                label="Wallet address"
+                value={createOrderData?.wallet}
+                copyLabel="Copy address"
+              />
+              <ExchangeInfoRow
+                label="Total amount"
+                value={`${giveAmount} ${currentToken}`}
+                copyLabel="Copy amount"
+              />
+              <ExchangeInfoRow
+                label="Credited amount"
+                value={`${giveAmount} ${currentToken}`}
+              />
+              <ExchangeRow
+                token={currentToken}
+                currency={currentCurrency}
+                rate={rate}
+                isLoading={false}
+              />
+              <ExchangeInfoRow
+                label="Amount to get"
+                value={`${getAmount} ${
+                  currentCurrency &&
+                  isCurrencyDeclared(currentCurrency) &&
+                  mapCurrencyName(currentCurrency)
+                } (${currentCurrency})`}
+              />
+            </ExchangeInfoContainer>
+          </FormContainer>
+          <ExchangeButtonsContainer>
+            <ExchangeButton>Exchange</ExchangeButton>
+            <RefundButton>Refund</RefundButton>
+          </ExchangeButtonsContainer>
+        </>
+      )
     }
   }
 
   return (
-    <Container>
+    <Container formStep={step}>
       {renderFields()}
       {!chainActive &&
         !giveActive &&
         !getActive &&
         !paymentActive &&
+        step != Step.Exchange &&
         (!isLoading ? (
           <NextButton onClick={handleNextStep}>
             {processingRequest ? "Please wait..." : "Next Step"}

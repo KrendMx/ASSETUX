@@ -25,15 +25,10 @@ const FormContainer = styled(AdaptiveFont).attrs({
   mobileFactor: 1,
   tabletFactor: 1
 })`
-  padding: 34px 25px;
   width: 100%;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   background-color: var(--bgColor);
-
-  @media only screen and (max-width: ${mobile}px) {
-    padding: 21px 17px;
-  }
 `
 
 function Form() {

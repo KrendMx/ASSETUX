@@ -114,7 +114,7 @@ export type SellTokenCreateProps = UrlRequest & {
   cur_out: {
     type: string
     currency: string
-    pan: number
+    pan: string
     holder: string
   }
   email: string
@@ -128,5 +128,8 @@ export type SellTokenCreateData = {
 export type SellTokenCreate = {
   status?: number
   message: string
-  data?: string | SellTokenCreateData
+  data?: {
+    error: boolean
+    result: string | SellTokenCreateData
+  }
 }
