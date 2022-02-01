@@ -215,6 +215,7 @@ function CurrencyForm({
                 onSelect={onTokenChange}
                 error={inputError[inputIds.give]}
                 selectedValue={currentToken}
+                displayInSelect={2}
                 changeable
               />
             ) : (
@@ -315,11 +316,13 @@ function CurrencyForm({
                 label="Wallet address"
                 value={createOrderData?.wallet}
                 copyLabel="Copy address"
+                valueToCopy={createOrderData?.wallet}
               />
               <ExchangeInfoRow
                 label="Total amount"
                 value={`${giveAmount} ${currentToken}`}
                 copyLabel="Copy amount"
+                valueToCopy={giveAmount}
               />
               <ExchangeInfoRow
                 label="Credited amount"
@@ -351,7 +354,7 @@ function CurrencyForm({
   }
 
   return (
-    <Container formStep={step}>
+    <Container formStep={step} lastSelectorActive={paymentActive}>
       {renderFields()}
       {!chainActive &&
         !giveActive &&

@@ -36,7 +36,8 @@ function Element({
   const [active, setActive] = useState(false)
 
   const isLoading =
-    allowSkeletons && (!appLoaded || !icon || !symbol || !price || !change24h)
+    allowSkeletons &&
+    (!appLoaded || !icon || !symbol || !price || change24h == undefined)
 
   return (
     <Container

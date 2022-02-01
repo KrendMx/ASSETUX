@@ -194,6 +194,7 @@ function CurrencyForm({
                   onSelect={onPaymentChange}
                   onActiveChange={(active) => setPaymentActive(active)}
                   selectedValue={currentPayment}
+                  displayInSelect={1}
                   displayIcon
                 />
               ) : (
@@ -259,7 +260,7 @@ function CurrencyForm({
   }
 
   return (
-    <Container formStep={step}>
+    <Container formStep={step} lastSelectorActive={getActive}>
       {renderFields()}
       {!chainActive &&
         !giveActive &&

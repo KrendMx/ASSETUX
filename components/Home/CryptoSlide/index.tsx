@@ -33,6 +33,7 @@ const mapExplorerData = (
 ) => {
   return explorerData
     .filter((element) => element.currency == currency)
+    .sort((a, b) => b.buy - a.buy)
     .map((element) => (
       <Element
         key={element.id}

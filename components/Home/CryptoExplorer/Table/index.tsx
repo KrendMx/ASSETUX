@@ -1,8 +1,9 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 import styled from "styled-components"
 import { paginate } from "../helpers"
+import { IoIosArrowDown } from "react-icons/io"
 
-import type { TableProps } from "./types"
+import type { SortInfo, TableProps } from "./types"
 
 const Container = styled.table`
   width: 100%;
@@ -20,6 +21,32 @@ const HeadElement = styled.th`
   color: var(--gray);
   text-align: center;
   font-weight: 500;
+`
+
+const SortableHeading = styled.button`
+  border: none;
+  outline: none;
+  background: transparent;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--gray);
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+`
+
+type ArrowContainerProps = {
+  rotate?: boolean
+}
+
+const ArrowContainer = styled.span<ArrowContainerProps>`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: ${(props) =>
+    props.rotate ? "translateY(-50%) rotate(180deg)" : "translateY(-50%)"};
+  right: -1.1em;
+  font-size: 1em;
 `
 
 const Row = styled.tr`
@@ -46,18 +73,65 @@ function Table({
   displayIndexes = false,
   currentPage = 1
 }: TableProps) {
+  const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
+
+  const sortedData = useMemo(() => {
+    if (!data) {
+      return null
+    }
+
+    if (!sortInfo) {
+      return data
+    }
+
+    const sortFn = sortInfo && customHeadings[sortInfo.nColumn].sortFn
+
+    if (!sortFn) {
+      return data
+    }
+
+    return [...data].sort((a, b) =>
+      sortInfo.ascending
+        ? -1 * sortFn(a[sortInfo.nColumn], b[sortInfo.nColumn])
+        : sortFn(a[sortInfo.nColumn], b[sortInfo.nColumn])
+    )
+  }, [data, sortInfo, customHeadings])
+
   const paginatedData = useMemo(
-    () => data && paginate(data, displayPerPage),
-    [data, displayPerPage]
+    () => sortedData && paginate(sortedData, displayPerPage),
+    [sortedData, displayPerPage]
   )
 
   const processedHeadings = useMemo(
     () =>
       customHeadings &&
-      customHeadings.map((customHeading) => (
-        <HeadElement key={customHeading}>{customHeading}</HeadElement>
+      customHeadings.map((customHeading, columnIndex) => (
+        <HeadElement key={customHeading.value}>
+          {customHeading.sortFn ? (
+            <SortableHeading
+              onClick={() =>
+                setSortInfo({
+                  nColumn: columnIndex,
+                  ascending:
+                    sortInfo && columnIndex == sortInfo.nColumn
+                      ? !sortInfo.ascending
+                      : true
+                })
+              }
+            >
+              <span>{customHeading.value}</span>
+              <ArrowContainer
+                rotate={sortInfo?.nColumn == columnIndex && sortInfo.ascending}
+              >
+                <IoIosArrowDown />
+              </ArrowContainer>
+            </SortableHeading>
+          ) : (
+            customHeading.value
+          )}
+        </HeadElement>
       )),
-    [customHeadings]
+    [customHeadings, sortInfo]
   )
 
   const processedTableData = useMemo(

@@ -160,13 +160,29 @@ const ActionButton = styled.button<ActionButtonProps>`
 `
 
 const tableHeadings = [
-  "Ticker",
-  "ASSETUX Buy",
-  "ASSETUX Sell",
-  "Change 24h",
-  "Volume 24h",
-  "Trade",
-  "Pool"
+  {
+    value: "Ticker",
+    sortFn: (a: string, b: string) => (a > b ? 1 : a < b ? -1 : 0)
+  },
+  {
+    value: "ASSETUX Buy",
+    sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
+  },
+  {
+    value: "ASSETUX Sell",
+    sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
+  },
+  {
+    value: "Change 24h",
+    sortFn: (a: JSX.Element, b: JSX.Element) =>
+      parseFloat(b.props.children) - parseFloat(a.props.children)
+  },
+  {
+    value: "Volume 24h",
+    sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
+  },
+  { value: "Trade" },
+  { value: "Pool" }
 ]
 
 const cardRowNames = [
@@ -209,6 +225,11 @@ function CryptoExplorer() {
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
   const [displayCards, setDisplayCards] = useState(false)
+
+  const handleSearch = (value: string) => {
+    setSearchContext(value)
+    setCurrentPage(1)
+  }
 
   const handleAction = useCallback(
     (action: ActionType, token: Token) => {
@@ -255,7 +276,7 @@ function CryptoExplorer() {
             up={element.change24 >= 0}
           >
             {`${element.change24 >= 0 ? "+" : ""}${element.change24.toFixed(
-              6
+              2
             )}%`}
           </ChangeField>,
           element.volume24,
@@ -361,7 +382,7 @@ function CryptoExplorer() {
         {!isLoading ? (
           <>
             <Controls></Controls>
-            <Search onChange={setSearchContext} />
+            <Search onChange={handleSearch} />
           </>
         ) : (
           <Skeleton containerClassName="skeletonFlexContainer" height={49} />

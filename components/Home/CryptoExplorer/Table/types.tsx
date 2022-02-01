@@ -1,9 +1,19 @@
 export type TableProps = {
-  customHeadings?: string[]
+  customHeadings: TableHeading[]
   data?: RowData[][]
   displayPerPage?: number
   displayIndexes?: boolean
   currentPage?: number
 }
 
-type RowData = string | number | JSX.Element
+export type TableHeading = {
+  value: string
+  sortFn?: (a: any, b: any) => number
+}
+
+export type RowData = string | number | JSX.Element
+
+export type SortInfo = {
+  ascending: boolean
+  nColumn: number
+}

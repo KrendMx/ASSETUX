@@ -4,11 +4,12 @@ import Step from "./Steps"
 
 type ContainerProps = {
   formStep?: Step
+  lastSelectorActive?: boolean
 }
 
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: 568px;
+  height: ${(props) => (props.lastSelectorActive ? "568px" : "490px")};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
@@ -16,7 +17,7 @@ const Container = styled.div<ContainerProps>`
   padding: 34px 25px;
 
   @media only screen and (max-width: ${mobile}px) {
-    height: 450px;
+    height: ${(props) => (props.lastSelectorActive ? "521px" : "445px")};
     padding: 21px 17px;
   }
 `
