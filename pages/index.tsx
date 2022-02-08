@@ -7,6 +7,7 @@ import CryptoExplorer from "@/components/Home/CryptoExplorer"
 import NewsRoom from "@/components/Home/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
 import CryptoManager from "@/components/Home/CryptoManager"
+import QueryController from "@/components/Home/QueryController"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 import type { GetStaticProps } from "next"
 
@@ -67,6 +68,7 @@ function Index() {
       <AboutUs />
 
       <CryptoManager />
+      <QueryController />
     </Container>
   )
 }
