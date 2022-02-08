@@ -2,8 +2,10 @@ import React, { useEffect, useState, useMemo, useRef } from "react"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken } from "@/src/redux/cryptoSlice"
 import BackendClient from "@/src/BackendClient"
+import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import SellForm from "./SellForm"
 import BuyForm from "./BuyForm"
+import BuyPending from "./BuyForm/Pending"
 import { Option } from "./InputSelect/types"
 import {
   currencies as definedCurrencies,
@@ -60,6 +62,7 @@ function FormController() {
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
+  const [displayBuyPending, setDisplayBuyPendings] = useState(false)
   const isUnmounted = useRef(false)
 
   const buyPayments = useMemo(() => {
@@ -80,6 +83,15 @@ function FormController() {
       }
     }
   }
+
+  useIsomorphicLayoutEffect(() => {
+    const query = new URLSearchParams(window.location.search)
+    const id = query.get("id")
+
+    if (id) {
+      setDisplayBuyPendings(true)
+    }
+  }, [])
 
   useEffect(() => {
     return () => {
@@ -167,17 +179,21 @@ function FormController() {
   }, [availableTokens])
 
   return action == "BUY" ? (
-    <BuyForm
-      blockchains={blockchains}
-      tokens={tokens}
-      currencies={currencies}
-      rates={fiatRates}
-      payments={buyPayments}
-      currentBlockchain={selectedBlockchain}
-      currentToken={selectedToken}
-      currentCurrency={currentCurrency}
-      onTokenChange={handleTokenChange}
-    />
+    displayBuyPending ? (
+      <BuyPending />
+    ) : (
+      <BuyForm
+        blockchains={blockchains}
+        tokens={tokens}
+        currencies={currencies}
+        rates={fiatRates}
+        payments={buyPayments}
+        currentBlockchain={selectedBlockchain}
+        currentToken={selectedToken}
+        currentCurrency={currentCurrency}
+        onTokenChange={handleTokenChange}
+      />
+    )
   ) : (
     <SellForm
       blockchains={blockchains}

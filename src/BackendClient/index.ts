@@ -9,7 +9,11 @@ import type {
   GetPaymentUrlProps,
   GetPaymentUrl,
   SellTokenCreate,
-  SellTokenCreateProps
+  SellTokenCreateProps,
+  CheckSellOrderProps,
+  CheckSellOrder,
+  CloseSellOrderProps,
+  CloseSellOrder
 } from "./types"
 
 class BackendClient {
@@ -68,6 +72,30 @@ class BackendClient {
   }: SellTokenCreateProps): Promise<SellTokenCreate> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/create`,
+      method: "POST",
+      headers: this.headers,
+      data
+    })
+  }
+
+  public async checkSellOrder({
+    apiHost,
+    ...data
+  }: CheckSellOrderProps): Promise<CheckSellOrder> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/check`,
+      method: "POST",
+      headers: this.headers,
+      data
+    })
+  }
+
+  public async closeSellOrder({
+    apiHost,
+    ...data
+  }: CloseSellOrderProps): Promise<CloseSellOrder> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/close`,
       method: "POST",
       headers: this.headers,
       data

@@ -4,15 +4,16 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setCurrentRate } from "@/src/redux/cryptoSlice"
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
+import { Step } from "./SelectForm/Steps"
 import type { Option } from "../InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
 import {
   FiatRate,
   FiatProvider,
   Blockchain,
-  Token,
-  SellTokenCreateData
+  Token
 } from "@/src/BackendClient/types"
+import type { ExchangeInfo } from "./SelectForm/types"
 import type { CurrenciesType } from "@/src/currencies"
 
 type SellFormProps = {
@@ -40,18 +41,18 @@ function SellForm({
 }: SellFormProps) {
   const dispatch = useAppDispatch()
 
+  const [currentStep, setCurrentStep] = useState(Step.Details)
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
-  const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
+  const [giveAmount, setGiveAmount] = useState("1") // in form it is validated to be a number
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")
   const [holder, setHolder] = useState("")
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-  const [createOrderData, setCreateOrderData] =
-    useState<SellTokenCreateData | null>(null)
+  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>(null)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -78,15 +79,36 @@ function SellForm({
           holder,
           type: selectedPayment
         },
-        email
+        email,
+        totalAmount: Number(giveAmount)
       })
 
       setProcessingRequest(false)
       if (response.data && typeof response.data.result != "string") {
-        setCreateOrderData(response.data.result)
+        const data = response.data.result
+        setExchangeInfo({
+          wallet: data.wallet,
+          creditedAmount: 0,
+          timestamp: data.end,
+          orderId: data.orderId.toString()
+        })
+        setCurrentStep(Step.Exchange)
       }
     }
   }
+
+  const onExchange = async () => {
+    if (currentBlockchain && exchangeInfo) {
+      const response = await BackendClient.closeSellOrder({
+        apiHost: currentBlockchain.url,
+        orderId: exchangeInfo.orderId
+      })
+
+      console.log(response)
+    }
+  }
+
+  const onRefund = async () => {}
 
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
@@ -129,6 +151,27 @@ function SellForm({
     }
   }, [rates, currentToken, selectedCurrency, dispatch])
 
+  useEffect(() => {
+    if (currentStep == Step.Exchange && exchangeInfo && currentBlockchain) {
+      const interval = setInterval(async () => {
+        const response = await BackendClient.checkSellOrder({
+          apiHost: currentBlockchain.url,
+          orderId: exchangeInfo.orderId
+        })
+
+        if (response.data && typeof response.data.result != "string") {
+          const data = response.data.result
+          setExchangeInfo({
+            ...exchangeInfo,
+            creditedAmount: data.amountIn
+          })
+        }
+      }, 10000)
+
+      return () => clearInterval(interval)
+    }
+  }, [currentStep, exchangeInfo, currentBlockchain])
+
   return (
     <SelectForm
       currentBlockchain={currentBlockchain && currentBlockchain.title}
@@ -144,7 +187,8 @@ function SellForm({
       currentEmail={email}
       giveAmount={giveAmount}
       rate={currentRate}
-      createOrderData={createOrderData}
+      exchangeInfo={exchangeInfo}
+      currentStep={currentStep}
       processingRequest={processingRequest}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
@@ -155,6 +199,9 @@ function SellForm({
       onEmailChange={setEmail}
       onGiveAmountChange={setGiveAmount}
       onSubmit={onSubmit}
+      setCurrentStep={setCurrentStep}
+      onExchange={onExchange}
+      onRefund={onRefund}
     />
   )
 }

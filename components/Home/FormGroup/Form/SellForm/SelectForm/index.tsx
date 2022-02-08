@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react"
+import React, { useState, useMemo } from "react"
 import Container from "./Container"
 import InputSelect from "../../InputSelect"
 import InputSelectButton from "../../InputSelectButton"
@@ -13,16 +13,20 @@ import {
   RefundButton,
   ExchangeButton
 } from "./ExchangeButtons"
-import { emailRegexp, floatRegexp, allowSkeletons } from "@/src/constants"
+import {
+  holderRegexp,
+  emailRegexp,
+  floatRegexp,
+  allowSkeletons
+} from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import { stringToPieces } from "@/src/helpers"
 import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
-import type { Error } from "./types"
+import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
-import type { SellTokenCreateData } from "@/src/BackendClient/types"
 
 const inputIds = {
   get: "get",
@@ -48,8 +52,9 @@ type CurrencyFormProps = {
   currentEmail: string
   giveAmount: string
   rate: number | null
-  createOrderData: SellTokenCreateData | null
+  exchangeInfo: ExchangeInfo | null
   processingRequest: boolean
+  currentStep: Step
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
@@ -59,6 +64,9 @@ type CurrencyFormProps = {
   onEmailChange: (email: string) => void
   onGiveAmountChange: (amount: string) => void
   onSubmit: () => void
+  setCurrentStep: (step: Step) => void
+  onExchange: () => void
+  onRefund: () => void
 }
 
 function CurrencyForm({
@@ -76,7 +84,8 @@ function CurrencyForm({
   giveAmount,
   rate,
   processingRequest,
-  createOrderData,
+  exchangeInfo,
+  currentStep,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -85,26 +94,22 @@ function CurrencyForm({
   onHolderChange,
   onEmailChange,
   onGiveAmountChange,
-  onSubmit
+  onSubmit,
+  setCurrentStep,
+  onExchange,
+  onRefund
 }: CurrencyFormProps) {
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
-  const [step, setStep] = useState(Step.Details)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
     () => stringToPieces(currentDetails, 4, " "),
     [currentDetails]
   )
-
-  useEffect(() => {
-    if (createOrderData) {
-      setStep(Step.Exchange)
-    }
-  }, [createOrderData])
 
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
@@ -149,6 +154,7 @@ function CurrencyForm({
     event
   ) => {
     const value = event.target.value
+
     onHolderChange(value)
   }
 
@@ -164,9 +170,12 @@ function CurrencyForm({
 
     errorObject[inputIds.give] = giveAmount == ""
 
-    if (step == Step.Payment) {
-      errorObject[inputIds.holder] = currentHolder == ""
+    if (currentStep == Step.Payment) {
       errorObject[inputIds.details] = currentDetails == ""
+
+      if (currentHolder == "" || !holderRegexp.test(currentHolder)) {
+        errorObject[inputIds.holder] = true
+      }
 
       if (currentEmail == "" || !emailRegexp.test(currentEmail)) {
         errorObject[inputIds.email] = true
@@ -176,16 +185,16 @@ function CurrencyForm({
     setInputError(errorObject)
 
     if (!Object.values(errorObject).includes(true)) {
-      if (step == Step.Details) {
-        setStep(Step.Payment)
-      } else if (step == Step.Payment) {
+      if (currentStep == Step.Details) {
+        setCurrentStep(Step.Payment)
+      } else if (currentStep == Step.Payment) {
         onSubmit()
       }
     }
   }
 
   const renderFields = () => {
-    if (step == Step.Details) {
+    if (currentStep == Step.Details) {
       return (
         <FormContainer>
           {!isLoading ? (
@@ -262,13 +271,13 @@ function CurrencyForm({
           </HideableWithMargin>
         </FormContainer>
       )
-    } else if (step == Step.Payment) {
+    } else if (currentStep == Step.Payment) {
       return (
         <FormContainer>
           <InputSelectButton
             label="Back to"
             value="Order details"
-            onClick={() => setStep(Step.Details)}
+            onClick={() => setCurrentStep(Step.Details)}
           />
           <HideableWithMargin hide={false} margins>
             <InputSelect
@@ -302,21 +311,21 @@ function CurrencyForm({
           </HideableWithMargin>
         </FormContainer>
       )
-    } else if (step == Step.Exchange) {
+    } else if (currentStep == Step.Exchange && exchangeInfo) {
       return (
         <>
           <FormContainer>
             <InputSelectButton
               label="Back to"
               value="Payment details"
-              onClick={() => setStep(Step.Payment)}
+              onClick={() => setCurrentStep(Step.Payment)}
             />
             <ExchangeInfoContainer>
               <ExchangeInfoRow
                 label="Wallet address"
-                value={createOrderData?.wallet}
+                value={exchangeInfo.wallet}
                 copyLabel="Copy address"
-                valueToCopy={createOrderData?.wallet}
+                valueToCopy={exchangeInfo.wallet}
               />
               <ExchangeInfoRow
                 label="Total amount"
@@ -326,7 +335,8 @@ function CurrencyForm({
               />
               <ExchangeInfoRow
                 label="Credited amount"
-                value={`${giveAmount} ${currentToken}`}
+                value={`${exchangeInfo.creditedAmount} ${currentToken}`}
+                timer={Number(exchangeInfo.timestamp)}
               />
               <ExchangeRow
                 token={currentToken}
@@ -345,8 +355,8 @@ function CurrencyForm({
             </ExchangeInfoContainer>
           </FormContainer>
           <ExchangeButtonsContainer>
-            <ExchangeButton>Exchange</ExchangeButton>
-            <RefundButton>Refund</RefundButton>
+            <ExchangeButton onClick={onExchange}>Exchange</ExchangeButton>
+            <RefundButton onClick={onRefund}>Refund</RefundButton>
           </ExchangeButtonsContainer>
         </>
       )
@@ -354,13 +364,13 @@ function CurrencyForm({
   }
 
   return (
-    <Container formStep={step} lastSelectorActive={paymentActive}>
+    <Container formStep={currentStep} lastSelectorActive={paymentActive}>
       {renderFields()}
       {!chainActive &&
         !giveActive &&
         !getActive &&
         !paymentActive &&
-        step != Step.Exchange &&
+        currentStep != Step.Exchange &&
         (!isLoading ? (
           <NextButton onClick={handleNextStep}>
             {processingRequest ? "Please wait..." : "Next Step"}

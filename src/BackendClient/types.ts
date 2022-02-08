@@ -118,11 +118,13 @@ export type SellTokenCreateProps = UrlRequest & {
     holder: string
   }
   email: string
+  totalAmount: number
 }
 
 export type SellTokenCreateData = {
   wallet: string
   orderId: number
+  end: string
 }
 
 export type SellTokenCreate = {
@@ -131,5 +133,63 @@ export type SellTokenCreate = {
   data?: {
     error: boolean
     result: string | SellTokenCreateData
+  }
+}
+
+export type CheckSellData = {
+  orderId: string
+  chainId: string
+  amountIn: number
+  curIn: {
+    id: string
+    name: string
+    symbol: string
+    address: string
+    decimals: number
+    enabled: boolean
+    contract: string
+    fee_id: number
+    stable: boolean
+    chain_id: number
+    logo_uri: string
+  }
+  curOut: {
+    id: number
+    type: string
+    currency: string
+    amount: number
+    pan: string
+    holder: string
+  }
+  date: string
+  email: string
+  status: string
+  timestamp: string
+  wallet: string
+}
+
+export type CheckSellOrder = {
+  status?: number
+  message: string
+  data?: {
+    error: boolean
+    result: string | CheckSellData
+  }
+}
+
+export type CheckSellOrderProps = UrlRequest & {
+  orderId: string
+}
+
+export type CloseSellOrderProps = UrlRequest & {
+  orderId: string
+}
+
+export type CloseSellOrder = {
+  status?: number
+  message: string
+  data?: {
+    error: boolean
+    result: string
   }
 }

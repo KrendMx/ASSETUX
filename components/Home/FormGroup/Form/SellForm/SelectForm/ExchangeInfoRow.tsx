@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Copy from "./Copy"
+import Timer from "./Timer"
 import { mobile } from "@/src/constants"
 
 const Container = styled.div`
@@ -55,13 +56,15 @@ type ExchangeInfoRowProps = {
   value?: string
   copyLabel?: string
   valueToCopy?: string
+  timer?: number
 }
 
 function ExchangeInfoRow({
   label,
   value,
   copyLabel,
-  valueToCopy
+  valueToCopy,
+  timer
 }: ExchangeInfoRowProps) {
   return (
     <Container>
@@ -69,6 +72,7 @@ function ExchangeInfoRow({
       <ValueRow>
         <Value small={value ? value.length > 30 : false}>{value}</Value>
         {copyLabel && <Copy label={copyLabel} valueToCopy={valueToCopy} />}
+        {timer && <Timer timer={timer} />}
       </ValueRow>
     </Container>
   )

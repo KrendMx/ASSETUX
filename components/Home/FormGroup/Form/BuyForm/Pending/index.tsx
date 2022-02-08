@@ -11,6 +11,11 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: stretch;
   font-size: 1rem;
+  padding: 34px 25px;
+
+  @media only screen and (max-width: ${mobile}px) {
+    padding: 21px 17px;
+  }
 `
 
 const InfoContainer = styled.div`
