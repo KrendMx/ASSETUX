@@ -22,8 +22,11 @@ function CryptoManager() {
   )
 
   useEffect(() => {
-    dispatch(getBlockchains())
-  }, [dispatch])
+    if (!selectedBlockchain) {
+      dispatch(getBlockchains())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (selectedBlockchain) {
@@ -42,13 +45,15 @@ function CryptoManager() {
         socket.disconnect()
       }
     }
-  }, [selectedBlockchain, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBlockchain])
 
   useEffect(() => {
     if (selectedBlockchain) {
       dispatch(getTokens())
     }
-  }, [selectedBlockchain, dispatch])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBlockchain])
 
   return null
 }
