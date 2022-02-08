@@ -39,7 +39,7 @@ function CryptoManager() {
       })
 
       return () => {
-        socket.connected && socket.disconnect()
+        socket.disconnect()
       }
     }
   }, [selectedBlockchain, dispatch])
