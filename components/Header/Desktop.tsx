@@ -58,7 +58,7 @@ function Desktop() {
     <DesktopContainer>
       <TextLogo link />
       <RightContainer>
-        <NavContainer>
+        {/* <NavContainer>
           <Link href="/404" passHref>
             <NavLink>{t("swap")}</NavLink>
           </Link>
@@ -68,7 +68,7 @@ function Desktop() {
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
           </Link>
-        </NavContainer>
+        </NavContainer> */}
         <LanguageCurrencyChange />
       </RightContainer>
     </DesktopContainer>
