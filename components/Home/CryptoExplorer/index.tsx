@@ -264,6 +264,7 @@ function CryptoExplorer() {
       explorerData
         ?.filter(
           (element) =>
+            element.token.enabled &&
             element.currency == currentCurrency &&
             checkExplorerDataByContext(element, searchContext)
         )
