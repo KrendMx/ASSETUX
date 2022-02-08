@@ -32,7 +32,7 @@ const mapExplorerData = (
   action: ActionType
 ) => {
   return explorerData
-    .filter((element) => element.currency == currency)
+    .filter((element) => element.token.enabled && element.currency == currency)
     .sort((a, b) => b.buy - a.buy)
     .map((element) => (
       <Element
