@@ -6,6 +6,7 @@ import {
   getTokens,
   setExplorerData
 } from "@/src/redux/cryptoSlice"
+import { usePrevious } from "@/src/hooks"
 import type { Socket } from "socket.io-client"
 import type { ExplorerData } from "./types"
 
@@ -20,6 +21,8 @@ function CryptoManager() {
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
+
+  const prevSelectedBlockchain = usePrevious(selectedBlockchain)
 
   useEffect(() => {
     if (!selectedBlockchain) {
@@ -49,11 +52,15 @@ function CryptoManager() {
   }, [selectedBlockchain])
 
   useEffect(() => {
-    if (selectedBlockchain) {
+    if (
+      selectedBlockchain &&
+      (!prevSelectedBlockchain ||
+        prevSelectedBlockchain.chain_id != selectedBlockchain.chain_id)
+    ) {
       dispatch(getTokens())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBlockchain])
+  }, [selectedBlockchain, prevSelectedBlockchain])
 
   return null
 }
