@@ -1,10 +1,11 @@
 import React from "react"
 import styled from "styled-components"
 import Link from "next/link"
-import type { Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
 import StyledList from "./StyledList"
 import { mobile } from "@/src/constants"
+
+import type { Route } from "@/src/routes"
 
 type StyledLinkProps = {
   mobileSmall?: boolean
@@ -31,9 +32,10 @@ const StyledLink = styled.a<StyledLinkProps>`
 type ListProps = {
   routes: Route[]
   mobileSmall?: boolean
+  onClick?: (route: Route) => void
 }
 
-function List({ routes, mobileSmall }: ListProps) {
+function List({ routes, mobileSmall, onClick }: ListProps) {
   const { t } = useTranslation("routes")
 
   return (
@@ -41,7 +43,17 @@ function List({ routes, mobileSmall }: ListProps) {
       {routes.map((route, index) => (
         <li key={index}>
           <Link href={route.href} passHref>
-            <StyledLink mobileSmall={mobileSmall}>{t(route.key)}</StyledLink>
+            <StyledLink
+              mobileSmall={mobileSmall}
+              onClick={(event) => {
+                if (onClick) {
+                  event.preventDefault()
+                  onClick(route)
+                }
+              }}
+            >
+              {t(route.key)}
+            </StyledLink>
           </Link>
         </li>
       ))}

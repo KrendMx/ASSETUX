@@ -59,28 +59,28 @@ export const partners: Route[] = [
 
 export const popular: Route[] = [
   {
-    key: "USDTtoBTC",
-    href: "/404"
+    key: "RUB/BNB",
+    href: "/"
   },
   {
-    key: "USDTtoBTC",
-    href: "/404"
+    key: "RUB/CAKE",
+    href: "/"
   },
   {
-    key: "USDTtoBTC",
-    href: "/404"
+    key: "RUB/USDT",
+    href: "/"
   },
   {
-    key: "USDTtoBTC",
-    href: "/404"
+    key: "UAH/BTCB",
+    href: "/"
   },
   {
-    key: "USDTtoBTC",
-    href: "/404"
+    key: "UAH/ETH",
+    href: "/"
   },
   {
-    key: "USDTtoBTC",
-    href: "/404"
+    key: "UAH/LTC",
+    href: "/"
   }
 ]
 

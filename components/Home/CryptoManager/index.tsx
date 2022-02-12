@@ -6,9 +6,10 @@ import {
   getTokens,
   setExplorerData
 } from "@/src/redux/cryptoSlice"
-import { usePrevious } from "@/src/hooks"
 import type { Socket } from "socket.io-client"
 import type { ExplorerData } from "./types"
+
+let prevSelectedBlockchainId: number | null = null
 
 type ServerToClientEvents = {
   chart: (data: ExplorerData[]) => void
@@ -21,8 +22,6 @@ function CryptoManager() {
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
-
-  const prevSelectedBlockchain = usePrevious(selectedBlockchain)
 
   useEffect(() => {
     if (!selectedBlockchain) {
@@ -54,13 +53,14 @@ function CryptoManager() {
   useEffect(() => {
     if (
       selectedBlockchain &&
-      (!prevSelectedBlockchain ||
-        prevSelectedBlockchain.chain_id != selectedBlockchain.chain_id)
+      (prevSelectedBlockchainId == null ||
+        prevSelectedBlockchainId != selectedBlockchain.chain_id)
     ) {
       dispatch(getTokens())
+      prevSelectedBlockchainId = selectedBlockchain.chain_id
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedBlockchain, prevSelectedBlockchain])
+  }, [selectedBlockchain])
 
   return null
 }

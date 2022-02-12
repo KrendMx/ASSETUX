@@ -1,12 +1,16 @@
 import React from "react"
 import styled from "styled-components"
-import { company, partners, popular, legal } from "@/src/routes"
+import { useRouter } from "next/router"
+import { setCurrentCurrency } from "@/src/redux/uiSlice"
+import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
+import { company, partners, popular, legal, Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
 import List from "./List"
 import StyledList from "./StyledList"
 import IconElement from "./IconElement"
-import { useAppSelector } from "@/src/redux/hooks"
+import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { mobile } from "@/src/constants"
+import { isCurrencyDeclared } from "@/src/currencies"
 
 type WrapperProps = {
   hide: boolean
@@ -76,6 +80,54 @@ const Bolder = styled.span`
   font-weight: 700;
 `
 
+function PopularList() {
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const availableTokens = useAppSelector(
+    (state) => state.crypto.availableTokens
+  )
+
+  const popularAction = (route: Route) => {
+    if (router.pathname != "/") {
+      router.push("/", undefined, {
+        shallow: false,
+        scroll: false
+      })
+    }
+
+    const splitted = route.key.split("/")
+
+    if (splitted.length != 2) {
+      return
+    }
+
+    const currency = splitted[0]
+    const tokenSymbol = splitted[1].toLowerCase()
+
+    if (isCurrencyDeclared(currency)) {
+      dispatch(setCurrentCurrency(currency))
+    }
+
+    const foundToken = availableTokens?.find(
+      (token) => token.symbol.toLowerCase() == tokenSymbol
+    )
+
+    if (foundToken) {
+      dispatch(setSelectedToken(foundToken))
+    }
+
+    dispatch(swapAction("BUY"))
+
+    window.scrollTo({
+      left: 0,
+      top: 0,
+      behavior: "smooth"
+    })
+  }
+
+  return <List routes={popular} onClick={popularAction} />
+}
+
 type FooterProps = {
   hide: boolean
 }
@@ -97,7 +149,7 @@ function Footer({ hide }: FooterProps) {
         </Group>
         <Group>
           <h3>{t("popular")}</h3>
-          <List routes={popular} />
+          <PopularList />
         </Group>
         <Group>
           <h3>{t("legal")}</h3>
