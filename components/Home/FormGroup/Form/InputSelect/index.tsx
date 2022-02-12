@@ -30,7 +30,7 @@ type InputSelectProps = {
   displayInSelect?: number
   selectLabel?: string
   id?: string
-  error?: boolean
+  error?: string
   selectable?: boolean
   selectedValue?: string | null
 }
@@ -46,7 +46,7 @@ function InputSelect({
   onChange,
   value,
   selectedValue,
-  error = false,
+  error,
   displayIcon = false,
   defaultValue = "",
   displayInSelect = 3,
@@ -114,9 +114,17 @@ function InputSelect({
 
   return (
     <Container resetFirstChild={selectLabel == "undefined"}>
-      <InputWrapper active={active} error={error} selectable={selectable}>
+      <InputWrapper
+        active={active}
+        error={error != undefined}
+        selectable={selectable}
+      >
         <InputContainer swap={hideLabel}>
-          {!hideLabel && label && <Label htmlFor={id}>{label}</Label>}
+          {!hideLabel && label && (
+            <Label error={error != undefined} htmlFor={id}>
+              {error != undefined ? error : label}
+            </Label>
+          )}
           {hideLabel && (
             <ImageBox>
               {selectedOption && selectedOption.icon && (

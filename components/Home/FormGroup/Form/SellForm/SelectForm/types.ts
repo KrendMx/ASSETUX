@@ -1,5 +1,5 @@
 export type Error = {
-  [key: string]: boolean | undefined
+  [key: string]: string | undefined
 }
 
 export type ExchangeInfo = {

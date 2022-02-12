@@ -28,6 +28,8 @@ import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
 
+let alreadyLoaded = false
+
 const inputIds = {
   get: "get",
   give: "give",
@@ -126,12 +128,17 @@ function CurrencyForm({
   }
 
   const isLoading =
+    !alreadyLoaded &&
     allowSkeletons &&
     (!appLoaded ||
       !checkedBlockchains ||
       !checkedTokens ||
       !checkedCurrencies ||
       !rate)
+
+  if (!isLoading) {
+    alreadyLoaded = true
+  }
 
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -168,23 +175,27 @@ function CurrencyForm({
   const handleNextStep = () => {
     let errorObject: Error = {}
 
-    errorObject[inputIds.give] = giveAmount == ""
+    if (giveAmount == "") {
+      errorObject[inputIds.give] = "Invalid give amount"
+    }
 
     if (currentStep == Step.Payment) {
-      errorObject[inputIds.details] = currentDetails == ""
+      if (currentDetails == "") {
+        errorObject[inputIds.details] = "Invalid card number"
+      }
 
       if (currentHolder == "" || !holderRegexp.test(currentHolder)) {
-        errorObject[inputIds.holder] = true
+        errorObject[inputIds.holder] = "Invalid holder information"
       }
 
       if (currentEmail == "" || !emailRegexp.test(currentEmail)) {
-        errorObject[inputIds.email] = true
+        errorObject[inputIds.email] = "Invalid email"
       }
     }
 
     setInputError(errorObject)
 
-    if (!Object.values(errorObject).includes(true)) {
+    if (Object.keys(errorObject).length == 0) {
       if (currentStep == Step.Details) {
         setCurrentStep(Step.Payment)
       } else if (currentStep == Step.Payment) {
@@ -355,7 +366,9 @@ function CurrencyForm({
             </ExchangeInfoContainer>
           </FormContainer>
           <ExchangeButtonsContainer>
-            <ExchangeButton onClick={onExchange}>Exchange</ExchangeButton>
+            <ExchangeButton onClick={onExchange} disabled={processingRequest}>
+              {processingRequest ? "Please wait..." : "Exchange"}
+            </ExchangeButton>
             <RefundButton onClick={onRefund}>Refund</RefundButton>
           </ExchangeButtonsContainer>
         </>
@@ -372,7 +385,7 @@ function CurrencyForm({
         !paymentActive &&
         currentStep != Step.Exchange &&
         (!isLoading ? (
-          <NextButton onClick={handleNextStep}>
+          <NextButton onClick={handleNextStep} disabled={processingRequest}>
             {processingRequest ? "Please wait..." : "Next Step"}
           </NextButton>
         ) : (

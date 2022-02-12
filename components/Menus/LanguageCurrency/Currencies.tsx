@@ -17,24 +17,22 @@ function Languages() {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 
   return (
-    <>
-      <ul>
-        {currencies.map((currency) => (
-          <li key={currency}>
-            <Button
-              as="button"
-              active={currency == currentCurrency}
-              onClick={() => {
-                dispatch(setCurrentCurrency(currency))
-              }}
-            >
-              <span>{mapCurrency(currency)}</span>
-              <span>{mapCurrencyName(currency)}</span>
-            </Button>
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {currencies.map((currency) => (
+        <li key={currency}>
+          <Button
+            as="button"
+            active={currency == currentCurrency}
+            onClick={() => {
+              dispatch(setCurrentCurrency(currency))
+            }}
+          >
+            <span>{mapCurrency(currency)}</span>
+            <span>{mapCurrencyName(currency)}</span>
+          </Button>
+        </li>
+      ))}
+    </ul>
   )
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import {
   setSelectedToken,
@@ -7,6 +7,8 @@ import {
 } from "@/src/redux/cryptoSlice"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import { isCurrencyDeclared } from "@/src/currencies"
+
+let processedQuery = false
 
 type QueryObject = {
   [key: string]: string | undefined
@@ -42,22 +44,20 @@ function QueryController() {
   const action = useAppSelector((state) => state.crypto.action)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 
-  const processedQuery = useRef(false)
-
   useEffect(() => {
-    if (processedQuery.current) {
+    if (processedQuery) {
       const query: QueryObject = {}
 
-      query["action"] = action
+      query["action"] = action.toLowerCase()
 
-      query["currency"] = currentCurrency
+      query["currency"] = currentCurrency.toLowerCase()
 
       if (selectedBlockchain) {
-        query["blockchain"] = selectedBlockchain.chain_id.toString()
+        // query["blockchain"] = selectedBlockchain.chain_id.toString()
       }
 
       if (selectedToken) {
-        query["token"] = selectedToken.symbol
+        query["token"] = selectedToken.symbol.toLowerCase()
       }
 
       const newUrl = window.location.pathname + "?" + mapQueryObject(query)
@@ -69,7 +69,7 @@ function QueryController() {
   }, [selectedBlockchain, selectedToken, action, currentCurrency])
 
   useEffect(() => {
-    if (availableBlockchains && availableTokens && !processedQuery.current) {
+    if (availableBlockchains && availableTokens && !processedQuery) {
       const queryParams = new URLSearchParams(window.location.search)
 
       const action = queryParams.get("action")
@@ -119,7 +119,7 @@ function QueryController() {
         }
       }
 
-      processedQuery.current = true
+      processedQuery = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availableBlockchains, availableTokens])

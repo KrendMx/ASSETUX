@@ -99,10 +99,14 @@ function SellForm({
 
   const onExchange = async () => {
     if (currentBlockchain && exchangeInfo) {
+      setProcessingRequest(true)
       const response = await BackendClient.closeSellOrder({
         apiHost: currentBlockchain.url,
         orderId: exchangeInfo.orderId
       })
+      setProcessingRequest(false)
+
+      setCurrentStep(Step.Details)
 
       console.log(response)
     }
@@ -116,18 +120,24 @@ function SellForm({
 
   useIsomorphicLayoutEffect(() => {
     if (selectedCurrency && payments) {
-      setProcessedPayments(
-        payments
-          .filter((payment) => payment.currency == selectedCurrency)
-          .map((payment) => {
-            return {
-              value: payment.method,
-              description: payment.method,
-              min: payment.min,
-              max: payment.max
-            }
-          })
-      )
+      const processedPayments = payments
+        .filter((payment) => payment.currency == selectedCurrency)
+        .map((payment) => {
+          return {
+            value: payment.method,
+            description: payment.method,
+            min: payment.min,
+            max: payment.max
+          }
+        })
+
+      setProcessedPayments(processedPayments)
+
+      if (processedPayments.length > 0) {
+        setSelectedPayment(processedPayments[0].value)
+      } else {
+        setSelectedPayment(null)
+      }
     }
   }, [selectedCurrency, payments])
 

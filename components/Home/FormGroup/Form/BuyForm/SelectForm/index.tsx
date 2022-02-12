@@ -15,6 +15,8 @@ import type { Error } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
 
+let alreadyLoaded = false
+
 const inputIds = {
   get: "get",
   give: "give",
@@ -94,12 +96,17 @@ function CurrencyForm({
   }
 
   const isLoading =
+    !alreadyLoaded &&
     allowSkeletons &&
     (!appLoaded ||
       !checkedBlockchains ||
       !checkedTokens ||
       !checkedCurrencies ||
       !rate)
+
+  if (!isLoading) {
+    alreadyLoaded = true
+  }
 
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -128,19 +135,23 @@ function CurrencyForm({
     // validation
 
     let errorObject: Error = {}
-    errorObject[inputIds.give] = giveAmount == ""
+    if (giveAmount == "") {
+      errorObject[inputIds.give] = "Invalid give amount"
+    }
     if (step == Step.Credentials) {
       if (email == "" || !emailRegexp.test(email)) {
-        errorObject[inputIds.email] = true
+        errorObject[inputIds.email] = "Invalid email"
       }
-      errorObject[inputIds.wallet] = currentWallet == ""
+      if (currentWallet == "") {
+        errorObject[inputIds.wallet] = "Invalid wallet address"
+      }
     }
 
     setInputError(errorObject)
 
     // actions
 
-    if (!Object.values(errorObject).includes(true)) {
+    if (Object.keys(errorObject).length == 0) {
       if (step == Step.Details) {
         setStep(Step.Credentials)
       } else if (step == Step.Credentials) {
