@@ -258,7 +258,11 @@ function CurrencyForm({
             onChange={handleWalletInput}
             value={currentWallet}
             error={inputError[inputIds.wallet]}
-            placeholder="0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"
+            placeholder={
+              inputError[inputIds.wallet]
+                ? ""
+                : "0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"
+            }
             changeable
           />
           <HideableWithMargin hide={false} margins>
