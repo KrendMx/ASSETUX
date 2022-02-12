@@ -15,4 +15,6 @@ export const floatRegexp = /^[0-9]+(\.)?[0-9]*$/
 
 export const holderRegexp = /^[A-Z ]*$/
 
+export const walletRegexp = /^0x[a-fA-F0-9]{40}$/
+
 export const allowSkeletons = true

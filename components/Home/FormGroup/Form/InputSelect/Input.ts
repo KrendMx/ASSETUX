@@ -18,6 +18,11 @@ const Input = styled.input`
     color: var(--black);
   }
 
+  &::placeholder {
+    color: var(--black);
+    opacity: 0.7;
+  }
+
   @media only screen and (max-width: ${mobile}px) {
     font-size: 1.067em;
 

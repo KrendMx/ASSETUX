@@ -8,7 +8,12 @@ import ExchangeRow from "../../Exchange"
 import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
 import Step from "./Steps"
-import { emailRegexp, floatRegexp, allowSkeletons } from "@/src/constants"
+import {
+  emailRegexp,
+  floatRegexp,
+  allowSkeletons,
+  walletRegexp
+} from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import type { Error } from "./types"
@@ -142,7 +147,7 @@ function CurrencyForm({
       if (email == "" || !emailRegexp.test(email)) {
         errorObject[inputIds.email] = "Invalid email"
       }
-      if (currentWallet == "") {
+      if (currentWallet == "" || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = "Invalid wallet address"
       }
     }
@@ -253,6 +258,7 @@ function CurrencyForm({
             onChange={handleWalletInput}
             value={currentWallet}
             error={inputError[inputIds.wallet]}
+            placeholder="0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"
             changeable
           />
           <HideableWithMargin hide={false} margins>

@@ -23,6 +23,7 @@ type InputSelectProps = {
   onActiveChange?: (active: boolean) => void
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: string
+  placeholder?: string
   options?: Option[]
   changeable?: boolean
   defaultValue?: string
@@ -47,6 +48,7 @@ function InputSelect({
   value,
   selectedValue,
   error,
+  placeholder = "",
   displayIcon = false,
   defaultValue = "",
   displayInSelect = 3,
@@ -148,6 +150,7 @@ function InputSelect({
             disabled={!changeable || hideLabel}
             value={displayedValue}
             onChange={handleInput}
+            placeholder={placeholder}
           />
         </InputContainer>
         {selectedOption && (
