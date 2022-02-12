@@ -62,8 +62,6 @@ function QueryController() {
 
       const newUrl = window.location.pathname + "?" + mapQueryObject(query)
 
-      console.log(newUrl)
-
       updateURL(newUrl)
     }
   }, [selectedBlockchain, selectedToken, action, currentCurrency])
