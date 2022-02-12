@@ -19,7 +19,6 @@ import ContentManager from "@/components/ContentManager"
 import GlobalStyles from "@/styles/GlobalStyles"
 import { mobile, tablet, mobileLayoutForTablet } from "@/src/constants"
 import { checkCurrency } from "@/src/currencies"
-import { checkLocale } from "@/src/locales"
 import { SkeletonTheme } from "react-loading-skeleton"
 import type { AppProps } from "next/app"
 import "react-loading-skeleton/dist/skeleton.css"
@@ -83,7 +82,6 @@ function MyApp(props: AppProps) {
 
     handleResize()
     checkCurrency(dispatch)
-    checkLocale(router)
 
     router.events.on("routeChangeStart", handleRouteChange)
     router.events.on("routeChangeComplete", handleRouteComplete)

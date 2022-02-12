@@ -26,36 +26,27 @@ const mapLanguage = (locale: LocalesType) => {
 
 function Languages() {
   const router = useRouter()
-  const { locale: currentLocale, asPath } = router
+  const { locale: currentLocale } = router
 
   return (
-    <>
-      <ul>
-        {locales.map((locale) => (
-          <li key={locale}>
-            <Link href={asPath} locale={locale} passHref>
-              <ActiveNavLink
-                active={currentLocale == locale}
-                onClick={() => {
-                  window.localStorage.setItem("language", locale)
-                }}
-              >
-                <CountryContainer>
-                  <Image
-                    src={`/flags/${locale}.png`}
-                    width={12}
-                    height={11}
-                    layout="responsive"
-                    alt=""
-                  />
-                </CountryContainer>
-                <span>{mapLanguage(locale)}</span>
-              </ActiveNavLink>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {locales.map((locale) => (
+        <li key={locale}>
+          <ActiveNavLink active={currentLocale == locale} href={"/" + locale}>
+            <CountryContainer>
+              <Image
+                src={`/flags/${locale}.png`}
+                width={12}
+                height={11}
+                layout="responsive"
+                alt=""
+              />
+            </CountryContainer>
+            <span>{mapLanguage(locale)}</span>
+          </ActiveNavLink>
+        </li>
+      ))}
+    </ul>
   )
 }
 
