@@ -440,7 +440,7 @@ function CryptoExplorer() {
               </PageButton>
               {pageButtons}
               <PageButton
-                disabled={pages == null || currentPage == pages}
+                disabled={pages == null || pages == 0 || currentPage == pages}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 <ArrowContainer mirror>
