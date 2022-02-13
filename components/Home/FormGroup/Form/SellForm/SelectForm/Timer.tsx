@@ -13,26 +13,42 @@ const Text = styled.span`
 `
 
 type TimerProps = {
-  timer: number
+  timestamp: number
+  onExpired?: () => void
 }
 
-function Timer({ timer }: TimerProps) {
+function Timer({ timestamp, onExpired }: TimerProps) {
   const [secondsLeft, setSecondsLeft] = useState(
-    Math.floor((timer - Date.now()) / 1000)
+    Math.floor((timestamp - Date.now()) / 1000)
   )
 
   useEffect(() => {
-    const interval = setInterval(() => setSecondsLeft(secondsLeft - 1), 1000)
+    const interval = setInterval(
+      () =>
+        setSecondsLeft((secondsLeft) => {
+          if (secondsLeft == 1 || secondsLeft < 0) {
+            clearInterval(interval)
+            onExpired && onExpired()
+          }
+
+          if (secondsLeft < 0) {
+            return 0
+          }
+
+          return secondsLeft - 1
+        }),
+      1000
+    )
 
     return () => clearInterval(interval)
-  }, [secondsLeft])
+  }, [onExpired])
 
   const minutes = Math.floor(secondsLeft / 60)
   const seconds = secondsLeft % 60
 
   return (
     <Text>
-      Timer: {minutes}:{seconds == 0 ? "00" : seconds}
+      Timer: {minutes}:{seconds < 10 ? "0" + seconds : seconds}
     </Text>
   )
 }

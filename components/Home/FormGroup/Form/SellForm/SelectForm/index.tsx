@@ -347,7 +347,8 @@ function CurrencyForm({
               <ExchangeInfoRow
                 label="Credited amount"
                 value={`${exchangeInfo.creditedAmount} ${currentToken}`}
-                timer={Number(exchangeInfo.timestamp)}
+                timestamp={Number(exchangeInfo.timestamp)}
+                onExpired={() => console.log("expired")}
               />
               <ExchangeRow
                 token={currentToken}

@@ -56,7 +56,8 @@ type ExchangeInfoRowProps = {
   value?: string
   copyLabel?: string
   valueToCopy?: string
-  timer?: number
+  timestamp?: number
+  onExpired?: () => void
 }
 
 function ExchangeInfoRow({
@@ -64,7 +65,8 @@ function ExchangeInfoRow({
   value,
   copyLabel,
   valueToCopy,
-  timer
+  timestamp,
+  onExpired
 }: ExchangeInfoRowProps) {
   return (
     <Container>
@@ -72,7 +74,7 @@ function ExchangeInfoRow({
       <ValueRow>
         <Value small={value ? value.length > 30 : false}>{value}</Value>
         {copyLabel && <Copy label={copyLabel} valueToCopy={valueToCopy} />}
-        {timer && <Timer timer={timer} />}
+        {timestamp && <Timer timestamp={timestamp} onExpired={onExpired} />}
       </ValueRow>
     </Container>
   )
