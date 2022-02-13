@@ -32,6 +32,7 @@ const inputIds = {
 }
 
 type CurrencyFormProps = {
+  currentStep: Step
   currentBlockchain: string | null
   blockchains: Option[] | null
   currentCurrency: string | null
@@ -45,6 +46,7 @@ type CurrencyFormProps = {
   email: string
   rate: number | null
   processingRequest: boolean
+  setCurrentStep: (step: Step) => void
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
@@ -56,6 +58,7 @@ type CurrencyFormProps = {
 }
 
 function CurrencyForm({
+  currentStep,
   currentBlockchain,
   blockchains,
   currentCurrency,
@@ -69,6 +72,7 @@ function CurrencyForm({
   email,
   rate,
   processingRequest,
+  setCurrentStep,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -83,7 +87,6 @@ function CurrencyForm({
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
-  const [step, setStep] = useState(Step.Details)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   let checkedBlockchains: Option[] | undefined
@@ -143,7 +146,7 @@ function CurrencyForm({
     if (giveAmount == "") {
       errorObject[inputIds.give] = "Invalid give amount"
     }
-    if (step == Step.Credentials) {
+    if (currentStep == Step.Credentials) {
       if (email == "" || !emailRegexp.test(email)) {
         errorObject[inputIds.email] = "Invalid email"
       }
@@ -157,16 +160,16 @@ function CurrencyForm({
     // actions
 
     if (Object.keys(errorObject).length == 0) {
-      if (step == Step.Details) {
-        setStep(Step.Credentials)
-      } else if (step == Step.Credentials) {
+      if (currentStep == Step.Details) {
+        setCurrentStep(Step.Credentials)
+      } else if (currentStep == Step.Credentials) {
         onSubmit()
       }
     }
   }
 
   const renderFields = () => {
-    if (step == Step.Details) {
+    if (currentStep == Step.Details) {
       return (
         <FormContainer>
           {!isLoading ? (
@@ -243,13 +246,13 @@ function CurrencyForm({
           </HideableWithMargin>
         </FormContainer>
       )
-    } else if (step == Step.Credentials) {
+    } else if (currentStep == Step.Credentials) {
       return (
         <FormContainer>
           <InputSelectButton
             label="Back to"
             value="Order details"
-            onClick={() => setStep(Step.Details)}
+            onClick={() => setCurrentStep(Step.Details)}
           />
           <NetworkRow isLoading={isLoading} />
           <InputSelect
@@ -281,7 +284,7 @@ function CurrencyForm({
   }
 
   return (
-    <Container formStep={step} lastSelectorActive={getActive}>
+    <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
       {!chainActive &&
         !giveActive &&

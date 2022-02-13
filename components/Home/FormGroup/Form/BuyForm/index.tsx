@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setCurrentRate } from "@/src/redux/cryptoSlice"
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
+import Step from "./SelectForm/Steps"
 import type { Option } from "../InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
 import type {
@@ -39,6 +40,7 @@ function BuyForm({
 }: BuyFormProps) {
   const dispatch = useAppDispatch()
 
+  const [currentStep, setCurrentStep] = useState(Step.Details)
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
@@ -80,6 +82,13 @@ function BuyForm({
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
+
+  useEffect(() => {
+    if (currentStep != Step.Details) {
+      setCurrentStep(Step.Details)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentCurrency, currentToken])
 
   useIsomorphicLayoutEffect(() => {
     if (selectedCurrency && payments) {
@@ -126,6 +135,7 @@ function BuyForm({
 
   return (
     <SelectForm
+      currentStep={currentStep}
       currentBlockchain={currentBlockchain && currentBlockchain.title}
       blockchains={blockchains}
       currentCurrency={selectedCurrency}
@@ -139,6 +149,7 @@ function BuyForm({
       email={email}
       rate={currentRate}
       processingRequest={processingRequest}
+      setCurrentStep={setCurrentStep}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}
