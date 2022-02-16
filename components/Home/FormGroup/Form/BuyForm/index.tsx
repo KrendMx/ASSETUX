@@ -54,27 +54,30 @@ function BuyForm({
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
   const onSubmit = async () => {
-    if (currentBlockchain && currentToken) {
+    if (
+      currentBlockchain &&
+      currentToken &&
+      selectedPayment &&
+      selectedCurrency
+    ) {
       setProcessingRequest(true)
       const tokenAddress = currentToken.address
 
-      if (tokenAddress && selectedPayment) {
-        const response = await BackendClient.getPaymentUrl({
-          apiHost: currentBlockchain.url,
-          ticker: currentCurrency,
-          provider: selectedPayment,
-          amount: Number(giveAmount),
-          cryptoAddress: walletAddress,
-          chainId: currentBlockchain.chain_id,
-          tokenAddress,
-          email
-        })
+      const response = await BackendClient.getPaymentUrl({
+        apiHost: currentBlockchain.url,
+        ticker: selectedCurrency,
+        provider: selectedPayment,
+        amount: Number(giveAmount),
+        cryptoAddress: walletAddress,
+        chainId: currentBlockchain.chain_id,
+        tokenAddress,
+        email
+      })
 
-        setProcessingRequest(false)
+      setProcessingRequest(false)
 
-        if (response.data) {
-          window.location.assign(response.data.url)
-        }
+      if (response.data) {
+        window.location.assign(response.data.url)
       }
     }
   }
