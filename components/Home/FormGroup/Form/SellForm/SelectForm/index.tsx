@@ -124,7 +124,12 @@ function CurrencyForm({
 
   let getAmount = ""
   if (rate && giveAmount != "") {
-    getAmount = (Number(giveAmount) * rate).toString()
+    getAmount = (Number(giveAmount) * rate).toFixed(2)
+  }
+
+  let creditedGetAmount = ""
+  if (rate && giveAmount != "" && exchangeInfo) {
+    creditedGetAmount = (exchangeInfo.creditedAmount * rate).toFixed(2)
   }
 
   const isLoading =
@@ -358,7 +363,7 @@ function CurrencyForm({
               />
               <ExchangeInfoRow
                 label="Amount to get"
-                value={`${getAmount} ${
+                value={`${creditedGetAmount} ${
                   currentCurrency &&
                   isCurrencyDeclared(currentCurrency) &&
                   mapCurrencyName(currentCurrency)
