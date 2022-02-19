@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { swapAction, setSelectedToken } from "@/src/redux/cryptoSlice"
 import { cardsPerPage, perPageValues, cardsWidth } from "./constants"
 import { IoIosArrowRoundBack } from "react-icons/io"
-import { mobile } from "@/src/constants"
+import { allowSkeletons, mobile } from "@/src/constants"
 import { generatePageNumbers } from "./helpers"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import type { ActionType } from "@/src/redux/cryptoSlice"
@@ -367,7 +367,8 @@ function CryptoExplorer() {
     setCurrentPage(1)
   }, [displayCards])
 
-  const isLoading = showSkeleton || processedExplorerData == null
+  const isLoading =
+    allowSkeletons && (showSkeleton || processedExplorerData == null)
 
   return (
     <Container>
