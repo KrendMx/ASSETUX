@@ -100,7 +100,7 @@ function CurrencyForm({
 
   let tokenAmount = ""
   if (rate && giveAmount != "") {
-    tokenAmount = (Number(giveAmount) / rate).toFixed(6)
+    tokenAmount = (Number(giveAmount) / rate).toFixed(2)
   }
 
   const isLoading =
