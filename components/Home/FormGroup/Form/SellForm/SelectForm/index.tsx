@@ -21,12 +21,13 @@ import {
 } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
-import { stringToPieces } from "@/src/helpers"
+import { stringToPieces, toFixedAmount } from "@/src/helpers"
 import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
 import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
+import QRcode from "./QRcode"
 
 let alreadyLoaded = false
 
@@ -162,7 +163,7 @@ function CurrencyForm({
   ) => {
     const value = event.target.value
 
-    onHolderChange(value)
+    onHolderChange(value.toUpperCase())
   }
 
   const handleEmailInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -258,7 +259,7 @@ function CurrencyForm({
                   onActiveChange={(active) => setGetActive(active)}
                   selectedValue={currentCurrency}
                   onSelect={onCurrencyChange}
-                  value={getAmount}
+                  value={toFixedAmount(getAmount)}
                 />
               ) : (
                 <Skeleton height={65} />
@@ -332,6 +333,7 @@ function CurrencyForm({
               onClick={() => setCurrentStep(Step.Payment)}
             />
             <ExchangeInfoContainer>
+              <QRcode valueToCopy={exchangeInfo.wallet} />
               <ExchangeInfoRow
                 label="Wallet address"
                 value={exchangeInfo.wallet}
@@ -358,7 +360,7 @@ function CurrencyForm({
               />
               <ExchangeInfoRow
                 label="Amount to get"
-                value={`${getAmount} ${
+                value={`${toFixedAmount(getAmount)} ${
                   currentCurrency &&
                   isCurrencyDeclared(currentCurrency) &&
                   mapCurrencyName(currentCurrency)

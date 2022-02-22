@@ -13,7 +13,12 @@ export const emailRegexp =
 
 export const floatRegexp = /^[0-9]+(\.)?[0-9]*$/
 
-export const holderRegexp = /^[A-Z ]*$/
+/*
+  Здесь поменял регулярку 
+  добавил дефисы 
+  и остальную шаболду (-.~'`—) по стандартам visa на card holder
+*/
+  export const holderRegexp = /^([a-zA-Z?\-\.'~`—?\s]*)$/
 
 export const walletRegexp = /^0x[a-fA-F0-9]{40}$/
 

@@ -19,3 +19,11 @@ export const stringToPieces = (
 
   return pieces.join(delimeter)
 }
+
+/*
+  toFixedAmount -
+  если строка пустая то вернет '' 
+  если инпут равен 0 то 0 без нулей после запятой 
+  если больше 0 то вернет число с двумя числами после запятой
+*/
+export const toFixedAmount = (amount:string):string => (isNaN(parseFloat(amount))) ? '' : parseFloat(amount) === 0 ? '0' : parseFloat(amount).toFixed(2) 

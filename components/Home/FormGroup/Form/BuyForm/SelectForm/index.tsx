@@ -19,6 +19,7 @@ import { useAppSelector } from "@/src/redux/hooks"
 import type { Error } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
+import { toFixedAmount } from "@/src/helpers"
 
 let alreadyLoaded = false
 
@@ -235,7 +236,7 @@ function CurrencyForm({
                     displayInSelect={1}
                     onActiveChange={(active) => setGetActive(active)}
                     onSelect={onTokenChange}
-                    value={tokenAmount}
+                    value={toFixedAmount(tokenAmount)}
                     selectedValue={currentToken}
                   />
                 ) : (

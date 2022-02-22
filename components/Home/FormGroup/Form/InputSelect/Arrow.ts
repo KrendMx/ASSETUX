@@ -15,7 +15,7 @@ const Arrow = styled.button<ArrowProps>`
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: 1em;
+  font-size: 1rem;
   cursor: pointer;
 
   @media only screen and (max-width: 370px) {
