@@ -130,7 +130,7 @@ function InputSelect({
           )}
           {hideLabel && (
             <ImageBox>
-              {selectedOption && selectedOption.icon && (
+              {(selectedOption && selectedOption.icon) ? (
                 <ImageContainer>
                   <Image
                     src={selectedOption.icon}
@@ -141,7 +141,9 @@ function InputSelect({
                     unoptimized={!optimizeRemoteImages}
                   />
                 </ImageContainer>
-              )}
+              ) : selectedOption?.shortDescription?.split(' ')[1] ?
+              selectedOption?.shortDescription?.split(' ')[1] : null
+              }
             </ImageBox>
           )}
           <Input
