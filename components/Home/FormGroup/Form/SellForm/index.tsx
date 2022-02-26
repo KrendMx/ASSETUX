@@ -41,7 +41,7 @@ function SellForm({
 }: SellFormProps) {
   const dispatch = useAppDispatch()
 
-  const [currentStep, setCurrentStep] = useState(Step.Exchange)
+  const [currentStep, setCurrentStep] = useState(Step.Details)
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
@@ -52,12 +52,7 @@ function SellForm({
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>({
-    wallet: "0x20b377f09938c4dd66df80efff7b0bf1a6d7b297",
-    orderId: "6346149472",
-    timestamp: "1647879224190",
-    creditedAmount: 0
-  })
+  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>(null)
   const [refundRequestError, setRefundRequestError] = useState<{
     result: string | null
     isLoading: boolean
