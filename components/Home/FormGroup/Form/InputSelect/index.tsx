@@ -16,6 +16,7 @@ import { ellipsisString } from "@/src/helpers"
 import { optimizeRemoteImages } from "@/src/constants"
 import type { Option } from "./types"
 import type { ChangeEventHandler } from "react"
+import SelectedWrapper from "./SelectedWrapper"
 
 type InputSelectProps = {
   label?: string
@@ -129,7 +130,7 @@ function InputSelect({
           )}
           {hideLabel && (
             <ImageBox>
-              {selectedOption && selectedOption.icon && (
+              {(selectedOption && selectedOption.icon) ? (
                 <ImageContainer>
                   <Image
                     src={selectedOption.icon}
@@ -140,7 +141,9 @@ function InputSelect({
                     unoptimized={!optimizeRemoteImages}
                   />
                 </ImageContainer>
-              )}
+              ) : selectedOption?.shortDescription?.split(' ')[1] ?
+              selectedOption?.shortDescription?.split(' ')[1] : null
+              }
             </ImageBox>
           )}
           <Input
@@ -154,7 +157,10 @@ function InputSelect({
           />
         </InputContainer>
         {selectedOption && (
-          <>
+          <SelectedWrapper 
+            onClick={toggle}
+            selectable={selectable}
+          >
             <InfoContainer
               onlyImage={displayIcon}
               active={active}
@@ -190,11 +196,11 @@ function InputSelect({
               )}
             </InfoContainer>
             {selectable && (
-              <Arrow active={active} aria-label="Open" onClick={toggle}>
+              <Arrow active={active} aria-label="Open" >
                 <IoIosArrowDown />
               </Arrow>
             )}
-          </>
+          </SelectedWrapper>
         )}
       </InputWrapper>
       {searchOptions && (

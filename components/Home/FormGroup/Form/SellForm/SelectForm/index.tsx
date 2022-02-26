@@ -24,6 +24,7 @@ import { useAppSelector } from "@/src/redux/hooks"
 import { stringToPieces } from "@/src/helpers"
 import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
+import QRcode from "./QRcode"
 import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
@@ -167,7 +168,7 @@ function CurrencyForm({
   ) => {
     const value = event.target.value
 
-    onHolderChange(value)
+    onHolderChange(value.toUpperCase())
   }
 
   const handleEmailInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -337,6 +338,7 @@ function CurrencyForm({
               onClick={() => setCurrentStep(Step.Payment)}
             />
             <ExchangeInfoContainer>
+              <QRcode valueToCopy={exchangeInfo.wallet} />
               <ExchangeInfoRow
                 label="Wallet address"
                 value={exchangeInfo.wallet}

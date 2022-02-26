@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Image from "next/image"
 import { mobile, optimizeRemoteImages } from "@/src/constants"
 import type { Option } from "../types"
+import IconSearch from '@/public/assets/Search.svg'
 
 type ItemProps = {
   selectable?: boolean
@@ -87,6 +88,7 @@ const Shadow = styled.div`
   background-color: var(--bgColor);
   border-radius: 10px;
   overflow: hidden;
+  color: var(--gray);
 
   @media only screen and (max-width: 370px) {
     width: 30px;
@@ -101,6 +103,16 @@ const ImageContainer = styled.div`
   @media only screen and (max-width: 370px) {
     width: 14px;
     height: 14px;
+  }
+`
+
+const SearchIconContainer = styled.div`
+  width: 30px;
+  height: 30px;
+
+  @media only screen and (max-width: 370px) {
+    width: 20px;
+    height: 20px;
   }
 `
 
@@ -172,7 +184,18 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
     <>
       {label && <Label>{label}</Label>}
       <Item>
-        <Shadow />
+        <Shadow>
+          <SearchIconContainer>
+            <Image
+              src={IconSearch}
+              width={30}
+              height={30}
+              layout="responsive"
+              alt="Logo"
+              unoptimized={!optimizeRemoteImages}
+            />
+          </SearchIconContainer>
+        </Shadow>
         <Input
           type="text"
           placeholder="Start typing to search..."
@@ -203,9 +226,12 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
                   />
                 </ImageContainer>
               </Shadow>
-            ) : (
-              <Shadow />
-            )}
+            ) : option?.shortDescription?.split(' ')[1] ? (
+              <Shadow>
+                {option?.shortDescription?.split(' ')[1]}
+              </Shadow>
+            ) : <Shadow />
+            }
             <ItemValue>{option.description}</ItemValue>
           </Item>
         ))

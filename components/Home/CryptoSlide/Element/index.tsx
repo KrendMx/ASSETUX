@@ -14,6 +14,7 @@ import Image from "next/image"
 import { useAppSelector } from "@/src/redux/hooks"
 import { optimizeRemoteImages, allowSkeletons } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
+import Graph from "./Graph"
 
 type ElementProps = {
   icon?: string
@@ -81,6 +82,17 @@ function Element({
               {isLoading ? <Skeleton width={100} /> : "24 hours change"}
             </ChangeLabel>
           </ChangeContainer>
+          {change24h && (
+            <Graph
+              color={
+                change24h > 0
+                  ? "var(--green)"
+                  : change24h < 0
+                  ? "var(--red)"
+                  : "var(--gray)"
+              }
+            />
+          )}
         </GraphContainer>
       </InfoContainer>
       <ButtonRow active={active}>

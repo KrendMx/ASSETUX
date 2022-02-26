@@ -18,6 +18,7 @@
       "@/styles/*": ["styles/*"],
       "@/components/*": ["components/*"],
       "@/src/*": ["src/*"],
+      "@/public/*": ["public/*"],
       "@/shared/*": ["shared/*"]
     },
     "incremental": true

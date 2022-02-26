@@ -25,7 +25,7 @@ const InputWrapper = styled.div<InputWrapperProps>`
       ? "0px 0px 0.00000001px 3px #8bb0fa"
       : "none"};
   border-radius: 10px;
-  padding: 0 20px;
+  padding: 0 0 0 20px;
   font-size: 1rem;
 
   & > * + * {
@@ -33,7 +33,7 @@ const InputWrapper = styled.div<InputWrapperProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 0 15px;
+    padding: 0 0 0 15px;
   }
 
   @media only screen and (max-width: 370px) {

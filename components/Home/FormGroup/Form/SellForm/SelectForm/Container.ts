@@ -11,7 +11,7 @@ const Container = styled.div<ContainerProps>`
   width: 100%;
   height: ${(props) =>
     props.formStep == Step.Exchange
-      ? "550px"
+      ? "650px"
       : props.lastSelectorActive
       ? "568px"
       : "490px"};
@@ -25,7 +25,7 @@ const Container = styled.div<ContainerProps>`
   @media only screen and (max-width: ${mobile}px) {
     height: ${(props) =>
       props.formStep == Step.Exchange
-        ? "480px"
+        ? "580px"
         : props.lastSelectorActive
         ? "521px"
         : "445px"};
