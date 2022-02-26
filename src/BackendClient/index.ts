@@ -13,7 +13,11 @@ import type {
   CheckSellOrderProps,
   CheckSellOrder,
   CloseSellOrderProps,
-  CloseSellOrder
+  CloseSellOrder,
+  RefundRequestProps,
+  RefundRequestResponse,
+  RefundProps,
+  RefundResponse
 } from "./types"
 
 class BackendClient {
@@ -96,6 +100,32 @@ class BackendClient {
   }: CloseSellOrderProps): Promise<CloseSellOrder> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/close`,
+      method: "POST",
+      headers: this.headers,
+      data
+    })
+  }
+
+  public async refundRequest({
+    apiHost,
+    orderId
+  }: RefundRequestProps): Promise<RefundRequestResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/refund/request`,
+      method: "GET",
+      headers: this.headers,
+      params: {
+        orderId
+      }
+    })
+  }
+
+  public async refund({
+    apiHost,
+    ...data
+  }: RefundProps): Promise<RefundResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/refund`,
       method: "POST",
       headers: this.headers,
       data

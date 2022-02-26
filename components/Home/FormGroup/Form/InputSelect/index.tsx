@@ -66,7 +66,11 @@ function InputSelect({
     active && ((changeable != undefined && changeable) || value != undefined)
   let selectedOption: Option | undefined
   if (hasOptions) {
-    selectedOption = options.find((option) => option.value == selectedValue)
+    if (selectable) {
+      selectedOption = options.find((option) => option.value == selectedValue)
+    } else {
+      selectedOption = options[0]
+    }
   }
   let displayedValue: string = ""
 
@@ -98,6 +102,10 @@ function InputSelect({
   }
 
   const toggle = () => {
+    if (!selectable) {
+      return
+    }
+
     onActiveChange && onActiveChange(!active)
     setActive(!active)
   }
@@ -130,7 +138,7 @@ function InputSelect({
           )}
           {hideLabel && (
             <ImageBox>
-              {(selectedOption && selectedOption.icon) ? (
+              {selectedOption && selectedOption.icon ? (
                 <ImageContainer>
                   <Image
                     src={selectedOption.icon}
@@ -141,9 +149,9 @@ function InputSelect({
                     unoptimized={!optimizeRemoteImages}
                   />
                 </ImageContainer>
-              ) : selectedOption?.shortDescription?.split(' ')[1] ?
-              selectedOption?.shortDescription?.split(' ')[1] : null
-              }
+              ) : selectedOption?.shortDescription?.split(" ")[1] ? (
+                selectedOption?.shortDescription?.split(" ")[1]
+              ) : null}
             </ImageBox>
           )}
           <Input
@@ -157,10 +165,7 @@ function InputSelect({
           />
         </InputContainer>
         {selectedOption && (
-          <SelectedWrapper 
-            onClick={toggle}
-            selectable={selectable}
-          >
+          <SelectedWrapper onClick={toggle} selectable={selectable}>
             <InfoContainer
               onlyImage={displayIcon}
               active={active}
@@ -186,9 +191,7 @@ function InputSelect({
                   {selectedOption.description && !hideLabel && (
                     <Label>
                       {selectedOption.shortDescription &&
-                        (selectable
-                          ? ellipsisString(selectedOption.shortDescription, 5)
-                          : selectedOption.shortDescription)}
+                        ellipsisString(selectedOption.shortDescription, 5)}
                     </Label>
                   )}
                   <Bold>{selectedOption.value}</Bold>
@@ -196,7 +199,7 @@ function InputSelect({
               )}
             </InfoContainer>
             {selectable && (
-              <Arrow active={active} aria-label="Open" >
+              <Arrow active={active} aria-label="Open">
                 <IoIosArrowDown />
               </Arrow>
             )}

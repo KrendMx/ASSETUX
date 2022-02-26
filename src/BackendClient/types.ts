@@ -193,3 +193,31 @@ export type CloseSellOrder = {
     result: string
   }
 }
+
+export type RefundRequestProps = UrlRequest & {
+  orderId: string
+}
+
+export type RefundRequestResponse = {
+  status?: number
+  message: string
+  data?: {
+    error: boolean
+    result?: string
+  }
+}
+
+export type RefundProps = UrlRequest & {
+  orderId: string
+  wallet: string
+  code: number
+}
+
+export type RefundResponse = {
+  status?: number
+  message: string
+  data?: {
+    error: boolean
+    result?: string
+  }
+}

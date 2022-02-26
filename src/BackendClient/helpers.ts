@@ -20,8 +20,12 @@ export const handleRequest = async (
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
+      const response = error.response
+
       return {
-        message: "adadsasd"
+        status: response.status,
+        message: response.statusText,
+        data: response.data
       }
     } else {
       return {

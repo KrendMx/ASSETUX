@@ -41,7 +41,7 @@ function SellForm({
 }: SellFormProps) {
   const dispatch = useAppDispatch()
 
-  const [currentStep, setCurrentStep] = useState(Step.Details)
+  const [currentStep, setCurrentStep] = useState(Step.Exchange)
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
@@ -52,7 +52,20 @@ function SellForm({
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>(null)
+  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>({
+    wallet: "0x20b377f09938c4dd66df80efff7b0bf1a6d7b297",
+    orderId: "6346149472",
+    timestamp: "1647879224190",
+    creditedAmount: 0
+  })
+  const [refundRequestError, setRefundRequestError] = useState<{
+    result: string | null
+    isLoading: boolean
+  } | null>(null)
+  const [refundError, setRefundError] = useState<{
+    result: string | null
+    isLoading: boolean
+  } | null>(null)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -100,19 +113,69 @@ function SellForm({
   const onExchange = async () => {
     if (currentBlockchain && exchangeInfo) {
       setProcessingRequest(true)
+
       const response = await BackendClient.closeSellOrder({
         apiHost: currentBlockchain.url,
         orderId: exchangeInfo.orderId
       })
+
       setProcessingRequest(false)
-
-      setCurrentStep(Step.Details)
-
-      console.log(response)
     }
   }
 
-  const onRefund = async () => {}
+  const onRefund = async (code: string, wallet: string) => {
+    if (currentBlockchain && exchangeInfo) {
+      setRefundError({
+        isLoading: true,
+        result: null
+      })
+
+      const response = await BackendClient.refund({
+        apiHost: currentBlockchain.url,
+        orderId: exchangeInfo.orderId,
+        code: Number(code),
+        wallet
+      })
+
+      if (response.data?.error && response.data.result) {
+        setRefundError({
+          isLoading: false,
+          result: response.data.result
+        })
+      } else {
+        setRefundError({
+          isLoading: false,
+          result: null
+        })
+      }
+    }
+  }
+
+  const onRefundRequest = async () => {
+    if (currentBlockchain && exchangeInfo) {
+      setRefundRequestError({
+        isLoading: true,
+        result: null
+      })
+
+      const response = await BackendClient.refundRequest({
+        apiHost: currentBlockchain.url,
+        orderId: exchangeInfo.orderId
+      })
+
+      if (response.data?.error && response.data?.result) {
+        setRefundRequestError({
+          isLoading: false,
+          result: response.data.result
+        })
+      } else {
+        setRefundRequestError({
+          isLoading: false,
+          result: null
+        })
+      }
+    }
+  }
 
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
@@ -200,6 +263,8 @@ function SellForm({
       exchangeInfo={exchangeInfo}
       currentStep={currentStep}
       processingRequest={processingRequest}
+      refundRequestError={refundRequestError}
+      refundError={refundError}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}
@@ -212,6 +277,7 @@ function SellForm({
       setCurrentStep={setCurrentStep}
       onExchange={onExchange}
       onRefund={onRefund}
+      onRefundRequest={onRefundRequest}
     />
   )
 }

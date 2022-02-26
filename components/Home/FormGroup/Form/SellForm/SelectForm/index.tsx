@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useRef, useEffect } from "react"
+
 import Container from "./Container"
 import InputSelect from "../../InputSelect"
 import InputSelectButton from "../../InputSelectButton"
@@ -13,19 +14,29 @@ import {
   RefundButton,
   ExchangeButton
 } from "./ExchangeButtons"
+import RefundModal from "./Modals/RefundModal"
+import RefundWalletModal from "./Modals/RefundWalletModal"
+import RefundCodeModal from "./Modals/RefundCodeModal"
+import RefundInsufficient from "./Modals/RefundInsufficient"
+import RefundResultModal from "./Modals/RefundResultModal"
+import RefundCodeInvalid from "./Modals/RefundCodeInvalid"
+import Background from "@/shared/Background"
+
 import {
   holderRegexp,
   emailRegexp,
   floatRegexp,
   allowSkeletons
 } from "@/src/constants"
+
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import { stringToPieces } from "@/src/helpers"
 import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
 import QRcode from "./QRcode"
-import type { Error, ExchangeInfo } from "./types"
+
+import type { Error, ExchangeInfo, DepositInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
 
@@ -58,6 +69,9 @@ type CurrencyFormProps = {
   exchangeInfo: ExchangeInfo | null
   processingRequest: boolean
   currentStep: Step
+  depositInfo?: DepositInfo
+  refundRequestError: { result: string | null; isLoading: boolean } | null
+  refundError: { result: string | null; isLoading: boolean } | null
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
@@ -69,7 +83,8 @@ type CurrencyFormProps = {
   onSubmit: () => void
   setCurrentStep: (step: Step) => void
   onExchange: () => void
-  onRefund: () => void
+  onRefund: (code: string, wallet: string) => void
+  onRefundRequest: () => void
 }
 
 function CurrencyForm({
@@ -89,6 +104,9 @@ function CurrencyForm({
   processingRequest,
   exchangeInfo,
   currentStep,
+  depositInfo,
+  refundRequestError,
+  refundError,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -100,19 +118,62 @@ function CurrencyForm({
   onSubmit,
   setCurrentStep,
   onExchange,
-  onRefund
+  onRefund,
+  onRefundRequest
 }: CurrencyFormProps) {
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
+  const [showRefundModal, setShowRefundModal] = useState(false)
+  const [showRefundWalletModal, setShowRefundWalletModal] = useState(false)
+  const [showRefundCodeModal, setShowRefundCodeModal] = useState(false)
+  const [showRefundInsufficient, setShowRefundInsufficient] = useState(false)
+  const [showRefundModalResult, setShowRefundModalResult] = useState(false)
+  const [showRefundCodeInvalid, setShowRefundCodeInvalid] = useState(false)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+
+  const refundData = useRef<{
+    wallet: string | null
+    code: string | null
+  }>({
+    wallet: null,
+    code: null
+  })
 
   const piecedDetails = useMemo(
     () => stringToPieces(currentDetails, 4, " "),
     [currentDetails]
   )
+
+  useEffect(() => {
+    if (!refundRequestError) {
+      return
+    }
+
+    if (!refundRequestError.isLoading && refundRequestError.result == null) {
+      setShowRefundModal(false)
+      setShowRefundWalletModal(true)
+    } else {
+      setShowRefundModal(false)
+      setShowRefundInsufficient(true)
+    }
+  }, [refundRequestError])
+
+  useEffect(() => {
+    if (!refundError) {
+      return
+    }
+
+    if (!refundError.isLoading && refundError.result == null) {
+      setShowRefundModalResult(true)
+      setShowRefundCodeModal(false)
+    } else {
+      setShowRefundCodeModal(false)
+      setShowRefundCodeInvalid(true)
+    }
+  }, [refundError])
 
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
@@ -207,6 +268,12 @@ function CurrencyForm({
       } else if (currentStep == Step.Payment) {
         onSubmit()
       }
+    }
+  }
+
+  const handleRefund = () => {
+    if (refundData.current.wallet != null && refundData.current.code != null) {
+      onRefund(refundData.current.code, refundData.current.wallet)
     }
   }
 
@@ -377,7 +444,9 @@ function CurrencyForm({
             <ExchangeButton onClick={onExchange} disabled={processingRequest}>
               {processingRequest ? "Please wait..." : "Exchange"}
             </ExchangeButton>
-            <RefundButton onClick={onRefund}>Refund</RefundButton>
+            <RefundButton onClick={() => setShowRefundModal(true)}>
+              Refund
+            </RefundButton>
           </ExchangeButtonsContainer>
         </>
       )
@@ -399,6 +468,67 @@ function CurrencyForm({
         ) : (
           <Skeleton height={49} />
         ))}
+      {exchangeInfo != null && showRefundModal && (
+        <RefundModal
+          getValue={creditedGetAmount}
+          sentValue={exchangeInfo.creditedAmount.toString()}
+          getToken={tokens?.find((token) => token.value == currentToken)}
+          sentToken={currencies?.find(
+            (currency) => currency.value == currentCurrency
+          )}
+          isLoading={refundRequestError?.isLoading}
+          onCancel={() => setShowRefundModal(false)}
+          onAccept={() => {
+            onRefundRequest()
+          }}
+        />
+      )}
+      {showRefundWalletModal && (
+        <RefundWalletModal
+          onAccept={(wallet) => {
+            refundData.current.wallet = wallet
+
+            setShowRefundWalletModal(false)
+            setShowRefundCodeModal(true)
+          }}
+          onCancel={() => setShowRefundWalletModal(false)}
+        />
+      )}
+      {showRefundCodeModal && (
+        <RefundCodeModal
+          onAccept={(code) => {
+            refundData.current.code = code
+
+            handleRefund()
+          }}
+          onCancel={() => {
+            setShowRefundCodeModal(false)
+          }}
+        />
+      )}
+      {showRefundCodeInvalid && (
+        <RefundCodeInvalid
+          onAccept={() => {
+            setShowRefundCodeInvalid(false)
+            setShowRefundCodeModal(true)
+          }}
+        />
+      )}
+
+      {showRefundModalResult && (
+        <RefundResultModal onAccept={() => setShowRefundModalResult(false)} />
+      )}
+
+      {showRefundInsufficient && (
+        <RefundInsufficient onAccept={() => setShowRefundInsufficient(false)} />
+      )}
+
+      {(showRefundModal ||
+        showRefundWalletModal ||
+        showRefundCodeModal ||
+        showRefundInsufficient ||
+        showRefundModalResult ||
+        showRefundCodeInvalid) && <Background />}
     </Container>
   )
 }

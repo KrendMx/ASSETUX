@@ -6,8 +6,8 @@ type InfoContainerProps = {
 }
 
 const SelectedWrapper = styled.button<InfoContainerProps>`
-  flex: 0 0 100px;
-  cursor: pointer;
+  flex: 0 0 ${(props) => (!props.selectable ? "70px" : "100px")};
+  cursor: ${(props) => (props.selectable ? "cursor" : "default")};
   background: transparent;
   border: none;
   display: flex;
