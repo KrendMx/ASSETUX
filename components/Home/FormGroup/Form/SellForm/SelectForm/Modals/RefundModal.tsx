@@ -5,6 +5,7 @@ import Title from "./components/Title"
 import Info from "./components/Info"
 import ButtonsRow from "./components/ButtonsRow"
 import Button from "./components/Button"
+import Icon from "./components/Icon"
 
 import type { Option } from "../../../InputSelect/types"
 
@@ -33,7 +34,10 @@ function RefundModal({
 
   return (
     <Container>
-      <Title>Please confirm action</Title>
+      <Title>
+        <Icon />
+        <span>Please confirm action</span>
+      </Title>
       <InputSelect
         label="You sent"
         id="refund_sent"

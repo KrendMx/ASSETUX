@@ -157,6 +157,7 @@ function CurrencyForm({
       setShowRefundWalletModal(true)
     } else {
       setShowRefundModal(false)
+
       setShowRefundInsufficient(true)
     }
   }, [refundRequestError])
@@ -472,8 +473,8 @@ function CurrencyForm({
         <RefundModal
           getValue={creditedGetAmount}
           sentValue={exchangeInfo.creditedAmount.toString()}
-          getToken={tokens?.find((token) => token.value == currentToken)}
-          sentToken={currencies?.find(
+          sentToken={tokens?.find((token) => token.value == currentToken)}
+          getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
           isLoading={refundRequestError?.isLoading}
@@ -496,6 +497,7 @@ function CurrencyForm({
       )}
       {showRefundCodeModal && (
         <RefundCodeModal
+          isLoading={refundError?.isLoading}
           onAccept={(code) => {
             refundData.current.code = code
 
@@ -516,11 +518,24 @@ function CurrencyForm({
       )}
 
       {showRefundModalResult && (
-        <RefundResultModal onAccept={() => setShowRefundModalResult(false)} />
+        <RefundResultModal
+          onAccept={() => {
+            setShowRefundModalResult(false)
+            setCurrentStep(Step.Details)
+          }}
+          getToken={currencies?.find(
+            (currency) => currency.value == currentCurrency
+          )}
+          getValue={creditedGetAmount}
+        />
       )}
 
       {showRefundInsufficient && (
-        <RefundInsufficient onAccept={() => setShowRefundInsufficient(false)} />
+        <RefundInsufficient
+          onAccept={() => setShowRefundInsufficient(false)}
+          sentValue={exchangeInfo?.creditedAmount.toString()}
+          sentToken={tokens?.find((token) => token.value == currentToken)}
+        />
       )}
 
       {(showRefundModal ||

@@ -13,7 +13,7 @@ const Button = styled.button<ButtonProps>`
   outline: none;
   background-color: ${(props) => (!props.main ? "transparent" : "var(--blue)")};
   font-weight: 400;
-  font-size: 1em;
+  font-size: 1.0665em;
   width: 100%;
   height: 49px;
   border-radius: 10px;

@@ -4,28 +4,38 @@ import Title from "./components/Title"
 import ButtonsRow from "./components/ButtonsRow"
 import Button from "./components/Button"
 import InputSelect from "../../../InputSelect"
+import Icon from "./components/Icon"
 
 type RefundCodeModalProps = {
+  isLoading?: boolean
   onCancel?: () => void
   onAccept?: (code: string) => void
 }
 
-function RefundCodeModal({ onCancel, onAccept }: RefundCodeModalProps) {
+function RefundCodeModal({
+  isLoading,
+  onCancel,
+  onAccept
+}: RefundCodeModalProps) {
   const [code, setCode] = useState("")
 
   return (
     <Container>
-      <Title>Code was sent to your email</Title>
+      <Title>
+        <Icon />
+        <span>Code was sent to your email</span>
+      </Title>
       <InputSelect
         value={code}
-        label="Code"
+        id="refund_code"
+        label="Enter the code"
         changeable
         onChange={(event) => setCode(event.target.value)}
       />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={() => onAccept && onAccept(code)} main>
-          OK
+          {isLoading ? "Loading..." : "OK"}
         </Button>
       </ButtonsRow>
     </Container>

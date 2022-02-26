@@ -2,6 +2,8 @@ import React from "react"
 import Button from "./components/Button"
 import ButtonsRow from "./components/ButtonsRow"
 import Container from "./components/Container"
+import Icon from "./components/Icon"
+import Info from "./components/Info"
 import Title from "./components/Title"
 
 type RefundCodeInvalidProps = {
@@ -11,10 +13,14 @@ type RefundCodeInvalidProps = {
 function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
   return (
     <Container>
-      <Title>askdkasdk</Title>
+      <Title>
+        <Icon />
+        <span>Error</span>
+      </Title>
+      <Info>You entered invalid code</Info>
       <ButtonsRow>
         <Button onClick={onAccept} main>
-          OK
+          Try again
         </Button>
       </ButtonsRow>
     </Container>

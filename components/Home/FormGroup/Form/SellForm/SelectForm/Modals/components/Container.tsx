@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { mobile } from "@/src/constants"
 
 const Container = styled.div`
   position: absolute;
@@ -11,7 +12,14 @@ const Container = styled.div`
   z-index: 10000;
   border-radius: 10px;
   font-size: 1rem;
-  padding: 14px;
+  padding: 20px 25px;
+  box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
+
+  @media only screen and (max-width: ${mobile}px) {
+    margin: 0;
+    width: 100%;
+    padding: 14px;
+  }
 `
 
 export default Container

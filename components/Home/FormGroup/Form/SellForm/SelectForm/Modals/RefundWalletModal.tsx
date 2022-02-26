@@ -5,6 +5,7 @@ import Info from "./components/Info"
 import ButtonsRow from "./components/ButtonsRow"
 import Button from "./components/Button"
 import InputSelect from "../../../InputSelect"
+import Icon from "./components/Icon"
 
 type RefundWalletModalProps = {
   onCancel?: () => void
@@ -22,8 +23,11 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
 
   return (
     <Container>
-      <Title>Please fill the required data to refund</Title>
-      <Info>
+      <Title>
+        <Icon />
+        <span>Please fill the required data to refund</span>
+      </Title>
+      <Info misc>
         Make sure you have access to the specified wallet. If you dont, we
         couldn&apos;t help you
       </Info>
