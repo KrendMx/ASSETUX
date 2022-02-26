@@ -7,7 +7,7 @@ import BackendClient from "@/src/BackendClient"
 import { Step } from "./SelectForm/Steps"
 import type { Option } from "../InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
-import {
+import type {
   FiatRate,
   FiatProvider,
   Blockchain,
