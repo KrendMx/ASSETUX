@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import Image from "next/image"
-import Container from "../components/Container"
-import Title from "../components/Title"
-import ButtonsRow from "../components/ButtonsRow"
-import Button from "../components/Button"
+import Container from "@/shared/ModalComponents/Container"
+import Title from "@/shared/ModalComponents/Title"
+import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
+import Button from "@/shared/ModalComponents/Button"
 import InputSelect from "../../../../InputSelect"
-import Icon from "../components/Icon"
-import Shadow from "../components/Shadow"
+import Icon from "@/shared/ModalComponents/Icon"
+import Shadow from "@/shared/ModalComponents/Shadow"
 
 type RefundCodeModalProps = {
   isLoading?: boolean

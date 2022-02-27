@@ -1,12 +1,12 @@
 import React from "react"
 import Image from "next/image"
 import InputSelect from "../../../../InputSelect"
-import Container from "../components/Container"
-import Title from "../components/Title"
-import ButtonsRow from "../components/ButtonsRow"
-import Button from "../components/Button"
-import Icon from "../components/Icon"
-import Shadow from "../components/Shadow"
+import Container from "@/shared/ModalComponents/Container"
+import Title from "@/shared/ModalComponents/Title"
+import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
+import Button from "@/shared/ModalComponents/Button"
+import Icon from "@/shared/ModalComponents/Icon"
+import Shadow from "@/shared/ModalComponents/Shadow"
 
 import type { Option } from "../../../../InputSelect/types"
 
