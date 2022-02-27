@@ -1,13 +1,15 @@
 import React from "react"
-import InputSelect from "../../../InputSelect"
-import Container from "./components/Container"
-import Title from "./components/Title"
-import Info from "./components/Info"
-import ButtonsRow from "./components/ButtonsRow"
-import Button from "./components/Button"
-import Icon from "./components/Icon"
+import Image from "next/image"
+import InputSelect from "../../../../InputSelect"
+import Container from "../components/Container"
+import Title from "../components/Title"
+import Info from "../components/Info"
+import ButtonsRow from "../components/ButtonsRow"
+import Button from "../components/Button"
+import Shadow from "../components/Shadow"
+import Icon from "../components/Icon"
 
-import type { Option } from "../../../InputSelect/types"
+import type { Option } from "../../../../InputSelect/types"
 
 type RefundModalProps = {
   sentToken?: Option
@@ -35,7 +37,17 @@ function RefundModal({
   return (
     <Container>
       <Title>
-        <Icon />
+        <Shadow>
+          <Icon>
+            <Image
+              src="/assets/Question.svg"
+              layout="fill"
+              alt="Question"
+              objectFit="contain"
+              objectPosition="center"
+            />
+          </Icon>
+        </Shadow>
         <span>Please confirm action</span>
       </Title>
       <InputSelect

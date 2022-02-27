@@ -1,14 +1,16 @@
 import React, { useState } from "react"
+import Image from "next/image"
 import styled from "styled-components"
-import Button from "./components/Button"
-import ButtonsRow from "./components/ButtonsRow"
-import Container from "./components/Container"
-import Title from "./components/Title"
-import Icon from "./components/Icon"
-import InputSelect from "../../../InputSelect"
-import Info from "./components/Info"
+import Button from "../components/Button"
+import ButtonsRow from "../components/ButtonsRow"
+import Container from "../components/Container"
+import Title from "../components/Title"
+import Icon from "../components/Icon"
+import Shadow from "../components/Shadow"
+import InputSelect from "../../../../InputSelect"
+import Info from "../components/Info"
 
-import type { Option } from "../../../InputSelect/types"
+import type { Option } from "../../../../InputSelect/types"
 
 const Ahtung = styled(Info)`
   color: var(--red);
@@ -34,7 +36,17 @@ function RefundInsufficient({
   return (
     <Container>
       <Title>
-        <Icon />
+        <Shadow>
+          <Icon>
+            <Image
+              src="/assets/Exclamation-red.svg"
+              layout="fill"
+              alt="Exclamation"
+              objectFit="contain"
+              objectPosition="center"
+            />
+          </Icon>
+        </Shadow>
         <span>You sent insufficient crypto amount to make refund</span>
       </Title>
       <InputSelect

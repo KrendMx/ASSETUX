@@ -1,14 +1,16 @@
 import React, { useState } from "react"
+import Image from "next/image"
 import styled from "styled-components"
-import Container from "./components/Container"
-import Title from "./components/Title"
-import Info from "./components/Info"
-import ButtonsRow from "./components/ButtonsRow"
-import Button from "./components/Button"
-import Icon from "./components/Icon"
-import InputSelect from "../../../InputSelect"
+import Container from "../components/Container"
+import Title from "../components/Title"
+import Info from "../components/Info"
+import ButtonsRow from "../components/ButtonsRow"
+import Button from "../components/Button"
+import Icon from "../components/Icon"
+import Shadow from "../components/Shadow"
+import InputSelect from "../../../../InputSelect"
 
-import type { Option } from "../../../InputSelect/types"
+import type { Option } from "../../../../InputSelect/types"
 
 const Success = styled(Info)`
   background-color: #68cc4533;
@@ -38,7 +40,17 @@ function RefundResultModal({
   return (
     <Container>
       <Title>
-        <Icon />
+        <Shadow>
+          <Icon>
+            <Image
+              src="/assets/Exclamation-green.svg"
+              layout="fill"
+              alt="Exclamation"
+              objectFit="contain"
+              objectPosition="center"
+            />
+          </Icon>
+        </Shadow>
         <span>Refund was success</span>
       </Title>
       <InputSelect

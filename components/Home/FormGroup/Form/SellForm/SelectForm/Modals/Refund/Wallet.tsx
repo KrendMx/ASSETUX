@@ -1,11 +1,13 @@
 import React, { useState } from "react"
-import Container from "./components/Container"
-import Title from "./components/Title"
-import Info from "./components/Info"
-import ButtonsRow from "./components/ButtonsRow"
-import Button from "./components/Button"
-import InputSelect from "../../../InputSelect"
-import Icon from "./components/Icon"
+import Image from "next/image"
+import Container from "../components/Container"
+import Title from "../components/Title"
+import Info from "../components/Info"
+import ButtonsRow from "../components/ButtonsRow"
+import Button from "../components/Button"
+import InputSelect from "../../../../InputSelect"
+import Icon from "../components/Icon"
+import Shadow from "../components/Shadow"
 
 type RefundWalletModalProps = {
   onCancel?: () => void
@@ -24,7 +26,17 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
   return (
     <Container>
       <Title>
-        <Icon />
+        <Shadow>
+          <Icon>
+            <Image
+              src="/assets/Exclamation-blue.svg"
+              layout="fill"
+              alt="Exclamation"
+              objectFit="contain"
+              objectPosition="center"
+            />
+          </Icon>
+        </Shadow>
         <span>Please fill the required data to refund</span>
       </Title>
       <Info misc>

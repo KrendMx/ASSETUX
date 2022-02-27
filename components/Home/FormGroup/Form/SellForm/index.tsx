@@ -41,7 +41,7 @@ function SellForm({
 }: SellFormProps) {
   const dispatch = useAppDispatch()
 
-  const [currentStep, setCurrentStep] = useState(Step.Details)
+  const [currentStep, setCurrentStep] = useState(Step.Exchange)
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
@@ -52,7 +52,12 @@ function SellForm({
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>(null)
+  const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>({
+    wallet: "0x20b377f09938c4dd66df80efff7b0bf1a6d7b297",
+    orderId: "6346149472",
+    timestamp: "1647879224190",
+    creditedAmount: 0
+  })
   const [refundRequestError, setRefundRequestError] = useState<{
     result: string | null
     isLoading: boolean
@@ -60,6 +65,11 @@ function SellForm({
   const [refundError, setRefundError] = useState<{
     result: string | null
     isLoading: boolean
+  } | null>(null)
+  const [depositInfo, setDepositInfo] = useState<{
+    result: string | null
+    isLoading: boolean
+    error: boolean
   } | null>(null)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
@@ -92,6 +102,7 @@ function SellForm({
       })
 
       setProcessingRequest(false)
+
       if (response.data && typeof response.data.result != "string") {
         const data = response.data.result
         setExchangeInfo({
@@ -107,14 +118,24 @@ function SellForm({
 
   const onExchange = async () => {
     if (currentBlockchain && exchangeInfo) {
-      setProcessingRequest(true)
+      setDepositInfo({
+        isLoading: true,
+        result: null,
+        error: false
+      })
 
       const response = await BackendClient.closeSellOrder({
         apiHost: currentBlockchain.url,
         orderId: exchangeInfo.orderId
       })
 
-      setProcessingRequest(false)
+      if (response.data?.result) {
+        setDepositInfo({
+          isLoading: false,
+          result: response.data.result,
+          error: response.data.error
+        })
+      }
     }
   }
 
@@ -242,6 +263,7 @@ function SellForm({
 
   return (
     <SelectForm
+      processingRequest={processingRequest}
       currentBlockchain={currentBlockchain && currentBlockchain.title}
       blockchains={blockchains}
       currentCurrency={selectedCurrency}
@@ -257,9 +279,9 @@ function SellForm({
       rate={currentRate}
       exchangeInfo={exchangeInfo}
       currentStep={currentStep}
-      processingRequest={processingRequest}
       refundRequestError={refundRequestError}
       refundError={refundError}
+      depositInfo={depositInfo}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

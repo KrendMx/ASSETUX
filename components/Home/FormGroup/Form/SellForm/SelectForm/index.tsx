@@ -14,12 +14,15 @@ import {
   RefundButton,
   ExchangeButton
 } from "./ExchangeButtons"
-import RefundModal from "./Modals/RefundModal"
-import RefundWalletModal from "./Modals/RefundWalletModal"
-import RefundCodeModal from "./Modals/RefundCodeModal"
-import RefundInsufficient from "./Modals/RefundInsufficient"
-import RefundResultModal from "./Modals/RefundResultModal"
-import RefundCodeInvalid from "./Modals/RefundCodeInvalid"
+import RefundModal from "./Modals/Refund/Modal"
+import RefundWalletModal from "./Modals/Refund/Wallet"
+import RefundCodeModal from "./Modals/Refund/Code"
+import RefundInsufficient from "./Modals/Refund/Insufficient"
+import RefundResultModal from "./Modals/Refund/Result"
+import RefundCodeInvalid from "./Modals/Refund/CodeInvalid"
+import ExchangeModal from "./Modals/Exchange/Modal"
+import ExchangeResultModal from "./Modals/Exchange/Result"
+import ExchangeUnknownModal from "./Modals/Exchange/UnknownError"
 import Background from "@/shared/Background"
 
 import {
@@ -36,7 +39,7 @@ import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
 import QRcode from "./QRcode"
 
-import type { Error, ExchangeInfo, DepositInfo } from "./types"
+import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "../../InputSelect/types"
 
@@ -53,6 +56,7 @@ const inputIds = {
 }
 
 type CurrencyFormProps = {
+  processingRequest: boolean
   currentBlockchain: string | null
   blockchains: Option[] | null
   currentCurrency: string | null
@@ -67,9 +71,12 @@ type CurrencyFormProps = {
   giveAmount: string
   rate: number | null
   exchangeInfo: ExchangeInfo | null
-  processingRequest: boolean
   currentStep: Step
-  depositInfo?: DepositInfo
+  depositInfo: {
+    result: string | null
+    isLoading: boolean
+    error: boolean
+  } | null
   refundRequestError: { result: string | null; isLoading: boolean } | null
   refundError: { result: string | null; isLoading: boolean } | null
   onBlockchainChange: (blockchain: string) => void
@@ -88,6 +95,7 @@ type CurrencyFormProps = {
 }
 
 function CurrencyForm({
+  processingRequest,
   currentBlockchain,
   blockchains,
   currentCurrency,
@@ -101,7 +109,6 @@ function CurrencyForm({
   currentEmail,
   giveAmount,
   rate,
-  processingRequest,
   exchangeInfo,
   currentStep,
   depositInfo,
@@ -126,12 +133,21 @@ function CurrencyForm({
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
+
   const [showRefundModal, setShowRefundModal] = useState(false)
   const [showRefundWalletModal, setShowRefundWalletModal] = useState(false)
   const [showRefundCodeModal, setShowRefundCodeModal] = useState(false)
   const [showRefundInsufficient, setShowRefundInsufficient] = useState(false)
   const [showRefundModalResult, setShowRefundModalResult] = useState(false)
   const [showRefundCodeInvalid, setShowRefundCodeInvalid] = useState(false)
+
+  const [showExpiredModal, setShowExpiredModal] = useState(false)
+
+  const [showExchangeModal, setShowExchangeModal] = useState(false)
+  const [showExchangeResultModal, setShowExchangeResultModal] = useState(false)
+  const [showExchangeUnknownModal, setShowExchangeUnknownModal] =
+    useState(false)
+
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const refundData = useRef<{
@@ -157,7 +173,6 @@ function CurrencyForm({
       setShowRefundWalletModal(true)
     } else {
       setShowRefundModal(false)
-
       setShowRefundInsufficient(true)
     }
   }, [refundRequestError])
@@ -175,6 +190,18 @@ function CurrencyForm({
       setShowRefundCodeInvalid(true)
     }
   }, [refundError])
+
+  useEffect(() => {
+    if (depositInfo?.result) {
+      if (depositInfo.error) {
+        setShowExchangeUnknownModal(true)
+        setShowExchangeModal(false)
+      } else {
+        setShowExchangeResultModal(true)
+        setShowExchangeModal(false)
+      }
+    }
+  }, [depositInfo])
 
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
@@ -442,8 +469,8 @@ function CurrencyForm({
             </ExchangeInfoContainer>
           </FormContainer>
           <ExchangeButtonsContainer>
-            <ExchangeButton onClick={onExchange} disabled={processingRequest}>
-              {processingRequest ? "Please wait..." : "Exchange"}
+            <ExchangeButton onClick={() => setShowExchangeModal(true)}>
+              Exchange
             </ExchangeButton>
             <RefundButton onClick={() => setShowRefundModal(true)}>
               Refund
@@ -538,12 +565,51 @@ function CurrencyForm({
         />
       )}
 
+      {exchangeInfo && showExchangeModal && (
+        <ExchangeModal
+          getValue={creditedGetAmount}
+          sentValue={exchangeInfo.creditedAmount.toString()}
+          sentToken={tokens?.find((token) => token.value == currentToken)}
+          getToken={currencies?.find(
+            (currency) => currency.value == currentCurrency
+          )}
+          isLoading={depositInfo?.isLoading}
+          onCancel={() => setShowExchangeModal(false)}
+          onAccept={() => {
+            onExchange()
+          }}
+        />
+      )}
+
+      {exchangeInfo && showExchangeResultModal && (
+        <ExchangeResultModal
+          getValue={creditedGetAmount}
+          getToken={currencies?.find(
+            (currency) => currency.value == currentCurrency
+          )}
+          onAccept={() => {
+            setShowExchangeResultModal(false)
+            setCurrentStep(Step.Details)
+          }}
+        />
+      )}
+
+      {showExchangeUnknownModal && (
+        <ExchangeUnknownModal
+          onAccept={() => setShowExchangeUnknownModal(false)}
+        />
+      )}
+
       {(showRefundModal ||
         showRefundWalletModal ||
         showRefundCodeModal ||
         showRefundInsufficient ||
         showRefundModalResult ||
-        showRefundCodeInvalid) && <Background />}
+        showRefundCodeInvalid ||
+        showExpiredModal ||
+        showExchangeModal ||
+        showExchangeResultModal ||
+        showExchangeUnknownModal) && <Background />}
     </Container>
   )
 }

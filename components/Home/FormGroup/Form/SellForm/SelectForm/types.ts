@@ -8,7 +8,3 @@ export type ExchangeInfo = {
   creditedAmount: number
   orderId: string
 }
-
-export type DepositInfo = {
-  success: boolean
-}
