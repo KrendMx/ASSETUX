@@ -8,7 +8,7 @@ const Container = styled.div`
   height: 35px;
 `
 
-type GraphData = {
+export type GraphData = {
   x: number
   y: number
 }

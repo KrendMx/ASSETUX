@@ -16,11 +16,14 @@ import { optimizeRemoteImages, allowSkeletons } from "@/src/constants"
 import Skeleton from "react-loading-skeleton"
 import Graph from "./Graph"
 
+import type { GraphData } from "./Graph"
+
 type ElementProps = {
   icon?: string
   symbol?: string
   price?: string
   change24h?: number
+  marketHistory?: GraphData[]
   onBuy?: () => void
   onSell?: () => void
 }
@@ -30,6 +33,7 @@ function Element({
   symbol,
   price,
   change24h,
+  marketHistory,
   onBuy,
   onSell
 }: ElementProps) {
@@ -84,6 +88,7 @@ function Element({
           </ChangeContainer>
           {change24h && (
             <Graph
+              coords={marketHistory}
               color={
                 change24h > 0
                   ? "var(--green)"

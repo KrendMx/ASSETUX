@@ -1,16 +1,21 @@
 import React, { useMemo, useCallback } from "react"
 import styled from "styled-components"
+
 import Slider from "@/shared/Slider"
 import Element from "./Element"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
 import { mobile } from "@/src/constants"
 import { mapCurrency } from "@/src/currencies"
+
 import useSliderConfig from "../sliderConfig"
+
+import type { MarketHistoryData } from "@/src/BackendClient/types"
 import type { ExplorerData } from "../CryptoManager/types"
 import type { Token } from "@/src/BackendClient/types"
 import type { ActionType } from "@/src/redux/cryptoSlice"
 import type { CurrenciesType } from "@/src/currencies"
+import type { GraphData } from "./Element/Graph"
 
 const Container = styled.section`
   display: block;
@@ -24,6 +29,26 @@ const Container = styled.section`
     height: auto;
   }
 `
+
+const mapMarketHistory = (
+  marketHistory: MarketHistoryData[],
+  currency: CurrenciesType
+): GraphData[] => {
+  const startTimestamp = Number(marketHistory[0].timestamp)
+
+  const marketHistoryLength = marketHistory.length
+
+  const graphData = new Array<GraphData>(marketHistoryLength)
+
+  for (let i = 0; i < marketHistoryLength; i++) {
+    graphData[i] = {
+      x: Number(marketHistory[i].timestamp) - startTimestamp,
+      y: marketHistory[i].price[currency]
+    }
+  }
+
+  return graphData
+}
 
 const mapExplorerData = (
   explorerData: ExplorerData[],
@@ -43,6 +68,10 @@ const mapExplorerData = (
           currency
         )}`}
         change24h={element.change24}
+        marketHistory={
+          element.token.market_history &&
+          mapMarketHistory(element.token.market_history, currency)
+        }
         onBuy={() => handleAction("BUY", element.token)}
         onSell={() => handleAction("SELL", element.token)}
       />
