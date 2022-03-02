@@ -56,7 +56,7 @@ function ExchangeExpired({
 }: ExchangeExpiredProps) {
   const [review, setReview] = useState("")
 
-  const success = Number(sentValue) <= minimalAmount
+  const success = Number(getValue) <= minimalAmount
 
   if (!getValue || !getToken || !sentToken || !sentValue) {
     return null
