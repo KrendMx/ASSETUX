@@ -67,7 +67,7 @@ function RefundModal({
       />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onAccept} main>
+        <Button disabled={isLoading} onClick={onAccept} main>
           {isLoading ? "Loading..." : "OK"}
         </Button>
       </ButtonsRow>
