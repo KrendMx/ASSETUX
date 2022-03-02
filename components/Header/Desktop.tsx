@@ -1,11 +1,16 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+import Link from "next/link"
+import { useTranslation } from "next-i18next"
+
+import { useAppDispatch } from "@/src/redux/hooks"
+import { setOrdersActive } from "@/src/redux/uiSlice"
+
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
-import Link from "next/link"
 import TextLogo from "@/shared/TextLogo"
+
 import { mobile } from "@/src/constants"
-import { useTranslation } from "next-i18next"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {
@@ -31,7 +36,11 @@ const NavContainer = styled.nav`
   }
 `
 
-const NavLink = styled.a`
+type NavLinkProps = {
+  as?: string
+}
+
+const NavLink = styled.a<NavLinkProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,6 +50,15 @@ const NavLink = styled.a`
   font-weight: 500;
   text-decoration: none;
   color: var(--black);
+
+  ${(props) =>
+    props.as == "button" &&
+    css`
+      background: transparent;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    `}
 
   @media only screen and (max-width: 800px) {
     padding: 0 15px;
@@ -52,14 +70,15 @@ const NavLink = styled.a`
 `
 
 function Desktop() {
+  const dispatch = useAppDispatch()
   const { t } = useTranslation("header")
 
   return (
     <DesktopContainer>
       <TextLogo link />
       <RightContainer>
-        {/* <NavContainer>
-          <Link href="/404" passHref>
+        <NavContainer>
+          {/* <Link href="/404" passHref>
             <NavLink>{t("swap")}</NavLink>
           </Link>
           <Link href="/404" passHref>
@@ -67,8 +86,11 @@ function Desktop() {
           </Link>
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
-          </Link>
-        </NavContainer> */}
+          </Link> */}
+          <NavLink as="button" onClick={() => dispatch(setOrdersActive(true))}>
+            My Operations
+          </NavLink>
+        </NavContainer>
         <LanguageCurrencyChange />
       </RightContainer>
     </DesktopContainer>
