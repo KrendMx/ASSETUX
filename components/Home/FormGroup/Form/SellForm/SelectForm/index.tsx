@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react"
 
+import { useIsomorphicLayoutEffect } from "@/src/hooks"
+
 import Container from "./Container"
 import InputSelect from "@/shared/InputSelect"
 import InputSelectButton from "../../InputSelectButton"
@@ -169,7 +171,7 @@ function CurrencyForm({
     [currentDetails]
   )
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!refundRequestError) {
       return
     }
@@ -183,7 +185,7 @@ function CurrencyForm({
     }
   }, [refundRequestError])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!refundError) {
       return
     }
@@ -197,7 +199,7 @@ function CurrencyForm({
     }
   }, [refundError])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (depositInfo?.result) {
       if (depositInfo.error) {
         setShowExchangeUnknownModal(true)
