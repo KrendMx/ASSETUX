@@ -6,7 +6,7 @@ import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import SellForm from "./SellForm"
 import BuyForm from "./BuyForm"
 import BuyPending from "./BuyForm/Pending"
-import { Option } from "./InputSelect/types"
+import { Option } from "@/shared/InputSelect/types"
 import {
   currencies as definedCurrencies,
   mapCurrency,

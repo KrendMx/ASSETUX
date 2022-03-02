@@ -4,7 +4,7 @@ import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
 import Button from "@/shared/ModalComponents/Button"
-import InputSelect from "../../../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
 

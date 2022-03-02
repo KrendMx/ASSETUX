@@ -7,10 +7,10 @@ import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
-import InputSelect from "../../../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import Info from "@/shared/ModalComponents/Info"
 
-import type { Option } from "../../../../InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 const Ahtung = styled(Info)`
   color: var(--red);

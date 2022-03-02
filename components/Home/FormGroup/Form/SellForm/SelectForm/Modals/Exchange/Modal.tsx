@@ -1,6 +1,6 @@
 import React from "react"
 import Image from "next/image"
-import InputSelect from "../../../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
 import Info from "@/shared/ModalComponents/Info"
@@ -9,7 +9,7 @@ import Button from "@/shared/ModalComponents/Button"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
 
-import type { Option } from "../../../../InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 type ExchangeModalProps = {
   sentToken?: Option

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react"
+
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setCurrentRate } from "@/src/redux/cryptoSlice"
+
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
 import { Step } from "./SelectForm/Steps"
-import type { Option } from "../InputSelect/types"
+
+import type { Option } from "@/shared/InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
 import type {
   FiatRate,
@@ -188,6 +191,27 @@ function SellForm({
     }
   }
 
+  const getRefundAmounts = async () => {
+    if (!currentBlockchain) {
+      return null
+    }
+
+    const response = await BackendClient.getRefundAmounts({
+      apiHost: currentBlockchain.url,
+      chainId: currentBlockchain.chain_id
+    })
+
+    if (!response.data) {
+      return null
+    }
+
+    if ("message" in response.data) {
+      return null
+    }
+
+    return response.data[currentCurrency]
+  }
+
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
@@ -290,6 +314,7 @@ function SellForm({
       onExchange={onExchange}
       onRefund={onRefund}
       onRefundRequest={onRefundRequest}
+      getRefundAmounts={getRefundAmounts}
     />
   )
 }

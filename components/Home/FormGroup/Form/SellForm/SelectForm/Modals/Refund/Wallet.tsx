@@ -5,7 +5,7 @@ import Title from "@/shared/ModalComponents/Title"
 import Info from "@/shared/ModalComponents/Info"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
 import Button from "@/shared/ModalComponents/Button"
-import InputSelect from "../../../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
 

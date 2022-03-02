@@ -1,5 +1,6 @@
 import { handleRequest, constructURL } from "./helpers"
 import config from "../config"
+
 import type {
   GetFiatRates,
   GetTokens,
@@ -17,7 +18,11 @@ import type {
   RefundRequestProps,
   RefundRequestResponse,
   RefundProps,
-  RefundResponse
+  RefundResponse,
+  RequestOrdersProps,
+  RequestOrdersResponse,
+  GetRefundAmountsProps,
+  GetRefundAmountsResponse
 } from "./types"
 
 class BackendClient {
@@ -129,6 +134,34 @@ class BackendClient {
       method: "POST",
       headers: this.headers,
       data
+    })
+  }
+
+  public async requestOrdersWithEmail({
+    apiHost,
+    email
+  }: RequestOrdersProps): Promise<RequestOrdersResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/refund`,
+      method: "GET",
+      headers: this.headers,
+      params: {
+        email
+      }
+    })
+  }
+
+  public async getRefundAmounts({
+    apiHost,
+    chainId
+  }: GetRefundAmountsProps): Promise<GetRefundAmountsResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/refund/amounts`,
+      method: "GET",
+      headers: this.headers,
+      params: {
+        chainId
+      }
     })
   }
 }

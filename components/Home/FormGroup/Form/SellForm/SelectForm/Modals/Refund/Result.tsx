@@ -8,9 +8,9 @@ import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
 import Button from "@/shared/ModalComponents/Button"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
-import InputSelect from "../../../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 
-import type { Option } from "../../../../InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 const Success = styled(Info)`
   background-color: #68cc4533;

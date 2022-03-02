@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import InputSelect from "../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import { mobile } from "@/src/constants"
 
 const Container = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Container from "./Container"
-import InputSelect from "../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
@@ -18,7 +18,7 @@ import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
 import type { Error } from "./types"
 import type { PaymentOption } from "../../types"
-import type { Option } from "../../InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 let alreadyLoaded = false
 

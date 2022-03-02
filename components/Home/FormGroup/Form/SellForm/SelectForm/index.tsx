@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useEffect } from "react"
 
 import Container from "./Container"
-import InputSelect from "../../InputSelect"
+import InputSelect from "@/shared/InputSelect"
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
 import FormContainer from "./FormContainer"
@@ -23,6 +23,7 @@ import RefundCodeInvalid from "./Modals/Refund/CodeInvalid"
 import ExchangeModal from "./Modals/Exchange/Modal"
 import ExchangeResultModal from "./Modals/Exchange/Result"
 import ExchangeUnknownModal from "./Modals/Exchange/UnknownError"
+import ExchangeExpired from "./Modals/ExchangeExpired"
 import Background from "@/shared/Background"
 
 import {
@@ -41,7 +42,7 @@ import QRcode from "./QRcode"
 
 import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
-import type { Option } from "../../InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 let alreadyLoaded = false
 
@@ -92,6 +93,7 @@ type CurrencyFormProps = {
   onExchange: () => void
   onRefund: (code: string, wallet: string) => void
   onRefundRequest: () => void
+  getRefundAmounts: () => Promise<number | null>
 }
 
 function CurrencyForm({
@@ -126,13 +128,17 @@ function CurrencyForm({
   setCurrentStep,
   onExchange,
   onRefund,
-  onRefundRequest
+  onRefundRequest,
+  getRefundAmounts
 }: CurrencyFormProps) {
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
+  const [minimalRefundAmount, setMinimalRefundAmount] = useState<number | null>(
+    null
+  )
 
   const [showRefundModal, setShowRefundModal] = useState(false)
   const [showRefundWalletModal, setShowRefundWalletModal] = useState(false)
@@ -450,7 +456,17 @@ function CurrencyForm({
                 label="Credited amount"
                 value={`${exchangeInfo.creditedAmount} ${currentToken}`}
                 timestamp={Number(exchangeInfo.timestamp)}
-                onExpired={() => console.log("expired")}
+                onExpired={async () => {
+                  const response = await getRefundAmounts()
+
+                  if (response) {
+                    setShowExpiredModal(true)
+                  } else {
+                    setShowExchangeUnknownModal(true)
+                  }
+
+                  setMinimalRefundAmount(response)
+                }}
               />
               <ExchangeRow
                 token={currentToken}
@@ -597,6 +613,21 @@ function CurrencyForm({
       {showExchangeUnknownModal && (
         <ExchangeUnknownModal
           onAccept={() => setShowExchangeUnknownModal(false)}
+        />
+      )}
+
+      {exchangeInfo && rate && minimalRefundAmount && showExpiredModal && (
+        <ExchangeExpired
+          onAccept={() => setShowExpiredModal(false)}
+          getValue={creditedGetAmount}
+          sentValue={exchangeInfo.creditedAmount.toString()}
+          sentToken={tokens?.find((token) => token.value == currentToken)}
+          getToken={currencies?.find(
+            (currency) => currency.value == currentCurrency
+          )}
+          rate={rate}
+          minimalAmount={minimalRefundAmount}
+          orderId={exchangeInfo.orderId}
         />
       )}
 

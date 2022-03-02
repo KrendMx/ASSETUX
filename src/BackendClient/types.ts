@@ -36,10 +36,11 @@ export type Token = {
 }
 
 export type MarketHistoryData = {
-  id: number
-  token_id: number
-  price: number
-  delta: number
+  price: {
+    RUB: number
+    UAH: number
+    USD: number
+  }
   timestamp: string
 }
 
@@ -220,4 +221,34 @@ export type RefundResponse = {
     error: boolean
     result?: string
   }
+}
+
+export type RequestOrdersProps = UrlRequest & {
+  email: string
+}
+
+export type RequestOrdersResponse = {
+  status?: number
+  message: string
+  data?:
+    | {
+        error: boolean
+        result?: string
+      }
+    | boolean
+}
+
+export type GetRefundAmountsProps = UrlRequest & {
+  chainId: number
+}
+
+export type GetRefundAmountsResponse = {
+  status?: number
+  message: string
+  data?:
+    | { message: string }
+    | {
+        RUB: number
+        UAH: number
+      }
 }
