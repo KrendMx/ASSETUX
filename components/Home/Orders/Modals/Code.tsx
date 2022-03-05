@@ -5,9 +5,10 @@ import Container from "./Container"
 import Title from "@/shared/ModalComponents/Title"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
 import Button from "@/shared/ModalComponents/Button"
-import InputSelect from "@/shared/InputSelect"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
+import Info from "@/shared/ModalComponents/Info"
+import CodeInput from "@/shared/ModalComponents/CodeInput"
 
 type CodeProps = {
   isLoading?: boolean
@@ -34,13 +35,8 @@ function Code({ isLoading, onCancel, onAccept }: CodeProps) {
         </Shadow>
         <span>Code was sent to your email</span>
       </Title>
-      <InputSelect
-        value={code}
-        id="refund_code"
-        label="Enter the code"
-        changeable
-        onChange={(event) => setCode(event.target.value)}
-      />
+      <Info>Enter code</Info>
+      <CodeInput onFilled={(code) => setCode(code)} />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={() => onAccept && onAccept(code)} main>

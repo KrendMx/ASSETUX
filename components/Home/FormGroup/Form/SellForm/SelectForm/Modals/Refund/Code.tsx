@@ -4,9 +4,10 @@ import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
 import Button from "@/shared/ModalComponents/Button"
-import InputSelect from "@/shared/InputSelect"
 import Icon from "@/shared/ModalComponents/Icon"
+import Info from "@/shared/ModalComponents/Info"
 import Shadow from "@/shared/ModalComponents/Shadow"
+import CodeInput from "@/shared/ModalComponents/CodeInput"
 
 type RefundCodeModalProps = {
   isLoading?: boolean
@@ -37,13 +38,8 @@ function RefundCodeModal({
         </Shadow>
         <span>Code was sent to your email</span>
       </Title>
-      <InputSelect
-        value={code}
-        id="refund_code"
-        label="Enter the code"
-        changeable
-        onChange={(event) => setCode(event.target.value)}
-      />
+      <Info>Enter code</Info>
+      <CodeInput onFilled={(code) => setCode(code)} />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button
