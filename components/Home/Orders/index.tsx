@@ -130,7 +130,7 @@ function Orders() {
 
   return (
     <Background>
-      {!showCodeModal && !showOrdersModal && (
+      {!showCodeModal && !showOrdersModal && !showCodeInvalidModal && (
         <Email
           onCancel={() => dispatch(setOrdersActive(false))}
           onAccept={handleEmail}
