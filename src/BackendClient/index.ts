@@ -22,7 +22,11 @@ import type {
   RequestOrdersProps,
   RequestOrdersResponse,
   GetRefundAmountsProps,
-  GetRefundAmountsResponse
+  GetRefundAmountsResponse,
+  RequestOrdersEmailProps,
+  RequestOrdersEmailResponse,
+  GetEmailOrdersProps,
+  GetEmailOrdersResponse
 } from "./types"
 
 class BackendClient {
@@ -161,6 +165,36 @@ class BackendClient {
       headers: this.headers,
       params: {
         chainId
+      }
+    })
+  }
+
+  public async requestOrdersEmail({
+    apiHost,
+    email
+  }: RequestOrdersEmailProps): Promise<RequestOrdersEmailResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/request`,
+      method: "GET",
+      headers: this.headers,
+      params: {
+        email
+      }
+    })
+  }
+
+  public async getEmailOrders({
+    apiHost,
+    email,
+    code
+  }: GetEmailOrdersProps): Promise<GetEmailOrdersResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken`,
+      method: "GET",
+      headers: this.headers,
+      params: {
+        email,
+        code
       }
     })
   }

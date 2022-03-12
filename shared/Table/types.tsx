@@ -4,6 +4,9 @@ export type TableProps = {
   displayPerPage?: number
   displayIndexes?: boolean
   currentPage?: number
+  withoutShadow?: boolean
+  collapseLastCols?: number
+  withPagination?: boolean
 }
 
 export type TableHeading = {
@@ -11,7 +14,7 @@ export type TableHeading = {
   sortFn?: (a: any, b: any) => number
 }
 
-export type RowData = string | number | JSX.Element
+export type RowData = string | number | JSX.Element | undefined | null
 
 export type SortInfo = {
   ascending: boolean

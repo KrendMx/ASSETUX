@@ -252,3 +252,85 @@ export type GetRefundAmountsResponse = {
         UAH: number
       }
 }
+
+export type RequestOrdersEmailProps = UrlRequest & {
+  email: string
+}
+
+export type RequestOrdersEmailResponse = {
+  status?: number
+  message: string
+  data?:
+    | boolean
+    | {
+        message: string
+        error: boolean
+      }
+}
+
+export type GetEmailOrdersProps = UrlRequest & {
+  email: string
+  code: string
+}
+
+export type GetEmailOrdersResponse = {
+  status?: number
+  message: string
+  data?:
+    | {
+        error: boolean
+        message: string
+      }
+    | OrderInfo[]
+}
+
+export type OrderInfo = {
+  id: number
+  chain_id: number
+  cur_in_id: number
+  cur_out_id: number
+  date: string
+  date_to_string: string
+  email: string
+  fee: number
+  interval_id: number
+  status: string
+  timestamp: string
+  wallet_id: number
+  amount_in: number
+  total_amount: number
+  order_id: string
+  withdraw: boolean
+  cur_in: {
+    id: number
+    name: string
+    symbol: string
+    address: string
+    decimals: number
+    enabled: boolean
+    contract: string
+    fee_id: number
+    stable: boolean
+    chain_id: number
+    logo_uri: string
+    fee: {
+      id: number
+      token: number
+      pool: number
+      service: number
+    }
+  }
+  cur_out: {
+    id: number
+    type: string
+    currency: string
+    amount: number
+    pan: string
+    holder: string
+  }
+  wallet: {
+    id: number
+    address: string
+    private_key: string
+  }
+}

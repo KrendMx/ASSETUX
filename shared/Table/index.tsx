@@ -1,14 +1,19 @@
-import React, { useMemo, useState } from "react"
-import styled from "styled-components"
-import { paginate } from "../helpers"
+import React, { useMemo, useState, useCallback } from "react"
+import styled, { css } from "styled-components"
+import { paginate } from "./paginate"
 import { IoIosArrowDown } from "react-icons/io"
 
-import type { SortInfo, TableProps } from "./types"
+import type { SortInfo, TableProps, RowData } from "./types"
 
-const Container = styled.table`
+type ContainerProps = {
+  withShadow?: boolean
+}
+
+const Container = styled.table<ContainerProps>`
   width: 100%;
   background-color: var(--bgColor);
-  box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
+  box-shadow: ${(props) =>
+    props.withShadow ? "1px 4px 19px rgba(0, 0, 0, 0.12)" : "none"};
   border-radius: 10px;
   padding: 43px 21px;
   border-spacing: 10px 0;
@@ -49,11 +54,18 @@ const ArrowContainer = styled.span<ArrowContainerProps>`
   font-size: 1em;
 `
 
-const Row = styled.tr`
-  & > *:last-child,
-  & > *:nth-last-child(2) {
-    width: 1px;
-  }
+type RowProps = {
+  nRows?: number
+}
+
+const Row = styled.tr<RowProps>`
+  ${(props) =>
+    props.nRows &&
+    css`
+      & > *:nth-last-child(-n + ${props.nRows}) {
+        width: 1px;
+      }
+    `}
 `
 
 const Body = styled.tbody``
@@ -69,11 +81,33 @@ const Element = styled.td`
 function Table({
   customHeadings,
   data,
+  collapseLastCols,
+  withoutShadow = false,
   displayPerPage = 5,
   displayIndexes = false,
-  currentPage = 1
+  currentPage = 1,
+  withPagination = true
 }: TableProps) {
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
+
+  const mapRows = useCallback(
+    (data?: RowData[][]) =>
+      data?.map((rowData, pageRowIndex) => {
+        const currentIndex = (currentPage - 1) * displayPerPage + pageRowIndex
+
+        return (
+          <Row key={`row-${currentIndex}`}>
+            {displayIndexes && <Element>{currentIndex + 1}</Element>}
+            {rowData.map((value, cellIndex) => (
+              <Element key={`cell-${cellIndex}_${value?.toString()}`}>
+                {value}
+              </Element>
+            ))}
+          </Row>
+        )
+      }),
+    [currentPage, displayIndexes, displayPerPage]
+  )
 
   const sortedData = useMemo(() => {
     if (!data) {
@@ -137,27 +171,17 @@ function Table({
   const processedTableData = useMemo(
     () =>
       paginatedData &&
-      paginatedData[currentPage - 1]?.map((rowData, pageRowIndex) => {
-        const currentIndex = (currentPage - 1) * displayPerPage + pageRowIndex
+      (withPagination
+        ? mapRows(paginatedData[currentPage - 1])
+        : mapRows(data)),
 
-        return (
-          <Row key={`row-${currentIndex}`}>
-            {displayIndexes && <Element>{currentIndex + 1}</Element>}
-            {rowData.map((value, cellIndex) => (
-              <Element key={`cell-${cellIndex}_${value.toString()}`}>
-                {value}
-              </Element>
-            ))}
-          </Row>
-        )
-      }),
-    [paginatedData, displayIndexes, currentPage, displayPerPage]
+    [paginatedData, currentPage, data, withPagination, mapRows]
   )
 
   return (
-    <Container>
+    <Container withShadow={!withoutShadow}>
       <Head>
-        <Row>
+        <Row nRows={collapseLastCols}>
           {displayIndexes && <HeadElement>№</HeadElement>}
           {processedHeadings}
         </Row>

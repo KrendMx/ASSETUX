@@ -1,4 +1,4 @@
-import { paginate } from "./helpers"
+import { paginate } from "./paginate"
 
 test("paginate should work as expected in a basic way", () => {
   const data = [1, 2, 3, 4, 5, 6]

@@ -29,10 +29,10 @@ const InputBlock = styled.input`
 
 type CodeInputProps = {
   nBlocks?: number
-  onFilled?: (code: string) => void
+  onChange?: (code: string) => void
 }
 
-function CodeInput({ nBlocks = 6, onFilled }: CodeInputProps) {
+function CodeInput({ nBlocks = 6, onChange }: CodeInputProps) {
   const [values, setValues] = useState<string[]>(new Array(nBlocks).fill(""))
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
@@ -56,9 +56,7 @@ function CodeInput({ nBlocks = 6, onFilled }: CodeInputProps) {
 
       setValues(copyValues)
 
-      if (order == nBlocks - 1) {
-        onFilled && onFilled(copyValues.join(""))
-      }
+      onChange && onChange(copyValues.join(""))
     }
   }
 
@@ -87,6 +85,21 @@ function CodeInput({ nBlocks = 6, onFilled }: CodeInputProps) {
     }
   }
 
+  const handlePaste = (order: number) => {
+    return (event: React.ClipboardEvent<HTMLInputElement>) => {
+      if (order != 0) {
+        return
+      }
+
+      const copyValue = event.clipboardData.getData("text")
+
+      if (!isNaN(Number(copyValue)) && copyValue.length == nBlocks) {
+        setValues(copyValue.split(""))
+        inputRefs.current[nBlocks - 1]?.focus()
+      }
+    }
+  }
+
   return (
     <Container>
       {Array.from({ length: nBlocks }).map((_, index) => (
@@ -96,6 +109,7 @@ function CodeInput({ nBlocks = 6, onFilled }: CodeInputProps) {
           value={values[index]}
           onChange={handleChange(index)}
           onKeyDown={handleKeyDown(index)}
+          onPaste={handlePaste(index)}
           maxLength={1}
           autoComplete="off"
         />

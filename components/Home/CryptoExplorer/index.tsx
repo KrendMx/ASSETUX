@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react"
 import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import Table from "./Table"
+import Table from "@/shared/Table"
 import Cards from "./Cards"
 import Search from "./Search"
 import Skeleton from "react-loading-skeleton"
@@ -399,6 +399,7 @@ function CryptoExplorer() {
           currentPage={currentPage}
           rowNames={cardRowNames}
           handleAction={handleCardAction}
+          withButtons
         />
       ) : (
         <Table
@@ -406,6 +407,7 @@ function CryptoExplorer() {
           data={processedExplorerData}
           currentPage={currentPage}
           displayPerPage={desktopPerPage}
+          collapseLastCols={2}
           displayIndexes
         />
       )}
