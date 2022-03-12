@@ -51,7 +51,7 @@ const Container = styled.div`
     }
   }
 
-  @media only screen and (max-width: ${mobile}px) {
+  @media only screen and (max-width: 650px) {
     padding-bottom: 90px;
   }
 `
