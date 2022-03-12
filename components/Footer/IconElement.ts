@@ -32,7 +32,7 @@ const IconElement = styled.li<IconElementProps>`
     margin-bottom: 28px;
   }
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 650px) {
     font-size: 0.8em;
 
     & {

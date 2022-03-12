@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useRouter } from "next/router"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
-import { company, partners, popular, legal, Route } from "@/src/routes"
+import { company, popular, legal, Route } from "@/src/routes"
 import { useTranslation } from "next-i18next"
 import List from "./List"
 import StyledList from "./StyledList"
@@ -30,15 +30,29 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 97px var(--paddings);
 
-  @media only screen and (max-width: 750px) {
-    grid-template-columns: repeat(3, auto);
+  @media only screen and (max-width: 650px) {
+    grid-template-columns: repeat(6, auto);
     justify-content: space-between;
     padding: 26px var(--paddings);
     row-gap: 25px;
+
+    & > *:nth-child(-n + 3) {
+      grid-column: span 2;
+    }
+
+    & > *:nth-last-child(2) {
+      grid-row-start: 2;
+      grid-column: 1 / 4;
+    }
+
+    & > *:nth-last-child(1) {
+      grid-row-start: 2;
+      grid-column: 5 / 6;
+    }
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding-bottom: 45px;
+    padding-bottom: 90px;
   }
 `
 
@@ -55,7 +69,7 @@ const Group = styled.div`
     margin-bottom: 23px;
   }
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 650px) {
     & > h3 {
       margin-bottom: 5px;
     }
@@ -144,39 +158,28 @@ function Footer({ hide }: FooterProps) {
           <List routes={company} />
         </Group>
         <Group>
-          <h3>{t("forPartners")}</h3>
-          <List routes={partners} />
-        </Group>
-        <Group>
           <h3>{t("popular")}</h3>
           <PopularList />
         </Group>
         <Group>
           <h3>{t("legal")}</h3>
-          <List routes={legal} mobileSmall />
+          <List routes={legal} />
         </Group>
         <Group>
           <h3>{t("social")}</h3>
           <StyledList>
             <IconElement iconPath="/social/telegram_white.svg">
               <span>
-                <Bolder>Telegram channel</Bolder>
+                <Bolder>Telegram Channel</Bolder>
                 <br />
                 @assetux
               </span>
             </IconElement>
-            <IconElement iconPath="/social/instagram_white.svg">
+            <IconElement iconPath="/social/telegram_white.svg">
               <span>
-                <Bolder>Instagram page</Bolder>
+                <Bolder>Telegram Group</Bolder>
                 <br />
-                @assetux
-              </span>
-            </IconElement>
-            <IconElement iconPath="/social/facebook_white.svg">
-              <span>
-                <Bolder>Facebook page</Bolder>
-                <br />
-                @assetux
+                @assetuxchat
               </span>
             </IconElement>
           </StyledList>

@@ -19,7 +19,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   font-weight: 400;
   font-size: 0.8em;
 
-  @media only screen and (max-width: 750px) {
+  @media only screen and (max-width: 650px) {
     font-size: ${(props) => (props.mobileSmall ? "0.7em" : "0.8em")};
     padding: ${(props) => (props.mobileSmall ? "6px 0" : "7px 0")};
   }
@@ -42,8 +42,11 @@ function List({ routes, mobileSmall, onClick }: ListProps) {
     <StyledList>
       {routes.map((route, index) => (
         <li key={index}>
-          <Link href={route.href} passHref>
+          {route.absolute && (
             <StyledLink
+              href={route.href}
+              target="_blank"
+              rel="noreferrer"
               mobileSmall={mobileSmall}
               onClick={(event) => {
                 if (onClick) {
@@ -54,7 +57,22 @@ function List({ routes, mobileSmall, onClick }: ListProps) {
             >
               {t(route.key)}
             </StyledLink>
-          </Link>
+          )}
+          {!route.absolute && (
+            <Link href={route.href} passHref>
+              <StyledLink
+                mobileSmall={mobileSmall}
+                onClick={(event) => {
+                  if (onClick) {
+                    event.preventDefault()
+                    onClick(route)
+                  }
+                }}
+              >
+                {t(route.key)}
+              </StyledLink>
+            </Link>
+          )}
         </li>
       ))}
     </StyledList>
