@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 
 type BackgroundProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 function Background({ children }: BackgroundProps) {

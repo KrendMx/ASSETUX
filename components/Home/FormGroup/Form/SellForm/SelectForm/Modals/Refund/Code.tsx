@@ -39,7 +39,7 @@ function RefundCodeModal({
         <span>Code was sent to your email</span>
       </Title>
       <Info>Enter code</Info>
-      <CodeInput onFilled={(code) => setCode(code)} />
+      <CodeInput onChange={(code) => setCode(code)} />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button
