@@ -9,7 +9,7 @@ const Container = styled.div`
   width: calc(100% - 40px);
   background: var(--white);
   margin: 0 20px;
-  z-index: 10000;
+  z-index: 100000;
   border-radius: 10px;
   font-size: 1rem;
   padding: 20px 25px;
