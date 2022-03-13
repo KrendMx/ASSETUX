@@ -180,20 +180,14 @@ function OrderModal({ orders }: OrderModalProps) {
   const processedOrders = useMemo(
     () =>
       orders.map((order) => [
-        order.withdraw ? (
-          <Colored
-            colorIn="green"
-            split={!isMobileLayoutForTablet && !isMobile}
-          >
-            <span>Buy:{(isMobileLayoutForTablet || isMobile) && " "}</span>
-            <span>{order.status}</span>
-          </Colored>
-        ) : (
-          <Colored colorIn="red" split={!isMobileLayoutForTablet && !isMobile}>
-            <span>Sell:{(isMobileLayoutForTablet || isMobile) && " "}</span>
-            <span>{order.status}</span>
-          </Colored>
-        ),
+        <Colored
+          key={order.order_id + "_colored-status"}
+          colorIn="red"
+          split={!isMobileLayoutForTablet && !isMobile}
+        >
+          <span>Sell:{(isMobileLayoutForTablet || isMobile) && " "}</span>
+          <span>{order.status}</span>
+        </Colored>,
         getPair(order),
         availableBlockchains?.find(
           (blockchain) => blockchain.chain_id == order.chain_id
