@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import Background from "@/shared/Background"
 import Email from "./Modals/Email"
@@ -45,6 +45,42 @@ function Orders() {
   const currentBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
+
+  useEffect(() => {
+    if (
+      ordersActive &&
+      showOrdersModal &&
+      currentBlockchain &&
+      userEmail &&
+      userCode
+    ) {
+      const interval = setInterval(async () => {
+        const response = await BackendClient.getEmailOrders({
+          apiHost: currentBlockchain.url,
+          email: userEmail,
+          code: userCode
+        })
+
+        if (!response.data) {
+          return
+        }
+
+        if ("message" in response.data) {
+          return
+        }
+
+        setGetOrdersResponse({
+          isLoading: false,
+          data: response.data,
+          error: null
+        })
+      }, 10000)
+
+      return () => {
+        clearInterval(interval)
+      }
+    }
+  }, [ordersActive, showOrdersModal, currentBlockchain, userCode, userEmail])
 
   const handleEmail = async (email: string) => {
     setUserEmail(email)
