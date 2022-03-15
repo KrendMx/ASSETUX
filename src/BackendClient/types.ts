@@ -97,12 +97,33 @@ export type GetPaymentUrlProps = UrlRequest & {
   email: string
 }
 
+export type GeyPaymentUrlData = {
+  header: {
+    txName: string
+    version: string
+    lang: string
+    androidVersion: number
+    iosVersion: string
+    traceId: string
+  }
+  result: {
+    status: boolean
+    message: string
+  }
+  responseData: {
+    message: string
+    walletAddr: string
+    comment: string
+    paymentLink: string
+    _id: string
+  }
+  errors: string[] | null
+}
+
 export type GetPaymentUrl = {
   status?: number
   message: string
-  data?: {
-    url: string
-  }
+  data?: GeyPaymentUrlData
 }
 
 export type SellTokenCreateProps = UrlRequest & {

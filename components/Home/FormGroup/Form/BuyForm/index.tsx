@@ -77,7 +77,7 @@ function BuyForm({
       setProcessingRequest(false)
 
       if (response.data) {
-        window.location.assign(response.data.url)
+        window.location.assign(response.data.responseData.paymentLink)
       }
     }
   }
