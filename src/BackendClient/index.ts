@@ -174,7 +174,7 @@ class BackendClient {
     email
   }: RequestOrdersEmailProps): Promise<RequestOrdersEmailResponse> {
     return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/request`,
+      url: `${constructURL(apiHost)}/api/orders/request`,
       method: "GET",
       headers: this.headers,
       params: {
@@ -189,7 +189,7 @@ class BackendClient {
     code
   }: GetEmailOrdersProps): Promise<GetEmailOrdersResponse> {
     return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken`,
+      url: `${constructURL(apiHost)}/api/orders`,
       method: "GET",
       headers: this.headers,
       params: {

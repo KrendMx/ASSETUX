@@ -11,7 +11,7 @@ import BackendClient from "@/src/BackendClient"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 
-import type { OrderInfo } from "@/src/BackendClient/types"
+import type { SellOrderInfo } from "@/src/BackendClient/types"
 
 function Orders() {
   const dispatch = useAppDispatch()
@@ -31,7 +31,7 @@ function Orders() {
 
   const [getOrdersResponse, setGetOrdersResponse] = useState<{
     isLoading: boolean
-    data: OrderInfo[] | null
+    data: SellOrderInfo[] | null
     error: string | null
   }>({
     isLoading: false,
@@ -71,7 +71,7 @@ function Orders() {
 
         setGetOrdersResponse({
           isLoading: false,
-          data: response.data,
+          data: response.data.sell,
           error: null
         })
       }, 10000)
@@ -151,7 +151,7 @@ function Orders() {
 
       setGetOrdersResponse({
         isLoading: false,
-        data: response.data,
+        data: response.data.sell,
         error: null
       })
 

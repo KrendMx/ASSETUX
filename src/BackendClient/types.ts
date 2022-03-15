@@ -281,10 +281,31 @@ export type GetEmailOrdersResponse = {
         error: boolean
         message: string
       }
-    | OrderInfo[]
+    | {
+        sell: SellOrderInfo[]
+        buy: {
+          request: BuyOrderInfo[]
+          success: BuyOrderInfo[]
+          error: BuyOrderInfo[]
+        }
+      }
 }
 
-export type OrderInfo = {
+export type BuyOrderInfo = {
+  id: number
+  email: string
+  provider: string
+  type: string
+  currency: string
+  amount_in: number
+  token_id: number
+  crypto_address: string
+  chain_id: number
+  closed: boolean
+  token: Token
+}
+
+export type SellOrderInfo = {
   id: number
   chain_id: number
   cur_in_id: number

@@ -13,7 +13,7 @@ import Cards from "../../CryptoExplorer/Cards"
 
 import { mobileLayoutForTablet } from "@/src/constants"
 
-import type { OrderInfo } from "@/src/BackendClient/types"
+import type { SellOrderInfo } from "@/src/BackendClient/types"
 
 const Container = styled.div`
   max-width: 1024px;
@@ -104,7 +104,7 @@ const CloseBar = styled.span`
   background: var(--black);
 `
 
-const getPair = (order: OrderInfo) => {
+const getPair = (order: SellOrderInfo) => {
   return `${order.cur_in.symbol} / ${order.cur_out.currency}`
 }
 
@@ -153,7 +153,7 @@ const touchPreventer = (event: React.TouchEvent<HTMLDivElement>) => {
 }
 
 type OrderModalProps = {
-  orders: OrderInfo[]
+  orders: SellOrderInfo[]
 }
 
 const tableHeadings = [
