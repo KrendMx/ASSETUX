@@ -21,8 +21,6 @@ const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case "RUB":
       return "Rus"
-    case "UAH":
-      return "Grn"
   }
 }
 
