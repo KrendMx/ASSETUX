@@ -94,6 +94,8 @@ network_help: >-
 exchange_fees: All fees included
 
 cryptoSlide_change: 24 hours change
+cryptoSlide_buy: Buy
+cryptoSlide_sell: Sell
 
 explorer_title: Crypto Explorer
 explorer_viewAllFull: View all supported currencies
