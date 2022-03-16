@@ -170,14 +170,14 @@ function Footer({ hide }: FooterProps) {
           <StyledList>
             <IconElement iconPath="/social/telegram_white.svg">
               <span>
-                <Bolder>Telegram Channel</Bolder>
+                <Bolder>{t("footer:telegramChannel")}</Bolder>
                 <br />
                 @assetux
               </span>
             </IconElement>
             <IconElement iconPath="/social/telegram_white.svg">
               <span>
-                <Bolder>Telegram Group</Bolder>
+                <Bolder>{t("footer:telegramGroup")}</Bolder>
                 <br />
                 @assetuxchat
               </span>
@@ -191,7 +191,7 @@ function Footer({ hide }: FooterProps) {
               iconPath={!isMobile ? "/social/telegram_white.svg" : null}
             >
               <span>
-                <Bolder>Telegram chat</Bolder>
+                <Bolder>{t("footer:telegramChat")}</Bolder>
                 <br />
                 @assetux_support
               </span>
