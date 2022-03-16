@@ -46,10 +46,13 @@ function BuyForm({
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
   const [email, setEmail] = useState("")
+  const [details, setDetails] = useState("")
   const [walletAddress, setWalletAddress] = useState("")
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
+
+  const [cardError, setCardError] = useState("")
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -71,13 +74,29 @@ function BuyForm({
         cryptoAddress: walletAddress,
         chainId: currentBlockchain.chain_id,
         tokenAddress,
-        email
+        email,
+        card: details
       })
 
       setProcessingRequest(false)
 
-      if (response.data) {
-        window.location.assign(response.data.responseData.paymentLink)
+      if (!response.data) {
+        return
+      }
+
+      if (response.data.message) {
+        setCardError(response.data.message)
+
+        return
+      }
+
+      if (response.data.link) {
+        setCardError("")
+
+        Object.assign(document.createElement("a"), {
+          target: "_blank",
+          href: response.data.link
+        }).click()
       }
     }
   }
@@ -146,18 +165,21 @@ function BuyForm({
       currentToken={currentToken && currentToken.symbol}
       tokens={tokens}
       currentPayment={selectedPayment}
+      currentDetails={details}
       payments={processedPayments}
       currentWallet={walletAddress}
       giveAmount={giveAmount}
       email={email}
       rate={currentRate}
       processingRequest={processingRequest}
+      cardError={cardError}
       setCurrentStep={setCurrentStep}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}
       onPaymentChange={setSelectedPayment}
       onWalletChange={setWalletAddress}
+      onDetailsChange={setDetails}
       onGiveAmountChange={setGiveAmount}
       onEmailChange={setEmail}
       onSubmit={onSubmit}

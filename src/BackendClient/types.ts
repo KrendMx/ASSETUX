@@ -95,29 +95,13 @@ export type GetPaymentUrlProps = UrlRequest & {
   tokenAddress: string
   chainId: number
   email: string
+  card: string
 }
 
 export type GeyPaymentUrlData = {
-  header: {
-    txName: string
-    version: string
-    lang: string
-    androidVersion: number
-    iosVersion: string
-    traceId: string
-  }
-  result: {
-    status: boolean
-    message: string
-  }
-  responseData: {
-    message: string
-    walletAddr: string
-    comment: string
-    paymentLink: string
-    _id: string
-  }
-  errors: string[] | null
+  id?: number
+  link?: string
+  message?: string
 }
 
 export type GetPaymentUrl = {

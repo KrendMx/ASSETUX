@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { useTranslation } from "next-i18next"
+import Skeleton from "react-loading-skeleton"
+
 import Container from "./Container"
 import InputSelect from "@/shared/InputSelect"
 import InputSelectButton from "../../InputSelectButton"
@@ -15,8 +17,10 @@ import {
   allowSkeletons,
   walletRegexp
 } from "@/src/constants"
-import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
+
+import { stringToPieces } from "@/src/helpers"
+
 import type { Error } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "@/shared/InputSelect/types"
@@ -29,7 +33,8 @@ const inputIds = {
   wallet: "wallet",
   email: "email",
   blockchains: "blockchains",
-  payments: "payments"
+  payments: "payments",
+  details: "details"
 }
 
 type CurrencyFormProps = {
@@ -40,6 +45,7 @@ type CurrencyFormProps = {
   currencies: Option[] | null
   currentToken: string | null
   tokens: Option[] | null
+  currentDetails: string
   currentPayment: string | null
   payments: PaymentOption[] | null
   currentWallet: string
@@ -47,10 +53,12 @@ type CurrencyFormProps = {
   email: string
   rate: number | null
   processingRequest: boolean
+  cardError: string
   setCurrentStep: (step: Step) => void
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
+  onDetailsChange: (details: string) => void
   onPaymentChange: (payment: string) => void
   onWalletChange: (wallet: string) => void
   onGiveAmountChange: (amount: string) => void
@@ -67,17 +75,20 @@ function CurrencyForm({
   currentToken,
   tokens,
   currentPayment,
+  currentDetails,
   payments,
   currentWallet,
   giveAmount,
   email,
   rate,
   processingRequest,
+  cardError,
   setCurrentStep,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
   onPaymentChange,
+  onDetailsChange,
   onWalletChange,
   onGiveAmountChange,
   onEmailChange,
@@ -91,6 +102,11 @@ function CurrencyForm({
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
+
+  const piecedDetails = useMemo(
+    () => stringToPieces(currentDetails, 4, " "),
+    [currentDetails]
+  )
 
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
@@ -142,6 +158,14 @@ function CurrencyForm({
     onEmailChange(value)
   }
 
+  const handleDetailsInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const value = event.target.value.replaceAll(" ", "")
+    const validated = /^[0-9]*$/.test(value)
+    validated && onDetailsChange(value)
+  }
+
   const handleNextStep = () => {
     // validation
 
@@ -153,8 +177,13 @@ function CurrencyForm({
       if (email == "" || !emailRegexp.test(email)) {
         errorObject[inputIds.email] = t("home:buy_invalidEmail")
       }
+
       if (currentWallet == "" || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = t("home:buy_invalidWallet")
+      }
+
+      if (currentDetails == "") {
+        errorObject[inputIds.details] = t("home:buy_invalidCard")
       }
     }
 
@@ -280,6 +309,16 @@ function CurrencyForm({
               onChange={handleEmailInput}
               changeable
             />
+            <HideableWithMargin hide={false} margins>
+              <InputSelect
+                label={t("home:buy_cardNumber")}
+                id={inputIds.details}
+                onChange={handleDetailsInput}
+                value={piecedDetails}
+                error={cardError || inputError[inputIds.details]}
+                changeable
+              />
+            </HideableWithMargin>
           </HideableWithMargin>
         </FormContainer>
       )
