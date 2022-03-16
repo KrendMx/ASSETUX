@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Image from "next/image"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -90,33 +91,22 @@ const SkeletonContainer = styled.div`
 `
 
 function AboutUs() {
+  const { t } = useTranslation("home")
+
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
   return (
     <Container>
       <AboutContainer>
-        <h3>{!showSkeleton ? "About us" : <Skeleton width="50%" />}</h3>
+        <h3>
+          {!showSkeleton ? t("home:about_title") : <Skeleton width="50%" />}
+        </h3>
         <TextContainer>
           {!showSkeleton ? (
             <>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
+              <p>{t("home:about_p1")}</p>
+              <p>{t("home:about_p2")}</p>
+              <p>{t("home:about_p3")}</p>
             </>
           ) : (
             <Skeleton count={10} />

@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import ExchangeStat from "./ExchangeStat"
 import ExchangeHelp from "./ExchangeHelp"
@@ -43,6 +44,8 @@ function Exchange({
   isLoading,
   margins
 }: ExchangeProps) {
+  const { t } = useTranslation("home")
+
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -53,15 +56,9 @@ function Exchange({
             1 {token} = {rate} {currency}
           </ExchangeStat>
           <ExchangeHelp onMouseEnter={() => {}} onMouseLeave={() => {}}>
-            All fees included
+            {t("home:exchange_fees")}
           </ExchangeHelp>
-          {hovered && (
-            <Help offsetY={14}>
-              The network you selected is BSC, please confirm that your
-              withdrawal address supports the Binance Smart Chain network. If
-              the other platform does not support it, your assets may be lost.
-            </Help>
-          )}
+          {hovered && <Help offsetY={14}>{t("home:exchange_help")}</Help>}
         </>
       ) : (
         <Skeleton containerClassName="skeletonFlexContainer" />

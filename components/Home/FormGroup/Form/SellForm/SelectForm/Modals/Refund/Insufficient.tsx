@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import styled from "styled-components"
 import Button from "@/shared/ModalComponents/Button"
@@ -27,6 +28,8 @@ function RefundInsufficient({
   sentValue,
   sentToken
 }: RefundInsufficientProps) {
+  const { t } = useTranslation("home")
+
   const [review, setReview] = useState("")
 
   if (!sentValue || !sentToken) {
@@ -47,23 +50,20 @@ function RefundInsufficient({
             />
           </Icon>
         </Shadow>
-        <span>You sent insufficient crypto amount to make refund</span>
+        <span>{t("home:sell_sentInsufficient")}</span>
       </Title>
       <InputSelect
-        label="You sent"
+        label={t("home:sell_sent")}
         id="refund_sent"
         value={sentValue}
         options={[sentToken]}
         selectable={false}
       />
-      <Ahtung>
-        Согласно правилам пользования Assetux, средства поступившие на кошелек и
-        не использованные в операции обмена - не возвращаются
-      </Ahtung>
-      <Info>Ваш отзыв поможет нам стать лучше!</Info>
+      <Ahtung>{t("home:sell_ahtung")}</Ahtung>
+      <Info>{t("home:sell_review")}</Info>
       <InputSelect
         id="refund_review"
-        label="Your message"
+        label={t("home:sell_message")}
         value={review}
         onChange={(event) => setReview(event.target.value)}
         changeable

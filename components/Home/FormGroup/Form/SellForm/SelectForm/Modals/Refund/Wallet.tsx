@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
@@ -15,6 +16,8 @@ type RefundWalletModalProps = {
 }
 
 function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
+  const { t } = useTranslation("home")
+
   const [wallet, setWallet] = useState("")
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -37,14 +40,11 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
             />
           </Icon>
         </Shadow>
-        <span>Please fill the required data to refund</span>
+        <span>{t("home:sell_fillRequiredData")}</span>
       </Title>
-      <Info misc>
-        Make sure you have access to the specified wallet. If you dont, we
-        couldn&apos;t help you
-      </Info>
+      <Info misc>{t("home:sell_accessWallet")}</Info>
       <InputSelect
-        label="Wallet"
+        label={t("home:sell_wallet")}
         id="refund_wallet"
         onChange={handleChange}
         value={wallet}

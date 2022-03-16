@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react"
+import { useTranslation } from "next-i18next"
 import styled from "styled-components"
+
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import Table from "@/shared/Table"
 import Cards from "./Cards"
@@ -14,9 +16,11 @@ import { IoIosArrowRoundBack } from "react-icons/io"
 import { allowSkeletons, mobile } from "@/src/constants"
 import { generatePageNumbers } from "./helpers"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
+
 import type { ActionType } from "@/src/redux/cryptoSlice"
 import type { Token } from "@/src/BackendClient/types"
 import type { ExplorerData } from "../CryptoManager/types"
+import type { TFunction } from "next-i18next"
 
 const Container = styled.section`
   display: flex;
@@ -159,38 +163,38 @@ const ActionButton = styled.button<ActionButtonProps>`
   color: ${(props) => (props.action == "sell" ? "var(--red)" : "var(--green)")};
 `
 
-const tableHeadings = [
+const tableHeadings = (t: TFunction) => [
   {
-    value: "Ticker",
+    value: t("home:explorer_ticker"),
     sortFn: (a: string, b: string) => (a > b ? 1 : a < b ? -1 : 0)
   },
   {
-    value: "ASSETUX Buy",
+    value: t("home:explorer_buy"),
     sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
   },
   {
-    value: "ASSETUX Sell",
+    value: t("home:explorer_sell"),
     sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
   },
   {
-    value: "Change 24h",
+    value: t("home:explorer_change"),
     sortFn: (a: JSX.Element, b: JSX.Element) =>
       parseFloat(b.props.children) - parseFloat(a.props.children)
   },
   {
-    value: "Volume 24h",
+    value: t("home:explorer_volume"),
     sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
   },
-  { value: "Trade" },
-  { value: "Pool" }
+  { value: t("home:explorer_trade") },
+  { value: t("home:explorer_pool") }
 ]
 
-const cardRowNames = [
-  "Ticker",
-  "ASSETUX Buy",
-  "ASSETUX Sell",
-  "Change 24h",
-  "Volume 24h"
+const cardRowNames = (t: TFunction) => [
+  t("home:explorer_ticker"),
+  t("home:explorer_buy"),
+  t("home:explorer_sell"),
+  t("home:explorer_change"),
+  t("home:explorer_volume")
 ]
 
 const checkExplorerDataByContext = (
@@ -214,6 +218,8 @@ const checkExplorerDataByContext = (
 }
 
 function CryptoExplorer() {
+  const { t, ready } = useTranslation("home")
+
   const dispatch = useAppDispatch()
 
   const isMobile = useAppSelector((state) => state.ui.isMobile)
@@ -286,17 +292,17 @@ function CryptoExplorer() {
             action="buy"
             onClick={() => handleAction("BUY", element.token)}
           >
-            Buy
+            {t("home:explorer_buy")}
           </ActionButton>,
           <ActionButton
             key={`sell_${element.id}`}
             action="sell"
             onClick={() => handleAction("SELL", element.token)}
           >
-            Sell
+            {t("home:explorer_sell")}
           </ActionButton>
         ]),
-    [explorerData, handleAction, currentCurrency, searchContext]
+    [explorerData, handleAction, currentCurrency, searchContext, t]
   )
 
   const pages = useMemo(
@@ -373,10 +379,12 @@ function CryptoExplorer() {
   return (
     <Container>
       <TitleRow>
-        <h3>{!isLoading ? "Crypto Explorer" : <Skeleton />}</h3>
+        <h3>{!isLoading ? t("home:explorer_title") : <Skeleton />}</h3>
         {!isLoading && (
           <AllLink as="a" href="#">
-            {isMobile ? "View all" : "View all supported currencies"}
+            {isMobile
+              ? t("home:explorer_viewAll")
+              : t("home:explorer_viewAllFull")}
           </AllLink>
         )}
       </TitleRow>
@@ -397,13 +405,13 @@ function CryptoExplorer() {
           mobile={isMobile}
           data={processedExplorerData}
           currentPage={currentPage}
-          rowNames={cardRowNames}
+          rowNames={cardRowNames(t)}
           handleAction={handleCardAction}
           withButtons
         />
       ) : (
         <Table
-          customHeadings={tableHeadings}
+          customHeadings={tableHeadings(t)}
           data={processedExplorerData}
           currentPage={currentPage}
           displayPerPage={desktopPerPage}

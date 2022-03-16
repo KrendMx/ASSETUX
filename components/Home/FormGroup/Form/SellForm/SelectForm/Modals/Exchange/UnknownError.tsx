@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
@@ -13,6 +14,8 @@ type UnknownErrorProps = {
 }
 
 function UnknownError({ onAccept }: UnknownErrorProps) {
+  const { t } = useTranslation("home")
+
   return (
     <Container>
       <Title>
@@ -27,15 +30,10 @@ function UnknownError({ onAccept }: UnknownErrorProps) {
             />
           </Icon>
         </Shadow>
-        <span>Something went wrong</span>
+        <span>{t("home:sell_smthWentWrong")}</span>
       </Title>
-      <Info misc>
-        Возврат не удалось выполнить. Вероятнее всего, вы, все сделали
-        правильно.
-      </Info>
-      <Info misc>
-        Обратиться в поддержку - это самое верное решение в сложившейся ситуации
-      </Info>
+      <Info misc>{t("home:sell_refundError")}</Info>
+      <Info misc>{t("home:sell_callSupport")}</Info>
       <ButtonsRow>
         <Button onClick={onAccept} main>
           OK

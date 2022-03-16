@@ -1,4 +1,5 @@
-import React, { useMemo, useEffect } from "react"
+import React, { useMemo } from "react"
+import { useTranslation } from "next-i18next"
 import styled, { css } from "styled-components"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
@@ -14,6 +15,7 @@ import Cards from "../../CryptoExplorer/Cards"
 import { mobileLayoutForTablet } from "@/src/constants"
 
 import type { SellOrderInfo } from "@/src/BackendClient/types"
+import type { TFunction } from "next-i18next"
 
 const Container = styled.div`
   max-width: 1024px;
@@ -156,18 +158,27 @@ type OrderModalProps = {
   orders: SellOrderInfo[]
 }
 
-const tableHeadings = [
+const tableHeadings = (t: TFunction) => [
   { value: "" },
-  { value: "Пара" },
-  { value: "Сеть" },
-  { value: "Почта" },
-  { value: "Отправлено" },
-  { value: "Получено" }
+  { value: t("home:orders_pair") },
+  { value: t("home:orders_network") },
+  { value: t("home:orders_email") },
+  { value: t("home:orders_sent") },
+  { value: t("home:orders_got") }
 ]
 
-const cardNames = ["", "Пара", "Сеть", "Почта", "Отправлено", "Получено"]
+const cardNames = (t: TFunction) => [
+  "",
+  t("home:orders_pair"),
+  t("home:orders_network"),
+  t("home:orders_email"),
+  t("home:orders_sent"),
+  t("home:orders_got")
+]
 
 function OrderModal({ orders }: OrderModalProps) {
+  const { t } = useTranslation("home")
+
   const dispatch = useAppDispatch()
   const isMobile = useAppSelector((state) => state.ui.isMobile)
   const isMobileLayoutForTablet = useAppSelector(
@@ -227,7 +238,7 @@ function OrderModal({ orders }: OrderModalProps) {
             />
           </Icon>
         </Shadow>
-        <span>My Operations</span>
+        <span>{t("home:orders_myOperations")}</span>
       </Title>
 
       <DataContainer
@@ -244,14 +255,14 @@ function OrderModal({ orders }: OrderModalProps) {
         {isMobileLayoutForTablet || isMobile ? (
           <Cards
             data={processedOrders}
-            rowNames={cardNames}
+            rowNames={cardNames(t)}
             mobile={isMobile}
             withPagination={false}
             withButtons={false}
           />
         ) : (
           <Table
-            customHeadings={tableHeadings}
+            customHeadings={tableHeadings(t)}
             data={processedOrders}
             withPagination={false}
             withoutShadow

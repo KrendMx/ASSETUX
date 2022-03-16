@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react"
+import { useTranslation } from "next-i18next"
 
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
@@ -133,6 +134,8 @@ function CurrencyForm({
   onRefundRequest,
   getRefundAmounts
 }: CurrencyFormProps) {
+  const { t } = useTranslation("home")
+
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
   const [giveActive, setGiveActive] = useState(false)
@@ -279,20 +282,20 @@ function CurrencyForm({
     let errorObject: Error = {}
 
     if (giveAmount == "") {
-      errorObject[inputIds.give] = "Invalid give amount"
+      errorObject[inputIds.give] = t("home:sell_invalidGive")
     }
 
     if (currentStep == Step.Payment) {
       if (currentDetails == "") {
-        errorObject[inputIds.details] = "Invalid card number"
+        errorObject[inputIds.details] = t("home:sell_invalidCard")
       }
 
       if (currentHolder == "" || !holderRegexp.test(currentHolder)) {
-        errorObject[inputIds.holder] = "Invalid holder information"
+        errorObject[inputIds.holder] = t("home:sell_invalidHolder")
       }
 
       if (currentEmail == "" || !emailRegexp.test(currentEmail)) {
-        errorObject[inputIds.email] = "Invalid email"
+        errorObject[inputIds.email] = t("home:sell_invalidEmail")
       }
     }
 
@@ -319,9 +322,9 @@ function CurrencyForm({
         <FormContainer>
           {!isLoading ? (
             <InputSelect
-              label="Blockchain"
+              label={t("home:sell_blockchain")}
               id={inputIds.blockchains}
-              selectLabel="You are currently using Assetux on"
+              selectLabel={t("home:sell_blockchainLabel")}
               options={checkedBlockchains}
               displayInSelect={3}
               onActiveChange={(active) => setChainActive(active)}
@@ -335,7 +338,7 @@ function CurrencyForm({
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
               <InputSelect
-                label="You give"
+                label={t("home:sell_give")}
                 id={inputIds.give}
                 value={giveAmount}
                 options={checkedTokens}
@@ -360,7 +363,7 @@ function CurrencyForm({
               />
               {!isLoading ? (
                 <InputSelect
-                  label="You get"
+                  label={t("home:sell_get")}
                   id={inputIds.get}
                   options={checkedCurrencies}
                   displayInSelect={1}
@@ -375,7 +378,7 @@ function CurrencyForm({
               <HideableWithMargin hide={getActive} margins>
                 {!isLoading ? (
                   <InputSelect
-                    label="Payment Method"
+                    label={t("home:sell_payment")}
                     id={inputIds.payments}
                     options={checkedPayments}
                     onSelect={onPaymentChange}
@@ -395,13 +398,13 @@ function CurrencyForm({
       return (
         <FormContainer>
           <InputSelectButton
-            label="Back to"
-            value="Order details"
+            label={t("home:sell_backTo")}
+            value={t("home:sell_orderDetails")}
             onClick={() => setCurrentStep(Step.Details)}
           />
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label="Card Number"
+              label={t("home:sell_cardNumber")}
               id={inputIds.details}
               onChange={handleDetailsInput}
               value={piecedDetails}
@@ -411,7 +414,7 @@ function CurrencyForm({
           </HideableWithMargin>
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label="Card Holder"
+              label={t("home:sell_cardHolder")}
               id={inputIds.holder}
               onChange={handleHolderInput}
               value={currentHolder}
@@ -421,7 +424,7 @@ function CurrencyForm({
           </HideableWithMargin>
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label="Email"
+              label={t("home:sell_email")}
               id={inputIds.email}
               onChange={handleEmailInput}
               value={currentEmail}
@@ -436,26 +439,26 @@ function CurrencyForm({
         <>
           <FormContainer>
             <InputSelectButton
-              label="Back to"
-              value="Payment details"
+              label={t("home:sell_backTo")}
+              value={t("home:sell_payment")}
               onClick={() => setCurrentStep(Step.Payment)}
             />
             <ExchangeInfoContainer>
               <QRcode valueToCopy={exchangeInfo.wallet} />
               <ExchangeInfoRow
-                label="Wallet address"
+                label={t("home:sell_wallet")}
                 value={exchangeInfo.wallet}
-                copyLabel="Copy address"
+                copyLabel={t("home:sell_copyAddress")}
                 valueToCopy={exchangeInfo.wallet}
               />
               <ExchangeInfoRow
-                label="Total amount"
+                label={t("home:sell_totalAmount")}
                 value={`${giveAmount} ${currentToken}`}
-                copyLabel="Copy amount"
+                copyLabel={t("home:sell_copyAmount")}
                 valueToCopy={giveAmount}
               />
               <ExchangeInfoRow
-                label="Credited amount"
+                label={t("home:sell_creditedAmount")}
                 value={`${exchangeInfo.creditedAmount} ${currentToken}`}
                 timestamp={Number(exchangeInfo.timestamp)}
                 onExpired={async () => {
@@ -477,7 +480,7 @@ function CurrencyForm({
                 isLoading={false}
               />
               <ExchangeInfoRow
-                label="Amount to get"
+                label={t("home:sell_amountToGet")}
                 value={`${creditedGetAmount} ${
                   currentCurrency &&
                   isCurrencyDeclared(currentCurrency) &&
@@ -488,10 +491,10 @@ function CurrencyForm({
           </FormContainer>
           <ExchangeButtonsContainer>
             <ExchangeButton onClick={() => setShowExchangeModal(true)}>
-              Exchange
+              {t("home:sell_exchange")}
             </ExchangeButton>
             <RefundButton onClick={() => setShowRefundModal(true)}>
-              Refund
+              {t("home:sell_refund")}
             </RefundButton>
           </ExchangeButtonsContainer>
         </>
@@ -509,7 +512,7 @@ function CurrencyForm({
         currentStep != Step.Exchange &&
         (!isLoading ? (
           <NextButton onClick={handleNextStep} disabled={processingRequest}>
-            {processingRequest ? "Please wait..." : "Next Step"}
+            {processingRequest ? t("home:sell_wait") : t("home:sell_next")}
           </NextButton>
         ) : (
           <Skeleton height={49} />

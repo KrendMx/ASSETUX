@@ -1,6 +1,5 @@
 import React from "react"
 import styled, { css } from "styled-components"
-import Link from "next/link"
 import { useTranslation } from "next-i18next"
 
 import { useAppDispatch } from "@/src/redux/hooks"
@@ -88,7 +87,7 @@ function Desktop() {
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
           <NavLink as="button" onClick={() => dispatch(setOrdersActive(true))}>
-            My Operations
+            {t("header:operations")}
           </NavLink>
         </NavContainer>
         <LanguageCurrencyChange />

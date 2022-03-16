@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Container from "./Container"
 import InfoRow from "./InfoRow"
 import InfoContainer from "./InfoContainer"
@@ -37,6 +38,8 @@ function Element({
   onBuy,
   onSell
 }: ElementProps) {
+  const { t } = useTranslation("home")
+
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const [active, setActive] = useState(false)
 
@@ -83,7 +86,11 @@ function Element({
               )}
             </ChangeInfo>
             <ChangeLabel>
-              {isLoading ? <Skeleton width={100} /> : "24 hours change"}
+              {isLoading ? (
+                <Skeleton width={100} />
+              ) : (
+                t("home:cryptoSlide_change")
+              )}
             </ChangeLabel>
           </ChangeContainer>
           {change24h && (
@@ -102,10 +109,18 @@ function Element({
       </InfoContainer>
       <ButtonRow active={active}>
         <BuyButton onClick={() => !isLoading && onBuy && onBuy()}>
-          {!isLoading ? `Buy ${symbol}` : <Skeleton width={90} />}
+          {!isLoading ? (
+            `${t("home:cryptoSlide_buy")} ${symbol}`
+          ) : (
+            <Skeleton width={90} />
+          )}
         </BuyButton>
         <SellButton onClick={() => !isLoading && onSell && onSell()}>
-          {!isLoading ? `Sell ${symbol}` : <Skeleton width={90} />}
+          {!isLoading ? (
+            `${t("home:cryptoSlide_sell")} ${symbol}`
+          ) : (
+            <Skeleton width={90} />
+          )}
         </SellButton>
       </ButtonRow>
     </Container>

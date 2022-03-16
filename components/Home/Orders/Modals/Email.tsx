@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import Container from "./Container"
@@ -20,6 +21,8 @@ type EmailProps = {
 }
 
 function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
+  const { t } = useTranslation("home")
+
   const [email, setEmail] = useState("")
   const [isEmailValid, setIsEmailValid] = useState(false)
 
@@ -45,30 +48,30 @@ function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
             />
           </Icon>
         </Shadow>
-        <span>My operations</span>
+        <span>{t("home:orders_myOperations")}</span>
       </Title>
-      <Info>Please fill the email address used for exchanges in ASSETUX</Info>
+      <Info>{t("home:orders_pleaseFill")}</Info>
       <InputSelect
-        label="Email address"
-        id="refund_wallet"
+        label={t("home:orders_email")}
+        id={t("home:orders_refundWallet")}
         onChange={handleChange}
         value={email}
         error={
           errorMessage
             ? errorMessage
             : !isEmailValid && email != ""
-            ? "Invalid email address"
+            ? t("home:orders_invalidEmail")
             : undefined
         }
         changeable
       />
       <ButtonsRow>
-        <Button onClick={onCancel}>Cancel</Button>
+        <Button onClick={onCancel}>{t("home:orders_cancel")}</Button>
         <Button
           onClick={() => onAccept && isEmailValid && onAccept(email)}
           main
         >
-          {isLoading ? "Loading..." : "OK"}
+          {isLoading ? t("home:orders_loading") : "OK"}
         </Button>
       </ButtonsRow>
     </Container>

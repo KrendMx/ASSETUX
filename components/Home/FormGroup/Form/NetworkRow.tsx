@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Help from "./Help"
 import { mobile } from "@/src/constants"
@@ -65,29 +66,23 @@ type NetworkRowProps = {
 }
 
 function NetworkRow({ isLoading }: NetworkRowProps) {
+  const { t } = useTranslation("home")
+
   const [hovered, setHovered] = useState(false)
 
   return (
     <Container>
       {!isLoading ? (
         <>
-          <span>Please make sure your wallet supports selected network</span>
+          <span>{t("home:network_sure")}</span>
           <QuestionMark
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           />
-          {hovered && (
-            <Help offsetY={14}>
-              The network you selected is BSC, please confirm that your
-              withdrawal address supports the Binance Smart Chain network. If
-              the other platform does not support it, your assets may be lost.
-            </Help>
-          )}
+          {hovered && <Help offsetY={14}>{t("home:network_help")}</Help>}
         </>
       ) : (
-        <Skeleton
-          containerClassName="skeletonFlexContainer"
-        />
+        <Skeleton containerClassName="skeletonFlexContainer" />
       )}
     </Container>
   )

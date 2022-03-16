@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import InputSelect from "@/shared/InputSelect"
 import Container from "@/shared/ModalComponents/Container"
@@ -17,6 +18,8 @@ type ResultModalProps = {
 }
 
 function ResultModal({ getToken, getValue, onAccept }: ResultModalProps) {
+  const { t } = useTranslation("home")
+
   if (!getToken) {
     return null
   }
@@ -35,10 +38,10 @@ function ResultModal({ getToken, getValue, onAccept }: ResultModalProps) {
             />
           </Icon>
         </Shadow>
-        <span>Deposit confirmed</span>
+        <span>{t("home:sell_depositConfirmed")}</span>
       </Title>
       <InputSelect
-        label="You got"
+        label={t("home:sell_got")}
         id="exchange_deposit_get"
         value={getValue}
         options={[getToken]}

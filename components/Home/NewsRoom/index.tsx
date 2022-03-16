@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Element from "./Element"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -47,16 +48,18 @@ const SliderContainer = styled.div`
 `
 
 function NewsRoom() {
+  const { t } = useTranslation("home")
+
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const sliderConfig = useSliderConfig()
 
   return (
     <Container>
       <Row>
-        <h3>{!showSkeleton ? "News Room" : <Skeleton />}</h3>
+        <h3>{!showSkeleton ? t("home:news_title") : <Skeleton />}</h3>
         {!showSkeleton && (
           <MoreLink as="a" href="#">
-            Show more
+            {t("home:news_showMore")}
           </MoreLink>
         )}
       </Row>

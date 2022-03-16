@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from "react"
+import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Image from "next/image"
 import { mobile, optimizeRemoteImages } from "@/src/constants"
 import type { Option } from "../types"
-import IconSearch from '@/public/assets/Search.svg'
+import IconSearch from "@/public/assets/Search.svg"
 
 type ItemProps = {
   selectable?: boolean
@@ -143,6 +144,8 @@ type SearchProps = {
 }
 
 function Search({ options, onSelect, display, label, hide }: SearchProps) {
+  const { t } = useTranslation("home")
+
   const [searchContext, setSearchContext] = useState("")
   const searchedOptions = useMemo(() => {
     const lowerCasedCtx = searchContext.toLowerCase()
@@ -198,7 +201,7 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
         </Shadow>
         <Input
           type="text"
-          placeholder="Start typing to search..."
+          placeholder={t("home:search_placeholder")}
           value={searchContext}
           onChange={handleInput}
         />
@@ -226,17 +229,16 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
                   />
                 </ImageContainer>
               </Shadow>
-            ) : option?.shortDescription?.split(' ')[1] ? (
-              <Shadow>
-                {option?.shortDescription?.split(' ')[1]}
-              </Shadow>
-            ) : <Shadow />
-            }
+            ) : option?.shortDescription?.split(" ")[1] ? (
+              <Shadow>{option?.shortDescription?.split(" ")[1]}</Shadow>
+            ) : (
+              <Shadow />
+            )}
             <ItemValue>{option.description}</ItemValue>
           </Item>
         ))
       ) : (
-        <NoResultsLabel>No results</NoResultsLabel>
+        <NoResultsLabel>{t("home:search_noResult")}</NoResultsLabel>
       )}
     </>
   )

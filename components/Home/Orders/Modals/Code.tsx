@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import Container from "./Container"
@@ -17,6 +18,8 @@ type CodeProps = {
 }
 
 function Code({ isLoading, onCancel, onAccept }: CodeProps) {
+  const { t } = useTranslation("home")
+
   const [code, setCode] = useState("")
 
   return (
@@ -33,14 +36,14 @@ function Code({ isLoading, onCancel, onAccept }: CodeProps) {
             />
           </Icon>
         </Shadow>
-        <span>Code was sent to your email</span>
+        <span>{t("home:orders_codeSent")}</span>
       </Title>
-      <Info>Enter code</Info>
+      <Info>{t("home:orders_enterCode")}</Info>
       <CodeInput onChange={(code) => setCode(code)} />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={() => onAccept && onAccept(code)} main>
-          {isLoading ? "Loading..." : "OK"}
+          {isLoading ? t("home:orders_loading") : "OK"}
         </Button>
       </ButtonsRow>
     </Container>

@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import InputSelect from "@/shared/InputSelect"
 import Container from "@/shared/ModalComponents/Container"
@@ -30,6 +31,8 @@ function RefundModal({
   onCancel,
   onAccept
 }: RefundModalProps) {
+  const { t } = useTranslation("home")
+
   if (!sentToken || !getToken) {
     return null
   }
@@ -48,7 +51,7 @@ function RefundModal({
             />
           </Icon>
         </Shadow>
-        <span>Please confirm action</span>
+        <span>{t("home:sell_confirm")}</span>
       </Title>
       <InputSelect
         label="You sent"
@@ -57,9 +60,9 @@ function RefundModal({
         options={[sentToken]}
         selectable={false}
       />
-      <Info>Are you sure you want to refund?</Info>
+      <Info>{t("home:sell_sureRefund")}</Info>
       <InputSelect
-        label="You get"
+        label={t("home:sell_get")}
         id="refund_get"
         value={getValue}
         options={[getToken]}
@@ -68,7 +71,7 @@ function RefundModal({
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button disabled={isLoading} onClick={onAccept} main>
-          {isLoading ? "Loading..." : "OK"}
+          {isLoading ? t("home:sell_loading") : "OK"}
         </Button>
       </ButtonsRow>
     </Container>

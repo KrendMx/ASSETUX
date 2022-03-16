@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import Button from "@/shared/ModalComponents/Button"
@@ -14,6 +15,8 @@ type CodeInvalidProps = {
 }
 
 function CodeInvalid({ onAccept }: CodeInvalidProps) {
+  const { t } = useTranslation("home")
+
   return (
     <Container>
       <Title>
@@ -28,12 +31,12 @@ function CodeInvalid({ onAccept }: CodeInvalidProps) {
             />
           </Icon>
         </Shadow>
-        <span>Error</span>
+        <span>{t("home:orders_error")}</span>
       </Title>
-      <Info>You entered invalid code</Info>
+      <Info>{t("home:orders_enteredInvalidCode")}</Info>
       <ButtonsRow>
         <Button onClick={onAccept} main>
-          Try again
+          {t("home:orders_tryAgain")}
         </Button>
       </ButtonsRow>
     </Container>

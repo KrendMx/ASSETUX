@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
@@ -20,6 +21,8 @@ function RefundCodeModal({
   onCancel,
   onAccept
 }: RefundCodeModalProps) {
+  const { t } = useTranslation("home")
+
   const [code, setCode] = useState("")
 
   return (
@@ -36,9 +39,9 @@ function RefundCodeModal({
             />
           </Icon>
         </Shadow>
-        <span>Code was sent to your email</span>
+        <span>{t("home:sell_codeSent")}</span>
       </Title>
-      <Info>Enter code</Info>
+      <Info>{t("home:sell_enterCode")}</Info>
       <CodeInput onChange={(code) => setCode(code)} />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
@@ -47,7 +50,7 @@ function RefundCodeModal({
           onClick={() => onAccept && onAccept(code)}
           main
         >
-          {isLoading ? "Loading..." : "OK"}
+          {isLoading ? t("home:sell_loading") : "OK"}
         </Button>
       </ButtonsRow>
     </Container>

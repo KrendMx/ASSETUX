@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import InputSelect from "@/shared/InputSelect"
 import Container from "@/shared/ModalComponents/Container"
@@ -30,6 +31,8 @@ function ExchangeModal({
   onCancel,
   onAccept
 }: ExchangeModalProps) {
+  const { t } = useTranslation("home")
+
   if (!sentToken || !getToken) {
     return null
   }
@@ -48,18 +51,18 @@ function ExchangeModal({
             />
           </Icon>
         </Shadow>
-        <span>Please confirm action</span>
+        <span>{t("home:sell_confirm")}</span>
       </Title>
       <InputSelect
-        label="You sent"
+        label={t("home:sell_sent")}
         id="exchange_sent"
         value={sentValue}
         options={[sentToken]}
         selectable={false}
       />
-      <Info>Are you sure you want to exchange?</Info>
+      <Info>{t("home:sell_sureExchange")}</Info>
       <InputSelect
-        label="You get"
+        label={t("home:sell_get")}
         id="exchange_get"
         value={getValue}
         options={[getToken]}
@@ -68,7 +71,7 @@ function ExchangeModal({
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button disabled={isLoading} onClick={onAccept} main>
-          {isLoading ? "Loading..." : "OK"}
+          {isLoading ? t("home:sell_loading") : "OK"}
         </Button>
       </ButtonsRow>
     </Container>

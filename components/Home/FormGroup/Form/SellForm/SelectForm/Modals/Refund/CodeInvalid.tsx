@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Button from "@/shared/ModalComponents/Button"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
@@ -13,6 +14,8 @@ type RefundCodeInvalidProps = {
 }
 
 function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
+  const { t } = useTranslation("home")
+
   return (
     <Container>
       <Title>
@@ -27,12 +30,12 @@ function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
             />
           </Icon>
         </Shadow>
-        <span>Error</span>
+        <span>{t("home:sell_error")}</span>
       </Title>
-      <Info>You entered invalid code</Info>
+      <Info>{t("home:sell_invalidCode")}</Info>
       <ButtonsRow>
         <Button onClick={onAccept} main>
-          Try again
+          {t("home:sell_tryAgain")}
         </Button>
       </ButtonsRow>
     </Container>

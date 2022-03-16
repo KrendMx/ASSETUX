@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import styled from "styled-components"
 import Container from "@/shared/ModalComponents/Container"
@@ -54,6 +55,7 @@ function ExchangeExpired({
   minimalAmount,
   orderId
 }: ExchangeExpiredProps) {
+  const { t } = useTranslation("home")
   const [review, setReview] = useState("")
 
   const success = Number(getValue) >= minimalAmount
@@ -76,10 +78,10 @@ function ExchangeExpired({
             />
           </Icon>
         </Shadow>
-        <span>Время отведенное на ордер истекло</span>
+        <span>{t("home:sell_timedOut")}</span>
       </Title>
       <InputSelect
-        label="You sent"
+        label={t("home:sell_sent")}
         id="refund_sent"
         value={sentValue}
         options={[sentToken]}
@@ -87,19 +89,19 @@ function ExchangeExpired({
       />
       {!success && (
         <ExchangeInfo misc>
-          Минимальная сумма обмена - {minimalAmount} {getToken.value}
+          {t("home:sell_minimal")} - {minimalAmount} {getToken.value}
         </ExchangeInfo>
       )}
       {success && (
         <>
           <ExchangeInfo misc>
-            <span>Курс конвертации</span>
+            <span>{t("home:sell_convert")}</span>
             <span>
               {rate} {getToken.value} / {sentToken.value}
             </span>
           </ExchangeInfo>
           <InputSelect
-            label="You get"
+            label={t("home:sell_get")}
             id="refund_get"
             value={getValue}
             options={[getToken]}
@@ -108,30 +110,24 @@ function ExchangeExpired({
         </>
       )}
 
-      {!success && (
-        <Ahtung>
-          Согласно правилам пользования Assetux, средства поступившие на кошелек
-          и не использованные в операции обмена - не возвращаются
-        </Ahtung>
-      )}
+      {!success && <Ahtung>{t("home:sell_ahtung")}</Ahtung>}
 
       {success && (
         <>
-          <Info>
-            Assetux обменял ту сумму, которая была на кошельке на момент
-            окончания времени на операцию
-          </Info>
+          <Info>{t("home:sell_infoExchange")}</Info>
           <Success>
-            <span>Успех</span>
-            <span>Номер операции: {orderId}</span>
+            <span>{t("home:sell_success")}</span>
+            <span>
+              {t("home:sell_operationId")}: {orderId}
+            </span>
           </Success>
         </>
       )}
 
-      <Info>Ваш отзыв поможет нам стать лучше!</Info>
+      <Info>{t("home:sell_review")}</Info>
       <InputSelect
         id="refund_review"
-        label="Your message"
+        label={t("home:sell_message")}
         value={review}
         onChange={(event) => setReview(event.target.value)}
         changeable

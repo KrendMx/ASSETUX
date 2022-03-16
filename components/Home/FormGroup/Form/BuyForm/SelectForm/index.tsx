@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Container from "./Container"
 import InputSelect from "@/shared/InputSelect"
 import InputSelectButton from "../../InputSelectButton"
@@ -82,6 +83,8 @@ function CurrencyForm({
   onEmailChange,
   onSubmit
 }: CurrencyFormProps) {
+  const { t } = useTranslation("home")
+
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
   const [giveActive, setGiveActive] = useState(false)
@@ -144,14 +147,14 @@ function CurrencyForm({
 
     let errorObject: Error = {}
     if (giveAmount == "") {
-      errorObject[inputIds.give] = "Invalid give amount"
+      errorObject[inputIds.give] = t("home:buy_invalidGive")
     }
     if (currentStep == Step.Credentials) {
       if (email == "" || !emailRegexp.test(email)) {
-        errorObject[inputIds.email] = "Invalid email"
+        errorObject[inputIds.email] = t("home:buy_invalidEmail")
       }
       if (currentWallet == "" || !walletRegexp.test(currentWallet)) {
-        errorObject[inputIds.wallet] = "Invalid wallet address"
+        errorObject[inputIds.wallet] = t("home:buy_invalidWallet")
       }
     }
 
@@ -174,9 +177,9 @@ function CurrencyForm({
         <FormContainer>
           {!isLoading ? (
             <InputSelect
-              label="Blockchain"
+              label={t("home:buy_blockchain")}
               id={inputIds.blockchains}
-              selectLabel="You are currently using Assetux on"
+              selectLabel={t("home:buy_blockchainLabel")}
               options={checkedBlockchains}
               displayInSelect={3}
               onActiveChange={(active) => setChainActive(active)}
@@ -190,7 +193,7 @@ function CurrencyForm({
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
               <InputSelect
-                label="You give"
+                label={t("home:buy_give")}
                 id={inputIds.give}
                 value={giveAmount}
                 onChange={handleGiveInput}
@@ -207,7 +210,7 @@ function CurrencyForm({
             <HideableWithMargin hide={giveActive} margins>
               {!isLoading ? (
                 <InputSelect
-                  label="Payment Method"
+                  label={t("home:buy_payment")}
                   id={inputIds.payments}
                   options={checkedPayments}
                   onSelect={onPaymentChange}
@@ -229,7 +232,7 @@ function CurrencyForm({
                 />
                 {!isLoading ? (
                   <InputSelect
-                    label="You get"
+                    label={t("home:buy_get")}
                     id={inputIds.get}
                     options={checkedTokens}
                     displayInSelect={1}
@@ -250,13 +253,13 @@ function CurrencyForm({
       return (
         <FormContainer>
           <InputSelectButton
-            label="Back to"
-            value="Order details"
+            label={t("home:buy_backTo")}
+            value={t("home:buy_orderDetails")}
             onClick={() => setCurrentStep(Step.Details)}
           />
           <NetworkRow isLoading={isLoading} />
           <InputSelect
-            label="Wallet address"
+            label={t("home:buy_wallet")}
             id={inputIds.wallet}
             onChange={handleWalletInput}
             value={currentWallet}
@@ -270,7 +273,7 @@ function CurrencyForm({
           />
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label="Email"
+              label={t("home:buy_email")}
               id={inputIds.email}
               value={email}
               error={inputError[inputIds.email]}
@@ -292,7 +295,7 @@ function CurrencyForm({
         !paymentActive &&
         (!isLoading ? (
           <NextButton onClick={handleNextStep}>
-            {processingRequest ? "Please wait..." : "Next Step"}
+            {processingRequest ? t("home:buy_wait") : t("home:buy_next")}
           </NextButton>
         ) : (
           <Skeleton height={49} />

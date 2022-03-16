@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import styled from "styled-components"
 import Container from "@/shared/ModalComponents/Container"
@@ -31,6 +32,8 @@ function RefundResultModal({
   getValue,
   getToken
 }: RefundResultModalProps) {
+  const { t } = useTranslation("home")
+
   const [review, setReview] = useState("")
 
   if (!getValue || !getToken) {
@@ -51,22 +54,20 @@ function RefundResultModal({
             />
           </Icon>
         </Shadow>
-        <span>Refund was success</span>
+        <span>{t("home:sell_refundSuccess")}</span>
       </Title>
       <InputSelect
-        label="You get"
+        label={t("home:sell_get")}
         id="refund_get"
         value={getValue}
         options={[getToken]}
         selectable={false}
       />
-      <Success>
-        Thanks for using our service! In 5 minutes you will receve an email.
-      </Success>
-      <Info>Ваш отзыв поможет нам стать лучше!</Info>
+      <Success>{t("home:sell_receiveEmail")}</Success>
+      <Info>{t("home:sell_review")}</Info>
       <InputSelect
         id="refund_review"
-        label="Your message"
+        label={t("home:sell_message")}
         value={review}
         onChange={(event) => setReview(event.target.value)}
         changeable
