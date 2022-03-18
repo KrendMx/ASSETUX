@@ -52,8 +52,8 @@ let alreadyLoaded = false
 const inputIds = {
   get: "get",
   give: "give",
-  details: "details",
-  holder: "holder",
+  details: "cardnumber",
+  holder: "ccname",
   blockchains: "blockchains",
   payments: "payments",
   email: "email"
@@ -409,6 +409,7 @@ function CurrencyForm({
               onChange={handleDetailsInput}
               value={piecedDetails}
               error={inputError[inputIds.details]}
+              autocomplete="cc-number"
               changeable
             />
           </HideableWithMargin>
@@ -419,6 +420,7 @@ function CurrencyForm({
               onChange={handleHolderInput}
               value={currentHolder}
               error={inputError[inputIds.holder]}
+              autocomplete="cc-name"
               changeable
             />
           </HideableWithMargin>
@@ -429,6 +431,7 @@ function CurrencyForm({
               onChange={handleEmailInput}
               value={currentEmail}
               error={inputError[inputIds.email]}
+              autocomplete="email"
               changeable
             />
           </HideableWithMargin>

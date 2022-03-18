@@ -35,7 +35,7 @@ const inputIds = {
   email: "email",
   blockchains: "blockchains",
   payments: "payments",
-  details: "details",
+  details: "cardnumber",
   phoneNumber: "phone"
 }
 
@@ -386,6 +386,7 @@ function CurrencyForm({
               value={email}
               error={inputError[inputIds.email]}
               onChange={handleEmailInput}
+              autocomplete="email"
               changeable
             />
             <HideableWithMargin hide={false} margins>
@@ -396,6 +397,7 @@ function CurrencyForm({
                   onChange={handleNumberInput}
                   value={currentPhoneNumber}
                   error={cardError || inputError[inputIds.phoneNumber]}
+                  autocomplete="tel"
                   changeable
                 />
               ) : (
@@ -405,6 +407,7 @@ function CurrencyForm({
                   onChange={handleDetailsInput}
                   value={piecedDetails}
                   error={cardError || inputError[inputIds.details]}
+                  autocomplete="cc-number"
                   changeable
                 />
               )}

@@ -35,6 +35,7 @@ type InputSelectProps = {
   error?: string
   selectable?: boolean
   selectedValue?: string | null
+  autocomplete?: string
 }
 
 function InputSelect({
@@ -49,6 +50,7 @@ function InputSelect({
   value,
   selectedValue,
   error,
+  autocomplete,
   placeholder = "",
   displayIcon = false,
   defaultValue = "",
@@ -156,7 +158,7 @@ function InputSelect({
           )}
           <Input
             id={id}
-            autoComplete="off"
+            autoComplete={autocomplete ? autocomplete : "off"}
             name={id}
             type="text"
             disabled={!changeable || hideLabel}
