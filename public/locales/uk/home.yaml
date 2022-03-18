@@ -40,6 +40,7 @@ buy_cardNumber: Card Number
 buy_invalidCard: Invalid card number
 buy_phoneNumber: Phone Number
 buy_invalidPhoneNumber: Invalid phone number
+buy_blockchainLabel: You are using ASSETUX on
 
 sell_blockchain: Blockchain
 sell_give: You give
@@ -92,6 +93,7 @@ sell_accessWallet: Пожалуйста, убедитесь, что у вас е
 sell_smthWentWrong: Something went wrong
 sell_refundError: Возврат не удалось выполнить. Вероятнее всего, вы, все сделали правильно.
 sell_callSupport: Обратиться в поддержку - это самое верное решение в данной ситуации
+sell_blockchainLabel: You are using ASSETUX on
 
 network_sure: Please make sure your wallet supports selected network
 network_help: >-
