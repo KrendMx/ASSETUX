@@ -110,7 +110,19 @@ function CurrencyForm({
   )
 
   useIsomorphicLayoutEffect(() => {
-    checkRanges(Number(giveAmount))
+    const errorRanges = checkRanges(Number(giveAmount))
+
+    if (errorRanges) {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: errorRanges
+      })
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: undefined
+      })
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPayment])
@@ -146,30 +158,19 @@ function CurrencyForm({
     alreadyLoaded = true
   }
 
-  const checkRanges = (value: number) => {
+  const checkRanges = (value: number): string | null => {
     if (!currentPaymentOption) {
-      return
+      return null
     }
 
     if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
       if (value > currentPaymentOption.max) {
-        setInputError({
-          ...inputError,
-          [inputIds.give]:
-            t("home:buy_maximumIs") + " " + currentPaymentOption.max
-        })
+        return t("home:buy_maximumIs") + " " + currentPaymentOption.max
       } else {
-        setInputError({
-          ...inputError,
-          [inputIds.give]:
-            t("home:buy_minimumIs") + " " + currentPaymentOption.min
-        })
+        return t("home:buy_minimumIs") + " " + currentPaymentOption.min
       }
     } else {
-      setInputError({
-        ...inputError,
-        [inputIds.give]: undefined
-      })
+      return null
     }
   }
 
@@ -179,7 +180,19 @@ function CurrencyForm({
     const value = event.target.value
 
     if (value == "" || floatRegexp.test(value)) {
-      checkRanges(Number(value))
+      const errorRanges = checkRanges(Number(value))
+
+      if (errorRanges) {
+        setInputError({
+          ...inputError,
+          [inputIds.give]: errorRanges
+        })
+      } else {
+        setInputError({
+          ...inputError,
+          [inputIds.give]: undefined
+        })
+      }
 
       onGiveAmountChange(value)
     }
@@ -213,6 +226,12 @@ function CurrencyForm({
     let errorObject: Error = {}
     if (giveAmount == "") {
       errorObject[inputIds.give] = t("home:buy_invalidGive")
+    } else {
+      const errorRanges = checkRanges(Number(giveAmount))
+
+      if (errorRanges) {
+        errorObject[inputIds.give] = errorRanges
+      }
     }
     if (currentStep == Step.Credentials) {
       if (email == "" || !emailRegexp.test(email)) {
