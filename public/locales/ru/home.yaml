@@ -1,124 +1,123 @@
-titleBeforeBuy: The best way to
-buy: buy
-titleAfterBuy: and
-sell: sell
-titleAfterSell: cryptocurrencies
-info: The first fiat-to-crypto exchange build on interoperable DeFi
+titleBeforeBuy: Лучшее решение для
+buy: покупки
+titleAfterBuy: и
+sell: продажи
+titleAfterSell: криптовалюты
+info: Первая фиатно-криптовалютная биржа, построенная на взаимодействующем DeFi
 
-orders_myOperations: My Operations
-orders_pleaseFill: Пожалуйста, укажите электронную почту, использованную для операций в Assetux
-orders_email: Электронная почта
-orders_cancel: Cancel
-orders_invalidEmail: Invalid email address
-orders_loading: Loading...
-orders_codeSent: Код был отправлен на ваш имейл
+orders_myOperations: Мои операции
+orders_pleaseFill: Пожалуйста, укажите Email, использованный для операций в Assetux
+orders_email: Email
+orders_cancel: Отмена
+orders_invalidEmail: Неверный Email
+orders_loading: Загрузка...
+orders_codeSent: Код был отправлен на ваш Email
 orders_enterCode: Введите код
 orders_tryAgain: Попробовать снова
-orders_enteredInvalidCode: Вы неверно ввели код.
+orders_enteredInvalidCode: Вы неверно ввели код
 orders_error: Ошибка
 orders_pair: Пара
 orders_network: Сеть
 orders_sent: Отправлено
 orders_got: Сумма
 
-buy_blockchain: Blockchain
-buy_give: You give
-buy_invalidGive: Invalid give amount
-buy_maximumIs: The maximum amount is
-buy_minimumIs: The minimum amount is
-buy_payment: Payment Method
-buy_get: You get
-buy_next: Next Step
-buy_backTo: Back to
-buy_orderDetails: Order details
-buy_wallet: Wallet address
+buy_give: Вы отдаете
+buy_invalidGive: Неверная сумма
+buy_maximumIs: Максимальная сумма
+buy_minimumIs: Минимальная сумма
+buy_payment: Способ оплаты
+buy_get: Вы получаете
+buy_next: Следующий шаг
+buy_backTo: Вернуться к
+buy_orderDetails: Детали заказа
+buy_wallet: Адрес кошелька
 buy_email: Email
-buy_invalidWallet: Invalid wallet address
-buy_invalidEmail: Invalid email
-buy_wait: Please wait...
-buy_cardNumber: Card Number
-buy_invalidCard: Invalid card number
-buy_phoneNumber: Phone Number
-buy_invalidPhoneNumber: Invalid phone number
+buy_invalidWallet: Неверный адрес кошелька
+buy_invalidEmail: Неверный Email
+buy_wait: Пожалуйста, подождите...
+buy_cardNumber: Номер карты
+buy_invalidCard: Недействительный номер карты
+buy_phoneNumber: Номер телефона
+buy_invalidPhoneNumber: Неверный номер телефона
 
 sell_blockchain: Blockchain
-sell_give: You give
-sell_payment: Payment Method
-sell_get: You get
-sell_next: Next Step
-sell_backTo: Back to
-sell_orderDetails: Order details
-sell_cardNumber: Card Number
-sell_cardHolder: Card Holder
-sell_invalidCard: Invalid card number
-sell_invalidHolder: Invalid holder information
-sell_invalidEmail: Invalid email
+sell_give: Вы отдаете
+sell_payment: Способ оплаты
+sell_get: Вы получаете
+sell_next: Следующий шаг
+sell_backTo: Вернуться к
+sell_orderDetails: Детали заказа
+sell_cardNumber: Номер карты
+sell_cardHolder: Владелец карты
+sell_invalidCard: Неверный номер карты
+sell_invalidHolder: Неверная информация о держателе карты
+sell_invalidEmail: Неверный Email
 sell_email: Email
-sell_wait: Please wait...
-sell_wallet: Wallet address
-sell_totalAmount: Total amount
-sell_creditedAmount: Credited amount
-sell_amountToGet: Amount to get
-sell_exchange: Exchange
-sell_refund: Refund
-sell_copyAddress: Copy address
-sell_copyAmount: Copy amount
-sell_confirm: Пожалуйста подтвердите действие
+sell_wait: Пожалуйста, подождите...
+sell_wallet: Адрес кошелька
+sell_totalAmount: Общая сумма
+sell_creditedAmount: Зачисленная сумма
+sell_amountToGet: Сумма для получения
+sell_exchange: Обмен
+sell_refund: Возврат
+sell_copyAddress: Скопировать адрес
+sell_copyAmount: Скопировать сумму
+sell_confirm: Пожалуйста, подтвердите действие
 sell_sent: Вы отправили
-sell_got: You got
-sell_sureExchange: Are you sure you want to exchange?
-sell_sureRefund: Are you sure you want to refund?
-sell_depositConfirmed: Deposit confirmed
-sell_loading: Loading...
-sell_sentInsufficient: You sent insufficient crypto amount to make refund
-sell_ahtung: Согласно правилам пользования Assetux, средства поступившие на кошелек и не использованные в операции обмена - не возвращаются
-sell_review: Ваш отзыв поможет нам стать лучше!
-sell_message: Your message
-sell_timedOut: Время отведенное на ордер истекло
-sell_minimal: Минимальная сумма обмена
-sell_convert: Курс конвертации
-sell_infoExchange: Assetux обменял ту сумму, которая была на кошельке на момент окончания времени на операцию
+sell_got: Вы получили
+sell_sureExchange: Вы уверены, что хотите обменять?
+sell_sureRefund: Вы уверены, что хотите вернуть деньги?
+sell_depositConfirmed: Депозит подтвержден
+sell_loading: Загрузка...
+sell_sentInsufficient: Вы отправили недостаточное количество криптовалюты для возврата средств
+sell_ahtung: Согласно правилам Assetux, сумма, поступившая на кошелек и не использованная в обменной операции, не возвращается
+sell_review: Ваши отзывы помогут нам стать лучше!
+sell_message: Ваше сообщение
+sell_timedOut: Время для заказа истекло
+sell_minimal: Минимальная сумма для обмена
+sell_convert: Курс обмена
+sell_infoExchange: Assetux обменял сумму в вашем кошельке на момент истечения времени
 sell_success: Успех
-sell_operationId: Номер операции
-sell_codeSent: Код был отправлен на ваш имейл
+sell_operationId: Номер транзакции
+sell_codeSent: Код был отправлен на ваш Email
 sell_enterCode: Введите код
-sell_error: Error
-sell_invalidCode: Вы неверно ввели код.
-sell_tryAgain: Вы неверно ввели код.
-sell_receiveEmail: Спасибо, что воспользовались услугами Assetux! В течении 5 минут вы получите письмо на электронную почту с подтверждением.
-sell_refundSuccess: Вовзрат успешно произведен
-sell_fillRequiredData: Пожалуйста укажите данные для возврата
-sell_accessWallet: Пожалуйста, убедитесь, что у вас есть доступ к указанному кошельку, на указанной сети. Если вы не сможете получить доступ к этому кошельку - мы вам не сможем помочь.
-sell_smthWentWrong: Something went wrong
-sell_refundError: Возврат не удалось выполнить. Вероятнее всего, вы, все сделали правильно.
-sell_callSupport: Обратиться в поддержку - это самое верное решение в данной ситуации
+sell_error: Ошибка
+sell_invalidCode: Вы ввели неправильный код.
+sell_tryAgain: Вы ввели неправильный код.
+sell_receiveEmail: Спасибо за использование Assetux! Вы получите подтверждение по Email через 5 минут.
+sell_refundSuccess: Возврат средств прошел успешно
+sell_fillRequiredData: Пожалуйста, укажите данные для возврата
+sell_accessWallet: Пожалуйста, убедитесь, что у вас есть доступ к указанному кошельку, в указанной сети. Если вы не можете получить доступ к этому кошельку, мы не сможем вам помочь.
+sell_smthWentWrong: Что-то пошло не так.
+Sell_refundError: Возврат не удался. Скорее всего, вы всё сделали правильно.
+sell_callSupport: Обратиться в службу поддержки - самое правильное решение в данной ситуации.
 
-network_sure: Please make sure your wallet supports selected network
+network_sure: Убедитесь, что ваш кошелек поддерживает выбранную сеть
 network_help: >-
-  The network you selected is BSC, please confirm that your withdrawal address supports the Binance Smart Chain network.
-  If the other platform does not support it, your assets may be lost.
+  Выбранная вами сеть - BSC, пожалуйста, убедитесь, что ваш адрес вывода поддерживает сеть Binance Smart Chain.
+  Если другая платформа не поддерживает ее, ваши активы могут быть потеряны.
 
-exchange_fees: All fees included
+exchange_fees: Все сборы включены
 
-cryptoSlide_change: 24 hours change
-cryptoSlide_buy: Buy
-cryptoSlide_sell: Sell
+cryptoSlide_change: Изменение в течение 24 часов
+cryptoSlide_buy: Купить
+cryptoSlide_sell: Продать
 
 explorer_title: Crypto Explorer
-explorer_viewAllFull: View all supported currencies
-explorer_viewAll: View all
+explorer_viewAllFull: Просмотр всех поддерживаемых валют
+explorer_viewAll: Смотреть всё
 explorer_ticker: Ticker
-explorer_sell: Sell
-explorer_buy: Buy
+explorer_sell: Продать
+explorer_buy: Купить
 explorer_change: Change 24h
 explorer_volume: Volume 24h
 explorer_trade: Trade
 explorer_pool: Pool
 
-news_title: News room
-news_showMore: Show more
+news_title: Новости
+news_showMore: Показать больше
 
-about_title: About us
+about_title: О нас
 about_p1: >-
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -129,5 +128,5 @@ about_p3: >-
   Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
   eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
 
-search_placeholder: Start typing to search...
-search_noResult: No results
+search_placeholder: Начните печатать для поиска...
+search_noResult: Нет результатов
