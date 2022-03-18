@@ -198,7 +198,7 @@ function OrderModal({ orders }: OrderModalProps) {
             colorIn={order.buy ? "green" : "red"}
             split={!isMobileLayoutForTablet && !isMobile}
           >
-            <span>Sell:{(isMobileLayoutForTablet || isMobile) && " "}</span>
+            <span>{order.buy ? "Buy" : "Sell"}:{(isMobileLayoutForTablet || isMobile) && " "}</span>
             <span>{capitalizeString(order.status.split(":")[0])}</span>
           </Colored>,
           order.curIn + " / " + order.curOut,
