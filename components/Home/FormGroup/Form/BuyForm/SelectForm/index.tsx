@@ -224,15 +224,13 @@ function CurrencyForm({
     // validation
 
     let errorObject: Error = {}
-    if (giveAmount == "") {
-      errorObject[inputIds.give] = t("home:buy_invalidGive")
-    } else {
-      const errorRanges = checkRanges(Number(giveAmount))
 
-      if (errorRanges) {
-        errorObject[inputIds.give] = errorRanges
-      }
+    const errorRanges = checkRanges(Number(giveAmount))
+
+    if (errorRanges) {
+      errorObject[inputIds.give] = errorRanges
     }
+
     if (currentStep == Step.Credentials) {
       if (email == "" || !emailRegexp.test(email)) {
         errorObject[inputIds.email] = t("home:buy_invalidEmail")
@@ -327,7 +325,9 @@ function CurrencyForm({
                     displayInSelect={1}
                     onActiveChange={(active) => setGetActive(active)}
                     onSelect={onTokenChange}
-                    value={tokenAmount}
+                    value={
+                      inputError[inputIds.give] != undefined ? "-" : tokenAmount
+                    }
                     selectedValue={currentToken}
                   />
                 ) : (
