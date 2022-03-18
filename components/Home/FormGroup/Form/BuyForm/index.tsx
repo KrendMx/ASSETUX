@@ -114,7 +114,16 @@ function BuyForm({
 
   useIsomorphicLayoutEffect(() => {
     if (selectedCurrency && payments) {
-      const processedPayments = payments
+      const numberGive = Number(giveAmount)
+
+      const rangedPayments = payments.filter(
+        (payment) => payment.min <= numberGive && payment.max >= numberGive
+      )
+
+      const paymentsToProcess =
+        rangedPayments.length == 0 ? payments : rangedPayments
+
+      const processedPayments = paymentsToProcess
         .filter((payment) => payment.currency == selectedCurrency)
         .map((payment) => {
           return {
@@ -126,15 +135,17 @@ function BuyForm({
           }
         })
 
-      setProcessedPayments(processedPayments)
+      const sortedPayments = processedPayments.sort((a, b) => b.max - a.max)
 
-      if (processedPayments.length > 0) {
-        setSelectedPayment(processedPayments[0].value)
+      setProcessedPayments(sortedPayments)
+
+      if (sortedPayments.length > 0) {
+        setSelectedPayment(sortedPayments[0].value)
       } else {
         setSelectedPayment(null)
       }
     }
-  }, [selectedCurrency, payments])
+  }, [selectedCurrency, payments, giveAmount])
 
   useIsomorphicLayoutEffect(() => {
     if (!selectedPayment && processedPayments) {

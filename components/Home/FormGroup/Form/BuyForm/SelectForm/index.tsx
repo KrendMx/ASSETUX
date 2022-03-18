@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from "react"
+import React, { useState, useMemo } from "react"
+import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
@@ -108,7 +109,7 @@ function CurrencyForm({
     [currentDetails]
   )
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     checkRanges(Number(giveAmount))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
