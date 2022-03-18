@@ -311,6 +311,7 @@ export type BuyOrderInfo = {
   chain_id: number
   closed: boolean
   token: Token
+  send_amount?: number
 }
 
 export type SellOrderInfo = {

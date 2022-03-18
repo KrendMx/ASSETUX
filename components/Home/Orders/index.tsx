@@ -43,7 +43,7 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       id: buyOrder.id,
       chainId: buyOrder.chain_id,
       amountIn: buyOrder.amount_in,
-      amountOut: 0,
+      amountOut: buyOrder.send_amount ? buyOrder.send_amount : 0,
       curIn: buyOrder.currency,
       curOut: buyOrder.token.symbol,
       status: buyOrder.status,

@@ -198,12 +198,23 @@ function OrderModal({ orders }: OrderModalProps) {
             colorIn={order.buy ? "green" : "red"}
             split={!isMobileLayoutForTablet && !isMobile}
           >
-            <span>{order.buy ? "Buy" : "Sell"}:{(isMobileLayoutForTablet || isMobile) && " "}</span>
+            <span>
+              {order.buy ? "Buy" : "Sell"}:
+              {(isMobileLayoutForTablet || isMobile) && " "}
+            </span>
             <span>{capitalizeString(order.status.split(":")[0])}</span>
           </Colored>,
           order.curIn + " / " + order.curOut,
-          blockchain ? ellipsisString(blockchain.title, 14) : "",
-          ellipsisString(order.email, 17),
+          blockchain ? (
+            <span title={blockchain.title} key={order.id + "_bc-title"}>
+              {ellipsisString(blockchain.title, 14)}
+            </span>
+          ) : (
+            ""
+          ),
+          <span key={order.id + "_email"} title={order.email}>
+            {ellipsisString(order.email, 17)}
+          </span>,
           order.amountIn.toFixed(2) + " " + order.curIn,
           order.amountOut.toFixed(2) + " " + order.curOut
         ]
