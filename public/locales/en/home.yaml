@@ -36,8 +36,10 @@ buy_email: Email
 buy_invalidWallet: Invalid wallet address
 buy_invalidEmail: Invalid email
 buy_wait: Please wait...
-buy_cardNumber: Card number
+buy_cardNumber: Card Number
 buy_invalidCard: Invalid card number
+buy_phoneNumber: Phone Number
+buy_invalidPhoneNumber: Invalid phone number
 
 sell_blockchain: Blockchain
 sell_give: You give

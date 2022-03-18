@@ -35,7 +35,8 @@ const inputIds = {
   email: "email",
   blockchains: "blockchains",
   payments: "payments",
-  details: "details"
+  details: "details",
+  phoneNumber: "phone"
 }
 
 type CurrencyFormProps = {
@@ -47,6 +48,7 @@ type CurrencyFormProps = {
   currentToken: string | null
   tokens: Option[] | null
   currentDetails: string
+  currentPhoneNumber: string
   currentPayment: string | null
   payments: PaymentOption[] | null
   currentWallet: string
@@ -60,6 +62,7 @@ type CurrencyFormProps = {
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
   onDetailsChange: (details: string) => void
+  onPhoneChange: (phone: string) => void
   onPaymentChange: (payment: string) => void
   onWalletChange: (wallet: string) => void
   onGiveAmountChange: (amount: string) => void
@@ -77,6 +80,7 @@ function CurrencyForm({
   tokens,
   currentPayment,
   currentDetails,
+  currentPhoneNumber,
   payments,
   currentWallet,
   giveAmount,
@@ -90,6 +94,7 @@ function CurrencyForm({
   onTokenChange,
   onPaymentChange,
   onDetailsChange,
+  onPhoneChange,
   onWalletChange,
   onGiveAmountChange,
   onEmailChange,
@@ -220,6 +225,14 @@ function CurrencyForm({
     validated && onDetailsChange(value)
   }
 
+  const handleNumberInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const value = event.target.value
+
+    onPhoneChange(value)
+  }
+
   const handleNextStep = () => {
     // validation
 
@@ -240,8 +253,14 @@ function CurrencyForm({
         errorObject[inputIds.wallet] = t("home:buy_invalidWallet")
       }
 
-      if (currentDetails == "") {
-        errorObject[inputIds.details] = t("home:buy_invalidCard")
+      if (currentPayment == "QIWI") {
+        if (currentPhoneNumber == "") {
+          errorObject[inputIds.phoneNumber] = t("home:buy_invalidPhoneNumber")
+        }
+      } else {
+        if (currentDetails == "") {
+          errorObject[inputIds.details] = t("home:buy_invalidCard")
+        }
       }
     }
 
@@ -370,14 +389,25 @@ function CurrencyForm({
               changeable
             />
             <HideableWithMargin hide={false} margins>
-              <InputSelect
-                label={t("home:buy_cardNumber")}
-                id={inputIds.details}
-                onChange={handleDetailsInput}
-                value={piecedDetails}
-                error={cardError || inputError[inputIds.details]}
-                changeable
-              />
+              {currentPayment == "QIWI" ? (
+                <InputSelect
+                  label={t("home:buy_phoneNumber")}
+                  id={inputIds.phoneNumber}
+                  onChange={handleNumberInput}
+                  value={currentPhoneNumber}
+                  error={cardError || inputError[inputIds.phoneNumber]}
+                  changeable
+                />
+              ) : (
+                <InputSelect
+                  label={t("home:buy_cardNumber")}
+                  id={inputIds.details}
+                  onChange={handleDetailsInput}
+                  value={piecedDetails}
+                  error={cardError || inputError[inputIds.details]}
+                  changeable
+                />
+              )}
             </HideableWithMargin>
           </HideableWithMargin>
         </FormContainer>

@@ -47,6 +47,7 @@ function BuyForm({
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
   const [walletAddress, setWalletAddress] = useState("")
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
@@ -75,7 +76,7 @@ function BuyForm({
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
-        card: details
+        card: selectedPayment == "QIWI" ? phoneNumber : details
       })
 
       setProcessingRequest(false)
@@ -178,6 +179,7 @@ function BuyForm({
       tokens={tokens}
       currentPayment={selectedPayment}
       currentDetails={details}
+      currentPhoneNumber={phoneNumber}
       payments={processedPayments}
       currentWallet={walletAddress}
       giveAmount={giveAmount}
@@ -192,6 +194,7 @@ function BuyForm({
       onPaymentChange={setSelectedPayment}
       onWalletChange={setWalletAddress}
       onDetailsChange={setDetails}
+      onPhoneChange={setPhoneNumber}
       onGiveAmountChange={setGiveAmount}
       onEmailChange={setEmail}
       onSubmit={onSubmit}

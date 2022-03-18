@@ -157,6 +157,7 @@ function InputSelect({
           <Input
             id={id}
             autoComplete="off"
+            name={id}
             type="text"
             disabled={!changeable || hideLabel}
             value={displayedValue}
