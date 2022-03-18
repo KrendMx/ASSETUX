@@ -4,7 +4,6 @@ import styled from "styled-components"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import FormGroup from "@/components/Home/FormGroup"
-import CryptoExplorer from "@/components/Home/CryptoExplorer"
 import NewsRoom from "@/components/Home/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
 import CryptoManager from "@/components/Home/CryptoManager"
@@ -16,6 +15,7 @@ import { mobile, mobileLayoutForTablet } from "@/src/constants"
 import type { GetStaticProps } from "next"
 
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
+const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
 
 const Container = styled.div`
   width: 100%;

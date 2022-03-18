@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 
 import Background from "@/shared/Background"
 import Email from "./Modals/Email"
 import Code from "./Modals/Code"
 import CodeInvalid from "./Modals/CodeInvalid"
-import OrderModal from "./OrderModal"
 
 import BackendClient from "@/src/BackendClient"
 
@@ -12,6 +12,8 @@ import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 
 import type { SellOrderInfo } from "@/src/BackendClient/types"
+
+const OrderModal = dynamic(() => import("./OrderModal"))
 
 function Orders() {
   const dispatch = useAppDispatch()
