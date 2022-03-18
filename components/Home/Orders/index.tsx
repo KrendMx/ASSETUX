@@ -11,7 +11,50 @@ import BackendClient from "@/src/BackendClient"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 
-import type { SellOrderInfo } from "@/src/BackendClient/types"
+import type { OrderInfo } from "./OrderModal/types"
+import type { OrdersData } from "@/src/BackendClient/types"
+
+const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
+  const allOrders: OrderInfo[] = []
+
+  for (const sellOrder of orders.sell) {
+    allOrders.push({
+      id: sellOrder.id,
+      chainId: sellOrder.chain_id,
+      amountIn: sellOrder.amount_in,
+      amountOut: sellOrder.cur_out.amount,
+      curIn: sellOrder.cur_in.symbol,
+      curOut: sellOrder.cur_out.currency,
+      status: sellOrder.status,
+      email: sellOrder.email,
+      tokenLogo: sellOrder.cur_in.logo_uri,
+      buy: false
+    })
+  }
+
+  const allBuyOrders = [
+    ...orders.buy.error.map((order) => ({ ...order, status: "Error" })),
+    ...orders.buy.request.map((order) => ({ ...order, status: "Request" })),
+    ...orders.buy.success.map((order) => ({ ...order, status: "Success" }))
+  ]
+
+  for (const buyOrder of allBuyOrders) {
+    allOrders.push({
+      id: buyOrder.id,
+      chainId: buyOrder.chain_id,
+      amountIn: buyOrder.amount_in,
+      amountOut: 0,
+      curIn: buyOrder.currency,
+      curOut: buyOrder.token.symbol,
+      status: buyOrder.status,
+      email: buyOrder.email,
+      tokenLogo: buyOrder.token.logo_uri,
+      buy: true
+    })
+  }
+
+  return allOrders
+}
 
 const OrderModal = dynamic(() => import("./OrderModal"))
 
@@ -33,7 +76,7 @@ function Orders() {
 
   const [getOrdersResponse, setGetOrdersResponse] = useState<{
     isLoading: boolean
-    data: SellOrderInfo[] | null
+    data: OrderInfo[] | null
     error: string | null
   }>({
     isLoading: false,
@@ -73,7 +116,7 @@ function Orders() {
 
         setGetOrdersResponse({
           isLoading: false,
-          data: response.data.sell,
+          data: mapOrderInfo(response.data),
           error: null
         })
       }, 10000)
@@ -153,7 +196,7 @@ function Orders() {
 
       setGetOrdersResponse({
         isLoading: false,
-        data: response.data.sell,
+        data: mapOrderInfo(response.data),
         error: null
       })
 

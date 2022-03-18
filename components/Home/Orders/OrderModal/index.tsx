@@ -4,6 +4,7 @@ import styled, { css } from "styled-components"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 import Image from "next/image"
+import { capitalizeString, ellipsisString } from "@/src/helpers"
 
 import Title from "@/shared/ModalComponents/Title"
 import Shadow from "@/shared/ModalComponents/Shadow"
@@ -14,7 +15,7 @@ import Cards from "../../CryptoExplorer/Cards"
 
 import { mobileLayoutForTablet } from "@/src/constants"
 
-import type { SellOrderInfo } from "@/src/BackendClient/types"
+import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"
 
 const Container = styled.div`
@@ -106,10 +107,6 @@ const CloseBar = styled.span`
   background: var(--black);
 `
 
-const getPair = (order: SellOrderInfo) => {
-  return `${order.cur_in.symbol} / ${order.cur_out.currency}`
-}
-
 const wheelPreventer = (event: React.WheelEvent<HTMLDivElement>) => {
   const target = event.currentTarget
 
@@ -155,7 +152,7 @@ const touchPreventer = (event: React.TouchEvent<HTMLDivElement>) => {
 }
 
 type OrderModalProps = {
-  orders: SellOrderInfo[]
+  orders: OrderInfo[]
 }
 
 const tableHeadings = (t: TFunction) => [
@@ -190,23 +187,27 @@ function OrderModal({ orders }: OrderModalProps) {
 
   const processedOrders = useMemo(
     () =>
-      orders.map((order) => [
-        <Colored
-          key={order.order_id + "_colored-status"}
-          colorIn="red"
-          split={!isMobileLayoutForTablet && !isMobile}
-        >
-          <span>Sell:{(isMobileLayoutForTablet || isMobile) && " "}</span>
-          <span>{order.status}</span>
-        </Colored>,
-        getPair(order),
-        availableBlockchains?.find(
-          (blockchain) => blockchain.chain_id == order.chain_id
-        )?.title,
-        order.email,
-        order.amount_in.toString(),
-        order.cur_out.amount.toString()
-      ]),
+      orders.map((order) => {
+        const blockchain = availableBlockchains?.find(
+          (blockchain) => blockchain.chain_id == order.chainId
+        )
+
+        return [
+          <Colored
+            key={order.id + "_colored-status"}
+            colorIn={order.buy ? "green" : "red"}
+            split={!isMobileLayoutForTablet && !isMobile}
+          >
+            <span>Sell:{(isMobileLayoutForTablet || isMobile) && " "}</span>
+            <span>{capitalizeString(order.status.split(":")[0])}</span>
+          </Colored>,
+          order.curIn + " / " + order.curOut,
+          blockchain ? ellipsisString(blockchain.title, 14) : "",
+          ellipsisString(order.email, 17),
+          order.amountIn.toFixed(2) + " " + order.curIn,
+          order.amountOut.toFixed(2) + " " + order.curOut
+        ]
+      }),
     [orders, availableBlockchains, isMobileLayoutForTablet, isMobile]
   )
 

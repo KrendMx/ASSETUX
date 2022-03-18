@@ -19,7 +19,7 @@ orders_error: Ошибка
 orders_pair: Пара
 orders_network: Сеть
 orders_sent: Отправлено
-orders_got: Получено
+orders_got: Сумма
 
 buy_blockchain: Blockchain
 buy_give: You give

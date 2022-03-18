@@ -287,14 +287,16 @@ export type GetEmailOrdersResponse = {
         error: boolean
         message: string
       }
-    | {
-        sell: SellOrderInfo[]
-        buy: {
-          request: BuyOrderInfo[]
-          success: BuyOrderInfo[]
-          error: BuyOrderInfo[]
-        }
-      }
+    | OrdersData
+}
+
+export type OrdersData = {
+  sell: SellOrderInfo[]
+  buy: {
+    request: BuyOrderInfo[]
+    success: BuyOrderInfo[]
+    error: BuyOrderInfo[]
+  }
 }
 
 export type BuyOrderInfo = {
