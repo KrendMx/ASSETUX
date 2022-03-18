@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
@@ -108,6 +108,12 @@ function CurrencyForm({
     [currentDetails]
   )
 
+  useEffect(() => {
+    checkRanges(Number(giveAmount))
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPayment])
+
   let checkedBlockchains: Option[] | undefined
   if (blockchains) checkedBlockchains = blockchains
   let checkedCurrencies: Option[] | undefined
@@ -122,6 +128,10 @@ function CurrencyForm({
     tokenAmount = (Number(giveAmount) / rate).toFixed(2)
   }
 
+  const currentPaymentOption = payments?.find(
+    (payment) => payment.value == currentPayment
+  )
+
   const isLoading =
     !alreadyLoaded &&
     allowSkeletons &&
@@ -135,11 +145,41 @@ function CurrencyForm({
     alreadyLoaded = true
   }
 
+  const checkRanges = (value: number) => {
+    if (!currentPaymentOption) {
+      return
+    }
+
+    if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
+      if (value > currentPaymentOption.max) {
+        setInputError({
+          ...inputError,
+          [inputIds.give]:
+            t("home:buy_maximumIs") + " " + currentPaymentOption.max
+        })
+      } else {
+        setInputError({
+          ...inputError,
+          [inputIds.give]:
+            t("home:buy_minimumIs") + " " + currentPaymentOption.min
+        })
+      }
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: undefined
+      })
+    }
+  }
+
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     const value = event.target.value
+
     if (value == "" || floatRegexp.test(value)) {
+      checkRanges(Number(value))
+
       onGiveAmountChange(value)
     }
   }

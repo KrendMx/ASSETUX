@@ -23,6 +23,9 @@ orders_got: Получено
 
 buy_blockchain: Blockchain
 buy_give: You give
+buy_invalidGive: Invalid give amount
+buy_maximumIs: The maximum amount is
+buy_minimumIs: The minimum amount is
 buy_payment: Payment Method
 buy_get: You get
 buy_next: Next Step

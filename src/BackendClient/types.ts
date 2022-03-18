@@ -61,6 +61,7 @@ export type FiatProvider = {
   method: string
   min: number
   max: number
+  logo?: string
 }
 
 export type GetFiatRates = {

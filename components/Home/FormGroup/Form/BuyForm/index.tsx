@@ -121,7 +121,8 @@ function BuyForm({
             value: payment.method,
             description: payment.method,
             min: payment.min,
-            max: payment.max
+            max: payment.max,
+            icon: `https://${currentBlockchain?.url}${payment.logo}`
           }
         })
 
