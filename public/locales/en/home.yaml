@@ -6,20 +6,20 @@ titleAfterSell: cryptocurrencies
 info: The first fiat-to-crypto exchange build on interoperable DeFi
 
 orders_myOperations: My Operations
-orders_pleaseFill: Пожалуйста, укажите электронную почту, использованную для операций в Assetux
-orders_email: Электронная почта
+orders_pleaseFill: Please enter the email used for Assetux operations
+orders_email: Email
 orders_cancel: Cancel
 orders_invalidEmail: Invalid email address
 orders_loading: Loading...
-orders_codeSent: Код был отправлен на ваш имейл
-orders_enterCode: Введите код
-orders_tryAgain: Попробовать снова
-orders_enteredInvalidCode: Вы неверно ввели код.
-orders_error: Ошибка
-orders_pair: Пара
-orders_network: Сеть
-orders_sent: Отправлено
-orders_got: Сумма
+orders_codeSent: The code was sent to your email
+orders_enterCode: Enter the code
+orders_tryAgain: Try again
+orders_enteredInvalidCode: You entered the wrong code.
+orders_error: Error
+orders_pair: Pair
+orders_network: Network
+orders_sent: Sent
+orders_got: Amount
 
 buy_blockchain: Blockchain
 buy_give: You give
@@ -63,35 +63,35 @@ sell_exchange: Exchange
 sell_refund: Refund
 sell_copyAddress: Copy address
 sell_copyAmount: Copy amount
-sell_confirm: Пожалуйста подтвердите действие
-sell_sent: Вы отправили
+sell_confirm: Please confirm action
+sell_sent: You have sent
 sell_got: You got
 sell_sureExchange: Are you sure you want to exchange?
 sell_sureRefund: Are you sure you want to refund?
 sell_depositConfirmed: Deposit confirmed
 sell_loading: Loading...
 sell_sentInsufficient: You sent insufficient crypto amount to make refund
-sell_ahtung: Согласно правилам пользования Assetux, средства поступившие на кошелек и не использованные в операции обмена - не возвращаются
-sell_review: Ваш отзыв поможет нам стать лучше!
+Sell_ahtung: According to the rules of Assetux, the funds received on the wallet and not used in the exchange transaction are not returned
+sell_review: Your feedback will help us become better!
 sell_message: Your message
-sell_timedOut: Время отведенное на ордер истекло
-sell_minimal: Минимальная сумма обмена
-sell_convert: Курс конвертации
-sell_infoExchange: Assetux обменял ту сумму, которая была на кошельке на момент окончания времени на операцию
-sell_success: Успех
-sell_operationId: Номер операции
-sell_codeSent: Код был отправлен на ваш имейл
-sell_enterCode: Введите код
+Sell_timedOut: The time for the order has expired
+sell_minimal: Minimum amount to exchange
+sell_convert: Exchange rate
+sell_infoExchange: Assetux exchanged the amount in your wallet at the time the time expired
+sell_success: Success
+sell_operationId: Transaction number
+sell_codeSent: The code was sent to your email
+sell_enterCode: Enter code
 sell_error: Error
-sell_invalidCode: Вы неверно ввели код.
-sell_tryAgain: Вы неверно ввели код.
-sell_receiveEmail: Спасибо, что воспользовались услугами Assetux! В течении 5 минут вы получите письмо на электронную почту с подтверждением.
-sell_refundSuccess: Вовзрат успешно произведен
-sell_fillRequiredData: Пожалуйста укажите данные для возврата
-sell_accessWallet: Пожалуйста, убедитесь, что у вас есть доступ к указанному кошельку, на указанной сети. Если вы не сможете получить доступ к этому кошельку - мы вам не сможем помочь.
+sell_invalidCode: You have entered the wrong code.
+sell_tryAgain: You entered the wrong code.
+sell_receiveEmail: Thank you for using Assetux! You will receive a confirmation email in 5 minutes.
+sell_refundSuccess: The refund was successful
+sell_fillRequiredData: Please provide your return data
+sell_accessWallet: Please make sure you have access to the specified wallet, on the specified network. If you can't access this wallet, we can't help you.
 sell_smthWentWrong: Something went wrong
-sell_refundError: Возврат не удалось выполнить. Вероятнее всего, вы, все сделали правильно.
-sell_callSupport: Обратиться в поддержку - это самое верное решение в данной ситуации
+sell_refundError: The return failed. Most likely, you have done everything correctly
+sell_callSupport: Contact support is the right thing to do in this situation
 
 network_sure: Please make sure your wallet supports selected network
 network_help: >-
