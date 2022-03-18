@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
+import { isValidPhoneNumber } from "libphonenumber-js"
 
 import Container from "./Container"
 import InputSelect from "@/shared/InputSelect"
@@ -254,7 +255,10 @@ function CurrencyForm({
       }
 
       if (currentPayment == "QIWI") {
-        if (currentPhoneNumber == "") {
+        if (
+          currentPhoneNumber == "" ||
+          !isValidPhoneNumber(currentPhoneNumber, "RU")
+        ) {
           errorObject[inputIds.phoneNumber] = t("home:buy_invalidPhoneNumber")
         }
       } else {
