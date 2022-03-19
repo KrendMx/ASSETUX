@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 import Image from "next/image"
 import { capitalizeString, ellipsisString } from "@/src/helpers"
+import { mapCurrency, isCurrencyDeclared } from "@/src/currencies"
 
 import Title from "@/shared/ModalComponents/Title"
 import Shadow from "@/shared/ModalComponents/Shadow"
@@ -13,7 +14,7 @@ import Icon from "@/shared/ModalComponents/Icon"
 import Table from "@/shared/Table"
 import Cards from "../../CryptoExplorer/Cards"
 
-import { mobileLayoutForTablet } from "@/src/constants"
+import { mobileLayoutForTablet, optimizeRemoteImages } from "@/src/constants"
 
 import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"
@@ -107,6 +108,118 @@ const CloseBar = styled.span`
   background: var(--black);
 `
 
+const PairIconsContainer = styled.span`
+  display: inline-block;
+  width: 54px;
+  height: 36px;
+  position: relative;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    display: none;
+  }
+`
+
+const MobilePairIconsContainer = styled.span`
+  width: 47px;
+  height: 18px;
+  display: none;
+  position: relative;
+  transform: translateY(-25%);
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    display: inline-block;
+  }
+`
+
+const RelativeIcon = styled.span`
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+  position: relative;
+`
+
+const PairIcon = styled.span`
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  box-shadow: -1px -1px 9px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--white);
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    width: 26px;
+    height: 26px;
+  }
+`
+
+const FrontIcon = styled(PairIcon)`
+  left: 50%;
+  transform: translateX(-25%);
+  bottom: -9px;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    bottom: -100%;
+    transform: none;
+    right: 0;
+    left: auto;
+    top: 0;
+  }
+`
+
+const BackgroundIcon = styled(PairIcon)`
+  left: 0;
+  top: -9px;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    top: 0;
+    left: 0;
+  }
+`
+
+const PairContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    & > * + * {
+      margin-left: 8px;
+    }
+  }
+`
+
+const BlockchainIconContainer = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: -1px 2px 9px rgba(0, 0, 0, 0.15);
+`
+
+const BlockchainIcon = styled.span`
+  display: inline-block;
+  width: 50%;
+  height: 50%;
+  position: relative;
+`
+
+const BlockchainContainer = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > * + * {
+    margin-left: 8px;
+  }
+`
+
 const wheelPreventer = (event: React.WheelEvent<HTMLDivElement>) => {
   const target = event.currentTarget
 
@@ -157,6 +270,7 @@ type OrderModalProps = {
 
 const tableHeadings = (t: TFunction) => [
   { value: "" },
+  { value: "" },
   { value: t("home:orders_pair") },
   { value: t("home:orders_network") },
   { value: t("home:orders_email") },
@@ -165,6 +279,7 @@ const tableHeadings = (t: TFunction) => [
 ]
 
 const cardNames = (t: TFunction) => [
+  "",
   "",
   t("home:orders_pair"),
   t("home:orders_network"),
@@ -204,11 +319,97 @@ function OrderModal({ orders }: OrderModalProps) {
             </span>
             <span>{capitalizeString(order.status.split(":")[0])}</span>
           </Colored>,
-          order.curIn + " / " + order.curOut,
+          <PairIconsContainer key={order.id + "_pairIcons"}>
+            <BackgroundIcon>
+              {order.buy ? (
+                isCurrencyDeclared(order.curIn) ? (
+                  mapCurrency(order.curIn)
+                ) : (
+                  ""
+                )
+              ) : (
+                <RelativeIcon>
+                  <Image
+                    src={order.tokenLogo}
+                    layout="fill"
+                    alt={order.curOut}
+                    unoptimized={!optimizeRemoteImages}
+                  />
+                </RelativeIcon>
+              )}
+            </BackgroundIcon>
+            <FrontIcon>
+              {order.buy ? (
+                <RelativeIcon>
+                  <Image
+                    src={order.tokenLogo}
+                    layout="fill"
+                    alt={order.curOut}
+                    unoptimized={!optimizeRemoteImages}
+                  />
+                </RelativeIcon>
+              ) : isCurrencyDeclared(order.curOut) ? (
+                mapCurrency(order.curOut)
+              ) : (
+                ""
+              )}
+            </FrontIcon>
+          </PairIconsContainer>,
+          <PairContainer key={order.id + "_pair"}>
+            <span>{order.curIn + " / " + order.curOut}</span>
+            <MobilePairIconsContainer>
+              <BackgroundIcon>
+                {order.buy ? (
+                  isCurrencyDeclared(order.curIn) ? (
+                    mapCurrency(order.curIn)
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  <RelativeIcon>
+                    <Image
+                      src={order.tokenLogo}
+                      layout="fill"
+                      alt={order.curOut}
+                      unoptimized={!optimizeRemoteImages}
+                    />
+                  </RelativeIcon>
+                )}
+              </BackgroundIcon>
+              <FrontIcon>
+                {order.buy ? (
+                  <RelativeIcon>
+                    <Image
+                      src={order.tokenLogo}
+                      layout="fill"
+                      alt={order.curOut}
+                      unoptimized={!optimizeRemoteImages}
+                    />
+                  </RelativeIcon>
+                ) : isCurrencyDeclared(order.curOut) ? (
+                  mapCurrency(order.curOut)
+                ) : (
+                  ""
+                )}
+              </FrontIcon>
+            </MobilePairIconsContainer>
+          </PairContainer>,
           blockchain ? (
-            <span title={blockchain.title} key={order.id + "_bc-title"}>
-              {ellipsisString(blockchain.title, 14)}
-            </span>
+            <BlockchainContainer
+              title={blockchain.title}
+              key={order.id + "_bc-title"}
+            >
+              <span>{ellipsisString(blockchain.title, 14)}</span>
+              <BlockchainIconContainer>
+                <BlockchainIcon>
+                  <Image
+                    src={blockchain.logo}
+                    layout="fill"
+                    alt={blockchain.title}
+                  />
+                </BlockchainIcon>
+              </BlockchainIconContainer>
+            </BlockchainContainer>
           ) : (
             ""
           ),
@@ -277,6 +478,7 @@ function OrderModal({ orders }: OrderModalProps) {
             customHeadings={tableHeadings(t)}
             data={processedOrders}
             withPagination={false}
+            collapseCols={[2]}
             withoutShadow
           />
         )}

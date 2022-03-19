@@ -56,6 +56,7 @@ const ArrowContainer = styled.span<ArrowContainerProps>`
 
 type RowProps = {
   nRows?: number
+  collapseCols?: number[]
 }
 
 const Row = styled.tr<RowProps>`
@@ -66,6 +67,16 @@ const Row = styled.tr<RowProps>`
         width: 1px;
       }
     `}
+
+  ${(props) =>
+    props.collapseCols &&
+    props.collapseCols.map(
+      (col) => css`
+        & > *:nth-child(${col}) {
+          width: 1px;
+        }
+      `
+    )}
 `
 
 const Body = styled.tbody``
@@ -86,7 +97,8 @@ function Table({
   displayPerPage = 5,
   displayIndexes = false,
   currentPage = 1,
-  withPagination = true
+  withPagination = true,
+  collapseCols
 }: TableProps) {
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
 
@@ -181,7 +193,7 @@ function Table({
   return (
     <Container withShadow={!withoutShadow}>
       <Head>
-        <Row nRows={collapseLastCols}>
+        <Row nRows={collapseLastCols} collapseCols={collapseCols}>
           {displayIndexes && <HeadElement>№</HeadElement>}
           {processedHeadings}
         </Row>

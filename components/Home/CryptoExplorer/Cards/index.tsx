@@ -48,6 +48,7 @@ const Row = styled.div<RowProps>`
   flex-direction: row;
   justify-content: ${(props) =>
     props.withSpace ? "space-between" : "flex-start"};
+  align-items: center;
 `
 
 const RowName = styled.span`

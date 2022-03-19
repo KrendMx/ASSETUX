@@ -7,6 +7,7 @@ export type TableProps = {
   withoutShadow?: boolean
   collapseLastCols?: number
   withPagination?: boolean
+  collapseCols?: number[]
 }
 
 export type TableHeading = {
