@@ -294,15 +294,15 @@ function OrderModal({ orders }: OrderModalProps) {
 
   return (
     <Container
-      onWheel={(event) => {
-        isMobileLayoutForTablet && wheelPreventer(event)
-      }}
-      onTouchStart={(event) => {
-        isMobileLayoutForTablet && touchStart(event)
-      }}
-      onTouchMove={(event) => {
-        isMobileLayoutForTablet && touchPreventer(event)
-      }}
+      onWheel={(event) =>
+        (isMobileLayoutForTablet || isMobile) && wheelPreventer(event)
+      }
+      onTouchStart={(event) =>
+        (isMobileLayoutForTablet || isMobile) && touchStart(event)
+      }
+      onTouchMove={(event) =>
+        (isMobileLayoutForTablet || isMobile) && touchPreventer(event)
+      }
     >
       <Close onClick={() => dispatch(setOrdersActive(false))}>
         <CloseBar />
@@ -324,15 +324,15 @@ function OrderModal({ orders }: OrderModalProps) {
       </Title>
 
       <DataContainer
-        onWheel={(event) => {
-          !isMobileLayoutForTablet && wheelPreventer(event)
-        }}
-        onTouchStart={(event) => {
-          !isMobileLayoutForTablet && touchStart(event)
-        }}
-        onTouchMove={(event) => {
-          !isMobileLayoutForTablet && touchPreventer(event)
-        }}
+        onWheel={(event) =>
+          !isMobileLayoutForTablet && !isMobile && wheelPreventer(event)
+        }
+        onTouchStart={(event) =>
+          !isMobileLayoutForTablet && !isMobile && touchStart(event)
+        }
+        onTouchMove={(event) =>
+          !isMobileLayoutForTablet && !isMobile && touchPreventer(event)
+        }
       >
         {isMobileLayoutForTablet || isMobile ? (
           <Cards
