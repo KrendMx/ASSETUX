@@ -13,6 +13,7 @@ const Container = styled.div`
   background: var(--white);
   position: fixed;
   overflow-y: hidden;
+  font-size: 1rem;
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     top: 0;
