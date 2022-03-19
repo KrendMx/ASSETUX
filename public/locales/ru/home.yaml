@@ -105,14 +105,14 @@ cryptoSlide_change: Изменение в течение 24 часов
 cryptoSlide_buy: Купить
 cryptoSlide_sell: Продать
 
-explorer_title: Crypto Explorer
-explorer_viewAllFull: Просмотр всех поддерживаемых валют
+explorer_title: Обозреватель валют
+explorer_viewAllFull: Показать все поддерживаемые валюты
 explorer_viewAll: Смотреть всё
-explorer_ticker: Ticker
-explorer_sell: Продать
-explorer_buy: Купить
-explorer_change: Change 24h
-explorer_volume: Volume 24h
+explorer_ticker: Тикер
+explorer_sell: Продажа
+explorer_buy: Покупка
+explorer_change: Изменение 24ч
+explorer_volume: Объём 24ч
 explorer_trade: Trade
 explorer_pool: Pool
 
@@ -121,14 +121,15 @@ news_showMore: Показать больше
 
 about_title: О нас
 about_p1: >-
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+ ASSETUX создает и внедряет инструменты улучшающие взаимодействие пользователей с криптовалютой, 
+ помогающие исключить ошибки, которые могут совершить пользователи, выполняя многое автоматизированно, 
+ значительно экономя их время. 
+
 about_p2: >-
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-about_p3: >-
-  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-  eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+ ASSETUX предлагает быстрые способы:
+– Покупки крипты с карты;
+– Продажи крипты с выводом денег на карту;
+– Молниеносный способ инвестирования в целые сферы.
 
 search_placeholder: Начните печатать для поиска...
 search_noResult: Нет результатов
