@@ -107,7 +107,7 @@ const mapCards = (
       <Card key={`card-${currentIndex}`}>
         <RowSpacer>
           {rowNames?.map((name, index) => (
-            <Row key={`cardRow-${name}`} withSpace={name != ""}>
+            <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>
               <RowName>{name}</RowName>
               <RowValue>{data[index]}</RowValue>
             </Row>
