@@ -53,7 +53,7 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
     })
   }
 
-  return allOrders
+  return allOrders.sort((a, b) => a.amountIn - b.amountIn)
 }
 
 const OrderModal = dynamic(() => import("./OrderModal"))

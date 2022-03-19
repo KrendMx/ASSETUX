@@ -103,7 +103,7 @@ function Table({
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
 
   const mapRows = useCallback(
-    (data?: RowData[][]) =>
+    (data: RowData[][] | null) =>
       data?.map((rowData, pageRowIndex) => {
         const currentIndex = (currentPage - 1) * displayPerPage + pageRowIndex
 
@@ -111,7 +111,9 @@ function Table({
           <Row key={`row-${currentIndex}`}>
             {displayIndexes && <Element>{currentIndex + 1}</Element>}
             {rowData.map((value, cellIndex) => (
-              <Element key={`cell-${cellIndex}_${value?.toString()}`}>
+              <Element
+                key={`cell-${currentIndex}-${cellIndex}_${value?.toString()}`}
+              >
                 {value}
               </Element>
             ))}
@@ -152,7 +154,7 @@ function Table({
     () =>
       customHeadings &&
       customHeadings.map((customHeading, columnIndex) => (
-        <HeadElement key={customHeading.value}>
+        <HeadElement key={`col-${columnIndex}-${customHeading.value}`}>
           {customHeading.sortFn ? (
             <SortableHeading
               onClick={() =>
@@ -185,9 +187,9 @@ function Table({
       paginatedData &&
       (withPagination
         ? mapRows(paginatedData[currentPage - 1])
-        : mapRows(data)),
+        : mapRows(sortedData)),
 
-    [paginatedData, currentPage, data, withPagination, mapRows]
+    [paginatedData, currentPage, sortedData, withPagination, mapRows]
   )
 
   return (

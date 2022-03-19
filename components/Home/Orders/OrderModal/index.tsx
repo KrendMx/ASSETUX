@@ -1,6 +1,5 @@
 import React, { useMemo } from "react"
 import { useTranslation } from "next-i18next"
-import styled, { css } from "styled-components"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 import Image from "next/image"
@@ -11,214 +10,30 @@ import Title from "@/shared/ModalComponents/Title"
 import Shadow from "@/shared/ModalComponents/Shadow"
 import Icon from "@/shared/ModalComponents/Icon"
 
+import BlockchainContainer from "./BlockchainContainer"
+import CloseBar from "./CloseBar"
+import Close from "./Close"
+import Colored from "./Colored"
+import Container from "./Container"
+import DataContainer from "./DataContainer"
+import {
+  PairIconsContainer,
+  MobilePairIconsContainer,
+  RelativeIcon,
+  FrontIcon,
+  BackgroundIcon,
+  BlockchainIcon,
+  BlockchainIconContainer
+} from "./Icons"
+import PairContainer from "./PairContainer"
+
 import Table from "@/shared/Table"
 import Cards from "../../CryptoExplorer/Cards"
 
-import { mobileLayoutForTablet, optimizeRemoteImages } from "@/src/constants"
+import { optimizeRemoteImages } from "@/src/constants"
 
 import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"
-
-const Container = styled.div`
-  max-width: 1024px;
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 14px 25px;
-  background: var(--white);
-  position: fixed;
-  overflow-y: hidden;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    top: 0;
-    left: 0;
-    transform: none;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    overflow-y: auto;
-  }
-`
-
-const DataContainer = styled.div`
-  max-height: 550px;
-  overflow-y: auto;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    max-height: none;
-    overflow-y: visible;
-  }
-`
-
-type ColoredProps = {
-  colorIn: "red" | "green"
-  split?: boolean
-}
-
-const Colored = styled.span<ColoredProps>`
-  color: ${(props) => (props.colorIn == "red" ? "var(--red)" : "var(--green)")};
-  text-align: left;
-  font-weight: 500;
-
-  ${(props) =>
-    props.split &&
-    css`
-      & > span {
-        display: block;
-      }
-    `}
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    font-size: 1.07em;
-    display: block;
-    margin-bottom: 0.5em;
-  }
-`
-
-const Close = styled.button`
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  right: 15px;
-  top: 15px;
-  border: none;
-  outline: none;
-  background: transparent;
-  cursor: pointer;
-
-  & > span:first-child {
-    transform: rotate(-135deg);
-  }
-
-  & > span:last-child {
-    transform: rotate(-45deg);
-  }
-`
-
-const CloseBar = styled.span`
-  position: absolute;
-  left: 5px;
-  top: 14px;
-  width: 19px;
-  height: 2px;
-  display: block;
-  background: var(--black);
-`
-
-const PairIconsContainer = styled.span`
-  display: inline-block;
-  width: 54px;
-  height: 36px;
-  position: relative;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    display: none;
-  }
-`
-
-const MobilePairIconsContainer = styled.span`
-  width: 47px;
-  height: 18px;
-  display: none;
-  position: relative;
-  transform: translateY(-25%);
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    display: inline-block;
-  }
-`
-
-const RelativeIcon = styled.span`
-  display: inline-block;
-  width: 50%;
-  height: 50%;
-  position: relative;
-`
-
-const PairIcon = styled.span`
-  position: absolute;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  box-shadow: -1px -1px 9px rgba(0, 0, 0, 0.15);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--white);
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    width: 26px;
-    height: 26px;
-  }
-`
-
-const FrontIcon = styled(PairIcon)`
-  left: 50%;
-  transform: translateX(-25%);
-  bottom: -9px;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    bottom: -100%;
-    transform: none;
-    right: 0;
-    left: auto;
-    top: 0;
-  }
-`
-
-const BackgroundIcon = styled(PairIcon)`
-  left: 0;
-  top: -9px;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    top: 0;
-    left: 0;
-  }
-`
-
-const PairContainer = styled.span`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    & > * + * {
-      margin-left: 8px;
-    }
-  }
-`
-
-const BlockchainIconContainer = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: var(--white);
-  box-shadow: -1px 2px 9px rgba(0, 0, 0, 0.15);
-`
-
-const BlockchainIcon = styled.span`
-  display: inline-block;
-  width: 50%;
-  height: 50%;
-  position: relative;
-`
-
-const BlockchainContainer = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  & > * + * {
-    margin-left: 8px;
-  }
-`
 
 const wheelPreventer = (event: React.WheelEvent<HTMLDivElement>) => {
   const target = event.currentTarget
@@ -271,11 +86,57 @@ type OrderModalProps = {
 const tableHeadings = (t: TFunction) => [
   { value: "" },
   { value: "" },
-  { value: t("home:orders_pair") },
-  { value: t("home:orders_network") },
-  { value: t("home:orders_email") },
-  { value: t("home:orders_sent") },
-  { value: t("home:orders_got") }
+  {
+    value: t("home:orders_pair"),
+    sortFn: (a: JSX.Element, b: JSX.Element) => {
+      const sortInfo1 = a.props["data-sort"]
+      const sortInfo2 = b.props["data-sort"]
+
+      if (sortInfo1 && sortInfo2) {
+        return sortInfo1 > sortInfo2 ? 1 : a < b ? -1 : 0
+      }
+
+      return 0
+    }
+  },
+  {
+    value: t("home:orders_network"),
+    sortFn: (a: JSX.Element | string, b: JSX.Element | string) => {
+      if (typeof a == "string" || typeof b == "string") {
+        return 0
+      }
+
+      const sortInfo1 = a.props["data-sort"]
+      const sortInfo2 = b.props["data-sort"]
+
+      if (sortInfo1 && sortInfo2) {
+        return sortInfo1 > sortInfo2 ? 1 : a < b ? -1 : 0
+      }
+
+      return 0
+    }
+  },
+  {
+    value: t("home:orders_email"),
+    sortFn: (a: JSX.Element, b: JSX.Element) => {
+      const sortInfo1 = a.props["data-sort"]
+      const sortInfo2 = b.props["data-sort"]
+
+      if (sortInfo1 && sortInfo2) {
+        return sortInfo1 > sortInfo2 ? 1 : a < b ? -1 : 0
+      }
+
+      return 0
+    }
+  },
+  {
+    value: t("home:orders_sent"),
+    sortFn: (a: string, b: string) => parseFloat(a) - parseFloat(b)
+  },
+  {
+    value: t("home:orders_got"),
+    sortFn: (a: string, b: string) => parseFloat(a) - parseFloat(b)
+  }
 ]
 
 const cardNames = (t: TFunction) => [
@@ -355,7 +216,10 @@ function OrderModal({ orders }: OrderModalProps) {
               )}
             </FrontIcon>
           </PairIconsContainer>,
-          <PairContainer key={order.id + "_pair"}>
+          <PairContainer
+            key={order.id + "_pair"}
+            data-sort={order.curIn + order.curOut}
+          >
             <span>{order.curIn + " / " + order.curOut}</span>
             <MobilePairIconsContainer>
               <BackgroundIcon>
@@ -398,6 +262,7 @@ function OrderModal({ orders }: OrderModalProps) {
             <BlockchainContainer
               title={blockchain.title}
               key={order.id + "_bc-title"}
+              data-sort={blockchain.title}
             >
               <span>{ellipsisString(blockchain.title, 14)}</span>
               <BlockchainIconContainer>
@@ -413,7 +278,11 @@ function OrderModal({ orders }: OrderModalProps) {
           ) : (
             ""
           ),
-          <span key={order.id + "_email"} title={order.email}>
+          <span
+            key={order.id + "_email"}
+            title={order.email}
+            data-sort={order.email}
+          >
             {ellipsisString(order.email, 17)}
           </span>,
           order.amountIn.toFixed(2) + " " + order.curIn,
