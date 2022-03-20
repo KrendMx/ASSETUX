@@ -114,8 +114,8 @@ explorer_sell: Sell
 explorer_buy: Buy
 explorer_change: Change 24h
 explorer_volume: Volume 24h
-explorer_trade: Trade
-explorer_pool: Pool
+explorer_trade: 
+explorer_pool: 
 
 news_title: News room
 news_showMore: Show more
