@@ -87,6 +87,7 @@ function Pending() {
             }
           ]}
           selectable={false}
+          paleBorders
         />
         <InputSelect
           label="You get"
@@ -100,6 +101,7 @@ function Pending() {
             }
           ]}
           selectable={false}
+          paleBorders
         />
         <TransactionRow>
           <TransactionInfo>Transfering Amount (CUR) to you...</TransactionInfo>

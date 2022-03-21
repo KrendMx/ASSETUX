@@ -36,6 +36,7 @@ type InputSelectProps = {
   selectable?: boolean
   selectedValue?: string | null
   autocomplete?: string
+  paleBorders?: boolean
 }
 
 function InputSelect({
@@ -55,7 +56,8 @@ function InputSelect({
   displayIcon = false,
   defaultValue = "",
   displayInSelect = 3,
-  selectable = true
+  selectable = true,
+  paleBorders = false
 }: InputSelectProps) {
   const hasOptions = options != undefined
   const [active, setActive] = useState(false)
@@ -130,7 +132,7 @@ function InputSelect({
       <InputWrapper
         active={active}
         error={error != undefined}
-        selectable={selectable}
+        paleBorders={paleBorders}
       >
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && (

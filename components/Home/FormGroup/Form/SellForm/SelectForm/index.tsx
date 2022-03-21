@@ -334,6 +334,7 @@ function CurrencyForm({
               onActiveChange={(active) => setChainActive(active)}
               onSelect={onBlockchainChange}
               selectedValue={currentBlockchain}
+              selectable={false}
               displayIcon
             />
           ) : (
