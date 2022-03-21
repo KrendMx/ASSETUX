@@ -26,7 +26,9 @@ import type {
   RequestOrdersEmailProps,
   RequestOrdersEmailResponse,
   GetEmailOrdersProps,
-  GetEmailOrdersResponse
+  GetEmailOrdersResponse,
+  CheckLiquidityProps,
+  CheckLiquidityResponse
 } from "./types"
 
 class BackendClient {
@@ -195,6 +197,20 @@ class BackendClient {
       params: {
         email,
         code
+      }
+    })
+  }
+
+  public async checkLiquidity({
+    apiHost,
+    chainId
+  }: CheckLiquidityProps): Promise<CheckLiquidityResponse> {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/liquidity`,
+      method: "GET",
+      headers: this.headers,
+      params: {
+        chainId
       }
     })
   }

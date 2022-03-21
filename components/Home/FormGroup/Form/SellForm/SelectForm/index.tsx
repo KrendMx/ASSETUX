@@ -28,6 +28,7 @@ import ExchangeResultModal from "./Modals/Exchange/Result"
 import ExchangeUnknownModal from "./Modals/Exchange/UnknownError"
 import ExchangeExpired from "./Modals/ExchangeExpired"
 import Background from "@/shared/Background"
+import Maintenance from "../../Maintenance"
 
 import {
   holderRegexp,
@@ -81,6 +82,7 @@ type CurrencyFormProps = {
     isLoading: boolean
     error: boolean
   } | null
+  serviceAvailable: boolean | null
   refundRequestError: { result: string | null; isLoading: boolean } | null
   refundError: { result: string | null; isLoading: boolean } | null
   onBlockchainChange: (blockchain: string) => void
@@ -117,6 +119,7 @@ function CurrencyForm({
   exchangeInfo,
   currentStep,
   depositInfo,
+  serviceAvailable,
   refundRequestError,
   refundError,
   onBlockchainChange,
@@ -240,7 +243,8 @@ function CurrencyForm({
       !checkedBlockchains ||
       !checkedTokens ||
       !checkedCurrencies ||
-      !rate)
+      !rate ||
+      serviceAvailable == null)
 
   if (!isLoading) {
     alreadyLoaded = true
@@ -638,6 +642,8 @@ function CurrencyForm({
           orderId={exchangeInfo.orderId}
         />
       )}
+
+      {!serviceAvailable && serviceAvailable != null && <Maintenance />}
 
       {(showRefundModal ||
         showRefundWalletModal ||

@@ -3,19 +3,27 @@ import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken } from "@/src/redux/cryptoSlice"
 import BackendClient from "@/src/BackendClient"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
+
 import SellForm from "./SellForm"
 import BuyForm from "./BuyForm"
 import BuyPending from "./BuyForm/Pending"
 import { Option } from "@/shared/InputSelect/types"
+
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName
 } from "@/src/currencies"
 import { rateCheckInterval } from "@/src/constants"
+
 import type { TokenOption } from "./types"
 import type { CurrenciesType } from "@/src/currencies"
-import type { Token, FiatProvider, FiatRate } from "@/src/BackendClient/types"
+import type {
+  Token,
+  FiatProvider,
+  FiatRate,
+  LiquidityData
+} from "@/src/BackendClient/types"
 
 const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
@@ -43,6 +51,7 @@ const mapTokens = (tokens: Token[]) => {
 
 function FormController() {
   const dispatch = useAppDispatch()
+
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
@@ -52,15 +61,19 @@ function FormController() {
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
+
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
+
   const [blockchains, setBlockchains] = useState<Option[] | null>(null)
   const [tokens, setTokens] = useState<TokenOption[] | null>(null)
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
+  const [liquidityData, setLiquidityData] = useState<LiquidityData | null>(null)
   const [displayBuyPending, setDisplayBuyPendings] = useState(false)
+
   const isUnmounted = useRef(false)
 
   const buyPayments = useMemo(() => {
@@ -102,7 +115,11 @@ function FormController() {
       const fetch = async () => {
         const responses = await Promise.all([
           BackendClient.getFiatProviders({ apiHost: selectedBlockchain.url }),
-          BackendClient.getFiatRates({ apiHost: selectedBlockchain.url })
+          BackendClient.getFiatRates({ apiHost: selectedBlockchain.url }),
+          BackendClient.checkLiquidity({
+            apiHost: selectedBlockchain.url,
+            chainId: selectedBlockchain.chain_id
+          })
         ])
 
         if (!isUnmounted.current) {
@@ -119,6 +136,14 @@ function FormController() {
 
             if (fiatRates) {
               setFiatRates(fiatRates)
+            }
+          }
+
+          if (responses[2].status == 200) {
+            const liquidityData = responses[2].data
+
+            if (liquidityData) {
+              setLiquidityData(liquidityData)
             }
           }
         }
@@ -138,14 +163,29 @@ function FormController() {
       fetch()
 
       const rateInterval = setInterval(async () => {
-        const response = await BackendClient.getFiatRates({
-          apiHost: selectedBlockchain.url
-        })
-        if (response.status == 200) {
-          const fiatRates = response.data
+        const responses = await Promise.all([
+          BackendClient.getFiatRates({
+            apiHost: selectedBlockchain.url
+          }),
+          BackendClient.checkLiquidity({
+            apiHost: selectedBlockchain.url,
+            chainId: selectedBlockchain.chain_id
+          })
+        ])
+
+        if (responses[0].status == 200) {
+          const fiatRates = responses[0].data
 
           if (fiatRates) {
             setFiatRates(fiatRates)
+          }
+        }
+
+        if (responses[1].status == 200) {
+          const liquidityData = responses[1].data
+
+          if (liquidityData) {
+            setLiquidityData(liquidityData)
           }
         }
       }, rateCheckInterval)
@@ -186,6 +226,7 @@ function FormController() {
         currencies={currencies}
         rates={fiatRates}
         payments={buyPayments}
+        serviceAvailable={liquidityData ? liquidityData.buy : null}
         currentBlockchain={selectedBlockchain}
         currentToken={selectedToken}
         currentCurrency={currentCurrency}
@@ -199,6 +240,7 @@ function FormController() {
       currencies={currencies}
       rates={fiatRates}
       payments={sellPayments}
+      serviceAvailable={liquidityData ? liquidityData.sell : null}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
       currentCurrency={currentCurrency}

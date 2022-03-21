@@ -364,3 +364,18 @@ export type SellOrderInfo = {
     private_key: string
   }
 }
+
+export type CheckLiquidityProps = UrlRequest & {
+  chainId: number
+}
+
+export type LiquidityData = {
+  buy: boolean
+  sell: boolean
+}
+
+export type CheckLiquidityResponse = {
+  status?: number
+  message: string
+  data?: LiquidityData
+}

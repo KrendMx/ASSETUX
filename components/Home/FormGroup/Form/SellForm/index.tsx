@@ -28,6 +28,7 @@ type SellFormProps = {
   tokens: TokenOption[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
+  serviceAvailable: boolean | null
   onTokenChange: (token: string) => void
 }
 
@@ -40,6 +41,7 @@ function SellForm({
   tokens,
   rates,
   payments,
+  serviceAvailable,
   onTokenChange
 }: SellFormProps) {
   const dispatch = useAppDispatch()
@@ -302,6 +304,7 @@ function SellForm({
       refundRequestError={refundRequestError}
       refundError={refundError}
       depositInfo={depositInfo}
+      serviceAvailable={serviceAvailable}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

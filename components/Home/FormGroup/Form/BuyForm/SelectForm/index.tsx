@@ -13,6 +13,8 @@ import ExchangeRow from "../../Exchange"
 import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
 import Step from "./Steps"
+import Maintenance from "../../Maintenance"
+
 import {
   emailRegexp,
   floatRegexp,
@@ -58,6 +60,7 @@ type CurrencyFormProps = {
   rate: number | null
   processingRequest: boolean
   cardError: string
+  serviceAvailable: boolean | null
   setCurrentStep: (step: Step) => void
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
@@ -89,6 +92,7 @@ function CurrencyForm({
   rate,
   processingRequest,
   cardError,
+  serviceAvailable,
   setCurrentStep,
   onBlockchainChange,
   onCurrencyChange,
@@ -158,7 +162,8 @@ function CurrencyForm({
       !checkedBlockchains ||
       !checkedTokens ||
       !checkedCurrencies ||
-      !rate)
+      !rate ||
+      serviceAvailable == null)
 
   if (!isLoading) {
     alreadyLoaded = true
@@ -425,6 +430,9 @@ function CurrencyForm({
   return (
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
+
+      {!serviceAvailable && serviceAvailable != null && <Maintenance />}
+
       {!chainActive &&
         !giveActive &&
         !getActive &&

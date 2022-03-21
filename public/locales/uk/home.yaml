@@ -133,3 +133,7 @@ about_p3: >-
 
 search_placeholder: Start typing to search...
 search_noResult: No results
+
+maintenance_title: Service maintenance
+maintenance_p1: ASSETUX постоянно улучшается и внедряет новые функции.
+maintenance_p2: Именно это сейчас просиходит. Пожалуйста, подождите 10 минут.

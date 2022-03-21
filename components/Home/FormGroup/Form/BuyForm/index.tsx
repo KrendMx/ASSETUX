@@ -24,6 +24,7 @@ type BuyFormProps = {
   tokens: TokenOption[] | null
   rates: FiatRate[] | null
   payments: FiatProvider[] | null
+  serviceAvailable: boolean | null
   onTokenChange: (token: string) => void
 }
 
@@ -36,6 +37,7 @@ function BuyForm({
   tokens,
   rates,
   payments,
+  serviceAvailable,
   onTokenChange
 }: BuyFormProps) {
   const dispatch = useAppDispatch()
@@ -187,6 +189,7 @@ function BuyForm({
       rate={currentRate}
       processingRequest={processingRequest}
       cardError={cardError}
+      serviceAvailable={serviceAvailable}
       setCurrentStep={setCurrentStep}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
