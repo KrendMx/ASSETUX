@@ -1,4 +1,4 @@
- import React, { useEffect } from "react"
+import React, { useEffect } from "react"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
