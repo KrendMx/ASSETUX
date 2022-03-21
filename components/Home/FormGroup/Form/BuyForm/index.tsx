@@ -47,6 +47,7 @@ function BuyForm({
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
+  const [getAmount, setGetAmount] = useState("")
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
@@ -185,12 +186,14 @@ function BuyForm({
       payments={processedPayments}
       currentWallet={walletAddress}
       giveAmount={giveAmount}
+      getAmount={getAmount}
       email={email}
       rate={currentRate}
       processingRequest={processingRequest}
       cardError={cardError}
       serviceAvailable={serviceAvailable}
       setCurrentStep={setCurrentStep}
+      setGetAmount={setGetAmount}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

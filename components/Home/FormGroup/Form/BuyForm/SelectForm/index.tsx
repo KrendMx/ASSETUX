@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
@@ -56,12 +56,14 @@ type CurrencyFormProps = {
   payments: PaymentOption[] | null
   currentWallet: string
   giveAmount: string
+  getAmount: string
   email: string
   rate: number | null
   processingRequest: boolean
   cardError: string
   serviceAvailable: boolean | null
   setCurrentStep: (step: Step) => void
+  setGetAmount: (getAmount: string) => void
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void
@@ -88,12 +90,14 @@ function CurrencyForm({
   payments,
   currentWallet,
   giveAmount,
+  getAmount,
   email,
   rate,
   processingRequest,
   cardError,
   serviceAvailable,
   setCurrentStep,
+  setGetAmount,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -118,6 +122,13 @@ function CurrencyForm({
     () => stringToPieces(currentDetails, 4, " "),
     [currentDetails]
   )
+
+  useEffect(() => {
+    if (rate && giveAmount != "") {
+      setGetAmount((Number(giveAmount) / rate).toFixed(2))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rate])
 
   useIsomorphicLayoutEffect(() => {
     const errorRanges = checkRanges(Number(giveAmount))
@@ -145,11 +156,6 @@ function CurrencyForm({
   if (tokens) checkedTokens = tokens
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
-
-  let tokenAmount = ""
-  if (rate && giveAmount != "") {
-    tokenAmount = (Number(giveAmount) / rate).toFixed(2)
-  }
 
   const currentPaymentOption = payments?.find(
     (payment) => payment.value == currentPayment
@@ -203,9 +209,45 @@ function CurrencyForm({
           ...inputError,
           [inputIds.give]: undefined
         })
+
+        if (rate != null && value != "") {
+          setGetAmount((Number(value) / rate).toFixed(2))
+        }
       }
 
       onGiveAmountChange(value)
+    }
+  }
+
+  const handleGetInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const value = event.target.value
+
+    let estimatedGiveAmount = ""
+
+    if (rate != null && value != "") {
+      estimatedGiveAmount = (Number(value) * rate).toFixed(2)
+    }
+
+    if (value == "" || floatRegexp.test(value)) {
+      const errorRanges = checkRanges(Number(estimatedGiveAmount))
+
+      if (errorRanges) {
+        setInputError({
+          ...inputError,
+          [inputIds.give]: errorRanges
+        })
+      } else {
+        setInputError({
+          ...inputError,
+          [inputIds.give]: undefined
+        })
+      }
+
+      onGiveAmountChange(estimatedGiveAmount)
+
+      setGetAmount(value)
     }
   }
 
@@ -353,10 +395,10 @@ function CurrencyForm({
                     displayInSelect={1}
                     onActiveChange={(active) => setGetActive(active)}
                     onSelect={onTokenChange}
-                    value={
-                      inputError[inputIds.give] != undefined ? "-" : tokenAmount
-                    }
+                    onChange={handleGetInput}
+                    value={getAmount}
                     selectedValue={currentToken}
+                    changeable
                   />
                 ) : (
                   <Skeleton height={65} />
