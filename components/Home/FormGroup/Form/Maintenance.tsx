@@ -9,6 +9,14 @@ import Info from "@/shared/ModalComponents/Info"
 import Shadow from "@/shared/ModalComponents/Shadow"
 import Title from "@/shared/ModalComponents/Title"
 
+const SmallContainer = styled(Container)`
+  width: 72%;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
 const Background = styled.div`
   position: absolute;
   width: 100%;
@@ -28,7 +36,7 @@ function Maintenance() {
 
   return (
     <Background>
-      <Container>
+      <SmallContainer>
         <Title>
           <Shadow>
             <Icon>
@@ -45,7 +53,7 @@ function Maintenance() {
         </Title>
         <ColoredInfo misc>{t("home:maintenance_p1")}</ColoredInfo>
         <ColoredInfo misc>{t("home:maintenance_p2")}</ColoredInfo>
-      </Container>
+      </SmallContainer>
     </Background>
   )
 }
