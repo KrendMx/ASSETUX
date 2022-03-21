@@ -17,11 +17,11 @@ function LanguageCurrencyMenu() {
             <Languages />
           </Group>
         </li>
-        <li>
+        {/* <li>
           <Group title={t("currency")}>
             <Currencies />
           </Group>
-        </li>
+        </li> */}
       </ul>
       <Social />
     </Container>
