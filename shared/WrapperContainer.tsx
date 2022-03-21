@@ -11,12 +11,6 @@ const WrapperContainer = styled.div`
     padding: 0 var(--paddings);
   }
 
-  h1,
-  h3 {
-    font-size: 2.6em;
-    color: var(--black);
-  }
-
   @media only screen and (max-width: ${mobile}px) {
     padding: 44px 0 30px;
   }
