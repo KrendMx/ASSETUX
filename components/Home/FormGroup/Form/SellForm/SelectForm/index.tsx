@@ -644,7 +644,7 @@ function CurrencyForm({
         />
       )}
 
-      {!serviceAvailable && serviceAvailable != null && <Maintenance />}
+      {/* {!serviceAvailable && serviceAvailable != null && <Maintenance />} */}
 
       {(showRefundModal ||
         showRefundWalletModal ||

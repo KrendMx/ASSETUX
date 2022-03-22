@@ -393,7 +393,7 @@ function CurrencyForm({
                     label={t("home:buy_get")}
                     id={inputIds.get}
                     options={checkedTokens}
-                    displayInSelect={1}
+                    displayInSelect={2}
                     onActiveChange={(active) => setGetActive(active)}
                     onSelect={onTokenChange}
                     onChange={handleGetInput}

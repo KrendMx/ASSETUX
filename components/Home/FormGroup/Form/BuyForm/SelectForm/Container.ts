@@ -9,7 +9,7 @@ type ContainerProps = {
 
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: ${(props) => (props.lastSelectorActive ? "568px" : "490px")};
+  height: ${(props) => (props.lastSelectorActive ? "649px" : "490px")};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@ const Container = styled.div<ContainerProps>`
   padding: 34px 25px;
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => (props.lastSelectorActive ? "521px" : "445px")};
+    height: ${(props) => (props.lastSelectorActive ? "599px" : "445px")};
     padding: 21px 17px;
   }
 `

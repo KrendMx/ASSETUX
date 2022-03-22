@@ -2,9 +2,11 @@ import React, { useState, useMemo } from "react"
 import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Image from "next/image"
+
 import { mobile, optimizeRemoteImages } from "@/src/constants"
-import type { Option } from "../types"
 import IconSearch from "@/public/assets/Search.svg"
+
+import type { Option } from "../types"
 
 type ItemProps = {
   selectable?: boolean
@@ -135,6 +137,32 @@ const Input = styled.input`
   }
 `
 
+type ScrollableRegionProps = {
+  display: number
+}
+
+const ScrollableRegion = styled.div<ScrollableRegionProps>`
+  height: ${(props) => props.display * 65 + (props.display - 1) * 16}px;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  & > *:not(:last-child) {
+    margin-bottom: 16px;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    height: ${(props) => props.display * 65 + (props.display - 1) * 13}px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 13px;
+    }
+  }
+`
+
 type SearchProps = {
   options: Option[]
   onSelect: (selectedValue: string) => void
@@ -206,37 +234,40 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
           onChange={handleInput}
         />
       </Item>
+
       {searchedOptions.length > 0 ? (
-        searchedOptions.slice(0, display).map((option) => (
-          <Item
-            key={option.value}
-            onClick={() => {
-              onSelect(option.value)
-              setSearchContext("")
-            }}
-            selectable
-          >
-            {option.icon ? (
-              <Shadow>
-                <ImageContainer>
-                  <Image
-                    src={option.icon}
-                    width={24}
-                    height={24}
-                    layout="responsive"
-                    alt="Logo"
-                    unoptimized={!optimizeRemoteImages}
-                  />
-                </ImageContainer>
-              </Shadow>
-            ) : option?.shortDescription?.split(" ")[1] ? (
-              <Shadow>{option?.shortDescription?.split(" ")[1]}</Shadow>
-            ) : (
-              <Shadow />
-            )}
-            <ItemValue>{option.description}</ItemValue>
-          </Item>
-        ))
+        <ScrollableRegion display={display}>
+          {searchedOptions.map((option) => (
+            <Item
+              key={option.value}
+              onClick={() => {
+                onSelect(option.value)
+                setSearchContext("")
+              }}
+              selectable
+            >
+              {option.icon ? (
+                <Shadow>
+                  <ImageContainer>
+                    <Image
+                      src={option.icon}
+                      width={24}
+                      height={24}
+                      layout="responsive"
+                      alt="Logo"
+                      unoptimized={!optimizeRemoteImages}
+                    />
+                  </ImageContainer>
+                </Shadow>
+              ) : option?.shortDescription?.split(" ")[1] ? (
+                <Shadow>{option?.shortDescription?.split(" ")[1]}</Shadow>
+              ) : (
+                <Shadow />
+              )}
+              <ItemValue>{option.description}</ItemValue>
+            </Item>
+          ))}
+        </ScrollableRegion>
       ) : (
         <NoResultsLabel>{t("home:search_noResult")}</NoResultsLabel>
       )}
