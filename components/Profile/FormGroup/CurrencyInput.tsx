@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import {BaseInputWrapper} from "./Input";
 
 type CurrencyInputType = {
     value: string;
@@ -8,27 +9,15 @@ type CurrencyInputType = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px 20px;
-  border: 1px solid #D2D2D7;
-  border-radius: 10px;
+const Wrapper = styled(BaseInputWrapper)`
   gap: 16px;
   display: flex;
   align-items: center;
 `
 
-const Input = styled.input`
-  font-size: 1rem;
-  color: var(--black);
-  border: none;
-  outline: none;
-  width: 100%;
-`
+const Input = styled.input``
 
 const Currency = styled.label`
-  color: var(--gray);
   font-size: 1rem;
   font-weight: 500;
 `
@@ -52,7 +41,6 @@ const IconWrapper = styled.div`
 `
 
 function CurrencyInput({value, currency, Icon, onChange}: CurrencyInputType) {
-
     return (
         <Wrapper>
             <Input id={currency} onChange={onChange} value={value}/>

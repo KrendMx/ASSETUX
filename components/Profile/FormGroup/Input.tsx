@@ -9,37 +9,41 @@ type InputWrapperProps = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Wrapper = styled.div`
+export const BaseInputWrapper = styled.div`
   width: 100%;
   background: #FFFFFF;
   border: 1px solid #D2D2D7;
   box-sizing: border-box;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 15px 10px 20px;
+  
+  & > label{
+    color: var(--gray);
+    margin-bottom: 4px;
+    display: block;
+    font-size: .73rem;
+  }
+  
+  & input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--black);
+  }
 `
 
-const Label = styled.label`
-  color: var(--gray);
-  font-size: .73rem;
-  display: block;
-  margin-bottom: 4px;
-`
+const Label = styled.label``
 
-const Input = styled.input`
-  border: none;
-  outline: none;
-  width: 100%;
-  font-size: 1em;
-  font-weight: 500;
-  color: var(--black);
-`
+const Input = styled.input``
 
 function InputWrapper({id, title, value, onChange}: InputWrapperProps) {
     return (
-        <Wrapper>
+        <BaseInputWrapper>
             <Label htmlFor={id}>{title}</Label>
             <Input value={value} onChange={onChange} id={id}/>
-        </Wrapper>
+        </BaseInputWrapper>
     )
 }
 
