@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const FormWrapper = styled.section`
+const Form = styled.section`
   width: 100%;
   display: grid;
   padding: 19px 25px;
@@ -9,4 +9,4 @@ const FormWrapper = styled.section`
   border-radius: 10px;
 `
 
-export default FormWrapper;
+export default Form;

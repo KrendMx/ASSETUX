@@ -2,6 +2,13 @@ import styled from "styled-components";
 import React from "react";
 
 
+type InputWrapperProps = {
+    id: string;
+    title: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 const Wrapper = styled.div`
   width: 100%;
   background: #FFFFFF;
@@ -27,16 +34,13 @@ const Input = styled.input`
   color: var(--black);
 `
 
-const TextInput: React.FC<{
-    id: string;
-    title: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}> = ({id, title, onChange, value}) => (
-    <Wrapper>
-        <Label htmlFor={id}>{title}</Label>
-        <Input value={value} onChange={onChange} id={id}/>
-    </Wrapper>
-)
+function InputWrapper({id, title, value, onChange}: InputWrapperProps) {
+    return (
+        <Wrapper>
+            <Label htmlFor={id}>{title}</Label>
+            <Input value={value} onChange={onChange} id={id}/>
+        </Wrapper>
+    )
+}
 
-export default TextInput;
+export default InputWrapper;
