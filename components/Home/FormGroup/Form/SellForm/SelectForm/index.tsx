@@ -375,6 +375,7 @@ function CurrencyForm({
                   onActiveChange={(active) => setGetActive(active)}
                   selectedValue={currentCurrency}
                   onSelect={onCurrencyChange}
+                  selectable={false}
                   value={getAmount}
                 />
               ) : (

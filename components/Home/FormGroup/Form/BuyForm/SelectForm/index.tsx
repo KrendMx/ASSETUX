@@ -360,6 +360,7 @@ function CurrencyForm({
                 onSelect={onCurrencyChange}
                 error={inputError[inputIds.give]}
                 selectedValue={currentCurrency}
+                selectable={false}
                 changeable
               />
             ) : (
