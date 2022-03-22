@@ -28,25 +28,26 @@ const LoginWrapper = styled.div`
 `
 
 function LoginContainer() {
-    const {t} = useTranslation("profile_login")
-    const [email, setEmail] = useState('');
+    const {t} = useTranslation("profile")
+    const [email, setEmail] = useState("");
 
-    const login = () => {}
+    const login = () => {
+    }
 
     return (
         <Container>
             <Section>
                 <LoginWrapper>
-                    <Title>{t('greetings')}</Title>
-                    <Note>{t('explanation')}</Note>
+                    <Title>{t("greetings")}</Title>
+                    <Note>{t("explanation")}</Note>
                     <Form gap={"30px"}>
                         <Input
-                            id={'email'}
-                            title={'E-Mail'}
+                            id={"email"}
+                            title={"E-Mail"}
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                         />
-                        <Button onClick={login}>Log In</Button>
+                        <Button onClick={login}>{t("logIn")}</Button>
                     </Form>
                 </LoginWrapper>
             </Section>

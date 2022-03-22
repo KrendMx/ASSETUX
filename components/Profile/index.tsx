@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import WrapperContainer from "@/shared/WrapperContainer";
-import React, {useState} from "react";
+import React from "react";
 import {useTranslation} from "next-i18next";
 
+import WrapperContainer from "@/shared/WrapperContainer";
 import {Form, Input, Button, Legend, CurrencyInput, FileLoadInput} from "@/components/Profile/FormGroup";
 import Header from "./Header";
 
@@ -18,15 +18,16 @@ const FormGroup = styled.div`
   row-gap: 40px;
 `
 
-
 function ProfileContainer() {
+    const {t} = useTranslation("profile")
+
     return (
         <Container>
             <Section>
-                <Header heading="Profile" id='M-0000001'/>
+                <Header heading={t("profile")} id="M-0000001"/>
                 <FormGroup>
                     <Form>
-                        <Legend>Balance</Legend>
+                        <Legend>{t("balance")}</Legend>
                         <CurrencyInput
                             value={"1528540.00"}
                             currency="BUSD"
@@ -43,7 +44,7 @@ function ProfileContainer() {
                         />
                     </Form>
                     <Form>
-                        <Legend>Personal Info</Legend>
+                        <Legend>{t("personalInfo")}</Legend>
                         <Input
                             id="email"
                             title="E-Mail"
@@ -51,41 +52,43 @@ function ProfileContainer() {
                             onChange={() => {
                             }}
                         />
-                        <Button>Change</Button>
+                        <Button>{t("change")}</Button>
                     </Form>
                     <Form>
-                        <Legend>Payment</Legend>
+                        <Legend>{t("payment")}</Legend>
                         <Input
                             id="wallet"
-                            title="Wallet"
+                            title={t("wallet")}
                             value="0xCE5465CA1d1456B6a35aC341B13af8aFA2CcFD2E"
                             onChange={() => {
                             }}
                         />
-                        <Button>Change</Button>
+                        <Button>{t("change")}</Button>
                     </Form>
                     <Form>
-                        <Legend>Widget personalization</Legend>
+                        <Legend>{t("widgetPersonalization")}</Legend>
                         <Input
                             id="company_name"
-                            title="Name of your company"
+                            title={t("nameYourCompany")}
                             value="ASSETUX"
                             onChange={() => {
                             }}
                         />
                         <FileLoadInput
-                            title="Logo"
+                            title={t("logo")}
                             id="logo"
                             selectedFile=""
-                            onChange={()=>{}}
+                            onChange={() => {
+                            }}
                         />
                         <FileLoadInput
-                            title="Background"
+                            title={t("background")}
                             id="background"
                             selectedFile=""
-                            onChange={()=>{}}
+                            onChange={() => {
+                            }}
                         />
-                        <Button>Change</Button>
+                        <Button>{t("change")}</Button>
                     </Form>
                 </FormGroup>
             </Section>

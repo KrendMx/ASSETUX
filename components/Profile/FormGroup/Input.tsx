@@ -16,14 +16,14 @@ export const BaseInputWrapper = styled.div`
   box-sizing: border-box;
   border-radius: 10px;
   padding: 10px 15px 10px 20px;
-  
-  & > label{
+
+  & > label {
     color: var(--gray);
     margin-bottom: 4px;
     display: block;
     font-size: .73rem;
   }
-  
+
   & input {
     border: none;
     outline: none;

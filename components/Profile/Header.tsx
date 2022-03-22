@@ -22,7 +22,7 @@ const Id = styled.div`
   color: var(--gray);
   font-size: .78rem;
   text-align: right;
-  
+
   & span {
     color: var(--black);
     font-size: 1rem;

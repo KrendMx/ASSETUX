@@ -32,7 +32,7 @@ const IconWrapper = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  
+
   & > * {
     height: 25px;
     min-width: 25px;
@@ -46,7 +46,7 @@ function CurrencyInput({value, currency, Icon, onChange}: CurrencyInputType) {
             <Input id={currency} onChange={onChange} value={value}/>
             <Currency htmlFor={currency}>{currency}</Currency>
             <IconWrapper>
-                { Icon }
+                {Icon}
             </IconWrapper>
         </Wrapper>
     )
