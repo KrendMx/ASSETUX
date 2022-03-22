@@ -39,7 +39,7 @@ function LoginContainer() {
                 <LoginWrapper>
                     <Title>{t('greetings')}</Title>
                     <Note>{t('explanation')}</Note>
-                    <Form>
+                    <Form gap={"30px"}>
                         <Input
                             id={'email'}
                             title={'E-Mail'}

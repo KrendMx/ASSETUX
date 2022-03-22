@@ -7,6 +7,12 @@ const WrapperContainer = styled.div`
   padding: 74px 0;
   font-size: 1em;
 
+  h1,
+  h3 {
+    font-size: 2.6em;
+    color: var(--black);
+  }
+  
   & > section {
     padding: 0 var(--paddings);
   }

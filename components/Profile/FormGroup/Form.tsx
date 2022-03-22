@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
-const Form = styled.section`
+type FormProps = {
+    gap?: string;
+}
+
+const Form = styled.section<FormProps>`
   width: 100%;
   display: grid;
   padding: 19px 25px;
-  row-gap: 33px;
+  gap: ${props => props.gap || "15px"};
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
 `

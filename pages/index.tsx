@@ -19,12 +19,6 @@ const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
 
 const Container = styled(WrapperContainer)`
-  h1,
-  h3 {
-    font-size: 2.6em;
-    color: var(--black);
-  }
-  
   & > section:not(:last-child) {
     margin-bottom: 130px;
   }
