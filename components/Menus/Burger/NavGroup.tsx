@@ -1,9 +1,11 @@
 import React, { useState } from "react"
-import NavButton from "../NavButton"
 import Link from "next/link"
 import { useTranslation } from "next-i18next"
-import type { Route } from "@/src/routes"
+
+import NavButton from "../NavButton"
 import NavLink from "../NavLink"
+
+import type { Route } from "@/src/routes"
 
 type NavGroupProps = {
   title: string
