@@ -48,8 +48,6 @@ import type { Error, ExchangeInfo } from "./types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "@/shared/InputSelect/types"
 
-let alreadyLoaded = false
-
 const inputIds = {
   get: "get",
   give: "give",
@@ -237,7 +235,6 @@ function CurrencyForm({
   }
 
   const isLoading =
-    !alreadyLoaded &&
     allowSkeletons &&
     (!appLoaded ||
       !checkedBlockchains ||
@@ -245,10 +242,6 @@ function CurrencyForm({
       !checkedCurrencies ||
       !rate ||
       serviceAvailable == null)
-
-  if (!isLoading) {
-    alreadyLoaded = true
-  }
 
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
