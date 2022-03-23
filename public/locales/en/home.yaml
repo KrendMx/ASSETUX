@@ -71,14 +71,14 @@ sell_sureExchange: Are you sure you want to exchange?
 sell_sureRefund: Are you sure you want to refund?
 sell_depositConfirmed: Deposit confirmed
 sell_loading: Loading...
-sell_sentInsufficient: You sent insufficient crypto amount to make refund
-Sell_ahtung: According to the rules of Assetux, the funds received on the wallet and not used in the exchange transaction are not returned
+sell_sentInsufficient: You sent insufficient amount of crypto to make refund
+Sell_ahtung: According to the rules of Assetux, the funds received on the wallet and not used for the exchange are not refundable
 sell_review: Your feedback will help us become better!
 sell_message: Your message
-Sell_timedOut: The time for the order has expired
+Sell_timedOut: The order has expired
 sell_minimal: Minimum amount to exchange
 sell_convert: Exchange rate
-sell_infoExchange: Assetux exchanged the amount in your wallet at the time the time expired
+sell_infoExchange: Assetux exchanged the amount received to the wallet at the moment of expiration
 sell_success: Success
 sell_operationId: Transaction number
 sell_codeSent: The code was sent to your email
@@ -88,15 +88,15 @@ sell_invalidCode: You have entered the wrong code.
 sell_tryAgain: You entered the wrong code.
 sell_receiveEmail: Thank you for using Assetux! You will receive a confirmation email in 5 minutes.
 sell_refundSuccess: The refund was successful
-sell_fillRequiredData: Please provide your return data
-sell_accessWallet: Please make sure you have access to the specified wallet, on the specified network. If you can't access this wallet, we can't help you.
+sell_fillRequiredData: Please provide data for the refund
+sell_accessWallet: Please make sure you have access to the specified wallet, on the specified network. If you can't access this wallet, we won't be able to help you.
 sell_smthWentWrong: Something went wrong
 sell_refundError: The return failed. Most likely, you have done everything correctly
-sell_callSupport: Contact support is the right thing to do in this situation
+sell_callSupport: Contacting support is the right thing to do in this situation
 sell_blockchainLabel: You are using ASSETUX on
 
 network_sure: Please make sure your wallet supports selected network
-network_help: >-
+network_help: |-
   The network you selected is BSC, please confirm that your withdrawal address supports the Binance Smart Chain network.
   If the other platform does not support it, your assets may be lost.
 
@@ -114,26 +114,27 @@ explorer_sell: Sell
 explorer_buy: Buy
 explorer_change: Change 24h
 explorer_volume: Volume 24h
-explorer_trade:
-explorer_pool:
+explorer_trade: 
+explorer_pool: 
 
 news_title: News room
 news_showMore: Show more
 
 about_title: About us
-about_p1: >-
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-about_p2: >-
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-about_p3: >-
-  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-  eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+about_p1: |-
+  ASSETUX creates and implements tools that improves user experience using cryptocurrency, helps to eliminate mistakes that users make sometimes. Assetux does a lot of things in an automated way, saves time for the users, stops headache.
+
+about_p2: |-
+  ASSETUX offers quick ways to:
+- Purchase cryptocurrency using a debit/credit card;
+- Sell cryptocurrency and receive fiat to debit/credit card;
+- A lightning speed investment experience in most hyped industries.
+
+about_p3: Read more on "About Us" page
 
 search_placeholder: Start typing to search...
 search_noResult: No results
 
 maintenance_title: Service maintenance
-maintenance_p1: ASSETUX постоянно улучшается и внедряет новые функции.
-maintenance_p2: Именно это сейчас происходит. Пожалуйста, подождите 10 минут.
+maintenance_p1: Assetux is constantly improves and integrates new features
+maintenance_p2: That's why the service is unavailable. Please try again in 10 minutes
