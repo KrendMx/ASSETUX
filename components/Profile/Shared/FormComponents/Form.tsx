@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 type FormProps = {
-    gap?: string;
+  gap?: string;
 }
 
 const Form = styled.section<FormProps>`
@@ -13,4 +13,4 @@ const Form = styled.section<FormProps>`
   border-radius: 10px;
 `
 
-export default Form;
+export default Form

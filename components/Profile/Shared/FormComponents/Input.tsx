@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import React from "react";
+import styled from "styled-components"
+import React from "react"
 
 
 type InputWrapperProps = {
-    id: string;
-    title: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id: string;
+  title: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const BaseInputWrapper = styled.div`
@@ -38,13 +38,13 @@ const Label = styled.label``
 
 const Input = styled.input``
 
-function InputWrapper({id, title, value, onChange}: InputWrapperProps) {
-    return (
-        <BaseInputWrapper>
-            <Label htmlFor={id}>{title}</Label>
-            <Input value={value} onChange={onChange} id={id}/>
-        </BaseInputWrapper>
-    )
+function InputWrapper({ id, title, value, onChange }: InputWrapperProps) {
+  return (
+    <BaseInputWrapper>
+      <Label htmlFor={id}>{title}</Label>
+      <Input value={value} onChange={onChange} id={id} />
+    </BaseInputWrapper>
+  )
 }
 
-export default InputWrapper;
+export default InputWrapper

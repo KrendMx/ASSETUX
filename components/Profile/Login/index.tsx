@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import WrapperContainer from "@/shared/WrapperContainer";
-import React, {useState} from "react";
+import styled from "styled-components"
+import WrapperContainer from "@/shared/WrapperContainer"
+import React, { useState } from "react"
 
-import {Form, Input, Button} from "@/components/Profile/Shared/FormComponents";
-import {useTranslation} from "next-i18next";
+import { Form, Input, Button } from "@/components/Profile/Shared/FormComponents"
+import { useTranslation } from "next-i18next"
 
 const Container = styled(WrapperContainer)`
   display: grid;
@@ -28,31 +28,31 @@ const LoginWrapper = styled.div`
 `
 
 function LoginContainer() {
-    const {t} = useTranslation("profile-login")
-    const [email, setEmail] = useState("");
+  const { t } = useTranslation("profile-login")
+  const [email, setEmail] = useState("")
 
-    const login = () => {
-    }
+  const login = () => {
+  }
 
-    return (
-        <Container>
-            <Section>
-                <LoginWrapper>
-                    <Title>{t("greetings")}</Title>
-                    <Note>{t("explanation")}</Note>
-                    <Form gap={"30px"}>
-                        <Input
-                            id="email"
-                            title="E-Mail"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                        />
-                        <Button onClick={login}>{t("logIn")}</Button>
-                    </Form>
-                </LoginWrapper>
-            </Section>
-        </Container>
-    )
+  return (
+    <Container>
+      <Section>
+        <LoginWrapper>
+          <Title>{t("greetings")}</Title>
+          <Note>{t("explanation")}</Note>
+          <Form gap={"30px"}>
+            <Input
+              id="email"
+              title="E-Mail"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+            <Button onClick={login}>{t("logIn")}</Button>
+          </Form>
+        </LoginWrapper>
+      </Section>
+    </Container>
+  )
 }
 
-export default LoginContainer;
+export default LoginContainer

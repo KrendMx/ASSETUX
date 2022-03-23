@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 
 const FormHeading = styled.p`
@@ -8,4 +8,4 @@ const FormHeading = styled.p`
   margin-bottom: 10px;
 `
 
-export default FormHeading;
+export default FormHeading

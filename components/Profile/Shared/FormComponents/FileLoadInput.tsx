@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import {BaseInputWrapper} from "./Input";
+import React from "react"
+import styled from "styled-components"
+import { BaseInputWrapper } from "./Input"
 
 type FileLoadInputProps = {
-    title: string;
-    selectedFile: string;
-    id?: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  title: string;
+  selectedFile: string;
+  id?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Wrapper = styled(BaseInputWrapper)``
@@ -23,7 +23,7 @@ const Label = styled.label`
 `
 
 const Upload = styled.input.attrs(props => ({
-    type: "file"
+  type: "file"
 }))`
   display: none;
 `
@@ -33,22 +33,22 @@ const SelectedFile = styled.p`
   font-weight: 500;
 `
 
-function FileLoadInput({title, id, selectedFile, onChange}: FileLoadInputProps) {
-    return (
-        <Wrapper>
-            <Title>{title}</Title>
-            <LoaderWrapper>
-                {
-                    selectedFile ?
-                        <SelectedFile>{selectedFile}</SelectedFile> :
-                        (<>
-                            <Label htmlFor={id}>Upload</Label>
-                            <Upload onChange={onChange} id={id}/>
-                        </>)
-                }
-            </LoaderWrapper>
-        </Wrapper>
-    )
+function FileLoadInput({ title, id, selectedFile, onChange }: FileLoadInputProps) {
+  return (
+    <Wrapper>
+      <Title>{title}</Title>
+      <LoaderWrapper>
+        {
+          selectedFile ?
+            <SelectedFile>{selectedFile}</SelectedFile> :
+            (<>
+              <Label htmlFor={id}>Upload</Label>
+              <Upload onChange={onChange} id={id} />
+            </>)
+        }
+      </LoaderWrapper>
+    </Wrapper>
+  )
 }
 
-export default FileLoadInput;
+export default FileLoadInput
