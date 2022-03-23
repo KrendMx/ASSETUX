@@ -41,7 +41,7 @@ buy_phoneNumber: Номер телефона
 buy_invalidPhoneNumber: Неверный номер телефона
 buy_blockchainLabel: Вы используете ASSETUX на
 
-sell_blockchain: Blockchain
+sell_blockchain: Блокчейн (сеть)
 sell_give: Вы отдаете
 sell_payment: Способ оплаты
 sell_get: Вы получаете
@@ -99,9 +99,9 @@ network_help: |-
   Выбранная вами сеть - BSC, пожалуйста, убедитесь, что адрес, указанный для вывода, поддерживает сеть Binance Smart Chain.
   Если другая платформа не поддерживает ее, ваши активы могут быть потеряны.
 
-exchange_fees: Все сборы включены
+exchange_fees: Все комиссии включены
 
-cryptoSlide_change: Изменение в течение 24 часов
+cryptoSlide_change: Изменение за 24ч
 cryptoSlide_buy: Купить
 cryptoSlide_sell: Продать
 
