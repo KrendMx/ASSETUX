@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import React from "react";
 import {useTranslation} from "next-i18next";
+import Image from 'next/image'
 
 import WrapperContainer from "@/shared/WrapperContainer";
-import {Form, Input, Button, Legend, CurrencyInput, FileLoadInput} from "@/components/Profile/FormGroup";
-import Header from "./Header";
+import {Form, Input, Button, Legend, CurrencyInput, FileLoadInput} from "@/components/Profile/Shared/FormComponents";
+import Header from "../Shared/Header";
 
 const Container = styled(WrapperContainer)`
   display: grid;
@@ -29,19 +30,26 @@ function ProfileContainer() {
                     <Form>
                         <Legend>{t("balance")}</Legend>
                         <CurrencyInput
-                            value={"1528540.00"}
+                            value="1528540.00"
                             currency="BUSD"
-                            Icon={<img src="https://bscscan.com/token/images/busd_32.png" alt=""/>}
                             onChange={() => {
                             }}
-                        />
+                        >
+                            <Image
+                              src="https://bscscan.com/token/images/busd_32.png"
+                              layout="fill"
+                              objectFit="contain"
+                              objectPosition="center"
+                            />
+                        </CurrencyInput>
                         <CurrencyInput
-                            value={"1528540.00"}
+                            value="1528540.00"
                             currency="RUB"
-                            Icon={"₽"}
                             onChange={() => {
                             }}
-                        />
+                        >
+                            ₽
+                        </CurrencyInput>
                     </Form>
                     <Form>
                         <Legend>{t("personalInfo")}</Legend>

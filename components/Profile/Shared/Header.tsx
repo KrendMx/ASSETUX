@@ -13,11 +13,11 @@ const Header = styled.header`
   margin-bottom: 55px;
 `
 
-const H1 = styled.h1`
+const Heading = styled.h1`
   line-height: .7em;
 `
 
-const Id = styled.div`
+const Identificator = styled.div`
   font-weight: 400;
   color: var(--gray);
   font-size: .78rem;
@@ -32,11 +32,11 @@ const Id = styled.div`
 function HeaderContainer({heading, id}: HeaderProps) {
     return (
         <Header>
-            <H1>{heading}</H1>
-            <Id>
+            <Heading>{heading}</Heading>
+            <Identificator>
                 ID<br/>
                 <span>{id}</span>
-            </Id>
+            </Identificator>
         </Header>
     )
 }

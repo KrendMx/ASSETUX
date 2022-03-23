@@ -5,8 +5,8 @@ import {BaseInputWrapper} from "./Input";
 type CurrencyInputType = {
     value: string;
     currency: string;
-    Icon: React.ReactNode;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    children: React.ReactChild
 }
 
 const Wrapper = styled(BaseInputWrapper)`
@@ -24,6 +24,7 @@ const Currency = styled.label`
 
 const IconWrapper = styled.div`
   min-width: 40px;
+  position: relative;
   height: 40px;
   display: flex;
   background-color: #fff;
@@ -34,19 +35,18 @@ const IconWrapper = styled.div`
   font-size: 1rem;
 
   & > * {
-    height: 25px;
-    min-width: 25px;
-    margin: auto;
+    //height: 25px;
+    //min-width: 25px;
   }
 `
 
-function CurrencyInput({value, currency, Icon, onChange}: CurrencyInputType) {
+function CurrencyInput({value, currency, children, onChange}: CurrencyInputType) {
     return (
         <Wrapper>
             <Input id={currency} onChange={onChange} value={value}/>
             <Currency htmlFor={currency}>{currency}</Currency>
             <IconWrapper>
-                {Icon}
+                { children }
             </IconWrapper>
         </Wrapper>
     )

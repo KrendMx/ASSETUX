@@ -2,7 +2,7 @@ import styled from "styled-components";
 import WrapperContainer from "@/shared/WrapperContainer";
 import React, {useState} from "react";
 
-import {Form, Input, Button} from "@/components/Profile/FormGroup";
+import {Form, Input, Button} from "@/components/Profile/Shared/FormComponents";
 import {useTranslation} from "next-i18next";
 
 const Container = styled(WrapperContainer)`
@@ -28,7 +28,7 @@ const LoginWrapper = styled.div`
 `
 
 function LoginContainer() {
-    const {t} = useTranslation("profile")
+    const {t} = useTranslation("profile-login")
     const [email, setEmail] = useState("");
 
     const login = () => {
@@ -42,8 +42,8 @@ function LoginContainer() {
                     <Note>{t("explanation")}</Note>
                     <Form gap={"30px"}>
                         <Input
-                            id={"email"}
-                            title={"E-Mail"}
+                            id="email"
+                            title="E-Mail"
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                         />
