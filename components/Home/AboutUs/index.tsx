@@ -53,6 +53,7 @@ const TextContainer = styled(AdaptiveFont).attrs({
 })`
   p {
     color: #616161;
+    white-space: pre-line;
   }
 
   p:not(:last-child) {
