@@ -21,10 +21,10 @@ orders_network: Сеть
 orders_sent: Отправлено
 orders_got: Сумма
 
-form_buyCompact: Buy Crypto
-form_buy: Buy Cryptocurrencies
-form_sellCompact: Sell Crypto
-form_sell: Sell Cryptocurrencies
+form_buyCompact: Купить
+form_buy: Купить Криптовалюту
+form_sellCompact: Продать
+form_sell: Продать Криптовалюту
 
 buy_give: Вы отдаете
 buy_invalidGive: Неверная сумма
