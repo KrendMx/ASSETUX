@@ -1,11 +1,14 @@
 import React from "react"
 import styled from "styled-components"
-import Button from "./Button"
+import Skeleton from "react-loading-skeleton"
+import { useTranslation } from "next-i18next"
+
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { swapAction } from "@/src/redux/cryptoSlice"
+
+import Button from "./Button"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import Skeleton from "react-loading-skeleton"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.125,
@@ -40,6 +43,8 @@ const SkeletonContainer = styled.span`
 `
 
 function Buttons() {
+  const { t } = useTranslation("home")
+
   const dispatch = useAppDispatch()
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
@@ -55,9 +60,9 @@ function Buttons() {
       >
         {!showSkeleton ? (
           isMobile ? (
-            "Buy Crypto"
+            t("form_buyCompact")
           ) : (
-            "Buy Cryptocurrencies"
+            t("form_buy")
           )
         ) : (
           <SkeletonContainer>
@@ -71,9 +76,9 @@ function Buttons() {
       >
         {!showSkeleton ? (
           isMobile ? (
-            "Sell Crypto"
+            t("form_sellCompact")
           ) : (
-            "Sell Cryptocurrencies"
+            t("form_sell")
           )
         ) : (
           <SkeletonContainer>

@@ -21,6 +21,11 @@ orders_network: Сеть
 orders_sent: Отправлено
 orders_got: Сумма
 
+form_buyCompact: Buy Crypto
+form_buy: Buy Cryptocurrencies
+form_sellCompact: Sell Crypto
+form_sell: Sell Cryptocurrencies
+
 buy_give: Вы отдаете
 buy_invalidGive: Неверная сумма
 buy_maximumIs: Максимальная сумма
@@ -123,7 +128,7 @@ about_title: О нас
 about_p1: |-
   ASSETUX создает и внедряет инструменты улучшающие взаимодействие пользователей с криптовалютой, 
   помогающие исключить ошибки, которые могут совершить пользователи, выполняя многое автоматизированно, 
-  значительно экономя их время. 
+  значительно экономя их время.
 
 about_p2: |-
   ASSETUX предлагает быстрые способы:

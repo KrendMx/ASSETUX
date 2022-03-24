@@ -21,6 +21,11 @@ orders_network: Сеть
 orders_sent: Отправлено
 orders_got: Сумма
 
+form_buyCompact: Buy Crypto
+form_buy: Buy Cryptocurrencies
+form_sellCompact: Sell Crypto
+form_sell: Sell Cryptocurrencies
+
 buy_blockchain: Blockchain
 buy_give: You give
 buy_invalidGive: Invalid give amount
