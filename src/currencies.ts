@@ -21,7 +21,7 @@ export const mapCurrencyName = (currency: CurrenciesType) => {
 }
 
 type Table = {
-  [key: string]: CurrenciesType
+  [key: string]: CurrenciesType | undefined
 }
 
 export const localeToCurrencyTable: Table = {}
@@ -38,6 +38,7 @@ export const isCurrencyDeclared = (
 
 export const checkCurrency = (dispatch: AppDispatch) => {
   const savedCurrency = window.localStorage.getItem("currency")
+
   if (savedCurrency) {
     if (isCurrencyDeclared(savedCurrency)) {
       dispatch(setCurrentCurrency(savedCurrency))
@@ -45,9 +46,17 @@ export const checkCurrency = (dispatch: AppDispatch) => {
   } else {
     if ("language" in navigator) {
       const userLocale = navigator.language
+
       for (const locale of locales) {
         if (userLocale.startsWith(locale)) {
-          dispatch(setCurrentCurrency(localeToCurrencyTable[locale]))
+          const mappedCurrency = localeToCurrencyTable[locale]
+
+          if (!mappedCurrency) {
+            return
+          }
+
+          dispatch(setCurrentCurrency(mappedCurrency))
+
           break
         }
       }
