@@ -28,6 +28,7 @@ const Button = styled.button<ButtonProps>`
 const ButtonTitle = styled.span`
   font-size: 1.7em;
   font-weight: 600;
+  text-align: start;
 `
 
 type NavButtonProps = {
