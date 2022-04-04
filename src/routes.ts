@@ -17,27 +17,27 @@ export const company: Route[] = [
 
 export const popular: Route[] = [
   {
-    key: "RUB/BNB",
+    key: "RUBtoBTCB",
     href: "/"
   },
   {
-    key: "RUB/CAKE",
+    key: "RUBtoETH",
     href: "/"
   },
   {
-    key: "RUB/USDT",
+    key: "RUBtoBNB",
     href: "/"
   },
   {
-    key: "UAH/BTCB",
+    key: "RUBtoCAKE",
     href: "/"
   },
   {
-    key: "UAH/ETH",
+    key: "RUBtoUSDT",
     href: "/"
   },
   {
-    key: "UAH/LTC",
+    key: "RUBtoBUSD",
     href: "/"
   }
 ]

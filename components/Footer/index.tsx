@@ -109,7 +109,7 @@ function PopularList() {
       })
     }
 
-    const splitted = route.key.split("/")
+    const splitted = route.key.split("to")
 
     if (splitted.length != 2) {
       return
