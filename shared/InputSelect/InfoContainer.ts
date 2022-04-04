@@ -19,11 +19,11 @@ const InfoContainer = styled.div<InfoContainerProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    flex-basis: 75px;
+    flex-basis: ${(props) => (!props.selectable ? "60px" : "75px")};
   }
 
   @media only screen and (max-width: 370px) {
-    flex-basis: 60px;
+    flex-basis: ${(props) => (!props.selectable ? "50px" : "60px")};
   }
 `
 

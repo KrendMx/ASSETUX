@@ -15,10 +15,10 @@ const SelectedWrapper = styled.button<InfoContainerProps>`
   height: 100%;
 
   @media only screen and (max-width: ${mobile}px) {
-    flex-basis: 90px;
+    flex-basis: ${(props) => (!props.selectable ? "60px" : "90px")};
   }
   @media only screen and (max-width: 370px) {
-    flex-basis: 75px;
+    flex-basis: ${(props) => (!props.selectable ? "50px" : "75px")};
   }
 `
 
