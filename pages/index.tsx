@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import FormGroup from "@/components/Home/FormGroup"
+import Investments from "@/components/Home/Investments"
 import NewsRoom from "@/components/Home/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
 import CryptoManager from "@/components/Home/CryptoManager"
@@ -37,10 +38,14 @@ const Container = styled.div`
   }
 
   & > section:first-child {
-    margin-bottom: 111px;
+    margin-bottom: 150px;
   }
 
   & > section:nth-child(2) {
+    margin-bottom: 139px;
+  }
+
+  & > section:nth-child(3) {
     margin-bottom: 164px;
   }
 
@@ -68,6 +73,7 @@ function Index() {
   return (
     <Container>
       <FormGroup />
+      <Investments />
       <CryptoSlide />
       <CryptoExplorer />
       <NewsRoom />
