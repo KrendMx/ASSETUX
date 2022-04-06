@@ -1,4 +1,5 @@
-titleBeforeBuy: Лучшее решение для
+titleBeforeBuy: Лучшее решение дл
+about_showMore: Show more
 buy: покупки
 titleAfterBuy: и
 sell: продажи
@@ -135,8 +136,8 @@ about_p2: |-
   – Покупки крипты с карты;
   – Продажи крипты с выводом денег на карту;
   – Молниеносный способ инвестирования в целые сферы.
-  
-about_p3: Подробнее на странице "О Нас"
+
+about_showMore: Show more
 
 search_placeholder: Начните печатать для поиска...
 search_noResult: Нет результатов
