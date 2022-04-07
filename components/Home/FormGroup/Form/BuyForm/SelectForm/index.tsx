@@ -344,7 +344,9 @@ function CurrencyForm({
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
               <InputSelect
-                label={t("home:buy_give")}
+                label={`${t("home:buy_give")}: ${currentPaymentOption?.min} - ${
+                  currentPaymentOption?.max
+                }`}
                 id={inputIds.give}
                 value={giveAmount}
                 onChange={handleGiveInput}
