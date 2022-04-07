@@ -65,7 +65,7 @@ const Container = styled.div`
 
   @media only screen and (max-width: ${mobile}px) {
     & > section:first-child {
-      margin-bottom: 48px;
+      margin-bottom: 70px;
     }
 
     padding: 44px 0 30px;
