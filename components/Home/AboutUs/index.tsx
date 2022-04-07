@@ -24,6 +24,10 @@ const Content = styled.div`
     flex-direction: column;
     align-items: center;
   }
+
+  @media only screen and (max-width: ${400}px) {
+    margin-bottom: 5.5em;
+  }
 `
 
 const AboutContainer = styled.div`
@@ -93,6 +97,11 @@ const ShowLink = styled.a`
 
   @media only screen and (max-width: ${mobile}px) {
     font-size: 16px;
+  }
+
+  @media only screen and (max-width: 400px) {
+    font-size: 1.3em;
+    height: 3.13em;
   }
 `
 
