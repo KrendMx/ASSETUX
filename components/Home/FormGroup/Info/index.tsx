@@ -1,12 +1,15 @@
 import React from "react"
+import { useRouter } from "next/router"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
-import ColoredSpan from "./ColoredSpan"
 import Image from "next/image"
+import Skeleton from "react-loading-skeleton"
+
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
-import Skeleton from "react-loading-skeleton"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
+
+import ColoredSpan from "./ColoredSpan"
 
 const Container = styled.div`
   min-width: 0;
@@ -122,6 +125,7 @@ const AbsoluteSkeletonContainer = styled(SkeletonContainer).attrs({
 `
 
 function Info() {
+  const router = useRouter()
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const { t } = useTranslation("home")
 
@@ -132,7 +136,7 @@ function Info() {
           <h1>
             {t("titleBeforeBuy")}{" "}
             <ColoredSpan colorIn="green">{t("buy")}</ColoredSpan>
-            <br />
+            {router.locale != "ru" ? <br /> : " "}
             {t("titleAfterBuy")}{" "}
             <ColoredSpan colorIn="red">{t("sell")}</ColoredSpan>{" "}
             {t("titleAfterSell")}
