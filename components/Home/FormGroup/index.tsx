@@ -14,12 +14,20 @@ const Container = styled.section`
   max-width: var(--max-width);
   margin: 0 auto;
 
+  & > * + * {
+    margin-left: 40px;
+  }
+
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     flex-direction: column;
     align-items: center;
 
     & > *:not(:last-child) {
       margin-bottom: 40px;
+    }
+
+    & > * + * {
+      margin-left: 0;
     }
   }
 
