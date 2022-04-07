@@ -1,6 +1,7 @@
 import React from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
+import Link from "next/link"
 
 import {
   Container,
@@ -15,35 +16,36 @@ import {
 } from "./styles"
 
 function Investments() {
+  const { t } = useTranslation("home")
+
   return (
     <Container>
       <InfoBlock>
-        <h3>Инвестиции</h3>
-        <Paragraph>
-          Инвестируй в тренды с помощью портфелей, упакованных валютами
-          финансовых сервисов, криптоигр, топ коинов и метавселенных. Портфели
-          созданы для легкости инвестирования в целые сферы с потенциалами
-          многократного роста.
-        </Paragraph>
-        <Paragraph>Скачать приложение:</Paragraph>
+        <h3>{t("investments_title")}</h3>
+        <Paragraph>{t("investments_paragraph")}</Paragraph>
+        <Paragraph>{t("investments_download")}:</Paragraph>
         <Media>
           <Stores>
-            <Store>
-              <Image
-                src="/assets/investments/googleplay.png"
-                width={223}
-                height={73}
-                alt="appstore"
-              />
-            </Store>
-            <Store>
-              <Image
-                src="/assets/investments/appstore.png"
-                width={223}
-                height={73}
-                alt="appstore"
-              />
-            </Store>
+            <Link href="#" passHref>
+              <Store>
+                <Image
+                  src="/assets/investments/googleplay.png"
+                  width={223}
+                  height={73}
+                  alt="appstore"
+                />
+              </Store>
+            </Link>
+            <Link href="#" passHref>
+              <Store>
+                <Image
+                  src="/assets/investments/appstore.png"
+                  width={223}
+                  height={73}
+                  alt="appstore"
+                />
+              </Store>
+            </Link>
           </Stores>
           <QRContainer>
             <Image

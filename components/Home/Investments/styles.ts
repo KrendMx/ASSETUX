@@ -109,8 +109,10 @@ export const Stores = styled.div`
   }
 `
 
-export const Store = styled.div`
+export const Store = styled.a`
   width: 223px;
+  display: block;
+  text-decoration: none;
 
   @media only screen and (max-width: 1360px) {
     width: 200px;
