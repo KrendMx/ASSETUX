@@ -30,8 +30,8 @@ function Investments() {
               <Store>
                 <Image
                   src="/assets/investments/googleplay.png"
-                  width={223}
-                  height={73}
+                  width={227}
+                  height={68}
                   alt="appstore"
                 />
               </Store>
