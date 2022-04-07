@@ -26,6 +26,7 @@ form_buy: Купить Криптовалюту
 form_sellCompact: Продать
 form_sell: Продать Криптовалюту
 
+buy_blockchain: Блокчейн (сеть)
 buy_give: Вы отдаете
 buy_invalidGive: Неверная сумма
 buy_maximumIs: Максимальная сумма
