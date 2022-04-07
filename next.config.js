@@ -27,7 +27,7 @@ module.exports = withBundleAnalyzer(
       i18n,
       reactStrictMode: true,
       images: {
-        domains: ["bscscan.com", "assetux.com"]
+        domains: ["bscscan.com", "assetux.com", "bsc.assetux.com"]
       },
       pwa: {
         dest: "public",

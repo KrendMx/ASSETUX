@@ -1,13 +1,17 @@
 import React from "react"
 import { useTranslation } from "next-i18next"
 import styled from "styled-components"
-import Element from "./Element"
-import AdaptiveFont from "@/shared/AdaptiveFont"
-import Slider from "@/shared/Slider"
 import Skeleton from "react-loading-skeleton"
+
+import Slider from "@/shared/Slider"
+import AdaptiveFont from "@/shared/AdaptiveFont"
+import Element from "./Element"
+
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import useSliderConfig from "../sliderConfig"
+
+import type { NewsData } from "@/src/BackendClient/types"
 
 const Container = styled.section`
   display: flex;
@@ -47,7 +51,11 @@ const SliderContainer = styled.div`
   width: 100%;
 `
 
-function NewsRoom() {
+type NewsRoomProps = {
+  news: NewsData[]
+}
+
+function NewsRoom({ news }: NewsRoomProps) {
   const { t } = useTranslation("home")
 
   const showSkeleton = useAppSelector(selectShowSkeleton)
@@ -65,16 +73,9 @@ function NewsRoom() {
       </Row>
       <SliderContainer>
         <Slider {...sliderConfig}>
-          <Element />
-          <Element />
-          <Element />
-          <Element />
-          <Element />
-          <Element />
-          <Element />
-          <Element />
-          <Element />
-          <Element />
+          {news.map(({ id, ...data }) => (
+            <Element key={id} {...data} />
+          ))}
         </Slider>
       </SliderContainer>
     </Container>

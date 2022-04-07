@@ -379,3 +379,19 @@ export type CheckLiquidityResponse = {
   message: string
   data?: LiquidityData
 }
+
+export type NewsData = {
+  id: number
+  title: string
+  text: string
+  author: string
+  img: string
+  created: string
+  author_link: string
+}
+
+export type GetNewsResponse = {
+  status?: number
+  message: string
+  data?: NewsData[]
+}

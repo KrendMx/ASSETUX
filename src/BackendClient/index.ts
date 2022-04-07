@@ -28,7 +28,8 @@ import type {
   GetEmailOrdersProps,
   GetEmailOrdersResponse,
   CheckLiquidityProps,
-  CheckLiquidityResponse
+  CheckLiquidityResponse,
+  GetNewsResponse
 } from "./types"
 
 class BackendClient {
@@ -212,6 +213,14 @@ class BackendClient {
       params: {
         chainId
       }
+    })
+  }
+
+  public async getNews(): Promise<GetNewsResponse> {
+    return handleRequest({
+      url: `${config.hostProtocol}://bsc.${config.host}/api/news`,
+      method: "GET",
+      headers: this.headers
     })
   }
 }

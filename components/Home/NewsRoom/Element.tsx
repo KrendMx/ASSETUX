@@ -1,11 +1,15 @@
 import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
-import AdaptiveFont from "@/shared/AdaptiveFont"
 import Skeleton from "react-loading-skeleton"
+
+import AdaptiveFont from "@/shared/AdaptiveFont"
+
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mobile } from "@/src/constants"
+
+import config from "@/src/config"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.5,
@@ -78,23 +82,53 @@ const Author = styled.a`
   }
 `
 
-const Date = styled.time`
+const PostDate = styled.time`
   font-weight: 400;
   color: var(--gray);
 `
 
-function Element() {
+type ElementProps = {
+  title: string
+  text: string
+  author: string
+  img: string
+  author_link: string
+  created: string
+}
+
+function Element({
+  title,
+  text,
+  author,
+  img,
+  author_link,
+  created
+}: ElementProps) {
   const showSkeleton = useAppSelector(selectShowSkeleton)
+
+  const currentDate = new Date()
+  const postDate = new Date(created)
+
+  const elapsedHours = Math.trunc(
+    (currentDate.getTime() - postDate.getTime()) / 3.6e6
+  )
+  const elapsedDays = Math.trunc(elapsedHours / 24)
+  const moreThanDay = elapsedHours >= 24
+  const shouldAddPrefix = moreThanDay ? elapsedDays != 1 : elapsedHours != 1
+
+  const displayedDate = `${moreThanDay ? elapsedDays : elapsedHours} ${
+    moreThanDay ? "day" : "hour"
+  }${shouldAddPrefix ? "s" : ""} ago`
 
   return (
     <Container as="article">
       <ImgContainer>
         <Image
-          src="/pablo/pablo_lost.png"
+          src={`${config.hostProtocol}://bsc.${config.host}${img}`}
           layout="responsive"
           width={560}
           height={416}
-          alt=""
+          alt={`${title} image`}
         />
         {showSkeleton && (
           <ImgSkeleton>
@@ -103,25 +137,15 @@ function Element() {
         )}
       </ImgContainer>
       <InfoContainer>
-        <Title>
-          {!showSkeleton ? (
-            "The Apple Car Is Coming and Tesla Had Better Watch Out"
-          ) : (
-            <Skeleton />
-          )}
-        </Title>
+        <Title>{!showSkeleton ? title : <Skeleton />}</Title>
         <Description>
-          {!showSkeleton ? (
-            "The world’s biggest company by market value plans to launch a car with full self-driving capabilities..."
-          ) : (
-            <Skeleton count={2} />
-          )}
+          {!showSkeleton ? text : <Skeleton count={2} />}
         </Description>
         <Info>
           {!showSkeleton ? (
             <>
-              <Author href="#">Finance</Author>
-              <Date dateTime="2022-01-01">2 days ago</Date>
+              <Author href={author_link}>{author}</Author>
+              <PostDate dateTime={created}>{displayedDate}</PostDate>
             </>
           ) : (
             <Skeleton />

@@ -13,7 +13,10 @@ import Orders from "@/components/Home/Orders"
 
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
+import BackendClient from "@/src/BackendClient"
+
 import type { GetStaticProps } from "next"
+import type { NewsData } from "@/src/BackendClient/types"
 
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
@@ -69,14 +72,18 @@ const Container = styled.div`
   }
 `
 
-function Index() {
+type IndexProps = {
+  news: NewsData[] | null
+}
+
+function Index({ news }: IndexProps) {
   return (
     <Container>
       <FormGroup />
       <Investments />
       <CryptoSlide />
       <CryptoExplorer />
-      <NewsRoom />
+      {news && <NewsRoom news={news} />}
       <AboutUs />
 
       <Orders />
@@ -87,9 +94,14 @@ function Index() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps<IndexProps> = async ({
+  locale
+}) => {
+  const response = await BackendClient.getNews()
+
   return {
     props: {
+      news: response.data ? response.data : null,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
