@@ -17,7 +17,13 @@ type ServerToClientEvents = {
 
 type ClientToServerEvents = {}
 
-function CryptoManager() {
+type CryptoManagerProps = {
+  getToken?: boolean;
+  getChart?: boolean;
+
+}
+
+function CryptoManager({ getToken, getChart }: CryptoManagerProps) {
   const dispatch = useAppDispatch()
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
@@ -31,7 +37,7 @@ function CryptoManager() {
   }, [])
 
   useEffect(() => {
-    if (selectedBlockchain) {
+    if (selectedBlockchain && getChart) {
       const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
         `https://${selectedBlockchain.url}`,
         {
@@ -53,8 +59,8 @@ function CryptoManager() {
   useEffect(() => {
     if (
       selectedBlockchain &&
-      (prevSelectedBlockchainId == null ||
-        prevSelectedBlockchainId != selectedBlockchain.chain_id)
+      getToken &&
+      (prevSelectedBlockchainId == null || prevSelectedBlockchainId != selectedBlockchain.chain_id)
     ) {
       dispatch(getTokens())
       prevSelectedBlockchainId = selectedBlockchain.chain_id

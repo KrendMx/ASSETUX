@@ -11,7 +11,7 @@ import { mapCurrency } from "@/src/currencies"
 import useSliderConfig from "../sliderConfig"
 
 import type { MarketHistoryData } from "@/src/BackendClient/types"
-import type { ExplorerData } from "../CryptoManager/types"
+import type { ExplorerData } from "../../CryptoManager/types"
 import type { Token } from "@/src/BackendClient/types"
 import type { ActionType } from "@/src/redux/cryptoSlice"
 import type { CurrenciesType } from "@/src/currencies"

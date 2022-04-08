@@ -26,7 +26,8 @@ import type {
   RequestOrdersEmailProps,
   RequestOrdersEmailResponse,
   GetEmailOrdersProps,
-  GetEmailOrdersResponse
+  GetEmailOrdersResponse,
+  LoginProps
 } from "./types"
 
 class BackendClient {
@@ -198,6 +199,24 @@ class BackendClient {
       }
     })
   }
+
+  public async login({
+    token,
+    apiHost
+  }: LoginProps) {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/auth/login`,
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      },
+      // withCredentials: true
+    })
+  }
+
+
+
+
 }
 
 export default new BackendClient()

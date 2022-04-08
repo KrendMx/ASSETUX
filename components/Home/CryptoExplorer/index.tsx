@@ -19,7 +19,7 @@ import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
 import type { ActionType } from "@/src/redux/cryptoSlice"
 import type { Token } from "@/src/BackendClient/types"
-import type { ExplorerData } from "../CryptoManager/types"
+import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
 
 const Container = styled.section`

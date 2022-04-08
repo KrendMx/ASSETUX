@@ -1,9 +1,14 @@
 import styled from "styled-components"
 import WrapperContainer from "@/shared/WrapperContainer"
 import React, { useState } from "react"
+import { Magic } from "magic-sdk"
 
+import config from "@/src/config"
+import BackendClient from "@/src/BackendClient"
 import { Form, Input, Button } from "@/components/Profile/Shared/FormComponents"
 import { useTranslation } from "next-i18next"
+import { useAppSelector } from "@/src/redux/hooks"
+import CryptoManager from "@/components/CryptoManager"
 
 const Container = styled(WrapperContainer)`
   display: grid;
@@ -29,14 +34,33 @@ const LoginWrapper = styled.div`
 
 function LoginContainer() {
   const { t } = useTranslation("profile-login")
+  const selectedBlockchain = useAppSelector(
+    (state) => state.crypto.selectedBlockchain
+  )
+
   const [email, setEmail] = useState("")
 
-  const login = () => {
+  const login = async () => {
+    if (selectedBlockchain) {
+      const token = await new Magic(config.magicKey as string)
+        .auth
+        .loginWithMagicLink({ email })
+
+      console.log(token)
+      if (token) {
+        const test = await BackendClient.login({
+          token,
+          apiHost: selectedBlockchain.url
+        })
+        console.log("test", test)
+      }
+    }
   }
 
   return (
     <Container>
       <Section>
+        <CryptoManager />
         <LoginWrapper>
           <Title>{t("greetings")}</Title>
           <Note>{t("explanation")}</Note>

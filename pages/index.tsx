@@ -6,10 +6,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import FormGroup from "@/components/Home/FormGroup"
 import NewsRoom from "@/components/Home/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
-import CryptoManager from "@/components/Home/CryptoManager"
+import CryptoManager from "@/components/CryptoManager"
 import QueryController from "@/components/Home/QueryController"
 import Orders from "@/components/Home/Orders"
-import WrapperContainer from "@/shared/WrapperContainer";
+import WrapperContainer from "@/shared/WrapperContainer"
 
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
@@ -60,7 +60,7 @@ function Index() {
 
       <Orders />
 
-      <CryptoManager />
+      <CryptoManager getToken={true} getChart={true} />
       <QueryController />
     </Container>
   )

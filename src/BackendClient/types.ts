@@ -364,3 +364,7 @@ export type SellOrderInfo = {
     private_key: string
   }
 }
+
+export type LoginProps = UrlRequest & {
+  token: string
+}
