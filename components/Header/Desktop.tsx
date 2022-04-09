@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { css } from "styled-components"
+import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
 import { useAppDispatch } from "@/src/redux/hooks"
@@ -69,8 +70,11 @@ const NavLink = styled.a<NavLinkProps>`
 `
 
 function Desktop() {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const { t } = useTranslation("header")
+
+  const isMainPage = router.pathname == "/"
 
   return (
     <DesktopContainer>
@@ -86,9 +90,14 @@ function Desktop() {
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
-          <NavLink as="button" onClick={() => dispatch(setOrdersActive(true))}>
-            {t("header:operations")}
-          </NavLink>
+          {isMainPage && (
+            <NavLink
+              as="button"
+              onClick={() => dispatch(setOrdersActive(true))}
+            >
+              {t("header:operations")}
+            </NavLink>
+          )}
         </NavContainer>
         <LanguageCurrencyChange />
       </RightContainer>

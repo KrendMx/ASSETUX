@@ -28,6 +28,8 @@ function Menu() {
     (state) => state.crypto.availableTokens
   )
 
+  const isMainPage = router.pathname == "/"
+
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {
       router.push("/", undefined, {
@@ -84,16 +86,18 @@ function Menu() {
         <li>
           <NavGroup title={t("legal")} routes={legal} />
         </li>
-        <li>
-          <MobileButton
-            onClick={() => {
-              dispatch(setOrdersActive(true))
-              dispatch(setBurgerActive(false))
-            }}
-          >
-            {t("header:operations")}
-          </MobileButton>
-        </li>
+        {isMainPage && (
+          <li>
+            <MobileButton
+              onClick={() => {
+                dispatch(setOrdersActive(true))
+                dispatch(setBurgerActive(false))
+              }}
+            >
+              {t("header:operations")}
+            </MobileButton>
+          </li>
+        )}
       </ul>
       <Social />
     </Container>

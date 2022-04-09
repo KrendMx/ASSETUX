@@ -3,6 +3,7 @@ import dynamic from "next/dynamic"
 import styled from "styled-components"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
+import BaseContainer from "@/shared/BaseContainer"
 import FormGroup from "@/components/Home/FormGroup"
 import Investments from "@/components/Home/Investments"
 import NewsRoom from "@/components/Home/NewsRoom"
@@ -21,21 +22,7 @@ import type { NewsData } from "@/src/BackendClient/types"
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
 
-const Container = styled.div`
-  width: 100%;
-  padding: 74px 0;
-  font-size: 1em;
-
-  & > section {
-    padding: 0 var(--paddings);
-  }
-
-  h1,
-  h3 {
-    font-size: 2.6em;
-    color: var(--black);
-  }
-
+const Container = styled(BaseContainer)`
   & > section:not(:last-child) {
     margin-bottom: 130px;
   }
@@ -67,8 +54,6 @@ const Container = styled.div`
     & > section:first-child {
       margin-bottom: 70px;
     }
-
-    padding: 44px 0 30px;
   }
 `
 
