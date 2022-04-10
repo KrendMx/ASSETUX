@@ -34,15 +34,7 @@ export const Container = styled.section`
 `
 
 export const InfoBlock = styled.div`
-  width: 76%;
-
-  @media only screen and (max-width: 1360px) {
-    width: 85%;
-  }
-
-  @media only screen and (max-width: ${breakPoint}px) {
-    width: 100%;
-  }
+  width: 100%;
 `
 
 export const Paragraph = styled(AdaptiveFont).attrs({
@@ -50,6 +42,7 @@ export const Paragraph = styled(AdaptiveFont).attrs({
   mobileFactor: 1.34,
   tabletFactor: 1.2
 })`
+  width: 87%;
   font-weight: 400;
   color: #616161;
   margin: 1.6315em 0;
@@ -60,9 +53,11 @@ export const Paragraph = styled(AdaptiveFont).attrs({
 `
 
 export const Media = styled.div`
+  width: 80%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 4em;
 
   @media only screen and (max-width: ${breakPoint}px) {
     width: 100%;

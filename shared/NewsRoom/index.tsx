@@ -56,7 +56,7 @@ type NewsRoomProps = {
 }
 
 function NewsRoom({ news }: NewsRoomProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation("news")
 
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const sliderConfig = useSliderConfig()
@@ -64,10 +64,10 @@ function NewsRoom({ news }: NewsRoomProps) {
   return (
     <Container>
       <Row>
-        <h3>{!showSkeleton ? t("home:news_title") : <Skeleton />}</h3>
+        <h3>{!showSkeleton ? t("title") : <Skeleton />}</h3>
         {!showSkeleton && (
           <MoreLink as="a" href="#">
-            {t("home:news_showMore")}
+            {t("showMore")}
           </MoreLink>
         )}
       </Row>

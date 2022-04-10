@@ -6,7 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import BaseContainer from "@/shared/BaseContainer"
 import FormGroup from "@/components/Home/FormGroup"
 import Investments from "@/components/Home/Investments"
-import NewsRoom from "@/components/Home/NewsRoom"
+import NewsRoom from "@/shared/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
 import CryptoManager from "@/components/Home/CryptoManager"
 import QueryController from "@/components/Home/QueryController"
@@ -91,6 +91,7 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
         "header",
         "footer",
         "home",
+        "news",
         "routes"
       ]))
     }

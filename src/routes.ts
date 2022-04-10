@@ -7,7 +7,7 @@ export type Route = {
 export const company: Route[] = [
   {
     key: "about",
-    href: "/404"
+    href: "/about"
   },
   {
     key: "news",

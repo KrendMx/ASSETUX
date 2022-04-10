@@ -112,7 +112,6 @@ investments_paragraph: >-
   Инвестируй в тренды с помощью портфелей, упакованных валютами финансовых сервисов, криптоигр, топ коинов и метавселенных.
   Портфели созданы для легкости инвестирования в целые сферы с потенциалами многократного роста.
 investments_download: Скачать приложение
-
 cryptoSlide_change: Изменение за 24ч
 cryptoSlide_buy: Купить
 cryptoSlide_sell: Продать
@@ -125,11 +124,8 @@ explorer_sell: Продажа
 explorer_buy: Покупка
 explorer_change: Изменение 24ч
 explorer_volume: Объём 24ч
-explorer_trade: 
-explorer_pool: 
-
-news_title: Новости
-news_showMore: Показать больше
+explorer_trade:
+explorer_pool:
 
 about_title: О нас
 about_p1: |-

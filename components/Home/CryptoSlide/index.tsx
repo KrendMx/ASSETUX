@@ -8,7 +8,7 @@ import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
 import { mobile } from "@/src/constants"
 import { mapCurrency } from "@/src/currencies"
 
-import useSliderConfig from "../sliderConfig"
+import useSliderConfig from "@/shared/sliderConfig"
 
 import type { MarketHistoryData } from "@/src/BackendClient/types"
 import type { ExplorerData } from "../CryptoManager/types"
