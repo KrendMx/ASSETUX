@@ -106,6 +106,10 @@ export const ButtonLink = styled.a`
   font-weight: 500;
   font-size: 0.845em;
 
+  & > * + * {
+    margin-left: 1em;
+  }
+
   @media only screen and (max-width: 680px) {
     width: 13em;
   }

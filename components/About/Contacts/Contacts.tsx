@@ -11,6 +11,8 @@ import {
   SupportButtonsRow
 } from "./styles"
 
+import { Telegram, Email } from "./icons"
+
 function Contacts() {
   return (
     <Container>
@@ -22,7 +24,10 @@ function Contacts() {
             <br />
             Будь в курсе всех новостей.
           </Paragraph>
-          <ButtonLink>Новости</ButtonLink>
+          <ButtonLink>
+            <Telegram />
+            <span>Новости</span>
+          </ButtonLink>
         </News>
         <Support>
           <Paragraph alignRight>
@@ -31,8 +36,14 @@ function Contacts() {
             ASSETUX всегда на связи!
           </Paragraph>
           <SupportButtonsRow>
-            <ButtonLink>Поддержка</ButtonLink>
-            <ButtonLink>Email</ButtonLink>
+            <ButtonLink>
+              <Telegram />
+              <span>Поддержка</span>
+            </ButtonLink>
+            <ButtonLink>
+              <Email />
+              <span>Email</span>
+            </ButtonLink>
           </SupportButtonsRow>
         </Support>
       </Content>
