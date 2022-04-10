@@ -36,17 +36,22 @@ const Container = styled.div`
     padding: 26px var(--paddings);
     row-gap: 25px;
 
-    & > *:nth-child(-n + 3) {
-      grid-column: span 2;
+    & > *:nth-child(-n + 2) {
+      grid-column: span 3;
+    }
+
+    & > *:nth-child(3) {
+      grid-row-start: 2;
+      grid-column: span 6;
     }
 
     & > *:nth-last-child(2) {
-      grid-row-start: 2;
+      grid-row-start: 3;
       grid-column: 1 / 4;
     }
 
     & > *:nth-last-child(1) {
-      grid-row-start: 2;
+      grid-row-start: 3;
       grid-column: 5 / 6;
     }
   }
