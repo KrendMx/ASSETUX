@@ -71,6 +71,7 @@ export const Media = styled.div`
 `
 
 export const QRContainer = styled.div`
+  position: relative;
   width: 178px;
   border-radius: 10px;
   overflow: hidden;
@@ -115,6 +116,7 @@ export const Stores = styled.div`
 `
 
 export const Store = styled.a`
+  position: relative;
   width: 223px;
   line-height: 0;
   display: block;
@@ -147,4 +149,12 @@ export const InvestmentsContainer = styled.div`
     width: 100%;
     height: 33em;
   }
+`
+
+export const AbsoluteSkeletonContainer = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
 `

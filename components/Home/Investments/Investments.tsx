@@ -1,7 +1,11 @@
 import React from "react"
 import { useTranslation } from "next-i18next"
+import { useAppSelector } from "@/src/redux/hooks"
 import Image from "next/image"
 import Link from "next/link"
+import Skeleton from "react-loading-skeleton"
+
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 
 import {
   Container,
@@ -12,18 +16,25 @@ import {
   Store,
   QRContainer,
   ImageBlock,
-  InvestmentsContainer
+  InvestmentsContainer,
+  AbsoluteSkeletonContainer
 } from "./styles"
 
 function Investments() {
   const { t } = useTranslation("home")
 
+  const showSkeleton = useAppSelector(selectShowSkeleton)
+
   return (
     <Container>
       <InfoBlock>
-        <h3>{t("investments_title")}</h3>
-        <Paragraph>{t("investments_paragraph")}</Paragraph>
-        <Paragraph>{t("investments_download")}:</Paragraph>
+        <h3>{showSkeleton ? <Skeleton /> : t("investments_title")}</h3>
+        <Paragraph>
+          {showSkeleton ? <Skeleton count={5} /> : t("investments_paragraph")}
+        </Paragraph>
+        <Paragraph>
+          {showSkeleton ? <Skeleton /> : t("investments_download") + ":"}
+        </Paragraph>
         <Media>
           <Stores>
             <Link href="#" passHref>
@@ -34,6 +45,11 @@ function Investments() {
                   height={68}
                   alt="appstore"
                 />
+                {showSkeleton && (
+                  <AbsoluteSkeletonContainer>
+                    <Skeleton height="100%" borderRadius={0} />
+                  </AbsoluteSkeletonContainer>
+                )}
               </Store>
             </Link>
             <Link href="#" passHref>
@@ -44,6 +60,11 @@ function Investments() {
                   height={73}
                   alt="appstore"
                 />
+                {showSkeleton && (
+                  <AbsoluteSkeletonContainer>
+                    <Skeleton height="100%" borderRadius={0} />
+                  </AbsoluteSkeletonContainer>
+                )}
               </Store>
             </Link>
           </Stores>
@@ -54,6 +75,11 @@ function Investments() {
               height={170}
               alt="QRCODE"
             />
+            {showSkeleton && (
+              <AbsoluteSkeletonContainer>
+                <Skeleton height="100%" borderRadius={0} />
+              </AbsoluteSkeletonContainer>
+            )}
           </QRContainer>
         </Media>
       </InfoBlock>
@@ -66,6 +92,11 @@ function Investments() {
             objectPosition="center center"
             alt="Portfolio"
           />
+          {showSkeleton && (
+            <AbsoluteSkeletonContainer>
+              <Skeleton height="100%" />
+            </AbsoluteSkeletonContainer>
+          )}
         </InvestmentsContainer>
       </ImageBlock>
     </Container>
