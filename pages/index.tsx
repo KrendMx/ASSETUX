@@ -24,35 +24,35 @@ const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
 
 const Container = styled(BaseContainer)`
   & > section:not(:last-child) {
-    margin-bottom: 130px;
+    margin-bottom: 6.84em;
   }
 
   & > section:first-child {
-    margin-bottom: 150px;
+    margin-bottom: 7.89em;
   }
 
   & > section:nth-child(2) {
-    margin-bottom: 139px;
+    margin-bottom: 7.31em;
   }
 
   & > section:nth-child(3) {
-    margin-bottom: 164px;
+    margin-bottom: 8.63em;
   }
 
   & > section:nth-last-child(2) {
-    margin-bottom: 68px;
+    margin-bottom: 3.57em;
   }
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     & > section:not(:last-child),
     & > section:nth-last-child(2) {
-      margin-bottom: 98px;
+      margin-bottom: 7.4em;
     }
   }
 
   @media only screen and (max-width: ${mobile}px) {
     & > section:first-child {
-      margin-bottom: 70px;
+      margin-bottom: 7em;
     }
   }
 `

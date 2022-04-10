@@ -12,7 +12,7 @@ import { mobile, mobileLayoutForTablet } from "@/src/constants"
 const Container = styled.section`
   width: 100%;
   max-width: var(--max-width);
-  margin: 0 auto 150px auto;
+  margin: 0 auto 7.89em auto;
 `
 
 const Content = styled.div`
@@ -20,13 +20,9 @@ const Content = styled.div`
   flex-direction: row;
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    margin-bottom: 64px;
+    margin-bottom: 4.8em;
     flex-direction: column;
     align-items: center;
-  }
-
-  @media only screen and (max-width: ${400}px) {
-    margin-bottom: 5.5em;
   }
 `
 
@@ -39,7 +35,7 @@ const AboutContainer = styled.div`
   margin-right: 120px;
 
   & > h3 {
-    margin-bottom: 94px;
+    margin-bottom: 1.9em;
   }
 
   @media only screen and (max-width: 1200px) {
@@ -51,10 +47,6 @@ const AboutContainer = styled.div`
     padding-top: 0;
     padding-bottom: 0;
     margin-right: 0;
-
-    & > h3 {
-      margin-bottom: 20px;
-    }
   }
 `
 
@@ -68,13 +60,7 @@ const TextContainer = styled(AdaptiveFont).attrs({
   }
 
   p:not(:last-child) {
-    margin-bottom: 25px;
-  }
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    p:not(:last-child) {
-      margin-bottom: 15px;
-    }
+    margin-bottom: 1.31em;
   }
 `
 
@@ -82,26 +68,21 @@ const ShowLink = styled.a`
   text-decoration: none;
   color: var(--white);
   background-color: var(--blue);
-  width: 249px;
-  height: 49px;
+  width: 13em;
+  height: 2.58em;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-weight: 19;
+  font-size: 1em;
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     margin: 0 auto;
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    font-size: 16px;
-  }
-
-  @media only screen and (max-width: 400px) {
-    font-size: 1.3em;
-    height: 3.13em;
+    font-size: 1.43em;
   }
 `
 
@@ -125,9 +106,14 @@ const SkeletonContainer = styled.div`
   height: 100%;
   left: 0;
   top: 0;
+`
+
+const ShowLinkSkeletonContainer = styled.div`
+  width: 13em;
+  height: 2.58em;
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    padding: 20px;
+    margin: 0 auto;
   }
 `
 
@@ -170,7 +156,13 @@ function AboutUs() {
         </ImageContainer>
       </Content>
       <Link href="/about" passHref>
-        <ShowLink>{t("home:about_showMore")}</ShowLink>
+        {showSkeleton ? (
+          <ShowLinkSkeletonContainer>
+            <Skeleton width="100%" height="100%" />
+          </ShowLinkSkeletonContainer>
+        ) : (
+          <ShowLink>{t("home:about_showMore")}</ShowLink>
+        )}
       </Link>
     </Container>
   )
