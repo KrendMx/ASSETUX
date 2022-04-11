@@ -1,4 +1,9 @@
 import React from "react"
+import { useTranslation } from "next-i18next"
+import Skeleton from "react-loading-skeleton"
+
+import { useAppSelector } from "@/src/redux/hooks"
+import { selectShowSkeleton } from "@/src/redux/uiSlice"
 
 import {
   Container,
@@ -8,42 +13,63 @@ import {
   Paragraph,
   ButtonLink,
   Support,
-  SupportButtonsRow
+  SupportButtonsRow,
+  ButtonLinkSkeleton
 } from "./styles"
 
 import { Telegram, Email } from "./icons"
 
 function Contacts() {
+  const { t } = useTranslation("about")
+
+  const showSkeleton = useAppSelector(selectShowSkeleton)
+
   return (
     <Container>
-      <Title>Контакты</Title>
+      <Title>
+        {showSkeleton ? <Skeleton count={2} /> : t("contacts_title")}
+      </Title>
       <Content>
         <News>
           <Paragraph>
-            Подписывайcя на нас в Телеграм.
-            <br />
-            Будь в курсе всех новостей.
+            {showSkeleton ? <Skeleton count={2} /> : t("contacts_news_p")}
           </Paragraph>
-          <ButtonLink>
-            <Telegram />
-            <span>Новости</span>
-          </ButtonLink>
+          {showSkeleton ? (
+            <ButtonLinkSkeleton>
+              <Skeleton width="100%" height="100%" />
+            </ButtonLinkSkeleton>
+          ) : (
+            <ButtonLink>
+              <Telegram />
+              <span>{t("contacts_news_link")}</span>
+            </ButtonLink>
+          )}
         </News>
         <Support>
           <Paragraph alignRight>
-            Если возникнут вопросы - пиши в службу поддержки.
-            <br />
-            ASSETUX всегда на связи!
+            {showSkeleton ? <Skeleton count={2} /> : t("contacts_support_p")}
           </Paragraph>
           <SupportButtonsRow>
-            <ButtonLink>
-              <Telegram />
-              <span>Поддержка</span>
-            </ButtonLink>
-            <ButtonLink>
-              <Email />
-              <span>Email</span>
-            </ButtonLink>
+            {showSkeleton ? (
+              <ButtonLinkSkeleton>
+                <Skeleton width="100%" height="100%" />
+              </ButtonLinkSkeleton>
+            ) : (
+              <ButtonLink>
+                <Telegram />
+                <span>{t("contacts_support_link1")}</span>
+              </ButtonLink>
+            )}
+            {showSkeleton ? (
+              <ButtonLinkSkeleton>
+                <Skeleton width="100%" height="100%" />
+              </ButtonLinkSkeleton>
+            ) : (
+              <ButtonLink>
+                <Email />
+                <span>{t("contacts_support_link2")}</span>
+              </ButtonLink>
+            )}
           </SupportButtonsRow>
         </Support>
       </Content>

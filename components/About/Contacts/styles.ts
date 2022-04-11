@@ -46,7 +46,7 @@ export const Paragraph = styled.p<ParagraphProps>`
   font-size: 1em;
   font-weight: 400;
   text-align: ${(props) => (props.alignRight ? "right" : "left")};
-  padding-left: ${(props) => (props.alignRight ? "3.5em" : "0")};
+  white-space: pre-line;
 
   @media only screen and (max-width: 680px) {
     padding-left: 0;
@@ -82,11 +82,16 @@ export const SupportButtonsRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
+  & > * + * {
+    margin-left: 2.57em;
+  }
+
   @media only screen and (max-width: ${mobile}px) {
     flex-direction: column;
 
     & > * + * {
       margin-top: 0.4em;
+      margin-left: 0;
     }
   }
 `
@@ -109,6 +114,22 @@ export const ButtonLink = styled.a`
   & > * + * {
     margin-left: 1em;
   }
+
+  @media only screen and (max-width: 680px) {
+    width: 13em;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    align-self: center;
+    font-size: 1.065em;
+    width: 15em;
+  }
+`
+
+export const ButtonLinkSkeleton = styled.div`
+  width: 15em;
+  height: 3em;
+  font-size: 0.845em;
 
   @media only screen and (max-width: 680px) {
     width: 13em;

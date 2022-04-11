@@ -1,11 +1,11 @@
 import React from "react"
 import { useTranslation } from "next-i18next"
-import { useAppSelector } from "@/src/redux/hooks"
 import Image from "next/image"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
 
 import { selectShowSkeleton } from "@/src/redux/uiSlice"
+import { useAppSelector } from "@/src/redux/hooks"
 
 import {
   Container,
@@ -16,9 +16,10 @@ import {
   Store,
   QRContainer,
   ImageBlock,
-  InvestmentsContainer,
-  AbsoluteSkeletonContainer
+  InvestmentsContainer
 } from "./styles"
+
+import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
 
 function Investments() {
   const { t } = useTranslation("home")

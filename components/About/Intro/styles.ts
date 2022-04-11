@@ -63,12 +63,14 @@ export const SubTitle = styled.h2`
 type ParagraphProps = {
   black?: boolean
   decreaseMargins?: boolean
+  preLine?: boolean
 }
 
 export const Paragraph = styled.p<ParagraphProps>`
   color: ${(props) => (props.black ? "var(--black)" : "var(--gray)")};
   font-weight: ${(props) => (props.black ? 500 : 400)};
   margin-top: ${(props) => (props.decreaseMargins ? "1em" : "1.5em")};
+  white-space: ${(props) => (props.preLine ? "pre-line" : "normal")};
   font-size: 1.1em;
 
   @media only screen and (max-width: ${mobile}px) {
@@ -78,6 +80,7 @@ export const Paragraph = styled.p<ParagraphProps>`
 `
 
 export const ImageContainer = styled.div`
+  position: relative;
   flex: 1 1 100%;
   align-self: center;
 
@@ -88,4 +91,12 @@ export const ImageContainer = styled.div`
   @media only screen and (max-width: ${mobile}px) {
     width: 100%;
   }
+`
+
+export const SkeletonImageContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 `

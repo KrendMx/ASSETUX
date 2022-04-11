@@ -66,6 +66,7 @@ export const Media = styled.div`
 `
 
 export const QRContainer = styled.div`
+  position: relative;
   width: 178px;
   border-radius: 10px;
   overflow: hidden;
@@ -110,6 +111,7 @@ export const Stores = styled.div`
 `
 
 export const Store = styled.a`
+  position: relative;
   width: 223px;
   line-height: 0;
   display: block;

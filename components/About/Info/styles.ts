@@ -58,10 +58,15 @@ export const ExampleDescription = styled.div`
   }
 `
 
-export const Paragraph = styled.p`
+type ParagraphProps = {
+  preLine?: boolean
+}
+
+export const Paragraph = styled.p<ParagraphProps>`
   font-size: 1em;
   font-weight: 400;
   color: #616161;
+  white-space: ${(props) => (props.preLine ? "pre-line" : "normal")};
 `
 
 export const Bold = styled.span`
@@ -82,21 +87,29 @@ export const ExampleBlock = styled.div`
   }
 `
 
-export const GoodBlock = styled(ExampleBlock)`
+type GoodBlockProps = {
+  isLoading?: boolean
+}
+
+export const GoodBlock = styled(ExampleBlock)<GoodBlockProps>`
   width: 100%;
   margin-top: 2.1em;
 
   @media only screen and (max-width: ${mobile}px) {
-    border: 3px solid var(--green);
+    border: ${(props) => (props.isLoading ? "none" : "3px solid var(--green)")};
   }
 `
 
-export const BadBlock = styled(ExampleBlock)`
+type BadBlockProps = {
+  isLoading?: boolean
+}
+
+export const BadBlock = styled(ExampleBlock)<BadBlockProps>`
   flex: 1 1 calc(100% - 6.7em);
   align-self: stretch;
 
   @media only screen and (max-width: ${mobile}px) {
-    border: 3px solid var(--red);
+    border: ${(props) => (props.isLoading ? "none" : "3px solid var(--red)")};
     margin-top: 0.6em;
   }
 `

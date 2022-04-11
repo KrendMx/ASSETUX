@@ -9,6 +9,8 @@ import { selectShowSkeleton } from "@/src/redux/uiSlice"
 import { useAppSelector } from "@/src/redux/hooks"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
+import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
+
 const Container = styled.section`
   width: 100%;
   max-width: var(--max-width);
@@ -100,14 +102,6 @@ const ImageContainer = styled.div`
   }
 `
 
-const SkeletonContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-`
-
 const ShowLinkSkeletonContainer = styled.div`
   width: 13em;
   height: 2.58em;
@@ -149,9 +143,9 @@ function AboutUs() {
             layout="responsive"
           />
           {showSkeleton && (
-            <SkeletonContainer>
+            <AbsoluteSkeletonContainer>
               <Skeleton height="100%" />
-            </SkeletonContainer>
+            </AbsoluteSkeletonContainer>
           )}
         </ImageContainer>
       </Content>
