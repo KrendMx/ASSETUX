@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
 import { useAppSelector } from "@/src/redux/hooks"
-import { selectShowSkeleton } from "@/src/redux/uiSlice"
+import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 
 import {
   Container,

@@ -1,4 +1,4 @@
-import { ActionType } from "@/src/redux/cryptoSlice"
+import { TAction } from "@/src/redux/cryptoSlice/types"
 
 export type CardsProps = {
   mobile?: boolean
@@ -7,7 +7,7 @@ export type CardsProps = {
   rowNames?: string[]
   data?: CardData[][]
   currentPage?: number
-  handleAction?: (action: ActionType, dataIndex: number) => void
+  handleAction?: (action: TAction, dataIndex: number) => void
 }
 
 export type CardData = string | number | JSX.Element | undefined | null

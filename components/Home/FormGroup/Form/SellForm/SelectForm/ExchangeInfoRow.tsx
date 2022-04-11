@@ -1,7 +1,9 @@
 import React from "react"
 import styled from "styled-components"
+
 import Copy from "./Copy"
 import Timer from "./Timer"
+
 import { mobile } from "@/src/constants"
 
 const Container = styled.div`

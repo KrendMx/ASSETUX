@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import styled from "styled-components"
+
 import Button from "@/shared/ModalComponents/Button"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
 import Container from "@/shared/ModalComponents/Container"

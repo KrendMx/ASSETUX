@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import { mobile } from "@/src/constants"
 import QRCode from "qrcode.react"
 
 const Button = styled.button`
@@ -20,7 +19,6 @@ type CopyProps = {
 
 function QRcode({ valueToCopy }: CopyProps) {
   const handleCopy: React.MouseEventHandler<HTMLButtonElement> = () => {
-
     if (valueToCopy && "clipboard" in navigator) {
       navigator.clipboard.writeText(valueToCopy)
     }

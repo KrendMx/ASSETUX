@@ -1,6 +1,7 @@
 import React from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
+
 import InputSelect from "@/shared/InputSelect"
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"

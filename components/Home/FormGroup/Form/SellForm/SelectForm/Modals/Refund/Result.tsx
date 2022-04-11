@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import styled from "styled-components"
+
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
 import Info from "@/shared/ModalComponents/Info"

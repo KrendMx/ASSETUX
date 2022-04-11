@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
+
 import Container from "@/shared/ModalComponents/Container"
 import Title from "@/shared/ModalComponents/Title"
 import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
