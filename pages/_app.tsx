@@ -3,6 +3,8 @@ import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
+import { SkeletonTheme } from "react-loading-skeleton"
+
 import wrapper from "@/src/redux/store"
 import { useAppDispatch } from "@/src/redux/hooks"
 import {
@@ -14,13 +16,17 @@ import {
   setAppLoaded,
   setLanguageCurrencyActive
 } from "@/src/redux/uiSlice"
+
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"
+
 import GlobalStyles from "@/styles/GlobalStyles"
+
 import { mobile, tablet, mobileLayoutForTablet } from "@/src/constants"
 import { checkCurrency } from "@/src/currencies"
-import { SkeletonTheme } from "react-loading-skeleton"
+
 import type { AppProps } from "next/app"
+
 import "react-loading-skeleton/dist/skeleton.css"
 import "@/styles/fonts.css"
 
