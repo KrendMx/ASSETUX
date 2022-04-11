@@ -1,7 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit"
+import { createWrapper } from "next-redux-wrapper"
+
 import uiSlice from "./uiSlice"
 import cryptoSlice from "./cryptoSlice"
-import { createWrapper } from "next-redux-wrapper"
 
 const makeStore = () =>
   configureStore({

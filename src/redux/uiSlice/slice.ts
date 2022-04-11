@@ -1,21 +1,11 @@
 import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
-import { allowSkeletons } from "../constants"
-import type { CurrenciesType } from "../currencies"
-import type { RootState } from "./store"
+
+import type { CurrenciesType } from "@/src/currencies"
+import type { RootState } from "../store"
+import type { UiState } from "./types"
 
 const hydrate = createAction<RootState>(HYDRATE)
-
-export type UiState = {
-  isMobile: boolean
-  isTablet: boolean
-  isMobileLayoutForTablet: boolean
-  burgerActive: boolean
-  languageCurrencyActive: boolean
-  ordersActive: boolean
-  currentCurrency: CurrenciesType
-  appLoaded: boolean
-}
 
 const initialState: UiState = {
   isMobile: false,
@@ -86,24 +76,4 @@ export const uiSlice = createSlice({
   }
 })
 
-export const {
-  setMobile,
-  setTablet,
-  setDesktop,
-  setBurgerActive,
-  setMobileLayoutForTablet,
-  setLanguageCurrencyActive,
-  setOrdersActive,
-  setCurrentCurrency,
-  setAppLoaded
-} = uiSlice.actions
-
-export const selectShowSkeleton = (state: RootState) => {
-  if (allowSkeletons) {
-    return !state.ui.appLoaded
-  }
-
-  return false
-}
-
-export default uiSlice.reducer
+export default uiSlice

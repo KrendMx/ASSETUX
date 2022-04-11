@@ -1,5 +1,6 @@
 import axios from "axios"
 import config from "../config"
+
 import type { AxiosRequestConfig } from "axios"
 
 type ResponseType = {

@@ -1,60 +1,19 @@
-import {
-  createSlice,
-  PayloadAction,
-  createAction,
-  createAsyncThunk
-} from "@reduxjs/toolkit"
+import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
-import BackendClient from "../BackendClient"
-import type { RootState } from "./store"
+
+import { getBlockchains, getTokens } from "./thunks"
+
+import type { RootState } from "../store"
 import type {
   GetBlockchains,
   Blockchain,
   GetTokens,
   Token
-} from "../BackendClient/types"
-import { ExplorerData } from "@/components/Home/CryptoManager/types"
+} from "@/src/BackendClient/types"
+import type { ExplorerData } from "@/components/Home/CryptoManager/types"
+import type { TAction, CryptoState } from "./types"
 
 const hydrate = createAction<RootState>(HYDRATE)
-
-export const getBlockchains = createAsyncThunk<
-  GetBlockchains,
-  void,
-  {
-    state: RootState
-  }
->("crypto/getBlockchains", async () => {
-  return BackendClient.getBlockchains()
-})
-
-export const getTokens = createAsyncThunk<
-  GetTokens | null,
-  void,
-  {
-    state: RootState
-  }
->("crypto/getTokens", async (_, { getState }) => {
-  const state = getState()
-  if (state.crypto.selectedBlockchain) {
-    return BackendClient.getTokens({
-      apiHost: state.crypto.selectedBlockchain.url
-    })
-  }
-
-  return null
-})
-
-export type ActionType = "BUY" | "SELL"
-
-export type CryptoState = {
-  availableBlockchains: Blockchain[] | null
-  selectedBlockchain: Blockchain | null
-  availableTokens: Token[] | null
-  selectedToken: Token | null
-  currentRate: number | null
-  action: ActionType
-  explorerData: ExplorerData[] | null
-}
 
 const initialState: CryptoState = {
   selectedBlockchain: null,
@@ -66,7 +25,7 @@ const initialState: CryptoState = {
   explorerData: null
 }
 
-export const CryptoSlice = createSlice({
+export const cryptoSlice = createSlice({
   name: "crypto",
   initialState,
   reducers: {
@@ -79,7 +38,7 @@ export const CryptoSlice = createSlice({
     setCurrentRate: (state, action: PayloadAction<number | null>) => {
       state.currentRate = action.payload
     },
-    swapAction: (state, action: PayloadAction<ActionType | undefined>) => {
+    swapAction: (state, action: PayloadAction<TAction | undefined>) => {
       if (action.payload) {
         state.action = action.payload
       } else {
@@ -131,12 +90,4 @@ export const CryptoSlice = createSlice({
   }
 })
 
-export const {
-  setSelectedToken,
-  setSelectedBlockchain,
-  swapAction,
-  setCurrentRate,
-  setExplorerData
-} = CryptoSlice.actions
-
-export default CryptoSlice.reducer
+export default cryptoSlice
