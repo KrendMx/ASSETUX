@@ -1,5 +1,6 @@
 import React from "react"
 import Image from "next/image"
+import { createPortal } from "preact/compat"
 
 import Background from "../Background"
 import Container from "../ModalComponents/Container"
@@ -19,7 +20,7 @@ function DefaultModal({
   content,
   onBackgroundClick
 }: DefaultModalProps) {
-  return (
+  return createPortal(
     <>
       <Background onClick={() => onBackgroundClick && onBackgroundClick()} />
       <Container onClick={(event) => event.stopPropagation()} spanContent fixed>
@@ -39,7 +40,8 @@ function DefaultModal({
         </Title>
         <Info>{content}</Info>
       </Container>
-    </>
+    </>,
+    document.querySelector("#__next")!
   )
 }
 
