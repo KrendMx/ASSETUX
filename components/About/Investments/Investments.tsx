@@ -38,6 +38,13 @@ function Investments() {
 
   return (
     <>
+      {displayModal && (
+        <DefaultModal
+          title={t("investments_modal-title")}
+          content={t("investments_modal-content")}
+          onClose={() => setDisplayModal(false)}
+        />
+      )}
       <VerticalSliderStyles />
       <Container>
         <InfoBlock>
@@ -163,13 +170,6 @@ function Investments() {
             </SliderContainer>
           </InvestmentsContainer>
         </ImageBlock>
-        {displayModal && (
-          <DefaultModal
-            title={t("investments_modal-title")}
-            content={t("investments_modal-content")}
-            onBackgroundClick={() => setDisplayModal(false)}
-          />
-        )}
       </Container>
     </>
   )

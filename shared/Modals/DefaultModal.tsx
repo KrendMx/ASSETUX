@@ -8,21 +8,18 @@ import Title from "../ModalComponents/Title"
 import Shadow from "../ModalComponents/Shadow"
 import Icon from "../ModalComponents/Icon"
 import Info from "../ModalComponents/Info"
+import Button from "../ModalComponents/Button"
 
 type DefaultModalProps = {
   title?: string
   content?: string
-  onBackgroundClick?: () => void
+  onClose?: () => void
 }
 
-function DefaultModal({
-  title,
-  content,
-  onBackgroundClick
-}: DefaultModalProps) {
+function DefaultModal({ title, content, onClose }: DefaultModalProps) {
   return createPortal(
     <>
-      <Background onClick={() => onBackgroundClick && onBackgroundClick()} />
+      <Background onClick={() => onClose && onClose()} />
       <Container onClick={(event) => event.stopPropagation()} spanContent fixed>
         <Title>
           <Shadow>
@@ -39,6 +36,9 @@ function DefaultModal({
           <span>{title}</span>
         </Title>
         <Info>{content}</Info>
+        <Button onClick={() => onClose && onClose()} main>
+          OK
+        </Button>
       </Container>
     </>,
     document.querySelector("#__next")!
