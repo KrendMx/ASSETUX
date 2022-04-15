@@ -70,10 +70,7 @@ function MyApp(props: AppProps) {
 
     const handleOnLoad = () => {
       console.log("[App] Page loaded")
-      // dispatch(setAppLoaded())
-      setTimeout(() => {
-        dispatch(setAppLoaded())
-      }, 2000)
+      dispatch(setAppLoaded())
     }
 
     const alreadyLoaded = document.readyState == "complete"

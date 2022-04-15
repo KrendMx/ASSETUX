@@ -162,5 +162,6 @@ type SliderContainerProps = {
 }
 
 export const SliderContainer = styled.div<SliderContainerProps>`
+  height: ${(props) => (!props.visible ? "642px" : "auto")};
   visibility: ${(props) => (props.visible ? "visible" : "hidden")};
 `
