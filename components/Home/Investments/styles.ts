@@ -107,6 +107,7 @@ export const Stores = styled.div`
   @media only screen and (max-width: ${breakPoint}px) {
     flex-direction: row;
     align-self: center;
+    align-items: center;
 
     & > * + * {
       margin-top: 0;
