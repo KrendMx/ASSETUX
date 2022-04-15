@@ -138,15 +138,26 @@ export const Store = styled.a`
 export const InvestmentsContainer = styled.div`
   position: relative;
   width: 469px;
-  height: 533px;
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     width: 335px;
-    height: 372px;
   }
 
   @media only screen and (max-width: ${breakPoint}px) {
     width: 100%;
-    height: 33em;
   }
+`
+
+export const InvesmentsImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+`
+
+export const InvesmentsImage = styled.div`
+  width: 70% !important;
+  border-radius: 10px;
+  overflow: hidden;
 `

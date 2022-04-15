@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
+    "@types/react-slick": "^0.23.8",
     "axios": "^0.25.0",
     "libphonenumber-js": "^1.9.50",
     "next": "^12.0.9",
@@ -27,6 +28,7 @@
     "react-icons": "^4.3.1",
     "react-loading-skeleton": "^3.0.1",
     "react-redux": "^7.2.6",
+    "react-slick": "^0.28.1",
     "react-ssr-prepass": "npm:preact-ssr-prepass",
     "react-swipeable": "^6.2.0",
     "scheduler": "^0.20.2",
