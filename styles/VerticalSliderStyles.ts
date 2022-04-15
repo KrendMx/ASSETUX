@@ -72,10 +72,13 @@ const VerticalSliderStyles = createGlobalStyle`
   .slick-slide.slick-center {
     filter: none;
   }
+
+  .slick-slide > div > div > div {
+    transition: transform .3s linear;
+  }
   
   .slick-slide.slick-center > div > div > div {
     transform: scale(1.4);
-    transition: transform .3s linear;
     z-index: 1;
   }
 
