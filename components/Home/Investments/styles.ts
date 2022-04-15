@@ -161,3 +161,11 @@ export const InvesmentsImage = styled.div`
   border-radius: 10px;
   overflow: hidden;
 `
+
+type SliderContainerProps = {
+  visible?: boolean
+}
+
+export const SliderContainer = styled.div<SliderContainerProps>`
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+`

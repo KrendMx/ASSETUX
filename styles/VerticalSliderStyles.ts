@@ -67,6 +67,9 @@ const VerticalSliderStyles = createGlobalStyle`
     min-height: 1px;
 
     filter: blur(4px);
+
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
   }
 
   .slick-slide.slick-center {

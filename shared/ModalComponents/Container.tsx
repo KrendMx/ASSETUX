@@ -1,12 +1,18 @@
 import styled from "styled-components"
 import { mobile } from "@/src/constants"
 
-const Container = styled.div`
-  position: absolute;
+type ContainerProps = {
+  spanContent?: boolean
+  fixed?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+  position: ${(props) => (props.fixed ? "fixed" : "absolute")};
   top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: calc(100% - 40px);
+  left: ${(props) => (props.spanContent ? "50%" : "0")};
+  transform: ${(props) =>
+    props.spanContent ? "translate(-50%, -50%)" : "translateY(-50%)"};
+  width: ${(props) => (props.spanContent ? "auto" : "calc(100% - 40px)")};
   background: var(--white);
   margin: 0 20px;
   z-index: 100000;
@@ -17,7 +23,7 @@ const Container = styled.div`
 
   @media only screen and (max-width: ${mobile}px) {
     margin: 0;
-    width: 100%;
+    width: ${(props) => (props.spanContent ? "auto" : "100%")};
     padding: 14px;
   }
 `

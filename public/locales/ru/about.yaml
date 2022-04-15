@@ -22,6 +22,8 @@ info_badBlockItem2: Покупаешь с карты BNB
 info_badBlockItem3: Выводишь BNB на WEB3 кошелёк, например MetaMask
 info_badBlockItem4: Обмениваешь BNB на TAP через pancakeswap
 
+investments_modal-title: Информация
+investments_modal-content: Приложение скоро станет доступным
 investments_title: Инвестируй мгновенно
 investments_p1: >-
   Выше видно, что купить 10 разных монет в ASSETUX – это 10 шагов вместо 40 в других сервисах.

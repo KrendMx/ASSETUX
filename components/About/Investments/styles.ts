@@ -131,6 +131,7 @@ export const Store = styled.a`
 `
 
 export const InvestmentsContainer = styled.div`
+  position: relative;
   width: 469px;
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
@@ -154,4 +155,12 @@ export const InvesmentsImage = styled.div`
   width: 70% !important;
   border-radius: 10px;
   overflow: hidden;
+`
+
+type SliderContainerProps = {
+  visible?: boolean
+}
+
+export const SliderContainer = styled.div<SliderContainerProps>`
+  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
 `

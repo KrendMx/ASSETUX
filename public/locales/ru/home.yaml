@@ -107,6 +107,8 @@ network_help: |-
 
 exchange_fees: Все комиссии включены
 
+investments_modal-title: Информация
+investments_modal-content: Приложение скоро станет доступным
 investments_title: Инвестиции
 investments_paragraph: >-
   Инвестируй в тренды с помощью портфелей, упакованных валютами финансовых сервисов, криптоигр, топ коинов и метавселенных.

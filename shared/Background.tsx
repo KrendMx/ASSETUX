@@ -13,11 +13,13 @@ const Container = styled.div`
 
 type BackgroundProps = {
   children?: React.ReactNode
+  onClick?: () => void
 }
 
-function Background({ children }: BackgroundProps) {
+function Background({ children, onClick }: BackgroundProps) {
   return (
     <Container
+      onClick={() => onClick && onClick()}
       onWheel={(event) => event.cancelable && event.preventDefault()}
       onTouchMove={(event) => event.cancelable && event.preventDefault()}
     >
