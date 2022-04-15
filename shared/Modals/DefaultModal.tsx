@@ -19,27 +19,28 @@ type DefaultModalProps = {
 function DefaultModal({ title, content, onClose }: DefaultModalProps) {
   return createPortal(
     <>
-      <Background onClick={() => onClose && onClose()} />
-      <Container onClick={(event) => event.stopPropagation()} spanContent fixed>
-        <Title>
-          <Shadow>
-            <Icon>
-              <Image
-                src="/assets/Exclamation-blue.svg"
-                layout="fill"
-                alt="Question"
-                objectFit="contain"
-                objectPosition="center"
-              />
-            </Icon>
-          </Shadow>
-          <span>{title}</span>
-        </Title>
-        <Info>{content}</Info>
-        <Button onClick={() => onClose && onClose()} main>
-          OK
-        </Button>
-      </Container>
+      <Background onClick={() => onClose && onClose()}>
+        <Container onClick={(event) => event.stopPropagation()} spanContent>
+          <Title>
+            <Shadow>
+              <Icon>
+                <Image
+                  src="/assets/Exclamation-blue.svg"
+                  layout="fill"
+                  alt="Question"
+                  objectFit="contain"
+                  objectPosition="center"
+                />
+              </Icon>
+            </Shadow>
+            <span>{title}</span>
+          </Title>
+          <Info>{content}</Info>
+          <Button onClick={() => onClose && onClose()} main>
+            OK
+          </Button>
+        </Container>
+      </Background>
     </>,
     document.querySelector("#__next")!
   )
