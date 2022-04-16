@@ -13,6 +13,7 @@ const Container = styled.div`
   margin: 27px 0 14px 0;
   position: relative;
   font-size: 1em;
+  padding-right: 1.8em;
 
   & > span {
     font-size: 0.8em;
@@ -24,6 +25,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     margin: 12px 0;
+    padding-right: 0;
   }
 
   @media only screen and (max-width: 370px) {
