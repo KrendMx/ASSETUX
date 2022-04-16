@@ -15,6 +15,8 @@ import type { GetStaticProps } from "next"
 import type { NewsData } from "@/src/BackendClient/types"
 
 const Container = styled(BaseContainer)`
+  padding: 5.1em 0;
+
   & > section:first-child {
     margin-bottom: 8.78em;
   }
