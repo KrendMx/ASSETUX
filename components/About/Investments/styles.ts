@@ -81,15 +81,6 @@ export const QRContainer = styled.div`
   }
 `
 
-export const ImageBlock = styled.div`
-  justify-self: end;
-  display: flex;
-
-  @media only screen and (max-width: ${breakPoint}px) {
-    justify-content: center;
-  }
-`
-
 export const Stores = styled.div`
   display: flex;
   flex-direction: column;
@@ -129,40 +120,4 @@ export const Store = styled.a`
   @media only screen and (max-width: ${breakPoint}px) {
     width: 10.7em;
   }
-`
-
-export const InvestmentsContainer = styled.div`
-  position: relative;
-  width: 469px;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    width: 335px;
-  }
-
-  @media only screen and (max-width: ${breakPoint}px) {
-    width: 100%;
-  }
-`
-
-export const InvesmentsImageContainer = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex !important;
-  flex-direction: row;
-  justify-content: center;
-`
-
-export const InvesmentsImage = styled.div`
-  width: 70% !important;
-  border-radius: 10px;
-  overflow: hidden;
-`
-
-type SliderContainerProps = {
-  visible?: boolean
-}
-
-export const SliderContainer = styled.div<SliderContainerProps>`
-  height: ${(props) => (!props.visible ? "642px" : "auto")};
-  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
 `

@@ -3,12 +3,9 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
-import Slider from "react-slick"
 
 import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 import { useAppSelector } from "@/src/redux/hooks"
-
-import verticalSliderProps from "@/src/verticalSliderProps"
 
 import {
   Container,
@@ -17,17 +14,12 @@ import {
   Media,
   Stores,
   Store,
-  QRContainer,
-  ImageBlock,
-  InvestmentsContainer,
-  InvesmentsImage,
-  InvesmentsImageContainer,
-  SliderContainer
+  QRContainer
 } from "./styles"
 import DefaultModal from "@/shared/Modals/DefaultModal"
 
 import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
-import VerticalSliderStyles from "@/styles/VerticalSliderStyles"
+import InvestmentsSlider from "@/shared/Investments/Slider/Slider"
 
 function Investments() {
   const { t } = useTranslation("home")
@@ -45,7 +37,6 @@ function Investments() {
           onClose={() => setDisplayModal(false)}
         />
       )}
-      <VerticalSliderStyles />
       <Container>
         <InfoBlock>
           <h3>{showSkeleton ? <Skeleton /> : t("investments_title")}</h3>
@@ -113,63 +104,7 @@ function Investments() {
             </QRContainer>
           </Media>
         </InfoBlock>
-        <ImageBlock>
-          <InvestmentsContainer>
-            {showSkeleton && (
-              <AbsoluteSkeletonContainer>
-                <Skeleton height="100%" />
-              </AbsoluteSkeletonContainer>
-            )}
-            <SliderContainer visible={!showSkeleton}>
-              <Slider {...verticalSliderProps}>
-                <InvesmentsImageContainer>
-                  <InvesmentsImage>
-                    <Image
-                      src="/assets/investments/gamefi.png"
-                      layout="responsive"
-                      width={477}
-                      height={307}
-                      alt="gamefi"
-                    />
-                  </InvesmentsImage>
-                </InvesmentsImageContainer>
-                <InvesmentsImageContainer>
-                  <InvesmentsImage>
-                    <Image
-                      src="/assets/investments/defi.png"
-                      layout="responsive"
-                      width={477}
-                      height={307}
-                      alt="DeFi"
-                    />
-                  </InvesmentsImage>
-                </InvesmentsImageContainer>
-                <InvesmentsImageContainer>
-                  <InvesmentsImage>
-                    <Image
-                      src="/assets/investments/metaverse.png"
-                      layout="responsive"
-                      width={477}
-                      height={307}
-                      alt="Metaverse"
-                    />
-                  </InvesmentsImage>
-                </InvesmentsImageContainer>
-                <InvesmentsImageContainer>
-                  <InvesmentsImage>
-                    <Image
-                      src="/assets/investments/top-coins.png"
-                      layout="responsive"
-                      width={477}
-                      height={307}
-                      alt="TopCoins"
-                    />
-                  </InvesmentsImage>
-                </InvesmentsImageContainer>
-              </Slider>
-            </SliderContainer>
-          </InvestmentsContainer>
-        </ImageBlock>
+        <InvestmentsSlider />
       </Container>
     </>
   )
