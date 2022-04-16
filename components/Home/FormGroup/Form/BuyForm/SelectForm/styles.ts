@@ -11,7 +11,12 @@ type ContainerProps = {
 
 export const Container = styled.div<ContainerProps>`
   width: 100%;
-  height: ${(props) => (props.lastSelectorActive ? "649px" : "490px")};
+  height: ${(props) =>
+    props.formStep == Step.Credentials
+      ? "519px"
+      : props.lastSelectorActive
+      ? "649px"
+      : "490px"};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
