@@ -17,7 +17,7 @@ import { generatePageNumbers } from "./helpers"
 
 import Table from "@/shared/Table"
 import Cards from "./Cards"
-import Search from "./Search"
+import Search from "@/shared/Search"
 
 import {
   Container,

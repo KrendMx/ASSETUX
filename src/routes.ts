@@ -11,7 +11,7 @@ export const company: Route[] = [
   },
   {
     key: "news",
-    href: "/404"
+    href: "/news"
   }
 ]
 

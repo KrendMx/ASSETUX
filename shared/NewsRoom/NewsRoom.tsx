@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
@@ -27,9 +28,9 @@ function NewsRoom({ news }: NewsRoomProps) {
       <Row>
         <h3>{!showSkeleton ? t("title") : <Skeleton />}</h3>
         {!showSkeleton && (
-          <MoreLink as="a" href="#">
-            {t("showMore")}
-          </MoreLink>
+          <Link href="/news" passHref>
+            <MoreLink as="a">{t("showMore")}</MoreLink>
+          </Link>
         )}
       </Row>
       <SliderContainer>
