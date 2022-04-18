@@ -65,8 +65,10 @@ const VerticalSliderStyles = createGlobalStyle`
 
     height: 100%;
     min-height: 1px;
+    
+    padding: 5px;
 
-    filter: blur(4px);
+    filter: blur(3px);
   }
 
   .slick-slide.slick-center {
@@ -158,11 +160,11 @@ const VerticalSliderStyles = createGlobalStyle`
   }
 
   .slick-prev {
-    top: 18%;
+    top: 11%;
   }
 
   .slick-next {
-    bottom: 18%;
+    bottom: 11%;
   }
 
 `

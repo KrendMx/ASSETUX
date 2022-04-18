@@ -35,7 +35,7 @@ export const ImagePositioner = styled.div`
 `
 
 export const ImageContainer = styled.div`
-  width: 70% !important;
+  width: 69.74% !important;
   border-radius: 10px;
   overflow: hidden;
 `

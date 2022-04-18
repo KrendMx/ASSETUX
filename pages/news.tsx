@@ -39,7 +39,8 @@ export const getStaticProps: GetStaticProps<NewsProps> = async ({ locale }) => {
         "news",
         "routes"
       ]))
-    }
+    },
+    notFound: true
   }
 }
 
