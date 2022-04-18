@@ -14,7 +14,7 @@ type PagesProps = {
   hidePerPageValues?: boolean
   currentPerPageValue?: number
   setPerPageValue?: (perPage: number) => void
-  setCurrentPage: (page: number) => void
+  setCurrentPage?: (page: number) => void
 }
 
 function Pages({
@@ -40,7 +40,7 @@ function Pages({
           <Button
             key={pageNumber}
             active={pageNumber == currentPage}
-            onClick={() => setCurrentPage(pageNumber)}
+            onClick={() => setCurrentPage && setCurrentPage(pageNumber)}
           >
             {pageNumber}
           </Button>
@@ -76,7 +76,7 @@ function Pages({
                   key={`perPage-${value}`}
                   onClick={() => {
                     setPerPageValue && setPerPageValue(value)
-                    setCurrentPage(1)
+                    setCurrentPage && setCurrentPage(1)
                   }}
                 >
                   {value}
@@ -87,7 +87,7 @@ function Pages({
           <Container>
             <Button
               disabled={currentPage == 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
+              onClick={() => setCurrentPage && setCurrentPage(currentPage - 1)}
             >
               <ArrowContainer>
                 <IoIosArrowRoundBack />
@@ -95,8 +95,10 @@ function Pages({
             </Button>
             {pageButtons}
             <Button
-              disabled={pages == undefined || pages == 0 || currentPage == pages}
-              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={
+                pages == undefined || pages == 0 || currentPage == pages
+              }
+              onClick={() => setCurrentPage && setCurrentPage(currentPage + 1)}
             >
               <ArrowContainer mirror>
                 <IoIosArrowRoundBack />
