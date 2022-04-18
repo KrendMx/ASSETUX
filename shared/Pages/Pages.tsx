@@ -95,7 +95,7 @@ function Pages({
             </Button>
             {pageButtons}
             <Button
-              disabled={pages == null || pages == 0 || currentPage == pages}
+              disabled={pages == undefined || pages == 0 || currentPage == pages}
               onClick={() => setCurrentPage(currentPage + 1)}
             >
               <ArrowContainer mirror>
