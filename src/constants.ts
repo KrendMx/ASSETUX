@@ -23,3 +23,9 @@ export const holderRegexp = /^([a-zA-Z?\-\.'~`—?\s]*)$/
 export const walletRegexp = /^0x[a-fA-F0-9]{40}$/
 
 export const allowSkeletons = true
+
+export const perPageValues = [5, 50, 100]
+
+export const cardsPerPage = 3
+
+export const cardsWidth = 850

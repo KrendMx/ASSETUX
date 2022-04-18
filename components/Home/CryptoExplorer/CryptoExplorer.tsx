@@ -1,10 +1,14 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
-import { IoIosArrowRoundBack } from "react-icons/io"
 
 import { mapCurrency } from "@/src/currencies"
-import { allowSkeletons } from "@/src/constants"
+import {
+  allowSkeletons,
+  cardsPerPage,
+  perPageValues,
+  cardsWidth
+} from "@/src/constants"
 
 import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
@@ -12,12 +16,10 @@ import { swapAction, setSelectedToken } from "@/src/redux/cryptoSlice"
 
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
-import { cardsPerPage, perPageValues, cardsWidth } from "./constants"
-import { generatePageNumbers } from "./helpers"
-
 import Table from "@/shared/Table"
 import Cards from "./Cards"
 import Search from "@/shared/Search"
+import Pages from "@/shared/Pages"
 
 import {
   Container,
@@ -25,11 +27,6 @@ import {
   AllLink,
   ControlsRow,
   Controls,
-  ControlButton,
-  PageRow,
-  PageContainer,
-  PageButton,
-  ArrowContainer,
   ChangeField,
   ActionButton
 } from "./styles"
@@ -195,40 +192,6 @@ function CryptoExplorer() {
     [processedExplorerData, desktopPerPage, displayCards, isMobile]
   )
 
-  const pageButtons = useMemo(() => {
-    const result: JSX.Element[] = []
-    if (pages) {
-      const pageNumbers = generatePageNumbers(pages, currentPage)
-
-      for (let i = 0; i < pageNumbers.length; i++) {
-        const pageNumber = pageNumbers[i]
-
-        result.push(
-          <PageButton
-            key={pageNumber}
-            active={pageNumber == currentPage}
-            onClick={() => setCurrentPage(pageNumber)}
-          >
-            {pageNumber}
-          </PageButton>
-        )
-
-        const jumping =
-          i != pageNumbers.length && pageNumbers[i + 1] - pageNumbers[i] > 1
-
-        if (jumping) {
-          result.push(
-            <PageButton key={`jumpButton-${pageNumber}`} nonClickable>
-              ...
-            </PageButton>
-          )
-        }
-      }
-    }
-
-    return result
-  }, [currentPage, pages])
-
   useIsomorphicLayoutEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth
@@ -295,49 +258,16 @@ function CryptoExplorer() {
           displayIndexes
         />
       )}
-      <PageRow>
-        {isLoading ? (
-          <Skeleton containerClassName="skeletonFlexContainer" height={30} />
-        ) : (
-          <>
-            {!displayCards && (
-              <PageContainer>
-                {perPageValues.map((value) => (
-                  <PageButton
-                    active={desktopPerPage == value}
-                    key={`perPage-${value}`}
-                    onClick={() => {
-                      setDesktopPerPage(value)
-                      setCurrentPage(1)
-                    }}
-                  >
-                    {value}
-                  </PageButton>
-                ))}
-              </PageContainer>
-            )}
-            <PageContainer>
-              <PageButton
-                disabled={currentPage == 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
-              >
-                <ArrowContainer>
-                  <IoIosArrowRoundBack />
-                </ArrowContainer>
-              </PageButton>
-              {pageButtons}
-              <PageButton
-                disabled={pages == null || pages == 0 || currentPage == pages}
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                <ArrowContainer mirror>
-                  <IoIosArrowRoundBack />
-                </ArrowContainer>
-              </PageButton>
-            </PageContainer>
-          </>
-        )}
-      </PageRow>
+      <Pages
+        pages={pages}
+        currentPage={currentPage}
+        isLoading={isLoading}
+        perPageValues={perPageValues}
+        hidePerPageValues={displayCards}
+        currentPerPageValue={desktopPerPage}
+        setPerPageValue={setDesktopPerPage}
+        setCurrentPage={setCurrentPage}
+      />
     </Container>
   )
 }

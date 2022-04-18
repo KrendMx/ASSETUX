@@ -3,7 +3,6 @@ import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
 import { mobile } from "@/src/constants"
-import { cardsWidth } from "./constants"
 
 export const Container = styled.section`
   display: flex;
@@ -11,6 +10,16 @@ export const Container = styled.section`
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
+
+  & > *:nth-last-child(2) {
+    margin-bottom: 50px;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    & > *:nth-last-child(2) {
+      margin-bottom: 31px;
+    }
+  }
 `
 
 export const TitleRow = styled.div`
@@ -22,6 +31,20 @@ export const TitleRow = styled.div`
   & > h3 {
     flex-grow: 1;
   }
+`
+
+export const ControlButton = styled.button`
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--lightgray);
+  color: var(--gray);
+  font-size: 16px;
+  border-radius: 10px;
+  height: 49px;
+  padding: 0 15px;
 `
 
 export const AllLink = styled(AdaptiveFont).attrs({
@@ -44,78 +67,6 @@ export const ControlsRow = styled.div`
 `
 
 export const Controls = styled.div``
-
-export const ControlButton = styled.button`
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--lightgray);
-  color: var(--gray);
-  font-size: 16px;
-  border-radius: 10px;
-  height: 49px;
-  padding: 0 15px;
-`
-
-export const PageRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 50px;
-
-  @media only screen and (max-width: ${cardsWidth}px) {
-    justify-content: center;
-  }
-
-  @media only screen and (max-width: ${mobile}px) {
-    margin-top: 31px;
-  }
-`
-
-export const PageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  & > * + * {
-    margin-left: 12px;
-  }
-`
-
-type PageButtonProps = {
-  active?: boolean
-  nonClickable?: boolean
-}
-
-export const PageButton = styled.button<PageButtonProps>`
-  border: none;
-  outline: none;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${(props) => (props.active ? "var(--blue)" : "var(--lightgray)")};
-  border-radius: 7px;
-  font-size: 13px;
-  color: ${(props) => (props.active ? "#ffffff" : "var(--gray)")};
-  cursor: ${(props) => (props.nonClickable ? "arrow" : "pointer")};
-
-  &:disabled {
-    opacity: var(--opacity);
-  }
-`
-
-type ArrowContainerProps = {
-  mirror?: boolean
-}
-
-export const ArrowContainer = styled.span<ArrowContainerProps>`
-  display: flex;
-  font-size: 20px;
-
-  transform: rotate(${(props) => (props.mirror ? "180deg" : "0")});
-`
 
 type ChangeFieldProps = {
   up?: boolean

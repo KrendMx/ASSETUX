@@ -4,10 +4,7 @@
  * @param pages number of all pages
  * @param currentPage current page
  */
-export const generatePageNumbers = (
-  pages: number,
-  currentPage: number
-): number[] => {
+const generatePageNumbers = (pages: number, currentPage: number): number[] => {
   if (pages < 5) {
     return [...Array.from(Array(pages).keys())].map((value) => value + 1)
   }
@@ -33,3 +30,5 @@ export const generatePageNumbers = (
 
   return [1, currentPage - 1, currentPage, currentPage + 1, pages]
 }
+
+export default generatePageNumbers
