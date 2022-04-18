@@ -75,6 +75,9 @@ export const Bold = styled.span`
 
 export const DescriptionSide = styled.div`
   flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 export const ExampleBlock = styled.div`
