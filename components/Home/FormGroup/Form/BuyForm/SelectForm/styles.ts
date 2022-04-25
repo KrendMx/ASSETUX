@@ -10,6 +10,7 @@ type ContainerProps = {
 }
 
 export const Container = styled.div<ContainerProps>`
+  position: relative;
   width: 100%;
   height: ${(props) =>
     props.formStep == Step.Credentials
