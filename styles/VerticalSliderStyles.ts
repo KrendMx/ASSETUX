@@ -122,13 +122,17 @@ const VerticalSliderStyles = createGlobalStyle`
   .slick-prev,
   .slick-next {
     position: absolute;
-    left: 50%;
     z-index: 10;
 
     display: flex !important;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 28%;
 
     padding: 0;
-    transform: translate(-50%, 0);
 
     cursor: pointer;
 
@@ -160,11 +164,11 @@ const VerticalSliderStyles = createGlobalStyle`
   }
 
   .slick-prev {
-    top: 11%;
+    top: 0;
   }
 
   .slick-next {
-    bottom: 11%;
+    bottom: 0;
   }
 
 `
