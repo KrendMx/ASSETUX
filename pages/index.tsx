@@ -8,7 +8,7 @@ import FormGroup from "@/components/Home/FormGroup"
 import Investments from "@/components/Home/Investments"
 import NewsRoom from "@/shared/NewsRoom"
 import AboutUs from "@/components/Home/AboutUs"
-import CryptoManager from "@/components/Home/CryptoManager"
+import CryptoManager from "@/components/CryptoManager"
 import QueryController from "@/components/Home/QueryController"
 import Orders from "@/components/Home/Orders"
 
@@ -73,7 +73,7 @@ function Index({ news }: IndexProps) {
 
       <Orders />
 
-      <CryptoManager />
+      <CryptoManager getToken={true} getChart={true} />
       <QueryController />
     </Container>
   )

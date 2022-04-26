@@ -33,7 +33,7 @@ import {
 
 import type { TAction } from "@/src/redux/cryptoSlice/types"
 import type { Token } from "@/src/BackendClient/types"
-import type { ExplorerData } from "../CryptoManager/types"
+import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
 
 const tableHeadings = (t: TFunction) => [

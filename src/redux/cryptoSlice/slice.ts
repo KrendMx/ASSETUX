@@ -10,7 +10,7 @@ import type {
   GetTokens,
   Token
 } from "@/src/BackendClient/types"
-import type { ExplorerData } from "@/components/Home/CryptoManager/types"
+import type { ExplorerData } from "@/components/CryptoManager/types"
 import type { TAction, CryptoState } from "./types"
 
 const hydrate = createAction<RootState>(HYDRATE)

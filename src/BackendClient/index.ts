@@ -29,7 +29,8 @@ import type {
   GetEmailOrdersResponse,
   CheckLiquidityProps,
   CheckLiquidityResponse,
-  GetNewsResponse
+  GetNewsResponse,
+  LoginProps
 } from "./types"
 
 class BackendClient {
@@ -221,6 +222,16 @@ class BackendClient {
       url: `${config.hostProtocol}://bsc.${config.host}/api/news`,
       method: "GET",
       headers: this.headers
+    })
+  }
+
+  public async login({ token, apiHost }: LoginProps) {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/auth/login`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
   }
 }

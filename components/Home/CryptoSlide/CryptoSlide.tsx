@@ -12,7 +12,7 @@ import Element from "./Element"
 import Slider from "@/shared/Slider"
 
 import type { MarketHistoryData } from "@/src/BackendClient/types"
-import type { ExplorerData } from "../CryptoManager/types"
+import type { ExplorerData } from "../../CryptoManager/types"
 import type { Token } from "@/src/BackendClient/types"
 import type { TAction } from "@/src/redux/cryptoSlice/types"
 import type { CurrenciesType } from "@/src/currencies"

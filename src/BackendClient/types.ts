@@ -395,3 +395,7 @@ export type GetNewsResponse = {
   message: string
   data?: NewsData[]
 }
+
+export type LoginProps = UrlRequest & {
+  token: string
+}
