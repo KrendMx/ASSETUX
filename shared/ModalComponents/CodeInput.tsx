@@ -7,11 +7,15 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   font-size: 1rem;
+
+  @media only screen and (max-width: 400px) {
+    font-size: 3.608vw;
+  }
 `
 
 const InputBlock = styled.input`
-  flex: 0 0 59px;
-  height: 65px;
+  flex: 0 0 2.07em;
+  height: 2.28em;
   width: 0;
   border: 1px solid var(--lightgray);
   border-radius: 10px;
@@ -20,11 +24,6 @@ const InputBlock = styled.input`
   opacity: 1;
   text-align: center;
   font-size: 1.5em;
-
-  @media only screen and (max-width: 450px) {
-    flex: 0 1 42px;
-    height: 45px;
-  }
 `
 
 type CodeInputProps = {

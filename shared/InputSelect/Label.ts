@@ -6,8 +6,7 @@ type LabelProps = {
 }
 
 const Label = styled.label<LabelProps>`
-  // width: 100%;
-  font-size: 0.79rem;
+  font-size: 0.79em;
   font-weight: 400;
   color: ${(props) => (props.error ? "var(--red)" : "var(--gray)")};
 

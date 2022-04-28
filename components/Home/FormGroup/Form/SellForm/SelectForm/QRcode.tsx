@@ -5,7 +5,14 @@ import QRCode from "qrcode.react"
 const Button = styled.button`
   border: none;
   background: transparent;
-  // cursor: pointer;
+  width: 100px;
+  height: 100px;
+
+  @media only screen and (max-width: 370px) {
+    font-size: 1em;
+    width: 6.75em;
+    height: 6.75em;
+  }
 `
 
 const Container = styled.div`
@@ -29,10 +36,10 @@ function QRcode({ valueToCopy }: CopyProps) {
       <Button onClick={handleCopy}>
         <QRCode
           value={valueToCopy}
-          size={100}
           level="Q"
           renderAs="canvas"
           includeMargin={false}
+          style={{ width: "100%", height: "100%" }}
         />
       </Button>
     </Container>

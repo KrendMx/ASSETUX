@@ -14,7 +14,7 @@ const InputWrapper = styled.div<InputWrapperProps>`
   align-items: center;
   flex-direction: row;
   width: 100%;
-  height: 65px;
+  height: 3.421em;
   border: 1px solid
     ${(props) => (!props.paleBorders ? "#d2d2d7" : "var(--lightgray)")};
   outline: none;
@@ -25,15 +25,15 @@ const InputWrapper = styled.div<InputWrapperProps>`
       ? "0px 0px 0.00000001px 3px #8bb0fa"
       : "none"};
   border-radius: 10px;
-  padding: 0 0 0 20px;
+  padding: 0 0 0 1.052em;
   font-size: 1rem;
 
   & > * + * {
-    margin-left: 15px;
+    margin-left: 0.789em;
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 0 0 0 15px;
+    height: 4.334em;
   }
 
   @media only screen and (max-width: 370px) {

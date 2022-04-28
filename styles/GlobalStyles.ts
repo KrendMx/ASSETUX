@@ -50,6 +50,10 @@ const GlobalStyles = createGlobalStyle`
     line-height: normal;
   }
 
+  .skeletonZeroLineHeight {
+    line-height: 0;
+  }
+
   @media only screen and (max-width: ${tablet}px) {
     :root {
       --paddings: ${tabletPaddings}px;

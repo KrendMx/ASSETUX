@@ -18,7 +18,11 @@ const Container = styled(BaseContainer)`
   display: grid;
 `
 
-const Section = styled.section``
+const Section = styled.section`
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+`
 
 const FormGroup = styled.div`
   max-width: 574px;

@@ -34,7 +34,7 @@ const ValueRow = styled.div`
   justify-content: space-between;
 
   & > * + * {
-    margin-left: 26px;
+    margin-left: 1.7em;
   }
 `
 

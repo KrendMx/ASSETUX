@@ -18,12 +18,9 @@ export const BaseInputWrapper = styled.div`
 
   & > label {
     color: var(--gray);
-    margin-bottom: 4px;
-    display: block;
-    font-size: 0.73rem;
   }
 
-  & input {
+  & > input {
     border: none;
     outline: none;
     width: 100%;

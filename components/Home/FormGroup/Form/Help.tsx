@@ -16,7 +16,7 @@ const Container = styled.div<ContainerProps>`
   font-size: 0.7rem;
   font-weight: 500;
   color: #ffffff;
-  padding: 13px 22px;
+  padding: 0.978em 1.654em;
   backdrop-filter: blur(4px);
 `
 

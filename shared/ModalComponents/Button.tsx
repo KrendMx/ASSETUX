@@ -15,7 +15,7 @@ const Button = styled.button<ButtonProps>`
   font-weight: 400;
   font-size: 1.0665em;
   width: 100%;
-  height: 49px;
+  height: 2.418em;
   border-radius: 10px;
   color: ${(props) => (props.main ? "#ffffff" : "var(--black)")};
 `

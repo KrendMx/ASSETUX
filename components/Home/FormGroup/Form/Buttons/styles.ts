@@ -23,6 +23,7 @@ const Button = styled.button<ButtonProps>`
 
   @media only screen and (max-width: ${mobile}px) {
     font-size: ${(props) => (props.active ? "0.95em" : "0.89em")};
+    height: ${(props) => (props.active ? "3.1191em" : "3.328894em")};
   }
 `
 

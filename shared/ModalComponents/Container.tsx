@@ -18,13 +18,17 @@ const Container = styled.div<ContainerProps>`
   z-index: 100000;
   border-radius: 10px;
   font-size: 1rem;
-  padding: 20px 25px;
+  padding: 1.052em 1.315em;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
 
   @media only screen and (max-width: ${mobile}px) {
     margin: 0;
     width: ${(props) => (props.spanContent ? "auto" : "100%")};
-    padding: 14px;
+    padding: 0.933em;
+  }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
   }
 `
 

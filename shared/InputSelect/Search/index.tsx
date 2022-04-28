@@ -15,8 +15,8 @@ type ItemProps = {
 const Item = styled.div<ItemProps>`
   background: var(--white);
   width: 100%;
-  height: 65px;
-  padding: 0 20px;
+  height: 3.421em;
+  padding: 0 1.052em;
   border: 1px solid #d2d2d7;
   border-radius: 10px;
   display: flex;
@@ -31,7 +31,7 @@ const Item = styled.div<ItemProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 0 15px;
+    height: 4.334em;
   }
 
   @media only screen and (max-width: 370px) {
@@ -142,7 +142,7 @@ type ScrollableRegionProps = {
 }
 
 const ScrollableRegion = styled.div<ScrollableRegionProps>`
-  height: ${(props) => props.display * 65 + (props.display - 1) * 16}px;
+  height: ${(props) => props.display * 3.421 + (props.display - 1) * 0.842}em;
   overflow-y: auto;
   scrollbar-width: none;
 
@@ -151,15 +151,11 @@ const ScrollableRegion = styled.div<ScrollableRegionProps>`
   }
 
   & > *:not(:last-child) {
-    margin-bottom: 16px;
+    margin-bottom: 0.842em;
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => props.display * 65 + (props.display - 1) * 13}px;
-
-    & > *:not(:last-child) {
-      margin-bottom: 13px;
-    }
+    height: ${(props) => props.display * 4.334 + (props.display - 1) * 0.842}em;
   }
 `
 

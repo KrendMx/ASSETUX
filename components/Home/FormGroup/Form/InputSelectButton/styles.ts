@@ -7,13 +7,13 @@ export const Button = styled.button`
   border: 1px solid #d2d2d7;
   box-shadow: none;
   border-radius: 10px;
-  padding: 0 20px;
+  padding: 0 1.052em;
   font-size: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  height: 65px;
+  height: 3.421em;
   width: 100%;
   background: var(--white);
   cursor: pointer;
@@ -28,7 +28,7 @@ export const Button = styled.button`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    padding: 0 15px;
+    height: 4.334em;
   }
 
   @media only screen and (max-width: 370px) {

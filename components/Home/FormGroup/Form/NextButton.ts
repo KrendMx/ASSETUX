@@ -1,20 +1,26 @@
 import styled from "styled-components"
 import { mobile } from "@/src/constants"
 
-const NextButton = styled.button`
+type NextButtonProps = {
+  loading?: boolean
+}
+
+const NextButton = styled.button<NextButtonProps>`
   width: 100%;
   font-weight: 500;
   font-size: 0.85em;
   border: none;
   outline: none;
   color: #ffffff;
-  background-color: var(--blue);
+  background-color: ${(props) =>
+    props.loading ? "transparent" : "var(--blue)"};
   border-radius: 10px;
   cursor: pointer;
-  height: 49px;
+  height: 3.035em;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 
   @media only screen and (max-width: ${mobile}px) {
     font-size: 1.065em;

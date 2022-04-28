@@ -306,7 +306,7 @@ function SelectForm({
               displayIcon
             />
           ) : (
-            <Skeleton height={65} />
+            <Skeleton containerClassName="input-skeleton" />
           )}
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
@@ -326,7 +326,7 @@ function SelectForm({
                 changeable
               />
             ) : (
-              <Skeleton height={65} />
+              <Skeleton containerClassName="input-skeleton" />
             )}
             <HideableWithMargin hide={giveActive} margins>
               {!isLoading ? (
@@ -341,7 +341,7 @@ function SelectForm({
                   displayIcon
                 />
               ) : (
-                <Skeleton height={65} />
+                <Skeleton containerClassName="input-skeleton" />
               )}
               <HideableWithMargin hide={paymentActive}>
                 <ExchangeRow
@@ -365,7 +365,7 @@ function SelectForm({
                     changeable
                   />
                 ) : (
-                  <Skeleton height={65} />
+                  <Skeleton containerClassName="input-skeleton" />
                 )}
               </HideableWithMargin>
             </HideableWithMargin>
@@ -439,17 +439,24 @@ function SelectForm({
 
       {!serviceAvailable && serviceAvailable != null && <Maintenance />}
 
-      {!chainActive &&
-        !giveActive &&
-        !getActive &&
-        !paymentActive &&
-        (!isLoading ? (
-          <NextButton onClick={handleNextStep}>
-            {processingRequest ? t("home:buy_wait") : t("home:buy_next")}
-          </NextButton>
-        ) : (
-          <Skeleton height={49} />
-        ))}
+      {!chainActive && !giveActive && !getActive && !paymentActive && (
+        <NextButton
+          onClick={handleNextStep}
+          disabled={processingRequest || isLoading}
+          loading={isLoading}
+        >
+          {isLoading ? (
+            <Skeleton
+              height="3.035em"
+              containerClassName="skeletonFlexContainer skeletonZeroLineHeight"
+            />
+          ) : processingRequest ? (
+            t("home:buy_wait")
+          ) : (
+            t("home:buy_next")
+          )}
+        </NextButton>
+      )}
     </Container>
   )
 }

@@ -5,7 +5,7 @@ type HeaderProps = {
   id: string
 }
 
-const Header = styled.header`
+const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-content: flex-start;
@@ -19,25 +19,26 @@ const Heading = styled.h1`
 const Identificator = styled.div`
   font-weight: 400;
   color: var(--gray);
-  font-size: 0.78rem;
   text-align: right;
+  font-size: 0.79em;
 
   & span {
     color: var(--black);
-    font-size: 1rem;
+    font-size: 1.265em;
+    font-weight: 500;
   }
 `
 
 function HeaderContainer({ heading, id }: HeaderProps) {
   return (
-    <Header>
+    <Container>
       <Heading>{heading}</Heading>
       <Identificator>
         ID
         <br />
         <span>{id}</span>
       </Identificator>
-    </Header>
+    </Container>
   )
 }
 

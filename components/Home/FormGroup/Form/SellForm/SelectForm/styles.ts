@@ -16,7 +16,7 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   height: ${(props) =>
     props.formStep == Step.Exchange
-      ? "650px"
+      ? "670px"
       : props.lastSelectorActive
       ? "568px"
       : "490px"};
@@ -27,15 +27,40 @@ export const Container = styled.div<ContainerProps>`
   padding: ${(props) =>
     props.formStep != Step.Exchange ? "34px 25px" : "34px 25px 6px 25px"};
 
+  .input-skeleton {
+    line-height: 0;
+    display: inline-block;
+    width: 100%;
+
+    & > span {
+      height: 3.421em;
+
+      @media only screen and (max-width: ${mobile}px) {
+        height: 4.334em;
+      }
+    }
+  }
+
   @media only screen and (max-width: ${mobile}px) {
     height: ${(props) =>
       props.formStep == Step.Exchange
-        ? "580px"
+        ? "600px"
         : props.lastSelectorActive
         ? "521px"
         : "445px"};
     padding: ${(props) =>
       props.formStep != Step.Exchange ? "21px 17px" : "21px 17px 6px 17px"};
+  }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+
+    height: ${(props) =>
+      props.formStep == Step.Exchange
+        ? "42em"
+        : props.lastSelectorActive
+        ? "35em"
+        : "29.5em"};
   }
 `
 

@@ -292,7 +292,7 @@ function SelectForm({
               displayIcon
             />
           ) : (
-            <Skeleton height={65} />
+            <Skeleton containerClassName="input-skeleton" />
           )}
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
@@ -310,7 +310,7 @@ function SelectForm({
                 changeable
               />
             ) : (
-              <Skeleton height={65} />
+              <Skeleton containerClassName="input-skeleton" />
             )}
             <HideableWithMargin hide={giveActive} margins>
               <ExchangeRow
@@ -333,7 +333,7 @@ function SelectForm({
                   value={getAmount}
                 />
               ) : (
-                <Skeleton height={65} />
+                <Skeleton containerClassName="input-skeleton" />
               )}
               <HideableWithMargin hide={getActive} margins>
                 {!isLoading ? (
@@ -347,7 +347,7 @@ function SelectForm({
                     displayIcon
                   />
                 ) : (
-                  <Skeleton height={65} />
+                  <Skeleton containerClassName="input-skeleton" />
                 )}
               </HideableWithMargin>
             </HideableWithMargin>
@@ -472,14 +472,24 @@ function SelectForm({
         !giveActive &&
         !getActive &&
         !paymentActive &&
-        currentStep != Step.Exchange &&
-        (!isLoading ? (
-          <NextButton onClick={handleNextStep} disabled={processingRequest}>
-            {processingRequest ? t("home:sell_wait") : t("home:sell_next")}
+        currentStep != Step.Exchange && (
+          <NextButton
+            onClick={handleNextStep}
+            disabled={processingRequest || isLoading}
+            loading={isLoading}
+          >
+            {isLoading ? (
+              <Skeleton
+                height="3.035em"
+                containerClassName="skeletonFlexContainer skeletonZeroLineHeight"
+              />
+            ) : processingRequest ? (
+              t("home:sell_wait")
+            ) : (
+              t("home:sell_next")
+            )}
           </NextButton>
-        ) : (
-          <Skeleton height={49} />
-        ))}
+        )}
       {exchangeInfo != null && showRefundModal && (
         <RefundModal
           getValue={creditedGetAmount}

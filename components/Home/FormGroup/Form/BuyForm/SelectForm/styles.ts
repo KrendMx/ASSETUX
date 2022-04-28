@@ -24,9 +24,29 @@ export const Container = styled.div<ContainerProps>`
   justify-content: space-between;
   padding: 34px 25px;
 
+  .input-skeleton {
+    line-height: 0;
+    display: inline-block;
+    width: 100%;
+
+    & > span {
+      height: 3.421em;
+
+      @media only screen and (max-width: ${mobile}px) {
+        height: 4.334em;
+      }
+    }
+  }
+
   @media only screen and (max-width: ${mobile}px) {
     height: ${(props) => (props.lastSelectorActive ? "599px" : "445px")};
     padding: 21px 17px;
+  }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+
+    height: ${(props) => (props.lastSelectorActive ? "40em" : "30em")};
   }
 `
 

@@ -9,6 +9,12 @@ const Shadow = styled.div`
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   background: var(--white);
+  flex-shrink: 0;
+
+  @media only screen and (max-width: 370px) {
+    width: 2.853em;
+    height: 2.853em;
+  }
 `
 
 export default Shadow

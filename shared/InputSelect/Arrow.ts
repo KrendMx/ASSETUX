@@ -6,21 +6,17 @@ type ArrowProps = {
 
 const Arrow = styled.button<ArrowProps>`
   display: flex;
-  padding: 10px;
+  padding: 0.526em;
   position: absolute;
-  right: 11px;
+  right: 0.5789em;
   top: 50%;
   transform: translateY(-50%)
     ${(props) => (props.active ? "rotate(180deg)" : "")};
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: 1rem;
+  font-size: 1em;
   cursor: pointer;
-
-  @media only screen and (max-width: 370px) {
-    right: 5px;
-  }
 `
 
 export default Arrow

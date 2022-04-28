@@ -8,10 +8,10 @@ const Title = styled.h5`
   font-size: 0.935em;
   font-weight: 500;
   color: var(--black);
-  margin-bottom: 24px;
+  margin-bottom: 1.35em;
 
   & > * + * {
-    margin-left: 10px;
+    margin-left: 0.562em;
   }
 `
 

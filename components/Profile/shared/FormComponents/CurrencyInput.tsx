@@ -18,7 +18,6 @@ const Wrapper = styled(BaseInputWrapper)`
 const Input = styled.input``
 
 const Currency = styled.label`
-  font-size: 1rem;
   font-weight: 500;
 `
 
@@ -32,7 +31,6 @@ const IconWrapper = styled.div`
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
 
   & > div {
     position: relative;
