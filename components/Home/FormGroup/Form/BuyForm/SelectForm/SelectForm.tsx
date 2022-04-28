@@ -437,7 +437,9 @@ function SelectForm({
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
 
-      {!serviceAvailable && serviceAvailable != null && <Maintenance />}
+      {!isLoading && !serviceAvailable && serviceAvailable != null && (
+        <Maintenance />
+      )}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton

@@ -609,7 +609,9 @@ function SelectForm({
         />
       )}
 
-      {!serviceAvailable && serviceAvailable != null && <Maintenance />}
+      {!isLoading && !serviceAvailable && serviceAvailable != null && (
+        <Maintenance />
+      )}
 
       {(showRefundModal ||
         showRefundWalletModal ||
