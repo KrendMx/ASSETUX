@@ -12,16 +12,21 @@ const Container = styled.div`
 `
 
 type BackgroundProps = {
+  allowScrolling?: boolean
   children?: React.ReactNode
   onClick?: () => void
 }
 
-function Background({ children, onClick }: BackgroundProps) {
+function Background({ allowScrolling, children, onClick }: BackgroundProps) {
   return (
     <Container
       onClick={() => onClick && onClick()}
-      onWheel={(event) => event.cancelable && event.preventDefault()}
-      onTouchMove={(event) => event.cancelable && event.preventDefault()}
+      onWheel={(event) =>
+        !allowScrolling && event.cancelable && event.preventDefault()
+      }
+      onTouchMove={(event) =>
+        !allowScrolling && event.cancelable && event.preventDefault()
+      }
     >
       {children}
     </Container>
