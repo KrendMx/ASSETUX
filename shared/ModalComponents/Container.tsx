@@ -4,9 +4,15 @@ import { mobile } from "@/src/constants"
 type ContainerProps = {
   spanContent?: boolean
   fixed?: boolean
+  allowScrolling?: boolean
 }
 
-const Container = styled.div<ContainerProps>`
+const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
+  onWheel: (event: React.WheelEvent) =>
+    !allowScrolling && event.cancelable && event.preventDefault(),
+  onTouchMove: (event: React.TouchEvent) =>
+    !allowScrolling && event.cancelable && event.preventDefault()
+}))<ContainerProps>`
   position: ${(props) => (props.fixed ? "fixed" : "absolute")};
   top: 50%;
   left: ${(props) => (props.spanContent ? "50%" : "0")};

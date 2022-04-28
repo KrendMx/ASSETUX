@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 
 const Container = styled.div`
@@ -13,11 +13,26 @@ const Container = styled.div`
 
 type BackgroundProps = {
   allowScrolling?: boolean
+  scrollToTop?: boolean
   children?: React.ReactNode
   onClick?: () => void
 }
 
-function Background({ allowScrolling, children, onClick }: BackgroundProps) {
+function Background({
+  allowScrolling,
+  scrollToTop,
+  children,
+  onClick
+}: BackgroundProps) {
+  useEffect(() => {
+    if (!scrollToTop) {
+      return
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <Container
       onClick={() => onClick && onClick()}
