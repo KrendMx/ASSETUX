@@ -58,7 +58,7 @@ export const Container = styled.div<ContainerProps>`
         ? "42em"
         : props.lastSelectorActive
         ? "35em"
-        : "29.5em"};
+        : "30em"};
   }
 `
 
