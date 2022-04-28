@@ -73,7 +73,7 @@ function Index({ news }: IndexProps) {
 
       <Orders />
 
-      <CryptoManager getToken={true} getChart={true} />
+      <CryptoManager getToken getChart />
       <QueryController />
     </Container>
   )
