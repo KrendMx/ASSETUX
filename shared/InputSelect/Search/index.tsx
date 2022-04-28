@@ -36,6 +36,7 @@ const Item = styled.div<ItemProps>`
 
   @media only screen and (max-width: 370px) {
     font-size: 4vw;
+    border-radius: 0.675em;
 
     & > * + * {
       margin-left: 10px;

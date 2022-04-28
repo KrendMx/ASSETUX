@@ -14,6 +14,7 @@ const Shadow = styled.div`
   @media only screen and (max-width: 370px) {
     width: 2.853em;
     height: 2.853em;
+    border-radius: 0.72em;
   }
 `
 

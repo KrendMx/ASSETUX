@@ -19,6 +19,11 @@ const Container = styled.div`
   @media only screen and (max-width: ${mobile}px) {
     max-width: 100%;
   }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+    border-radius: 0.675em;
+  }
 `
 
 const FormContainer = styled(AdaptiveFont).attrs({

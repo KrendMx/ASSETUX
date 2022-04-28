@@ -53,8 +53,6 @@ export const Container = styled.div<ContainerProps>`
   }
 
   @media only screen and (max-width: 370px) {
-    font-size: 4vw;
-
     height: ${(props) =>
       props.formStep == Step.Exchange
         ? "42em"

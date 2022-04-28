@@ -14,6 +14,7 @@ const ImageBox = styled.div`
   @media only screen and (max-width: 370px) {
     width: 30px;
     height: 30px;
+    border-radius: 8px;
   }
 `
 

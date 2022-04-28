@@ -9,7 +9,7 @@ const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--white);
-  border-radius: 10px;
+  border-radius: 0.526em;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   font-size: 1rem;
 

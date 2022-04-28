@@ -14,7 +14,7 @@ const NextButton = styled.button<NextButtonProps>`
   color: #ffffff;
   background-color: ${(props) =>
     props.loading ? "transparent" : "var(--blue)"};
-  border-radius: 10px;
+  border-radius: 0.619em;
   cursor: pointer;
   height: 3.035em;
   display: flex;

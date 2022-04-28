@@ -31,12 +31,24 @@ export const BuyButton = styled(Button)`
   border-top-right-radius: ${(props) => (props.active ? "10px" : 0)};
   border-top-left-radius: 10px;
   color: ${(props) => (props.active ? "var(--green)" : "#6E6E73")};
+
+  @media only screen and (max-width: 370px) {
+    border-top-right-radius: ${(props) => (props.active ? "0.632em" : 0)};
+    border-top-left-radius: ${(props) =>
+      props.active ? "0.632em" : "0.6748em"};
+  }
 `
 
 export const SellButton = styled(Button)`
   border-top-left-radius: ${(props) => (props.active ? "10px" : 0)};
   border-top-right-radius: 10px;
   color: ${(props) => (props.active ? "var(--red)" : "#6E6E73")};
+
+  @media only screen and (max-width: 370px) {
+    border-top-left-radius: ${(props) => (props.active ? "0.632em" : 0)};
+    border-top-right-radius: ${(props) =>
+      props.active ? "0.632em" : "0.6748em"};
+  }
 `
 
 export const Container = styled(AdaptiveFont).attrs({

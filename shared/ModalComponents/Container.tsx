@@ -16,7 +16,7 @@ const Container = styled.div<ContainerProps>`
   background: var(--white);
   margin: 0 20px;
   z-index: 100000;
-  border-radius: 10px;
+  border-radius: 0.526em;
   font-size: 1rem;
   padding: 1.052em 1.315em;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
