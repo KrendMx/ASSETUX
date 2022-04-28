@@ -4,7 +4,7 @@ const Container = styled.div`
   position: fixed;
   max-width: 469px;
   width: calc(100% - 40px);
-  padding: 14px 25px;
+  padding: 0.7368em 1.315em;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
