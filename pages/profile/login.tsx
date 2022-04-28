@@ -12,7 +12,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         "profile-login",
         "routes"
       ]))
-    }
+    },
+    notFound: true
   }
 }
 
