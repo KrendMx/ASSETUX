@@ -31,6 +31,7 @@ const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
     margin: 0;
     width: ${(props) => (props.spanContent ? "auto" : "100%")};
     padding: 0.933em;
+    border-radius: 0.666em;
   }
 
   @media only screen and (max-width: 370px) {

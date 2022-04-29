@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { mobile } from "@/src/constants"
 
 type ButtonProps = {
   main?: boolean
@@ -18,6 +19,10 @@ const Button = styled.button<ButtonProps>`
   height: 2.418em;
   border-radius: 0.493em;
   color: ${(props) => (props.main ? "#ffffff" : "var(--black)")};
+
+  @media only screen and (max-width: ${mobile}px) {
+    border-radius: 0.625em;
+  }
 `
 
 export default Button
