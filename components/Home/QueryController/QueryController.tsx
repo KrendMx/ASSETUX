@@ -7,28 +7,12 @@ import {
   swapAction
 } from "@/src/redux/cryptoSlice"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
-
 import { isCurrencyDeclared } from "@/src/currencies"
+import { mapQueryObject, updateURL } from "@/src/helpers"
+
+import type { QueryObject } from "@/src/helpers"
 
 let processedQuery = false
-
-type QueryObject = {
-  [key: string]: string | undefined
-}
-
-const updateURL = (newUrl: string) => {
-  window.history.replaceState(
-    { ...window.history.state, as: newUrl, url: newUrl },
-    "",
-    newUrl
-  )
-}
-
-const mapQueryObject = (query: QueryObject) => {
-  return Object.entries(query)
-    .map(([key, value]) => `${key}=${value}`)
-    .join("&")
-}
 
 function QueryController() {
   const dispatch = useAppDispatch()

@@ -38,13 +38,13 @@ function Info() {
         )}
         {showSkeleton && (
           <SkeletonContainer>
-            <Skeleton count={2} />
+            <Skeleton count={3} />
           </SkeletonContainer>
         )}
         {!showSkeleton && <h2>{t("info")}</h2>}
         {showSkeleton && (
           <SkeletonContainer as="h2">
-            <Skeleton count={1} />
+            <Skeleton count={2} />
           </SkeletonContainer>
         )}
       </TextColumn>

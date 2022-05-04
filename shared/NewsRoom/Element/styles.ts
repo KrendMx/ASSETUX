@@ -57,7 +57,7 @@ export const Info = styled.div`
   }
 `
 
-export const Author = styled.a`
+export const ReadMore = styled.a`
   text-decoration: none;
   font-weight: 500;
   color: var(--blue);

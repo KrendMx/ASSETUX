@@ -1,6 +1,10 @@
 import React, { useState, useMemo } from "react"
 import Image from "next/image"
 import { IoIosArrowDown } from "react-icons/io"
+
+import { ellipsisString } from "@/src/helpers"
+import { optimizeRemoteImages } from "@/src/constants"
+
 import InputWrapper from "./InputWrapper"
 import InputContainer from "./InputContainer"
 import Label from "./Label"
@@ -12,17 +16,18 @@ import Bold from "./Bold"
 import Arrow from "./Arrow"
 import Container from "./Container"
 import Search from "./Search"
-import { ellipsisString } from "@/src/helpers"
-import { optimizeRemoteImages } from "@/src/constants"
+import SelectedWrapper from "./SelectedWrapper"
+import ChangeFileContainer from "./ChangeFileContainer"
+
 import type { Option } from "./types"
 import type { ChangeEventHandler } from "react"
-import SelectedWrapper from "./SelectedWrapper"
 
 type InputSelectProps = {
   label?: string
   onSelect?: (selectedValue: string) => void
   onActiveChange?: (active: boolean) => void
   onChange?: React.ChangeEventHandler<HTMLInputElement>
+  onUpload?: (file: File) => void
   value?: string
   placeholder?: string
   options?: Option[]
@@ -31,6 +36,9 @@ type InputSelectProps = {
   displayIcon?: boolean
   displayInSelect?: number
   selectLabel?: string
+  file?: boolean
+  fileLabel?: string
+  accept?: string
   id?: string
   error?: string
   selectable?: boolean
@@ -46,13 +54,17 @@ function InputSelect({
   options,
   changeable,
   selectLabel,
+  file,
+  fileLabel,
+  accept,
   id,
   onChange,
+  onUpload,
   value,
   selectedValue,
   error,
   autocomplete,
-  placeholder = "",
+  placeholder,
   displayIcon = false,
   defaultValue = "",
   displayInSelect = 3,
@@ -62,6 +74,7 @@ function InputSelect({
   const hasOptions = options != undefined
   const [active, setActive] = useState(false)
   const [userInput, setUserInput] = useState({ value: defaultValue })
+  const [uploadedFile, setUploadedFile] = useState<string | null>(null)
   const searchOptions = useMemo(
     () => options?.filter((option) => option.value != selectedValue),
     [selectedValue, options]
@@ -122,6 +135,18 @@ function InputSelect({
     setUserInput({ value })
   }
 
+  const handleUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const files = event.target.files
+    const file = files && files[0]
+
+    if (!file) {
+      return
+    }
+
+    setUploadedFile(file.name)
+    onUpload && onUpload(file)
+  }
+
   const handleSelect = (selectedValue: string) => {
     onSelect && onSelect(selectedValue)
     toggle()
@@ -136,7 +161,11 @@ function InputSelect({
       >
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && (
-            <Label error={error != undefined} htmlFor={id}>
+            <Label
+              error={error != undefined}
+              htmlFor={!file ? id : undefined}
+              as={file ? "span" : "label"}
+            >
               {error != undefined ? error : label}
             </Label>
           )}
@@ -158,17 +187,31 @@ function InputSelect({
               ) : null}
             </ImageBox>
           )}
+          {file && !uploadedFile && (
+            <Label htmlFor={id} file>
+              {fileLabel}
+            </Label>
+          )}
+          {file && uploadedFile && <Input as="span">{uploadedFile}</Input>}
           <Input
             id={id}
             autoComplete={autocomplete ? autocomplete : "off"}
             name={id}
-            type="text"
+            type={file ? "file" : "text"}
+            accept={file ? accept : undefined}
             disabled={!changeable || hideLabel}
-            value={displayedValue}
-            onChange={handleInput}
+            value={!file ? displayedValue : undefined}
+            onChange={file ? handleUpload : handleInput}
             placeholder={placeholder}
           />
         </InputContainer>
+        {file && uploadedFile && (
+          <ChangeFileContainer>
+            <Label htmlFor={id} file>
+              Change
+            </Label>
+          </ChangeFileContainer>
+        )}
         {selectedOption && (
           <SelectedWrapper onClick={toggle} selectable={selectable}>
             <InfoContainer

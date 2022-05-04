@@ -48,10 +48,11 @@ const IconButton = styled.button`
 `
 
 type SearchProps = {
+  placeholder: string
   onChange?: (value: string) => void
 }
 
-function Search({ onChange }: SearchProps) {
+function Search({ placeholder, onChange }: SearchProps) {
   const [searchContext, setSearchContext] = useState("")
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -66,7 +67,7 @@ function Search({ onChange }: SearchProps) {
   return (
     <Container>
       <Input
-        placeholder="Search"
+        placeholder={placeholder}
         ref={inputRef}
         value={searchContext}
         onChange={handleChange}

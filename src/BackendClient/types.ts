@@ -380,20 +380,53 @@ export type CheckLiquidityResponse = {
   data?: LiquidityData
 }
 
-export type NewsData = {
+export type PostData = {
   id: number
   title: string
-  text: string
-  author: string
   img: string
   created: string
-  author_link: string
+  category: string
+  short_description: string
+  pinned: boolean
+}
+
+export type NewsData = {
+  pin: PostData | null
+  news: PostData[] | null
+  total_pages: number
+}
+
+export const postCategories = ["all", "news", "articles", "actual"] as const
+export type PostCategory = typeof postCategories[number]
+
+export const isPostCategoryDeclared = (
+  value: string
+): value is PostCategory => {
+  return postCategories.findIndex((category) => category == value) != -1
+}
+
+export type GetNewsProps = {
+  category: PostCategory
+  page?: number
 }
 
 export type GetNewsResponse = {
   status?: number
   message: string
-  data?: NewsData[]
+  data?: NewsData
+}
+
+export type FindPostProps = {
+  category: PostCategory
+  query: string
+}
+
+export type FindPostResponse = {
+  status?: number
+  message: string
+  data?: {
+    news: PostData
+  }
 }
 
 export type LoginProps = UrlRequest & {

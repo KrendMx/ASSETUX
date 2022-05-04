@@ -37,5 +37,9 @@ export const handleRequest = async (
 }
 
 export const constructURL = (apiHost: string) => {
+  if (config.isStage) {
+    return `${config.hostProtocol}://${config.host}`
+  }
+
   return `${config.hostProtocol}://${apiHost}`
 }

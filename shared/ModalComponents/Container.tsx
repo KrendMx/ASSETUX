@@ -5,6 +5,7 @@ type ContainerProps = {
   spanContent?: boolean
   fixed?: boolean
   allowScrolling?: boolean
+  resetZIndex?: boolean
 }
 
 const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
@@ -21,7 +22,7 @@ const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
   width: ${(props) => (props.spanContent ? "auto" : "calc(100% - 40px)")};
   background: var(--white);
   margin: 0 20px;
-  z-index: 100000;
+  z-index: ${(props) => (props.resetZIndex ? "1" : "100000")};
   border-radius: 0.526em;
   font-size: 1rem;
   padding: 1.052em 1.315em;

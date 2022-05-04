@@ -243,7 +243,7 @@ function SellForm({
   }, [selectedCurrency, payments])
 
   useIsomorphicLayoutEffect(() => {
-    if (!selectedPayment && processedPayments) {
+    if (!selectedPayment && processedPayments && processedPayments.length > 0) {
       setSelectedPayment(processedPayments[0].value)
     }
   }, [processedPayments, selectedPayment])

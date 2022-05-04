@@ -1,6 +1,7 @@
 import React from "react"
 import Image from "next/image"
 import Skeleton from "react-loading-skeleton"
+import { useTranslation } from "next-i18next"
 
 import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 import { useAppSelector } from "@/src/redux/hooks"
@@ -15,27 +16,19 @@ import {
   Title,
   Description,
   Info,
-  Author,
+  ReadMore,
   PostDate
 } from "./styles"
 
 type ElementProps = {
   title: string
-  text: string
-  author: string
+  shortDescription: string
   img: string
-  author_link: string
   created: string
 }
 
-function Element({
-  title,
-  text,
-  author,
-  img,
-  author_link,
-  created
-}: ElementProps) {
+function Element({ title, shortDescription, img, created }: ElementProps) {
+  const { t } = useTranslation("news")
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
   const currentDate = new Date()
@@ -52,11 +45,13 @@ function Element({
     moreThanDay ? "day" : "hour"
   }${shouldAddPrefix ? "s" : ""} ago`
 
+  const host = config.isStage ? config.host : `bsc.${config.host}`
+
   return (
     <Container as="article">
       <ImgContainer>
         <Image
-          src={`${config.hostProtocol}://bsc.${config.host}${img}`}
+          src={`${config.hostProtocol}://${host}${img}`}
           layout="responsive"
           width={560}
           height={416}
@@ -71,12 +66,12 @@ function Element({
       <InfoContainer>
         <Title>{!showSkeleton ? title : <Skeleton />}</Title>
         <Description>
-          {!showSkeleton ? text : <Skeleton count={2} />}
+          {!showSkeleton ? shortDescription : <Skeleton count={2} />}
         </Description>
         <Info>
           {!showSkeleton ? (
             <>
-              <Author href={author_link}>{author}</Author>
+              <ReadMore href="#">{t("readMore")} &#10230;</ReadMore>
               <PostDate dateTime={created}>{displayedDate}</PostDate>
             </>
           ) : (

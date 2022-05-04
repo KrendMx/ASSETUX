@@ -11,7 +11,7 @@ export const company: Route[] = [
   },
   {
     key: "news",
-    href: "/news"
+    href: "/blog"
   }
 ]
 
@@ -39,6 +39,21 @@ export const popular: Route[] = [
   {
     key: "RUBtoBUSD",
     href: "/"
+  }
+]
+
+export const commerceRoutes = [
+  {
+    key: "profile",
+    href: "/profile"
+  },
+  {
+    key: "history",
+    href: "/profile/history"
+  },
+  {
+    key: "account",
+    href: "/profile/account"
   }
 ]
 

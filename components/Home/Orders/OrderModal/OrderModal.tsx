@@ -32,7 +32,7 @@ import {
 } from "./styles"
 
 import Table from "@/shared/Table"
-import Cards from "@/components/Home/CryptoExplorer/Cards"
+import Cards from "@/shared/Cards"
 
 import { optimizeRemoteImages } from "@/src/constants"
 

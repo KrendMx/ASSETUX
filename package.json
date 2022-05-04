@@ -4,6 +4,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:stage": "cross-env NEXT_PUBLIC_HOST_PROTOCOL=https NEXT_PUBLIC_HOST=dev.assetux.com NEXT_PUBLIC_MAGIC_PUB_KEY=asdasad NEXT_PUBLIC_IS_STAGE=true next build",
+    "build:prod": "cross-env NEXT_PUBLIC_HOST_PROTOCOL=https NEXT_PUBLIC_HOST=assetux.com NEXT_PUBLIC_MAGIC_PUB_KEY=asdasad NEXT_PUBLIC_IS_STAGE=false next build",
     "start": "next start",
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
@@ -49,8 +51,8 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.14.0",
     "eslint-config-next": "^12.1.5",
+    "husky": "^7.0.0",
     "jest": "^28.0.2",
-    "typescript": "^4.6.4",
-    "husky": "^7.0.0"
+    "typescript": "^4.6.4"
   }
 }

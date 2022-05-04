@@ -1,3 +1,6 @@
-greetings: Добро пожаловать в Assetux Commerce
+greetings: |-
+  Добро пожаловать
+  в Assetux Commerce
 explanation: Войдите в Ваш аккаунт или создайте новый.
 logIn: Авторизоваться
+email: E-Mail

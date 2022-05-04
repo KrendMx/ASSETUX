@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
+import { useImmediateMobile } from "@/src/hooks"
 
 import { company, popular, legal, Route } from "@/src/routes"
 import { isCurrencyDeclared } from "@/src/currencies"
@@ -72,7 +73,7 @@ type FooterProps = {
 }
 
 function Footer({ hide }: FooterProps) {
-  const isMobile = useAppSelector((state) => state.ui.isMobile)
+  const isMobile = useImmediateMobile()
   const { t } = useTranslation("footer")
 
   return (

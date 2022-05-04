@@ -12,7 +12,7 @@ import NewsRoom from "@/shared/NewsRoom"
 import BackendClient from "@/src/BackendClient"
 
 import type { GetStaticProps } from "next"
-import type { NewsData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClient/types"
 
 const Container = styled(BaseContainer)`
   padding: 5.1em 0;
@@ -39,7 +39,7 @@ const Container = styled(BaseContainer)`
 `
 
 type AboutProps = {
-  news: NewsData[] | null
+  news: PostData[] | null
 }
 
 function About({ news }: AboutProps) {
@@ -57,11 +57,11 @@ function About({ news }: AboutProps) {
 export const getStaticProps: GetStaticProps<AboutProps> = async ({
   locale
 }) => {
-  const response = await BackendClient.getNews()
+  const response = await BackendClient.getNews({ category: "news" })
 
   return {
     props: {
-      news: response.data ? response.data : null,
+      news: response.data ? response.data.news : null,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

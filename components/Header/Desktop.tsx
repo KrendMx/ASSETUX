@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { css } from "styled-components"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
@@ -10,6 +11,7 @@ import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import TextLogo from "@/shared/TextLogo"
 
+import { commerceRoutes } from "@/src/routes"
 import { mobile } from "@/src/constants"
 
 const DesktopContainer = styled(Container)`
@@ -75,6 +77,7 @@ function Desktop() {
   const { t } = useTranslation("header")
 
   const isMainPage = router.pathname == "/"
+  const isCommercePage = router.pathname.startsWith("/profile")
 
   return (
     <DesktopContainer>
@@ -90,6 +93,12 @@ function Desktop() {
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
+          {isCommercePage &&
+            commerceRoutes.map((route) => (
+              <Link href={route.href} key={route.href} passHref>
+                <NavLink>{t(route.key)}</NavLink>
+              </Link>
+            ))}
           {isMainPage && (
             <NavLink
               as="button"

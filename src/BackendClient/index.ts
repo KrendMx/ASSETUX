@@ -29,7 +29,10 @@ import type {
   GetEmailOrdersResponse,
   CheckLiquidityProps,
   CheckLiquidityResponse,
+  GetNewsProps,
   GetNewsResponse,
+  FindPostProps,
+  FindPostResponse,
   LoginProps
 } from "./types"
 
@@ -64,8 +67,10 @@ class BackendClient {
   }
 
   public async getBlockchains(): Promise<GetBlockchains> {
+    const host = config.isStage ? config.host : `bsc.${config.host}`
+
     return handleRequest({
-      url: `${config.hostProtocol}://bsc.${config.host}/api/blockchains`,
+      url: `${config.hostProtocol}://${host}/api/blockchains`,
       method: "GET",
       headers: this.headers
     })
@@ -217,17 +222,39 @@ class BackendClient {
     })
   }
 
-  public async getNews(): Promise<GetNewsResponse> {
+  public async getNews({
+    category,
+    page
+  }: GetNewsProps): Promise<GetNewsResponse> {
+    const host = config.isStage ? config.host : `bsc.${config.host}`
+
     return handleRequest({
-      url: `${config.hostProtocol}://bsc.${config.host}/api/news`,
+      url: `${config.hostProtocol}://${host}/api/blog/${category}`,
       method: "GET",
-      headers: this.headers
+      headers: this.headers,
+      params: {
+        page
+      }
+    })
+  }
+
+  public async findPost({
+    category,
+    query
+  }: FindPostProps): Promise<FindPostResponse> {
+    const host = config.isStage ? config.host : `bsc.${config.host}`
+
+    return handleRequest({
+      url: `${config.hostProtocol}://${host}/api/blog/${category}/find`,
+      method: "GET",
+      headers: this.headers,
+      params: { query }
     })
   }
 
   public async login({ token, apiHost }: LoginProps) {
     return handleRequest({
-      url: `${constructURL(apiHost)}/auth/login`,
+      url: `${constructURL(apiHost)}/api/auth/login`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`

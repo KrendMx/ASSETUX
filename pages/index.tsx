@@ -17,7 +17,7 @@ import { mobile, mobileLayoutForTablet } from "@/src/constants"
 import BackendClient from "@/src/BackendClient"
 
 import type { GetStaticProps } from "next"
-import type { NewsData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClient/types"
 
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
@@ -58,7 +58,7 @@ const Container = styled(BaseContainer)`
 `
 
 type IndexProps = {
-  news: NewsData[] | null
+  news: PostData[] | null
 }
 
 function Index({ news }: IndexProps) {
@@ -82,11 +82,11 @@ function Index({ news }: IndexProps) {
 export const getStaticProps: GetStaticProps<IndexProps> = async ({
   locale
 }) => {
-  const response = await BackendClient.getNews()
+  const response = await BackendClient.getNews({ category: "news" })
 
   return {
     props: {
-      news: response.data ? response.data : null,
+      news: response.data ? response.data.news : null,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

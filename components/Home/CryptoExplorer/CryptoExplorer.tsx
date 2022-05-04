@@ -17,16 +17,15 @@ import { swapAction, setSelectedToken } from "@/src/redux/cryptoSlice"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
 import Table from "@/shared/Table"
-import Cards from "./Cards"
-import Search from "@/shared/Search"
+import Cards from "@/shared/Cards"
+import ControlRow from "@/shared/ControlRow"
 import Pages from "@/shared/Pages"
 
 import {
   Container,
   TitleRow,
   AllLink,
-  ControlsRow,
-  Controls,
+  ControlRowContainer,
   ChangeField,
   ActionButton
 } from "./styles"
@@ -227,16 +226,16 @@ function CryptoExplorer() {
           </AllLink>
         )}
       </TitleRow>
-      <ControlsRow>
+      <ControlRowContainer>
         {!isLoading ? (
-          <>
-            <Controls></Controls>
-            <Search onChange={handleSearch} />
-          </>
+          <ControlRow
+            searchPlaceholder={t("home:search")}
+            onContextChange={handleSearch}
+          />
         ) : (
-          <Skeleton containerClassName="skeletonFlexContainer" height={49} />
+          <Skeleton height={49} />
         )}
-      </ControlsRow>
+      </ControlRowContainer>
       {isLoading ? (
         <Skeleton height={490} />
       ) : displayCards ? (

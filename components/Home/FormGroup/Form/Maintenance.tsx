@@ -36,7 +36,7 @@ function Maintenance() {
 
   return (
     <Background>
-      <SmallContainer>
+      <SmallContainer allowScrolling resetZIndex>
         <Title>
           <Shadow>
             <Icon>

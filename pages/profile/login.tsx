@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         "routes"
       ]))
     },
-    notFound: true
+    // notFound: true
   }
 }
 

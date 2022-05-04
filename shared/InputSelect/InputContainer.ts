@@ -16,6 +16,15 @@ const InputContainer = styled.div<InputContainerProps>`
     margin-left: ${(props) => (props.swap ? "19px" : 0)};
   }
 
+  & > input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
   @media only screen and (max-width: 370px) {
     & > * + * {
       margin-left: ${(props) => (props.swap ? "10px" : 0)};

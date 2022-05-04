@@ -5,24 +5,25 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
 import HeadingRow from "@/components/Profile/shared/HeadingRow"
-import FormGroup from "@/components/Profile/Main/FormGroup"
+import History from "@/components/Profile/History"
 
 import type { GetStaticProps } from "next"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
   padding: 3.15em var(--paddings);
+  min-height: calc(100vh - var(--header-height));
 `
 
 function Main() {
-  const { t } = useTranslation("profile")
+  const { t } = useTranslation("profile-history")
 
   return (
     <Container>
-      <HeadingRow heading={t("profile")} id="M-0000001" />
-      <FormGroup />
+      <HeadingRow heading={t("history")} id="M-0000001" />
+      <History />
     </Container>
   )
 }
@@ -33,7 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
-        "profile",
+        "profile-history",
         "routes"
       ]))
     }

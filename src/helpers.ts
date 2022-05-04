@@ -21,5 +21,27 @@ export const stringToPieces = (
 }
 
 export const capitalizeString = (value: string) => {
+  if (value.length == 0) {
+    return value
+  }
+
   return value[0].toUpperCase() + value.slice(1)
+}
+
+export const updateURL = (newUrl: string) => {
+  window.history.replaceState(
+    { ...window.history.state, as: newUrl, url: newUrl },
+    "",
+    newUrl
+  )
+}
+
+export type QueryObject = {
+  [key: string]: string | undefined
+}
+
+export const mapQueryObject = (query: QueryObject) => {
+  return Object.entries(query)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&")
 }

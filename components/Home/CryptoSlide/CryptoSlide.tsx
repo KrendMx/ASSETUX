@@ -35,16 +35,22 @@ const mapMarketHistory = (
   marketHistory: MarketHistoryData[],
   currency: CurrenciesType
 ): GraphData[] => {
-  const startTimestamp = Number(marketHistory[0].timestamp)
+  const startHistory = marketHistory.at(0)
+
+  if (!startHistory) {
+    return []
+  }
+
+  const startTimestamp = Number(startHistory.timestamp)
 
   const marketHistoryLength = marketHistory.length
 
   const graphData = new Array<GraphData>(marketHistoryLength)
 
-  for (let i = 0; i < marketHistoryLength; i++) {
+  for (let i = 0; i < marketHistory.length; i++) {
     graphData[i] = {
-      x: Number(marketHistory[i].timestamp) - startTimestamp,
-      y: marketHistory[i].price[currency]
+      x: Number(marketHistory[i]!.timestamp) - startTimestamp,
+      y: marketHistory[i]!.price[currency]
     }
   }
 

@@ -33,18 +33,12 @@ export const TitleRow = styled.div`
   }
 `
 
-export const ControlButton = styled.button`
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--lightgray);
-  color: var(--gray);
-  font-size: 16px;
-  border-radius: 10px;
-  height: 49px;
-  padding: 0 15px;
+export const ControlRowContainer = styled.div`
+  margin: 39px 0;
+
+  @media only screen and (max-width: ${mobile}px) {
+    margin: 28px 0 20px;
+  }
 `
 
 export const AllLink = styled(AdaptiveFont).attrs({
@@ -55,18 +49,6 @@ export const AllLink = styled(AdaptiveFont).attrs({
   font-weight: 500;
   text-decoration: none;
 `
-
-export const ControlsRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 39px 0;
-
-  @media only screen and (max-width: ${mobile}px) {
-    margin: 28px 0 20px;
-  }
-`
-
-export const Controls = styled.div``
 
 type ChangeFieldProps = {
   up?: boolean

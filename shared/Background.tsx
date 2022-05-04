@@ -35,7 +35,6 @@ function Background({
 
   return (
     <Container
-      onClick={() => onClick && onClick()}
       onWheel={(event) =>
         !allowScrolling && event.cancelable && event.preventDefault()
       }
