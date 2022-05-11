@@ -1,4 +1,10 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle, keyframes } from "styled-components"
+
+const overflowAnimation = keyframes`
+  to {
+    overflow: hidden;
+  }
+`
 
 const VerticalSliderStyles = createGlobalStyle`
   .slick-slider {
@@ -68,7 +74,12 @@ const VerticalSliderStyles = createGlobalStyle`
     
     padding: 5px;
 
-    filter: blur(3px);
+    filter: blur(2px);
+  }
+
+  .slick-slide:not(.slick-center) {
+    animation: 0s linear 0.5s ${overflowAnimation};
+    animation-fill-mode: forwards;
   }
 
   .slick-slide.slick-center {
@@ -76,7 +87,7 @@ const VerticalSliderStyles = createGlobalStyle`
   }
 
   .slick-slide > div > div > div {
-    transition: transform .3s linear;
+    transition: transform 0.5s linear;
   }
   
   .slick-slide.slick-center > div > div > div {

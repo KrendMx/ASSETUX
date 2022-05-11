@@ -16,7 +16,7 @@ import {
 
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
-import ExchangeRow from "../../Exchange"
+import ExchangeRow from "@/shared/ExchangeInfo"
 import HideableWithMargin from "../../HideableWithMargin"
 import ExchangeInfoRow from "./ExchangeInfoRow"
 import QRcode from "./QRcode"
@@ -307,6 +307,7 @@ function SelectForm({
                 error={inputError[inputIds.give]}
                 selectedValue={currentToken}
                 displayInSelect={2}
+                onlyNumbers
                 changeable
               />
             ) : (
@@ -318,6 +319,8 @@ function SelectForm({
                 currency={currentCurrency}
                 rate={rate}
                 isLoading={isLoading}
+                placeholder={t("home:exchange_fees")}
+                text="asdads"
                 margins
               />
               {!isLoading ? (
@@ -330,6 +333,7 @@ function SelectForm({
                   selectedValue={currentCurrency}
                   onSelect={onCurrencyChange}
                   selectable={false}
+                  onlyNumbers
                   value={getAmount}
                 />
               ) : (
@@ -441,6 +445,8 @@ function SelectForm({
                 currency={currentCurrency}
                 rate={rate}
                 isLoading={false}
+                placeholder={t("home:exchange_fees")}
+                text="asdads"
               />
               <ExchangeInfoRow
                 label={t("home:sell_amountToGet")}

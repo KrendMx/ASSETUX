@@ -36,6 +36,11 @@ const GlobalStyles = createGlobalStyle`
     font-size: 19px;
   }
 
+  body {
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+
   html,
   button,
   input {

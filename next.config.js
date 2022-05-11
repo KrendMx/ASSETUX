@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const withPreact = require("next-plugin-preact")
+const withPrefresh = require("@prefresh/next")
 const withPWA = require("next-pwa")
 const { i18n } = require("./next-i18next.config")
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
@@ -9,7 +9,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 module.exports = withBundleAnalyzer(
   withPWA(
-    withPreact({
+    withPrefresh({
       async headers() {
         return [
           {
@@ -24,7 +24,21 @@ module.exports = withBundleAnalyzer(
           }
         ]
       },
+      webpack: (config) => {
+        config.resolve.alias = {
+          ...config.resolve.alias,
+          react: "preact/compat",
+          "react-dom/test-utils": "preact/test-utils",
+          "react-dom": "preact/compat",
+          "react/jsx-runtime": "preact/jsx-runtime"
+        }
+
+        return config
+      },
       i18n,
+      compiler: {
+        styledComponents: true
+      },
       reactStrictMode: true,
       images: {
         domains: [

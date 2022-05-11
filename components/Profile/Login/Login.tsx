@@ -74,11 +74,13 @@ function LoginContainer() {
       })
 
       console.log(token)
+
       if (token) {
         const test = await BackendClient.login({
           token,
           apiHost: selectedBlockchain.url
         })
+
         console.log("test", test)
       }
     }

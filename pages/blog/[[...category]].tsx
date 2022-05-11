@@ -10,47 +10,48 @@ import {
 } from "@/src/BackendClient/types"
 
 import type { GetStaticProps, GetStaticPaths } from "next"
-import type { PostData, PostCategory } from "@/src/BackendClient/types"
+import type { ParsedUrlQuery } from "querystring"
+import type { PostCategory } from "@/src/BackendClient/types"
+import type { BlogProps } from "@/components/Blog"
 
-type BlogProps = {
-  posts: PostData[] | null
-  totalPages: number
-  category: PostCategory
+function Blog(props: BlogProps) {
+  return <BlogComponent {...props} />
 }
 
-function Blog({ posts, totalPages, category }: BlogProps) {
-  return (
-    <BlogComponent posts={posts} totalPages={totalPages} category={category} />
-  )
+type GetStaticPropsParams = ParsedUrlQuery & {
+  category?: string[]
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+export const getStaticProps: GetStaticProps<
+  Partial<BlogProps>,
+  GetStaticPropsParams
+> = async ({ locale, params }) => {
   const errorProps = {
     props: {},
     notFound: true
   }
 
-  let category = params!["category"]
+  const { category } = params!
+  let checkedCategory: PostCategory = "all"
 
-  if (category == undefined) {
-    category = "all"
-  } else if (Array.isArray(category)) {
+  if (Array.isArray(category)) {
     const categoryToCheck = category.at(0)
 
     if (!categoryToCheck || category.length > 1) {
       return errorProps
     }
 
-    category = categoryToCheck
-  } else {
-    return errorProps
+    if (!isPostCategoryDeclared(categoryToCheck)) {
+      return errorProps
+    }
+
+    checkedCategory = categoryToCheck
   }
 
-  if (!isPostCategoryDeclared(category)) {
-    return errorProps
-  }
-
-  const response = await BackendClient.getNews({ category, page: 1 })
+  const response = await BackendClient.getNews({
+    category: checkedCategory,
+    page: 1
+  })
 
   if (response.data == null) {
     return errorProps
@@ -58,9 +59,10 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   return {
     props: {
+      pinnedPost: response.data.pin,
       posts: response.data.news,
       totalPages: response.data.total_pages,
-      category,
+      category: checkedCategory,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

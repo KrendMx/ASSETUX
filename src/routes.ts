@@ -42,7 +42,7 @@ export const popular: Route[] = [
   }
 ]
 
-export const commerceRoutes = [
+export const commerce = [
   {
     key: "profile",
     href: "/profile"
@@ -52,8 +52,8 @@ export const commerceRoutes = [
     href: "/profile/history"
   },
   {
-    key: "account",
-    href: "/profile/account"
+    key: "bill",
+    href: "/profile/bill"
   }
 ]
 

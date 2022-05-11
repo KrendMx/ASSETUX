@@ -1,10 +1,13 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
+import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
 import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 import { useAppSelector } from "@/src/redux/hooks"
+import { getFormattedDate } from "@/src/date"
 
 import config from "@/src/config"
 
@@ -17,7 +20,8 @@ import {
   Description,
   Info,
   ReadMore,
-  PostDate
+  PostDate,
+  TextWrapper
 } from "./styles"
 
 type ElementProps = {
@@ -25,30 +29,31 @@ type ElementProps = {
   shortDescription: string
   img: string
   created: string
+  pinned?: boolean
+  slug: string
+  withSkeletons?: boolean
 }
 
-function Element({ title, shortDescription, img, created }: ElementProps) {
+function Element({
+  title,
+  shortDescription,
+  img,
+  created,
+  pinned,
+  slug,
+  withSkeletons = true
+}: ElementProps) {
+  const router = useRouter()
   const { t } = useTranslation("news")
-  const showSkeleton = useAppSelector(selectShowSkeleton)
+  const selectedShowSkeleton = useAppSelector(selectShowSkeleton)
+  const showSkeleton = withSkeletons && selectedShowSkeleton
 
-  const currentDate = new Date()
-  const postDate = new Date(created)
-
-  const elapsedHours = Math.trunc(
-    (currentDate.getTime() - postDate.getTime()) / 3.6e6
-  )
-  const elapsedDays = Math.trunc(elapsedHours / 24)
-  const moreThanDay = elapsedHours >= 24
-  const shouldAddPrefix = moreThanDay ? elapsedDays != 1 : elapsedHours != 1
-
-  const displayedDate = `${moreThanDay ? elapsedDays : elapsedHours} ${
-    moreThanDay ? "day" : "hour"
-  }${shouldAddPrefix ? "s" : ""} ago`
+  const displayedDate = getFormattedDate(created, router.locale!)
 
   const host = config.isStage ? config.host : `bsc.${config.host}`
 
   return (
-    <Container as="article">
+    <Container as="article" pinned={pinned}>
       <ImgContainer>
         <Image
           src={`${config.hostProtocol}://${host}${img}`}
@@ -64,18 +69,23 @@ function Element({ title, shortDescription, img, created }: ElementProps) {
         )}
       </ImgContainer>
       <InfoContainer>
-        <Title>{!showSkeleton ? title : <Skeleton />}</Title>
-        <Description>
-          {!showSkeleton ? shortDescription : <Skeleton count={2} />}
-        </Description>
+        <TextWrapper>
+          <Title>{!showSkeleton ? title : <Skeleton />}</Title>
+          <Description>
+            {!showSkeleton ? shortDescription : <Skeleton count={2} />}
+          </Description>
+        </TextWrapper>
         <Info>
           {!showSkeleton ? (
             <>
-              <ReadMore href="#">{t("readMore")} &#10230;</ReadMore>
+              <Link href={`/blog/article/${slug}`} passHref>
+                <ReadMore>{t("readMore")} &#10230;</ReadMore>
+              </Link>
+
               <PostDate dateTime={created}>{displayedDate}</PostDate>
             </>
           ) : (
-            <Skeleton />
+            <Skeleton containerClassName="skeletonFlexContainer" />
           )}
         </Info>
       </InfoContainer>

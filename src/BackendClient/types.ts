@@ -386,6 +386,7 @@ export type PostData = {
   img: string
   created: string
   category: string
+  slug: string
   short_description: string
   pinned: boolean
 }

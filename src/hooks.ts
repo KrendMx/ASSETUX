@@ -19,7 +19,7 @@ export const useImmediateMobile = (customWidth?: number) => {
 
   const widthToCheck = customWidth ? customWidth : mobile
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= widthToCheck)
     }

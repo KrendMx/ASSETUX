@@ -1,11 +1,14 @@
 import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
+import { useRouter } from "next/router"
+
 import { locales } from "@/src/locales"
-import type { LocalesType } from "@/src/locales"
+
 import PopupItem from "../PopupItem"
 import PopupRow from "../PopupRow"
-import { useRouter } from "next/router"
+
+import type { LocalesType } from "@/src/locales"
 
 const CountryContainer = styled.div`
   display: block;
@@ -19,8 +22,6 @@ export const mapLanguage = (locale: LocalesType) => {
       return "EN"
     case "ru":
       return "RUS"
-    case "uk":
-      return "UKR"
   }
 }
 
@@ -30,7 +31,7 @@ type LanguagesProps = {
 
 function Languages({ onClick }: LanguagesProps) {
   const router = useRouter()
-  const { locale: currentLocale } = router
+  const { locale: currentLocale, defaultLocale } = router
 
   return (
     <>
@@ -40,7 +41,7 @@ function Languages({ onClick }: LanguagesProps) {
             onClick()
           }}
           key={locale}
-          href={"/" + locale}
+          href={(locale == defaultLocale ? "" : "/" + locale) + router.asPath}
         >
           <CountryContainer>
             <Image

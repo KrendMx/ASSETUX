@@ -1,11 +1,13 @@
 import React from "react"
 import styled from "styled-components"
-import { locales } from "@/src/locales"
-import type { LocalesType } from "@/src/locales"
-import Link from "next/link"
-import ActiveNavLink from "./ActiveNavLink"
 import Image from "next/image"
 import { useRouter } from "next/router"
+
+import { locales } from "@/src/locales"
+
+import ActiveNavLink from "./ActiveNavLink"
+
+import type { LocalesType } from "@/src/locales"
 
 const CountryContainer = styled.div`
   display: block;
@@ -19,8 +21,6 @@ const mapLanguage = (locale: LocalesType) => {
       return "English"
     case "ru":
       return "Russian"
-    case "uk":
-      return "Ukranian"
   }
 }
 

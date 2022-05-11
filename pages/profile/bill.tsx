@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
 import HeadingRow from "@/components/Profile/shared/HeadingRow"
-import HistoryComponent from "@/components/Profile/History"
+import BillComponent from "@/components/Profile/Bill"
 
 import type { GetStaticProps } from "next"
 
@@ -17,13 +17,13 @@ const Container = styled(BaseContainer)`
   min-height: calc(100vh - var(--header-height));
 `
 
-function History() {
-  const { t } = useTranslation("profile-history")
+function Bill() {
+  const { t } = useTranslation("profile-bill")
 
   return (
     <Container>
-      <HeadingRow heading={t("history")} id="M-0000001" />
-      <HistoryComponent />
+      <HeadingRow heading={t("bill")} id="M-0000001" />
+      <BillComponent />
     </Container>
   )
 }
@@ -34,7 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
-        "profile-history",
+        "profile-bill",
         "routes"
       ]))
     }
@@ -42,4 +42,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   }
 }
 
-export default History
+export default Bill

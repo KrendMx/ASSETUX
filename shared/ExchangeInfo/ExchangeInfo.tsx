@@ -1,27 +1,28 @@
 import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import Help from "../Help"
+import Help from "./Help"
 import { Container, ExchangeHelp, ExchangeStat } from "./styles"
 
-type ExchangeProps = {
+type ExchangeInfoProps = {
   token: string | null
   currency: string | null
+  placeholder: string
+  text: string
   rate: number | null
   isLoading: boolean
   margins?: boolean
 }
 
-function Exchange({
+function ExchangeInfo({
   token,
   currency,
+  placeholder,
+  text,
   rate,
   isLoading,
   margins
-}: ExchangeProps) {
-  const { t } = useTranslation("home")
-
+}: ExchangeInfoProps) {
   const [hovered, setHovered] = useState(false)
 
   return (
@@ -32,9 +33,9 @@ function Exchange({
             1 {token} = {rate} {currency}
           </ExchangeStat>
           <ExchangeHelp onMouseEnter={() => {}} onMouseLeave={() => {}}>
-            {t("home:exchange_fees")}
+            {placeholder}
           </ExchangeHelp>
-          {hovered && <Help offsetY={14}>{t("home:exchange_help")}</Help>}
+          {hovered && <Help offsetY={14}>{text}</Help>}
         </>
       ) : (
         <Skeleton containerClassName="skeletonFlexContainer" />
@@ -43,4 +44,4 @@ function Exchange({
   )
 }
 
-export default Exchange
+export default ExchangeInfo

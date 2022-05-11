@@ -45,13 +45,14 @@ const Container = styled(BaseContainer)`
   }
 `
 
-type BlogProps = {
+export type BlogProps = {
+  pinnedPost: PostData | null
   posts: PostData[] | null
   totalPages: number
   category: PostCategory
 }
 
-function Blog({ posts, totalPages, category }: BlogProps) {
+function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
   const { t } = useTranslation("news")
 
   return (
@@ -68,7 +69,7 @@ function Blog({ posts, totalPages, category }: BlogProps) {
       <>
         {posts != null ? (
           <>
-            <MainBlock posts={posts} />
+            <MainBlock pinnedPost={pinnedPost} posts={posts} />
             <Pages pages={totalPages} />
           </>
         ) : (

@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
@@ -9,10 +10,11 @@ import {
   setCurrentCurrency
 } from "@/src/redux/uiSlice"
 import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
-import { company, legal, popular } from "@/src/routes"
+import { company, legal, popular, commerce } from "@/src/routes"
 import { isCurrencyDeclared } from "@/src/currencies"
 
 import NavGroup from "./NavGroup"
+import NavLink from "../NavLink"
 import MobileButton from "./MobileButton"
 import Container from "../Container"
 import Social from "../Social"
@@ -29,6 +31,7 @@ function BurgerMenu() {
   )
 
   const isMainPage = router.pathname == "/"
+  const isCommercePage = router.pathname.startsWith("/profile")
 
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {
@@ -73,19 +76,31 @@ function BurgerMenu() {
   return (
     <Container>
       <ul>
-        <li>
-          <NavGroup title={t("company")} routes={company} />
-        </li>
-        <li>
-          <NavGroup
-            title={t("popular")}
-            routes={popular}
-            onClick={popularAction}
-          />
-        </li>
-        <li>
-          <NavGroup title={t("legal")} routes={legal} />
-        </li>
+        {!isCommercePage && (
+          <>
+            <li>
+              <NavGroup title={t("company")} routes={company} />
+            </li>
+            <li>
+              <NavGroup
+                title={t("popular")}
+                routes={popular}
+                onClick={popularAction}
+              />
+            </li>
+            <li>
+              <NavGroup title={t("legal")} routes={legal} />
+            </li>
+          </>
+        )}
+        {isCommercePage &&
+          commerce.map((route) => (
+            <li key={route.key}>
+              <Link href={route.href} passHref>
+                <NavLink bold>{t(route.key)}</NavLink>
+              </Link>
+            </li>
+          ))}
         {isMainPage && (
           <li>
             <MobileButton

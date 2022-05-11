@@ -20,7 +20,7 @@ const ControlsRow = styled.div`
   justify-content: flex-end;
 `
 
-function FormGroup() {
+function History() {
   const isMobile = useImmediateMobile()
 
   return (
@@ -39,4 +39,4 @@ function FormGroup() {
   )
 }
 
-export default FormGroup
+export default History

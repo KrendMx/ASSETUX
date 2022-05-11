@@ -8,7 +8,7 @@ import InputSelect from "@/shared/InputSelect"
 
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
-import ExchangeRow from "../../Exchange"
+import ExchangeRow from "@/shared/ExchangeInfo"
 import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
 import Maintenance from "../../Maintenance"
@@ -323,6 +323,7 @@ function SelectForm({
                 error={inputError[inputIds.give]}
                 selectedValue={currentCurrency}
                 selectable={false}
+                onlyNumbers
                 changeable
               />
             ) : (
@@ -349,6 +350,8 @@ function SelectForm({
                   currency={currentCurrency}
                   rate={rate}
                   isLoading={isLoading}
+                  placeholder={t("home:exchange_fees")}
+                  text="asd"
                   margins
                 />
                 {!isLoading ? (
@@ -362,6 +365,7 @@ function SelectForm({
                     onChange={handleGetInput}
                     value={getAmount}
                     selectedValue={currentToken}
+                    onlyNumbers
                     changeable
                   />
                 ) : (

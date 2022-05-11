@@ -28,6 +28,7 @@ import { checkCurrency } from "@/src/currencies"
 import type { AppProps } from "next/app"
 
 import "react-loading-skeleton/dist/skeleton.css"
+import "core-js/features/array/at"
 import "@/styles/fonts.css"
 
 const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {

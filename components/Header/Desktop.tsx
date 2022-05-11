@@ -11,7 +11,7 @@ import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import TextLogo from "@/shared/TextLogo"
 
-import { commerceRoutes } from "@/src/routes"
+import { commerce } from "@/src/routes"
 import { mobile } from "@/src/constants"
 
 const DesktopContainer = styled(Container)`
@@ -94,7 +94,7 @@ function Desktop() {
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
           {isCommercePage &&
-            commerceRoutes.map((route) => (
+            commerce.map((route) => (
               <Link href={route.href} key={route.href} passHref>
                 <NavLink>{t(route.key)}</NavLink>
               </Link>

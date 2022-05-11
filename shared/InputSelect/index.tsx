@@ -36,6 +36,7 @@ type InputSelectProps = {
   displayIcon?: boolean
   displayInSelect?: number
   selectLabel?: string
+  onlyNumbers?: boolean
   file?: boolean
   fileLabel?: string
   accept?: string
@@ -54,6 +55,7 @@ function InputSelect({
   options,
   changeable,
   selectLabel,
+  onlyNumbers = false,
   file,
   fileLabel,
   accept,
@@ -198,6 +200,7 @@ function InputSelect({
             autoComplete={autocomplete ? autocomplete : "off"}
             name={id}
             type={file ? "file" : "text"}
+            inputMode={onlyNumbers ? "decimal" : "text"}
             accept={file ? accept : undefined}
             disabled={!changeable || hideLabel}
             value={!file ? displayedValue : undefined}

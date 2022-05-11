@@ -14,6 +14,7 @@ const Container = styled.div`
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
   overflow: hidden;
+  isolation: isolate; // fix borders in maintenance
   font-size: 1rem;
 
   @media only screen and (max-width: ${mobile}px) {
