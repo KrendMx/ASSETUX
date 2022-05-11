@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV === "development") {
+  import("preact/devtools")
+}
+
 import React, { useEffect } from "react"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
