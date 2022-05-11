@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { mobile } from "@/src/constants"
 
 type NextButtonProps = {
-  loading?: boolean
+  isLoading?: boolean
 }
 
 const NextButton = styled.button<NextButtonProps>`
@@ -13,7 +13,7 @@ const NextButton = styled.button<NextButtonProps>`
   outline: none;
   color: #ffffff;
   background-color: ${(props) =>
-    props.loading ? "transparent" : "var(--blue)"};
+    props.isLoading ? "transparent" : "var(--blue)"};
   border-radius: 0.619em;
   cursor: pointer;
   height: 3.035em;

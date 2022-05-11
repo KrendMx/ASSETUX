@@ -449,7 +449,7 @@ function SelectForm({
         <NextButton
           onClick={handleNextStep}
           disabled={processingRequest || isLoading}
-          loading={isLoading}
+          isLoading={isLoading}
         >
           {isLoading ? (
             <Skeleton
