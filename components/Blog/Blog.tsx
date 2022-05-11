@@ -8,7 +8,7 @@ import MainBlock from "./MainBlock"
 import Pages from "@/shared/Pages"
 
 import { postCategories } from "@/src/BackendClient/types"
-import { mobile } from "@/src/constants"
+import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
 import type { PostData, PostCategory } from "@/src/BackendClient/types"
 
@@ -32,8 +32,17 @@ const Container = styled(BaseContainer)`
     margin-bottom: 2.632em;
   }
 
-  @media only screen and (max-width: ${mobile}px) {
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    font-size: 0.7rem;
     padding: 2.666em var(--paddings) 9em;
+
+    & > *:nth-child(2) {
+      margin-bottom: 1.36em;
+    }
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    font-size: 1rem;
 
     & > *:first-child {
       margin-bottom: 0.385em;

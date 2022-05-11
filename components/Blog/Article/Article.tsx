@@ -8,7 +8,7 @@ import AdaptiveFont from "@/shared/AdaptiveFont"
 import Post from "@/shared/NewsRoom/Element"
 
 import { getFormattedDate } from "@/src/date"
-import { mobile } from "@/src/constants"
+import { mobile, mobileLayoutForTablet, tablet } from "@/src/constants"
 import config from "@/src/config"
 
 import type { PostData } from "@/src/BackendClient/types"
@@ -25,11 +25,24 @@ const Container = styled(BaseContainer)`
   column-gap: 85px;
   grid-template-columns: repeat(3, 1fr);
 
+  @media only screen and (max-width: ${tablet}px) {
+    padding: 4.5em var(--paddings);
+    column-gap: 36px;
+  }
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    font-size: 0.735rem;
+  }
+
+  @media only screen and (max-width: 600px) {
+    column-gap: 20px;
+  }
+
   @media only screen and (max-width: ${mobile}px) {
+    font-size: 1rem;
     grid-template-columns: 1fr;
     grid-auto-rows: auto;
     row-gap: 3.25em;
-    padding: 4.5em var(--paddings);
   }
 `
 
@@ -86,7 +99,7 @@ const RecentPosts = styled.div``
 
 const Column = styled(AdaptiveFont).attrs({
   mobileFactor: 0.75,
-  tabletFactor: 1
+  tabletFactor: 0.78
 })`
   & > * + * {
     margin-top: 1.944em;

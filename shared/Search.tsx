@@ -1,17 +1,24 @@
 import React, { useRef, useState } from "react"
 import styled from "styled-components"
 import { IoIosSearch } from "react-icons/io"
-import { mobile } from "@/src/constants"
+
+import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
 const Container = styled.div`
-  border-radius: 10px;
+  border-radius: 0.625em;
   border: 1px solid #d2d2d7;
   display: flex;
   width: 243px;
-  height: 49px;
+  font-size: 16px;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    width: 140px;
+    font-size: 11px;
+  }
 
   @media only screen and (max-width: ${mobile}px) {
     width: 100%;
+    font-size: 16px;
   }
 `
 
@@ -20,14 +27,15 @@ const Input = styled.input`
   height: 100%;
   outline: none;
   border: none;
-  border-radius: 10px;
+  border-radius: 0.625em;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 14px 0 14px 21px;
-  font-size: 16px;
+  padding: 0.875em 0 0.875em 1.3em;
+  font-size: inherit;
   font-weight: 500;
   color: var(--gray);
+  background: var(--white);
 
   &::placeholder {
     color: var(--gray);
@@ -45,6 +53,14 @@ const IconButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    font-size: 18px;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    font-size: 25px;
+  }
 `
 
 type SearchProps = {

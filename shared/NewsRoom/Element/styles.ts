@@ -52,21 +52,11 @@ export const Container = styled(AdaptiveFont).attrs({
 
       @media only screen and (max-width: ${mobileLayoutForTablet}px) {
         h4 {
-          font-size: 2em;
+          font-size: 1.99em;
         }
 
         ${Info}, p {
-          font-size: 0.85em;
-        }
-      }
-
-      @media only screen and (max-width: 770px) {
-        h4 {
-          font-size: 1.6em;
-        }
-
-        ${Info}, p {
-          font-size: 0.78em;
+          font-size: 0.959em;
         }
       }
 

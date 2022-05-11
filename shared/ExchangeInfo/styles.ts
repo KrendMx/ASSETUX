@@ -12,6 +12,7 @@ export const ExchangeHelp = styled.span`
   color: var(--blue);
   font-size: 1em;
   font-weight: 500;
+  text-align: right;
 `
 
 type ContainerProps = {

@@ -1,11 +1,12 @@
 import styled from "styled-components"
-import ModalContainer from "../ModalComponents/Container"
 
-import { mobile } from "@/src/constants"
+import ModalContainer from "../ModalComponents/Container"
+import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   & > * + * {
     margin-left: 10px;
@@ -36,9 +37,9 @@ export const Button = styled.button<ButtonProps>`
   color: ${(props) => (props.active ? "var(--white)" : "var(--gray)")};
   font-size: 16px;
   font-weight: 500;
-  border-radius: 10px;
+  border-radius: 0.526em;
   width: 127px;
-  height: 49px;
+  height: 3.0625em;
   cursor: pointer;
   text-decoration: none;
 
@@ -46,8 +47,18 @@ export const Button = styled.button<ButtonProps>`
     width: 62px;
   }
 
-  @media only screen and (max-width: 770px) {
-    width: ${(props) => (props.spanWidth ? "100%" : "127px")};
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    width: 73px;
+    font-size: 11px;
+
+    &:first-child {
+      width: 40px;
+    }
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    width: ${(props) => (props.spanWidth ? "100%" : "73px")};
+    font-size: 16px;
 
     &:first-child {
       width: ${(props) => (props.spanWidth ? "100%" : "127px")};

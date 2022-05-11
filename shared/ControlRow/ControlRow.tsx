@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import Link from "next/link"
 
 import { useImmediateMobile } from "@/src/hooks"
+import { mobile } from "@/src/constants"
 
 import Search from "@/shared/Search"
 import Background from "../Background"
@@ -15,7 +16,7 @@ function ControlRow({
   onContextChange
 }: ControlRowProps) {
   const [showModal, setShowModal] = useState(false)
-  const isMobile = useImmediateMobile(770)
+  const isMobile = useImmediateMobile(mobile)
 
   useEffect(() => {
     if (showModal) {

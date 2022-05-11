@@ -26,8 +26,6 @@ export const Container = styled(AdaptiveFont).attrs({
       }
 
       @media only screen and (max-width: ${mobile}px) {
-        gap: 13px;
-
         & > *:not(:first-child) {
           width: 93%;
         }
@@ -35,10 +33,11 @@ export const Container = styled(AdaptiveFont).attrs({
     `}
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
   @media only screen and (max-width: ${mobile}px) {
     grid-template-columns: 1fr;
+    gap: 13px;
   }
 `
