@@ -8,7 +8,8 @@ export const handleRequest = async (
   props: AxiosRequestConfig
 ): Promise<Response<any, any>> => {
   try {
-    const response = await axios({ ...props })
+    const response = await axios(props)
+
     return {
       state: "success",
       status: response.status,
