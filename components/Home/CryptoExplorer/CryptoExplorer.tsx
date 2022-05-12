@@ -30,7 +30,7 @@ import {
   ActionButton
 } from "./styles"
 
-import type { TAction } from "@/src/redux/cryptoSlice/types"
+import type { ActionType } from "@/src/redux/cryptoSlice/types"
 import type { Token } from "@/src/BackendClient/types"
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
@@ -110,7 +110,7 @@ function CryptoExplorer() {
   }
 
   const handleAction = useCallback(
-    (action: TAction, token: Token) => {
+    (action: ActionType, token: Token) => {
       dispatch(swapAction(action))
       dispatch(setSelectedToken(token))
       window.scrollTo({
@@ -123,7 +123,7 @@ function CryptoExplorer() {
   )
 
   const handleCardAction = useCallback(
-    (action: TAction, dataIndex: number) => {
+    (action: ActionType, dataIndex: number) => {
       const token = explorerData
         ? explorerData?.filter(
             (element) => element.currency == currentCurrency

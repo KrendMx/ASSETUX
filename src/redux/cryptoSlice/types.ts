@@ -1,7 +1,7 @@
 import type { Blockchain, Token } from "@/src/BackendClient/types"
 import type { ExplorerData } from "@/components/CryptoManager/types"
 
-export type TAction = "BUY" | "SELL"
+export type ActionType = "BUY" | "SELL"
 
 export type CryptoState = {
   availableBlockchains: Blockchain[] | null
@@ -9,6 +9,6 @@ export type CryptoState = {
   availableTokens: Token[] | null
   selectedToken: Token | null
   currentRate: number | null
-  action: TAction
+  action: ActionType
   explorerData: ExplorerData[] | null
 }

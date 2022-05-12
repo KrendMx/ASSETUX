@@ -11,7 +11,7 @@ import type {
   Token
 } from "@/src/BackendClient/types"
 import type { ExplorerData } from "@/components/CryptoManager/types"
-import type { TAction, CryptoState } from "./types"
+import type { ActionType, CryptoState } from "./types"
 
 const hydrate = createAction<RootState>(HYDRATE)
 
@@ -38,7 +38,7 @@ export const cryptoSlice = createSlice({
     setCurrentRate: (state, action: PayloadAction<number | null>) => {
       state.currentRate = action.payload
     },
-    swapAction: (state, action: PayloadAction<TAction | undefined>) => {
+    swapAction: (state, action: PayloadAction<ActionType | undefined>) => {
       if (action.payload) {
         state.action = action.payload
       } else {

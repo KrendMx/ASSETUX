@@ -16,14 +16,14 @@ import {
 } from "./styles"
 
 import type { CardsProps, CardData } from "./types"
-import type { TAction } from "@/src/redux/cryptoSlice/types"
+import type { ActionType } from "@/src/redux/cryptoSlice/types"
 
 const mapCards = (
   rowNames: string[],
   currentPage: number,
   withButtons: boolean,
   cardData?: CardData[][],
-  handleAction?: (action: TAction, dataIndex: number) => void
+  handleAction?: (action: ActionType, dataIndex: number) => void
 ) => {
   return cardData?.map((data, paginatedDataIndex) => {
     const currentIndex = (currentPage - 1) * cardsPerPage + paginatedDataIndex
