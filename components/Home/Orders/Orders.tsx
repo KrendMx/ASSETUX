@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 
 import type { OrderInfo } from "./OrderModal/types"
-import type { OrdersData } from "@/src/BackendClient/types"
+import type { OrdersData, RequestState } from "@/src/BackendClient/types"
 
 const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   const allOrders: OrderInfo[] = []
@@ -66,23 +66,15 @@ function Orders() {
   const [showCodeModal, setShowCodeModal] = useState(false)
   const [showCodeInvalidModal, setShowCodeInvalidModal] = useState(false)
 
-  const [codeRequestResponse, setCodeRequestResponse] = useState<{
-    isLoading: boolean
-    error: string | null
-  }>({
-    isLoading: false,
-    error: null
-  })
+  const [codeRequestResponse, setCodeRequestResponse] = useState<RequestState<
+    boolean,
+    string | null
+  > | null>(null)
 
-  const [getOrdersResponse, setGetOrdersResponse] = useState<{
-    isLoading: boolean
-    data: OrderInfo[] | null
-    error: string | null
-  }>({
-    isLoading: false,
-    data: null,
-    error: null
-  })
+  const [getOrdersResponse, setGetOrdersResponse] = useState<RequestState<
+    OrderInfo[],
+    string | null
+  > | null>(null)
 
   const [showOrdersModal, setShowOrdersModal] = useState(false)
 
@@ -106,18 +98,13 @@ function Orders() {
           code: userCode
         })
 
-        if (!response.data) {
-          return
-        }
-
-        if ("message" in response.data) {
+        if (response.state != "success") {
           return
         }
 
         setGetOrdersResponse({
-          isLoading: false,
-          data: mapOrderInfo(response.data),
-          error: null
+          state: "success",
+          result: mapOrderInfo(response.data)
         })
       }, 10000)
 
@@ -132,8 +119,7 @@ function Orders() {
 
     if (currentBlockchain) {
       setCodeRequestResponse({
-        isLoading: true,
-        error: null
+        state: "pending"
       })
 
       const response = await BackendClient.requestOrdersEmail({
@@ -141,20 +127,16 @@ function Orders() {
         email
       })
 
-      if (!response.data) {
-        return
-      }
-
-      if (response.data == true) {
+      if (response.state == "success") {
         setShowCodeModal(true)
 
         setCodeRequestResponse({
-          isLoading: false,
-          error: null
+          state: "success",
+          result: true
         })
-      } else {
+      } else if (response.state == "error") {
         setCodeRequestResponse({
-          isLoading: false,
+          state: "error",
           error: response.data.message
         })
       }
@@ -166,9 +148,7 @@ function Orders() {
 
     if (currentBlockchain && userEmail) {
       setGetOrdersResponse({
-        isLoading: true,
-        data: null,
-        error: null
+        state: "pending"
       })
 
       const response = await BackendClient.getEmailOrders({
@@ -177,27 +157,25 @@ function Orders() {
         code
       })
 
-      if (!response.data) {
-        return
-      }
-
-      if ("message" in response.data) {
+      if (response.state == "error") {
         setShowCodeInvalidModal(true)
         setShowCodeModal(false)
 
         setGetOrdersResponse({
-          isLoading: false,
-          data: null,
+          state: "error",
           error: response.data.message
         })
 
         return
       }
 
+      if (response.state != "success") {
+        return
+      }
+
       setGetOrdersResponse({
-        isLoading: false,
-        data: mapOrderInfo(response.data),
-        error: null
+        state: "success",
+        result: mapOrderInfo(response.data)
       })
 
       setShowOrdersModal(true)
@@ -215,8 +193,14 @@ function Orders() {
         <Email
           onCancel={() => dispatch(setOrdersActive(false))}
           onAccept={handleEmail}
-          isLoading={codeRequestResponse.isLoading}
-          errorMessage={codeRequestResponse.error}
+          isLoading={codeRequestResponse?.state == "pending"}
+          errorMessage={
+            codeRequestResponse
+              ? "error" in codeRequestResponse
+                ? codeRequestResponse.error
+                : null
+              : null
+          }
         />
       )}
 
@@ -224,7 +208,7 @@ function Orders() {
         <Code
           onCancel={() => setShowCodeModal(false)}
           onAccept={handleCode}
-          isLoading={getOrdersResponse.isLoading}
+          isLoading={getOrdersResponse?.state == "pending"}
         />
       )}
 
@@ -237,8 +221,8 @@ function Orders() {
         />
       )}
 
-      {showOrdersModal && getOrdersResponse.data && (
-        <OrderModal orders={getOrdersResponse.data} />
+      {showOrdersModal && getOrdersResponse?.state == "success" && (
+        <OrderModal orders={getOrdersResponse.result} />
       )}
     </Background>
   )

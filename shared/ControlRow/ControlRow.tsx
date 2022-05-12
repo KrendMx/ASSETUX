@@ -1,30 +1,40 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import Link from "next/link"
 
-import { useImmediateMobile } from "@/src/hooks"
+import { useImmediateMobile, useToggle } from "@/src/hooks"
 import { mobile } from "@/src/constants"
+import { useAppDispatch } from "@/src/redux/hooks"
+import { setHideBurgerButton } from "@/src/redux/uiSlice"
 
 import Search from "@/shared/Search"
 import Background from "../Background"
-import { Container, Controls, Button, Modal } from "./styles"
+import { Container, Controls, Button, Modal, CloseButton } from "./styles"
 
 import type { ControlRowProps } from "./types"
 
 function ControlRow({
   searchPlaceholder,
   buttons,
+  context,
   onContextChange
 }: ControlRowProps) {
-  const [showModal, setShowModal] = useState(false)
+  const dispatch = useAppDispatch()
+
+  const [showModal, toggleModal] = useToggle()
   const isMobile = useImmediateMobile(mobile)
 
   useEffect(() => {
     if (showModal) {
-      setShowModal(false)
+      manuallyToggleModal()
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile])
+
+  const manuallyToggleModal = () => {
+    toggleModal()
+    dispatch(setHideBurgerButton(!showModal))
+  }
 
   return (
     <>
@@ -32,7 +42,7 @@ function ControlRow({
         <Controls>
           {buttons ? (
             isMobile ? (
-              <Button onClick={() => setShowModal(true)}>Фильтр</Button>
+              <Button onClick={manuallyToggleModal}>Фильтр</Button>
             ) : (
               buttons.map((button) =>
                 button.link ? (
@@ -58,10 +68,15 @@ function ControlRow({
             )
           ) : null}
         </Controls>
-        <Search placeholder={searchPlaceholder} onChange={onContextChange} />
+        <Search
+          value={context}
+          placeholder={searchPlaceholder}
+          onChange={onContextChange}
+        />
       </Container>
       {showModal && (
-        <Background onClick={() => setShowModal(false)}>
+        <Background onClick={manuallyToggleModal}>
+          <CloseButton onClick={manuallyToggleModal} />
           <Modal spanContent>
             {buttons
               ? buttons.map((button) =>
@@ -74,7 +89,7 @@ function ControlRow({
                       <Button
                         active={button.active}
                         onClick={() => {
-                          setShowModal(false)
+                          manuallyToggleModal()
                           button.onClick && button.onClick()
                         }}
                         as="a"
@@ -88,7 +103,7 @@ function ControlRow({
                       key={button.name}
                       active={button.active}
                       onClick={() => {
-                        setShowModal(false)
+                        manuallyToggleModal()
                         button.onClick && button.onClick()
                       }}
                       spanWidth

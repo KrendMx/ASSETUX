@@ -8,5 +8,6 @@ export type ButtonProps = {
 export type ControlRowProps = {
   searchPlaceholder: string
   buttons?: ButtonProps[]
-  onContextChange?: (context: string) => void
+  context: string
+  onContextChange: (context: string) => void
 }

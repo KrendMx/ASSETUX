@@ -79,8 +79,8 @@ function SelectForm({
   currentStep,
   depositInfo,
   serviceAvailable,
-  refundRequestError,
-  refundError,
+  refundRequestInfo,
+  refundInfo,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -137,42 +137,50 @@ function SelectForm({
   )
 
   useIsomorphicLayoutEffect(() => {
-    if (!refundRequestError) {
+    if (!refundRequestInfo) {
       return
     }
 
-    if (!refundRequestError.isLoading && refundRequestError.result == null) {
-      setShowRefundModal(false)
-      setShowRefundWalletModal(true)
-    } else {
-      setShowRefundModal(false)
-      setShowRefundInsufficient(true)
+    switch (refundRequestInfo.state) {
+      case "success":
+        setShowRefundModal(false)
+        setShowRefundWalletModal(true)
+        break
+      case "error":
+        setShowRefundModal(false)
+        setShowRefundInsufficient(true)
+        break
     }
-  }, [refundRequestError])
+  }, [refundRequestInfo])
 
   useIsomorphicLayoutEffect(() => {
-    if (!refundError) {
+    if (!refundInfo) {
       return
     }
 
-    if (!refundError.isLoading && refundError.result == null) {
-      setShowRefundModalResult(true)
-      setShowRefundCodeModal(false)
-    } else {
-      setShowRefundCodeModal(false)
-      setShowRefundCodeInvalid(true)
+    switch (refundInfo.state) {
+      case "success":
+        setShowRefundModalResult(true)
+        setShowRefundCodeModal(false)
+        break
+      case "error":
+        setShowRefundCodeModal(false)
+        setShowRefundCodeInvalid(true)
+        break
     }
-  }, [refundError])
+  }, [refundInfo])
 
   useIsomorphicLayoutEffect(() => {
-    if (depositInfo?.result) {
-      if (depositInfo.error) {
-        setShowExchangeUnknownModal(true)
-        setShowExchangeModal(false)
-      } else {
-        setShowExchangeResultModal(true)
-        setShowExchangeModal(false)
-      }
+    if (depositInfo == null) {
+      return
+    }
+
+    if ("error" in depositInfo) {
+      setShowExchangeUnknownModal(true)
+      setShowExchangeModal(false)
+    } else {
+      setShowExchangeResultModal(true)
+      setShowExchangeModal(false)
     }
   }, [depositInfo])
 
@@ -184,6 +192,8 @@ function SelectForm({
   if (tokens) checkedTokens = tokens
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
+
+  const serviceUnavailable = serviceAvailable == null || !serviceAvailable
 
   let getAmount = ""
   if (rate && giveAmount != "") {
@@ -237,6 +247,10 @@ function SelectForm({
   }
 
   const handleNextStep = () => {
+    if (serviceUnavailable) {
+      return
+    }
+
     let errorObject: Error = {}
 
     if (giveAmount == "") {
@@ -481,7 +495,7 @@ function SelectForm({
         currentStep != Step.Exchange && (
           <NextButton
             onClick={handleNextStep}
-            disabled={processingRequest || isLoading}
+            disabled={processingRequest || isLoading || serviceUnavailable}
             isLoading={isLoading}
           >
             {isLoading ? (
@@ -504,7 +518,7 @@ function SelectForm({
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
-          isLoading={refundRequestError?.isLoading}
+          isLoading={refundRequestInfo?.state == "pending"}
           onCancel={() => setShowRefundModal(false)}
           onAccept={() => {
             onRefundRequest()
@@ -524,7 +538,7 @@ function SelectForm({
       )}
       {showRefundCodeModal && (
         <RefundCodeModal
-          isLoading={refundError?.isLoading}
+          isLoading={refundInfo?.state == "pending"}
           onAccept={(code) => {
             refundData.current.code = code
 
@@ -573,7 +587,7 @@ function SelectForm({
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
-          isLoading={depositInfo?.isLoading}
+          isLoading={depositInfo?.state == "pending"}
           onCancel={() => setShowExchangeModal(false)}
           onAccept={() => {
             onExchange()
@@ -615,9 +629,7 @@ function SelectForm({
         />
       )}
 
-      {!isLoading && !serviceAvailable && serviceAvailable != null && (
-        <Maintenance />
-      )}
+      {!isLoading && serviceUnavailable && <Maintenance />}
 
       {(showRefundModal ||
         showRefundWalletModal ||

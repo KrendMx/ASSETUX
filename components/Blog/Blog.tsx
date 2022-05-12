@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
+// import { useRouter } from "next/router"
 
 import BaseContainer from "@/shared/BaseContainer"
 import ControlRow from "@/shared/ControlRow"
@@ -9,6 +10,9 @@ import Pages from "@/shared/Pages"
 
 import { postCategories } from "@/src/BackendClient/types"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
+import BackendClient from "@/src/BackendClient"
+import { useDebounce, usePrevious } from "@/src/hooks"
+// import { updateURL } from "@/src/helpers"
 
 import type { PostData, PostCategory } from "@/src/BackendClient/types"
 
@@ -54,6 +58,8 @@ const Container = styled(BaseContainer)`
   }
 `
 
+let previousAbortController: AbortController | null = null
+
 export type BlogProps = {
   pinnedPost: PostData | null
   posts: PostData[] | null
@@ -63,12 +69,72 @@ export type BlogProps = {
 
 function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
   const { t } = useTranslation("news")
+  // const router = useRouter()
+
+  const [searchContext, setSearchContext] = useState("")
+  const debouncedSearchContext = useDebounce(searchContext)
+  const prevDebouncedSearchContext = usePrevious(debouncedSearchContext)
+  const [postsToDisplay, setPostsToDisplay] = useState(posts)
+
+  useEffect(() => {
+    if (prevDebouncedSearchContext == undefined) {
+      return
+    }
+
+    // updateURL(router.asPath.split("?")[0] + "?query=" + debouncedSearchContext)
+
+    const fetchPosts = async () => {
+      previousAbortController = new AbortController()
+
+      const response = await BackendClient.findPost({
+        category,
+        query: debouncedSearchContext,
+        signal: previousAbortController.signal
+      })
+
+      if (response.state == "error" || response.state == "cancelled") {
+        return
+      }
+
+      if (response.state == "unavailable" || response.data.news == null) {
+        setPostsToDisplay(null)
+
+        return
+      }
+
+      setPostsToDisplay([response.data.news])
+    }
+
+    if (previousAbortController) {
+      previousAbortController.abort()
+    }
+
+    if (debouncedSearchContext == "") {
+      setPostsToDisplay(posts)
+
+      return
+    }
+
+    fetchPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchContext])
+
+  useEffect(() => {
+    if (previousAbortController) {
+      previousAbortController.abort()
+    }
+
+    setPostsToDisplay(posts)
+    setSearchContext("")
+  }, [posts])
 
   return (
     <Container>
       <h1>{t("title")}</h1>
       <ControlRow
+        context={searchContext}
         searchPlaceholder={t("search")}
+        onContextChange={setSearchContext}
         buttons={postCategories.map((postCategory) => ({
           name: t(postCategory),
           active: postCategory == category,
@@ -76,9 +142,9 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
         }))}
       />
       <>
-        {posts != null ? (
+        {postsToDisplay != null ? (
           <>
-            <MainBlock pinnedPost={pinnedPost} posts={posts} />
+            <MainBlock pinnedPost={pinnedPost} posts={postsToDisplay} />
             <Pages pages={totalPages} />
           </>
         ) : (

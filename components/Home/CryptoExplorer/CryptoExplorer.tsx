@@ -229,6 +229,7 @@ function CryptoExplorer() {
       <ControlRowContainer>
         {!isLoading ? (
           <ControlRow
+            context={searchContext}
             searchPlaceholder={t("home:search")}
             onContextChange={handleSearch}
           />

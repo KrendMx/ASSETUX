@@ -2,19 +2,15 @@ import axios from "axios"
 import config from "../config"
 
 import type { AxiosRequestConfig } from "axios"
-
-type ResponseType = {
-  status?: number
-  message: string
-  data?: any
-}
+import type { Response } from "./types"
 
 export const handleRequest = async (
   props: AxiosRequestConfig
-): Promise<ResponseType> => {
+): Promise<Response<any, any>> => {
   try {
     const response = await axios({ ...props })
     return {
+      state: "success",
       status: response.status,
       message: response.statusText,
       data: response.data
@@ -24,13 +20,20 @@ export const handleRequest = async (
       const response = error.response
 
       return {
+        state: "error",
         status: response.status,
         message: response.statusText,
         data: response.data
       }
     } else {
+      if (axios.isCancel(error)) {
+        return {
+          state: "cancelled"
+        }
+      }
+
       return {
-        message: "Server is unavailable"
+        state: "unavailable"
       }
     }
   }

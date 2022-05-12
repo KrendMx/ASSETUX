@@ -26,7 +26,7 @@ function History() {
   return (
     <Container>
       <ControlsRow>
-        <Search placeholder="asdsD" />
+        <Search placeholder="asdsD" value="" onChange={() => {}} />
       </ControlsRow>
       {isMobile ? <Cards /> : <Table customHeadings={[]} />}
 

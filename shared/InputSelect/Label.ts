@@ -15,7 +15,7 @@ const Label = styled.label<LabelProps>`
   cursor: ${(props) => (props.file ? "pointer" : "default")};
 
   @media only screen and (max-width: ${mobile}px) {
-    font-size: ${(props) => (props.file ? "1.066em" : "0.867em")};;
+    font-size: ${(props) => (props.file ? "1.066em" : "0.867em")};
   }
 `
 

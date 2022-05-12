@@ -9,4 +9,5 @@ export type UiState = {
   ordersActive: boolean
   currentCurrency: CurrenciesType
   appLoaded: boolean
+  hideBurgerButton: boolean
 }

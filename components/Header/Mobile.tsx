@@ -1,11 +1,14 @@
 import React from "react"
 import styled from "styled-components"
+import Image from "next/image"
+import Link from "next/link"
+
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
-import Image from "next/image"
 import BurgerButton from "../BurgerButton"
-import Link from "next/link"
+
 import { mobile } from "@/src/constants"
+import { useAppSelector } from "@/src/redux/hooks"
 
 const MobileContainer = styled(Container)`
   display: none;
@@ -33,6 +36,8 @@ const LogoLink = styled.a`
 `
 
 function Mobile() {
+  const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
+
   return (
     <MobileContainer>
       <LanguageCurrencyChange />
@@ -51,7 +56,7 @@ function Mobile() {
           </LogoLink>
         </Link>
       </ImageContainer>
-      <BurgerButton />
+      {!hideBurgerButton && <BurgerButton />}
     </MobileContainer>
   )
 }

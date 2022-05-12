@@ -96,3 +96,35 @@ export const Modal = styled(ModalContainer)`
     grid-column: 1 / span 4;
   }
 `
+
+export const CloseButton = styled.button`
+  position: absolute;
+  right: 18px;
+  top: 22px;
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+
+  &::after,
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: top left;
+    display: block;
+    content: "";
+    width: 20px;
+    height: 2px;
+    background: var(--white);
+  }
+
+  &::after {
+    transform: rotate(45deg) translate(-50%, -50%);
+  }
+
+  &::before {
+    transform: rotate(-45deg) translate(-50%, -50%);
+  }
+`

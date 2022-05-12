@@ -1,3 +1,50 @@
+export type PendingRequest = {
+  state: "pending"
+}
+
+export type SuccessfulRequest<T> = {
+  state: "success"
+  result: T
+}
+
+export type ErrorRequest<T> = {
+  state: "error"
+  error: T
+}
+
+export type RequestState<S, E = true> =
+  | PendingRequest
+  | SuccessfulRequest<S>
+  | ErrorRequest<E>
+
+export type SuccessfulResponse<S> = {
+  state: "success"
+  status: number
+  message: string
+  data: S
+}
+
+export type ErrorResponse<E> = {
+  state: "error"
+  status: number
+  message: string
+  data: E
+}
+
+export type CancelledResponse = {
+  state: "cancelled"
+}
+
+export type UnavailableResponse = {
+  state: "unavailable"
+}
+
+export type Response<S, E> =
+  | SuccessfulResponse<S>
+  | ErrorResponse<E>
+  | CancelledResponse
+  | UnavailableResponse
+
 export type UrlRequest = {
   apiHost: string
 }
@@ -64,29 +111,13 @@ export type FiatProvider = {
   logo?: string
 }
 
-export type GetFiatRates = {
-  status?: number
-  message: string
-  data?: FiatRate[]
-}
+export type GetFiatRates = Response<FiatRate[], undefined>
 
-export type GetTokens = {
-  status?: number
-  message: string
-  data?: Token[]
-}
+export type GetTokens = Response<Token[], undefined>
 
-export type GetFiatProviders = {
-  status?: number
-  message: string
-  data?: FiatProvider[]
-}
+export type GetFiatProviders = Response<FiatProvider[], undefined>
 
-export type GetBlockchains = {
-  status?: number
-  message: string
-  data?: Blockchain[]
-}
+export type GetBlockchains = Response<Blockchain[], undefined>
 
 export type GetPaymentUrlProps = UrlRequest & {
   ticker: string
@@ -105,11 +136,7 @@ export type GeyPaymentUrlData = {
   message?: string
 }
 
-export type GetPaymentUrl = {
-  status?: number
-  message: string
-  data?: GeyPaymentUrlData
-}
+export type GetPaymentUrl = Response<GeyPaymentUrlData, undefined>
 
 export type SellTokenCreateProps = UrlRequest & {
   cur_in: {
@@ -134,14 +161,10 @@ export type SellTokenCreateData = {
   end: string
 }
 
-export type SellTokenCreate = {
-  status?: number
-  message: string
-  data?: {
-    error: boolean
-    result: string | SellTokenCreateData
-  }
-}
+export type SellTokenCreate = Response<
+  { error: false; result: SellTokenCreateData },
+  { error: true; result: string }
+>
 
 export type CheckSellData = {
   orderId: string
@@ -175,14 +198,16 @@ export type CheckSellData = {
   wallet: string
 }
 
-export type CheckSellOrder = {
-  status?: number
-  message: string
-  data?: {
-    error: boolean
-    result: string | CheckSellData
+export type CheckSellOrder = Response<
+  {
+    error: false
+    result: CheckSellData
+  },
+  {
+    error: true
+    result: string
   }
-}
+>
 
 export type CheckSellOrderProps = UrlRequest & {
   orderId: string
@@ -192,27 +217,30 @@ export type CloseSellOrderProps = UrlRequest & {
   orderId: string
 }
 
-export type CloseSellOrder = {
-  status?: number
-  message: string
-  data?: {
-    error: boolean
+export type CloseSellOrder = Response<
+  {
+    error: false
+    result: string
+  },
+  {
+    error: true
     result: string
   }
-}
+>
 
 export type RefundRequestProps = UrlRequest & {
   orderId: string
 }
 
-export type RefundRequestResponse = {
-  status?: number
-  message: string
-  data?: {
-    error: boolean
-    result?: string
+export type RefundRequestResponse = Response<
+  {
+    error: false
+    result: string
+  },
+  {
+    error: true
   }
-}
+>
 
 export type RefundProps = UrlRequest & {
   orderId: string
@@ -220,75 +248,61 @@ export type RefundProps = UrlRequest & {
   code: number
 }
 
-export type RefundResponse = {
-  status?: number
-  message: string
-  data?: {
-    error: boolean
-    result?: string
+export type RefundResponse = Response<
+  {
+    error: false
+    result: string
+  },
+  {
+    error: true
   }
-}
+>
 
 export type RequestOrdersProps = UrlRequest & {
   email: string
 }
 
-export type RequestOrdersResponse = {
-  status?: number
-  message: string
-  data?:
-    | {
-        error: boolean
-        result?: string
-      }
-    | boolean
-}
+export type RequestOrdersResponse = Response<
+  boolean,
+  { error: true; result?: string }
+>
 
 export type GetRefundAmountsProps = UrlRequest & {
   chainId: number
 }
 
-export type GetRefundAmountsResponse = {
-  status?: number
-  message: string
-  data?:
-    | { message: string }
-    | {
-        RUB: number
-        UAH: number
-      }
-}
+export type GetRefundAmountsResponse = Response<
+  {
+    RUB: number
+    UAH: number
+  },
+  { message: string }
+>
 
 export type RequestOrdersEmailProps = UrlRequest & {
   email: string
 }
 
-export type RequestOrdersEmailResponse = {
-  status?: number
-  message: string
-  data?:
-    | boolean
-    | {
-        message: string
-        error: boolean
-      }
-}
+export type RequestOrdersEmailResponse = Response<
+  boolean,
+  {
+    message: string
+    error: true
+  }
+>
 
 export type GetEmailOrdersProps = UrlRequest & {
   email: string
   code: string
 }
 
-export type GetEmailOrdersResponse = {
-  status?: number
-  message: string
-  data?:
-    | {
-        error: boolean
-        message: string
-      }
-    | OrdersData
-}
+export type GetEmailOrdersResponse = Response<
+  OrdersData,
+  {
+    error: true
+    message: string
+  }
+>
 
 export type OrdersData = {
   sell: SellOrderInfo[]
@@ -374,11 +388,7 @@ export type LiquidityData = {
   sell: boolean
 }
 
-export type CheckLiquidityResponse = {
-  status?: number
-  message: string
-  data?: LiquidityData
-}
+export type CheckLiquidityResponse = Response<LiquidityData, undefined>
 
 export type PostData = {
   id: number
@@ -411,24 +421,15 @@ export type GetNewsProps = {
   page?: number
 }
 
-export type GetNewsResponse = {
-  status?: number
-  message: string
-  data?: NewsData
-}
+export type GetNewsResponse = Response<NewsData, undefined>
 
 export type FindPostProps = {
   category: PostCategory
   query: string
+  signal?: AbortSignal
 }
 
-export type FindPostResponse = {
-  status?: number
-  message: string
-  data?: {
-    news: PostData
-  }
-}
+export type FindPostResponse = Response<{ news: PostData | null }, undefined>
 
 export type LoginProps = UrlRequest & {
   token: string

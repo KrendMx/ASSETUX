@@ -64,6 +64,7 @@ function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
             : undefined
         }
         changeable
+        focused
       />
       <ButtonsRow>
         <Button onClick={onCancel}>{t("home:orders_cancel")}</Button>

@@ -9,7 +9,7 @@ import {
   isPostCategoryDeclared
 } from "@/src/BackendClient/types"
 
-import type { GetStaticProps, GetStaticPaths } from "next"
+import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { PostCategory } from "@/src/BackendClient/types"
 import type { BlogProps } from "@/components/Blog"
@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps<
     page: 1
   })
 
-  if (response.data == null) {
+  if (response.state != "success") {
     return errorProps
   }
 
@@ -73,12 +73,21 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = ({ locales }) => {
+  const paths: GetStaticPathsResult["paths"] = []
+
+  postCategories.forEach((category) => {
+    locales!.forEach((locale) => {
+      paths.push({
+        // catch all since optional (not catch all) is not supported
+        params: { category: [category] },
+        locale
+      })
+    })
+  })
+
   return {
-    paths: postCategories.map((category) => ({
-      // catch all since optional (not catch all) are not supported
-      params: { category: [category] }
-    })),
+    paths,
     fallback: "blocking"
   }
 }

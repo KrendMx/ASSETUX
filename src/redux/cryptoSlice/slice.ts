@@ -63,8 +63,9 @@ export const cryptoSlice = createSlice({
     builder.addCase(
       getBlockchains.fulfilled,
       (state, action: PayloadAction<GetBlockchains>) => {
-        if (action.payload.status == 200) {
+        if (action.payload.state == "success") {
           const data = action.payload.data
+
           if (data && data.length > 0) {
             state.availableBlockchains = data
             state.selectedBlockchain = data[0]
@@ -77,8 +78,10 @@ export const cryptoSlice = createSlice({
       (state, action: PayloadAction<GetTokens | null>) => {
         if (action.payload) {
           const payload = action.payload
-          if (payload.status == 200) {
+
+          if (payload.state == "success") {
             const data = payload.data
+
             if (data && data.length > 0) {
               state.availableTokens = data
               state.selectedToken = data[0]

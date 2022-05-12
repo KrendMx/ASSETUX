@@ -89,24 +89,16 @@ function BuyForm({
 
       setProcessingRequest(false)
 
-      if (!response.data) {
+      if (response.state != "success") {
         return
       }
 
-      if (response.data.message) {
-        setCardError(response.data.message)
+      setCardError("")
 
-        return
-      }
-
-      if (response.data.link) {
-        setCardError("")
-
-        Object.assign(document.createElement("a"), {
-          target: "_blank",
-          href: response.data.link
-        }).click()
-      }
+      Object.assign(document.createElement("a"), {
+        target: "_blank",
+        href: response.data.link
+      }).click()
     }
   }
 

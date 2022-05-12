@@ -122,6 +122,8 @@ function SelectForm({
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
 
+  const serviceUnavailable = serviceAvailable == null || !serviceAvailable
+
   const currentPaymentOption = payments?.find(
     (payment) => payment.value == currentPayment
   )
@@ -242,6 +244,10 @@ function SelectForm({
   }
 
   const handleNextStep = () => {
+    if (serviceUnavailable) {
+      return
+    }
+
     // validation
 
     let errorObject: Error = {}
@@ -441,14 +447,12 @@ function SelectForm({
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
 
-      {!isLoading && !serviceAvailable && serviceAvailable != null && (
-        <Maintenance />
-      )}
+      {!isLoading && serviceUnavailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
           onClick={handleNextStep}
-          disabled={processingRequest || isLoading}
+          disabled={processingRequest || isLoading || serviceUnavailable}
           isLoading={isLoading}
         >
           {isLoading ? (

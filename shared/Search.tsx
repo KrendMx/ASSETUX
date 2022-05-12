@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 import styled from "styled-components"
-import { IoIosSearch } from "react-icons/io"
+import { IoIosSearch, IoMdClose } from "react-icons/io"
 
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
@@ -64,20 +64,18 @@ const IconButton = styled.button`
 `
 
 type SearchProps = {
+  value: string
   placeholder: string
-  onChange?: (value: string) => void
+  onChange: (value: string) => void
 }
 
-function Search({ placeholder, onChange }: SearchProps) {
-  const [searchContext, setSearchContext] = useState("")
+function Search({ value, placeholder, onChange }: SearchProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
 
-    setSearchContext(value)
-
-    onChange && onChange(value)
+    onChange(value)
   }
 
   return (
@@ -85,17 +83,21 @@ function Search({ placeholder, onChange }: SearchProps) {
       <Input
         placeholder={placeholder}
         ref={inputRef}
-        value={searchContext}
+        value={value}
         onChange={handleChange}
       />
       <IconButton
         onClick={() => {
-          if (inputRef.current) {
-            inputRef.current.focus()
+          if (value != "") {
+            onChange("")
+          } else {
+            if (inputRef.current) {
+              inputRef.current.focus()
+            }
           }
         }}
       >
-        <IoIosSearch />
+        {value == "" ? <IoIosSearch /> : <IoMdClose />}
       </IconButton>
     </Container>
   )

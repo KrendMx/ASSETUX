@@ -23,6 +23,7 @@ export const getTokens = createAsyncThunk<
   }
 >("crypto/getTokens", async (_, { getState }) => {
   const state = getState()
+
   if (state.crypto.selectedBlockchain) {
     return BackendClient.getTokens({
       apiHost: state.crypto.selectedBlockchain.url

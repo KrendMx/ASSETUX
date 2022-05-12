@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect, useRef } from "react"
 import Image from "next/image"
 import { IoIosArrowDown } from "react-icons/io"
 
@@ -46,6 +46,7 @@ type InputSelectProps = {
   selectedValue?: string | null
   autocomplete?: string
   paleBorders?: boolean
+  focused?: boolean
 }
 
 function InputSelect({
@@ -71,18 +72,25 @@ function InputSelect({
   defaultValue = "",
   displayInSelect = 3,
   selectable = true,
-  paleBorders = false
+  paleBorders = false,
+  focused = false
 }: InputSelectProps) {
   const hasOptions = options != undefined
+
   const [active, setActive] = useState(false)
   const [userInput, setUserInput] = useState({ value: defaultValue })
   const [uploadedFile, setUploadedFile] = useState<string | null>(null)
+
   const searchOptions = useMemo(
     () => options?.filter((option) => option.value != selectedValue),
     [selectedValue, options]
   )
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const hideLabel =
     active && ((changeable != undefined && changeable) || value != undefined)
+
   let selectedOption: Option | undefined
   if (hasOptions) {
     if (selectable) {
@@ -91,6 +99,7 @@ function InputSelect({
       selectedOption = options[0]
     }
   }
+
   let displayedValue: string = ""
 
   // these ifs are cool but it should be refactored
@@ -119,6 +128,18 @@ function InputSelect({
       displayedValue = selectedOption.description
     }
   }
+
+  useEffect(() => {
+    if (!focused) {
+      return
+    }
+
+    if (!inputRef.current) {
+      return
+    }
+
+    inputRef.current.focus()
+  }, [focused])
 
   const toggle = () => {
     if (!selectable) {
@@ -196,6 +217,7 @@ function InputSelect({
           )}
           {file && uploadedFile && <Input as="span">{uploadedFile}</Input>}
           <Input
+            ref={inputRef}
             id={id}
             autoComplete={autocomplete ? autocomplete : "off"}
             name={id}

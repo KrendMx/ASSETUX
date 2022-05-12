@@ -14,7 +14,8 @@ import type {
   FiatRate,
   FiatProvider,
   Blockchain,
-  Token
+  Token,
+  RequestState
 } from "@/src/BackendClient/types"
 import type { ExchangeInfo } from "./SelectForm/types"
 import type { CurrenciesType } from "@/src/currencies"
@@ -58,19 +59,14 @@ function SellForm({
     PaymentOption[] | null
   >(null)
   const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo | null>(null)
-  const [refundRequestError, setRefundRequestError] = useState<{
-    result: string | null
-    isLoading: boolean
-  } | null>(null)
-  const [refundError, setRefundError] = useState<{
-    result: string | null
-    isLoading: boolean
-  } | null>(null)
-  const [depositInfo, setDepositInfo] = useState<{
-    result: string | null
-    isLoading: boolean
-    error: boolean
-  } | null>(null)
+  const [refundRequestInfo, setRefundRequestInfo] =
+    useState<RequestState<string> | null>(null)
+  const [refundInfo, setRefundInfo] = useState<RequestState<string> | null>(
+    null
+  )
+  const [depositInfo, setDepositInfo] = useState<RequestState<string> | null>(
+    null
+  )
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -103,14 +99,16 @@ function SellForm({
 
       setProcessingRequest(false)
 
-      if (response.data && typeof response.data.result != "string") {
+      if (response.state == "success") {
         const data = response.data.result
+
         setExchangeInfo({
           wallet: data.wallet,
           creditedAmount: 0,
           timestamp: data.end,
           orderId: data.orderId.toString()
         })
+
         setCurrentStep(Step.Exchange)
       }
     }
@@ -119,9 +117,7 @@ function SellForm({
   const onExchange = async () => {
     if (currentBlockchain && exchangeInfo) {
       setDepositInfo({
-        isLoading: true,
-        result: null,
-        error: false
+        state: "pending"
       })
 
       const response = await BackendClient.closeSellOrder({
@@ -129,11 +125,10 @@ function SellForm({
         orderId: exchangeInfo.orderId
       })
 
-      if (response.data?.result) {
+      if (response.state == "success") {
         setDepositInfo({
-          isLoading: false,
-          result: response.data.result,
-          error: response.data.error
+          state: "success",
+          result: response.data.result
         })
       }
     }
@@ -141,9 +136,8 @@ function SellForm({
 
   const onRefund = async (code: string, wallet: string) => {
     if (currentBlockchain && exchangeInfo) {
-      setRefundError({
-        isLoading: true,
-        result: null
+      setRefundInfo({
+        state: "pending"
       })
 
       const response = await BackendClient.refund({
@@ -153,15 +147,15 @@ function SellForm({
         wallet
       })
 
-      if (response.data?.error && response.data.result) {
-        setRefundError({
-          isLoading: false,
+      if (response.state == "success") {
+        setRefundInfo({
+          state: "success",
           result: response.data.result
         })
       } else {
-        setRefundError({
-          isLoading: false,
-          result: null
+        setRefundInfo({
+          state: "error",
+          error: true
         })
       }
     }
@@ -169,9 +163,8 @@ function SellForm({
 
   const onRefundRequest = async () => {
     if (currentBlockchain && exchangeInfo) {
-      setRefundRequestError({
-        isLoading: true,
-        result: null
+      setRefundRequestInfo({
+        state: "pending"
       })
 
       const response = await BackendClient.refundRequest({
@@ -179,15 +172,15 @@ function SellForm({
         orderId: exchangeInfo.orderId
       })
 
-      if (response.data?.error && response.data?.result) {
-        setRefundRequestError({
-          isLoading: false,
+      if (response.state == "success") {
+        setRefundRequestInfo({
+          state: "success",
           result: response.data.result
         })
       } else {
-        setRefundRequestError({
-          isLoading: false,
-          result: null
+        setRefundRequestInfo({
+          state: "error",
+          error: true
         })
       }
     }
@@ -203,11 +196,7 @@ function SellForm({
       chainId: currentBlockchain.chain_id
     })
 
-    if (!response.data) {
-      return null
-    }
-
-    if ("message" in response.data) {
+    if (response.state != "success") {
       return null
     }
 
@@ -270,8 +259,9 @@ function SellForm({
           orderId: exchangeInfo.orderId
         })
 
-        if (response.data && typeof response.data.result != "string") {
+        if (response.state == "success") {
           const data = response.data.result
+
           setExchangeInfo({
             ...exchangeInfo,
             creditedAmount: data.amountIn
@@ -301,8 +291,8 @@ function SellForm({
       rate={currentRate}
       exchangeInfo={exchangeInfo}
       currentStep={currentStep}
-      refundRequestError={refundRequestError}
-      refundError={refundError}
+      refundRequestInfo={refundRequestInfo}
+      refundInfo={refundInfo}
       depositInfo={depositInfo}
       serviceAvailable={serviceAvailable}
       onBlockchainChange={(blockchain) => {}}

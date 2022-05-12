@@ -240,7 +240,8 @@ class BackendClient {
 
   public async findPost({
     category,
-    query
+    query,
+    signal
   }: FindPostProps): Promise<FindPostResponse> {
     const host = config.isStage ? config.host : `bsc.${config.host}`
 
@@ -248,6 +249,7 @@ class BackendClient {
       url: `${config.hostProtocol}://${host}/api/blog/${category}/find`,
       method: "GET",
       headers: this.headers,
+      signal,
       params: { query }
     })
   }

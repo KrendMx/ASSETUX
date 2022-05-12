@@ -122,29 +122,21 @@ function FormController() {
           })
         ])
 
+        const fiatProviders = responses[0]
+        const fiatRates = responses[1]
+        const liquidity = responses[2]
+
         if (!isUnmounted.current) {
-          if (responses[0].status == 200) {
-            const payments = responses[0].data
-
-            if (payments) {
-              setPayments(payments)
-            }
+          if (fiatProviders.state == "success") {
+            setPayments(fiatProviders.data)
           }
 
-          if (responses[1].status == 200) {
-            const fiatRates = responses[1].data
-
-            if (fiatRates) {
-              setFiatRates(fiatRates)
-            }
+          if (fiatRates.state == "success") {
+            setFiatRates(fiatRates.data)
           }
 
-          if (responses[2].status == 200) {
-            const liquidityData = responses[2].data
-
-            if (liquidityData) {
-              setLiquidityData(liquidityData)
-            }
+          if (liquidity.state == "success") {
+            setLiquidityData(liquidity.data)
           }
         }
       }
@@ -173,20 +165,15 @@ function FormController() {
           })
         ])
 
-        if (responses[0].status == 200) {
-          const fiatRates = responses[0].data
+        const fiatRates = responses[0]
+        const liquidity = responses[1]
 
-          if (fiatRates) {
-            setFiatRates(fiatRates)
-          }
+        if (fiatRates.state == "success") {
+          setFiatRates(fiatRates.data)
         }
 
-        if (responses[1].status == 200) {
-          const liquidityData = responses[1].data
-
-          if (liquidityData) {
-            setLiquidityData(liquidityData)
-          }
+        if (liquidity.state == "success") {
+          setLiquidityData(liquidity.data)
         }
       }, rateCheckInterval)
 

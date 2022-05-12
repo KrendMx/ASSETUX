@@ -15,7 +15,8 @@ const initialState: UiState = {
   languageCurrencyActive: false,
   ordersActive: false,
   currentCurrency: "RUB",
-  appLoaded: false
+  appLoaded: false,
+  hideBurgerButton: false
 }
 
 export const uiSlice = createSlice({
@@ -64,6 +65,9 @@ export const uiSlice = createSlice({
     },
     setAppLoaded: (state) => {
       state.appLoaded = true
+    },
+    setHideBurgerButton: (state, action: PayloadAction<boolean>) => {
+      state.hideBurgerButton = action.payload
     }
   },
   extraReducers: (builder) => {

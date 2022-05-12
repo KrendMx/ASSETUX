@@ -5,7 +5,7 @@ import ArticleComponent from "@/components/Blog/Article"
 
 import BackendClient from "@/src/BackendClient"
 
-import type { GetStaticProps, GetStaticPaths } from "next"
+import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { ArticleProps } from "@/components/Blog/Article"
 import type { PostData } from "@/src/BackendClient/types"
@@ -40,16 +40,20 @@ export const getStaticProps: GetStaticProps<
   const postResponse = responses[0]
   const recentPostsResponse = responses[1]
 
-  if (
-    postResponse.data == null ||
-    (postResponse.data != null && postResponse.data.news == null)
-  ) {
+  if (postResponse.state != "success") {
+    return errorProps
+  }
+
+  if (postResponse.data.news == null) {
     return errorProps
   }
 
   let recentPosts: PostData[] | null = null
-  if (recentPostsResponse.data?.news) {
-    recentPosts = recentPostsResponse.data.news.slice(0, 4)
+  if (
+    recentPostsResponse.state == "success" &&
+    recentPostsResponse.data.news != null
+  ) {
+    recentPosts = recentPostsResponse.data.news.slice(0, 3)
   }
 
   return {
@@ -66,11 +70,35 @@ export const getStaticProps: GetStaticProps<
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  const errorProps = {
+    paths: [],
+    fallback: "blocking" as const
+  }
+
   const response = await BackendClient.getNews({ category: "all", page: 1 })
 
+  if (response.state != "success") {
+    return errorProps
+  }
+
+  if (response.data.news == null) {
+    return errorProps
+  }
+
+  const paths: GetStaticPathsResult["paths"] = []
+
+  response.data.news.forEach((post) => {
+    locales!.forEach((locale) => {
+      paths.push({
+        params: { slug: post.slug },
+        locale
+      })
+    })
+  })
+
   return {
-    paths: [],
+    paths,
     fallback: "blocking"
   }
 }
