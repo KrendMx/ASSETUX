@@ -17,18 +17,18 @@ export type RequestState<S, E = true> =
   | SuccessfulRequest<S>
   | ErrorRequest<E>
 
-export type SuccessfulResponse<S> = {
+export type SuccessfulResponse<T> = {
   state: "success"
   status: number
   message: string
-  data: S
+  data: T
 }
 
-export type ErrorResponse<E> = {
+export type ErrorResponse<T> = {
   state: "error"
   status: number
   message: string
-  data: E
+  data: T
 }
 
 export type CancelledResponse = {
