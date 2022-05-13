@@ -40,6 +40,7 @@ type InputSelectProps = {
   file?: boolean
   fileLabel?: string
   accept?: string
+  type?: React.HTMLInputTypeAttribute
   id?: string
   error?: string
   selectable?: boolean
@@ -60,6 +61,7 @@ function InputSelect({
   file,
   fileLabel,
   accept,
+  type = "text",
   id,
   onChange,
   onUpload,
@@ -221,8 +223,8 @@ function InputSelect({
             id={id}
             autoComplete={autocomplete ? autocomplete : "off"}
             name={id}
-            type={file ? "file" : "text"}
-            inputMode={onlyNumbers ? "decimal" : "text"}
+            type={file ? "file" : type}
+            inputMode={onlyNumbers ? "decimal" : undefined}
             accept={file ? accept : undefined}
             disabled={!changeable || hideLabel}
             value={!file ? displayedValue : undefined}

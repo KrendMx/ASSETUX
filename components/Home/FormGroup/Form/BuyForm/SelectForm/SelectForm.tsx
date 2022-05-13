@@ -412,6 +412,7 @@ function SelectForm({
               error={inputError[inputIds.email]}
               onChange={handleEmailInput}
               autocomplete="email"
+              type="email"
               changeable
             />
             <HideableWithMargin hide={false} margins>
@@ -423,6 +424,7 @@ function SelectForm({
                   value={currentPhoneNumber}
                   error={cardError || inputError[inputIds.phoneNumber]}
                   autocomplete="tel"
+                  type="tel"
                   changeable
                 />
               ) : (

@@ -410,6 +410,7 @@ function SelectForm({
               value={currentEmail}
               error={inputError[inputIds.email]}
               autocomplete="email"
+              type="email"
               changeable
             />
           </HideableWithMargin>
