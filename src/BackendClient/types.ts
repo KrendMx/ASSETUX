@@ -431,6 +431,6 @@ export type FindPostProps = {
 
 export type FindPostResponse = Response<{ news: PostData | null }, undefined>
 
-export type LoginProps = UrlRequest & {
+export type LoginProps = {
   token: string
 }

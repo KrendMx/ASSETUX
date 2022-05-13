@@ -39,6 +39,9 @@ import type {
 class BackendClient {
   private apiKey = ""
   private headers = {}
+  private genericURL = `${config.hostProtocol}://${
+    config.isStage ? config.host : `bsc.${config.host}`
+  }`
 
   public async getFiatRates({ apiHost }: UrlRequest): Promise<GetFiatRates> {
     return handleRequest({
@@ -67,10 +70,8 @@ class BackendClient {
   }
 
   public async getBlockchains(): Promise<GetBlockchains> {
-    const host = config.isStage ? config.host : `bsc.${config.host}`
-
     return handleRequest({
-      url: `${config.hostProtocol}://${host}/api/blockchains`,
+      url: `${this.genericURL}/api/blockchains`,
       method: "GET",
       headers: this.headers
     })
@@ -226,10 +227,8 @@ class BackendClient {
     category,
     page
   }: GetNewsProps): Promise<GetNewsResponse> {
-    const host = config.isStage ? config.host : `bsc.${config.host}`
-
     return handleRequest({
-      url: `${config.hostProtocol}://${host}/api/blog/${category}`,
+      url: `${this.genericURL}/api/blog/${category}`,
       method: "GET",
       headers: this.headers,
       params: {
@@ -243,10 +242,8 @@ class BackendClient {
     query,
     signal
   }: FindPostProps): Promise<FindPostResponse> {
-    const host = config.isStage ? config.host : `bsc.${config.host}`
-
     return handleRequest({
-      url: `${config.hostProtocol}://${host}/api/blog/${category}/find`,
+      url: `${this.genericURL}/api/blog/${category}/find`,
       method: "GET",
       headers: this.headers,
       signal,
@@ -254,9 +251,9 @@ class BackendClient {
     })
   }
 
-  public async login({ token, apiHost }: LoginProps) {
+  public async login({ token }: LoginProps) {
     return handleRequest({
-      url: `${constructURL(apiHost)}/api/auth/login`,
+      url: `${this.genericURL}/api/auth/login`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`

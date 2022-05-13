@@ -5,12 +5,10 @@ import { Magic } from "magic-sdk"
 
 import config from "@/src/config"
 import BackendClient from "@/src/BackendClient"
-import { useAppSelector } from "@/src/redux/hooks"
 import { mobile } from "@/src/constants"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import CryptoManager from "@/components/CryptoManager"
 import { Form, Button } from "../shared/FormComponents"
 
 const Container = styled(AdaptiveFont).attrs({
@@ -61,47 +59,43 @@ const LoginWrapper = styled.div`
 
 function LoginContainer() {
   const { t } = useTranslation("profile-login")
-  const selectedBlockchain = useAppSelector(
-    (state) => state.crypto.selectedBlockchain
-  )
 
   const [email, setEmail] = useState("")
 
-  const login = async () => {
-    if (selectedBlockchain) {
-      const token = await new Magic(config.magicKey).auth.loginWithMagicLink({
-        email
-      })
+  const login: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault()
 
-      console.log(token)
+    console.log(email)
 
-      if (token) {
-        const test = await BackendClient.login({
-          token,
-          apiHost: selectedBlockchain.url
-        })
-
-        console.log("test", test)
-      }
-    }
+    // const token = await new Magic(config.magicKey).auth.loginWithMagicLink({
+    //   email
+    // })
+    // console.log(token)
+    // if (token) {
+    //   const test = await BackendClient.login({
+    //     token,
+    //     apiHost: selectedBlockchain.url
+    //   })
+    //   console.log("test", test)
+    // }
   }
 
   return (
     <Container>
-      <CryptoManager />
       <LoginWrapper>
         <Title>{t("greetings")}</Title>
         <Note>{t("explanation")}</Note>
-        <Form gap="1.578em">
+        <Form gap="1.578em" onSubmit={login} noValidate>
           <InputSelect
             id="email"
             label={t("email")}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            type="email"
             placeholder="coolemail@gmail.com"
             changeable
           />
-          <Button onClick={login}>{t("logIn")}</Button>
+          <Button type="submit">{t("logIn")}</Button>
         </Form>
       </LoginWrapper>
     </Container>
