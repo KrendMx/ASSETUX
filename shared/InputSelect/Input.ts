@@ -23,6 +23,11 @@ const Input = styled.input`
     opacity: 0.7;
   }
 
+  &:-webkit-autofill,
+  &:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+
   @media only screen and (max-width: ${mobile}px) {
     font-size: 1.067em;
 
