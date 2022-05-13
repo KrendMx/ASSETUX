@@ -40,6 +40,7 @@ function InvestmentsSlider() {
                     width={477}
                     height={307}
                     alt="gamefi"
+                    loading="eager"
                   />
                 </ImageContainer>
               </ImagePositioner>
@@ -51,6 +52,7 @@ function InvestmentsSlider() {
                     width={477}
                     height={307}
                     alt="DeFi"
+                    loading="eager"
                   />
                 </ImageContainer>
               </ImagePositioner>
@@ -62,6 +64,7 @@ function InvestmentsSlider() {
                     width={477}
                     height={307}
                     alt="Metaverse"
+                    loading="eager"
                   />
                 </ImageContainer>
               </ImagePositioner>
@@ -73,6 +76,7 @@ function InvestmentsSlider() {
                     width={477}
                     height={307}
                     alt="TopCoins"
+                    loading="eager"
                   />
                 </ImageContainer>
               </ImagePositioner>
