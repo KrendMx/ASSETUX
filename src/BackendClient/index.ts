@@ -39,9 +39,7 @@ import type {
 class BackendClient {
   private apiKey = ""
   private headers = {}
-  private genericURL = `${config.hostProtocol}://${
-    config.isStage ? config.host : `bsc.${config.host}`
-  }`
+  private genericURL = `${config.hostProtocol}://bsc.${config.host}`
 
   public async getFiatRates({ apiHost }: UrlRequest): Promise<GetFiatRates> {
     return handleRequest({
