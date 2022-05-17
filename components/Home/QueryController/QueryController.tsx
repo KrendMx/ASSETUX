@@ -38,18 +38,18 @@ function QueryController() {
 
       query["action"] = action.toLowerCase()
 
-      query["currency"] = currentCurrency.toLowerCase()
-
-      if (selectedBlockchain) {
-        // query["blockchain"] = selectedBlockchain.chain_id.toString()
-      }
-
-      if (selectedToken) {
-        query["token"] = selectedToken.symbol.toLowerCase()
-      }
-
       if (sellOrderId) {
         query["id"] = sellOrderId
+      } else {
+        query["currency"] = currentCurrency.toLowerCase()
+
+        if (selectedBlockchain) {
+          // query["blockchain"] = selectedBlockchain.chain_id.toString()
+        }
+
+        if (selectedToken) {
+          query["token"] = selectedToken.symbol.toLowerCase()
+        }
       }
 
       const newUrl = window.location.pathname + "?" + mapQueryObject(query)
