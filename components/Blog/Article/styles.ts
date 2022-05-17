@@ -84,6 +84,7 @@ export const Text = styled.div`
   font-size: 1em;
   font-weight: 400;
   color: #616161;
+  white-space: pre-line;
 `
 
 export const RecentPosts = styled.div``
