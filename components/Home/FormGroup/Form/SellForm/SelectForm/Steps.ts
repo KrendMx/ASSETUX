@@ -1,5 +1,6 @@
 export enum Step {
   Details,
   Payment,
-  Exchange
+  Exchange,
+  ExchangeFromLink
 }

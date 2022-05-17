@@ -5,7 +5,8 @@ export const {
   setSelectedBlockchain,
   swapAction,
   setCurrentRate,
-  setExplorerData
+  setExplorerData,
+  setSellOrderId
 } = cryptoSlice.actions
 
 export default cryptoSlice.reducer

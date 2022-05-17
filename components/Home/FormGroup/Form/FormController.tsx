@@ -97,7 +97,12 @@ function FormController() {
 
   useIsomorphicLayoutEffect(() => {
     const query = new URLSearchParams(window.location.search)
+    const action = query.get("action")
     const id = query.get("id")
+
+    if (action == "sell") {
+      return
+    }
 
     if (id) {
       setDisplayBuyPendings(true)

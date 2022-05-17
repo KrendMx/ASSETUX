@@ -11,4 +11,5 @@ export type CryptoState = {
   currentRate: number | null
   action: ActionType
   explorerData: ExplorerData[] | null
+  sellOrderId: string | null
 }

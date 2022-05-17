@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
-import { setCurrentRate } from "@/src/redux/cryptoSlice"
+import { setCurrentRate, setSellOrderId } from "@/src/redux/cryptoSlice"
 
 import SelectForm from "./SelectForm"
 import BackendClient from "@/src/BackendClient"
@@ -48,6 +48,7 @@ function SellForm({
   const dispatch = useAppDispatch()
 
   const [currentStep, setCurrentStep] = useState(Step.Details)
+  const [loadingOrder, setLoadingOrder] = useState(false) // used to indicate a loading state if there's an id in query
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
@@ -67,6 +68,8 @@ function SellForm({
   const [depositInfo, setDepositInfo] = useState<RequestState<string> | null>(
     null
   )
+
+  const checkedId = useRef(false)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -110,6 +113,8 @@ function SellForm({
         })
 
         setCurrentStep(Step.Exchange)
+
+        dispatch(setSellOrderId(data.orderId.toString()))
       }
     }
   }
@@ -203,6 +208,62 @@ function SellForm({
     return response.data[currentCurrency]
   }
 
+  const handleSetCurrentStep = (step: Step) => {
+    if (step != Step.Exchange) {
+      dispatch(setSellOrderId(null))
+    }
+
+    setCurrentStep(step)
+  }
+
+  useIsomorphicLayoutEffect(() => {
+    if (currentBlockchain == null || checkedId.current) {
+      return
+    }
+
+    const query = new URLSearchParams(window.location.search)
+
+    const sellOrderId = query.get("id")
+
+    if (!sellOrderId) {
+      return
+    }
+
+    const fetchOrder = async () => {
+      setLoadingOrder(true)
+
+      const response = await BackendClient.checkSellOrder({
+        apiHost: currentBlockchain.url,
+        orderId: sellOrderId
+      })
+
+      if (
+        response.state == "success" &&
+        response.data.result.status == "pending"
+      ) {
+        const { wallet, orderId, timestamp, amountIn } = response.data.result
+
+        const startTimestamp = Number(timestamp)
+        const endTimestamp = startTimestamp + 3.6e6
+
+        setExchangeInfo({
+          wallet,
+          orderId,
+          timestamp: endTimestamp.toString(),
+          creditedAmount: amountIn
+        })
+
+        setCurrentStep(Step.ExchangeFromLink)
+      } else {
+        dispatch(setSellOrderId(null))
+      }
+
+      setLoadingOrder(false)
+    }
+
+    fetchOrder()
+  }, [currentBlockchain])
+
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)
   }, [currentCurrency])
@@ -252,7 +313,11 @@ function SellForm({
   }, [rates, currentToken, selectedCurrency, dispatch])
 
   useEffect(() => {
-    if (currentStep == Step.Exchange && exchangeInfo && currentBlockchain) {
+    if (
+      (currentStep == Step.Exchange || currentStep == Step.ExchangeFromLink) &&
+      exchangeInfo &&
+      currentBlockchain
+    ) {
       const interval = setInterval(async () => {
         const response = await BackendClient.checkSellOrder({
           apiHost: currentBlockchain.url,
@@ -275,6 +340,7 @@ function SellForm({
 
   return (
     <SelectForm
+      loadingOrder={loadingOrder}
       processingRequest={processingRequest}
       currentBlockchain={currentBlockchain && currentBlockchain.title}
       blockchains={blockchains}
@@ -304,7 +370,7 @@ function SellForm({
       onEmailChange={setEmail}
       onGiveAmountChange={setGiveAmount}
       onSubmit={onSubmit}
-      setCurrentStep={setCurrentStep}
+      setCurrentStep={handleSetCurrentStep}
       onExchange={onExchange}
       onRefund={onRefund}
       onRefundRequest={onRefundRequest}

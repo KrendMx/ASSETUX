@@ -61,6 +61,7 @@ const inputIds = {
 }
 
 function SelectForm({
+  loadingOrder,
   processingRequest,
   currentBlockchain,
   blockchains,
@@ -212,7 +213,8 @@ function SelectForm({
       !checkedTokens ||
       !checkedCurrencies ||
       !rate ||
-      serviceAvailable == null)
+      serviceAvailable == null ||
+      loadingOrder)
 
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
@@ -416,14 +418,27 @@ function SelectForm({
           </HideableWithMargin>
         </FormContainer>
       )
-    } else if (currentStep == Step.Exchange && exchangeInfo) {
+    } else if (
+      (currentStep == Step.Exchange || currentStep == Step.ExchangeFromLink) &&
+      exchangeInfo
+    ) {
       return (
         <>
           <FormContainer>
             <InputSelectButton
               label={t("home:sell_backTo")}
-              value={t("home:sell_payment")}
-              onClick={() => setCurrentStep(Step.Payment)}
+              value={
+                currentStep == Step.ExchangeFromLink
+                  ? t("home:sell_orderDetails")
+                  : t("home:sell_payment")
+              }
+              onClick={() =>
+                setCurrentStep(
+                  currentStep == Step.ExchangeFromLink
+                    ? Step.Details
+                    : Step.Payment
+                )
+              }
             />
             <ExchangeInfoContainer>
               <QRcode valueToCopy={exchangeInfo.wallet} />
@@ -493,7 +508,8 @@ function SelectForm({
         !giveActive &&
         !getActive &&
         !paymentActive &&
-        currentStep != Step.Exchange && (
+        currentStep != Step.Exchange &&
+        currentStep != Step.ExchangeFromLink && (
           <NextButton
             onClick={handleNextStep}
             disabled={processingRequest || isLoading || serviceUnavailable}
@@ -617,7 +633,10 @@ function SelectForm({
 
       {exchangeInfo && rate && minimalRefundAmount && showExpiredModal && (
         <ExchangeExpired
-          onAccept={() => setShowExpiredModal(false)}
+          onAccept={() => {
+            setShowExpiredModal(false)
+            setCurrentStep(Step.Details)
+          }}
           getValue={creditedGetAmount}
           sentValue={exchangeInfo.creditedAmount.toString()}
           sentToken={tokens?.find((token) => token.value == currentToken)}

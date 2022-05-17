@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import styled from "styled-components"
+import { useTranslation } from "next-i18next"
 
 import { mobile } from "@/src/constants"
 
@@ -23,6 +24,7 @@ type CopyProps = {
 }
 
 function Copy({ label, valueToCopy }: CopyProps) {
+  const { t } = useTranslation("common")
   const [labelValue, setLabelValue] = useState(label)
   const isMounted = useRef(true)
 
@@ -33,7 +35,7 @@ function Copy({ label, valueToCopy }: CopyProps) {
   }, [])
 
   const handleCopy: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setLabelValue("Copied")
+    setLabelValue(t("copied"))
 
     if (valueToCopy && "clipboard" in navigator) {
       navigator.clipboard.writeText(valueToCopy)

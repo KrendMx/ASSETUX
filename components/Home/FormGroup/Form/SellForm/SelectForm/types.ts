@@ -16,6 +16,7 @@ export type ExchangeInfo = {
 }
 
 export type SelectFormProps = {
+  loadingOrder: boolean
   processingRequest: boolean
   currentBlockchain: string | null
   blockchains: Option[] | null

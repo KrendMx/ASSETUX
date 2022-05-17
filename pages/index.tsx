@@ -88,6 +88,7 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
     props: {
       news: response.state == "success" ? response.data.news : null,
       ...(await serverSideTranslations(locale!, [
+        "common",
         "header",
         "footer",
         "home",

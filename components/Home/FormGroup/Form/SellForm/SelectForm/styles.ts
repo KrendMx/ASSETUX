@@ -15,7 +15,7 @@ export const Container = styled.div<ContainerProps>`
   position: relative;
   width: 100%;
   height: ${(props) =>
-    props.formStep == Step.Exchange
+    props.formStep == Step.Exchange || props.formStep == Step.ExchangeFromLink
       ? "670px"
       : props.lastSelectorActive
       ? "568px"
@@ -25,7 +25,9 @@ export const Container = styled.div<ContainerProps>`
   flex-direction: column;
   justify-content: space-between;
   padding: ${(props) =>
-    props.formStep != Step.Exchange ? "34px 25px" : "34px 25px 6px 25px"};
+    props.formStep != Step.Exchange && props.formStep != Step.ExchangeFromLink
+      ? "34px 25px"
+      : "34px 25px 6px 25px"};
 
   .input-skeleton {
     line-height: 0;

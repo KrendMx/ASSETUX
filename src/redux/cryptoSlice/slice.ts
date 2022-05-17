@@ -22,7 +22,8 @@ const initialState: CryptoState = {
   selectedToken: null,
   currentRate: null,
   action: "BUY",
-  explorerData: null
+  explorerData: null,
+  sellOrderId: null
 }
 
 export const cryptoSlice = createSlice({
@@ -51,6 +52,9 @@ export const cryptoSlice = createSlice({
     },
     setExplorerData: (state, action: PayloadAction<ExplorerData[] | null>) => {
       state.explorerData = action.payload
+    },
+    setSellOrderId: (state, action: PayloadAction<string | null>) => {
+      state.sellOrderId = action.payload
     }
   },
   extraReducers: (builder) => {
