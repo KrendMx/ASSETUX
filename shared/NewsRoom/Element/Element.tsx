@@ -50,13 +50,11 @@ function Element({
 
   const displayedDate = getFormattedDate(created, router.locale!)
 
-  const host = config.isStage ? config.host : `bsc.${config.host}`
-
   return (
     <Container as="article" pinned={pinned}>
       <ImgContainer>
         <Image
-          src={`${config.hostProtocol}://${host}${img}`}
+          src={`${config.hostProtocol}://bsc.${config.host}${img}`}
           layout="responsive"
           width={560}
           height={416}

@@ -42,7 +42,7 @@ const config = {
       "bscscan.com",
       "assetux.com",
       "bsc.assetux.com",
-      "dev.assetux.com"
+      "bsc.dev.assetux.com"
     ]
   },
   pwa: {

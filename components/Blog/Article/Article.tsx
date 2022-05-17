@@ -27,15 +27,13 @@ export type ArticleProps = {
 function Article({ data, recentPosts }: ArticleProps) {
   const router = useRouter()
 
-  const host = config.isStage ? config.host : `bsc.${config.host}`
-
   return (
     <Container>
       <Content>
         <Title>{data.title}</Title>
         <PreviewImage>
           <Image
-            src={config.hostProtocol + "://" + host + data.img}
+            src={config.hostProtocol + "://" + `bsc.${config.host}` + data.img}
             width={560}
             height={416}
             layout="responsive"
