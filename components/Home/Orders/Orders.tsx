@@ -28,7 +28,8 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       status: sellOrder.status,
       email: sellOrder.email,
       tokenLogo: sellOrder.cur_in.logo_uri,
-      buy: false
+      buy: false,
+      orderId: sellOrder.order_id
     })
   }
 
@@ -49,7 +50,8 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       status: buyOrder.status,
       email: buyOrder.email,
       tokenLogo: buyOrder.token.logo_uri,
-      buy: true
+      buy: true,
+      orderId: null
     })
   }
 

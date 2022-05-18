@@ -44,16 +44,27 @@ export const CloseBar = styled.span`
 type ColoredProps = {
   colorIn: "red" | "green"
   split?: boolean
+  as?: "button"
 }
 
 export const Colored = styled.span<ColoredProps>`
+  font-size: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  width: auto;
+  display: inline;
   color: ${(props) => (props.colorIn == "red" ? "var(--red)" : "var(--green)")};
   text-align: left;
   font-weight: 500;
+  cursor: ${(props) => (props.as == "button" ? "pointer" : "default")};
 
   ${(props) =>
     props.split &&
     css`
+      display: block;
+      width: 100%;
+
       & > span {
         display: block;
       }

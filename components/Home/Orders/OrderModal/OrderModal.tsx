@@ -4,6 +4,7 @@ import Image from "next/image"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
+import { setSellOrderId, swapAction } from "@/src/redux/cryptoSlice"
 
 import { capitalizeString, ellipsisString } from "@/src/helpers"
 import { mapCurrency, isCurrencyDeclared } from "@/src/currencies"
@@ -177,6 +178,16 @@ function OrderModal({ orders }: OrderModalProps) {
             key={order.id + "_colored-status"}
             colorIn={order.buy ? "green" : "red"}
             split={!isMobileLayoutForTablet && !isMobile}
+            as={order.status == "pending" ? "button" : undefined}
+            onClick={() => {
+              if (order.status != "pending") {
+                return
+              }
+
+              dispatch(setOrdersActive(false))
+              dispatch(swapAction("SELL"))
+              dispatch(setSellOrderId(order.orderId))
+            }}
           >
             <span>
               {order.buy ? "Buy" : "Sell"}:
@@ -293,6 +304,7 @@ function OrderModal({ orders }: OrderModalProps) {
           order.amountOut.toFixed(2) + " " + order.curOut
         ]
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [orders, availableBlockchains, isMobileLayoutForTablet, isMobile]
   )
 

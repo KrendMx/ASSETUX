@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
+import { useRouter } from "next/router"
 
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
@@ -46,6 +47,7 @@ function SellForm({
   onTokenChange
 }: SellFormProps) {
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const [currentStep, setCurrentStep] = useState(Step.Details)
   const [loadingOrder, setLoadingOrder] = useState(false) // used to indicate a loading state if there's an id in query
@@ -68,8 +70,6 @@ function SellForm({
   const [depositInfo, setDepositInfo] = useState<RequestState<string> | null>(
     null
   )
-
-  const checkedId = useRef(false)
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -216,16 +216,25 @@ function SellForm({
     setCurrentStep(step)
   }
 
+  useEffect(() => {
+    return () => {
+      dispatch(setSellOrderId(null))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   useIsomorphicLayoutEffect(() => {
-    if (currentBlockchain == null || checkedId.current) {
+    if (currentBlockchain == null) {
       return
     }
 
-    const query = new URLSearchParams(window.location.search)
+    const sellOrderId = router.query.id
 
-    const sellOrderId = query.get("id")
+    if (!sellOrderId || Array.isArray(sellOrderId)) {
+      setCurrentStep(Step.Details)
+      setExchangeInfo(null)
+      dispatch(setSellOrderId(null))
 
-    if (!sellOrderId) {
       return
     }
 
@@ -262,7 +271,7 @@ function SellForm({
     }
 
     fetchOrder()
-  }, [currentBlockchain])
+  }, [currentBlockchain, router.query.id])
 
   useIsomorphicLayoutEffect(() => {
     setSelectedCurrency(currentCurrency)

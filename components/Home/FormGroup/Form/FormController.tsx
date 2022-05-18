@@ -105,7 +105,7 @@ function FormController() {
     }
 
     if (id) {
-      setDisplayBuyPendings(true)
+      // setDisplayBuyPendings(true)
     }
   }, [])
 

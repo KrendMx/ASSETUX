@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { useRouter } from "next/router"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import {
@@ -10,6 +11,7 @@ import {
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
 import { isCurrencyDeclared } from "@/src/currencies"
 import { mapQueryObject, updateURL } from "@/src/helpers"
+import { usePrevious } from "@/src/hooks"
 
 import type { QueryObject } from "@/src/helpers"
 
@@ -17,6 +19,7 @@ let processedQuery = false
 
 function QueryController() {
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const availableBlockchains = useAppSelector(
     (state) => state.crypto.availableBlockchains
@@ -31,6 +34,7 @@ function QueryController() {
   const action = useAppSelector((state) => state.crypto.action)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const sellOrderId = useAppSelector((state) => state.crypto.sellOrderId)
+  const prevSellOrderId = usePrevious(sellOrderId)
 
   useEffect(() => {
     if (processedQuery) {
@@ -52,10 +56,18 @@ function QueryController() {
         }
       }
 
-      const newUrl = window.location.pathname + "?" + mapQueryObject(query)
+      if (sellOrderId || (sellOrderId == null && prevSellOrderId != null)) {
+        router.push({
+          pathname: router.pathname,
+          query
+        })
+      } else {
+        const newUrl = window.location.pathname + "?" + mapQueryObject(query)
 
-      updateURL(newUrl)
+        updateURL(newUrl)
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBlockchain, selectedToken, action, currentCurrency, sellOrderId])
 
   useEffect(() => {
