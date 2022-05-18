@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
@@ -6,7 +5,7 @@ import { useTranslation } from "next-i18next"
 import { Form, Button, FormHeading, Balance } from "../shared/FormComponents"
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { toChecksumAddress } from 'web3-utils'
+import { toChecksumAddress } from "web3-utils"
 import { mobile } from "@/src/constants"
 
 const Container = styled(AdaptiveFont).attrs({
@@ -22,12 +21,20 @@ const Container = styled(AdaptiveFont).attrs({
   }
 `
 
+const inputId = {
+  wallet: "wallet",
+  email: "email",
+  companyName: "companyName",
+  companyLogo: "companyLogo",
+  companyBackground: "companyBackground"
+}
+
 function FormGroup() {
   const { t } = useTranslation("profile")
-  const [wallet, setWallet] = useState('')
-  const [inputError, setInputError] = useState<{[key:string]: string | undefined}>({
-    wallet: undefined
-  })
+  const [wallet, setWallet] = useState("")
+  const [inputError, setInputError] = useState<
+    Record<string, string | undefined>
+  >({})
 
   const handlePersonalSubmit: React.FormEventHandler<HTMLFormElement> = (
     event
@@ -39,23 +46,19 @@ function FormGroup() {
     event
   ) => {
     event.preventDefault()
+
     try {
-      const address = toChecksumAddress(wallet)
-      console.log(address)
-      setInputError(prev=>{
-        return{
-          ...prev,
-          wallet: undefined
-        }
-      })
-    } catch(e) { 
-      setInputError(prev=>{
-        return{
-          ...prev,
-          wallet: t("walletError")
-        }
-      })
-      console.error('invalid address') 
+      toChecksumAddress(wallet)
+
+      setInputError((prev) => ({
+        ...prev,
+        [inputId.wallet]: undefined
+      }))
+    } catch (_) {
+      setInputError((prev) => ({
+        ...prev,
+        [inputId.wallet]: t("walletError")
+      }))
     }
   }
 
@@ -65,7 +68,9 @@ function FormGroup() {
     event.preventDefault()
   }
 
-  const handleSetWallet = ({target:{value}}:React.ChangeEvent<HTMLInputElement>) => setWallet(value)
+  const handleSetWallet = ({
+    target: { value }
+  }: React.ChangeEvent<HTMLInputElement>) => setWallet(value)
 
   return (
     <Container>
@@ -80,18 +85,23 @@ function FormGroup() {
       </Form>
       <Form onSubmit={handlePersonalSubmit}>
         <FormHeading>{t("personalInfo")}</FormHeading>
-        <InputSelect id="email" label="E-Mail" selectable={false} changeable />
+        <InputSelect
+          id={inputId.email}
+          label="E-Mail"
+          selectable={false}
+          changeable
+        />
         <Button type="submit">{t("change")}</Button>
       </Form>
       <Form onSubmit={handlePaymentSubmit}>
         <FormHeading>{t("payment")}</FormHeading>
         <InputSelect
-          id="wallet"
+          id={inputId.wallet}
           label={t("wallet")}
           selectable={false}
           onChange={handleSetWallet}
           value={wallet}
-          error={inputError["wallet"]}
+          error={inputError[inputId.wallet]}
           changeable
         />
         <Button type="submit">{t("change")}</Button>
@@ -99,13 +109,13 @@ function FormGroup() {
       <Form onSubmit={handleWidgetlSubmit}>
         <FormHeading>{t("widgetPersonalization")}</FormHeading>
         <InputSelect
-          id="companyName"
+          id={inputId.companyName}
           label={t("nameYourCompany")}
           selectable={false}
           changeable
         />
         <InputSelect
-          id="companyLogo"
+          id={inputId.companyLogo}
           label={t("logo")}
           onUpload={() => {}}
           fileLabel={t("upload")}
@@ -115,7 +125,7 @@ function FormGroup() {
           file
         />
         <InputSelect
-          id="companyBackground"
+          id={inputId.companyBackground}
           label={t("background")}
           onChange={() => {}}
           fileLabel={t("upload")}
