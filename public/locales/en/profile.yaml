@@ -8,3 +8,4 @@ logo: Logo
 wallet: Wallet
 background: Background
 change: Change
+walletError: Invalid address

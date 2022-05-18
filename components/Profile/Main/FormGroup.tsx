@@ -1,11 +1,12 @@
-import React from "react"
+/* eslint-disable prettier/prettier */
+import React, { useState } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 
 import { Form, Button, FormHeading, Balance } from "../shared/FormComponents"
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-
+import { toChecksumAddress } from 'web3-utils'
 import { mobile } from "@/src/constants"
 
 const Container = styled(AdaptiveFont).attrs({
@@ -23,6 +24,10 @@ const Container = styled(AdaptiveFont).attrs({
 
 function FormGroup() {
   const { t } = useTranslation("profile")
+  const [wallet, setWallet] = useState('')
+  const [inputError, setInputError] = useState<{[key:string]: string | undefined}>({
+    wallet: undefined
+  })
 
   const handlePersonalSubmit: React.FormEventHandler<HTMLFormElement> = (
     event
@@ -34,6 +39,24 @@ function FormGroup() {
     event
   ) => {
     event.preventDefault()
+    try {
+      const address = toChecksumAddress(wallet)
+      console.log(address)
+      setInputError(prev=>{
+        return{
+          ...prev,
+          wallet: undefined
+        }
+      })
+    } catch(e) { 
+      setInputError(prev=>{
+        return{
+          ...prev,
+          wallet: t("walletError")
+        }
+      })
+      console.error('invalid address') 
+    }
   }
 
   const handleWidgetlSubmit: React.FormEventHandler<HTMLFormElement> = (
@@ -41,6 +64,8 @@ function FormGroup() {
   ) => {
     event.preventDefault()
   }
+
+  const handleSetWallet = ({target:{value}}:React.ChangeEvent<HTMLInputElement>) => setWallet(value)
 
   return (
     <Container>
@@ -64,6 +89,9 @@ function FormGroup() {
           id="wallet"
           label={t("wallet")}
           selectable={false}
+          onChange={handleSetWallet}
+          value={wallet}
+          error={inputError["wallet"]}
           changeable
         />
         <Button type="submit">{t("change")}</Button>

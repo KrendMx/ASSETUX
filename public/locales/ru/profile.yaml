@@ -9,3 +9,4 @@ wallet: Кошелёк
 background: Фон
 change: Изменить
 upload: Загрузить
+walletError: Неверный адрес
