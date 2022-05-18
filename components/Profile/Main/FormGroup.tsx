@@ -1,11 +1,12 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
+import { toChecksumAddress } from "web3-utils"
 
 import { Form, Button, FormHeading, Balance } from "../shared/FormComponents"
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { toChecksumAddress } from "web3-utils"
+
 import { mobile } from "@/src/constants"
 
 const Container = styled(AdaptiveFont).attrs({
