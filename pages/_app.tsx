@@ -1,5 +1,7 @@
 if (process.env.NODE_ENV === "development") {
   import("preact/devtools")
+  // @ts-ignore
+  import("preact/debug")
 }
 
 import React, { useEffect } from "react"
