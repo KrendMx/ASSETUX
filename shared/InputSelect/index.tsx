@@ -242,7 +242,11 @@ function InputSelect({
           </ChangeFileContainer>
         )}
         {selectedOption && (
-          <SelectedWrapper onClick={toggle} selectable={selectable}>
+          <SelectedWrapper
+            onClick={toggle}
+            selectable={selectable}
+            aria-label="Open"
+          >
             <InfoContainer
               onlyImage={displayIcon}
               active={active}
@@ -276,7 +280,7 @@ function InputSelect({
               )}
             </InfoContainer>
             {selectable && (
-              <Arrow active={active} aria-label="Open">
+              <Arrow active={active}>
                 <IoIosArrowDown />
               </Arrow>
             )}

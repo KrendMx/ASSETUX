@@ -4,7 +4,7 @@ type ArrowProps = {
   active: boolean
 }
 
-const Arrow = styled.button<ArrowProps>`
+const Arrow = styled.span<ArrowProps>`
   display: flex;
   padding: 0.526em;
   position: absolute;
@@ -12,11 +12,7 @@ const Arrow = styled.button<ArrowProps>`
   top: 50%;
   transform: translateY(-50%)
     ${(props) => (props.active ? "rotate(180deg)" : "")};
-  border: none;
-  outline: none;
-  background-color: transparent;
   font-size: 1em;
-  cursor: pointer;
 `
 
 export default Arrow

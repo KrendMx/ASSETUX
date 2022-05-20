@@ -14,6 +14,7 @@ const SelectedWrapper = styled.button<InfoContainerProps>`
   align-items: center;
   height: 100%;
   font-size: 1em;
+  cursor: pointer;
 
   @media only screen and (min-width: 371px) and (max-width: ${mobile}px) {
     flex: 0 0 ${(props) => (!props.selectable ? "3.684em" : "5.6em")};
