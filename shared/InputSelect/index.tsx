@@ -246,6 +246,7 @@ function InputSelect({
             onClick={toggle}
             selectable={selectable}
             aria-label="Open"
+            as={!selectable ? "div" : undefined}
           >
             <InfoContainer
               onlyImage={displayIcon}

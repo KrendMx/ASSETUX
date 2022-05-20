@@ -41,7 +41,7 @@ const SortableHeading = styled.button`
 `
 
 type ArrowContainerProps = {
-  rotate?: boolean
+  shouldRotate?: boolean
 }
 
 const ArrowContainer = styled.span<ArrowContainerProps>`
@@ -49,7 +49,9 @@ const ArrowContainer = styled.span<ArrowContainerProps>`
   position: absolute;
   top: 50%;
   transform: ${(props) =>
-    props.rotate ? "translateY(-50%) rotate(180deg)" : "translateY(-50%)"};
+    props.shouldRotate
+      ? "translateY(-50%) rotate(180deg)"
+      : "translateY(-50%)"};
   right: -1.1em;
   font-size: 1em;
 `
@@ -169,7 +171,9 @@ function Table({
             >
               <span>{customHeading.value}</span>
               <ArrowContainer
-                rotate={sortInfo?.nColumn == columnIndex && sortInfo.ascending}
+                shouldRotate={
+                  sortInfo?.nColumn == columnIndex && sortInfo.ascending
+                }
               >
                 <IoIosArrowDown />
               </ArrowContainer>
