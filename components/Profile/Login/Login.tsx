@@ -65,6 +65,7 @@ function LoginContainer() {
 
   const [email, setEmail] = useState("")
   const [emailError, setEmailError] = useState("")
+  const [waiting, setWaiting] = useState(false)
 
   const handleEmail: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
@@ -75,6 +76,8 @@ function LoginContainer() {
 
   const login: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
+
+    setWaiting(true)
 
     try {
       const token = await new Magic(config.magicKey).auth.loginWithMagicLink({
@@ -106,6 +109,8 @@ function LoginContainer() {
     } catch (_) {
       setEmailError(t("emailInvalid"))
     }
+
+    setWaiting(false)
   }
 
   return (
@@ -125,8 +130,11 @@ function LoginContainer() {
             error={emailError != "" ? emailError : undefined}
             changeable
           />
-          <Button type="submit" disabled={emailError != "" || email == ""}>
-            {t("logIn")}
+          <Button
+            type="submit"
+            disabled={emailError != "" || email == "" || waiting}
+          >
+            {waiting ? t("loading") : t("logIn")}
           </Button>
         </Form>
       </LoginWrapper>
