@@ -1,7 +1,8 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 type NavLinkProps = {
   bold?: boolean
+  as?: "button"
 }
 
 const NavLink = styled.a<NavLinkProps>`
@@ -12,6 +13,16 @@ const NavLink = styled.a<NavLinkProps>`
   color: ${(props) => (props.bold ? "var(--black)" : "var(--gray)")};
   font-weight: ${(props) => (props.bold ? "600" : "400")};
   font-size: ${(props) => (props.bold ? "1.7em" : "1.3em")};
+
+  ${(props) =>
+    props.as == "button" &&
+    css`
+      background: transparent;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      text-align: left;
+    `}
 `
 
 export default NavLink

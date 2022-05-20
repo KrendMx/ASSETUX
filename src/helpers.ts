@@ -1,3 +1,5 @@
+import Cookies from "js-cookie"
+
 export const ellipsisString = (value: string, maxLength: number) => {
   if (value.length > maxLength) {
     return value.substring(0, maxLength) + "..."
@@ -55,3 +57,7 @@ export const toBase64 = (file: File): Promise<string> =>
     reader.onload = () => resolve(reader.result as string)
     reader.onerror = (error) => reject(error)
   })
+
+export const logout = () => {
+  Cookies.remove("ecommerce_token")
+}

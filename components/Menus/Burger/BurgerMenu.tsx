@@ -12,6 +12,7 @@ import {
 import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
 import { company, legal, popular, commerce } from "@/src/routes"
 import { isCurrencyDeclared } from "@/src/currencies"
+import { logout } from "@/src/helpers"
 
 import NavGroup from "./NavGroup"
 import NavLink from "../NavLink"
@@ -94,14 +95,29 @@ function BurgerMenu() {
             </li>
           </>
         )}
-        {isCommercePage &&
-          commerce.map((route) => (
-            <li key={route.key}>
-              <Link href={route.href} passHref>
-                <NavLink bold>{t(route.key)}</NavLink>
-              </Link>
+        {isCommercePage && (
+          <>
+            {commerce.map((route) => (
+              <li key={route.key}>
+                <Link href={route.href} passHref>
+                  <NavLink bold>{t(route.key)}</NavLink>
+                </Link>
+              </li>
+            ))}
+            <li>
+              <NavLink
+                as="button"
+                bold
+                onClick={() => {
+                  logout()
+                  router.push("/profile/login")
+                }}
+              >
+                {t("exit")}
+              </NavLink>
             </li>
-          ))}
+          </>
+        )}
         {isMainPage && (
           <li>
             <MobileButton

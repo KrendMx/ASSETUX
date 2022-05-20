@@ -13,6 +13,7 @@ import TextLogo from "@/shared/TextLogo"
 
 import { commerce } from "@/src/routes"
 import { mobile } from "@/src/constants"
+import { logout } from "@/src/helpers"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {
@@ -94,12 +95,24 @@ function Desktop() {
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
-          {isCommercePage &&
-            commerce.map((route) => (
-              <Link href={route.href} key={route.href} passHref>
-                <NavLink>{t(route.key)}</NavLink>
-              </Link>
-            ))}
+          {isCommercePage && (
+            <>
+              {commerce.map((route) => (
+                <Link href={route.href} key={route.href} passHref>
+                  <NavLink>{t(route.key)}</NavLink>
+                </Link>
+              ))}
+              <NavLink
+                as="button"
+                onClick={() => {
+                  logout()
+                  router.push("/profile/login")
+                }}
+              >
+                {t("exit")}
+              </NavLink>
+            </>
+          )}
           {isMainPage && (
             <NavLink
               as="button"
