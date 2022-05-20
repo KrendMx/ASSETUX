@@ -75,8 +75,6 @@ function FormController() {
   const [liquidityData, setLiquidityData] = useState<LiquidityData | null>(null)
   const [displayBuyPending, setDisplayBuyPendings] = useState(false)
 
-  const isUnmounted = useRef(false)
-
   const buyPayments = useMemo(() => {
     return payments && payments.filter((payment) => payment.type == "BUY")
   }, [payments])
@@ -111,12 +109,6 @@ function FormController() {
   }, [])
 
   useEffect(() => {
-    return () => {
-      isUnmounted.current = true
-    }
-  }, [])
-
-  useEffect(() => {
     if (selectedBlockchain) {
       const fetch = async () => {
         const responses = await Promise.all([
@@ -132,18 +124,16 @@ function FormController() {
         const fiatRates = responses[1]
         const liquidity = responses[2]
 
-        if (!isUnmounted.current) {
-          if (fiatProviders.state == "success") {
-            setPayments(fiatProviders.data)
-          }
+        if (fiatProviders.state == "success") {
+          setPayments(fiatProviders.data)
+        }
 
-          if (fiatRates.state == "success") {
-            setFiatRates(fiatRates.data)
-          }
+        if (fiatRates.state == "success") {
+          setFiatRates(fiatRates.data)
+        }
 
-          if (liquidity.state == "success") {
-            setLiquidityData(liquidity.data)
-          }
+        if (liquidity.state == "success") {
+          setLiquidityData(liquidity.data)
         }
       }
 

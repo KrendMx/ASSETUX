@@ -1,11 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useReducer,
-  useCallback
-} from "react"
+import { useState, useEffect, useLayoutEffect, useRef, useReducer } from "react"
 import { mobile } from "./constants"
 
 import type { RefObject } from "react"
@@ -84,18 +77,4 @@ export const useDebounce = <T>(value: T, delay = 300) => {
   }, [value, delay])
 
   return debouncedValue
-}
-
-export const useMounted = () => {
-  const mounted = useRef(false)
-
-  useEffect(() => {
-    mounted.current = true
-
-    return () => {
-      mounted.current = false
-    }
-  }, [])
-
-  return useCallback(() => mounted.current, [])
 }
