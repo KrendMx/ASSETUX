@@ -31,7 +31,8 @@ function BurgerMenu() {
   )
 
   const isMainPage = router.pathname == "/"
-  const isCommercePage = router.pathname.startsWith("/profile")
+  const isCommercePage =
+    router.pathname.startsWith("/profile") && !router.pathname.includes("login")
 
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {

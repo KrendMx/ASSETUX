@@ -1,12 +1,12 @@
-import { handleRequest, constructURL } from "./helpers"
-import config from "../config"
+import { handleRequest, constructURL } from "../helpers"
+import Client from "../client"
 
+import type { UrlRequest } from "../types"
 import type {
   GetFiatRates,
   GetTokens,
   GetFiatProviders,
   GetBlockchains,
-  UrlRequest,
   GetPaymentUrlProps,
   GetPaymentUrl,
   SellTokenCreate,
@@ -32,14 +32,16 @@ import type {
   GetNewsProps,
   GetNewsResponse,
   FindPostProps,
-  FindPostResponse,
-  LoginProps
+  FindPostResponse
 } from "./types"
 
-class BackendClient {
+class BackendClient extends Client {
   private apiKey = ""
   private headers = {}
-  private genericURL = `${config.hostProtocol}://bsc.${config.host}`
+
+  public constructor() {
+    super()
+  }
 
   public async getFiatRates({ apiHost }: UrlRequest): Promise<GetFiatRates> {
     return handleRequest({
@@ -248,16 +250,6 @@ class BackendClient {
       params: { query }
     })
   }
-
-  public async login({ token }: LoginProps) {
-    return handleRequest({
-      url: `${this.genericURL}/api/auth/login`,
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-  }
 }
 
-export default new BackendClient()
+export default BackendClient

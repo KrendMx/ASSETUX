@@ -77,7 +77,8 @@ function Desktop() {
   const { t } = useTranslation("header")
 
   const isMainPage = router.pathname == "/"
-  const isCommercePage = router.pathname.startsWith("/profile")
+  const isCommercePage =
+    router.pathname.startsWith("/profile") && !router.pathname.includes("login")
 
   return (
     <DesktopContainer>

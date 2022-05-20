@@ -17,7 +17,7 @@ import {
 import { getFormattedDate } from "@/src/date"
 import config from "@/src/config"
 
-import type { PostData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClients/main/types"
 
 export type ArticleProps = {
   data: PostData

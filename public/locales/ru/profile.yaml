@@ -10,3 +10,7 @@ background: Фон
 change: Изменить
 upload: Загрузить
 walletError: Неверный адрес
+assets: Тут будут отображаться ваши активы.
+smthHappened: Что-то произошло, пожалуйста, попробуйте позже
+loading: Загрузка ...
+invalidImage: Неверное изображение

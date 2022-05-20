@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo, useRef } from "react"
+
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken } from "@/src/redux/cryptoSlice"
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
 import SellForm from "./SellForm"
@@ -23,7 +24,7 @@ import type {
   FiatProvider,
   FiatRate,
   LiquidityData
-} from "@/src/BackendClient/types"
+} from "@/src/BackendClients/main/types"
 
 const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {

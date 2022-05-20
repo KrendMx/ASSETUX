@@ -2,10 +2,12 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { Magic } from "magic-sdk"
+import { useRouter } from "next/router"
+import Cookies from "js-cookie"
 
 import config from "@/src/config"
-import BackendClient from "@/src/BackendClient"
-import { mobile } from "@/src/constants"
+import { EcommerceClient } from "@/src/BackendClients"
+import { mobile, emailRegexp } from "@/src/constants"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -17,7 +19,7 @@ const Container = styled(AdaptiveFont).attrs({
   tabletFactor: 1.25
 })`
   width: 100%;
-  height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,26 +60,52 @@ const LoginWrapper = styled.div`
 `
 
 function LoginContainer() {
+  const router = useRouter()
   const { t } = useTranslation("profile-login")
 
   const [email, setEmail] = useState("")
+  const [emailError, setEmailError] = useState("")
+
+  const handleEmail: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value
+
+    setEmail(value)
+    setEmailError(emailRegexp.test(value) ? "" : t("emailInvalid"))
+  }
 
   const login: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
 
-    console.log(email)
+    try {
+      const token = await new Magic(config.magicKey).auth.loginWithMagicLink({
+        email
+      })
 
-    // const token = await new Magic(config.magicKey).auth.loginWithMagicLink({
-    //   email
-    // })
-    // console.log(token)
-    // if (token) {
-    //   const test = await BackendClient.login({
-    //     token,
-    //     apiHost: selectedBlockchain.url
-    //   })
-    //   console.log("test", test)
-    // }
+      setEmailError("")
+
+      if (token) {
+        const login = await EcommerceClient.login({
+          token
+        })
+
+        if (login.state == "success") {
+          const authToken = login.data.auth_token
+
+          Cookies.set("ecommerce_token", authToken, {
+            path: "/",
+            sameSite: "strict",
+            secure: true,
+            expires: 20
+          })
+
+          router.push("/profile")
+        } else {
+          setEmailError(t("smthHappened"))
+        }
+      }
+    } catch (_) {
+      setEmailError(t("emailInvalid"))
+    }
   }
 
   return (
@@ -90,12 +118,16 @@ function LoginContainer() {
             id="email"
             label={t("email")}
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={handleEmail}
             type="email"
+            autocomplete="email"
             placeholder="coolemail@gmail.com"
+            error={emailError != "" ? emailError : undefined}
             changeable
           />
-          <Button type="submit">{t("logIn")}</Button>
+          <Button type="submit" disabled={emailError != "" || email == ""}>
+            {t("logIn")}
+          </Button>
         </Form>
       </LoginWrapper>
     </Container>

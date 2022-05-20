@@ -3,15 +3,15 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BlogComponent from "@/components/Blog"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 import {
   postCategories,
   isPostCategoryDeclared
-} from "@/src/BackendClient/types"
+} from "@/src/BackendClients/main/types"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { PostCategory } from "@/src/BackendClient/types"
+import type { PostCategory } from "@/src/BackendClients/main/types"
 import type { BlogProps } from "@/components/Blog"
 
 function Blog(props: BlogProps) {

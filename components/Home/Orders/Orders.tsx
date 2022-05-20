@@ -6,13 +6,14 @@ import Email from "./Modals/Email"
 import Code from "./Modals/Code"
 import CodeInvalid from "./Modals/CodeInvalid"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
 
 import type { OrderInfo } from "./OrderModal/types"
-import type { OrdersData, RequestState } from "@/src/BackendClient/types"
+import type { OrdersData } from "@/src/BackendClients/main/types"
+import type { RequestState } from "@/src/BackendClients/types"
 
 const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   const allOrders: OrderInfo[] = []

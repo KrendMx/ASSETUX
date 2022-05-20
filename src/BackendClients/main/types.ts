@@ -1,53 +1,4 @@
-export type PendingRequest = {
-  state: "pending"
-}
-
-export type SuccessfulRequest<T> = {
-  state: "success"
-  result: T
-}
-
-export type ErrorRequest<T> = {
-  state: "error"
-  error: T
-}
-
-export type RequestState<S, E = true> =
-  | PendingRequest
-  | SuccessfulRequest<S>
-  | ErrorRequest<E>
-
-export type SuccessfulResponse<T> = {
-  state: "success"
-  status: number
-  message: string
-  data: T
-}
-
-export type ErrorResponse<T> = {
-  state: "error"
-  status: number
-  message: string
-  data: T
-}
-
-export type CancelledResponse = {
-  state: "cancelled"
-}
-
-export type UnavailableResponse = {
-  state: "unavailable"
-}
-
-export type Response<S, E> =
-  | SuccessfulResponse<S>
-  | ErrorResponse<E>
-  | CancelledResponse
-  | UnavailableResponse
-
-export type UrlRequest = {
-  apiHost: string
-}
+import { Response, UrlRequest } from "../types"
 
 export type FiatRate = {
   chain_id: string
@@ -111,13 +62,13 @@ export type FiatProvider = {
   logo?: string
 }
 
-export type GetFiatRates = Response<FiatRate[], undefined>
+export type GetFiatRates = Response<FiatRate[]>
 
-export type GetTokens = Response<Token[], undefined>
+export type GetTokens = Response<Token[]>
 
-export type GetFiatProviders = Response<FiatProvider[], undefined>
+export type GetFiatProviders = Response<FiatProvider[]>
 
-export type GetBlockchains = Response<Blockchain[], undefined>
+export type GetBlockchains = Response<Blockchain[]>
 
 export type GetPaymentUrlProps = UrlRequest & {
   ticker: string
@@ -136,7 +87,7 @@ export type GeyPaymentUrlData = {
   message?: string
 }
 
-export type GetPaymentUrl = Response<GeyPaymentUrlData, undefined>
+export type GetPaymentUrl = Response<GeyPaymentUrlData>
 
 export type SellTokenCreateProps = UrlRequest & {
   cur_in: {
@@ -388,7 +339,7 @@ export type LiquidityData = {
   sell: boolean
 }
 
-export type CheckLiquidityResponse = Response<LiquidityData, undefined>
+export type CheckLiquidityResponse = Response<LiquidityData>
 
 export type PostData = {
   id: number
@@ -421,7 +372,7 @@ export type GetNewsProps = {
   page?: number
 }
 
-export type GetNewsResponse = Response<NewsData, undefined>
+export type GetNewsResponse = Response<NewsData>
 
 export type FindPostProps = {
   category: PostCategory
@@ -429,8 +380,4 @@ export type FindPostProps = {
   signal?: AbortSignal
 }
 
-export type FindPostResponse = Response<{ news: PostData | null }, undefined>
-
-export type LoginProps = {
-  token: string
-}
+export type FindPostResponse = Response<{ news: PostData | null }>

@@ -31,7 +31,7 @@ import {
 } from "./styles"
 
 import type { ActionType } from "@/src/redux/cryptoSlice/types"
-import type { Token } from "@/src/BackendClient/types"
+import type { Token } from "@/src/BackendClients/main/types"
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
 
@@ -218,13 +218,13 @@ function CryptoExplorer() {
     <Container>
       <TitleRow>
         <h3>{!isLoading ? t("home:explorer_title") : <Skeleton />}</h3>
-        {!isLoading && (
+        {/* {!isLoading && (
           <AllLink as="a" href="#">
             {isMobile
               ? t("home:explorer_viewAll")
               : t("home:explorer_viewAllFull")}
           </AllLink>
-        )}
+        )} */}
       </TitleRow>
       <ControlRowContainer>
         {!isLoading ? (

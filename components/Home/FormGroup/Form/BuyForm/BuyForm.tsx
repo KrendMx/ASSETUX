@@ -8,7 +8,7 @@ import { setCurrentRate } from "@/src/redux/cryptoSlice"
 import SelectForm from "./SelectForm"
 import Step from "./SelectForm/Steps"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { Option } from "@/shared/InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
@@ -17,7 +17,7 @@ import type {
   FiatProvider,
   Blockchain,
   Token
-} from "@/src/BackendClient/types"
+} from "@/src/BackendClients/main/types"
 import type { CurrenciesType } from "@/src/currencies"
 
 type BuyFormProps = {

@@ -9,10 +9,10 @@ import Investments from "@/components/About/Investments"
 import Contacts from "@/components/About/Contacts"
 import NewsRoom from "@/shared/NewsRoom"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClients/main/types"
 
 const Container = styled(BaseContainer)`
   padding: 5.1em 0;

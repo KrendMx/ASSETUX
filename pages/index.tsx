@@ -14,10 +14,10 @@ import Orders from "@/components/Home/Orders"
 
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClients/main/types"
 
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))

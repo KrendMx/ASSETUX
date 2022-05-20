@@ -8,13 +8,13 @@ import ControlRow from "@/shared/ControlRow"
 import MainBlock from "./MainBlock"
 import Pages from "@/shared/Pages"
 
-import { postCategories } from "@/src/BackendClient/types"
+import { postCategories } from "@/src/BackendClients/main/types"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 import { useDebounce, usePrevious } from "@/src/hooks"
 // import { updateURL } from "@/src/helpers"
 
-import type { PostData, PostCategory } from "@/src/BackendClient/types"
+import type { PostData, PostCategory } from "@/src/BackendClients/main/types"
 
 const Container = styled(BaseContainer)`
   font-size: 1rem;

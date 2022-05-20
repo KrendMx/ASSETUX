@@ -13,6 +13,10 @@ const Button = styled.button`
   font-weight: 500;
   cursor: pointer;
 
+  &:disabled {
+    cursor: default;
+  }
+
   @media only screen and (max-width: 370px) {
     border-radius: 0.625em;
     font-size: 1.08em;

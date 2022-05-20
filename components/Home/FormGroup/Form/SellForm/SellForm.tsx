@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
 import { setCurrentRate, setSellOrderId } from "@/src/redux/cryptoSlice"
 
 import SelectForm from "./SelectForm"
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 import { Step } from "./SelectForm/Steps"
 
 import type { Option } from "@/shared/InputSelect/types"
@@ -15,9 +15,9 @@ import type {
   FiatRate,
   FiatProvider,
   Blockchain,
-  Token,
-  RequestState
-} from "@/src/BackendClient/types"
+  Token
+} from "@/src/BackendClients/main/types"
+import type { RequestState } from "@/src/BackendClients/types"
 import type { ExchangeInfo } from "./SelectForm/types"
 import type { CurrenciesType } from "@/src/currencies"
 
