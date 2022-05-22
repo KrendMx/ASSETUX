@@ -34,6 +34,7 @@ function BurgerMenu() {
   const isMainPage = router.pathname == "/"
   const isCommercePage =
     router.pathname.startsWith("/profile") && !router.pathname.includes("login")
+  const isCommerceLogin = router.pathname == "/profile/login"
 
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {
@@ -93,11 +94,13 @@ function BurgerMenu() {
             <li>
               <NavGroup title={t("legal")} routes={legal} />
             </li>
-            <li>
-              <Link href="/profile" passHref>
-                <NavLink bold>{t("commerce")}</NavLink>
-              </Link>
-            </li>
+            {!isCommerceLogin && (
+              <li>
+                <Link href="/profile" passHref>
+                  <NavLink bold>{t("commerce")}</NavLink>
+                </Link>
+              </li>
+            )}
           </>
         )}
         {isCommercePage && (

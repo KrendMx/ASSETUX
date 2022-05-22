@@ -80,6 +80,7 @@ function Desktop() {
   const isMainPage = router.pathname == "/"
   const isCommercePage =
     router.pathname.startsWith("/profile") && !router.pathname.includes("login")
+  const isCommerceLogin = router.pathname == "/profile/login"
 
   return (
     <DesktopContainer>
@@ -121,7 +122,7 @@ function Desktop() {
               {t("header:operations")}
             </NavLink>
           )}
-          {!isCommercePage && (
+          {!isCommercePage && !isCommerceLogin && (
             <Link href="/profile" passHref>
               <NavLink>{t("commerce")}</NavLink>
             </Link>
