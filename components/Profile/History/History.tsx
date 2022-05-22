@@ -9,6 +9,8 @@ import Cards from "@/shared/Cards"
 import Search from "@/shared/Search"
 import Pages from "@/shared/Pages"
 
+import type { Profile } from "@/src/BackendClients/ecommerce/types"
+
 const Container = styled.div`
   & > * + * {
     margin-top: 2.105em;
@@ -20,7 +22,9 @@ const ControlsRow = styled.div`
   justify-content: flex-end;
 `
 
-function History() {
+export type HistoryProps = Profile
+
+function History({}: HistoryProps) {
   const isMobile = useImmediateMobile()
 
   return (

@@ -6,6 +6,8 @@ import InputSelect from "@/shared/InputSelect"
 import ExchangeInfo from "@/shared/ExchangeInfo"
 import { Form, FormHeading, Button } from "../shared/FormComponents"
 
+import type { Profile } from "@/src/BackendClients/ecommerce/types"
+
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
   tabletFactor: 1.25
@@ -30,7 +32,9 @@ const FormContainer = styled.div`
   margin-top: 1.5em;
 `
 
-function Bill() {
+export type BillProps = Profile
+
+function Bill({}: BillProps) {
   return (
     <Container>
       <Paragraph>Чтобы выставить счёт:</Paragraph>

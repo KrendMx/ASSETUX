@@ -1,12 +1,14 @@
 import { Response } from "../types"
 
+export type AuthorizedProps = {
+  token: string
+}
+
 export type Login = {
   auth_token: string
 }
 
-export type LoginProps = {
-  token: string
-}
+export type LoginProps = AuthorizedProps
 
 export type LoginResponse = Response<Login>
 
@@ -26,22 +28,22 @@ export type Profile = {
   }
 }
 
-export type GetProfileProps = {
-  tokenCookie: string
-}
+export type GetProfileProps = AuthorizedProps
 
-export type GetProfileResponse = Response<Profile>
+export type GetProfileResponse = Response<{ user: Profile }>
 
-export type ChangeWalletProps = {
+export type ChangeWalletProps = AuthorizedProps & {
   wallet: string
 }
 
-export type ChangeWalletResponse = Response<{ message: string }>
+export type ChangeWalletResponse = Response<unknown, { message: string }>
 
-export type ChangeCompanyProps = {
+export type ChangeCompanyProps = AuthorizedProps & {
   nameCompany: string | null
   logoCompany: string | null
   backgroundCompany: string | null
 }
 
 export type ChangeCompanyResponse = Response
+
+export type LogoutProps = AuthorizedProps

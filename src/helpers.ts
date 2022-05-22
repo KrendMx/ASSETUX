@@ -1,4 +1,10 @@
 import Cookies from "js-cookie"
+import cookie from "cookie"
+
+import { EcommerceClient } from "./BackendClients"
+import { mappedCookies } from "./constants"
+
+import type { GetServerSidePropsContext } from "next"
 
 export const ellipsisString = (value: string, maxLength: number) => {
   if (value.length > maxLength) {
@@ -59,5 +65,30 @@ export const toBase64 = (file: File): Promise<string> =>
   })
 
 export const logout = () => {
-  Cookies.remove("ecommerce_token")
+  const token = Cookies.get(mappedCookies.authToken)
+
+  if (token) {
+    EcommerceClient.logout({ token })
+  }
+
+  Cookies.remove(mappedCookies.authToken)
+}
+
+export const checkAuthorization = (
+  req: GetServerSidePropsContext["req"]
+): string | null => {
+  const cookies = req.headers.cookie
+
+  if (!cookies) {
+    return null
+  }
+
+  const parsedCookies = cookie.parse(cookies)
+  const token = parsedCookies[mappedCookies.authToken]
+
+  if (!token) {
+    return null
+  }
+
+  return token
 }

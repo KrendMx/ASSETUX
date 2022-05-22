@@ -9,7 +9,8 @@ import type {
   ChangeWalletProps,
   ChangeWalletResponse,
   ChangeCompanyProps,
-  ChangeCompanyResponse
+  ChangeCompanyResponse,
+  LogoutProps
 } from "./types"
 
 class EcommerceClient extends Client {
@@ -28,39 +29,54 @@ class EcommerceClient extends Client {
   }
 
   public async getProfile({
-    tokenCookie
+    token
   }: GetProfileProps): Promise<GetProfileResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/profile`,
       method: "GET",
-      withCredentials: true,
       headers: {
-        Cookie: "ecommerce_token=" + tokenCookie
+        Authorization: `Bearer ${token}`
       }
     })
   }
 
   public async changeWallet({
-    wallet
+    wallet,
+    token
   }: ChangeWalletProps): Promise<ChangeWalletResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/changeWallet`,
       method: "PATCH",
-      withCredentials: true,
       data: {
         public_key: wallet
+      },
+      headers: {
+        Authorization: `Bearer ${token}`
       }
     })
   }
 
-  public async changeCompany(
-    data: ChangeCompanyProps
-  ): Promise<ChangeCompanyResponse> {
+  public async changeCompany({
+    token,
+    ...data
+  }: ChangeCompanyProps): Promise<ChangeCompanyResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/widget/edit`,
       method: "PATCH",
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
       data
+    })
+  }
+
+  public async logout({ token }: LogoutProps) {
+    return handleRequest({
+      url: `${this.genericURL}/ecommerce/user/logout`,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     })
   }
 }

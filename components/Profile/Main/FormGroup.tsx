@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
 import { toChecksumAddress } from "web3-utils"
 
 import {
@@ -16,6 +17,7 @@ import AdaptiveFont from "@/shared/AdaptiveFont"
 import { mobile } from "@/src/constants"
 import { EcommerceClient } from "@/src/BackendClients"
 import { toBase64 } from "@/src/helpers"
+import { useAuthorized } from "@/src/hooks"
 
 import type { Profile } from "@/src/BackendClients/ecommerce/types"
 import type { RequestState } from "@/src/BackendClients/types"
@@ -51,6 +53,10 @@ function FormGroup({
   widget: { nameCompany }
 }: FormGroupProps) {
   const { t } = useTranslation("profile")
+  const router = useRouter()
+
+  const checkAuthorized = useAuthorized()
+
   const [wallet, setWallet] = useState(public_key)
   const [company, setCompany] = useState(nameCompany == null ? "" : nameCompany)
   const [logo, setLogo] = useState<string | null>(null)
@@ -86,13 +92,46 @@ function FormGroup({
         wallet: { state: "pending" }
       }))
 
-      const response = await EcommerceClient.changeWallet({ wallet })
+      const token = checkAuthorized()
+
+      if (!token) {
+        router.push("/profile/login")
+
+        return
+      }
+
+      const response = await EcommerceClient.changeWallet({ wallet, token })
 
       if (response.state != "success") {
-        setInputError((prev) => ({
+        if (
+          response.state == "error" &&
+          response.data.message == "Wallet is not valid"
+        ) {
+          setInputError((prev) => ({
+            ...prev,
+            [inputId.wallet]: t("walletError")
+          }))
+        } else if (
+          response.state == "error" &&
+          response.data.message == "The wallet must be unique"
+        ) {
+          setInputError((prev) => ({
+            ...prev,
+            [inputId.wallet]: t("walletUnique")
+          }))
+        } else {
+          setInputError((prev) => ({
+            ...prev,
+            [inputId.wallet]: t("smthHappened")
+          }))
+        }
+
+        setRequests((prev) => ({
           ...prev,
-          [inputId.wallet]: t("smthHappened")
+          wallet: { state: "error", error: null }
         }))
+
+        return
       }
 
       prevPublicKey.current = wallet
@@ -119,19 +158,28 @@ function FormGroup({
       company: { state: "pending" }
     }))
 
+    const token = checkAuthorized()
+
+    if (!token) {
+      router.push("/profile/login")
+
+      return
+    }
+
     const response = await EcommerceClient.changeCompany({
       nameCompany: company,
       logoCompany: logo,
-      backgroundCompany: background
+      backgroundCompany: background,
+      token
     })
-
-    prevCompany.current = company
 
     if (response.state == "success") {
       setRequests((prev) => ({
         ...prev,
         company: { state: "success", result: null }
       }))
+
+      prevCompany.current = company
     } else {
       setRequests((prev) => ({
         ...prev,
@@ -235,10 +283,10 @@ function FormGroup({
         />
         <Button
           type="submit"
+          loading={requests.wallet?.state == "pending"}
           disabled={
             wallet == prevPublicKey.current ||
-            requests.wallet?.state == "pending" ||
-            requests.wallet?.state == "success" ||
+            requests.wallet != null ||
             inputError[inputId.wallet] != undefined
           }
         >
@@ -290,6 +338,7 @@ function FormGroup({
         />
         <Button
           type="submit"
+          loading={requests.company?.state == "pending"}
           disabled={
             (company == prevCompany.current &&
               logo == null &&
@@ -297,9 +346,7 @@ function FormGroup({
             company == "" ||
             inputError[inputId.companyLogo] != undefined ||
             inputError[inputId.companyBackground] != undefined ||
-            requests.company?.state == "pending" ||
-            requests.company?.state == "success" ||
-            requests.company?.state == "error"
+            requests.company != null
           }
         >
           {requests.company?.state == "pending" ? t("loading") : t("change")}

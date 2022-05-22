@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { Magic } from "magic-sdk"
@@ -7,7 +7,7 @@ import Cookies from "js-cookie"
 
 import config from "@/src/config"
 import { EcommerceClient } from "@/src/BackendClients"
-import { mobile, emailRegexp } from "@/src/constants"
+import { mobile, emailRegexp, mappedCookies } from "@/src/constants"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -94,11 +94,11 @@ function LoginContainer() {
         if (login.state == "success") {
           const authToken = login.data.auth_token
 
-          Cookies.set("ecommerce_token", authToken, {
+          Cookies.set(mappedCookies.authToken, authToken, {
             path: "/",
             sameSite: "strict",
             secure: true,
-            expires: 20
+            expires: 365
           })
 
           router.push("/profile")
@@ -132,6 +132,7 @@ function LoginContainer() {
           />
           <Button
             type="submit"
+            loading={waiting}
             disabled={emailError != "" || email == "" || waiting}
           >
             {waiting ? t("loading") : t("logIn")}

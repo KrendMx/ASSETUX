@@ -7,7 +7,11 @@ import BaseContainer from "@/shared/BaseContainer"
 import HeadingRow from "@/components/Profile/shared/HeadingRow"
 import HistoryComponent from "@/components/Profile/History"
 
-import type { GetStaticProps } from "next"
+import { EcommerceClient } from "@/src/BackendClients"
+import { checkAuthorization } from "@/src/helpers"
+
+import type { GetServerSideProps } from "next"
+import type { HistoryProps } from "@/components/Profile/History/History"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -17,20 +21,44 @@ const Container = styled(BaseContainer)`
   min-height: calc(100vh - var(--header-height));
 `
 
-function History() {
+function History(props: HistoryProps) {
   const { t } = useTranslation("profile-history")
 
   return (
     <Container>
       <HeadingRow heading={t("history")} id="M-0000001" />
-      <HistoryComponent />
+      <HistoryComponent {...props} />
     </Container>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
+  locale,
+  req
+}) => {
+  const errorProps = {
+    props: {},
+    redirect: {
+      destination: "/profile/login",
+      permanent: false
+    }
+  }
+
+  const token = checkAuthorization(req)
+
+  if (!token) {
+    return errorProps
+  }
+
+  const profile = await EcommerceClient.getProfile({ token })
+
+  if (profile.state != "success") {
+    return errorProps
+  }
+
   return {
     props: {
+      ...profile.data,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
@@ -38,7 +66,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         "routes"
       ]))
     }
-    // notFound: true
   }
 }
 

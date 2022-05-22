@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import cookie from "cookie"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
@@ -9,6 +8,7 @@ import HeadingRow from "@/components/Profile/shared/HeadingRow"
 import FormGroup from "@/components/Profile/Main/FormGroup"
 
 import { EcommerceClient } from "@/src/BackendClients"
+import { checkAuthorization } from "@/src/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { FormGroupProps } from "@/components/Profile/Main/FormGroup"
@@ -44,20 +44,13 @@ export const getServerSideProps: GetServerSideProps<
     }
   }
 
-  const cookies = req.headers.cookie
+  const token = checkAuthorization(req)
 
-  if (!cookies) {
+  if (!token) {
     return errorProps
   }
 
-  const parsedCookies = cookie.parse(cookies)
-  const tokenCookie = parsedCookies["ecommerce_token"]
-
-  if (!tokenCookie) {
-    return errorProps
-  }
-
-  const profile = await EcommerceClient.getProfile({ tokenCookie })
+  const profile = await EcommerceClient.getProfile({ token })
 
   if (profile.state != "success") {
     return errorProps
@@ -65,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
-      ...profile.data,
+      ...profile.data.user,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

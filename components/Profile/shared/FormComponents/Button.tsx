@@ -1,6 +1,10 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
-const Button = styled.button`
+type ButtonProps = {
+  loading?: boolean
+}
+
+const Button = styled.button<ButtonProps>`
   width: 100%;
   background: #0066cc;
   border-radius: 10px;
@@ -12,6 +16,14 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+
+  ${(props) =>
+    !props.loading &&
+    css`
+      &:disabled {
+        opacity: 0.3;
+      }
+    `}
 
   &:disabled {
     cursor: default;

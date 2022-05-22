@@ -1,5 +1,14 @@
-import { useState, useEffect, useLayoutEffect, useRef, useReducer } from "react"
-import { mobile } from "./constants"
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useReducer,
+  useCallback
+} from "react"
+import Cookies from "js-cookie"
+
+import { mobile, mappedCookies } from "./constants"
 
 import type { RefObject } from "react"
 
@@ -78,3 +87,10 @@ export const useDebounce = <T>(value: T, delay = 300) => {
 
   return debouncedValue
 }
+
+export const useAuthorized = () =>
+  useCallback(() => {
+    const token = Cookies.get(mappedCookies.authToken)
+
+    return token ? token : null
+  }, [])
