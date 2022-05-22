@@ -202,7 +202,7 @@ function FormController() {
         currencies={currencies}
         rates={fiatRates}
         payments={buyPayments}
-        serviceAvailable={liquidityData ? true : null}
+        serviceAvailable={liquidityData ? liquidityData.buy : null}
         currentBlockchain={selectedBlockchain}
         currentToken={selectedToken}
         currentCurrency={currentCurrency}
