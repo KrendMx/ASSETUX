@@ -5,6 +5,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
 })
 
+const enablePWA = process.env.ENABLE_PWA == "true"
+
 /** @type {import('next').NextConfig} */
 const config = {
   async headers() {
@@ -47,7 +49,7 @@ const config = {
   },
   pwa: {
     dest: "public",
-    disable: true
+    disable: !enablePWA
   },
   eslint: {
     dirs: ["src", "shared", "pages", "components"]

@@ -36,6 +36,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="icon" href="/icons/icon.png" type="image/png" />
+          <link rel="apple-touch-icon" href="/icons/192px.png" />
           <link
             rel="preload"
             as="font"

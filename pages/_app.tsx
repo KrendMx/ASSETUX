@@ -114,6 +114,8 @@ function MyApp(props: AppProps) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
+        <link rel="manifest" href={`/manifests/${router.locale}.json`} />
+        <meta name="theme-color" content="#FFFFFF" />
       </Head>
       <Header />
       <SkeletonTheme borderRadius={10}>
