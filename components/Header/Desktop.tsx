@@ -121,6 +121,11 @@ function Desktop() {
               {t("header:operations")}
             </NavLink>
           )}
+          {!isCommercePage && (
+            <Link href="/profile" passHref>
+              <NavLink>{t("commerce")}</NavLink>
+            </Link>
+          )}
         </NavContainer>
         <LanguageCurrencyChange />
       </RightContainer>
