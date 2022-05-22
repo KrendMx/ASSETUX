@@ -169,7 +169,7 @@ type SearchProps = {
 }
 
 function Search({ options, onSelect, display, label, hide }: SearchProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation("inputSelect")
 
   const [searchContext, setSearchContext] = useState("")
   const searchedOptions = useMemo(() => {
@@ -226,7 +226,7 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
         </Shadow>
         <Input
           type="text"
-          placeholder={t("home:search_placeholder")}
+          placeholder={t("placeholder")}
           value={searchContext}
           onChange={handleInput}
         />
@@ -266,7 +266,7 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
           ))}
         </ScrollableRegion>
       ) : (
-        <NoResultsLabel>{t("home:search_noResult")}</NoResultsLabel>
+        <NoResultsLabel>{t("noResult")}</NoResultsLabel>
       )}
     </>
   )

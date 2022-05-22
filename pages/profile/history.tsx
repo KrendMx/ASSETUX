@@ -50,15 +50,25 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     return errorProps
   }
 
-  const profile = await EcommerceClient.getProfile({ token })
+  const responses = await Promise.all([
+    EcommerceClient.getProfile({ token }),
+    EcommerceClient.getHistory({ token })
+  ])
 
-  if (profile.state != "success") {
+  const profileResponse = responses[0]
+  const historyResponse = responses[1]
+
+  if (
+    profileResponse.state != "success" ||
+    historyResponse.state != "success"
+  ) {
     return errorProps
   }
 
   return {
     props: {
-      ...profile.data,
+      profile: profileResponse.data.user,
+      history: historyResponse.data.payments,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

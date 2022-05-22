@@ -13,25 +13,18 @@ import { Option } from "@/shared/InputSelect/types"
 import {
   currencies as definedCurrencies,
   mapCurrency,
-  mapCurrencyName
+  mapCurrencyName,
+  mapShortCurrencyName
 } from "@/src/currencies"
 import { rateCheckInterval } from "@/src/constants"
 
 import type { TokenOption } from "./types"
-import type { CurrenciesType } from "@/src/currencies"
 import type {
   Token,
   FiatProvider,
   FiatRate,
   LiquidityData
 } from "@/src/BackendClients/main/types"
-
-const mapShortCurrencyName = (currency: CurrenciesType) => {
-  switch (currency) {
-    case "RUB":
-      return "Rus"
-  }
-}
 
 const mapTokens = (tokens: Token[]) => {
   const mappedTokens: TokenOption[] = []
@@ -209,7 +202,7 @@ function FormController() {
         currencies={currencies}
         rates={fiatRates}
         payments={buyPayments}
-        serviceAvailable={liquidityData ? liquidityData.buy : null}
+        serviceAvailable={liquidityData ? true : null}
         currentBlockchain={selectedBlockchain}
         currentToken={selectedToken}
         currentCurrency={currentCurrency}

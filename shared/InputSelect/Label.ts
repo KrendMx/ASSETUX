@@ -4,6 +4,7 @@ import { mobile } from "@/src/constants"
 type LabelProps = {
   error?: boolean
   file?: boolean
+  pointer?: boolean
 }
 
 const Label = styled.label<LabelProps>`
@@ -12,7 +13,7 @@ const Label = styled.label<LabelProps>`
   color: ${(props) =>
     props.file ? "var(--blue)" : props.error ? "var(--red)" : "var(--gray)"};
   text-decoration: ${(props) => (props.file ? "underline" : "none")};
-  cursor: ${(props) => (props.file ? "pointer" : "default")};
+  cursor: ${(props) => (props.file || props.pointer ? "pointer" : "default")};
 
   @media only screen and (max-width: ${mobile}px) {
     font-size: ${(props) => (props.file ? "1.066em" : "0.867em")};

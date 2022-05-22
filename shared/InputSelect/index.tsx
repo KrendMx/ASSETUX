@@ -271,7 +271,7 @@ function InputSelect({
               ) : (
                 <>
                   {selectedOption.description && !hideLabel && (
-                    <Label>
+                    <Label pointer={selectable}>
                       {selectedOption.shortDescription &&
                         ellipsisString(selectedOption.shortDescription, 5)}
                     </Label>

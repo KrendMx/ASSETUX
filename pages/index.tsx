@@ -93,7 +93,8 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
         "footer",
         "home",
         "news",
-        "routes"
+        "routes",
+        "inputSelect"
       ]))
     }
   }

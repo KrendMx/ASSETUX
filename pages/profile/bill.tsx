@@ -63,7 +63,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         "header",
         "footer",
         "profile-bill",
-        "routes"
+        "routes",
+        "inputSelect"
       ]))
     }
   }

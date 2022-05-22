@@ -10,7 +10,9 @@ import type {
   ChangeWalletResponse,
   ChangeCompanyProps,
   ChangeCompanyResponse,
-  LogoutProps
+  LogoutProps,
+  GetHistoryProps,
+  GetHistoryResponse
 } from "./types"
 
 class EcommerceClient extends Client {
@@ -74,6 +76,18 @@ class EcommerceClient extends Client {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/logout`,
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
+
+  public async getHistory({
+    token
+  }: GetHistoryProps): Promise<GetHistoryResponse> {
+    return handleRequest({
+      url: `${this.genericURL}/ecommerce/payment/gets`,
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
       }

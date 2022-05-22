@@ -47,3 +47,9 @@ export type ChangeCompanyProps = AuthorizedProps & {
 export type ChangeCompanyResponse = Response
 
 export type LogoutProps = AuthorizedProps
+
+export type Bill = unknown
+
+export type GetHistoryProps = AuthorizedProps
+
+export type GetHistoryResponse = Response<{ payments: Bill[] }>

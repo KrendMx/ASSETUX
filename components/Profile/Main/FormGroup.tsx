@@ -251,7 +251,7 @@ function FormGroup({
   return (
     <Container>
       <Form as="section">
-        <FormHeading>{t("personalInfo")}</FormHeading>
+        <FormHeading>{t("balance")}</FormHeading>
         <Paragraph>{t("assets")}</Paragraph>
         {/* <Balance
           amount="1528540.00"

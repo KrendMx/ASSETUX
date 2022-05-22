@@ -5,11 +5,13 @@ type InfoContainerProps = {
   selectable: boolean
 }
 
-const SelectedWrapper = styled.button<InfoContainerProps>`
+const SelectedWrapper = styled.button.attrs<InfoContainerProps>((props) => ({
+  type: props.selectable ? "button" : undefined
+}))<InfoContainerProps>`
   flex: 0 0 ${(props) => (!props.selectable ? "3.684em" : "5.263em")};
-  cursor: ${(props) => (props.selectable ? "cursor" : "default")};
   background: transparent;
   border: none;
+  outline: none;
   display: flex;
   align-items: center;
   height: 100%;

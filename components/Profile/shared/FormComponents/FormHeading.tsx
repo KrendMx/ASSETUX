@@ -6,7 +6,7 @@ const FormHeading = styled.h2`
   font-weight: 700;
   margin: 0;
   padding: 0;
-  margin-bottom: 0.526em;
+  margin-bottom: 1.368em;
 `
 
 export default FormHeading
