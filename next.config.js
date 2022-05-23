@@ -1,11 +1,11 @@
 const withPrefresh = require("@prefresh/next")
 const withPWA = require("next-pwa")
-const { i18n } = require("./next-i18next.config")
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
 })
 
-const enablePWA = process.env.ENABLE_PWA == "true"
+const { i18n } = require("./next-i18next.config")
+const { pwa } = require("./next-pwa.config")
 
 /** @type {import('next').NextConfig} */
 const config = {
@@ -35,6 +35,7 @@ const config = {
     return config
   },
   i18n,
+  pwa,
   compiler: {
     styledComponents: true
   },
@@ -46,10 +47,6 @@ const config = {
       "bsc.assetux.com",
       "bsc.dev.assetux.com"
     ]
-  },
-  pwa: {
-    dest: "public",
-    disable: !enablePWA
   },
   eslint: {
     dirs: ["src", "shared", "pages", "components"]
