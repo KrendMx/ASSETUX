@@ -119,7 +119,11 @@ const runtimeCaching = [
   {
     urlPattern: ({ url }) => {
       const pathname = url.pathname
-      return pathname.startsWith("/ecommerce/") || pathname.startsWith("/api/")
+      return (
+        pathname.startsWith("/ecommerce") ||
+        pathname.startsWith("/api") ||
+        pathname.startsWith("/websocket")
+      )
     },
     handler: "NetworkOnly",
     method: "GET",
