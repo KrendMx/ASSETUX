@@ -100,7 +100,8 @@ const runtimeCaching = [
       )
     },
     handler: "NetworkOnly",
-    method: "GET"
+    method: "GET",
+    options: {}
   },
   {
     urlPattern: /\.(?:json|xml|csv)$/i,
@@ -119,7 +120,8 @@ const runtimeCaching = [
       return pathname.startsWith("/ecommerce/") || pathname.startsWith("/api/")
     },
     handler: "NetworkOnly",
-    method: "GET"
+    method: "GET",
+    options: {}
   },
   {
     urlPattern: ({ url }) => {
@@ -156,7 +158,7 @@ const runtimeCaching = [
 const pwa = {
   dest: "public",
   disable: !enablePWA,
-  buildExcludes: [/chunks\/pages\/(?!login)/],
+  buildExcludes: [/chunks\/pages\/profile\/(?!login)/],
   runtimeCaching
 }
 
