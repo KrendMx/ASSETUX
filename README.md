@@ -1,32 +1,33 @@
-## App structure
+# frontend
 
-```
-Wrapper (provide the redux store)
-└── MyApp
-    ├── Header
-    │
-    └── ContentManager (manage whether to hide page content and show mobile menu)
-        └── Wrapper (hideable)
-        │   └── Component
-        ├── Footer (hideable)
-        └── Menu
-```
+## Intall dependencies
 
-## Home page structure
+`yarn install`
 
-```
-Component
-└── Container
-    ├── FormGroup
-    │   ├── Form
-    │   └── Info
-    ├── CryptoSlide
-    ├── CryptoExplorer
-    ├── NewsRoom
-    └── AboutUs
-        ├── AboutContainer
-        └── ImageContainer
-```
+## Run development version
+
+`yarn dev`
+
+- requires .env file
+
+## Run production version
+
+`yarn build && yarn start`
+
+- requires .env file
+
+## Scripts used in CI/CD
+
+- `yarn build:stage`
+- `yarn build:prod`
+
+## Code style
+
+Husky is used to ensure consistency in code style across a project.
+
+## Debugging
+
+https://nextjs.org/docs/advanced-features/debugging
 
 ## Font adaptivity
 
