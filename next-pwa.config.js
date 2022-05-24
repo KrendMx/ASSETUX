@@ -101,7 +101,9 @@ const runtimeCaching = [
     },
     handler: "NetworkOnly",
     method: "GET",
-    options: {}
+    options: {
+      cacheName: "next-data-commerce"
+    }
   },
   {
     urlPattern: /\.(?:json|xml|csv)$/i,
@@ -121,7 +123,9 @@ const runtimeCaching = [
     },
     handler: "NetworkOnly",
     method: "GET",
-    options: {}
+    options: {
+      cacheName: "api"
+    }
   },
   {
     urlPattern: ({ url }) => {
