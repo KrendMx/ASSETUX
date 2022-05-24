@@ -57,7 +57,24 @@ const runtimeCaching = [
     }
   },
   {
-    urlPattern: /\/_next\/data\/.+\/.+\.json$/i,
+    urlPattern: ({ url }) => {
+      const pathname = url.pathname
+      const matches = /\/_next\/data\/.+\/.+\.json$/i.test(pathname)
+
+      if (!matches) {
+        return false
+      }
+
+      if (
+        pathname.includes("profile") ||
+        pathname.includes("bill") ||
+        pathname.includes("history")
+      ) {
+        return false
+      }
+
+      return true
+    },
     handler: "StaleWhileRevalidate",
     options: {
       cacheName: "next-data",
@@ -66,6 +83,24 @@ const runtimeCaching = [
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
       }
     }
+  },
+  {
+    urlPattern: ({ url }) => {
+      const pathname = url.pathname
+      const matches = /\/_next\/data\/.+\/.+\.json$/i.test(pathname)
+
+      if (!matches) {
+        return false
+      }
+
+      return (
+        pathname.includes("profile") ||
+        pathname.includes("bill") ||
+        pathname.includes("history")
+      )
+    },
+    handler: "NetworkOnly",
+    method: "GET"
   },
   {
     urlPattern: /\.(?:json|xml|csv)$/i,
