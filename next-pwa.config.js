@@ -162,7 +162,10 @@ const runtimeCaching = [
 const pwa = {
   dest: "public",
   disable: !enablePWA,
-  buildExcludes: [/chunks\/pages\/profile\/(?!login)/],
+  buildExcludes: [
+    /chunks\/pages\/profile\/(?!login)/,
+    /chunks\/pages\/profile-.*$/
+  ],
   runtimeCaching
 }
 
