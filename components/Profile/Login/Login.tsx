@@ -132,7 +132,7 @@ function LoginContainer() {
           />
           <Button
             type="submit"
-            loading={waiting}
+            isLoading={waiting}
             disabled={emailError != "" || email == "" || waiting}
           >
             {waiting ? t("loading") : t("logIn")}
