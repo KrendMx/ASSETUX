@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
 
 import { useAppSelector } from "@/src/redux/hooks"
-import { useIsomorphicLayoutEffect } from "@/src/hooks"
+import { useIsomorphicLayoutEffect, useAuthorized } from "@/src/hooks"
 
 import CryptoManager from "@/components/CryptoManager"
 import InputSelect from "@/shared/InputSelect"
@@ -21,7 +22,7 @@ import {
   ExchangeInfoWrapper
 } from "./styles"
 
-import { BackendClient } from "@/src/BackendClients"
+import { BackendClient, EcommerceClient } from "@/src/BackendClients"
 import {
   currencies as definedCurrencies,
   mapCurrency,
@@ -44,6 +45,8 @@ export type BillProps = Profile
 
 function Bill({}: BillProps) {
   const { t } = useTranslation("profile-bill")
+  const router = useRouter()
+  const checkAuthorized = useAuthorized()
 
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
@@ -80,7 +83,76 @@ function Bill({}: BillProps) {
   const loading =
     selectedToken == null || selectedCurrency == null || currentRate == null
 
-  const handleGet: React.ChangeEventHandler<HTMLInputElement> = (event) => {}
+  const handleGet: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (!currentRate) {
+      return
+    }
+
+    const value = event.target.value
+
+    if (value != "" && !floatRegexp.test(value)) {
+      return
+    }
+
+    setGet(value)
+    setSend((Number(value) * currentRate).toFixed(2))
+  }
+
+  const handleSend: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    if (!currentRate) {
+      return
+    }
+
+    const value = event.target.value
+
+    if (value != "" && !floatRegexp.test(value)) {
+      return
+    }
+
+    setSend(value)
+    setGet((Number(value) / currentRate).toFixed(2))
+  }
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
+    event
+  ) => {
+    event.preventDefault()
+
+    if (
+      !selectedBlockchain ||
+      !selectedToken ||
+      !availableTokens ||
+      !selectedCurrency
+    ) {
+      return
+    }
+
+    const token = checkAuthorized()
+
+    if (!token) {
+      router.push("/profile/login")
+
+      return
+    }
+
+    const tokenId = availableTokens.find(
+      (token) => token.symbol == selectedToken
+    )?.id
+
+    if (!tokenId) {
+      return
+    }
+
+    const response = await EcommerceClient.createBill({
+      token,
+      chainId: selectedBlockchain.chain_id,
+      tokensId: tokenId,
+      amountIn: Number(get),
+      currency: selectedCurrency
+    })
+
+    console.log(response)
+  }
 
   useEffect(() => {
     if (!selectedBlockchain) {
@@ -162,7 +234,7 @@ function Bill({}: BillProps) {
       return
     }
 
-    setSend((currentRate * Number(get)).toString())
+    setSend((currentRate * Number(get)).toFixed(2))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRate])
 
@@ -170,20 +242,18 @@ function Bill({}: BillProps) {
     <>
       <CryptoManager getToken />
       <Container>
-        <Paragraph>Чтобы выставить счёт:</Paragraph>
+        <Paragraph>{t("p1")}</Paragraph>
         <List>
-          <Item>Заполните платежную информацию.</Item>
-          <Item>Нажмите “Копировать платежную ссылку”.</Item>
-          <Item>Отправьте её клиенту.</Item>
+          <Item>{t("item1")}</Item>
+          <Item>{t("item2")}</Item>
+          <Item>{t("item3")}</Item>
         </List>
-        <Paragraph>
-          Когда платеж будет произведен, вы получите E-mail.
-        </Paragraph>
+        <Paragraph>{t("p1")}</Paragraph>
         <FormContainer>
-          <Form getActive={getActive}>
+          <Form getActive={getActive} onSubmit={handleSubmit}>
             <FormContent>
               <FormHeading>
-                {loading ? <Skeleton /> : "Создать новый"}
+                {loading ? <Skeleton /> : t("formHeading")}
               </FormHeading>
               {!loading ? (
                 <InputSelect
@@ -231,6 +301,7 @@ function Bill({}: BillProps) {
                         label={t("send")}
                         id={inputIds.send}
                         options={currencies ? currencies : undefined}
+                        onChange={handleSend}
                         value={send}
                         selectedValue={selectedCurrency}
                         selectable={false}
@@ -247,7 +318,11 @@ function Bill({}: BillProps) {
             {loading ? (
               <Skeleton containerClassName="button-skeleton" />
             ) : (
-              !getActive && <Button type="submit">{t("copyLink")}</Button>
+              !getActive && (
+                <Button type="submit" disabled={get == "" || send == ""}>
+                  {t("copyLink")}
+                </Button>
+              )
             )}
           </Form>
         </FormContainer>

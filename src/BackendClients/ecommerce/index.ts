@@ -12,7 +12,8 @@ import type {
   ChangeCompanyResponse,
   LogoutProps,
   GetHistoryProps,
-  GetHistoryResponse
+  GetHistoryResponse,
+  CreateBillProps
 } from "./types"
 
 class EcommerceClient extends Client {
@@ -91,6 +92,17 @@ class EcommerceClient extends Client {
       headers: {
         Authorization: `Bearer ${token}`
       }
+    })
+  }
+
+  public async createBill({ token, ...data }: CreateBillProps) {
+    return handleRequest({
+      url: `${this.genericURL}/ecommerce/bill/create`,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      data
     })
   }
 }

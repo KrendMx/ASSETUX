@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
 
 type ButtonProps = {
-  loading?: boolean
+  isLoading?: boolean
 }
 
 const Button = styled.button<ButtonProps>`
@@ -18,7 +18,7 @@ const Button = styled.button<ButtonProps>`
   cursor: pointer;
 
   ${(props) =>
-    !props.loading &&
+    !props.isLoading &&
     css`
       &:disabled {
         opacity: 0.3;

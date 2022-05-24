@@ -53,3 +53,10 @@ export type Bill = unknown
 export type GetHistoryProps = AuthorizedProps
 
 export type GetHistoryResponse = Response<{ payments: Bill[] }>
+
+export type CreateBillProps = AuthorizedProps & {
+  chainId: number
+  tokensId: number
+  amountIn: number
+  currency: string
+}

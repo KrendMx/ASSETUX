@@ -283,7 +283,7 @@ function FormGroup({
         />
         <Button
           type="submit"
-          loading={requests.wallet?.state == "pending"}
+          isLoading={requests.wallet?.state == "pending"}
           disabled={
             wallet == prevPublicKey.current ||
             requests.wallet != null ||
@@ -338,7 +338,7 @@ function FormGroup({
         />
         <Button
           type="submit"
-          loading={requests.company?.state == "pending"}
+          isLoading={requests.company?.state == "pending"}
           disabled={
             (company == prevCompany.current &&
               logo == null &&
