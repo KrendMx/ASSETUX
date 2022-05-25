@@ -17,15 +17,10 @@ import { Container, FormContainer } from "./styles"
 
 import Step from "./Steps"
 
-import {
-  emailRegexp,
-  floatRegexp,
-  allowSkeletons,
-  walletRegexp
-} from "@/src/constants"
+import { emailRegexp, allowSkeletons, walletRegexp } from "@/src/constants"
 import { useAppSelector } from "@/src/redux/hooks"
 
-import { stringToPieces } from "@/src/helpers"
+import { stringToPieces, validateDecimal } from "@/src/helpers"
 
 import type { Error, SelectFormProps } from "./types"
 import type { Option } from "@/shared/InputSelect/types"
@@ -158,27 +153,31 @@ function SelectForm({
   ) => {
     const value = event.target.value
 
-    if (value == "" || floatRegexp.test(value)) {
-      const errorRanges = checkRanges(Number(value))
+    const [validated, result] = validateDecimal(value)
 
-      if (errorRanges) {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: errorRanges
-        })
-      } else {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: undefined
-        })
-
-        if (rate != null && value != "") {
-          setGetAmount((Number(value) / rate).toFixed(2))
-        }
-      }
-
-      onGiveAmountChange(value)
+    if (!validated) {
+      return
     }
+
+    const errorRanges = checkRanges(Number(result))
+
+    if (errorRanges) {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: errorRanges
+      })
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: undefined
+      })
+    }
+
+    if (rate != null) {
+      setGetAmount((Number(result) / rate).toFixed(2))
+    }
+
+    onGiveAmountChange(result)
   }
 
   const handleGetInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -186,31 +185,35 @@ function SelectForm({
   ) => {
     const value = event.target.value
 
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
+      return
+    }
+
     let estimatedGiveAmount = ""
 
-    if (rate != null && value != "") {
-      estimatedGiveAmount = (Number(value) * rate).toFixed(2)
+    if (rate != null && result != "") {
+      estimatedGiveAmount = (Number(result) * rate).toFixed(2)
     }
 
-    if (value == "" || floatRegexp.test(value)) {
-      const errorRanges = checkRanges(Number(estimatedGiveAmount))
+    const errorRanges = checkRanges(Number(estimatedGiveAmount))
 
-      if (errorRanges) {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: errorRanges
-        })
-      } else {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: undefined
-        })
-      }
-
-      onGiveAmountChange(estimatedGiveAmount)
-
-      setGetAmount(value)
+    if (errorRanges) {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: errorRanges
+      })
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: undefined
+      })
     }
+
+    onGiveAmountChange(estimatedGiveAmount)
+
+    setGetAmount(result)
   }
 
   const handleWalletInput: React.ChangeEventHandler<HTMLInputElement> = (

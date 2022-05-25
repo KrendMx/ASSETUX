@@ -29,7 +29,8 @@ import {
   mapCurrencyName,
   mapShortCurrencyName
 } from "@/src/currencies"
-import { rateCheckInterval, floatRegexp } from "@/src/constants"
+import { rateCheckInterval } from "@/src/constants"
+import { validateDecimal } from "@/src/helpers"
 
 import type { Profile } from "@/src/BackendClients/ecommerce/types"
 import type { Option } from "@/shared/InputSelect/types"
@@ -90,12 +91,14 @@ function Bill({}: BillProps) {
 
     const value = event.target.value
 
-    if (value != "" && !floatRegexp.test(value)) {
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
       return
     }
 
-    setGet(value)
-    setSend((Number(value) * currentRate).toFixed(2))
+    setGet(result)
+    setSend((Number(result) * currentRate).toFixed(2))
   }
 
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -105,12 +108,14 @@ function Bill({}: BillProps) {
 
     const value = event.target.value
 
-    if (value != "" && !floatRegexp.test(value)) {
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
       return
     }
 
-    setSend(value)
-    setGet((Number(value) / currentRate).toFixed(2))
+    setSend(result)
+    setGet((Number(result) / currentRate).toFixed(2))
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (

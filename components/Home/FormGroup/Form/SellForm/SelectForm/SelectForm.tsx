@@ -34,16 +34,11 @@ import ExchangeExpired from "./Modals/ExchangeExpired"
 import Background from "@/shared/Background"
 import Maintenance from "../../Maintenance"
 
-import {
-  holderRegexp,
-  emailRegexp,
-  floatRegexp,
-  allowSkeletons
-} from "@/src/constants"
+import { holderRegexp, emailRegexp, allowSkeletons } from "@/src/constants"
 
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
-import { stringToPieces } from "@/src/helpers"
+import { stringToPieces, validateDecimal } from "@/src/helpers"
 import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
 
@@ -220,9 +215,14 @@ function SelectForm({
     event
   ) => {
     const value = event.target.value
-    if (value == "" || floatRegexp.test(value)) {
-      onGiveAmountChange(value)
+
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
+      return
     }
+
+    onGiveAmountChange(result)
   }
 
   const handleDetailsInput: React.ChangeEventHandler<HTMLInputElement> = (

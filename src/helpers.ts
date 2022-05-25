@@ -2,7 +2,7 @@ import Cookies from "js-cookie"
 import cookie from "cookie"
 
 import { EcommerceClient } from "./BackendClients"
-import { mappedCookies } from "./constants"
+import { mappedCookies, floatRegexp } from "./constants"
 
 import type { GetServerSidePropsContext } from "next"
 
@@ -91,4 +91,12 @@ export const checkAuthorization = (
   }
 
   return token
+}
+
+export const validateDecimal = (value: string): [boolean, string] => {
+  const processedValue = value.replace(/,/g, ".")
+
+  const validated = processedValue == "" || floatRegexp.test(processedValue)
+
+  return [validated, validated ? processedValue : ""]
 }
