@@ -84,6 +84,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
             type="font/woff2"
           />
+          <meta name="color-scheme" content="light" />
         </Head>
         <body>
           <Main />
