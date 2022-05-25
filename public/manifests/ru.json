@@ -9,17 +9,17 @@
   "description": "ASSETUX – Лучшее решение для покупки, продажи и инвестирования в криптовалюты.",
   "icons": [
     {
-      "src": "/icons/192px.png",
+      "src": "/icons/pwa-192px.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/512px.png",
+      "src": "/icons/pwa-512px.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/icons/512px.png",
+      "src": "/icons/pwa-512px.png",
       "sizes": "512x512",
       "purpose": "maskable"
     }
