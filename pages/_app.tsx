@@ -5,6 +5,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 import React, { useEffect } from "react"
+import { DefaultSeo } from "next-seo"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
@@ -109,7 +110,6 @@ function MyApp(props: AppProps) {
   return (
     <>
       <Head>
-        <title>ASSETUX</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
@@ -117,6 +117,7 @@ function MyApp(props: AppProps) {
         <link rel="manifest" href={`/manifests/${router.locale}.json`} />
         <meta name="theme-color" content="#FFFFFF" />
       </Head>
+      <DefaultSeo title="ASSETUX" />
       <Header />
       <SkeletonTheme borderRadius={10}>
         <ContentManager appProps={props} />

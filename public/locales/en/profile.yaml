@@ -3,9 +3,15 @@ balance: Balance
 personalInfo: Personal Info
 payment: Payment
 widgetPersonalization: Widget personalization
-nameYourCompany: Name of your company
+nameYourCompany: Company name
 logo: Logo
 wallet: Wallet
 background: Background
 change: Change
-walletError: Invalid address
+upload: Upload
+walletError: Invalid wallet
+walletUnique: Wallet address should be unique
+assets: Your assets will be displayed here.
+smthHappened: Something went wrong, please, try again later
+loading: Loading ...
+invalidImage: Invalid image

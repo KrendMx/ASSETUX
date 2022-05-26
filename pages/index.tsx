@@ -1,6 +1,8 @@
 import React from "react"
+import { NextSeo } from "next-seo"
 import dynamic from "next/dynamic"
 import styled from "styled-components"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
@@ -13,6 +15,7 @@ import QueryController from "@/components/Home/QueryController"
 import Orders from "@/components/Home/Orders"
 
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
+import { getDefaultMetaTags } from "@/src/seo"
 
 import { BackendClient } from "@/src/BackendClients"
 
@@ -62,20 +65,25 @@ type IndexProps = {
 }
 
 function Index({ news }: IndexProps) {
+  const { t } = useTranslation("home")
+
   return (
-    <Container>
-      <FormGroup />
-      <Investments />
-      <CryptoSlide />
-      <CryptoExplorer />
-      {news && <NewsRoom news={news} />}
-      <AboutUs />
+    <>
+      <NextSeo {...getDefaultMetaTags(t("title"), t("description"), "")} />
+      <Container>
+        <FormGroup />
+        <Investments />
+        <CryptoSlide />
+        <CryptoExplorer />
+        {news && <NewsRoom news={news} />}
+        <AboutUs />
 
-      <Orders />
+        <Orders />
 
-      <CryptoManager getToken getChart />
-      <QueryController />
-    </Container>
+        <CryptoManager getToken getChart />
+        <QueryController />
+      </Container>
+    </>
   )
 }
 

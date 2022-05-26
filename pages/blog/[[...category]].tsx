@@ -1,4 +1,6 @@
 import React from "react"
+import { NextSeo } from "next-seo"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BlogComponent from "@/components/Blog"
@@ -8,6 +10,7 @@ import {
   postCategories,
   isPostCategoryDeclared
 } from "@/src/BackendClients/main/types"
+import { getDefaultMetaTags } from "@/src/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
@@ -15,7 +18,20 @@ import type { PostCategory } from "@/src/BackendClients/main/types"
 import type { BlogProps } from "@/components/Blog"
 
 function Blog(props: BlogProps) {
-  return <BlogComponent {...props} />
+  const { t } = useTranslation("news")
+
+  return (
+    <>
+      <NextSeo
+        {...getDefaultMetaTags(
+          t("title"),
+          t("description"),
+          props.category == "all" ? "/blog" : `/blog/${props.category}`
+        )}
+      />
+      <BlogComponent {...props} />
+    </>
+  )
 }
 
 type GetStaticPropsParams = ParsedUrlQuery & {

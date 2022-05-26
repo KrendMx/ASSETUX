@@ -1,7 +1,24 @@
-import Login from "@/components/Profile/Login"
+import LoginComponent from "@/components/Profile/Login"
+import { useTranslation } from "next-i18next"
+import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
+import { getDefaultMetaTags } from "@/src/seo"
+
 import type { GetStaticProps } from "next"
+
+function Login() {
+  const { t } = useTranslation("profile-login")
+
+  return (
+    <>
+      <NextSeo
+        {...getDefaultMetaTags(t("title"), t("description"), "/profile/login")}
+      />
+      <LoginComponent />
+    </>
+  )
+}
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {

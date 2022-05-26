@@ -1,5 +1,7 @@
 import React from "react"
 import styled from "styled-components"
+import { NextSeo } from "next-seo"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
@@ -10,6 +12,7 @@ import Contacts from "@/components/About/Contacts"
 import NewsRoom from "@/shared/NewsRoom"
 
 import { BackendClient } from "@/src/BackendClients"
+import { getDefaultMetaTags } from "@/src/seo"
 
 import type { GetStaticProps } from "next"
 import type { PostData } from "@/src/BackendClients/main/types"
@@ -43,14 +46,21 @@ type AboutProps = {
 }
 
 function About({ news }: AboutProps) {
+  const { t } = useTranslation("about")
+
   return (
-    <Container>
-      <Intro />
-      <Info />
-      <Investments />
-      <Contacts />
-      {news && <NewsRoom news={news} />}
-    </Container>
+    <>
+      <NextSeo
+        {...getDefaultMetaTags(t("title"), t("description"), "/about")}
+      />
+      <Container>
+        <Intro />
+        <Info />
+        <Investments />
+        <Contacts />
+        {news && <NewsRoom news={news} />}
+      </Container>
+    </>
   )
 }
 

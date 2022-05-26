@@ -26,7 +26,7 @@ function NewsRoom({ news }: NewsRoomProps) {
   return (
     <Container>
       <Row>
-        <h3>{!showSkeleton ? t("title") : <Skeleton />}</h3>
+        <h3>{!showSkeleton ? t("rowTitle") : <Skeleton />}</h3>
         {!showSkeleton && (
           <Link href="/blog" passHref>
             <MoreLink as="a">{t("showMore")}</MoreLink>
