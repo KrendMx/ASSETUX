@@ -49,7 +49,7 @@ const verticalSliderProps = {
   touchMove: false,
   centerMode: true,
   autoplay: true,
-  autoplaySpeed: 300000,
+  autoplaySpeed: 3000,
   speed: 500,
   centerPadding: "0px",
   slidesToShow: 3,
