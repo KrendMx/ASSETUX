@@ -253,7 +253,7 @@ function Bill({}: BillProps) {
           <Item>{t("item2")}</Item>
           <Item>{t("item3")}</Item>
         </List>
-        <Paragraph>{t("p1")}</Paragraph>
+        <Paragraph>{t("p2")}</Paragraph>
         <FormContainer>
           <Form getActive={getActive} onSubmit={handleSubmit}>
             <FormContent>
