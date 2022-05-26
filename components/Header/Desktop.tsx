@@ -84,7 +84,7 @@ function Desktop() {
 
   return (
     <DesktopContainer>
-      <TextLogo link />
+      <TextLogo />
       <RightContainer>
         <NavContainer>
           {/* <Link href="/404" passHref>
