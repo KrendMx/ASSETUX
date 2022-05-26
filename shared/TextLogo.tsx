@@ -1,17 +1,8 @@
 import React from "react"
 import styled from "styled-components"
-import Image from "next/image"
 import Link from "next/link"
 
-const LogoContainer = styled.div`
-  display: block;
-  width: 45px;
-  height: 45px;
-
-  & img:-moz-loading {
-    visibility: hidden;
-  }
-`
+import Logo from "./Logo"
 
 const LogoLink = styled.a`
   display: flex;
@@ -35,27 +26,11 @@ const ColoredLogoText = styled.span`
   color: #191919;
 `
 
-type TextLogoProps = {
-  link: boolean
-}
-
-// TODO: доделать
-
-function TextLogo({ link }: TextLogoProps) {
+function TextLogo() {
   return (
     <Link href="/" passHref>
       <LogoLink>
-        <LogoContainer>
-          <Image
-            src="/icons/icon_black.png"
-            width={45}
-            height={45}
-            layout="responsive"
-            alt="Logo"
-            quality={100}
-            priority
-          />
-        </LogoContainer>
+        <Logo width={45} height={45} />
         <LogoText>
           <span>ASSET</span>
           <ColoredLogoText>UX</ColoredLogoText>

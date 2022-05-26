@@ -1,11 +1,11 @@
 import React from "react"
 import styled from "styled-components"
-import Image from "next/image"
 import Link from "next/link"
 
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import BurgerButton from "../BurgerButton"
+import Logo from "@/shared/Logo"
 
 import { mobile } from "@/src/constants"
 import { useAppSelector } from "@/src/redux/hooks"
@@ -25,15 +25,7 @@ const ImageContainer = styled.div`
   transform: translate(-50%, -50%);
 `
 
-const LogoLink = styled.a`
-  display: block;
-  width: 38px;
-  height: 38px;
-
-  & img:-moz-loading {
-    visibility: hidden;
-  }
-`
+const LogoLink = styled.a``
 
 function Mobile() {
   const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
@@ -44,15 +36,7 @@ function Mobile() {
       <ImageContainer>
         <Link href="/" passHref>
           <LogoLink>
-            <Image
-              src="/icons/icon_black.png"
-              layout="responsive"
-              width={38}
-              height={38}
-              alt="Logo"
-              quality={100}
-              priority
-            />
+            <Logo width={38} height={38} />
           </LogoLink>
         </Link>
       </ImageContainer>
