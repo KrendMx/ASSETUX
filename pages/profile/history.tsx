@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
@@ -25,10 +26,13 @@ function History(props: HistoryProps) {
   const { t } = useTranslation("profile-history")
 
   return (
-    <Container>
-      <HeadingRow heading={t("history")} id="M-0000001" />
-      <HistoryComponent {...props} />
-    </Container>
+    <>
+      <NextSeo title={t("title")} />
+      <Container>
+        <HeadingRow heading={t("history")} id="M-0000001" />
+        <HistoryComponent {...props} />
+      </Container>
+    </>
   )
 }
 

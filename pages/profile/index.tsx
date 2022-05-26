@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
@@ -26,10 +27,13 @@ function Main(props: MainProps) {
   const { t } = useTranslation("profile")
 
   return (
-    <Container>
-      <HeadingRow heading={t("profile")} id="M-0000001" />
-      <FormGroup {...props} />
-    </Container>
+    <>
+      <NextSeo title={t("title")} />
+      <Container>
+        <HeadingRow heading={t("profile")} id="M-0000001" />
+        <FormGroup {...props} />
+      </Container>
+    </>
   )
 }
 

@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
@@ -25,10 +26,13 @@ function Bill(props: BillProps) {
   const { t } = useTranslation("profile-bill")
 
   return (
-    <Container>
-      <HeadingRow heading={t("bill")} id="M-0000001" />
-      <BillComponent {...props} />
-    </Container>
+    <>
+      <NextSeo title={t("title")} />
+      <Container>
+        <HeadingRow heading={t("bill")} id="M-0000001" />
+        <BillComponent {...props} />
+      </Container>
+    </>
   )
 }
 
