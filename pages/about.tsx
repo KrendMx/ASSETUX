@@ -79,7 +79,8 @@ export const getStaticProps: GetStaticProps<AboutProps> = async ({
         "news",
         "routes"
       ]))
-    }
+    },
+    revalidate: 3600
   }
 }
 

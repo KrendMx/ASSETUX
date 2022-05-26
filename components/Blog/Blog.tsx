@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
-// import { useRouter } from "next/router"
+import { useRouter } from "next/router"
 
 import BaseContainer from "@/shared/BaseContainer"
 import ControlRow from "@/shared/ControlRow"
@@ -12,7 +12,6 @@ import { postCategories } from "@/src/BackendClients/main/types"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 import { BackendClient } from "@/src/BackendClients"
 import { useDebounce, usePrevious } from "@/src/hooks"
-// import { updateURL } from "@/src/helpers"
 
 import type { PostData, PostCategory } from "@/src/BackendClients/main/types"
 
@@ -69,26 +68,43 @@ export type BlogProps = {
 
 function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
   const { t } = useTranslation("news")
-  // const router = useRouter()
+  const router = useRouter()
 
   const [searchContext, setSearchContext] = useState("")
   const debouncedSearchContext = useDebounce(searchContext)
-  const prevDebouncedSearchContext = usePrevious(debouncedSearchContext)
   const [postsToDisplay, setPostsToDisplay] = useState(posts)
 
+  const prevCategory = usePrevious(category)
+
+  const skipPush = useRef(true)
+
   useEffect(() => {
-    if (prevDebouncedSearchContext == undefined) {
+    if (skipPush.current) {
+      skipPush.current = false
+
       return
     }
 
-    // updateURL(router.asPath.split("?")[0] + "?query=" + debouncedSearchContext)
+    router.push({
+      pathname: router.pathname,
+      query:
+        debouncedSearchContext == ""
+          ? { category }
+          : {
+              query: debouncedSearchContext,
+              category
+            }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchContext])
 
-    const fetchPosts = async () => {
+  useEffect(() => {
+    const fetchPosts = async (query: string) => {
       previousAbortController = new AbortController()
 
       const response = await BackendClient.findPost({
         category,
-        query: debouncedSearchContext,
+        query,
         signal: previousAbortController.signal
       })
 
@@ -105,27 +121,43 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
       setPostsToDisplay([response.data.news])
     }
 
+    const query = router.query.query
+
+    if (Array.isArray(query)) {
+      return
+    }
+
     if (previousAbortController) {
       previousAbortController.abort()
     }
 
-    if (debouncedSearchContext == "") {
+    if (query == undefined) {
       setPostsToDisplay(posts)
 
       return
     }
 
-    fetchPosts()
+    fetchPosts(query)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchContext])
+  }, [router.query.query])
 
   useEffect(() => {
+    if (category == prevCategory) {
+      return
+    }
+
     if (previousAbortController) {
       previousAbortController.abort()
     }
 
+    if (searchContext != "") {
+      skipPush.current = true
+    }
+
     setPostsToDisplay(posts)
     setSearchContext("")
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
 
   return (

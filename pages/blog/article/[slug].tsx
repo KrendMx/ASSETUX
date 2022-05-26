@@ -86,7 +86,8 @@ export const getStaticProps: GetStaticProps<
         "news",
         "routes"
       ]))
-    }
+    },
+    revalidate: 3600
   }
 }
 

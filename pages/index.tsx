@@ -104,7 +104,8 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
         "routes",
         "inputSelect"
       ]))
-    }
+    },
+    revalidate: 3600
   }
 }
 
