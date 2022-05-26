@@ -130,7 +130,7 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
 
   return (
     <Container>
-      <h1>{t("title")}</h1>
+      <h1>{t("rowTitle")}</h1>
       <ControlRow
         context={searchContext}
         searchPlaceholder={t("search")}
