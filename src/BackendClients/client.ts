@@ -1,7 +1,7 @@
 import config from "../config"
 
 class Client {
-  protected genericURL = `${config.hostProtocol}://bsc.${config.host}`
+  public genericURL = `${config.hostProtocol}://bsc.${config.host}`
 }
 
 export default Client

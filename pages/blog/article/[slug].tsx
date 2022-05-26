@@ -1,9 +1,11 @@
 import React from "react"
+import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import ArticleComponent from "@/components/Blog/Article"
 
 import { BackendClient } from "@/src/BackendClients"
+import { getDefaultMetaTags } from "@/src/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
@@ -11,7 +13,25 @@ import type { ArticleProps } from "@/components/Blog/Article"
 import type { PostData } from "@/src/BackendClients/main/types"
 
 function Article(props: ArticleProps) {
-  return <ArticleComponent {...props} />
+  return (
+    <>
+      <NextSeo
+        {...getDefaultMetaTags(
+          props.data.title,
+          props.data.short_description,
+          `/blog/article/${props.data.slug}`,
+          {
+            url: BackendClient.genericURL + props.data.img,
+            width: 1600,
+            height: 900,
+            alt: "Article Preview",
+            type: "image/png"
+          }
+        )}
+      />
+      <ArticleComponent {...props} />
+    </>
+  )
 }
 
 type GetStaticPropsParams = ParsedUrlQuery & {

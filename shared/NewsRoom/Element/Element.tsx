@@ -10,6 +10,7 @@ import { useAppSelector } from "@/src/redux/hooks"
 import { getFormattedDate } from "@/src/date"
 
 import config from "@/src/config"
+import { BackendClient } from "@/src/BackendClients"
 
 import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
 import {
@@ -54,7 +55,7 @@ function Element({
     <Container as="article" pinned={pinned}>
       <ImgContainer>
         <Image
-          src={`${config.hostProtocol}://bsc.${config.host}${img}`}
+          src={BackendClient.genericURL + img}
           layout="responsive"
           width={560}
           height={416}

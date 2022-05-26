@@ -15,7 +15,7 @@ import {
 } from "./styles"
 
 import { getFormattedDate } from "@/src/date"
-import config from "@/src/config"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { PostData } from "@/src/BackendClients/main/types"
 
@@ -33,7 +33,7 @@ function Article({ data, recentPosts }: ArticleProps) {
         <Title>{data.title}</Title>
         <PreviewImage>
           <Image
-            src={config.hostProtocol + "://" + `bsc.${config.host}` + data.img}
+            src={BackendClient.genericURL + data.img}
             width={560}
             height={416}
             layout="responsive"
