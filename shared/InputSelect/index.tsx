@@ -49,6 +49,7 @@ type InputSelectProps = {
   autocomplete?: string
   paleBorders?: boolean
   focused?: boolean
+  visuallyDisabled?: boolean
 }
 
 function InputSelect({
@@ -77,7 +78,8 @@ function InputSelect({
   displayInSelect = 3,
   selectable = true,
   paleBorders = false,
-  focused = false
+  focused = false,
+  visuallyDisabled = false
 }: InputSelectProps) {
   const hasOptions = options != undefined
 
@@ -185,6 +187,7 @@ function InputSelect({
         active={active}
         error={error != undefined}
         paleBorders={paleBorders}
+        visuallyDisabled={visuallyDisabled}
       >
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && (
@@ -282,7 +285,7 @@ function InputSelect({
             </InfoContainer>
             {selectable && (
               <Arrow active={active}>
-                <IoIosArrowDown />
+                <IoIosArrowDown color="#6E6E73" />
               </Arrow>
             )}
           </SelectedWrapper>

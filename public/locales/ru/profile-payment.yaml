@@ -1,0 +1,10 @@
+toPay: К оплате
+paymentMethod: Способ оплаты
+email: E-Mail
+creditCard: Кредитная карта
+phoneNumber: Номер телефона
+submit: Продолжить
+invalidEmail: Неверный Email
+invalidPhone: Неверный номер телефона
+invalidCard: Неверный номер карты
+loading: Загрузка ...

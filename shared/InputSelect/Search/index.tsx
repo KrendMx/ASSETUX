@@ -23,7 +23,6 @@ const Item = styled.div<ItemProps>`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  font-size: 1rem;
   cursor: ${(props) => (props.selectable ? "pointer" : "default")};
 
   & > * + * {
@@ -35,7 +34,6 @@ const Item = styled.div<ItemProps>`
   }
 
   @media only screen and (max-width: 370px) {
-    font-size: 4vw;
     border-radius: 0.675em;
 
     & > * + * {

@@ -199,13 +199,6 @@ function FormGroup({
       ...prev,
       [inputId.wallet]: undefined
     }))
-
-    if (requests.wallet != null) {
-      setRequests((prev) => ({
-        ...prev,
-        wallet: null
-      }))
-    }
   }
 
   const handleSetCompany: React.ChangeEventHandler<HTMLInputElement> = (
@@ -214,37 +207,36 @@ function FormGroup({
     const value = event.target.value
 
     setCompany(value)
-
-    if (requests.company != null) {
-      setRequests((prev) => ({
-        ...prev,
-        company: null
-      }))
-    }
   }
 
   const handleFile =
     (image: "companyLogo" | "companyBackground") => async (file: File) => {
+      const validTypes = ["image/png", "image/jpeg"]
+
+      const setError = (error?: string) =>
+        setInputError((prev) => ({
+          ...prev,
+          [image]: error
+        }))
+
+      if (!validTypes.includes(file.type)) {
+        setError(t("invalidImage"))
+
+        return
+      }
+
       try {
         const base64 = await toBase64(file)
+
+        setError()
 
         if (image == "companyLogo") {
           setLogo(base64)
         } else {
           setBackground(base64)
         }
-
-        if (requests.company != null) {
-          setRequests((prev) => ({
-            ...prev,
-            company: null
-          }))
-        }
       } catch (_) {
-        setInputError((prev) => ({
-          ...prev,
-          [image]: t("invalidImage")
-        }))
+        setError(t("invalidImage"))
       }
     }
 
@@ -286,7 +278,7 @@ function FormGroup({
           isLoading={requests.wallet?.state == "pending"}
           disabled={
             wallet == prevPublicKey.current ||
-            requests.wallet != null ||
+            (requests.wallet != null && requests.wallet.state != "success") ||
             inputError[inputId.wallet] != undefined
           }
         >
@@ -316,7 +308,7 @@ function FormGroup({
           label={t("logo")}
           onUpload={handleFile(inputId.companyLogo)}
           fileLabel={t("upload")}
-          accept="image/.jpg,.jpeg,.png"
+          accept=".png,.jpg,.jpeg"
           selectable={false}
           changeable
           file
@@ -331,7 +323,7 @@ function FormGroup({
           label={t("background")}
           onUpload={handleFile(inputId.companyBackground)}
           fileLabel={t("upload")}
-          accept="image/.jpg,.jpeg,.png"
+          accept=".png,.jpg,.jpeg"
           selectable={false}
           changeable
           file
@@ -346,7 +338,7 @@ function FormGroup({
             company == "" ||
             inputError[inputId.companyLogo] != undefined ||
             inputError[inputId.companyBackground] != undefined ||
-            requests.company != null
+            (requests.company != null && requests.company.state != "success")
           }
         >
           {requests.company?.state == "pending" ? t("loading") : t("change")}

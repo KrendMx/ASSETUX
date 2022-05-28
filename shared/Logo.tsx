@@ -1,8 +1,8 @@
 import React from "react"
 
 type LogoProps = {
-  width: number
-  height: number
+  width: number | string
+  height: number | string
 }
 
 const Logo = ({ width, height }: LogoProps) => (

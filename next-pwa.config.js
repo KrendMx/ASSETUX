@@ -68,7 +68,8 @@ const runtimeCaching = [
       if (
         pathname.includes("profile") ||
         pathname.includes("bill") ||
-        pathname.includes("history")
+        pathname.includes("history") ||
+        pathname.includes("payment")
       ) {
         return false
       }
@@ -96,7 +97,8 @@ const runtimeCaching = [
       return (
         pathname.includes("profile") ||
         pathname.includes("bill") ||
-        pathname.includes("history")
+        pathname.includes("history") ||
+        pathname.includes("payment")
       )
     },
     handler: "NetworkOnly",

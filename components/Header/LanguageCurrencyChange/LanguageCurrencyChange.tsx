@@ -7,7 +7,13 @@ const Container = styled.div`
   position: relative;
 `
 
-function LanguageCurrencyChange() {
+type LanguageCurrencyChangeProps = {
+  direction?: "top" | "down"
+}
+
+function LanguageCurrencyChange({
+  direction = "down"
+}: LanguageCurrencyChangeProps) {
   const [popupWidth, setPopupWidth] = useState(0)
   const [buttonWidth, setButtonWidth] = useState(0)
 
@@ -26,7 +32,11 @@ function LanguageCurrencyChange() {
   return (
     <Container onClick={(event) => event.stopPropagation()}>
       <Button ref={buttonRef} />
-      <Popup ref={popupRef} offsetX={(popupWidth - buttonWidth) / 2} />
+      <Popup
+        ref={popupRef}
+        offsetX={(popupWidth - buttonWidth) / 2}
+        direction={direction}
+      />
     </Container>
   )
 }

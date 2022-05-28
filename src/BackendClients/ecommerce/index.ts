@@ -13,7 +13,11 @@ import type {
   LogoutProps,
   GetHistoryProps,
   GetHistoryResponse,
-  CreateBillProps
+  CreateBillProps,
+  CreateBillResponse,
+  GetBillResponse,
+  CreatePaymentProps,
+  CreatePaymentResponse
 } from "./types"
 
 class EcommerceClient extends Client {
@@ -95,13 +99,34 @@ class EcommerceClient extends Client {
     })
   }
 
-  public async createBill({ token, ...data }: CreateBillProps) {
+  public async createBill({
+    token,
+    ...data
+  }: CreateBillProps): Promise<CreateBillResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/bill/create`,
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`
       },
+      data
+    })
+  }
+
+  public async getBill(id: string): Promise<GetBillResponse> {
+    return handleRequest({
+      url: `${this.genericURL}/ecommerce/bill/get`,
+      method: "GET",
+      params: { id }
+    })
+  }
+
+  public async createPayment(
+    data: CreatePaymentProps
+  ): Promise<CreatePaymentResponse> {
+    return handleRequest({
+      url: `${this.genericURL}/ecommerce/payment/create`,
+      method: "POST",
       data
     })
   }

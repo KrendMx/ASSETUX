@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState, useMemo, useRef } from "react"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
@@ -34,7 +34,7 @@ import { validateDecimal } from "@/src/helpers"
 
 import type { Profile } from "@/src/BackendClients/ecommerce/types"
 import type { Option } from "@/shared/InputSelect/types"
-import type { FiatRate } from "@/src/BackendClients/main/types"
+import { FiatProvider, FiatRate } from "@/src/BackendClients/main/types"
 
 const inputIds = {
   get: "get",
@@ -63,13 +63,21 @@ function Bill({}: BillProps) {
   const [tokens, setTokens] = useState<Option[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [rates, setRates] = useState<FiatRate[] | null>(null)
+  const [ranges, setRanges] = useState<{ min: number; max: number } | null>(
+    null
+  )
+  const [inputError, setInputError] = useState("")
+  const [submitValue, setSubmitValue] = useState<string>(t("copyLink"))
 
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
-  const [get, setGet] = useState("1")
-  const [send, setSend] = useState("")
+  const [get, setGet] = useState("")
+  const [send, setSend] = useState("10000")
 
   const [getActive, setGetActive] = useState(false)
+  const [waitingResponse, setWaitingResponse] = useState(false)
+
+  const copyTimeout = useRef<NodeJS.Timeout | null>(null)
 
   const currentRate = useMemo(() => {
     if (!rates || !selectedToken || !selectedCurrency) {
@@ -78,14 +86,17 @@ function Bill({}: BillProps) {
 
     const rate = rates.find((rate) => rate.name == selectedToken)
 
-    return rate ? rate.sell[selectedCurrency] : null
+    return rate ? rate.buy[selectedCurrency] : null
   }, [rates, selectedToken, selectedCurrency])
 
   const loading =
-    selectedToken == null || selectedCurrency == null || currentRate == null
+    selectedToken == null ||
+    selectedCurrency == null ||
+    currentRate == null ||
+    ranges == null
 
   const handleGet: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    if (!currentRate) {
+    if (!currentRate || !ranges) {
       return
     }
 
@@ -98,11 +109,24 @@ function Bill({}: BillProps) {
     }
 
     setGet(result)
-    setSend((Number(result) * currentRate).toFixed(2))
+
+    const resultNum = Number(result)
+
+    const sendAmount = resultNum * currentRate
+
+    if (sendAmount < ranges.min) {
+      setInputError(t("minError", { min: ranges.min }))
+    } else if (sendAmount > ranges.max) {
+      setInputError(t("maxError", { max: ranges.max }))
+    } else {
+      setInputError("")
+    }
+
+    setSend(sendAmount.toFixed(2))
   }
 
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    if (!currentRate) {
+    if (!currentRate || !ranges) {
       return
     }
 
@@ -115,7 +139,20 @@ function Bill({}: BillProps) {
     }
 
     setSend(result)
-    setGet((Number(result) / currentRate).toFixed(2))
+
+    const resultNum = Number(result)
+
+    if (resultNum < ranges.min) {
+      setInputError(t("minError", { min: ranges.min }))
+    } else if (resultNum > ranges.max) {
+      setInputError(t("maxError", { max: ranges.max }))
+    } else {
+      setInputError("")
+    }
+
+    const getAmount = resultNum / currentRate
+
+    setGet(getAmount.toFixed(2))
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -148,15 +185,47 @@ function Bill({}: BillProps) {
       return
     }
 
+    if (copyTimeout.current != null) {
+      clearTimeout(copyTimeout.current)
+    }
+
+    setWaitingResponse(true)
+
+    setSubmitValue(t("loading"))
+
     const response = await EcommerceClient.createBill({
       token,
       chainId: selectedBlockchain.chain_id,
       tokensId: tokenId,
-      amountIn: Number(get),
+      amountIn: Number(send),
+      sendAmount: Number(get),
       currency: selectedCurrency
     })
 
-    console.log(response)
+    setWaitingResponse(false)
+
+    if (response.state == "success") {
+      if ("clipboard" in navigator) {
+        const link =
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          `/profile/payment/${response.data.bill.id}`
+
+        navigator.clipboard.writeText(link)
+
+        setSubmitValue(t("copied"))
+
+        setTimeout(() => {
+          setSubmitValue(t("copyLink"))
+          copyTimeout.current = null
+        }, 2000)
+      } else {
+        setSubmitValue(t("copyLink"))
+      }
+    } else {
+      setSubmitValue(t("copyLink"))
+    }
   }
 
   useEffect(() => {
@@ -165,12 +234,44 @@ function Bill({}: BillProps) {
     }
 
     const fetch = async () => {
-      const response = await BackendClient.getFiatRates({
-        apiHost: selectedBlockchain.url
-      })
+      const responses = await Promise.all([
+        BackendClient.getFiatRates({
+          apiHost: selectedBlockchain.url
+        }),
+        BackendClient.getFiatProviders({
+          apiHost: selectedBlockchain.url
+        })
+      ])
 
-      if (response.state == "success") {
-        setRates(response.data)
+      if (responses[0].state == "success") {
+        setRates(responses[0].data)
+      }
+
+      if (responses[1].state == "success") {
+        const fiatProviders = responses[1].data
+        const buyProviders = fiatProviders.filter(
+          (provider) => provider.type == "BUY"
+        )
+
+        const ranges = buyProviders.reduce(
+          (prev, curr) => {
+            if (curr.max > prev.max) {
+              prev.max = curr.max
+            }
+
+            if (curr.min < prev.min) {
+              prev.min = curr.min
+            }
+
+            return prev
+          },
+          {
+            min: 0,
+            max: 0
+          }
+        )
+
+        setRanges(ranges)
       }
     }
 
@@ -239,7 +340,7 @@ function Bill({}: BillProps) {
       return
     }
 
-    setSend((currentRate * Number(get)).toFixed(2))
+    setGet((Number(send) / currentRate).toFixed(2))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRate])
 
@@ -303,13 +404,17 @@ function Bill({}: BillProps) {
                   <HideableWithMargin hide={false} margins>
                     {!loading ? (
                       <InputSelect
-                        label={t("send")}
+                        label={t("send", {
+                          min: ranges.min,
+                          max: ranges.max
+                        })}
                         id={inputIds.send}
                         options={currencies ? currencies : undefined}
                         onChange={handleSend}
                         value={send}
                         selectedValue={selectedCurrency}
                         selectable={false}
+                        error={inputError == "" ? undefined : inputError}
                         changeable
                         onlyNumbers
                       />
@@ -324,8 +429,11 @@ function Bill({}: BillProps) {
               <Skeleton containerClassName="button-skeleton" />
             ) : (
               !getActive && (
-                <Button type="submit" disabled={get == "" || send == ""}>
-                  {t("copyLink")}
+                <Button
+                  type="submit"
+                  disabled={get == "" || send == "" || waitingResponse}
+                >
+                  {submitValue}
                 </Button>
               )
             )}

@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Currencies from "./Currencies"
 import Languages from "./Languages"
 import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
@@ -8,19 +8,25 @@ import { setLanguageCurrencyActive } from "@/src/redux/uiSlice"
 type ContainerProps = {
   hidden: boolean
   offsetX: number
+  direction: "top" | "down"
 }
 
 const Container = styled.div<ContainerProps>`
   position: absolute;
   left: ${(props) => `-${props.offsetX}px`};
-  bottom: 0;
+  bottom: ${(props) => (props.direction == "top" ? "calc(100% + 10px)" : 0)};
   display: flex;
   flex-direction: column;
-  transform: translateY(calc(100% + 5px));
   background-color: var(--bgColor);
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
   visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
+
+  ${(props) =>
+    props.direction == "down" &&
+    css`
+      transform: translateY(calc(100% + 5px));
+    `}
 
   @media only screen and (max-width: 1130px) {
     left: ${(props) => `-${props.offsetX * 2}px`};
@@ -29,10 +35,11 @@ const Container = styled.div<ContainerProps>`
 
 type PopupProps = {
   offsetX: number
+  direction: "top" | "down"
 }
 
 const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
-  ({ offsetX }, ref) => {
+  ({ offsetX, direction }, ref) => {
     const languageCurrencyActive = useAppSelector(
       (state) => state.ui.languageCurrencyActive
     )
@@ -49,7 +56,12 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
     }
 
     return (
-      <Container ref={ref} hidden={!languageCurrencyActive} offsetX={offsetX}>
+      <Container
+        ref={ref}
+        hidden={!languageCurrencyActive}
+        offsetX={offsetX}
+        direction={direction}
+      >
         <Languages onClick={handleClick} />
         {/* <Currencies onClick={handleClick} /> */}
       </Container>

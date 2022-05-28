@@ -46,6 +46,8 @@ function MyApp(props: AppProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
+  const isCommercePayment = router.pathname == "/profile/payment/[id]"
+
   useEffect(() => {
     const handleRouteChange = () => {
       console.log("[App] Route change")
@@ -118,7 +120,7 @@ function MyApp(props: AppProps) {
         <meta name="theme-color" content="#FFFFFF" />
       </Head>
       <DefaultSeo title="ASSETUX" />
-      <Header />
+      {!isCommercePayment && <Header />}
       <SkeletonTheme borderRadius={10}>
         <ContentManager appProps={props} />
       </SkeletonTheme>

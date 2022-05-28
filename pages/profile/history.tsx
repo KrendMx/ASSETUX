@@ -62,17 +62,25 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
   const profileResponse = responses[0]
   const historyResponse = responses[1]
 
-  if (
-    profileResponse.state != "success" ||
-    historyResponse.state != "success"
-  ) {
+  if (profileResponse.state != "success") {
+    return errorProps
+  }
+
+  const history =
+    historyResponse.state == "success"
+      ? historyResponse.data.payments
+      : historyResponse.state == "error" && historyResponse.status == 404
+      ? []
+      : null
+
+  if (!history) {
     return errorProps
   }
 
   return {
     props: {
       profile: profileResponse.data.user,
-      history: historyResponse.data.payments,
+      history,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
