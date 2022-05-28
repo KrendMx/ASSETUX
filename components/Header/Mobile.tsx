@@ -25,7 +25,9 @@ const ImageContainer = styled.div`
   transform: translate(-50%, -50%);
 `
 
-const LogoLink = styled.a``
+const LogoLink = styled.a`
+  display: flex;
+`
 
 function Mobile() {
   const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
