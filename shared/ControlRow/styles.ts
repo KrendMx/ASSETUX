@@ -3,9 +3,14 @@ import styled from "styled-components"
 import ModalContainer from "../ModalComponents/Container"
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
 
-export const Container = styled.div`
+type ContainerProps = {
+  spaceBetween?: boolean
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.spaceBetween ? "space-between" : "flex-end"};
   align-items: center;
 
   & > * + * {
@@ -19,6 +24,10 @@ export const Controls = styled.div`
 
   & > * + * {
     margin-left: 10px;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    display: none;
   }
 `
 
@@ -63,6 +72,14 @@ export const Button = styled.button<ButtonProps>`
     &:first-child {
       width: ${(props) => (props.spanWidth ? "100%" : "127px")};
     }
+  }
+`
+
+export const FilterButton = styled(Button)`
+  display: none;
+
+  @media only screen and (max-width: ${mobile}px) {
+    display: flex;
   }
 `
 

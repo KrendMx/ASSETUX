@@ -8,7 +8,14 @@ import { setHideBurgerButton } from "@/src/redux/uiSlice"
 
 import Search from "@/shared/Search"
 import Background from "../Background"
-import { Container, Controls, Button, Modal, CloseButton } from "./styles"
+import {
+  Container,
+  Controls,
+  Button,
+  Modal,
+  CloseButton,
+  FilterButton
+} from "./styles"
 
 import type { ControlRowProps } from "./types"
 
@@ -38,13 +45,12 @@ function ControlRow({
 
   return (
     <>
-      <Container>
-        <Controls>
-          {buttons ? (
-            isMobile ? (
-              <Button onClick={manuallyToggleModal}>Фильтр</Button>
-            ) : (
-              buttons.map((button) =>
+      <Container spaceBetween={buttons != undefined}>
+        {buttons && (
+          <>
+            <FilterButton onClick={manuallyToggleModal}>Фильтр</FilterButton>
+            <Controls>
+              {buttons.map((button) =>
                 button.link ? (
                   <Link key={`${button.name}-link`} href={button.link} passHref>
                     <Button
@@ -64,10 +70,10 @@ function ControlRow({
                     {button.name}
                   </Button>
                 )
-              )
-            )
-          ) : null}
-        </Controls>
+              )}
+            </Controls>
+          </>
+        )}
         <Search
           value={context}
           placeholder={searchPlaceholder}
