@@ -178,7 +178,7 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
             displayIcon
             selectable
           />
-          <HideableWithMargin hide={paymentActive} space="16px">
+          <HideableWithMargin hide={paymentActive} space="0.842em">
             <InputSelect
               id={inputIds.email}
               label={t("email")}

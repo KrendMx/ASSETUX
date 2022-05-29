@@ -170,9 +170,20 @@ export const Form = styled.form`
   background: var(--white);
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
+  font-size: 1rem;
 
   & > * + * {
-    margin-top: 16px;
+    margin-top: 0.842em;
+  }
+
+  @media only screen and (max-width: ${mobile}px) {
+    height: 421px;
+  }
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4vw;
+    height: 28.2em;
+    border-radius: 0.675em;
   }
 `
 
@@ -192,6 +203,12 @@ export const Submit = styled.button.attrs({ type: "submit" })`
   font-size: 16px;
   border-radius: 10px;
   opacity: ${(props) => (props.disabled ? 0.3 : 1)};
+
+  @media only screen and (max-width: 370px) {
+    font-size: 4.325vw;
+    height: 3.062em;
+    border-radius: 0.624em;
+  }
 `
 
 export const Footer = styled.div`
