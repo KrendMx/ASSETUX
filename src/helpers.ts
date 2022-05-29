@@ -1,5 +1,6 @@
 import Cookies from "js-cookie"
 import cookie from "cookie"
+import sanitizeHtml from "sanitize-html"
 
 import { EcommerceClient } from "./BackendClients"
 import { mappedCookies, floatRegexp } from "./constants"
@@ -100,3 +101,8 @@ export const validateDecimal = (value: string): [boolean, string] => {
 
   return [validated, validated ? processedValue : ""]
 }
+
+export const sanitize = (html: string) =>
+  sanitizeHtml(html, {
+    allowedTags: ["p", "br", "b", "strong", "i", "em"]
+  })

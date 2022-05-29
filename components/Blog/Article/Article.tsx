@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useMemo } from "react"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import parse from "html-react-parser"
 
 import Post from "@/shared/NewsRoom/Element"
 import {
@@ -16,6 +17,7 @@ import {
 
 import { getFormattedDate } from "@/src/date"
 import { BackendClient } from "@/src/BackendClients"
+import { sanitize } from "@/src/helpers"
 
 import type { PostData } from "@/src/BackendClients/main/types"
 
@@ -26,6 +28,8 @@ export type ArticleProps = {
 
 function Article({ data, recentPosts }: ArticleProps) {
   const router = useRouter()
+
+  const sanitized = useMemo(() => sanitize(data.text), [data.text])
 
   return (
     <Container>
@@ -43,7 +47,7 @@ function Article({ data, recentPosts }: ArticleProps) {
         <PostTime dateTime={data.created}>
           {getFormattedDate(data.created, router.locale!)}
         </PostTime>
-        <Text>{data.short_description}</Text>
+        <Text>{parse(sanitized)}</Text>
       </Content>
       <RecentPosts>
         <Title as="h2" secondary>

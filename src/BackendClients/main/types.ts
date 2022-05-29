@@ -350,6 +350,7 @@ export type PostData = {
   slug: string
   short_description: string
   pinned: boolean
+  text: string
 }
 
 export type NewsData = {

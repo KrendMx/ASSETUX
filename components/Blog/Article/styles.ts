@@ -84,7 +84,31 @@ export const Text = styled.div`
   font-size: 1em;
   font-weight: 400;
   color: #616161;
-  white-space: pre-line;
+
+  p {
+    margin: 1em 0;
+
+    &:first-child {
+      margin-bottom: 1em;
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-top: 1em;
+      margin-bottom: 0;
+    }
+  }
+
+  b,
+  strong {
+    font-weight: 700;
+  }
+
+  i,
+  em {
+    font-weight: 400;
+    font-style: italic;
+  }
 `
 
 export const RecentPosts = styled.div``
