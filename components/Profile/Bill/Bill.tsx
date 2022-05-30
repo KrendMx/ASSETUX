@@ -233,13 +233,15 @@ function Bill({}: BillProps) {
       return
     }
 
-    const fetch = async () => {
+    const fetch = async (signal: AbortSignal) => {
       const responses = await Promise.all([
         BackendClient.getFiatRates({
-          apiHost: selectedBlockchain.url
+          apiHost: selectedBlockchain.url,
+          signal
         }),
         BackendClient.getFiatProviders({
-          apiHost: selectedBlockchain.url
+          apiHost: selectedBlockchain.url,
+          signal
         })
       ])
 
@@ -287,12 +289,14 @@ function Bill({}: BillProps) {
       setSelectedCurrency(mappedCurrencies[0].value)
     }
 
-    fetch()
+    const controller = new AbortController()
+    fetch(controller.signal)
 
     const rateInterval = setInterval(fetch, rateCheckInterval)
 
     return () => {
       clearInterval(rateInterval)
+      controller.abort()
     }
   }, [selectedBlockchain])
 

@@ -327,10 +327,13 @@ function SellForm({
       exchangeInfo &&
       currentBlockchain
     ) {
+      const controller = new AbortController()
+
       const interval = setInterval(async () => {
         const response = await BackendClient.checkSellOrder({
           apiHost: currentBlockchain.url,
-          orderId: exchangeInfo.orderId
+          orderId: exchangeInfo.orderId,
+          signal: controller.signal
         })
 
         if (response.state == "success") {
@@ -343,7 +346,10 @@ function SellForm({
         }
       }, 10000)
 
-      return () => clearInterval(interval)
+      return () => {
+        clearInterval(interval)
+        controller.abort()
+      }
     }
   }, [currentStep, exchangeInfo, currentBlockchain])
 

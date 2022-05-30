@@ -10,7 +10,7 @@ import Cookies from "js-cookie"
 
 import { mobile, mappedCookies } from "./constants"
 
-import type { RefObject } from "react"
+import type { RefObject, EffectCallback } from "react"
 
 export const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect
@@ -94,3 +94,17 @@ export const useAuthorized = () =>
 
     return token ? token : null
   }, [])
+
+export const useMount = (effect: EffectCallback) => {
+  const handled = useRef(false)
+
+  useEffect(() => {
+    if (handled.current) {
+      return
+    }
+
+    handled.current = true
+
+    return effect()
+  }, [effect])
+}

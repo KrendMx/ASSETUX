@@ -10,4 +10,12 @@ export type CardsProps = {
   handleAction?: (action: ActionType, dataIndex: number) => void
 }
 
-export type CardData = string | number | JSX.Element | undefined | null
+export type Displayable = string | number | JSX.Element | undefined | null
+export type DisplayableObject = {
+  value: Displayable
+}
+
+export type CardData = Displayable | DisplayableObject
+
+export const isDisplayableObject = (value: any): value is DisplayableObject =>
+  typeof value == "object" && "value" in value

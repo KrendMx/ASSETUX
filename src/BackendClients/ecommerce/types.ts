@@ -64,12 +64,25 @@ export type Bill = {
   fee: null
   status: string
   tokens: Token
+  chains: {
+    title: string
+  }
   ecommerceUser: Profile
+}
+
+export type Payment = {
+  id: number
+  email: string
+  creditCard: string
+  timestamp: string
+  paymentMethod: "QIWI" | "QIWIVISAMASTER"
 }
 
 export type GetHistoryProps = AuthorizedProps
 
-export type GetHistoryResponse = Response<{ payments: Bill[] }>
+export type GetHistoryResponse = Response<{
+  payments: (Bill & { ecommerce_payments: Payment[] })[]
+}>
 
 export type CreateBillProps = AuthorizedProps & {
   chainId: number

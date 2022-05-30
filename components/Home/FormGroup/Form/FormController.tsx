@@ -102,73 +102,81 @@ function FormController() {
   }, [])
 
   useEffect(() => {
-    if (selectedBlockchain) {
-      const fetch = async () => {
-        const responses = await Promise.all([
-          BackendClient.getFiatProviders({ apiHost: selectedBlockchain.url }),
-          BackendClient.getFiatRates({ apiHost: selectedBlockchain.url }),
-          BackendClient.checkLiquidity({
-            apiHost: selectedBlockchain.url,
-            chainId: selectedBlockchain.chain_id
-          })
-        ])
+    if (!selectedBlockchain) {
+      return
+    }
 
-        const fiatProviders = responses[0]
-        const fiatRates = responses[1]
-        const liquidity = responses[2]
-
-        if (fiatProviders.state == "success") {
-          setPayments(fiatProviders.data)
-        }
-
-        if (fiatRates.state == "success") {
-          setFiatRates(fiatRates.data)
-        }
-
-        if (liquidity.state == "success") {
-          setLiquidityData(liquidity.data)
-        }
-      }
-
-      setCurrencies(
-        definedCurrencies.map((currency) => {
-          return {
-            value: currency,
-            description: mapCurrencyName(currency),
-            shortDescription:
-              mapShortCurrencyName(currency) + " " + mapCurrency(currency)
-          }
+    const fetch = async (signal: AbortSignal) => {
+      const responses = await Promise.all([
+        BackendClient.getFiatProviders({
+          apiHost: selectedBlockchain.url,
+          signal
+        }),
+        BackendClient.getFiatRates({ apiHost: selectedBlockchain.url, signal }),
+        BackendClient.checkLiquidity({
+          apiHost: selectedBlockchain.url,
+          chainId: selectedBlockchain.chain_id,
+          signal
         })
-      )
+      ])
 
-      fetch()
+      const fiatProviders = responses[0]
+      const fiatRates = responses[1]
+      const liquidity = responses[2]
 
-      const rateInterval = setInterval(async () => {
-        const responses = await Promise.all([
-          BackendClient.getFiatRates({
-            apiHost: selectedBlockchain.url
-          }),
-          BackendClient.checkLiquidity({
-            apiHost: selectedBlockchain.url,
-            chainId: selectedBlockchain.chain_id
-          })
-        ])
-
-        const fiatRates = responses[0]
-        const liquidity = responses[1]
-
-        if (fiatRates.state == "success") {
-          setFiatRates(fiatRates.data)
-        }
-
-        if (liquidity.state == "success") {
-          setLiquidityData(liquidity.data)
-        }
-      }, rateCheckInterval)
-
-      return () => {
-        clearInterval(rateInterval)
+      if (fiatProviders.state == "success") {
+        setPayments(fiatProviders.data)
       }
+
+      if (fiatRates.state == "success") {
+        setFiatRates(fiatRates.data)
+      }
+
+      if (liquidity.state == "success") {
+        setLiquidityData(liquidity.data)
+      }
+    }
+
+    setCurrencies(
+      definedCurrencies.map((currency) => {
+        return {
+          value: currency,
+          description: mapCurrencyName(currency),
+          shortDescription:
+            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        }
+      })
+    )
+
+    const controller = new AbortController()
+    fetch(controller.signal)
+
+    const rateInterval = setInterval(async () => {
+      const responses = await Promise.all([
+        BackendClient.getFiatRates({
+          apiHost: selectedBlockchain.url
+        }),
+        BackendClient.checkLiquidity({
+          apiHost: selectedBlockchain.url,
+          chainId: selectedBlockchain.chain_id
+        })
+      ])
+
+      const fiatRates = responses[0]
+      const liquidity = responses[1]
+
+      if (fiatRates.state == "success") {
+        setFiatRates(fiatRates.data)
+      }
+
+      if (liquidity.state == "success") {
+        setLiquidityData(liquidity.data)
+      }
+    }, rateCheckInterval)
+
+    return () => {
+      controller.abort()
+      clearInterval(rateInterval)
     }
   }, [selectedBlockchain])
 

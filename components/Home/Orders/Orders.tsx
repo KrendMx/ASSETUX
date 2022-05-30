@@ -94,11 +94,14 @@ function Orders() {
       userEmail &&
       userCode
     ) {
+      const controller = new AbortController()
+
       const interval = setInterval(async () => {
         const response = await BackendClient.getEmailOrders({
           apiHost: currentBlockchain.url,
           email: userEmail,
-          code: userCode
+          code: userCode,
+          signal: controller.signal
         })
 
         if (response.state != "success") {
@@ -113,6 +116,7 @@ function Orders() {
 
       return () => {
         clearInterval(interval)
+        controller.abort()
       }
     }
   }, [ordersActive, showOrdersModal, currentBlockchain, userCode, userEmail])

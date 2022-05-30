@@ -48,3 +48,7 @@ export type Response<S = unknown, E = unknown> =
 export type UrlRequest = {
   apiHost: string
 }
+
+export type Abortable = {
+  signal?: AbortSignal
+}

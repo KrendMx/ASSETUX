@@ -1,8 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
 
 import { useImmediateMobile } from "@/src/hooks"
-import { perPageValues } from "@/src/constants"
+import { perPageValues, cardsPerPage, cardsWidth } from "@/src/constants"
+import { getFormattedDate } from "@/src/date"
 
 import Table from "@/shared/Table"
 import Cards from "@/shared/Cards"
@@ -10,37 +12,53 @@ import Search from "@/shared/Search"
 import Pages from "@/shared/Pages"
 import { Container, NoAssets, ControlsRow } from "./styles"
 
-import type { Profile, Bill } from "@/src/BackendClients/ecommerce/types"
+import type { Profile } from "@/src/BackendClients/ecommerce/types"
 import type { TFunction } from "next-i18next"
+
+export type HistoryType = {
+  id: number
+  timestamp: string
+  email: string
+  creditCard: string
+  blockchain: string
+  currency: string
+  token: string
+  amount: number
+  method: "QIWI" | "QIWIVISAMASTER"
+}
 
 export type HistoryProps = {
   profile: Profile
-  history: Bill[]
+  history: HistoryType[]
 }
 
 const tableHeadings = (t: TFunction) => [
   {
     value: t("dateTime"),
-    sortFn: (a: string, b: string) => (a > b ? 1 : a < b ? -1 : 0)
+    sortFn: (a: number, b: number) => b - a
   },
   {
     value: t("email"),
-    sortFn: (a: string, b: string) => parseFloat(a) - parseFloat(b)
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
     value: t("creditCard")
   },
   {
-    value: t("blockchain")
+    value: t("blockchain"),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: t("paid")
+    value: t("paid"),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: t("received")
+    value: t("received"),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: t("amount")
+    value: t("amount"),
+    sortFn: (a: number, b: number) => b - a
   }
 ]
 
@@ -56,10 +74,47 @@ const cardNames = (t: TFunction) => [
 
 function History({ history }: HistoryProps) {
   const isMobile = useImmediateMobile()
+  const displayCards = useImmediateMobile(cardsWidth)
   const { t } = useTranslation("profile-history")
+  const router = useRouter()
 
   const [searchContext, setSearchContext] = useState("")
   const [filteredHistory, setFilteredHistory] = useState(history)
+  const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const processedHistory = useMemo(
+    () =>
+      filteredHistory.map((item) => [
+        {
+          value: Number(item.timestamp),
+          display: getFormattedDate(Number(item.timestamp), router.locale!)
+        },
+        item.email,
+        item.method == "QIWI"
+          ? `** (***) *** ${item.creditCard}`
+          : `**** **** **** ${item.creditCard}`,
+        item.blockchain,
+        item.currency,
+        item.token,
+        item.amount
+      ]),
+    [filteredHistory, router.locale]
+  )
+
+  const pages = useMemo(
+    () =>
+      processedHistory &&
+      Math.ceil(
+        processedHistory.length /
+          (displayCards
+            ? isMobile
+              ? cardsPerPage
+              : cardsPerPage * 2
+            : desktopPerPage)
+      ),
+    [processedHistory, desktopPerPage, displayCards, isMobile]
+  )
 
   return (
     <Container>
@@ -74,16 +129,32 @@ function History({ history }: HistoryProps) {
               onChange={setSearchContext}
             />
           </ControlsRow>
-          {isMobile ? (
-            <Cards rowNames={cardNames(t)} />
+          {displayCards ? (
+            <Cards
+              rowNames={cardNames(t)}
+              mobile={isMobile}
+              data={processedHistory}
+              currentPage={currentPage}
+            />
           ) : (
-            <Table customHeadings={tableHeadings(t)} displayIndexes />
+            <Table
+              customHeadings={tableHeadings(t)}
+              currentPage={currentPage}
+              displayPerPage={desktopPerPage}
+              data={processedHistory}
+              customPaddings="22px"
+              displayIndexes
+            />
           )}
 
           <Pages
-            pages={10}
+            pages={pages}
+            currentPage={currentPage}
             perPageValues={perPageValues}
-            hidePerPageValues={isMobile}
+            hidePerPageValues={displayCards}
+            currentPerPageValue={desktopPerPage}
+            setPerPageValue={setDesktopPerPage}
+            setCurrentPage={setCurrentPage}
           />
         </>
       )}

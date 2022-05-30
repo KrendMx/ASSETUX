@@ -78,6 +78,26 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
 
   const skipPush = useRef(true)
 
+  const fetchPosts = async (query: string, signal: AbortSignal) => {
+    const response = await BackendClient.findPost({
+      category,
+      query,
+      signal
+    })
+
+    if (response.state == "error" || response.state == "cancelled") {
+      return
+    }
+
+    if (response.state == "unavailable" || response.data.news == null) {
+      setPostsToDisplay(null)
+
+      return
+    }
+
+    setPostsToDisplay([response.data.news])
+  }
+
   useEffect(() => {
     if (skipPush.current) {
       skipPush.current = false
@@ -99,36 +119,10 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
   }, [debouncedSearchContext])
 
   useEffect(() => {
-    const fetchPosts = async (query: string) => {
-      previousAbortController = new AbortController()
-
-      const response = await BackendClient.findPost({
-        category,
-        query,
-        signal: previousAbortController.signal
-      })
-
-      if (response.state == "error" || response.state == "cancelled") {
-        return
-      }
-
-      if (response.state == "unavailable" || response.data.news == null) {
-        setPostsToDisplay(null)
-
-        return
-      }
-
-      setPostsToDisplay([response.data.news])
-    }
-
     const query = router.query.query
 
     if (Array.isArray(query)) {
       return
-    }
-
-    if (previousAbortController) {
-      previousAbortController.abort()
     }
 
     if (query == undefined) {
@@ -137,8 +131,12 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
       return
     }
 
-    fetchPosts(query)
+    previousAbortController = new AbortController()
+    fetchPosts(query, previousAbortController.signal)
 
+    return () => {
+      previousAbortController?.abort()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.query])
 

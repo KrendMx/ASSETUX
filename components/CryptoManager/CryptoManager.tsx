@@ -28,41 +28,60 @@ function CryptoManager({ getToken, getChart }: CryptoManagerProps) {
   )
 
   useEffect(() => {
-    if (!selectedBlockchain) {
-      dispatch(getBlockchains())
+    if (selectedBlockchain) {
+      return
+    }
+
+    const controller = new AbortController()
+
+    dispatch(getBlockchains(controller.signal))
+
+    return () => {
+      controller.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    if (selectedBlockchain && getChart) {
-      const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-        `https://${selectedBlockchain.url}`,
-        {
-          path: "/websocket"
-        }
-      )
-
-      socket.on("chart", (data) => {
-        dispatch(setExplorerData(data))
-      })
-
-      return () => {
-        socket.disconnect()
-      }
+    if (!selectedBlockchain || !getChart) {
+      return
     }
+
+    const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+      `https://${selectedBlockchain.url}`,
+      {
+        path: "/websocket"
+      }
+    )
+
+    socket.on("chart", (data) => {
+      dispatch(setExplorerData(data))
+    })
+
+    return () => {
+      socket.disconnect()
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBlockchain])
 
   useEffect(() => {
     if (
-      selectedBlockchain &&
-      getToken &&
-      (prevSelectedBlockchainId == null ||
-        prevSelectedBlockchainId != selectedBlockchain.chain_id)
+      !selectedBlockchain ||
+      !getToken ||
+      (prevSelectedBlockchainId != null &&
+        prevSelectedBlockchainId == selectedBlockchain.chain_id)
     ) {
-      dispatch(getTokens())
-      prevSelectedBlockchainId = selectedBlockchain.chain_id
+      return
+    }
+
+    const controller = new AbortController()
+    dispatch(getTokens(controller.signal))
+
+    prevSelectedBlockchainId = selectedBlockchain.chain_id
+
+    return () => {
+      controller.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBlockchain])

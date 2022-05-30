@@ -15,6 +15,8 @@ import {
   Button
 } from "./styles"
 
+import { isDisplayableObject } from "./types"
+
 import type { CardsProps, CardData } from "./types"
 import type { ActionType } from "@/src/redux/cryptoSlice/types"
 
@@ -31,12 +33,17 @@ const mapCards = (
     return (
       <Card key={`card-${currentIndex}`}>
         <RowSpacer>
-          {rowNames?.map((name, index) => (
-            <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>
-              <RowName>{name}</RowName>
-              <RowValue>{data[index]}</RowValue>
-            </Row>
-          ))}
+          {rowNames?.map((name, index) => {
+            const column = data[index]
+            const item = isDisplayableObject(column) ? column.value : column
+
+            return (
+              <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>
+                <RowName>{name}</RowName>
+                <RowValue>{item}</RowValue>
+              </Row>
+            )
+          })}
         </RowSpacer>
         {withButtons && (
           <ButtonsContainer>

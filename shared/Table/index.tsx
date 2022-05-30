@@ -3,6 +3,8 @@ import styled, { css } from "styled-components"
 import { paginate } from "./paginate"
 import { IoIosArrowDown } from "react-icons/io"
 
+import { isDisplayableObject } from "./types"
+
 import type { SortInfo, TableProps, RowData } from "./types"
 
 type ContainerProps = {
@@ -83,12 +85,16 @@ const Row = styled.tr<RowProps>`
 
 const Body = styled.tbody``
 
-const Element = styled.td`
+type ElementProps = {
+  paddings?: string
+}
+
+const Element = styled.td<ElementProps>`
   font-size: 15px;
   color: var(--black);
   text-align: center;
   font-weight: 500;
-  padding: 14px 0;
+  padding: ${(props) => props.paddings || "14px"} 0;
 `
 
 function Table({
@@ -100,7 +106,8 @@ function Table({
   displayIndexes = false,
   currentPage = 1,
   withPagination = true,
-  collapseCols
+  collapseCols,
+  customPaddings
 }: TableProps) {
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
 
@@ -111,18 +118,27 @@ function Table({
 
         return (
           <Row key={`row-${currentIndex}`}>
-            {displayIndexes && <Element>{currentIndex + 1}</Element>}
-            {rowData.map((value, cellIndex) => (
-              <Element
-                key={`cell-${currentIndex}-${cellIndex}_${value?.toString()}`}
-              >
-                {value}
-              </Element>
-            ))}
+            {displayIndexes && (
+              <Element paddings={customPaddings}>{currentIndex + 1}</Element>
+            )}
+            {rowData.map((item, cellIndex) => {
+              const displayableItem = isDisplayableObject(item)
+                ? item.display
+                : item
+
+              return (
+                <Element
+                  paddings={customPaddings}
+                  key={`cell-${currentIndex}-${cellIndex}_${displayableItem?.toString()}`}
+                >
+                  {displayableItem}
+                </Element>
+              )
+            })}
           </Row>
         )
       }),
-    [currentPage, displayIndexes, displayPerPage]
+    [currentPage, displayIndexes, displayPerPage, customPaddings]
   )
 
   const sortedData = useMemo(() => {
@@ -140,11 +156,21 @@ function Table({
       return data
     }
 
-    return [...data].sort((a, b) =>
-      sortInfo.ascending
-        ? -1 * sortFn(a[sortInfo.nColumn], b[sortInfo.nColumn])
-        : sortFn(a[sortInfo.nColumn], b[sortInfo.nColumn])
-    )
+    return [...data].sort((a, b) => {
+      const firstCol = a[sortInfo.nColumn]
+      const secondCol = b[sortInfo.nColumn]
+
+      const firstValueToSort = isDisplayableObject(firstCol)
+        ? firstCol.value
+        : firstCol
+      const secondValueToSort = isDisplayableObject(secondCol)
+        ? secondCol.value
+        : secondCol
+
+      return sortInfo.ascending
+        ? -1 * sortFn(firstValueToSort, secondValueToSort)
+        : sortFn(firstValueToSort, secondValueToSort)
+    })
   }, [data, sortInfo, customHeadings])
 
   const paginatedData = useMemo(

@@ -12,7 +12,7 @@ import { EcommerceClient } from "@/src/BackendClients"
 import { checkAuthorization } from "@/src/helpers"
 
 import type { GetServerSideProps } from "next"
-import type { HistoryProps } from "@/components/Profile/History/History"
+import type { HistoryProps } from "@/components/Profile/History"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -77,10 +77,29 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     return errorProps
   }
 
+  const mappedHistory = []
+  for (const item of history) {
+    for (const payment of item.ecommerce_payments) {
+      mappedHistory.push({
+        id: payment.id,
+        timestamp: payment.timestamp,
+        email: payment.email,
+        creditCard: payment.creditCard,
+        blockchain: item.chains.title,
+        currency: item.currency,
+        token: item.tokens.symbol,
+        amount: item.amountIn,
+        method: payment.paymentMethod
+      })
+    }
+  }
+
   return {
     props: {
       profile: profileResponse.data.user,
-      history,
+      history: mappedHistory.sort(
+        (a, b) => Number(b.timestamp) - Number(a.timestamp)
+      ),
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

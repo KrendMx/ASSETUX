@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === "development") {
   import("preact/debug")
 }
 
-import React, { useEffect } from "react"
+import React from "react"
 import { DefaultSeo } from "next-seo"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
@@ -31,6 +31,7 @@ import GlobalStyles from "@/styles/GlobalStyles"
 
 import { mobile, tablet, mobileLayoutForTablet } from "@/src/constants"
 import { checkCurrency } from "@/src/currencies"
+import { useMount } from "@/src/hooks"
 
 import type { AppProps } from "next/app"
 
@@ -48,7 +49,7 @@ function MyApp(props: AppProps) {
 
   const isCommercePayment = router.pathname == "/profile/payment/[id]"
 
-  useEffect(() => {
+  useMount(() => {
     const handleRouteChange = () => {
       console.log("[App] Route change")
       dispatch(setBurgerActive(false))
@@ -107,7 +108,7 @@ function MyApp(props: AppProps) {
       window.removeEventListener("resize", handleResize)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return (
     <>

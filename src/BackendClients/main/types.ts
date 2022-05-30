@@ -378,7 +378,6 @@ export type GetNewsResponse = Response<NewsData>
 export type FindPostProps = {
   category: PostCategory
   query: string
-  signal?: AbortSignal
 }
 
 export type FindPostResponse = Response<{ news: PostData | null }>
