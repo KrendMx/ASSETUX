@@ -141,6 +141,7 @@ function History({ history }: HistoryProps) {
               mobile={isMobile}
               data={processedHistory}
               currentPage={currentPage}
+              withButtons={false}
             />
           ) : (
             <Table

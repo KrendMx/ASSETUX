@@ -106,5 +106,6 @@ export const useMount = (effect: EffectCallback) => {
     handled.current = true
 
     return effect()
-  }, [effect])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }
