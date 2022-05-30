@@ -6,9 +6,9 @@ personalInfo: Личная информация
 payment: Оплата
 widgetPersonalization: Персонализация виджета
 nameYourCompany: Название вашей компании
-logo: Логотип
+logo: Логотип (JPG, JPEG, PNG - 40x40)
 wallet: Кошелёк
-background: Фон
+background: Фон (JPG, JPEG, PNG - 1920x1080)
 change: Изменить
 upload: Загрузить
 walletError: Неверный адрес

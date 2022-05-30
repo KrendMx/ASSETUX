@@ -5,6 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import PaymentComponent from "@/components/Profile/Payment"
 
 import { EcommerceClient, BackendClient } from "@/src/BackendClients"
+import { getDefaultMetaTags } from "@/src/seo"
 
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
@@ -15,7 +16,23 @@ function Payment(props: PaymentProps) {
 
   return (
     <>
-      <NextSeo title={t("title")} />
+      <NextSeo
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: "Powered by ASSETUX.",
+          pathname: `/profile/payment/${props.bill.id}`,
+          siteName: props.bill.ecommerceUser.widget.nameCompany || undefined,
+          seoImage: props.bill.ecommerceUser.widget.backgroundCompany
+            ? {
+                url:
+                  BackendClient.genericURL +
+                  props.bill.ecommerceUser.widget.backgroundCompany,
+                alt: "Company Preview",
+                type: "image/png"
+              }
+            : undefined
+        })}
+      />
       <PaymentComponent {...props} />
     </>
   )

@@ -16,18 +16,18 @@ function Article(props: ArticleProps) {
   return (
     <>
       <NextSeo
-        {...getDefaultMetaTags(
-          props.data.title,
-          props.data.short_description,
-          `/blog/article/${props.data.slug}`,
-          {
+        {...getDefaultMetaTags({
+          title: props.data.title,
+          description: props.data.short_description,
+          pathname: `/blog/article/${props.data.slug}`,
+          seoImage: {
             url: BackendClient.genericURL + props.data.img,
             width: 1600,
             height: 900,
             alt: "Article Preview",
             type: "image/png"
           }
-        )}
+        })}
       />
       <ArticleComponent {...props} />
     </>

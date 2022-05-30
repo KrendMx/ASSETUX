@@ -23,11 +23,12 @@ function Blog(props: BlogProps) {
   return (
     <>
       <NextSeo
-        {...getDefaultMetaTags(
-          t("title"),
-          t("description"),
-          props.category == "all" ? "/blog" : `/blog/${props.category}`
-        )}
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: t("description"),
+          pathname:
+            props.category == "all" ? "/blog" : `/blog/${props.category}`
+        })}
       />
       <BlogComponent {...props} />
     </>

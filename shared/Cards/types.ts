@@ -12,7 +12,7 @@ export type CardsProps = {
 
 export type Displayable = string | number | JSX.Element | undefined | null
 export type DisplayableObject = {
-  value: Displayable
+  display: Displayable
 }
 
 export type CardData = Displayable | DisplayableObject

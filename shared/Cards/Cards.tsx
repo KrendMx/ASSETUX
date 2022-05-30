@@ -35,7 +35,7 @@ const mapCards = (
         <RowSpacer>
           {rowNames?.map((name, index) => {
             const column = data[index]
-            const item = isDisplayableObject(column) ? column.value : column
+            const item = isDisplayableObject(column) ? column.display : column
 
             return (
               <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>

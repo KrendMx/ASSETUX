@@ -5,20 +5,29 @@ import type { NextSeoProps } from "next-seo"
 
 type SeoMedia = {
   url: string
-  width: number
-  height: number
+  width?: number
+  height?: number
   alt: string
   type: string
 }
 
 const host = `${config.hostProtocol}://${config.host}`
 
-export const getDefaultMetaTags = (
-  title: string,
-  description: string,
-  pathname: string,
+type SEOProps = {
+  title: string
+  description: string
+  pathname: string
   seoImage?: SeoMedia
-): NextSeoProps => ({
+  siteName?: string
+}
+
+export const getDefaultMetaTags = ({
+  title,
+  description,
+  pathname,
+  seoImage,
+  siteName
+}: SEOProps): NextSeoProps => ({
   title,
   description,
   languageAlternates: locales.map((locale) => ({
@@ -29,7 +38,7 @@ export const getDefaultMetaTags = (
     url: host + pathname,
     title,
     description,
-    site_name: "ASSETUX",
+    site_name: siteName || "ASSETUX",
     images: seoImage
       ? [seoImage]
       : [

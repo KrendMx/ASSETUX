@@ -51,7 +51,11 @@ function About({ news }: AboutProps) {
   return (
     <>
       <NextSeo
-        {...getDefaultMetaTags(t("title"), t("description"), "/about")}
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: t("description"),
+          pathname: "/about"
+        })}
       />
       <Container>
         <Intro />

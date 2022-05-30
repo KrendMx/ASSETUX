@@ -13,7 +13,11 @@ function Login() {
   return (
     <>
       <NextSeo
-        {...getDefaultMetaTags(t("title"), t("description"), "/profile/login")}
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: t("description"),
+          pathname: "/profile/login"
+        })}
       />
       <LoginComponent />
     </>

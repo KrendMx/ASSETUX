@@ -79,27 +79,33 @@ function History({ history }: HistoryProps) {
   const router = useRouter()
 
   const [searchContext, setSearchContext] = useState("")
-  const [filteredHistory, setFilteredHistory] = useState(history)
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
 
   const processedHistory = useMemo(
     () =>
-      filteredHistory.map((item) => [
-        {
-          value: Number(item.timestamp),
-          display: getFormattedDate(Number(item.timestamp), router.locale!)
-        },
-        item.email,
-        item.method == "QIWI"
-          ? `** (***) *** ${item.creditCard}`
-          : `**** **** **** ${item.creditCard}`,
-        item.blockchain,
-        item.currency,
-        item.token,
-        item.amount
-      ]),
-    [filteredHistory, router.locale]
+      history
+        .filter(
+          (item) =>
+            item.email.includes(searchContext) ||
+            item.creditCard.includes(searchContext) ||
+            item.amount.toString() == searchContext
+        )
+        .map((item) => [
+          {
+            value: Number(item.timestamp),
+            display: getFormattedDate(Number(item.timestamp), router.locale!)
+          },
+          item.email,
+          item.method == "QIWI"
+            ? `** (***) *** ${item.creditCard}`
+            : `**** **** **** ${item.creditCard}`,
+          item.blockchain,
+          item.currency,
+          item.token,
+          item.amount
+        ]),
+    [history, router.locale, searchContext]
   )
 
   const pages = useMemo(

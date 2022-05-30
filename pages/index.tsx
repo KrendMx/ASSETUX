@@ -69,7 +69,13 @@ function Index({ news }: IndexProps) {
 
   return (
     <>
-      <NextSeo {...getDefaultMetaTags(t("title"), t("description"), "")} />
+      <NextSeo
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: t("description"),
+          pathname: ""
+        })}
+      />
       <Container>
         <FormGroup />
         <Investments />

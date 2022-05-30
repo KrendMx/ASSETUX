@@ -6,9 +6,9 @@ personalInfo: Personal Info
 payment: Payment
 widgetPersonalization: Widget personalization
 nameYourCompany: Company name
-logo: Logo
+logo: Logo (JPG, JPEG, PNG - 40x40)
 wallet: Wallet
-background: Background
+background: Background (JPG, JPEG, PNG - 1920x1080)
 change: Change
 upload: Upload
 walletError: Invalid wallet
