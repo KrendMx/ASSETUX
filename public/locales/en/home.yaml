@@ -84,13 +84,13 @@ sell_sureRefund: Are you sure you want to refund?
 sell_depositConfirmed: Deposit confirmed
 sell_loading: Loading...
 sell_sentInsufficient: You sent insufficient amount of crypto to make refund
-Sell_ahtung: According to the rules of Assetux, the funds received on the wallet and not used for the exchange are not refundable
+Sell_ahtung: According to the rules of ASSETUX, the funds received on the wallet and not used for the exchange are not refundable
 sell_review: Your feedback will help us become better!
 sell_message: Your message
 Sell_timedOut: The order has expired
 sell_minimal: Minimum amount to exchange
 sell_convert: Exchange rate
-sell_infoExchange: Assetux exchanged the amount received to the wallet at the moment of expiration
+sell_infoExchange: ASSETUX exchanged the amount received to the wallet at the moment of expiration
 sell_success: Success
 sell_operationId: Transaction number
 sell_codeSent: The code was sent to your email
@@ -98,7 +98,7 @@ sell_enterCode: Enter code
 sell_error: Error
 sell_invalidCode: You have entered the wrong code.
 sell_tryAgain: You entered the wrong code.
-sell_receiveEmail: Thank you for using Assetux! You will receive a confirmation email in 5 minutes.
+sell_receiveEmail: Thank you for using ASSETUX! You will receive a confirmation email in 5 minutes.
 sell_refundSuccess: The refund was successful
 sell_fillRequiredData: Please provide data for the refund
 sell_accessWallet: Please make sure you have access to the specified wallet, on the specified network. If you can't access this wallet, we won't be able to help you.
@@ -118,7 +118,7 @@ investments_modal-title: Information
 investments_modal-content: Will be available soon
 investments_title: Investments
 investments_paragraph: >-
-  Invest in treds and hypes with Assetux portfolios made of cryptocurrencies from industries such as: DeFi, GameFi, Top coins and Metaverse.
+  Invest in treds and hypes with ASSETUX portfolios made of cryptocurrencies from industries such as: DeFi, GameFi, Top coins and Metaverse.
   Portfolios are designed for ease of investing in the whole industries with multiple capital growth potential.
 investments_download: Download app
 cryptoSlide_change: 24 hours change
@@ -139,7 +139,7 @@ explorer_pool:
 about_title: About us
 about_p1: |-
   ASSETUX creates and implements tools that improves user experience using cryptocurrency,
-  helps to eliminate mistakes that users make sometimes. Assetux does a lot of things in an automated way,
+  helps to eliminate mistakes that users make sometimes. ASSETUX does a lot of things in an automated way,
   saves time for the users, stops headache.
 about_p2: |-
   ASSETUX offers quick ways to:
@@ -150,7 +150,7 @@ about_p2: |-
 about_showMore: Show more
 
 maintenance_title: Service maintenance
-maintenance_p1: Assetux is constantly improves and integrates new features
+maintenance_p1: ASSETUX is constantly improves and integrates new features
 maintenance_p2: That's why the service is unavailable. Please try again in 10 minutes
 
 search: Search

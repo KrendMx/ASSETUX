@@ -29,7 +29,7 @@ function History(props: HistoryProps) {
     <>
       <NextSeo title={t("title")} />
       <Container>
-        <HeadingRow heading={t("history")} id="M-0000001" />
+        <HeadingRow heading={t("history")} id={`M-${props.profile.userId}`} />
         <HistoryComponent {...props} />
       </Container>
     </>

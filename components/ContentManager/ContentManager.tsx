@@ -62,7 +62,7 @@ function ContentManager(props: ContentManagerProps) {
   )
   const lastActive = useRef<"burger" | "languageCurrency" | null>(null)
 
-  const isCommercePayment = router.pathname == "/profile/payment/[id]"
+  const isCommercePayment = router.pathname == "/payment/[id]"
 
   useEffect(() => {
     if (burgerActive && languageCurrencyActive) {

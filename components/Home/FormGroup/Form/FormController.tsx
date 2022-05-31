@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken } from "@/src/redux/cryptoSlice"
@@ -23,25 +23,29 @@ import type {
   Token,
   FiatProvider,
   FiatRate,
-  LiquidityData
+  LiquidityData,
+  Blockchain
 } from "@/src/BackendClients/main/types"
 
-const mapTokens = (tokens: Token[]) => {
-  const mappedTokens: TokenOption[] = []
-  for (const token of tokens) {
-    if (token.enabled) {
-      mappedTokens.push({
-        value: token.symbol,
-        icon: token.logo_uri,
-        description: token.name,
-        shortDescription: token.name,
-        address: token.address
-      })
-    }
-  }
+const mapTokens = (tokens: Token[]): TokenOption[] =>
+  tokens
+    .filter((token) => token.enabled)
+    .map((token) => ({
+      value: token.symbol,
+      icon: token.logo_uri,
+      description: token.name,
+      shortDescription: token.name,
+      address: token.address
+    }))
 
-  return mappedTokens
-}
+const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
+  blockchains.map((blockchain) => {
+    return {
+      value: blockchain.title,
+      description: blockchain.title,
+      icon: blockchain.logo
+    }
+  })
 
 function FormController() {
   const dispatch = useAppDispatch()
@@ -60,8 +64,15 @@ function FormController() {
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
 
-  const [blockchains, setBlockchains] = useState<Option[] | null>(null)
-  const [tokens, setTokens] = useState<TokenOption[] | null>(null)
+  const tokens = useMemo(
+    () => (availableTokens ? mapTokens(availableTokens) : null),
+    [availableTokens]
+  )
+  const blockchains = useMemo(
+    () => (availableBlockchains ? mapBlockchains(availableBlockchains) : null),
+    [availableBlockchains]
+  )
+
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
@@ -112,7 +123,10 @@ function FormController() {
           apiHost: selectedBlockchain.url,
           signal
         }),
-        BackendClient.getFiatRates({ apiHost: selectedBlockchain.url, signal }),
+        BackendClient.getFiatRates({
+          apiHost: selectedBlockchain.url,
+          signal
+        }),
         BackendClient.checkLiquidity({
           apiHost: selectedBlockchain.url,
           chainId: selectedBlockchain.chain_id,
@@ -179,26 +193,6 @@ function FormController() {
       clearInterval(rateInterval)
     }
   }, [selectedBlockchain])
-
-  useEffect(() => {
-    if (availableBlockchains) {
-      setBlockchains(
-        availableBlockchains.map((blockchain) => {
-          return {
-            value: blockchain.title,
-            description: blockchain.title,
-            icon: blockchain.logo
-          }
-        })
-      )
-    }
-  }, [availableBlockchains])
-
-  useEffect(() => {
-    if (availableTokens) {
-      setTokens(mapTokens(availableTokens))
-    }
-  }, [availableTokens])
 
   return action == "BUY" ? (
     displayBuyPending ? (

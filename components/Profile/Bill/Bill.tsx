@@ -34,7 +34,7 @@ import { validateDecimal } from "@/src/helpers"
 
 import type { Profile } from "@/src/BackendClients/ecommerce/types"
 import type { Option } from "@/shared/InputSelect/types"
-import { FiatProvider, FiatRate } from "@/src/BackendClients/main/types"
+import type { Blockchain, FiatRate } from "@/src/BackendClients/main/types"
 
 const inputIds = {
   get: "get",
@@ -42,9 +42,18 @@ const inputIds = {
   blockchains: "blockchains"
 }
 
+const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
+  blockchains.map((blockchain) => {
+    return {
+      value: blockchain.title,
+      description: blockchain.title,
+      icon: blockchain.logo
+    }
+  })
+
 export type BillProps = Profile
 
-function Bill({}: BillProps) {
+function Bill() {
   const { t } = useTranslation("profile-bill")
   const router = useRouter()
   const checkAuthorized = useAuthorized()
@@ -59,7 +68,11 @@ function Bill({}: BillProps) {
     (state) => state.crypto.availableTokens
   )
 
-  const [blockchains, setBlockchains] = useState<Option[] | null>(null)
+  const blockchains = useMemo(
+    () => (availableBlockchains ? mapBlockchains(availableBlockchains) : null),
+    [availableBlockchains]
+  )
+
   const [tokens, setTokens] = useState<Option[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [rates, setRates] = useState<FiatRate[] | null>(null)
@@ -210,7 +223,7 @@ function Bill({}: BillProps) {
           window.location.protocol +
           "//" +
           window.location.host +
-          `/profile/payment/${response.data.bill.id}`
+          `/payment/${response.data.bill.hash}`
 
         navigator.clipboard.writeText(link)
 
@@ -299,22 +312,6 @@ function Bill({}: BillProps) {
       controller.abort()
     }
   }, [selectedBlockchain])
-
-  useEffect(() => {
-    if (!availableBlockchains) {
-      return
-    }
-
-    setBlockchains(
-      availableBlockchains.map((blockchain) => {
-        return {
-          value: blockchain.title,
-          description: blockchain.title,
-          icon: blockchain.logo
-        }
-      })
-    )
-  }, [availableBlockchains])
 
   useEffect(() => {
     if (!availableTokens) {

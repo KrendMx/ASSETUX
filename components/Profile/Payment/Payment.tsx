@@ -123,10 +123,7 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
       return
     }
 
-    Object.assign(document.createElement("a"), {
-      target: "_blank",
-      href: response.data.bill.linkToPayemntString
-    }).click()
+    location.href = response.data.bill.linkToPayemntString
   }
 
   return (

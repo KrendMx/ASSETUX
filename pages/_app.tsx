@@ -47,7 +47,7 @@ function MyApp(props: AppProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  const isCommercePayment = router.pathname == "/profile/payment/[id]"
+  const isCommercePayment = router.pathname == "/payment/[id]"
 
   useMount(() => {
     const handleRouteChange = () => {

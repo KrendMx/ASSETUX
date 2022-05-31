@@ -50,7 +50,7 @@ export type FormGroupProps = Profile
 function FormGroup({
   email,
   public_key,
-  widget: { nameCompany }
+  widget: { nameCompany, logoCompanyName, backgroundCompanyName }
 }: FormGroupProps) {
   const { t } = useTranslation("profile")
   const router = useRouter()
@@ -59,8 +59,11 @@ function FormGroup({
 
   const [wallet, setWallet] = useState(public_key)
   const [company, setCompany] = useState(nameCompany == null ? "" : nameCompany)
-  const [logo, setLogo] = useState<string | null>(null)
-  const [background, setBackground] = useState<string | null>(null)
+  const [logo, setLogo] = useState<{ name: string; img: string } | null>(null)
+  const [background, setBackground] = useState<{
+    name: string
+    img: string
+  } | null>(null)
   const [inputError, setInputError] = useState<
     Record<string, string | undefined>
   >({})
@@ -71,8 +74,9 @@ function FormGroup({
     company: null
   })
 
+  const [updatedWidget, setUpdatedWidget] = useState(false)
+
   const prevPublicKey = useRef(public_key)
-  const prevCompany = useRef(nameCompany)
 
   const handlePaymentSubmit: React.FormEventHandler<HTMLFormElement> = async (
     event
@@ -173,13 +177,13 @@ function FormGroup({
       token
     })
 
+    setUpdatedWidget(false)
+
     if (response.state == "success") {
       setRequests((prev) => ({
         ...prev,
         company: { state: "success", result: null }
       }))
-
-      prevCompany.current = company
     } else {
       setRequests((prev) => ({
         ...prev,
@@ -195,6 +199,10 @@ function FormGroup({
 
     setWallet(value)
 
+    if (requests.wallet?.state == "error") {
+      setRequests((prev) => ({ ...prev, wallet: null }))
+    }
+
     setInputError((prev) => ({
       ...prev,
       [inputId.wallet]: undefined
@@ -207,6 +215,14 @@ function FormGroup({
     const value = event.target.value
 
     setCompany(value)
+    setUpdatedWidget(true)
+
+    if (requests.company?.state == "error") {
+      setRequests((prev) => ({
+        ...prev,
+        company: null
+      }))
+    }
   }
 
   const handleFile =
@@ -227,13 +243,22 @@ function FormGroup({
 
       try {
         const base64 = await toBase64(file)
+        const name = file.name
 
         setError()
+        setUpdatedWidget(true)
+
+        if (requests.company?.state == "error") {
+          setRequests((prev) => ({
+            ...prev,
+            company: null
+          }))
+        }
 
         if (image == "companyLogo") {
-          setLogo(base64)
+          setLogo({ img: base64, name })
         } else {
-          setBackground(base64)
+          setBackground({ img: base64, name })
         }
       } catch (_) {
         setError(t("invalidImage"))
@@ -310,6 +335,7 @@ function FormGroup({
           fileLabel={t("upload")}
           accept=".png,.jpg,.jpeg"
           selectable={false}
+          initiallyUploadedFile={logoCompanyName ? logoCompanyName : undefined}
           changeable
           file
         />
@@ -325,6 +351,9 @@ function FormGroup({
           fileLabel={t("upload")}
           accept=".png,.jpg,.jpeg"
           selectable={false}
+          initiallyUploadedFile={
+            backgroundCompanyName ? backgroundCompanyName : undefined
+          }
           changeable
           file
         />
@@ -332,10 +361,8 @@ function FormGroup({
           type="submit"
           isLoading={requests.company?.state == "pending"}
           disabled={
-            (company == prevCompany.current &&
-              logo == null &&
-              background == null) ||
             company == "" ||
+            !updatedWidget ||
             inputError[inputId.companyLogo] != undefined ||
             inputError[inputId.companyBackground] != undefined ||
             (requests.company != null && requests.company.state != "success")

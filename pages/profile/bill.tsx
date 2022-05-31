@@ -29,8 +29,8 @@ function Bill(props: BillProps) {
     <>
       <NextSeo title={t("title")} />
       <Container>
-        <HeadingRow heading={t("bill")} id="M-0000001" />
-        <BillComponent {...props} />
+        <HeadingRow heading={t("bill")} id={`M-${props.userId}`} />
+        <BillComponent />
       </Container>
     </>
   )

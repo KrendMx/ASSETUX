@@ -238,12 +238,13 @@ function SellForm({
       return
     }
 
-    const fetchOrder = async () => {
+    const fetchOrder = async (signal: AbortSignal) => {
       setLoadingOrder(true)
 
       const response = await BackendClient.checkSellOrder({
         apiHost: currentBlockchain.url,
-        orderId: sellOrderId
+        orderId: sellOrderId,
+        signal
       })
 
       if (
@@ -270,7 +271,12 @@ function SellForm({
       setLoadingOrder(false)
     }
 
-    fetchOrder()
+    const controller = new AbortController()
+    fetchOrder(controller.signal)
+
+    return () => {
+      controller.abort()
+    }
   }, [currentBlockchain, router.query.id])
 
   useIsomorphicLayoutEffect(() => {

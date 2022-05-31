@@ -30,7 +30,7 @@ function Main(props: MainProps) {
     <>
       <NextSeo title={t("title")} />
       <Container>
-        <HeadingRow heading={t("profile")} id="M-0000001" />
+        <HeadingRow heading={t("profile")} id={`M-${props.userId}`} />
         <FormGroup {...props} />
       </Container>
     </>
@@ -67,7 +67,8 @@ export const getServerSideProps: GetServerSideProps<
         "header",
         "footer",
         "profile",
-        "routes"
+        "routes",
+        "inputSelect"
       ]))
     }
   }

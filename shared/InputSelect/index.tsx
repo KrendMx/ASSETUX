@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react"
 import Image from "next/image"
+import { useTranslation } from "next-i18next"
 import { IoIosArrowDown } from "react-icons/io"
 
 import { ellipsisString } from "@/src/helpers"
@@ -50,6 +51,7 @@ type InputSelectProps = {
   paleBorders?: boolean
   focused?: boolean
   visuallyDisabled?: boolean
+  initiallyUploadedFile?: string
 }
 
 function InputSelect({
@@ -79,13 +81,18 @@ function InputSelect({
   selectable = true,
   paleBorders = false,
   focused = false,
-  visuallyDisabled = false
+  visuallyDisabled = false,
+  initiallyUploadedFile
 }: InputSelectProps) {
+  const { t } = useTranslation("inputSelect")
+
   const hasOptions = options != undefined
 
   const [active, setActive] = useState(false)
   const [userInput, setUserInput] = useState({ value: defaultValue })
-  const [uploadedFile, setUploadedFile] = useState<string | null>(null)
+  const [uploadedFile, setUploadedFile] = useState<string | null>(
+    initiallyUploadedFile || null
+  )
 
   const searchOptions = useMemo(
     () => options?.filter((option) => option.value != selectedValue),
@@ -222,7 +229,7 @@ function InputSelect({
               {fileLabel}
             </Label>
           )}
-          {file && uploadedFile && <Input as="span">{uploadedFile}</Input>}
+          {file && uploadedFile && <Input value={uploadedFile} disabled />}
           <Input
             ref={inputRef}
             id={id}
@@ -240,7 +247,7 @@ function InputSelect({
         {file && uploadedFile && (
           <ChangeFileContainer>
             <Label htmlFor={id} file>
-              Change
+              {t("change")}
             </Label>
           </ChangeFileContainer>
         )}

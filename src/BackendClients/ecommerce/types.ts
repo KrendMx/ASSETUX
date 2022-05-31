@@ -21,10 +21,13 @@ export type Profile = {
   widget_id: number
   email: string
   phone: string | null
+  userId: string
   widget: {
     id: number
     backgroundCompany: string | null
+    backgroundCompanyName: string | null
     logoCompany: string | null
+    logoCompanyName: string | null
     nameCompany: string | null
   }
 }
@@ -41,8 +44,8 @@ export type ChangeWalletResponse = Response<unknown, { message: string }>
 
 export type ChangeCompanyProps = AuthorizedProps & {
   nameCompany: string | null
-  logoCompany: string | null
-  backgroundCompany: string | null
+  logoCompany: { name: string; img: string } | null
+  backgroundCompany: { name: string; img: string } | null
 }
 
 export type ChangeCompanyResponse = Response
@@ -93,7 +96,7 @@ export type CreateBillProps = AuthorizedProps & {
 }
 
 export type CreateBillResponse = Response<{
-  bill: { id: number }
+  bill: { hash: string }
 }>
 
 export type GetBillResponse = Response<{ bill: Bill }>
