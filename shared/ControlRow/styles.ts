@@ -13,7 +13,7 @@ export const Container = styled.div<ContainerProps>`
     props.spaceBetween ? "space-between" : "flex-end"};
   align-items: center;
 
-  & > * + * {
+  & > *:last-child {
     margin-left: 10px;
   }
 `
