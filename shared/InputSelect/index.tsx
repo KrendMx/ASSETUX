@@ -51,7 +51,7 @@ type InputSelectProps = {
   paleBorders?: boolean
   focused?: boolean
   visuallyDisabled?: boolean
-  initiallyUploadedFile?: string
+  uploadedFileName?: string
 }
 
 function InputSelect({
@@ -82,7 +82,7 @@ function InputSelect({
   paleBorders = false,
   focused = false,
   visuallyDisabled = false,
-  initiallyUploadedFile
+  uploadedFileName
 }: InputSelectProps) {
   const { t } = useTranslation("inputSelect")
 
@@ -90,9 +90,6 @@ function InputSelect({
 
   const [active, setActive] = useState(false)
   const [userInput, setUserInput] = useState({ value: defaultValue })
-  const [uploadedFile, setUploadedFile] = useState<string | null>(
-    initiallyUploadedFile || null
-  )
 
   const searchOptions = useMemo(
     () => options?.filter((option) => option.value != selectedValue),
@@ -179,7 +176,6 @@ function InputSelect({
       return
     }
 
-    setUploadedFile(file.name)
     onUpload && onUpload(file)
   }
 
@@ -224,12 +220,14 @@ function InputSelect({
               ) : null}
             </ImageBox>
           )}
-          {file && !uploadedFile && (
+          {file && !uploadedFileName && (
             <Label htmlFor={id} file>
               {fileLabel}
             </Label>
           )}
-          {file && uploadedFile && <Input value={uploadedFile} disabled />}
+          {file && uploadedFileName && (
+            <Input value={uploadedFileName} disabled />
+          )}
           <Input
             ref={inputRef}
             id={id}
@@ -244,7 +242,7 @@ function InputSelect({
             placeholder={placeholder}
           />
         </InputContainer>
-        {file && uploadedFile && (
+        {file && uploadedFileName && (
           <ChangeFileContainer>
             <Label htmlFor={id} file>
               {t("change")}

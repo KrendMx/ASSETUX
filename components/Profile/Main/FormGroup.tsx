@@ -59,11 +59,19 @@ function FormGroup({
 
   const [wallet, setWallet] = useState(public_key)
   const [company, setCompany] = useState(nameCompany == null ? "" : nameCompany)
-  const [logo, setLogo] = useState<{ name: string; img: string } | null>(null)
+  const [logo, setLogo] = useState<{ name: string | null; img: string | null }>(
+    {
+      name: logoCompanyName,
+      img: null
+    }
+  )
   const [background, setBackground] = useState<{
-    name: string
-    img: string
-  } | null>(null)
+    name: string | null
+    img: string | null
+  }>({
+    name: backgroundCompanyName,
+    img: null
+  })
   const [inputError, setInputError] = useState<
     Record<string, string | undefined>
   >({})
@@ -77,6 +85,9 @@ function FormGroup({
   const [updatedWidget, setUpdatedWidget] = useState(false)
 
   const prevPublicKey = useRef(public_key)
+  const prevCompany = useRef(nameCompany)
+  const prevLogo = useRef(logoCompanyName)
+  const prevBackground = useRef(backgroundCompanyName)
 
   const handlePaymentSubmit: React.FormEventHandler<HTMLFormElement> = async (
     event
@@ -172,8 +183,12 @@ function FormGroup({
 
     const response = await EcommerceClient.changeCompany({
       nameCompany: company,
-      logoCompany: logo,
-      backgroundCompany: background,
+      logoCompany:
+        logo.name && logo.img ? { name: logo.name, img: logo.img } : null,
+      backgroundCompany:
+        background.name && background.img
+          ? { name: background.name, img: background.img }
+          : null,
       token
     })
 
@@ -184,6 +199,10 @@ function FormGroup({
         ...prev,
         company: { state: "success", result: null }
       }))
+
+      prevCompany.current = company
+      prevLogo.current = logo.name
+      prevBackground.current = background.name
     } else {
       setRequests((prev) => ({
         ...prev,
@@ -335,7 +354,7 @@ function FormGroup({
           fileLabel={t("upload")}
           accept=".png,.jpg,.jpeg"
           selectable={false}
-          initiallyUploadedFile={logoCompanyName ? logoCompanyName : undefined}
+          uploadedFileName={logo.name ? logo.name : undefined}
           changeable
           file
         />
@@ -351,9 +370,7 @@ function FormGroup({
           fileLabel={t("upload")}
           accept=".png,.jpg,.jpeg"
           selectable={false}
-          initiallyUploadedFile={
-            backgroundCompanyName ? backgroundCompanyName : undefined
-          }
+          uploadedFileName={background.name ? background.name : undefined}
           changeable
           file
         />
@@ -363,6 +380,9 @@ function FormGroup({
           disabled={
             company == "" ||
             !updatedWidget ||
+            (company == prevCompany.current &&
+              logo.name == prevLogo.current &&
+              background.name == prevBackground.current) ||
             inputError[inputId.companyLogo] != undefined ||
             inputError[inputId.companyBackground] != undefined ||
             (requests.company != null && requests.company.state != "success")
