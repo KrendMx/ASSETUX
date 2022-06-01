@@ -163,16 +163,19 @@ function FormController() {
     )
 
     const controller = new AbortController()
+
     fetch(controller.signal)
 
     const rateInterval = setInterval(async () => {
       const responses = await Promise.all([
         BackendClient.getFiatRates({
-          apiHost: selectedBlockchain.url
+          apiHost: selectedBlockchain.url,
+          signal: controller.signal
         }),
         BackendClient.checkLiquidity({
           apiHost: selectedBlockchain.url,
-          chainId: selectedBlockchain.chain_id
+          chainId: selectedBlockchain.chain_id,
+          signal: controller.signal
         })
       ])
 

@@ -106,3 +106,5 @@ export const sanitize = (html: string) =>
   sanitizeHtml(html, {
     allowedTags: ["p", "br", "b", "strong", "i", "em"]
   })
+
+export type Nullable<T> = { [K in keyof T]: T[K] | null }

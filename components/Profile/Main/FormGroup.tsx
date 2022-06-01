@@ -19,8 +19,9 @@ import { EcommerceClient } from "@/src/BackendClients"
 import { toBase64 } from "@/src/helpers"
 import { useAuthorized } from "@/src/hooks"
 
-import type { Profile } from "@/src/BackendClients/ecommerce/types"
+import type { Profile, UserImage } from "@/src/BackendClients/ecommerce/types"
 import type { RequestState } from "@/src/BackendClients/types"
+import type { Nullable } from "@/src/helpers"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -59,16 +60,11 @@ function FormGroup({
 
   const [wallet, setWallet] = useState(public_key)
   const [company, setCompany] = useState(nameCompany == null ? "" : nameCompany)
-  const [logo, setLogo] = useState<{ name: string | null; img: string | null }>(
-    {
-      name: logoCompanyName,
-      img: null
-    }
-  )
-  const [background, setBackground] = useState<{
-    name: string | null
-    img: string | null
-  }>({
+  const [logo, setLogo] = useState<Nullable<UserImage>>({
+    name: logoCompanyName,
+    img: null
+  })
+  const [background, setBackground] = useState<Nullable<UserImage>>({
     name: backgroundCompanyName,
     img: null
   })
@@ -85,7 +81,7 @@ function FormGroup({
   const [updatedWidget, setUpdatedWidget] = useState(false)
 
   const prevPublicKey = useRef(public_key)
-  const prevCompany = useRef(nameCompany)
+  const prevCompany = useRef(nameCompany == null ? "" : nameCompany)
   const prevLogo = useRef(logoCompanyName)
   const prevBackground = useRef(backgroundCompanyName)
 
@@ -181,14 +177,33 @@ function FormGroup({
       return
     }
 
+    let nameCompany: string | undefined = undefined
+    if (prevCompany.current != company) {
+      nameCompany = company
+    }
+
+    let logoCompany: UserImage | undefined = undefined
+    if (
+      logo.name != null &&
+      logo.img != null &&
+      prevLogo.current != logo.name
+    ) {
+      logoCompany = { name: logo.name, img: logo.img }
+    }
+
+    let backgroundCompany: UserImage | undefined = undefined
+    if (
+      background.name != null &&
+      background.img != null &&
+      prevBackground.current != background.name
+    ) {
+      backgroundCompany = { name: background.name, img: background.img }
+    }
+
     const response = await EcommerceClient.changeCompany({
-      nameCompany: company,
-      logoCompany:
-        logo.name && logo.img ? { name: logo.name, img: logo.img } : null,
-      backgroundCompany:
-        background.name && background.img
-          ? { name: background.name, img: background.img }
-          : null,
+      nameCompany,
+      logoCompany,
+      backgroundCompany,
       token
     })
 
@@ -378,7 +393,6 @@ function FormGroup({
           type="submit"
           isLoading={requests.company?.state == "pending"}
           disabled={
-            company == "" ||
             !updatedWidget ||
             (company == prevCompany.current &&
               logo.name == prevLogo.current &&

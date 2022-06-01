@@ -305,7 +305,10 @@ function Bill() {
     const controller = new AbortController()
     fetch(controller.signal)
 
-    const rateInterval = setInterval(fetch, rateCheckInterval)
+    const rateInterval = setInterval(
+      () => fetch(controller.signal),
+      rateCheckInterval
+    )
 
     return () => {
       clearInterval(rateInterval)

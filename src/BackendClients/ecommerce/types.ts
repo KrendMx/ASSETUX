@@ -40,12 +40,14 @@ export type ChangeWalletProps = AuthorizedProps & {
   wallet: string
 }
 
+export type UserImage = { name: string; img: string }
+
 export type ChangeWalletResponse = Response<unknown, { message: string }>
 
 export type ChangeCompanyProps = AuthorizedProps & {
-  nameCompany: string | null
-  logoCompany: { name: string; img: string } | null
-  backgroundCompany: { name: string; img: string } | null
+  nameCompany?: string
+  logoCompany?: UserImage
+  backgroundCompany?: UserImage
 }
 
 export type ChangeCompanyResponse = Response

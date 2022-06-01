@@ -41,7 +41,9 @@ export type PaymentProps = {
 
 function Payment({ bill, providers, blockchainURL }: PaymentProps) {
   const widget = bill.ecommerceUser.widget
-  const displayHeader = widget.logoCompany != null || widget.nameCompany != null
+  const displayHeader =
+    widget.logoCompany != null ||
+    (widget.nameCompany != null && widget.nameCompany != "")
 
   const { t } = useTranslation("profile-payment")
 
