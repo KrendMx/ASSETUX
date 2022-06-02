@@ -47,7 +47,11 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
 
   const { t } = useTranslation("profile-payment")
 
-  const [selectedPayment, setSelectedPayment] = useState(providers[0].method)
+  const [selectedPayment, setSelectedPayment] = useState(
+    providers.find((provider) => provider.method == "VISAMASTER")
+      ? "QIWIVISAMASTER"
+      : providers[0].method
+  )
   const [paymentActive, setPaymentActive] = useState(false)
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")

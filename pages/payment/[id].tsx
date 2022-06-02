@@ -87,9 +87,16 @@ export const getServerSideProps: GetServerSideProps<
     return errorProps
   }
 
+  const toPay = bill.data.bill.amountIn
+
   const buyProviders = fiatProviders.data.filter(
-    (provider) => provider.type == "BUY"
+    (provider) =>
+      provider.type == "BUY" && toPay <= provider.max && toPay >= provider.min
   )
+
+  if (buyProviders.length == 0) {
+    return errorProps
+  }
 
   return {
     props: {
