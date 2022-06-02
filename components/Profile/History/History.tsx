@@ -1,8 +1,11 @@
 import React, { useState, useMemo } from "react"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
+import Skeleton from "react-loading-skeleton"
 
 import { useImmediateMobile } from "@/src/hooks"
+import { useAppSelector } from "@/src/redux/hooks"
+import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 import { perPageValues, cardsPerPage, cardsWidth } from "@/src/constants"
 import { getFormattedDate } from "@/src/date"
 
@@ -78,6 +81,8 @@ function History({ history }: HistoryProps) {
   const { t } = useTranslation("profile-history")
   const router = useRouter()
 
+  const showSkeleton = useAppSelector(selectShowSkeleton)
+
   const [searchContext, setSearchContext] = useState("")
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
@@ -124,7 +129,9 @@ function History({ history }: HistoryProps) {
 
   return (
     <Container>
-      {history.length == 0 ? (
+      {showSkeleton ? (
+        <Skeleton height="5.21em" />
+      ) : history.length == 0 ? (
         <NoAssets>{t("noAssets")}</NoAssets>
       ) : (
         <>
