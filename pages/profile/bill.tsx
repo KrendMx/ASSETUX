@@ -29,17 +29,16 @@ function Bill(props: BillProps) {
     <>
       <NextSeo title={t("title")} />
       <Container>
-        <HeadingRow heading={t("bill")} id={`M-${props.userId}`} />
+        <HeadingRow heading={t("bill")} id={`M-${props.profile.userId}`} />
         <BillComponent />
       </Container>
     </>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req
-}) => {
+export const getServerSideProps: GetServerSideProps<
+  Partial<BillProps>
+> = async ({ locale, req }) => {
   const errorProps = {
     props: {},
     redirect: {
@@ -62,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      ...profile.data,
+      profile: profile.data.user,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

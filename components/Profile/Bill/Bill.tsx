@@ -51,7 +51,7 @@ const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
     }
   })
 
-export type BillProps = Profile
+export type BillProps = { profile: Profile }
 
 function Bill() {
   const { t } = useTranslation("profile-bill")
