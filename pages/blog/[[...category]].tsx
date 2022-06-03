@@ -84,7 +84,8 @@ export const getStaticProps: GetStaticProps<
         "header",
         "footer",
         "news",
-        "routes"
+        "routes",
+        "controlRow"
       ]))
     },
     revalidate: 3600

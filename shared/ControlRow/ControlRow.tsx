@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import Link from "next/link"
+import { useTranslation } from "next-i18next"
 
 import { useImmediateMobile, useToggle } from "@/src/hooks"
 import { mobile } from "@/src/constants"
@@ -25,6 +26,7 @@ function ControlRow({
   context,
   onContextChange
 }: ControlRowProps) {
+  const { t } = useTranslation("controlRow")
   const dispatch = useAppDispatch()
 
   const [showModal, toggleModal] = useToggle()
@@ -48,7 +50,9 @@ function ControlRow({
       <Container spaceBetween={buttons != undefined}>
         {buttons && (
           <>
-            <FilterButton onClick={manuallyToggleModal}>Фильтр</FilterButton>
+            <FilterButton onClick={manuallyToggleModal}>
+              {t("filter")}
+            </FilterButton>
             <Controls>
               {buttons.map((button) =>
                 button.link ? (
