@@ -10,4 +10,5 @@ export type OrderInfo = {
   email: string
   buy: boolean
   orderId: string | null
+  date: string
 }

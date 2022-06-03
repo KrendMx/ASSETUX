@@ -263,7 +263,7 @@ function SellForm({
           creditedAmount: amountIn
         })
 
-        setCurrentStep(Step.ExchangeFromLink)
+        setCurrentStep(Step.Exchange)
       } else {
         dispatch(setSellOrderId(null))
       }
@@ -328,11 +328,7 @@ function SellForm({
   }, [rates, currentToken, selectedCurrency, dispatch])
 
   useEffect(() => {
-    if (
-      (currentStep == Step.Exchange || currentStep == Step.ExchangeFromLink) &&
-      exchangeInfo &&
-      currentBlockchain
-    ) {
+    if (currentStep == Step.Exchange && exchangeInfo && currentBlockchain) {
       const controller = new AbortController()
 
       const interval = setInterval(async () => {

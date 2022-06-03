@@ -418,27 +418,14 @@ function SelectForm({
           </HideableWithMargin>
         </FormContainer>
       )
-    } else if (
-      (currentStep == Step.Exchange || currentStep == Step.ExchangeFromLink) &&
-      exchangeInfo
-    ) {
+    } else if (currentStep == Step.Exchange && exchangeInfo) {
       return (
         <>
           <FormContainer>
             <InputSelectButton
               label={t("home:sell_backTo")}
-              value={
-                currentStep == Step.ExchangeFromLink
-                  ? t("home:sell_orderDetails")
-                  : t("home:sell_payment")
-              }
-              onClick={() =>
-                setCurrentStep(
-                  currentStep == Step.ExchangeFromLink
-                    ? Step.Details
-                    : Step.Payment
-                )
-              }
+              value={t("home:sell_orderDetails")}
+              onClick={() => setCurrentStep(Step.Details)}
             />
             <ExchangeInfoContainer>
               <QRcode valueToCopy={exchangeInfo.wallet} />
@@ -508,8 +495,7 @@ function SelectForm({
         !giveActive &&
         !getActive &&
         !paymentActive &&
-        currentStep != Step.Exchange &&
-        currentStep != Step.ExchangeFromLink && (
+        currentStep != Step.Exchange && (
           <NextButton
             onClick={handleNextStep}
             disabled={processingRequest || isLoading || serviceUnavailable}

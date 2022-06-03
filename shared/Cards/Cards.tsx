@@ -11,31 +11,28 @@ import {
   RowSpacer,
   RowName,
   RowValue,
-  ButtonsContainer,
-  Button
+  ButtonsContainer
 } from "./styles"
 
-import { isDisplayableObject } from "./types"
-
-import type { CardsProps, CardData } from "./types"
-import type { ActionType } from "@/src/redux/cryptoSlice/types"
+import type { CardsProps, CardData, ActionElement } from "./types"
 
 const mapCards = (
   rowNames: string[],
   currentPage: number,
-  withButtons: boolean,
   cardData?: CardData[][],
-  handleAction?: (action: ActionType, dataIndex: number) => void
+  buttons?: ActionElement[]
 ) => {
   return cardData?.map((data, paginatedDataIndex) => {
     const currentIndex = (currentPage - 1) * cardsPerPage + paginatedDataIndex
+
+    const buttonComponents =
+      buttons && buttons.map((button) => button(currentIndex))
 
     return (
       <Card key={`card-${currentIndex}`}>
         <RowSpacer>
           {rowNames?.map((name, index) => {
-            const column = data[index]
-            const item = isDisplayableObject(column) ? column.display : column
+            const item = data[index].value
 
             return (
               <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>
@@ -45,22 +42,10 @@ const mapCards = (
             )
           })}
         </RowSpacer>
-        {withButtons && (
-          <ButtonsContainer>
-            <Button
-              action="buy"
-              onClick={() => handleAction && handleAction("BUY", currentIndex)}
-            >
-              Buy
-            </Button>
-            <Button
-              action="sell"
-              onClick={() => handleAction && handleAction("SELL", currentIndex)}
-            >
-              Sell
-            </Button>
-          </ButtonsContainer>
-        )}
+        {buttonComponents &&
+          buttonComponents.some((element) => element != null) && (
+            <ButtonsContainer>{buttonComponents}</ButtonsContainer>
+          )}
       </Card>
     )
   })
@@ -68,11 +53,10 @@ const mapCards = (
 
 function Cards({
   data,
-  withButtons = true,
-  withPagination = true,
+  withPagination = false,
   rowNames,
-  handleAction,
   mobile,
+  buttons,
   currentPage = 1
 }: CardsProps) {
   const paginatedData = useMemo(
@@ -88,20 +72,11 @@ function Cards({
         ? mapCards(
             rowNames,
             currentPage,
-            withButtons,
             paginatedData[currentPage - 1],
-            handleAction
+            buttons
           )
-        : mapCards(rowNames, currentPage, withButtons, data, handleAction)),
-    [
-      data,
-      paginatedData,
-      currentPage,
-      rowNames,
-      handleAction,
-      withButtons,
-      withPagination
-    ]
+        : mapCards(rowNames, currentPage, data, buttons)),
+    [data, paginatedData, currentPage, rowNames, buttons, withPagination]
   )
 
   return <Container>{processedCards}</Container>

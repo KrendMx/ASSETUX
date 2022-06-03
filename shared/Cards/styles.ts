@@ -66,22 +66,3 @@ export const ButtonsContainer = styled.div`
     margin-left: 12px;
   }
 `
-
-type ButtonProps = {
-  action: "buy" | "sell"
-}
-
-export const Button = styled.button<ButtonProps>`
-  outline: none;
-  border: 1px solid #d2d2d7;
-  background: none;
-  border-radius: 10px;
-  width: 100%;
-  height: 49px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  font-size: 16px;
-  color: ${(props) => (props.action == "buy" ? "var(--green)" : "var(--red)")};
-`

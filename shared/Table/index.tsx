@@ -3,8 +3,6 @@ import styled, { css } from "styled-components"
 import { paginate } from "./paginate"
 import { IoIosArrowDown } from "react-icons/io"
 
-import { isDisplayableObject } from "./types"
-
 import type { SortInfo, TableProps, RowData } from "./types"
 
 type ContainerProps = {
@@ -121,20 +119,14 @@ function Table({
             {displayIndexes && (
               <Element paddings={customPaddings}>{currentIndex + 1}</Element>
             )}
-            {rowData.map((item, cellIndex) => {
-              const displayableItem = isDisplayableObject(item)
-                ? item.display
-                : item
-
-              return (
-                <Element
-                  paddings={customPaddings}
-                  key={`cell-${currentIndex}-${cellIndex}_${displayableItem?.toString()}`}
-                >
-                  {displayableItem}
-                </Element>
-              )
-            })}
+            {rowData.map((item, cellIndex) => (
+              <Element
+                paddings={customPaddings}
+                key={`cell-${currentIndex}-${cellIndex}_${item?.toString()}`}
+              >
+                {item.value}
+              </Element>
+            ))}
           </Row>
         )
       }),
@@ -160,16 +152,12 @@ function Table({
       const firstCol = a[sortInfo.nColumn]
       const secondCol = b[sortInfo.nColumn]
 
-      const firstValueToSort = isDisplayableObject(firstCol)
-        ? firstCol.value
-        : firstCol
-      const secondValueToSort = isDisplayableObject(secondCol)
-        ? secondCol.value
-        : secondCol
+      const first = firstCol.sortValue ? firstCol.sortValue : firstCol.value
+      const second = secondCol.sortValue ? secondCol.sortValue : secondCol.value
 
       return sortInfo.ascending
-        ? -1 * sortFn(firstValueToSort, secondValueToSort)
-        : sortFn(firstValueToSort, secondValueToSort)
+        ? -1 * sortFn(first, second)
+        : sortFn(first, second)
     })
   }, [data, sortInfo, customHeadings])
 

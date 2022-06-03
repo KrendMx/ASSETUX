@@ -98,17 +98,25 @@ function History({ history }: HistoryProps) {
         )
         .map((item) => [
           {
-            value: Number(item.timestamp),
-            display: getFormattedDate(Number(item.timestamp), router.locale!)
+            value: (
+              <span key={item.id + "datetime"}>
+                {getFormattedDate(Number(item.timestamp), router.locale!)}
+              </span>
+            ),
+            sortValue: Number(item.timestamp)
           },
-          item.email,
-          item.method == "QIWI"
-            ? `** (***) *** ${item.creditCard}`
-            : `**** **** **** ${item.creditCard}`,
-          item.blockchain,
-          item.currency,
-          item.token,
-          item.amount
+
+          { value: item.email },
+          {
+            value:
+              item.method == "QIWI"
+                ? `** (***) *** ${item.creditCard}`
+                : `**** **** **** ${item.creditCard}`
+          },
+          { value: item.blockchain },
+          { value: item.currency },
+          { value: item.token },
+          { value: item.amount }
         ]),
     [history, router.locale, searchContext]
   )
@@ -148,7 +156,7 @@ function History({ history }: HistoryProps) {
               mobile={isMobile}
               data={processedHistory}
               currentPage={currentPage}
-              withButtons={false}
+              withPagination
             />
           ) : (
             <Table

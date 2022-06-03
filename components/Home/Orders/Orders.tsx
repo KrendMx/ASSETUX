@@ -26,18 +26,19 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       amountOut: sellOrder.cur_out.amount,
       curIn: sellOrder.cur_in.symbol,
       curOut: sellOrder.cur_out.currency,
-      status: sellOrder.status,
+      status: sellOrder.status.split(":")[0],
       email: sellOrder.email,
       tokenLogo: sellOrder.cur_in.logo_uri,
       buy: false,
-      orderId: sellOrder.order_id
+      orderId: sellOrder.order_id,
+      date: sellOrder.date
     })
   }
 
   const allBuyOrders = [
-    ...orders.buy.error.map((order) => ({ ...order, status: "Error" })),
-    ...orders.buy.request.map((order) => ({ ...order, status: "Request" })),
-    ...orders.buy.success.map((order) => ({ ...order, status: "Success" }))
+    ...orders.buy.error.map((order) => ({ ...order, status: "expired" })),
+    ...orders.buy.request.map((order) => ({ ...order, status: "pending" })),
+    ...orders.buy.success.map((order) => ({ ...order, status: "closed" }))
   ]
 
   for (const buyOrder of allBuyOrders) {
@@ -52,11 +53,14 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       email: buyOrder.email,
       tokenLogo: buyOrder.token.logo_uri,
       buy: true,
-      orderId: null
+      orderId: null,
+      date: buyOrder.created
     })
   }
 
-  return allOrders.sort((a, b) => a.amountIn - b.amountIn)
+  return allOrders.sort(
+    (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
+  )
 }
 
 const OrderModal = dynamic(() => import("./OrderModal"))

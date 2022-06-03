@@ -1,5 +1,5 @@
 title: Покупай, продавай, инвестируй в крипту безопасно, быстро, легко!
-description: |- 
+description: |-
   ASSETUX предлагает быстрые способы:
   – Покупки крипты с карты;
   – Продажи крипты с выводом денег на карту;
@@ -13,7 +13,15 @@ titleAfterSell: криптовалюты
 info: Первая фиатно-криптовалютная биржа, построенная на взаимодействующем DeFi
 
 orders_myOperations: Мои операции
+orders_buy: Покупка
+orders_sell: Продажа
 orders_pleaseFill: Пожалуйста, укажите Email, использованный для операций в ASSETUX
+orders_request: Запрос
+orders_status: Статус
+orders_closed: Выполнен
+orders_expired: Отменен
+orders_refunded: Отменен
+orders_pending: В процессе
 orders_email: Email
 orders_cancel: Отмена
 orders_invalidEmail: Неверный Email
@@ -27,6 +35,7 @@ orders_pair: Пара
 orders_network: Сеть
 orders_sent: Отправлено
 orders_got: Сумма
+orders_continue: Продолжить
 
 form_buyCompact: Купить
 form_buy: Купить Криптовалюту

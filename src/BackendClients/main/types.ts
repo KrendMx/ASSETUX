@@ -269,6 +269,7 @@ export type BuyOrderInfo = {
   email: string
   provider: string
   type: string
+  created: string
   currency: string
   amount_in: number
   token_id: number

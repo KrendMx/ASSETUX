@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile } from "@/src/constants"
+import { mobile, cardsWidth } from "@/src/constants"
 
 export const Container = styled.section`
   display: flex;
@@ -77,4 +77,9 @@ export const ActionButton = styled.button<ActionButtonProps>`
   height: 49px;
 
   color: ${(props) => (props.action == "sell" ? "var(--red)" : "var(--green)")};
+
+  @media only screen and (max-width: ${cardsWidth}px) {
+    width: 100%;
+    font-size: 16px;
+  }
 `
