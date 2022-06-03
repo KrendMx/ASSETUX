@@ -6,7 +6,7 @@ type ButtonProps = {
   active: boolean
 }
 
-const Button = styled.button<ButtonProps>`
+export const Button = styled.button<ButtonProps>`
   display: flex;
   width: 100%;
   justify-content: space-between;

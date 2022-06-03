@@ -21,10 +21,10 @@ const Container = styled.section`
   }
 
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
 
-    & > *:not(:last-child) {
+    & > *:last-child {
       margin-bottom: 40px;
     }
 
@@ -37,9 +37,8 @@ const Container = styled.section`
     flex-direction: column-reverse;
     align-items: flex-start;
 
-    & > *:not(:last-child) {
-      margin-bottom: 0;
-      margin-top: 51px;
+    & > *:last-child {
+      margin-bottom: 51px;
     }
   }
 `

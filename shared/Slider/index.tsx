@@ -66,6 +66,15 @@ function Slider({
   })
 
   useEffect(() => {
+    return () => {
+      if (hovered.current) {
+        handleLeave()
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     const handleResize = () => {
       const windowWidth = window.innerWidth
       let checkedToShow = toShow

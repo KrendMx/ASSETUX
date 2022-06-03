@@ -1,6 +1,6 @@
 import React from "react"
 import Image from "next/image"
-import { createPortal } from "preact/compat"
+import { createPortal } from "react-dom"
 
 import Background from "../Background"
 import Container from "../ModalComponents/Container"

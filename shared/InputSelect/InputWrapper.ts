@@ -5,6 +5,7 @@ type InputWrapperProps = {
   active: boolean
   error: boolean
   paleBorders?: boolean
+  visuallyDisabled?: boolean
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -26,7 +27,8 @@ const InputWrapper = styled.div<InputWrapperProps>`
       : "none"};
   border-radius: 10px;
   padding: 0 0 0 1.052em;
-  font-size: 1rem;
+  background: ${(props) =>
+    props.visuallyDisabled ? "#E0E0E0" : "var(--white)"};
 
   & > * + * {
     margin-left: 0.789em;
@@ -37,7 +39,6 @@ const InputWrapper = styled.div<InputWrapperProps>`
   }
 
   @media only screen and (max-width: 370px) {
-    font-size: 4vw;
     border-radius: 0.675em;
   }
 `

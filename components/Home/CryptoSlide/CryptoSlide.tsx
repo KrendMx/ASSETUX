@@ -11,10 +11,9 @@ import useSliderConfig from "@/shared/sliderConfig"
 import Element from "./Element"
 import Slider from "@/shared/Slider"
 
-import type { MarketHistoryData } from "@/src/BackendClient/types"
 import type { ExplorerData } from "../../CryptoManager/types"
-import type { Token } from "@/src/BackendClient/types"
-import type { TAction } from "@/src/redux/cryptoSlice/types"
+import type { Token, MarketHistoryData } from "@/src/BackendClients/main/types"
+import type { ActionType } from "@/src/redux/cryptoSlice/types"
 import type { CurrenciesType } from "@/src/currencies"
 import type { GraphData } from "./Element/Graph"
 
@@ -35,16 +34,22 @@ const mapMarketHistory = (
   marketHistory: MarketHistoryData[],
   currency: CurrenciesType
 ): GraphData[] => {
-  const startTimestamp = Number(marketHistory[0].timestamp)
+  const startHistory = marketHistory.at(0)
+
+  if (!startHistory) {
+    return []
+  }
+
+  const startTimestamp = Number(startHistory.timestamp)
 
   const marketHistoryLength = marketHistory.length
 
   const graphData = new Array<GraphData>(marketHistoryLength)
 
-  for (let i = 0; i < marketHistoryLength; i++) {
+  for (let i = 0; i < marketHistory.length; i++) {
     graphData[i] = {
-      x: Number(marketHistory[i].timestamp) - startTimestamp,
-      y: marketHistory[i].price[currency]
+      x: Number(marketHistory[i]!.timestamp) - startTimestamp,
+      y: marketHistory[i]!.price[currency]
     }
   }
 
@@ -53,9 +58,9 @@ const mapMarketHistory = (
 
 const mapExplorerData = (
   explorerData: ExplorerData[],
-  handleAction: (action: TAction, token: Token) => void,
+  handleAction: (action: ActionType, token: Token) => void,
   currency: CurrenciesType,
-  action: TAction
+  action: ActionType
 ) => {
   return explorerData
     .filter((element) => element.token.enabled && element.currency == currency)
@@ -95,7 +100,7 @@ function CryptoSlide() {
   const sliderConfig = useSliderConfig()
 
   const handleAction = useCallback(
-    (action: TAction, token: Token) => {
+    (action: ActionType, token: Token) => {
       dispatch(swapAction(action))
       dispatch(setSelectedToken(token))
       window.scrollTo({

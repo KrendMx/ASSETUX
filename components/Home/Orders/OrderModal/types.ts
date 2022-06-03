@@ -9,4 +9,6 @@ export type OrderInfo = {
   amountOut: number
   email: string
   buy: boolean
+  orderId: string | null
+  date: string
 }

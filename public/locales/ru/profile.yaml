@@ -1,10 +1,19 @@
+title: Профиль
+
 profile: Профиль
 balance: Баланс
 personalInfo: Личная информация
 payment: Оплата
 widgetPersonalization: Персонализация виджета
 nameYourCompany: Название вашей компании
-logo: Логотип
+logo: Логотип (JPG, JPEG, PNG - 40x40)
 wallet: Кошелёк
-background: Фон
+background: Фон (JPG, JPEG, PNG - 1920x1080)
 change: Изменить
+upload: Загрузить
+walletError: Неверный адрес
+walletUnique: Адрес кошелька должен быть уникальным
+assets: Тут будут отображаться ваши активы.
+smthHappened: Что-то произошло, пожалуйста, попробуйте позже
+loading: Загрузка ...
+invalidImage: Неверное изображение

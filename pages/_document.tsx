@@ -1,3 +1,4 @@
+import React from "react"
 import Document, { Html, Head, Main, NextScript } from "next/document"
 import { ServerStyleSheet } from "styled-components"
 
@@ -18,12 +19,12 @@ class MyDocument extends Document {
       const initialProps = await Document.getInitialProps(ctx)
       return {
         ...initialProps,
-        styles: (
-          <>
+        styles: [
+          <React.Fragment key="styles">
             {initialProps.styles}
             {sheet.getStyleElement()}
-          </>
-        )
+          </React.Fragment>
+        ]
       }
     } finally {
       sheet.seal()
@@ -34,7 +35,34 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="icon" href="/icons/icon.png" type="image/png" />
+          <link
+            rel="icon"
+            href="/icons/16px.png"
+            type="image/png"
+            sizes="16x16"
+          />
+          <link
+            rel="icon"
+            href="/icons/32px.png"
+            type="image/png"
+            sizes="32x32"
+          />
+          <link
+            rel="icon"
+            href="/icons/192px.png"
+            type="image/png"
+            sizes="192x192"
+          />
+          <link
+            rel="apple-touch-icon"
+            href="/icons/120px.png"
+            sizes="120x120"
+          />
+          <link
+            rel="apple-touch-icon"
+            href="/icons/180px.png"
+            sizes="180x180"
+          />
           <link
             rel="preload"
             as="font"
@@ -56,6 +84,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
             type="font/woff2"
           />
+          <meta name="color-scheme" content="light" />
         </Head>
         <body>
           <Main />

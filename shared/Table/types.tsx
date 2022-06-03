@@ -8,6 +8,7 @@ export type TableProps = {
   collapseLastCols?: number
   withPagination?: boolean
   collapseCols?: number[]
+  customPaddings?: string
 }
 
 export type TableHeading = {
@@ -15,7 +16,10 @@ export type TableHeading = {
   sortFn?: (a: any, b: any) => number
 }
 
-export type RowData = string | number | JSX.Element | undefined | null
+export type RowData = {
+  sortValue?: any
+  value: string | number | JSX.Element | undefined | null
+}
 
 export type SortInfo = {
   ascending: boolean

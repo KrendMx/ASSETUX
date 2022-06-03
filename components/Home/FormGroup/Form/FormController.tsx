@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"
+import React, { useEffect, useState, useMemo } from "react"
+
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setSelectedToken } from "@/src/redux/cryptoSlice"
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
 import SellForm from "./SellForm"
@@ -12,42 +13,39 @@ import { Option } from "@/shared/InputSelect/types"
 import {
   currencies as definedCurrencies,
   mapCurrency,
-  mapCurrencyName
+  mapCurrencyName,
+  mapShortCurrencyName
 } from "@/src/currencies"
 import { rateCheckInterval } from "@/src/constants"
 
 import type { TokenOption } from "./types"
-import type { CurrenciesType } from "@/src/currencies"
 import type {
   Token,
   FiatProvider,
   FiatRate,
-  LiquidityData
-} from "@/src/BackendClient/types"
+  LiquidityData,
+  Blockchain
+} from "@/src/BackendClients/main/types"
 
-const mapShortCurrencyName = (currency: CurrenciesType) => {
-  switch (currency) {
-    case "RUB":
-      return "Rus"
-  }
-}
+const mapTokens = (tokens: Token[]): TokenOption[] =>
+  tokens
+    .filter((token) => token.enabled)
+    .map((token) => ({
+      value: token.symbol,
+      icon: token.logo_uri,
+      description: token.name,
+      shortDescription: token.name,
+      address: token.address
+    }))
 
-const mapTokens = (tokens: Token[]) => {
-  const mappedTokens: TokenOption[] = []
-  for (const token of tokens) {
-    if (token.enabled) {
-      mappedTokens.push({
-        value: token.symbol,
-        icon: token.logo_uri,
-        description: token.name,
-        shortDescription: token.name,
-        address: token.address
-      })
+const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
+  blockchains.map((blockchain) => {
+    return {
+      value: blockchain.title,
+      description: blockchain.title,
+      icon: blockchain.logo
     }
-  }
-
-  return mappedTokens
-}
+  })
 
 function FormController() {
   const dispatch = useAppDispatch()
@@ -66,15 +64,20 @@ function FormController() {
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
 
-  const [blockchains, setBlockchains] = useState<Option[] | null>(null)
-  const [tokens, setTokens] = useState<TokenOption[] | null>(null)
+  const tokens = useMemo(
+    () => (availableTokens ? mapTokens(availableTokens) : null),
+    [availableTokens]
+  )
+  const blockchains = useMemo(
+    () => (availableBlockchains ? mapBlockchains(availableBlockchains) : null),
+    [availableBlockchains]
+  )
+
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
   const [liquidityData, setLiquidityData] = useState<LiquidityData | null>(null)
   const [displayBuyPending, setDisplayBuyPendings] = useState(false)
-
-  const isUnmounted = useRef(false)
 
   const buyPayments = useMemo(() => {
     return payments && payments.filter((payment) => payment.type == "BUY")
@@ -97,124 +100,102 @@ function FormController() {
 
   useIsomorphicLayoutEffect(() => {
     const query = new URLSearchParams(window.location.search)
+    const action = query.get("action")
     const id = query.get("id")
 
+    if (action == "sell") {
+      return
+    }
+
     if (id) {
-      setDisplayBuyPendings(true)
+      // setDisplayBuyPendings(true)
     }
   }, [])
 
   useEffect(() => {
-    return () => {
-      isUnmounted.current = true
+    if (!selectedBlockchain) {
+      return
     }
-  }, [])
 
-  useEffect(() => {
-    if (selectedBlockchain) {
-      const fetch = async () => {
-        const responses = await Promise.all([
-          BackendClient.getFiatProviders({ apiHost: selectedBlockchain.url }),
-          BackendClient.getFiatRates({ apiHost: selectedBlockchain.url }),
-          BackendClient.checkLiquidity({
-            apiHost: selectedBlockchain.url,
-            chainId: selectedBlockchain.chain_id
-          })
-        ])
-
-        if (!isUnmounted.current) {
-          if (responses[0].status == 200) {
-            const payments = responses[0].data
-
-            if (payments) {
-              setPayments(payments)
-            }
-          }
-
-          if (responses[1].status == 200) {
-            const fiatRates = responses[1].data
-
-            if (fiatRates) {
-              setFiatRates(fiatRates)
-            }
-          }
-
-          if (responses[2].status == 200) {
-            const liquidityData = responses[2].data
-
-            if (liquidityData) {
-              setLiquidityData(liquidityData)
-            }
-          }
-        }
-      }
-
-      setCurrencies(
-        definedCurrencies.map((currency) => {
-          return {
-            value: currency,
-            description: mapCurrencyName(currency),
-            shortDescription:
-              mapShortCurrencyName(currency) + " " + mapCurrency(currency)
-          }
+    const fetch = async (signal: AbortSignal) => {
+      const responses = await Promise.all([
+        BackendClient.getFiatProviders({
+          apiHost: selectedBlockchain.url,
+          signal
+        }),
+        BackendClient.getFiatRates({
+          apiHost: selectedBlockchain.url,
+          signal
+        }),
+        BackendClient.checkLiquidity({
+          apiHost: selectedBlockchain.url,
+          chainId: selectedBlockchain.chain_id,
+          signal
         })
-      )
+      ])
 
-      fetch()
+      const fiatProviders = responses[0]
+      const fiatRates = responses[1]
+      const liquidity = responses[2]
 
-      const rateInterval = setInterval(async () => {
-        const responses = await Promise.all([
-          BackendClient.getFiatRates({
-            apiHost: selectedBlockchain.url
-          }),
-          BackendClient.checkLiquidity({
-            apiHost: selectedBlockchain.url,
-            chainId: selectedBlockchain.chain_id
-          })
-        ])
-
-        if (responses[0].status == 200) {
-          const fiatRates = responses[0].data
-
-          if (fiatRates) {
-            setFiatRates(fiatRates)
-          }
-        }
-
-        if (responses[1].status == 200) {
-          const liquidityData = responses[1].data
-
-          if (liquidityData) {
-            setLiquidityData(liquidityData)
-          }
-        }
-      }, rateCheckInterval)
-
-      return () => {
-        clearInterval(rateInterval)
+      if (fiatProviders.state == "success") {
+        setPayments(fiatProviders.data)
       }
+
+      if (fiatRates.state == "success") {
+        setFiatRates(fiatRates.data)
+      }
+
+      if (liquidity.state == "success") {
+        setLiquidityData(liquidity.data)
+      }
+    }
+
+    setCurrencies(
+      definedCurrencies.map((currency) => {
+        return {
+          value: currency,
+          description: mapCurrencyName(currency),
+          shortDescription:
+            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        }
+      })
+    )
+
+    const controller = new AbortController()
+
+    fetch(controller.signal)
+
+    const rateInterval = setInterval(async () => {
+      const responses = await Promise.all([
+        BackendClient.getFiatRates({
+          apiHost: selectedBlockchain.url,
+          signal: controller.signal
+        }),
+        BackendClient.checkLiquidity({
+          apiHost: selectedBlockchain.url,
+          chainId: selectedBlockchain.chain_id,
+          signal: controller.signal
+        })
+      ])
+
+      const fiatRates = responses[0]
+      const liquidity = responses[1]
+
+      if (fiatRates.state == "success") {
+        setFiatRates(fiatRates.data)
+      }
+
+      if (liquidity.state == "success") {
+        setLiquidityData(liquidity.data)
+      }
+    }, rateCheckInterval)
+
+    return () => {
+      controller.abort()
+      clearInterval(rateInterval)
     }
   }, [selectedBlockchain])
-
-  useEffect(() => {
-    if (availableBlockchains) {
-      setBlockchains(
-        availableBlockchains.map((blockchain) => {
-          return {
-            value: blockchain.title,
-            description: blockchain.title,
-            icon: blockchain.logo
-          }
-        })
-      )
-    }
-  }, [availableBlockchains])
-
-  useEffect(() => {
-    if (availableTokens) {
-      setTokens(mapTokens(availableTokens))
-    }
-  }, [availableTokens])
 
   return action == "BUY" ? (
     displayBuyPending ? (

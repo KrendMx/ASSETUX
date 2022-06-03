@@ -41,7 +41,7 @@ const SortableHeading = styled.button`
 `
 
 type ArrowContainerProps = {
-  rotate?: boolean
+  shouldRotate?: boolean
 }
 
 const ArrowContainer = styled.span<ArrowContainerProps>`
@@ -49,7 +49,9 @@ const ArrowContainer = styled.span<ArrowContainerProps>`
   position: absolute;
   top: 50%;
   transform: ${(props) =>
-    props.rotate ? "translateY(-50%) rotate(180deg)" : "translateY(-50%)"};
+    props.shouldRotate
+      ? "translateY(-50%) rotate(180deg)"
+      : "translateY(-50%)"};
   right: -1.1em;
   font-size: 1em;
 `
@@ -81,12 +83,16 @@ const Row = styled.tr<RowProps>`
 
 const Body = styled.tbody``
 
-const Element = styled.td`
+type ElementProps = {
+  paddings?: string
+}
+
+const Element = styled.td<ElementProps>`
   font-size: 15px;
   color: var(--black);
   text-align: center;
   font-weight: 500;
-  padding: 14px 0;
+  padding: ${(props) => props.paddings || "14px"} 0;
 `
 
 function Table({
@@ -98,7 +104,8 @@ function Table({
   displayIndexes = false,
   currentPage = 1,
   withPagination = true,
-  collapseCols
+  collapseCols,
+  customPaddings
 }: TableProps) {
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
 
@@ -109,18 +116,21 @@ function Table({
 
         return (
           <Row key={`row-${currentIndex}`}>
-            {displayIndexes && <Element>{currentIndex + 1}</Element>}
-            {rowData.map((value, cellIndex) => (
+            {displayIndexes && (
+              <Element paddings={customPaddings}>{currentIndex + 1}</Element>
+            )}
+            {rowData.map((item, cellIndex) => (
               <Element
-                key={`cell-${currentIndex}-${cellIndex}_${value?.toString()}`}
+                paddings={customPaddings}
+                key={`cell-${currentIndex}-${cellIndex}_${item?.toString()}`}
               >
-                {value}
+                {item.value}
               </Element>
             ))}
           </Row>
         )
       }),
-    [currentPage, displayIndexes, displayPerPage]
+    [currentPage, displayIndexes, displayPerPage, customPaddings]
   )
 
   const sortedData = useMemo(() => {
@@ -138,11 +148,17 @@ function Table({
       return data
     }
 
-    return [...data].sort((a, b) =>
-      sortInfo.ascending
-        ? -1 * sortFn(a[sortInfo.nColumn], b[sortInfo.nColumn])
-        : sortFn(a[sortInfo.nColumn], b[sortInfo.nColumn])
-    )
+    return [...data].sort((a, b) => {
+      const firstCol = a[sortInfo.nColumn]
+      const secondCol = b[sortInfo.nColumn]
+
+      const first = firstCol.sortValue ? firstCol.sortValue : firstCol.value
+      const second = secondCol.sortValue ? secondCol.sortValue : secondCol.value
+
+      return sortInfo.ascending
+        ? -1 * sortFn(first, second)
+        : sortFn(first, second)
+    })
   }, [data, sortInfo, customHeadings])
 
   const paginatedData = useMemo(
@@ -169,7 +185,9 @@ function Table({
             >
               <span>{customHeading.value}</span>
               <ArrowContainer
-                rotate={sortInfo?.nColumn == columnIndex && sortInfo.ascending}
+                shouldRotate={
+                  sortInfo?.nColumn == columnIndex && sortInfo.ascending
+                }
               >
                 <IoIosArrowDown />
               </ArrowContainer>

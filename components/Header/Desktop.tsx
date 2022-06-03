@@ -1,5 +1,6 @@
 import React from "react"
 import styled, { css } from "styled-components"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
@@ -10,7 +11,9 @@ import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import TextLogo from "@/shared/TextLogo"
 
+import { commerce } from "@/src/routes"
 import { mobile } from "@/src/constants"
+import { logout } from "@/src/helpers"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {
@@ -75,10 +78,13 @@ function Desktop() {
   const { t } = useTranslation("header")
 
   const isMainPage = router.pathname == "/"
+  const isCommercePage =
+    router.pathname.startsWith("/profile") && !router.pathname.includes("login")
+  const isCommerceLogin = router.pathname == "/profile/login"
 
   return (
     <DesktopContainer>
-      <TextLogo link />
+      <TextLogo />
       <RightContainer>
         <NavContainer>
           {/* <Link href="/404" passHref>
@@ -90,6 +96,24 @@ function Desktop() {
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
+          {isCommercePage && (
+            <>
+              {commerce.map((route) => (
+                <Link href={route.href} key={route.href} passHref>
+                  <NavLink>{t(route.key)}</NavLink>
+                </Link>
+              ))}
+              <NavLink
+                as="button"
+                onClick={() => {
+                  logout()
+                  router.push("/profile/login")
+                }}
+              >
+                {t("exit")}
+              </NavLink>
+            </>
+          )}
           {isMainPage && (
             <NavLink
               as="button"
@@ -97,6 +121,11 @@ function Desktop() {
             >
               {t("header:operations")}
             </NavLink>
+          )}
+          {!isCommercePage && !isCommerceLogin && (
+            <Link href="/profile" passHref>
+              <NavLink>{t("commerce")}</NavLink>
+            </Link>
           )}
         </NavContainer>
         <LanguageCurrencyChange />

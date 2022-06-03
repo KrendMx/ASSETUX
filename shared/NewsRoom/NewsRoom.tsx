@@ -11,10 +11,10 @@ import Slider from "@/shared/Slider"
 import Element from "./Element"
 import { Container, MoreLink, Row, SliderContainer } from "./styles"
 
-import type { NewsData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClients/main/types"
 
 type NewsRoomProps = {
-  news: NewsData[]
+  news: PostData[]
 }
 
 function NewsRoom({ news }: NewsRoomProps) {
@@ -26,17 +26,24 @@ function NewsRoom({ news }: NewsRoomProps) {
   return (
     <Container>
       <Row>
-        <h3>{!showSkeleton ? t("title") : <Skeleton />}</h3>
+        <h3>{!showSkeleton ? t("rowTitle") : <Skeleton />}</h3>
         {!showSkeleton && (
-          <Link href="/news" passHref>
+          <Link href="/blog" passHref>
             <MoreLink as="a">{t("showMore")}</MoreLink>
           </Link>
         )}
       </Row>
       <SliderContainer>
         <Slider {...sliderConfig}>
-          {news.map(({ id, ...data }) => (
-            <Element key={id} {...data} />
+          {news.map(({ id, title, short_description, img, created, slug }) => (
+            <Element
+              key={id}
+              title={title}
+              shortDescription={short_description}
+              img={img}
+              created={created}
+              slug={slug}
+            />
           ))}
         </Slider>
       </SliderContainer>

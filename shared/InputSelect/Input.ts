@@ -7,7 +7,7 @@ const Input = styled.input`
   font-weight: 500;
   color: var(--black);
   border: none;
-  background-color: var(--bgColor);
+  background-color: transparent;
   outline: none;
 
   &:disabled {
@@ -21,6 +21,14 @@ const Input = styled.input`
   &::placeholder {
     color: var(--black);
     opacity: 0.7;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+    -webkit-text-fill-color: var(--black);
+    -webkit-box-shadow: 0 0 0px 1000px var(--white) inset;
+    box-shadow: 0 0 0px 1000px var(--white) inset;
   }
 
   @media only screen and (max-width: ${mobile}px) {

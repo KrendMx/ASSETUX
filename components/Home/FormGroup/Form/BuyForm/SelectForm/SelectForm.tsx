@@ -8,7 +8,7 @@ import InputSelect from "@/shared/InputSelect"
 
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
-import ExchangeRow from "../../Exchange"
+import ExchangeRow from "@/shared/ExchangeInfo"
 import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
 import Maintenance from "../../Maintenance"
@@ -17,15 +17,10 @@ import { Container, FormContainer } from "./styles"
 
 import Step from "./Steps"
 
-import {
-  emailRegexp,
-  floatRegexp,
-  allowSkeletons,
-  walletRegexp
-} from "@/src/constants"
+import { emailRegexp, allowSkeletons, walletRegexp } from "@/src/constants"
 import { useAppSelector } from "@/src/redux/hooks"
 
-import { stringToPieces } from "@/src/helpers"
+import { stringToPieces, validateDecimal } from "@/src/helpers"
 
 import type { Error, SelectFormProps } from "./types"
 import type { Option } from "@/shared/InputSelect/types"
@@ -122,6 +117,8 @@ function SelectForm({
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
 
+  const serviceUnavailable = serviceAvailable == null || !serviceAvailable
+
   const currentPaymentOption = payments?.find(
     (payment) => payment.value == currentPayment
   )
@@ -156,27 +153,31 @@ function SelectForm({
   ) => {
     const value = event.target.value
 
-    if (value == "" || floatRegexp.test(value)) {
-      const errorRanges = checkRanges(Number(value))
+    const [validated, result] = validateDecimal(value)
 
-      if (errorRanges) {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: errorRanges
-        })
-      } else {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: undefined
-        })
-
-        if (rate != null && value != "") {
-          setGetAmount((Number(value) / rate).toFixed(2))
-        }
-      }
-
-      onGiveAmountChange(value)
+    if (!validated) {
+      return
     }
+
+    const errorRanges = checkRanges(Number(result))
+
+    if (errorRanges) {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: errorRanges
+      })
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: undefined
+      })
+    }
+
+    if (rate != null) {
+      setGetAmount((Number(result) / rate).toFixed(2))
+    }
+
+    onGiveAmountChange(result)
   }
 
   const handleGetInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -184,31 +185,35 @@ function SelectForm({
   ) => {
     const value = event.target.value
 
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
+      return
+    }
+
     let estimatedGiveAmount = ""
 
-    if (rate != null && value != "") {
-      estimatedGiveAmount = (Number(value) * rate).toFixed(2)
+    if (rate != null && result != "") {
+      estimatedGiveAmount = (Number(result) * rate).toFixed(2)
     }
 
-    if (value == "" || floatRegexp.test(value)) {
-      const errorRanges = checkRanges(Number(estimatedGiveAmount))
+    const errorRanges = checkRanges(Number(estimatedGiveAmount))
 
-      if (errorRanges) {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: errorRanges
-        })
-      } else {
-        setInputError({
-          ...inputError,
-          [inputIds.give]: undefined
-        })
-      }
-
-      onGiveAmountChange(estimatedGiveAmount)
-
-      setGetAmount(value)
+    if (errorRanges) {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: errorRanges
+      })
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.give]: undefined
+      })
     }
+
+    onGiveAmountChange(estimatedGiveAmount)
+
+    setGetAmount(result)
   }
 
   const handleWalletInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -242,6 +247,10 @@ function SelectForm({
   }
 
   const handleNextStep = () => {
+    if (serviceUnavailable) {
+      return
+    }
+
     // validation
 
     let errorObject: Error = {}
@@ -323,6 +332,7 @@ function SelectForm({
                 error={inputError[inputIds.give]}
                 selectedValue={currentCurrency}
                 selectable={false}
+                onlyNumbers
                 changeable
               />
             ) : (
@@ -349,6 +359,8 @@ function SelectForm({
                   currency={currentCurrency}
                   rate={rate}
                   isLoading={isLoading}
+                  placeholder={t("home:exchange_fees")}
+                  text="asd"
                   margins
                 />
                 {!isLoading ? (
@@ -362,6 +374,7 @@ function SelectForm({
                     onChange={handleGetInput}
                     value={getAmount}
                     selectedValue={currentToken}
+                    onlyNumbers
                     changeable
                   />
                 ) : (
@@ -402,6 +415,7 @@ function SelectForm({
               error={inputError[inputIds.email]}
               onChange={handleEmailInput}
               autocomplete="email"
+              type="email"
               changeable
             />
             <HideableWithMargin hide={false} margins>
@@ -413,6 +427,7 @@ function SelectForm({
                   value={currentPhoneNumber}
                   error={cardError || inputError[inputIds.phoneNumber]}
                   autocomplete="tel"
+                  type="tel"
                   changeable
                 />
               ) : (
@@ -437,15 +452,13 @@ function SelectForm({
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
 
-      {!isLoading && !serviceAvailable && serviceAvailable != null && (
-        <Maintenance />
-      )}
+      {!isLoading && serviceUnavailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
           onClick={handleNextStep}
-          disabled={processingRequest || isLoading}
-          loading={isLoading}
+          disabled={processingRequest || isLoading || serviceUnavailable}
+          isLoading={isLoading}
         >
           {isLoading ? (
             <Skeleton

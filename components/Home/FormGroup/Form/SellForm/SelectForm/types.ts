@@ -1,5 +1,6 @@
 import { Step } from "./Steps"
 
+import type { RequestState } from "@/src/BackendClients/types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "@/shared/InputSelect/types"
 
@@ -15,6 +16,7 @@ export type ExchangeInfo = {
 }
 
 export type SelectFormProps = {
+  loadingOrder: boolean
   processingRequest: boolean
   currentBlockchain: string | null
   blockchains: Option[] | null
@@ -31,14 +33,10 @@ export type SelectFormProps = {
   rate: number | null
   exchangeInfo: ExchangeInfo | null
   currentStep: Step
-  depositInfo: {
-    result: string | null
-    isLoading: boolean
-    error: boolean
-  } | null
+  depositInfo: RequestState<string> | null
   serviceAvailable: boolean | null
-  refundRequestError: { result: string | null; isLoading: boolean } | null
-  refundError: { result: string | null; isLoading: boolean } | null
+  refundRequestInfo: RequestState<string> | null
+  refundInfo: RequestState<string> | null
   onBlockchainChange: (blockchain: string) => void
   onCurrencyChange: (currency: string) => void
   onTokenChange: (token: string) => void

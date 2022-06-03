@@ -1,11 +1,16 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
+import { useRouter } from "next/router"
+import { useTranslation } from "next-i18next"
 
 import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
 import { useAppSelector } from "@/src/redux/hooks"
+import { getFormattedDate } from "@/src/date"
 
 import config from "@/src/config"
+import { BackendClient } from "@/src/BackendClients"
 
 import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
 import {
@@ -15,48 +20,42 @@ import {
   Title,
   Description,
   Info,
-  Author,
-  PostDate
+  ReadMore,
+  PostDate,
+  TextWrapper
 } from "./styles"
 
 type ElementProps = {
   title: string
-  text: string
-  author: string
+  shortDescription: string
   img: string
-  author_link: string
   created: string
+  pinned?: boolean
+  slug: string
+  withSkeletons?: boolean
 }
 
 function Element({
   title,
-  text,
-  author,
+  shortDescription,
   img,
-  author_link,
-  created
+  created,
+  pinned,
+  slug,
+  withSkeletons = true
 }: ElementProps) {
-  const showSkeleton = useAppSelector(selectShowSkeleton)
+  const router = useRouter()
+  const { t } = useTranslation("news")
+  const selectedShowSkeleton = useAppSelector(selectShowSkeleton)
+  const showSkeleton = withSkeletons && selectedShowSkeleton
 
-  const currentDate = new Date()
-  const postDate = new Date(created)
-
-  const elapsedHours = Math.trunc(
-    (currentDate.getTime() - postDate.getTime()) / 3.6e6
-  )
-  const elapsedDays = Math.trunc(elapsedHours / 24)
-  const moreThanDay = elapsedHours >= 24
-  const shouldAddPrefix = moreThanDay ? elapsedDays != 1 : elapsedHours != 1
-
-  const displayedDate = `${moreThanDay ? elapsedDays : elapsedHours} ${
-    moreThanDay ? "day" : "hour"
-  }${shouldAddPrefix ? "s" : ""} ago`
+  const displayedDate = getFormattedDate(created, router.locale!)
 
   return (
-    <Container as="article">
+    <Container as="article" pinned={pinned}>
       <ImgContainer>
         <Image
-          src={`${config.hostProtocol}://bsc.${config.host}${img}`}
+          src={BackendClient.genericURL + img}
           layout="responsive"
           width={560}
           height={416}
@@ -69,18 +68,23 @@ function Element({
         )}
       </ImgContainer>
       <InfoContainer>
-        <Title>{!showSkeleton ? title : <Skeleton />}</Title>
-        <Description>
-          {!showSkeleton ? text : <Skeleton count={2} />}
-        </Description>
+        <TextWrapper>
+          <Title>{!showSkeleton ? title : <Skeleton />}</Title>
+          <Description>
+            {!showSkeleton ? shortDescription : <Skeleton count={2} />}
+          </Description>
+        </TextWrapper>
         <Info>
           {!showSkeleton ? (
             <>
-              <Author href={author_link}>{author}</Author>
+              <Link href={`/blog/article/${slug}`} passHref>
+                <ReadMore>{t("readMore")} &#10230;</ReadMore>
+              </Link>
+
               <PostDate dateTime={created}>{displayedDate}</PostDate>
             </>
           ) : (
-            <Skeleton />
+            <Skeleton containerClassName="skeletonFlexContainer" />
           )}
         </Info>
       </InfoContainer>

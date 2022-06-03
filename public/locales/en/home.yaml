@@ -1,3 +1,10 @@
+title: Buy, sell, invest in crypto safely, quickly, easily!
+description: |-
+  ASSETUX offers quick ways to:
+  - Purchase cryptocurrency using a debit/credit card;
+  - Sell cryptocurrency and receive fiat to debit/credit card;
+  - A lightning speed investment experience in most hyped industries.
+
 titleBeforeBuy: The best way to
 buy: buy
 titleAfterBuy: and
@@ -6,7 +13,7 @@ titleAfterSell: cryptocurrencies
 info: The first fiat-to-crypto exchange build on interoperable DeFi
 
 orders_myOperations: My Operations
-orders_pleaseFill: Please enter the email used for Assetux operations
+orders_pleaseFill: Please enter the email used for ASSETUX operations
 orders_email: Email
 orders_cancel: Cancel
 orders_invalidEmail: Invalid email address
@@ -77,13 +84,13 @@ sell_sureRefund: Are you sure you want to refund?
 sell_depositConfirmed: Deposit confirmed
 sell_loading: Loading...
 sell_sentInsufficient: You sent insufficient amount of crypto to make refund
-Sell_ahtung: According to the rules of Assetux, the funds received on the wallet and not used for the exchange are not refundable
+Sell_ahtung: According to the rules of ASSETUX, the funds received on the wallet and not used for the exchange are not refundable
 sell_review: Your feedback will help us become better!
 sell_message: Your message
 Sell_timedOut: The order has expired
 sell_minimal: Minimum amount to exchange
 sell_convert: Exchange rate
-sell_infoExchange: Assetux exchanged the amount received to the wallet at the moment of expiration
+sell_infoExchange: ASSETUX exchanged the amount received to the wallet at the moment of expiration
 sell_success: Success
 sell_operationId: Transaction number
 sell_codeSent: The code was sent to your email
@@ -91,7 +98,7 @@ sell_enterCode: Enter code
 sell_error: Error
 sell_invalidCode: You have entered the wrong code.
 sell_tryAgain: You entered the wrong code.
-sell_receiveEmail: Thank you for using Assetux! You will receive a confirmation email in 5 minutes.
+sell_receiveEmail: Thank you for using ASSETUX! You will receive a confirmation email in 5 minutes.
 sell_refundSuccess: The refund was successful
 sell_fillRequiredData: Please provide data for the refund
 sell_accessWallet: Please make sure you have access to the specified wallet, on the specified network. If you can't access this wallet, we won't be able to help you.
@@ -109,11 +116,11 @@ exchange_fees: All fees included
 
 investments_modal-title: Information
 investments_modal-content: Will be available soon
-investments_title: Инвестиции
+investments_title: Investments
 investments_paragraph: >-
-  Инвестируй в тренды с помощью портфелей, упакованных валютами финансовых сервисов, криптоигр, топ коинов и метавселенных.
-  Портфели созданы для легкости инвестирования в целые сферы с потенциалами многократного роста.
-investments_download: Скачать приложение
+  Invest in treds and hypes with ASSETUX portfolios made of cryptocurrencies from industries such as: DeFi, GameFi, Top coins and Metaverse.
+  Portfolios are designed for ease of investing in the whole industries with multiple capital growth potential.
+investments_download: Download app
 cryptoSlide_change: 24 hours change
 cryptoSlide_buy: Buy
 cryptoSlide_sell: Sell
@@ -129,13 +136,11 @@ explorer_volume: Volume 24h
 explorer_trade:
 explorer_pool:
 
-news_title: News room
-news_showMore: Show more
-
 about_title: About us
 about_p1: |-
-  ASSETUX creates and implements tools that improves user experience using cryptocurrency, helps to eliminate mistakes that users make sometimes. Assetux does a lot of things in an automated way, saves time for the users, stops headache.
-
+  ASSETUX creates and implements tools that improves user experience using cryptocurrency,
+  helps to eliminate mistakes that users make sometimes. ASSETUX does a lot of things in an automated way,
+  saves time for the users, stops headache.
 about_p2: |-
   ASSETUX offers quick ways to:
   - Purchase cryptocurrency using a debit/credit card;
@@ -144,9 +149,8 @@ about_p2: |-
 
 about_showMore: Show more
 
-search_placeholder: Start typing to search...
-search_noResult: No results
-
 maintenance_title: Service maintenance
-maintenance_p1: Assetux is constantly improves and integrates new features
+maintenance_p1: ASSETUX is constantly improves and integrates new features
 maintenance_p2: That's why the service is unavailable. Please try again in 10 minutes
+
+search: Search

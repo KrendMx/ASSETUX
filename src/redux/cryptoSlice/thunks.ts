@@ -1,31 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { RootState } from "../store"
-import type { GetBlockchains, GetTokens } from "@/src/BackendClient/types"
+import type { GetBlockchains, GetTokens } from "@/src/BackendClients/main/types"
 
 export const getBlockchains = createAsyncThunk<
   GetBlockchains,
-  void,
+  AbortSignal | undefined,
   {
     state: RootState
   }
->("crypto/getBlockchains", async () => {
-  return BackendClient.getBlockchains()
+>("crypto/getBlockchains", async (signal) => {
+  return BackendClient.getBlockchains(signal)
 })
 
 export const getTokens = createAsyncThunk<
   GetTokens | null,
-  void,
+  AbortSignal | undefined,
   {
     state: RootState
   }
->("crypto/getTokens", async (_, { getState }) => {
+>("crypto/getTokens", async (signal, { getState }) => {
   const state = getState()
+
   if (state.crypto.selectedBlockchain) {
     return BackendClient.getTokens({
-      apiHost: state.crypto.selectedBlockchain.url
+      apiHost: state.crypto.selectedBlockchain.url,
+      signal
     })
   }
 

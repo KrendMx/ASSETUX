@@ -1,4 +1,11 @@
-import React, { useEffect } from "react"
+if (process.env.NODE_ENV === "development") {
+  import("preact/devtools")
+  // @ts-ignore
+  import("preact/debug")
+}
+
+import React from "react"
+import { DefaultSeo } from "next-seo"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
@@ -24,10 +31,12 @@ import GlobalStyles from "@/styles/GlobalStyles"
 
 import { mobile, tablet, mobileLayoutForTablet } from "@/src/constants"
 import { checkCurrency } from "@/src/currencies"
+import { useMount } from "@/src/hooks"
 
 import type { AppProps } from "next/app"
 
 import "react-loading-skeleton/dist/skeleton.css"
+import "core-js/features/array/at"
 import "@/styles/fonts.css"
 
 const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {
@@ -38,19 +47,26 @@ function MyApp(props: AppProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      console.log("[App] Route change")
+  const isCommercePayment = router.pathname == "/payment/[id]"
+
+  useMount(() => {
+    const closeMenus = () => {
       dispatch(setBurgerActive(false))
       dispatch(setLanguageCurrencyActive(false))
     }
 
+    const handleRouteChange = () => {
+      console.log("[App] Route change")
+    }
+
     const handleRouteComplete = () => {
       console.log("[App] Route change complete")
+      closeMenus()
     }
 
     const handleRouteError = () => {
       console.log("[App] Route change error")
+      closeMenus()
     }
 
     const handleResize = () => {
@@ -97,18 +113,20 @@ function MyApp(props: AppProps) {
       window.removeEventListener("resize", handleResize)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return (
     <>
       <Head>
-        <title>ASSETUX</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
+        <link rel="manifest" href={`/manifests/${router.locale}.json`} />
+        <meta name="theme-color" content="#FFFFFF" />
       </Head>
-      <Header />
+      <DefaultSeo title="ASSETUX" />
+      {!isCommercePayment && <Header />}
       <SkeletonTheme borderRadius={10}>
         <ContentManager appProps={props} />
       </SkeletonTheme>

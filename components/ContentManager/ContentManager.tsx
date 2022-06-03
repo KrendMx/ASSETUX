@@ -1,5 +1,6 @@
 import React, { useMemo, memo, useEffect, useRef } from "react"
 import styled from "styled-components"
+import { useRouter } from "next/router"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setBurgerActive, setLanguageCurrencyActive } from "@/src/redux/uiSlice"
@@ -22,8 +23,12 @@ const Wrapper = styled.main<WrapperProps>`
   display: ${(props) => (props.hide ? "none" : "block")};
 `
 
-const Container = styled.div`
-  margin-top: var(--header-height);
+type ContainerProps = {
+  resetMargins?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+  margin-top: ${(props) => (props.resetMargins ? 0 : "var(--header-height)")};
   width: 100%;
   font-size: 1rem;
 
@@ -48,6 +53,7 @@ const MemoizedFooter = memo(Footer)
 
 function ContentManager(props: ContentManagerProps) {
   const { Component, pageProps } = props.appProps
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
@@ -55,6 +61,8 @@ function ContentManager(props: ContentManagerProps) {
     (state) => state.ui.languageCurrencyActive
   )
   const lastActive = useRef<"burger" | "languageCurrency" | null>(null)
+
+  const isCommercePayment = router.pathname == "/payment/[id]"
 
   useEffect(() => {
     if (burgerActive && languageCurrencyActive) {
@@ -80,10 +88,16 @@ function ContentManager(props: ContentManagerProps) {
   return (
     <>
       <Wrapper hide={burgerActive || (languageCurrencyActive && isMobile)}>
-        <Container>{MemoizedComponent}</Container>
+        <Container resetMargins={isCommercePayment}>
+          {MemoizedComponent}
+        </Container>
       </Wrapper>
       <MemoizedFooter
-        hide={burgerActive || (languageCurrencyActive && isMobile)}
+        hide={
+          burgerActive ||
+          (languageCurrencyActive && isMobile) ||
+          isCommercePayment
+        }
       />
       {burgerActive && <BurgerMenu />}
       {languageCurrencyActive && isMobile && <LanguageCurrencyMenu />}

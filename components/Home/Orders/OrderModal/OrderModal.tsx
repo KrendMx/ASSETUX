@@ -4,6 +4,7 @@ import Image from "next/image"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import { setOrdersActive } from "@/src/redux/uiSlice"
+import { setSellOrderId, swapAction } from "@/src/redux/cryptoSlice"
 
 import { capitalizeString, ellipsisString } from "@/src/helpers"
 import { mapCurrency, isCurrencyDeclared } from "@/src/currencies"
@@ -28,11 +29,13 @@ import {
   Close,
   CloseBar,
   Container,
-  DataContainer
+  DataContainer,
+  StatusColored,
+  Action
 } from "./styles"
 
 import Table from "@/shared/Table"
-import Cards from "@/components/Home/CryptoExplorer/Cards"
+import Cards from "@/shared/Cards"
 
 import { optimizeRemoteImages } from "@/src/constants"
 
@@ -83,68 +86,43 @@ const touchPreventer = (event: React.TouchEvent<HTMLDivElement>) => {
   }
 }
 
-type OrderModalProps = {
-  orders: OrderInfo[]
-}
-
 const tableHeadings = (t: TFunction) => [
-  { value: "" },
+  {
+    value: t("home:orders_request"),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
+  },
+  {
+    value: t("home:orders_status"),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
+  },
   { value: "" },
   {
     value: t("home:orders_pair"),
-    sortFn: (a: JSX.Element, b: JSX.Element) => {
-      const sortInfo1 = a.props["data-sort"]
-      const sortInfo2 = b.props["data-sort"]
-
-      if (sortInfo1 && sortInfo2) {
-        return sortInfo1 > sortInfo2 ? 1 : a < b ? -1 : 0
-      }
-
-      return 0
-    }
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
     value: t("home:orders_network"),
-    sortFn: (a: JSX.Element | string, b: JSX.Element | string) => {
-      if (typeof a == "string" || typeof b == "string") {
-        return 0
-      }
-
-      const sortInfo1 = a.props["data-sort"]
-      const sortInfo2 = b.props["data-sort"]
-
-      if (sortInfo1 && sortInfo2) {
-        return sortInfo1 > sortInfo2 ? 1 : a < b ? -1 : 0
-      }
-
-      return 0
-    }
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: t("home:orders_email"),
-    sortFn: (a: JSX.Element, b: JSX.Element) => {
-      const sortInfo1 = a.props["data-sort"]
-      const sortInfo2 = b.props["data-sort"]
-
-      if (sortInfo1 && sortInfo2) {
-        return sortInfo1 > sortInfo2 ? 1 : a < b ? -1 : 0
-      }
-
-      return 0
-    }
+    value: t("home:orders_email")
   },
   {
     value: t("home:orders_sent"),
-    sortFn: (a: string, b: string) => parseFloat(a) - parseFloat(b)
+    sortFn: (a: number, b: number) => b - a
   },
   {
     value: t("home:orders_got"),
-    sortFn: (a: string, b: string) => parseFloat(a) - parseFloat(b)
+    sortFn: (a: number, b: number) => b - a
+  },
+  {
+    value: ""
   }
 ]
 
 const cardNames = (t: TFunction) => [
-  "",
+  t("home:orders_request"),
+  t("home:orders_status"),
   "",
   t("home:orders_pair"),
   t("home:orders_network"),
@@ -152,6 +130,10 @@ const cardNames = (t: TFunction) => [
   t("home:orders_sent"),
   t("home:orders_got")
 ]
+
+type OrderModalProps = {
+  orders: OrderInfo[]
+}
 
 function OrderModal({ orders }: OrderModalProps) {
   const { t } = useTranslation("home")
@@ -173,126 +155,166 @@ function OrderModal({ orders }: OrderModalProps) {
         )
 
         return [
-          <Colored
-            key={order.id + "_colored-status"}
-            colorIn={order.buy ? "green" : "red"}
-            split={!isMobileLayoutForTablet && !isMobile}
-          >
-            <span>
-              {order.buy ? "Buy" : "Sell"}:
-              {(isMobileLayoutForTablet || isMobile) && " "}
-            </span>
-            <span>{capitalizeString(order.status.split(":")[0])}</span>
-          </Colored>,
-          <PairIconsContainer key={order.id + "_pairIcons"}>
-            <BackgroundIcon>
-              {order.buy ? (
-                isCurrencyDeclared(order.curIn) ? (
-                  mapCurrency(order.curIn)
-                ) : (
-                  ""
-                )
-              ) : (
-                <RelativeIcon>
-                  <Image
-                    src={order.tokenLogo}
-                    layout="fill"
-                    alt={order.curOut}
-                    unoptimized={!optimizeRemoteImages}
-                  />
-                </RelativeIcon>
-              )}
-            </BackgroundIcon>
-            <FrontIcon>
-              {order.buy ? (
-                <RelativeIcon>
-                  <Image
-                    src={order.tokenLogo}
-                    layout="fill"
-                    alt={order.curOut}
-                    unoptimized={!optimizeRemoteImages}
-                  />
-                </RelativeIcon>
-              ) : isCurrencyDeclared(order.curOut) ? (
-                mapCurrency(order.curOut)
-              ) : (
-                ""
-              )}
-            </FrontIcon>
-          </PairIconsContainer>,
-          <PairContainer
-            key={order.id + "_pair"}
-            data-sort={order.curIn + order.curOut}
-          >
-            <span>{order.curIn + " / " + order.curOut}</span>
-            <MobilePairIconsContainer>
-              <BackgroundIcon>
-                {order.buy ? (
-                  isCurrencyDeclared(order.curIn) ? (
-                    mapCurrency(order.curIn)
+          {
+            value: (
+              <Colored
+                key={order.id + "_request"}
+                colorIn={order.buy ? "green" : "red"}
+              >
+                <span>{order.buy ? t("orders_buy") : t("orders_sell")}</span>
+              </Colored>
+            ),
+            sortValue: order.buy ? "buy" : "sell"
+          },
+          {
+            value: (
+              <StatusColored status={order.status} key={order.id + "_status"}>
+                {capitalizeString(t("orders_" + order.status))}
+              </StatusColored>
+            ),
+            sortValue: order.status
+          },
+          {
+            value: (
+              <PairIconsContainer key={order.id + "_pairIcons"}>
+                <BackgroundIcon>
+                  {order.buy ? (
+                    isCurrencyDeclared(order.curIn) ? (
+                      mapCurrency(order.curIn)
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    <RelativeIcon>
+                      <Image
+                        src={order.tokenLogo}
+                        layout="fill"
+                        alt={order.curOut}
+                        unoptimized={!optimizeRemoteImages}
+                      />
+                    </RelativeIcon>
+                  )}
+                </BackgroundIcon>
+                <FrontIcon>
+                  {order.buy ? (
+                    <RelativeIcon>
+                      <Image
+                        src={order.tokenLogo}
+                        layout="fill"
+                        alt={order.curOut}
+                        unoptimized={!optimizeRemoteImages}
+                      />
+                    </RelativeIcon>
+                  ) : isCurrencyDeclared(order.curOut) ? (
+                    mapCurrency(order.curOut)
                   ) : (
                     ""
-                  )
-                ) : (
-                  <RelativeIcon>
+                  )}
+                </FrontIcon>
+              </PairIconsContainer>
+            )
+          },
+          {
+            value: (
+              <PairContainer key={order.id + "_pair"}>
+                <span>{order.curIn + " / " + order.curOut}</span>
+                <MobilePairIconsContainer>
+                  <BackgroundIcon>
+                    {order.buy ? (
+                      isCurrencyDeclared(order.curIn) ? (
+                        mapCurrency(order.curIn)
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      <RelativeIcon>
+                        <Image
+                          src={order.tokenLogo}
+                          layout="fill"
+                          alt={order.curOut}
+                          unoptimized={!optimizeRemoteImages}
+                        />
+                      </RelativeIcon>
+                    )}
+                  </BackgroundIcon>
+                  <FrontIcon>
+                    {order.buy ? (
+                      <RelativeIcon>
+                        <Image
+                          src={order.tokenLogo}
+                          layout="fill"
+                          alt={order.curOut}
+                          unoptimized={!optimizeRemoteImages}
+                        />
+                      </RelativeIcon>
+                    ) : isCurrencyDeclared(order.curOut) ? (
+                      mapCurrency(order.curOut)
+                    ) : (
+                      ""
+                    )}
+                  </FrontIcon>
+                </MobilePairIconsContainer>
+              </PairContainer>
+            ),
+            sortValue: order.curIn + order.curOut
+          },
+          {
+            value: blockchain ? (
+              <BlockchainContainer
+                title={blockchain.title}
+                key={order.id + "_bc-title"}
+              >
+                <span>{ellipsisString(blockchain.title, 14)}</span>
+                <BlockchainIconContainer>
+                  <BlockchainIcon>
                     <Image
-                      src={order.tokenLogo}
+                      src={blockchain.logo}
                       layout="fill"
-                      alt={order.curOut}
-                      unoptimized={!optimizeRemoteImages}
+                      alt={blockchain.title}
                     />
-                  </RelativeIcon>
-                )}
-              </BackgroundIcon>
-              <FrontIcon>
-                {order.buy ? (
-                  <RelativeIcon>
-                    <Image
-                      src={order.tokenLogo}
-                      layout="fill"
-                      alt={order.curOut}
-                      unoptimized={!optimizeRemoteImages}
-                    />
-                  </RelativeIcon>
-                ) : isCurrencyDeclared(order.curOut) ? (
-                  mapCurrency(order.curOut)
-                ) : (
-                  ""
-                )}
-              </FrontIcon>
-            </MobilePairIconsContainer>
-          </PairContainer>,
-          blockchain ? (
-            <BlockchainContainer
-              title={blockchain.title}
-              key={order.id + "_bc-title"}
-              data-sort={blockchain.title}
-            >
-              <span>{ellipsisString(blockchain.title, 14)}</span>
-              <BlockchainIconContainer>
-                <BlockchainIcon>
-                  <Image
-                    src={blockchain.logo}
-                    layout="fill"
-                    alt={blockchain.title}
-                  />
-                </BlockchainIcon>
-              </BlockchainIconContainer>
-            </BlockchainContainer>
-          ) : (
-            ""
-          ),
-          <span
-            key={order.id + "_email"}
-            title={order.email}
-            data-sort={order.email}
-          >
-            {ellipsisString(order.email, 17)}
-          </span>,
-          order.amountIn.toFixed(2) + " " + order.curIn,
-          order.amountOut.toFixed(2) + " " + order.curOut
+                  </BlockchainIcon>
+                </BlockchainIconContainer>
+              </BlockchainContainer>
+            ) : (
+              ""
+            ),
+            sortValue: blockchain ? blockchain.title : ""
+          },
+          {
+            value: (
+              <span key={order.id + "_email"} title={order.email}>
+                {ellipsisString(order.email, 17)}
+              </span>
+            ),
+            sortValue: order.email
+          },
+          {
+            value: order.amountIn.toFixed(2) + " " + order.curIn,
+            sortValue: order.amountIn
+          },
+          {
+            value: order.amountOut.toFixed(2) + " " + order.curOut,
+            sortValue: order.amountOut
+          },
+          {
+            value:
+              order.status == "pending" && !order.buy ? (
+                <Action
+                  key={order.id + "_action"}
+                  as="button"
+                  onClick={() => {
+                    dispatch(setSellOrderId(order.orderId))
+                    dispatch(setOrdersActive(false))
+                    dispatch(swapAction("SELL"))
+                  }}
+                >
+                  {t("orders_continue")}
+                </Action>
+              ) : null
+          }
         ]
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [orders, availableBlockchains, isMobileLayoutForTablet, isMobile]
   )
 
@@ -343,15 +365,34 @@ function OrderModal({ orders }: OrderModalProps) {
             data={processedOrders}
             rowNames={cardNames(t)}
             mobile={isMobile}
-            withPagination={false}
-            withButtons={false}
+            buttons={[
+              (dataIndex) => {
+                const order = orders[dataIndex]
+
+                if (order.buy || order.status != "pending") {
+                  return null
+                }
+
+                return (
+                  <Action
+                    onClick={() => {
+                      dispatch(setSellOrderId(order.orderId))
+                      dispatch(setOrdersActive(false))
+                      dispatch(swapAction("SELL"))
+                    }}
+                  >
+                    {t("orders_continue")}
+                  </Action>
+                )
+              }
+            ]}
           />
         ) : (
           <Table
             customHeadings={tableHeadings(t)}
             data={processedOrders}
             withPagination={false}
-            collapseCols={[2]}
+            collapseCols={[3, 9]}
             withoutShadow
           />
         )}

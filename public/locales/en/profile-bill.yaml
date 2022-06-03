@@ -1,0 +1,15 @@
+title: Bill
+
+bill: Bill
+blockchain: Blockchain 
+get: You get
+send: Client pays
+allIncluded: All fees included
+copyLink: Copy payment link
+p1: >-
+  To invoice:
+p2: When the payment is made, you will receive an E-mail.
+item1: Fill in payment information.
+item2: Click "Copy payment link".
+item3: Send it to the client.
+formHeading: Create new

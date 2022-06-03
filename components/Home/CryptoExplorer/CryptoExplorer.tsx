@@ -17,22 +17,21 @@ import { swapAction, setSelectedToken } from "@/src/redux/cryptoSlice"
 import { useIsomorphicLayoutEffect } from "@/src/hooks"
 
 import Table from "@/shared/Table"
-import Cards from "./Cards"
-import Search from "@/shared/Search"
+import Cards from "@/shared/Cards"
+import ControlRow from "@/shared/ControlRow"
 import Pages from "@/shared/Pages"
 
 import {
   Container,
   TitleRow,
   AllLink,
-  ControlsRow,
-  Controls,
+  ControlRowContainer,
   ChangeField,
   ActionButton
 } from "./styles"
 
-import type { TAction } from "@/src/redux/cryptoSlice/types"
-import type { Token } from "@/src/BackendClient/types"
+import type { ActionType } from "@/src/redux/cryptoSlice/types"
+import type { Token } from "@/src/BackendClients/main/types"
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
 
@@ -43,16 +42,15 @@ const tableHeadings = (t: TFunction) => [
   },
   {
     value: t("home:explorer_buy"),
-    sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
+    sortFn: (a: number, b: number) => b - a
   },
   {
     value: t("home:explorer_sell"),
-    sortFn: (a: string, b: string) => parseFloat(b) - parseFloat(a)
+    sortFn: (a: number, b: number) => b - a
   },
   {
     value: t("home:explorer_change"),
-    sortFn: (a: JSX.Element, b: JSX.Element) =>
-      parseFloat(b.props.children) - parseFloat(a.props.children)
+    sortFn: (a: number, b: number) => b - a
   },
   {
     value: t("home:explorer_volume"),
@@ -111,7 +109,7 @@ function CryptoExplorer() {
   }
 
   const handleAction = useCallback(
-    (action: TAction, token: Token) => {
+    (action: ActionType, token: Token) => {
       dispatch(swapAction(action))
       dispatch(setSelectedToken(token))
       window.scrollTo({
@@ -124,7 +122,7 @@ function CryptoExplorer() {
   )
 
   const handleCardAction = useCallback(
-    (action: TAction, dataIndex: number) => {
+    (action: ActionType, dataIndex: number) => {
       const token = explorerData
         ? explorerData?.filter(
             (element) => element.currency == currentCurrency
@@ -148,32 +146,55 @@ function CryptoExplorer() {
             checkExplorerDataByContext(element, searchContext)
         )
         .map((element) => [
-          element.ticker,
-          `${element.buy} ${mapCurrency(currentCurrency)}`,
-          `${element.sell} ${mapCurrency(currentCurrency)}`,
-          <ChangeField
-            key={`change24h_${element.id}`}
-            up={element.change24 >= 0}
-          >
-            {`${element.change24 >= 0 ? "+" : ""}${element.change24.toFixed(
-              2
-            )}%`}
-          </ChangeField>,
-          element.volume24,
-          <ActionButton
-            key={`buy_${element.id}`}
-            action="buy"
-            onClick={() => handleAction("BUY", element.token)}
-          >
-            {t("home:explorer_buy")}
-          </ActionButton>,
-          <ActionButton
-            key={`sell_${element.id}`}
-            action="sell"
-            onClick={() => handleAction("SELL", element.token)}
-          >
-            {t("home:explorer_sell")}
-          </ActionButton>
+          {
+            value: element.ticker
+          },
+          {
+            value: `${element.buy} ${mapCurrency(currentCurrency)}`,
+            sortValue: element.buy
+          },
+          {
+            value: `${element.sell} ${mapCurrency(currentCurrency)}`,
+            sortValue: element.sell
+          },
+          {
+            value: (
+              <ChangeField
+                key={`change24h_${element.id}`}
+                up={element.change24 >= 0}
+              >
+                {`${element.change24 >= 0 ? "+" : ""}${element.change24.toFixed(
+                  2
+                )}%`}
+              </ChangeField>
+            ),
+            sortValue: element.change24
+          },
+          {
+            value: element.volume24
+          },
+          {
+            value: (
+              <ActionButton
+                key={`buy_${element.id}`}
+                action="buy"
+                onClick={() => handleAction("BUY", element.token)}
+              >
+                {t("home:explorer_buy")}
+              </ActionButton>
+            )
+          },
+          {
+            value: (
+              <ActionButton
+                key={`sell_${element.id}`}
+                action="sell"
+                onClick={() => handleAction("SELL", element.token)}
+              >
+                {t("home:explorer_sell")}
+              </ActionButton>
+            )
+          }
         ]),
     [explorerData, handleAction, currentCurrency, searchContext, t]
   )
@@ -219,24 +240,25 @@ function CryptoExplorer() {
     <Container>
       <TitleRow>
         <h3>{!isLoading ? t("home:explorer_title") : <Skeleton />}</h3>
-        {!isLoading && (
+        {/* {!isLoading && (
           <AllLink as="a" href="#">
             {isMobile
               ? t("home:explorer_viewAll")
               : t("home:explorer_viewAllFull")}
           </AllLink>
-        )}
+        )} */}
       </TitleRow>
-      <ControlsRow>
+      <ControlRowContainer>
         {!isLoading ? (
-          <>
-            <Controls></Controls>
-            <Search onChange={handleSearch} />
-          </>
+          <ControlRow
+            context={searchContext}
+            searchPlaceholder={t("home:search")}
+            onContextChange={handleSearch}
+          />
         ) : (
-          <Skeleton containerClassName="skeletonFlexContainer" height={49} />
+          <Skeleton height={49} />
         )}
-      </ControlsRow>
+      </ControlRowContainer>
       {isLoading ? (
         <Skeleton height={490} />
       ) : displayCards ? (
@@ -245,8 +267,25 @@ function CryptoExplorer() {
           data={processedExplorerData}
           currentPage={currentPage}
           rowNames={cardRowNames(t)}
-          handleAction={handleCardAction}
-          withButtons
+          buttons={[
+            (dataIndex) => (
+              <ActionButton
+                action="buy"
+                onClick={() => handleCardAction("BUY", dataIndex)}
+              >
+                {t("home:explorer_buy")}
+              </ActionButton>
+            ),
+            (dataIndex) => (
+              <ActionButton
+                action="sell"
+                onClick={() => handleCardAction("SELL", dataIndex)}
+              >
+                {t("home:explorer_sell")}
+              </ActionButton>
+            )
+          ]}
+          withPagination
         />
       ) : (
         <Table

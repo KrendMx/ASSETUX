@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 import { mobileLayoutForTablet } from "@/src/constants"
 
@@ -11,6 +11,7 @@ export const BlockchainContainer = styled.span`
     margin-left: 8px;
   }
 `
+
 export const Close = styled.button`
   position: absolute;
   width: 30px;
@@ -41,33 +42,41 @@ export const CloseBar = styled.span`
   background: var(--black);
 `
 
-type ColoredProps = {
-  colorIn: "red" | "green"
-  split?: boolean
-}
+const BaseColored = styled.span`
+  font-size: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  width: auto;
+  display: inline;
 
-export const Colored = styled.span<ColoredProps>`
-  color: ${(props) => (props.colorIn == "red" ? "var(--red)" : "var(--green)")};
   text-align: left;
   font-weight: 500;
+`
 
-  ${(props) =>
-    props.split &&
-    css`
-      & > span {
-        display: block;
-      }
-    `}
+type ColoredProps = {
+  colorIn: "red" | "green"
+}
 
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    font-size: 1.07em;
-    display: block;
-    margin-bottom: 0.5em;
-  }
+export const Colored = styled(BaseColored)<ColoredProps>`
+  color: ${(props) => (props.colorIn == "red" ? "var(--red)" : "var(--green)")};
+`
+
+type StatusColoredProps = {
+  status: string
+}
+
+export const StatusColored = styled(BaseColored)<StatusColoredProps>`
+  color: ${(props) =>
+    props.status == "closed"
+      ? "var(--green)"
+      : props.status == "pending"
+      ? "#FACE5D"
+      : "var(--red)"};
 `
 
 export const Container = styled.div`
-  max-width: 1024px;
+  max-width: 1300px;
   width: 100%;
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
@@ -111,5 +120,23 @@ export const PairContainer = styled.span`
     & > * + * {
       margin-left: 8px;
     }
+  }
+`
+
+export const Action = styled.button`
+  font-size: 1em;
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  padding: 1.035em 2em;
+  text-decoration: none;
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    font-size: 15px;
+    width: 100%;
   }
 `

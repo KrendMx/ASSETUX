@@ -1,10 +1,19 @@
+title: Profile
+
 profile: Profile
 balance: Balance
 personalInfo: Personal Info
 payment: Payment
 widgetPersonalization: Widget personalization
-nameYourCompany: Name of your company
-logo: Logo
+nameYourCompany: Company name
+logo: Logo (JPG, JPEG, PNG - 40x40)
 wallet: Wallet
-background: Background
+background: Background (JPG, JPEG, PNG - 1920x1080)
 change: Change
+upload: Upload
+walletError: Invalid wallet
+walletUnique: Wallet address should be unique
+assets: Your assets will be displayed here.
+smthHappened: Something went wrong, please, try again later
+loading: Loading ...
+invalidImage: Invalid image

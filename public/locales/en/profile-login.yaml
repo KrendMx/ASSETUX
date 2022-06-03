@@ -1,3 +1,12 @@
-greetings: Welcome to Assetux Commerce
+title: ASSETUX Business
+description: Payment with cryptocurrency for goods and services.
+
+greetings: |-
+  Welcome
+  to ASSETUX Commerce
 explanation: Sign in to your account or create a new one.
 logIn: Log In
+email: E-Mail
+emailInvalid: Invalid E-Mail
+smthHappened: Something went wrong, please, try again later
+loading: Loading ...

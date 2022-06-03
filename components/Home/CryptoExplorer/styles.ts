@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile } from "@/src/constants"
+import { mobile, cardsWidth } from "@/src/constants"
 
 export const Container = styled.section`
   display: flex;
@@ -33,18 +33,12 @@ export const TitleRow = styled.div`
   }
 `
 
-export const ControlButton = styled.button`
-  border: none;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--lightgray);
-  color: var(--gray);
-  font-size: 16px;
-  border-radius: 10px;
-  height: 49px;
-  padding: 0 15px;
+export const ControlRowContainer = styled.div`
+  margin: 39px 0;
+
+  @media only screen and (max-width: ${mobile}px) {
+    margin: 28px 0 20px;
+  }
 `
 
 export const AllLink = styled(AdaptiveFont).attrs({
@@ -55,18 +49,6 @@ export const AllLink = styled(AdaptiveFont).attrs({
   font-weight: 500;
   text-decoration: none;
 `
-
-export const ControlsRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 39px 0;
-
-  @media only screen and (max-width: ${mobile}px) {
-    margin: 28px 0 20px;
-  }
-`
-
-export const Controls = styled.div``
 
 type ChangeFieldProps = {
   up?: boolean
@@ -95,4 +77,9 @@ export const ActionButton = styled.button<ActionButtonProps>`
   height: 49px;
 
   color: ${(props) => (props.action == "sell" ? "var(--red)" : "var(--green)")};
+
+  @media only screen and (max-width: ${cardsWidth}px) {
+    width: 100%;
+    font-size: 16px;
+  }
 `

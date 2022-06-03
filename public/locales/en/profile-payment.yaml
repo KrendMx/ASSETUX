@@ -1,0 +1,12 @@
+title: Invoice payment
+
+toPay: To pay
+paymentMethod: Payment method
+email: E-Mail
+creditCard: Credit card
+phoneNumber: Phone number
+submit: Continue
+invalidEmail: Invalid e-mail
+invalidPhone: Invalid phone number
+invalidCard: Invalid card number
+loading: Loading ...

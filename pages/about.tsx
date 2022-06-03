@@ -1,5 +1,7 @@
 import React from "react"
 import styled from "styled-components"
+import { NextSeo } from "next-seo"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
@@ -9,10 +11,11 @@ import Investments from "@/components/About/Investments"
 import Contacts from "@/components/About/Contacts"
 import NewsRoom from "@/shared/NewsRoom"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
+import { getDefaultMetaTags } from "@/src/seo"
 
 import type { GetStaticProps } from "next"
-import type { NewsData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClients/main/types"
 
 const Container = styled(BaseContainer)`
   padding: 5.1em 0;
@@ -39,29 +42,40 @@ const Container = styled(BaseContainer)`
 `
 
 type AboutProps = {
-  news: NewsData[] | null
+  news: PostData[] | null
 }
 
 function About({ news }: AboutProps) {
+  const { t } = useTranslation("about")
+
   return (
-    <Container>
-      <Intro />
-      <Info />
-      <Investments />
-      <Contacts />
-      {news && <NewsRoom news={news} />}
-    </Container>
+    <>
+      <NextSeo
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: t("description"),
+          pathname: "/about"
+        })}
+      />
+      <Container>
+        <Intro />
+        <Info />
+        <Investments />
+        <Contacts />
+        {news && <NewsRoom news={news} />}
+      </Container>
+    </>
   )
 }
 
 export const getStaticProps: GetStaticProps<AboutProps> = async ({
   locale
 }) => {
-  const response = await BackendClient.getNews()
+  const response = await BackendClient.getNews({ category: "news" })
 
   return {
     props: {
-      news: response.data ? response.data : null,
+      news: response.state == "success" ? response.data.news : null,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
@@ -69,7 +83,8 @@ export const getStaticProps: GetStaticProps<AboutProps> = async ({
         "news",
         "routes"
       ]))
-    }
+    },
+    revalidate: 3600
   }
 }
 

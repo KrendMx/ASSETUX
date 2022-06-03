@@ -32,10 +32,13 @@ export const ImagePositioner = styled.div`
   display: flex !important;
   flex-direction: row;
   justify-content: center;
+
+  outline: none !important;
+  box-shadow: none !important;
 `
 
 export const ImageContainer = styled.div`
-  width: 69.74% !important;
+  width: 71% !important;
   border-radius: 10px;
   overflow: hidden;
 `

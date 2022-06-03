@@ -9,9 +9,9 @@ import type {
   Blockchain,
   GetTokens,
   Token
-} from "@/src/BackendClient/types"
+} from "@/src/BackendClients/main/types"
 import type { ExplorerData } from "@/components/CryptoManager/types"
-import type { TAction, CryptoState } from "./types"
+import type { ActionType, CryptoState } from "./types"
 
 const hydrate = createAction<RootState>(HYDRATE)
 
@@ -22,7 +22,8 @@ const initialState: CryptoState = {
   selectedToken: null,
   currentRate: null,
   action: "BUY",
-  explorerData: null
+  explorerData: null,
+  sellOrderId: null
 }
 
 export const cryptoSlice = createSlice({
@@ -38,7 +39,7 @@ export const cryptoSlice = createSlice({
     setCurrentRate: (state, action: PayloadAction<number | null>) => {
       state.currentRate = action.payload
     },
-    swapAction: (state, action: PayloadAction<TAction | undefined>) => {
+    swapAction: (state, action: PayloadAction<ActionType | undefined>) => {
       if (action.payload) {
         state.action = action.payload
       } else {
@@ -51,6 +52,9 @@ export const cryptoSlice = createSlice({
     },
     setExplorerData: (state, action: PayloadAction<ExplorerData[] | null>) => {
       state.explorerData = action.payload
+    },
+    setSellOrderId: (state, action: PayloadAction<string | null>) => {
+      state.sellOrderId = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -63,8 +67,9 @@ export const cryptoSlice = createSlice({
     builder.addCase(
       getBlockchains.fulfilled,
       (state, action: PayloadAction<GetBlockchains>) => {
-        if (action.payload.status == 200) {
+        if (action.payload.state == "success") {
           const data = action.payload.data
+
           if (data && data.length > 0) {
             state.availableBlockchains = data
             state.selectedBlockchain = data[0]
@@ -77,8 +82,10 @@ export const cryptoSlice = createSlice({
       (state, action: PayloadAction<GetTokens | null>) => {
         if (action.payload) {
           const payload = action.payload
-          if (payload.status == 200) {
+
+          if (payload.state == "success") {
             const data = payload.data
+
             if (data && data.length > 0) {
               state.availableTokens = data
               state.selectedToken = data[0]

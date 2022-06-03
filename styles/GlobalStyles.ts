@@ -9,6 +9,7 @@ export const mobileHeaderHeight = 63
 
 const GlobalStyles = createGlobalStyle`
   :root {
+    color-scheme: light;
     --blue: #0066cc;
     --green: #68cc45;
     --red: #ff7979;
@@ -34,6 +35,11 @@ const GlobalStyles = createGlobalStyle`
 
   html {
     font-size: 19px;
+  }
+
+  body {
+    background-color: var(--white);
+    -webkit-font-smoothing: antialiased;
   }
 
   html,

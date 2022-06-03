@@ -8,7 +8,7 @@ import { setCurrentRate } from "@/src/redux/cryptoSlice"
 import SelectForm from "./SelectForm"
 import Step from "./SelectForm/Steps"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { Option } from "@/shared/InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
@@ -17,7 +17,7 @@ import type {
   FiatProvider,
   Blockchain,
   Token
-} from "@/src/BackendClient/types"
+} from "@/src/BackendClients/main/types"
 import type { CurrenciesType } from "@/src/currencies"
 
 type BuyFormProps = {
@@ -89,24 +89,16 @@ function BuyForm({
 
       setProcessingRequest(false)
 
-      if (!response.data) {
+      if (response.state != "success") {
         return
       }
 
-      if (response.data.message) {
-        setCardError(response.data.message)
+      setCardError("")
 
-        return
-      }
-
-      if (response.data.link) {
-        setCardError("")
-
-        Object.assign(document.createElement("a"), {
-          target: "_blank",
-          href: response.data.link
-        }).click()
-      }
+      Object.assign(document.createElement("a"), {
+        target: "_blank",
+        href: response.data.link
+      }).click()
     }
   }
 
@@ -157,7 +149,7 @@ function BuyForm({
   }, [selectedCurrency, payments, giveAmount])
 
   useIsomorphicLayoutEffect(() => {
-    if (!selectedPayment && processedPayments) {
+    if (!selectedPayment && processedPayments && processedPayments.length > 0) {
       setSelectedPayment(processedPayments[0].value)
     }
   }, [processedPayments, selectedPayment])

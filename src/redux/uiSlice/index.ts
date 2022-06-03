@@ -9,7 +9,8 @@ export const {
   setLanguageCurrencyActive,
   setOrdersActive,
   setCurrentCurrency,
-  setAppLoaded
+  setAppLoaded,
+  setHideBurgerButton
 } = uiSlice.actions
 
 export default uiSlice.reducer

@@ -1,6 +1,8 @@
 import React from "react"
+import { NextSeo } from "next-seo"
 import dynamic from "next/dynamic"
 import styled from "styled-components"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
@@ -13,11 +15,12 @@ import QueryController from "@/components/Home/QueryController"
 import Orders from "@/components/Home/Orders"
 
 import { mobile, mobileLayoutForTablet } from "@/src/constants"
+import { getDefaultMetaTags } from "@/src/seo"
 
-import BackendClient from "@/src/BackendClient"
+import { BackendClient } from "@/src/BackendClients"
 
 import type { GetStaticProps } from "next"
-import type { NewsData } from "@/src/BackendClient/types"
+import type { PostData } from "@/src/BackendClients/main/types"
 
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
@@ -58,43 +61,57 @@ const Container = styled(BaseContainer)`
 `
 
 type IndexProps = {
-  news: NewsData[] | null
+  news: PostData[] | null
 }
 
 function Index({ news }: IndexProps) {
+  const { t } = useTranslation("home")
+
   return (
-    <Container>
-      <FormGroup />
-      <Investments />
-      <CryptoSlide />
-      <CryptoExplorer />
-      {news && <NewsRoom news={news} />}
-      <AboutUs />
+    <>
+      <NextSeo
+        {...getDefaultMetaTags({
+          title: t("title"),
+          description: t("description"),
+          pathname: ""
+        })}
+      />
+      <Container>
+        <FormGroup />
+        <Investments />
+        <CryptoSlide />
+        <CryptoExplorer />
+        {news && <NewsRoom news={news} />}
+        <AboutUs />
 
-      <Orders />
+        <Orders />
 
-      <CryptoManager getToken getChart />
-      <QueryController />
-    </Container>
+        <CryptoManager getToken getChart />
+        <QueryController />
+      </Container>
+    </>
   )
 }
 
 export const getStaticProps: GetStaticProps<IndexProps> = async ({
   locale
 }) => {
-  const response = await BackendClient.getNews()
+  const response = await BackendClient.getNews({ category: "news" })
 
   return {
     props: {
-      news: response.data ? response.data : null,
+      news: response.state == "success" ? response.data.news : null,
       ...(await serverSideTranslations(locale!, [
+        "common",
         "header",
         "footer",
         "home",
         "news",
-        "routes"
+        "routes",
+        "inputSelect"
       ]))
-    }
+    },
+    revalidate: 3600
   }
 }
 

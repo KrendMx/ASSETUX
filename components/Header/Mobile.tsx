@@ -1,11 +1,14 @@
 import React from "react"
 import styled from "styled-components"
+import Link from "next/link"
+
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
-import Image from "next/image"
 import BurgerButton from "../BurgerButton"
-import Link from "next/link"
+import Logo from "@/shared/Logo"
+
 import { mobile } from "@/src/constants"
+import { useAppSelector } from "@/src/redux/hooks"
 
 const MobileContainer = styled(Container)`
   display: none;
@@ -23,35 +26,23 @@ const ImageContainer = styled.div`
 `
 
 const LogoLink = styled.a`
-  display: block;
-  width: 38px;
-  height: 38px;
-
-  & img:-moz-loading {
-    visibility: hidden;
-  }
+  display: flex;
 `
 
 function Mobile() {
+  const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
+
   return (
     <MobileContainer>
       <LanguageCurrencyChange />
       <ImageContainer>
         <Link href="/" passHref>
           <LogoLink>
-            <Image
-              src="/icons/icon_black.png"
-              layout="responsive"
-              width={38}
-              height={38}
-              alt="Logo"
-              quality={100}
-              priority
-            />
+            <Logo width={38} height={38} />
           </LogoLink>
         </Link>
       </ImageContainer>
-      <BurgerButton />
+      {!hideBurgerButton && <BurgerButton />}
     </MobileContainer>
   )
 }

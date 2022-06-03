@@ -13,6 +13,13 @@ export const mapCurrency = (currency: CurrenciesType) => {
   }
 }
 
+export const mapShortCurrencyName = (currency: CurrenciesType) => {
+  switch (currency) {
+    case "RUB":
+      return "Rus"
+  }
+}
+
 export const mapCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case "RUB":

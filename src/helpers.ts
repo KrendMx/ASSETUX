@@ -1,3 +1,12 @@
+import Cookies from "js-cookie"
+import cookie from "cookie"
+import sanitizeHtml from "sanitize-html"
+
+import { EcommerceClient } from "./BackendClients"
+import { mappedCookies, floatRegexp } from "./constants"
+
+import type { GetServerSidePropsContext } from "next"
+
 export const ellipsisString = (value: string, maxLength: number) => {
   if (value.length > maxLength) {
     return value.substring(0, maxLength) + "..."
@@ -21,5 +30,81 @@ export const stringToPieces = (
 }
 
 export const capitalizeString = (value: string) => {
+  if (value.length == 0) {
+    return value
+  }
+
   return value[0].toUpperCase() + value.slice(1)
 }
+
+export const updateURL = (newUrl: string) => {
+  window.history.replaceState(
+    { ...window.history.state, as: newUrl, url: newUrl },
+    "",
+    newUrl
+  )
+}
+
+export type QueryObject = {
+  [key: string]: string | undefined
+}
+
+export const mapQueryObject = (query: QueryObject) => {
+  return Object.entries(query)
+    .map(([key, value]) => `${key}=${value}`)
+    .join("&")
+}
+
+export const toBase64 = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.readAsDataURL(file)
+
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = (error) => reject(error)
+  })
+
+export const logout = () => {
+  const token = Cookies.get(mappedCookies.authToken)
+
+  if (token) {
+    EcommerceClient.logout({ token })
+  }
+
+  Cookies.remove(mappedCookies.authToken)
+}
+
+export const checkAuthorization = (
+  req: GetServerSidePropsContext["req"]
+): string | null => {
+  const cookies = req.headers.cookie
+
+  if (!cookies) {
+    return null
+  }
+
+  const parsedCookies = cookie.parse(cookies)
+  const token = parsedCookies[mappedCookies.authToken]
+
+  if (!token) {
+    return null
+  }
+
+  return token
+}
+
+export const validateDecimal = (value: string): [boolean, string] => {
+  const processedValue = value.replace(/,/g, ".")
+
+  const validated = processedValue == "" || floatRegexp.test(processedValue)
+
+  return [validated, validated ? processedValue : ""]
+}
+
+export const sanitize = (html: string) =>
+  sanitizeHtml(html, {
+    allowedTags: ["p", "br", "b", "strong", "i", "em"]
+  })
+
+export type Nullable<T> = { [K in keyof T]: T[K] | null }

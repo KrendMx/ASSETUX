@@ -53,7 +53,10 @@ function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
       <Info>{t("home:orders_pleaseFill")}</Info>
       <InputSelect
         label={t("home:orders_email")}
-        id={t("home:orders_refundWallet")}
+        id="orders_email"
+        name="email"
+        type="email"
+        autocomplete="email"
         onChange={handleChange}
         value={email}
         error={
@@ -64,6 +67,7 @@ function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
             : undefined
         }
         changeable
+        focused
       />
       <ButtonsRow>
         <Button onClick={onCancel}>{t("home:orders_cancel")}</Button>

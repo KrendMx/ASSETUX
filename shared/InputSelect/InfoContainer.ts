@@ -6,7 +6,7 @@ type InfoContainerProps = {
   selectable: boolean
 }
 
-const InfoContainer = styled.div<InfoContainerProps>`
+const InfoContainer = styled.span<InfoContainerProps>`
   flex: 0 0 ${(props) => (!props.selectable ? "2.631em" : "4.21em")};
   display: flex;
   flex-direction: column;

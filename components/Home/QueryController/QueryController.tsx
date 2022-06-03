@@ -1,37 +1,25 @@
 import { useEffect } from "react"
+import { useRouter } from "next/router"
 
 import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
 import {
   setSelectedToken,
   setSelectedBlockchain,
-  swapAction
+  swapAction,
+  setSellOrderId
 } from "@/src/redux/cryptoSlice"
 import { setCurrentCurrency } from "@/src/redux/uiSlice"
-
 import { isCurrencyDeclared } from "@/src/currencies"
+import { mapQueryObject, updateURL } from "@/src/helpers"
+import { usePrevious } from "@/src/hooks"
+
+import type { QueryObject } from "@/src/helpers"
 
 let processedQuery = false
 
-type QueryObject = {
-  [key: string]: string | undefined
-}
-
-const updateURL = (newUrl: string) => {
-  window.history.replaceState(
-    { ...window.history.state, as: newUrl, url: newUrl },
-    "",
-    newUrl
-  )
-}
-
-const mapQueryObject = (query: QueryObject) => {
-  return Object.entries(query)
-    .map(([key, value]) => `${key}=${value}`)
-    .join("&")
-}
-
 function QueryController() {
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const availableBlockchains = useAppSelector(
     (state) => state.crypto.availableBlockchains
@@ -45,6 +33,8 @@ function QueryController() {
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const sellOrderId = useAppSelector((state) => state.crypto.sellOrderId)
+  const prevSellOrderId = usePrevious(sellOrderId)
 
   useEffect(() => {
     if (processedQuery) {
@@ -52,21 +42,33 @@ function QueryController() {
 
       query["action"] = action.toLowerCase()
 
-      query["currency"] = currentCurrency.toLowerCase()
+      if (sellOrderId) {
+        query["id"] = sellOrderId
+      } else {
+        query["currency"] = currentCurrency.toLowerCase()
 
-      if (selectedBlockchain) {
-        // query["blockchain"] = selectedBlockchain.chain_id.toString()
+        if (selectedBlockchain) {
+          // query["blockchain"] = selectedBlockchain.chain_id.toString()
+        }
+
+        if (selectedToken) {
+          query["token"] = selectedToken.symbol.toLowerCase()
+        }
       }
 
-      if (selectedToken) {
-        query["token"] = selectedToken.symbol.toLowerCase()
+      if (sellOrderId || (sellOrderId == null && prevSellOrderId != null)) {
+        router.push({
+          pathname: router.pathname,
+          query
+        })
+      } else {
+        const newUrl = window.location.pathname + "?" + mapQueryObject(query)
+
+        updateURL(newUrl)
       }
-
-      const newUrl = window.location.pathname + "?" + mapQueryObject(query)
-
-      updateURL(newUrl)
     }
-  }, [selectedBlockchain, selectedToken, action, currentCurrency])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBlockchain, selectedToken, action, currentCurrency, sellOrderId])
 
   useEffect(() => {
     if (availableBlockchains && availableTokens && !processedQuery) {
@@ -76,6 +78,7 @@ function QueryController() {
       const currency = queryParams.get("currency")
       const token = queryParams.get("token")
       const blockchain = queryParams.get("blockchain")
+      const orderId = queryParams.get("id")
 
       if (action) {
         const lowerCasedAction = action.toLowerCase()
@@ -117,6 +120,10 @@ function QueryController() {
             dispatch(setSelectedBlockchain(foundBlockchain))
           }
         }
+      }
+
+      if (action == "sell" && orderId != null) {
+        dispatch(setSellOrderId(orderId))
       }
 
       processedQuery = true

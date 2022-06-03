@@ -16,7 +16,7 @@ import {
 
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
-import ExchangeRow from "../../Exchange"
+import ExchangeRow from "@/shared/ExchangeInfo"
 import HideableWithMargin from "../../HideableWithMargin"
 import ExchangeInfoRow from "./ExchangeInfoRow"
 import QRcode from "./QRcode"
@@ -34,16 +34,11 @@ import ExchangeExpired from "./Modals/ExchangeExpired"
 import Background from "@/shared/Background"
 import Maintenance from "../../Maintenance"
 
-import {
-  holderRegexp,
-  emailRegexp,
-  floatRegexp,
-  allowSkeletons
-} from "@/src/constants"
+import { holderRegexp, emailRegexp, allowSkeletons } from "@/src/constants"
 
 import Skeleton from "react-loading-skeleton"
 import { useAppSelector } from "@/src/redux/hooks"
-import { stringToPieces } from "@/src/helpers"
+import { stringToPieces, validateDecimal } from "@/src/helpers"
 import { Step } from "./Steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/src/currencies"
 
@@ -61,6 +56,7 @@ const inputIds = {
 }
 
 function SelectForm({
+  loadingOrder,
   processingRequest,
   currentBlockchain,
   blockchains,
@@ -79,8 +75,8 @@ function SelectForm({
   currentStep,
   depositInfo,
   serviceAvailable,
-  refundRequestError,
-  refundError,
+  refundRequestInfo,
+  refundInfo,
   onBlockchainChange,
   onCurrencyChange,
   onTokenChange,
@@ -137,42 +133,50 @@ function SelectForm({
   )
 
   useIsomorphicLayoutEffect(() => {
-    if (!refundRequestError) {
+    if (!refundRequestInfo) {
       return
     }
 
-    if (!refundRequestError.isLoading && refundRequestError.result == null) {
-      setShowRefundModal(false)
-      setShowRefundWalletModal(true)
-    } else {
-      setShowRefundModal(false)
-      setShowRefundInsufficient(true)
+    switch (refundRequestInfo.state) {
+      case "success":
+        setShowRefundModal(false)
+        setShowRefundWalletModal(true)
+        break
+      case "error":
+        setShowRefundModal(false)
+        setShowRefundInsufficient(true)
+        break
     }
-  }, [refundRequestError])
+  }, [refundRequestInfo])
 
   useIsomorphicLayoutEffect(() => {
-    if (!refundError) {
+    if (!refundInfo) {
       return
     }
 
-    if (!refundError.isLoading && refundError.result == null) {
-      setShowRefundModalResult(true)
-      setShowRefundCodeModal(false)
-    } else {
-      setShowRefundCodeModal(false)
-      setShowRefundCodeInvalid(true)
+    switch (refundInfo.state) {
+      case "success":
+        setShowRefundModalResult(true)
+        setShowRefundCodeModal(false)
+        break
+      case "error":
+        setShowRefundCodeModal(false)
+        setShowRefundCodeInvalid(true)
+        break
     }
-  }, [refundError])
+  }, [refundInfo])
 
   useIsomorphicLayoutEffect(() => {
-    if (depositInfo?.result) {
-      if (depositInfo.error) {
-        setShowExchangeUnknownModal(true)
-        setShowExchangeModal(false)
-      } else {
-        setShowExchangeResultModal(true)
-        setShowExchangeModal(false)
-      }
+    if (depositInfo == null) {
+      return
+    }
+
+    if ("error" in depositInfo) {
+      setShowExchangeUnknownModal(true)
+      setShowExchangeModal(false)
+    } else {
+      setShowExchangeResultModal(true)
+      setShowExchangeModal(false)
     }
   }, [depositInfo])
 
@@ -184,6 +188,8 @@ function SelectForm({
   if (tokens) checkedTokens = tokens
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
+
+  const serviceUnavailable = serviceAvailable == null || !serviceAvailable
 
   let getAmount = ""
   if (rate && giveAmount != "") {
@@ -202,15 +208,21 @@ function SelectForm({
       !checkedTokens ||
       !checkedCurrencies ||
       !rate ||
-      serviceAvailable == null)
+      serviceAvailable == null ||
+      loadingOrder)
 
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     const value = event.target.value
-    if (value == "" || floatRegexp.test(value)) {
-      onGiveAmountChange(value)
+
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
+      return
     }
+
+    onGiveAmountChange(result)
   }
 
   const handleDetailsInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -237,6 +249,10 @@ function SelectForm({
   }
 
   const handleNextStep = () => {
+    if (serviceUnavailable) {
+      return
+    }
+
     let errorObject: Error = {}
 
     if (giveAmount == "") {
@@ -307,6 +323,7 @@ function SelectForm({
                 error={inputError[inputIds.give]}
                 selectedValue={currentToken}
                 displayInSelect={2}
+                onlyNumbers
                 changeable
               />
             ) : (
@@ -318,6 +335,8 @@ function SelectForm({
                 currency={currentCurrency}
                 rate={rate}
                 isLoading={isLoading}
+                placeholder={t("home:exchange_fees")}
+                text="asdads"
                 margins
               />
               {!isLoading ? (
@@ -330,6 +349,7 @@ function SelectForm({
                   selectedValue={currentCurrency}
                   onSelect={onCurrencyChange}
                   selectable={false}
+                  onlyNumbers
                   value={getAmount}
                 />
               ) : (
@@ -392,6 +412,7 @@ function SelectForm({
               value={currentEmail}
               error={inputError[inputIds.email]}
               autocomplete="email"
+              type="email"
               changeable
             />
           </HideableWithMargin>
@@ -403,8 +424,8 @@ function SelectForm({
           <FormContainer>
             <InputSelectButton
               label={t("home:sell_backTo")}
-              value={t("home:sell_payment")}
-              onClick={() => setCurrentStep(Step.Payment)}
+              value={t("home:sell_orderDetails")}
+              onClick={() => setCurrentStep(Step.Details)}
             />
             <ExchangeInfoContainer>
               <QRcode valueToCopy={exchangeInfo.wallet} />
@@ -441,6 +462,8 @@ function SelectForm({
                 currency={currentCurrency}
                 rate={rate}
                 isLoading={false}
+                placeholder={t("home:exchange_fees")}
+                text="asdads"
               />
               <ExchangeInfoRow
                 label={t("home:sell_amountToGet")}
@@ -475,8 +498,8 @@ function SelectForm({
         currentStep != Step.Exchange && (
           <NextButton
             onClick={handleNextStep}
-            disabled={processingRequest || isLoading}
-            loading={isLoading}
+            disabled={processingRequest || isLoading || serviceUnavailable}
+            isLoading={isLoading}
           >
             {isLoading ? (
               <Skeleton
@@ -498,7 +521,7 @@ function SelectForm({
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
-          isLoading={refundRequestError?.isLoading}
+          isLoading={refundRequestInfo?.state == "pending"}
           onCancel={() => setShowRefundModal(false)}
           onAccept={() => {
             onRefundRequest()
@@ -518,7 +541,7 @@ function SelectForm({
       )}
       {showRefundCodeModal && (
         <RefundCodeModal
-          isLoading={refundError?.isLoading}
+          isLoading={refundInfo?.state == "pending"}
           onAccept={(code) => {
             refundData.current.code = code
 
@@ -567,7 +590,7 @@ function SelectForm({
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
-          isLoading={depositInfo?.isLoading}
+          isLoading={depositInfo?.state == "pending"}
           onCancel={() => setShowExchangeModal(false)}
           onAccept={() => {
             onExchange()
@@ -596,7 +619,10 @@ function SelectForm({
 
       {exchangeInfo && rate && minimalRefundAmount && showExpiredModal && (
         <ExchangeExpired
-          onAccept={() => setShowExpiredModal(false)}
+          onAccept={() => {
+            setShowExpiredModal(false)
+            setCurrentStep(Step.Details)
+          }}
           getValue={creditedGetAmount}
           sentValue={exchangeInfo.creditedAmount.toString()}
           sentToken={tokens?.find((token) => token.value == currentToken)}
@@ -609,9 +635,7 @@ function SelectForm({
         />
       )}
 
-      {!isLoading && !serviceAvailable && serviceAvailable != null && (
-        <Maintenance />
-      )}
+      {!isLoading && serviceUnavailable && <Maintenance />}
 
       {(showRefundModal ||
         showRefundWalletModal ||
