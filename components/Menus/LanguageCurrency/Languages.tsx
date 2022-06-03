@@ -26,13 +26,16 @@ const mapLanguage = (locale: LocalesType) => {
 
 function Languages() {
   const router = useRouter()
-  const { locale: currentLocale } = router
+  const { locale: currentLocale, defaultLocale } = router
 
   return (
     <ul>
       {locales.map((locale) => (
         <li key={locale}>
-          <ActiveNavLink active={currentLocale == locale} href={"/" + locale}>
+          <ActiveNavLink
+            active={currentLocale == locale}
+            href={(locale == defaultLocale ? "" : "/" + locale) + router.asPath}
+          >
             <CountryContainer>
               <Image
                 src={`/flags/${locale}.png`}
