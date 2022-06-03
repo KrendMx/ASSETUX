@@ -8,6 +8,7 @@ import Cookies from "js-cookie"
 import config from "@/src/config"
 import { EcommerceClient } from "@/src/BackendClients"
 import { mobile, emailRegexp, mappedCookies } from "@/src/constants"
+import { isLocaleDeclared } from "@/src/locales"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -80,7 +81,9 @@ function LoginContainer() {
     setWaiting(true)
 
     try {
-      const token = await new Magic(config.magicKey).auth.loginWithMagicLink({
+      const token = await new Magic(config.magicKey, {
+        locale: isLocaleDeclared(router.locale!) ? router.locale : undefined
+      }).auth.loginWithMagicLink({
         email
       })
 
