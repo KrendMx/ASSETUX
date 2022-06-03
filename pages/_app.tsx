@@ -50,18 +50,23 @@ function MyApp(props: AppProps) {
   const isCommercePayment = router.pathname == "/payment/[id]"
 
   useMount(() => {
-    const handleRouteChange = () => {
-      console.log("[App] Route change")
+    const closeMenus = () => {
       dispatch(setBurgerActive(false))
       dispatch(setLanguageCurrencyActive(false))
     }
 
+    const handleRouteChange = () => {
+      console.log("[App] Route change")
+    }
+
     const handleRouteComplete = () => {
       console.log("[App] Route change complete")
+      closeMenus()
     }
 
     const handleRouteError = () => {
       console.log("[App] Route change error")
+      closeMenus()
     }
 
     const handleResize = () => {
