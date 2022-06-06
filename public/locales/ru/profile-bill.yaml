@@ -3,7 +3,7 @@ title: Счёт
 bill: Счёт
 blockchain: Блокчейн
 get: Ты получаешь
-send: "Клиент платит {{min}} - {{max}}"
+send: "Клиент платит: {{min}} - {{max}}"
 allIncluded: Все комиссии включены
 copyLink: Копировать ссылку на оплату
 p1: >-

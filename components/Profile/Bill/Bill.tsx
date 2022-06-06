@@ -84,7 +84,10 @@ function Bill() {
 
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
-  const [get, setGet] = useState("")
+  const [get, setGet] = useState({
+    visible: "",
+    actual: 0
+  })
   const [send, setSend] = useState("10000")
 
   const [getActive, setGetActive] = useState(false)
@@ -121,7 +124,10 @@ function Bill() {
       return
     }
 
-    setGet(result)
+    setGet({
+      visible: result,
+      actual: Number(result)
+    })
 
     const resultNum = Number(result)
 
@@ -165,7 +171,10 @@ function Bill() {
 
     const getAmount = resultNum / currentRate
 
-    setGet(getAmount.toFixed(2))
+    setGet({
+      visible: getAmount.toFixed(2),
+      actual: getAmount
+    })
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -211,7 +220,7 @@ function Bill() {
       chainId: selectedBlockchain.chain_id,
       tokensId: tokenId,
       amountIn: Number(send),
-      sendAmount: Number(get),
+      sendAmount: get.actual,
       currency: selectedCurrency
     })
 
@@ -268,25 +277,27 @@ function Bill() {
           (provider) => provider.type == "BUY"
         )
 
-        const ranges = buyProviders.reduce(
-          (prev, curr) => {
-            if (curr.max > prev.max) {
-              prev.max = curr.max
+        if (buyProviders.length != 0) {
+          const ranges = buyProviders.reduce(
+            (prev, curr) => {
+              if (curr.max > prev.max) {
+                prev.max = curr.max
+              }
+
+              if (curr.min < prev.min) {
+                prev.min = curr.min
+              }
+
+              return prev
+            },
+            {
+              min: buyProviders[0].min,
+              max: buyProviders[0].max
             }
+          )
 
-            if (curr.min < prev.min) {
-              prev.min = curr.min
-            }
-
-            return prev
-          },
-          {
-            min: 0,
-            max: 0
-          }
-        )
-
-        setRanges(ranges)
+          setRanges(ranges)
+        }
       }
     }
 
@@ -344,7 +355,12 @@ function Bill() {
       return
     }
 
-    setGet((Number(send) / currentRate).toFixed(2))
+    const amount = Number(send) / currentRate
+
+    setGet({
+      visible: amount.toFixed(2),
+      actual: amount
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRate])
 
@@ -383,7 +399,7 @@ function Bill() {
                     id={inputIds.get}
                     options={tokens ? tokens : undefined}
                     onChange={handleGet}
-                    value={get}
+                    value={get.visible}
                     onSelect={setSelectedToken}
                     selectedValue={selectedToken}
                     onActiveChange={setGetActive}
@@ -435,7 +451,7 @@ function Bill() {
               !getActive && (
                 <Button
                   type="submit"
-                  disabled={get == "" || send == "" || waitingResponse}
+                  disabled={get.visible == "" || send == "" || waitingResponse}
                 >
                   {submitValue}
                 </Button>
