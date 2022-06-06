@@ -166,6 +166,7 @@ function History({ history }: HistoryProps) {
               data={processedHistory}
               customPaddings="22px"
               displayIndexes
+              withPagination
             />
           )}
 

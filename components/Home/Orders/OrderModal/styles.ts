@@ -97,16 +97,7 @@ export const Container = styled.div`
     height: 100vh;
     position: absolute;
     overflow-y: auto;
-  }
-`
-
-export const DataContainer = styled.div`
-  max-height: 550px;
-  overflow-y: auto;
-
-  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
-    max-height: none;
-    overflow-y: visible;
+    border-radius: 0;
   }
 `
 
@@ -139,4 +130,8 @@ export const Action = styled.button`
     font-size: 15px;
     width: 100%;
   }
+`
+
+export const PagesContainer = styled.div`
+  padding: 25px 0;
 `

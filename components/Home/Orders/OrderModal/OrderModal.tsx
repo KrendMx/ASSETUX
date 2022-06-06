@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
@@ -12,6 +12,7 @@ import { mapCurrency, isCurrencyDeclared } from "@/src/currencies"
 import Title from "@/shared/ModalComponents/Title"
 import Shadow from "@/shared/ModalComponents/Shadow"
 import Icon from "@/shared/ModalComponents/Icon"
+import Pages from "@/shared/Pages"
 
 import {
   PairIconsContainer,
@@ -29,15 +30,15 @@ import {
   Close,
   CloseBar,
   Container,
-  DataContainer,
   StatusColored,
-  Action
+  Action,
+  PagesContainer
 } from "./styles"
 
 import Table from "@/shared/Table"
 import Cards from "@/shared/Cards"
 
-import { optimizeRemoteImages } from "@/src/constants"
+import { optimizeRemoteImages, cardsPerPage } from "@/src/constants"
 
 import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"
@@ -133,9 +134,10 @@ const cardNames = (t: TFunction) => [
 
 type OrderModalProps = {
   orders: OrderInfo[]
+  onClose?: () => void
 }
 
-function OrderModal({ orders }: OrderModalProps) {
+function OrderModal({ orders, onClose }: OrderModalProps) {
   const { t } = useTranslation("home")
 
   const dispatch = useAppDispatch()
@@ -146,6 +148,8 @@ function OrderModal({ orders }: OrderModalProps) {
   const availableBlockchains = useAppSelector(
     (state) => state.crypto.availableBlockchains
   )
+
+  const [currentPage, setCurrentPage] = useState(1)
 
   const processedOrders = useMemo(
     () =>
@@ -318,6 +322,19 @@ function OrderModal({ orders }: OrderModalProps) {
     [orders, availableBlockchains, isMobileLayoutForTablet, isMobile]
   )
 
+  const pages = useMemo(
+    () =>
+      Math.ceil(
+        processedOrders.length /
+          (isMobileLayoutForTablet
+            ? isMobile
+              ? cardsPerPage
+              : cardsPerPage * 2
+            : 5)
+      ),
+    [processedOrders, isMobileLayoutForTablet, isMobile]
+  )
+
   return (
     <Container
       onWheel={(event) =>
@@ -330,7 +347,7 @@ function OrderModal({ orders }: OrderModalProps) {
         (isMobileLayoutForTablet || isMobile) && touchPreventer(event)
       }
     >
-      <Close onClick={() => dispatch(setOrdersActive(false))}>
+      <Close onClick={onClose}>
         <CloseBar />
         <CloseBar />
       </Close>
@@ -349,54 +366,55 @@ function OrderModal({ orders }: OrderModalProps) {
         <span>{t("home:orders_myOperations")}</span>
       </Title>
 
-      <DataContainer
-        onWheel={(event) =>
-          !isMobileLayoutForTablet && !isMobile && wheelPreventer(event)
-        }
-        onTouchStart={(event) =>
-          !isMobileLayoutForTablet && !isMobile && touchStart(event)
-        }
-        onTouchMove={(event) =>
-          !isMobileLayoutForTablet && !isMobile && touchPreventer(event)
-        }
-      >
-        {isMobileLayoutForTablet || isMobile ? (
-          <Cards
-            data={processedOrders}
-            rowNames={cardNames(t)}
-            mobile={isMobile}
-            buttons={[
-              (dataIndex) => {
-                const order = orders[dataIndex]
+      {isMobileLayoutForTablet || isMobile ? (
+        <Cards
+          data={processedOrders}
+          rowNames={cardNames(t)}
+          mobile={isMobile}
+          buttons={[
+            (dataIndex) => {
+              const order = orders[dataIndex]
 
-                if (order.buy || order.status != "pending") {
-                  return null
-                }
-
-                return (
-                  <Action
-                    onClick={() => {
-                      dispatch(setSellOrderId(order.orderId))
-                      dispatch(setOrdersActive(false))
-                      dispatch(swapAction("SELL"))
-                    }}
-                  >
-                    {t("orders_continue")}
-                  </Action>
-                )
+              if (order.buy || order.status != "pending") {
+                return null
               }
-            ]}
-          />
-        ) : (
-          <Table
-            customHeadings={tableHeadings(t)}
-            data={processedOrders}
-            withPagination={false}
-            collapseCols={[3, 9]}
-            withoutShadow
-          />
-        )}
-      </DataContainer>
+
+              return (
+                <Action
+                  onClick={() => {
+                    dispatch(setSellOrderId(order.orderId))
+                    dispatch(setOrdersActive(false))
+                    dispatch(swapAction("SELL"))
+                  }}
+                >
+                  {t("orders_continue")}
+                </Action>
+              )
+            }
+          ]}
+          currentPage={currentPage}
+          withPagination
+        />
+      ) : (
+        <Table
+          customHeadings={tableHeadings(t)}
+          data={processedOrders}
+          collapseCols={[3, 9]}
+          currentPage={currentPage}
+          tablePaddings="43px 21px 0"
+          withPagination
+          withoutShadow
+        />
+      )}
+
+      <PagesContainer>
+        <Pages
+          pages={pages}
+          currentPage={currentPage}
+          hidePerPageValues={isMobileLayoutForTablet}
+          setCurrentPage={setCurrentPage}
+        />
+      </PagesContainer>
     </Container>
   )
 }

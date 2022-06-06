@@ -294,6 +294,7 @@ function CryptoExplorer() {
           currentPage={currentPage}
           displayPerPage={desktopPerPage}
           collapseLastCols={2}
+          withPagination
           displayIndexes
         />
       )}

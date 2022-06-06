@@ -7,6 +7,7 @@ import type { SortInfo, TableProps, RowData } from "./types"
 
 type ContainerProps = {
   withShadow?: boolean
+  customPaddings?: string
 }
 
 const Container = styled.table<ContainerProps>`
@@ -15,7 +16,7 @@ const Container = styled.table<ContainerProps>`
   box-shadow: ${(props) =>
     props.withShadow ? "1px 4px 19px rgba(0, 0, 0, 0.12)" : "none"};
   border-radius: 10px;
-  padding: 43px 21px;
+  padding: ${(props) => props.customPaddings || "43px 21px"};
   border-spacing: 10px 0;
 `
 
@@ -103,9 +104,10 @@ function Table({
   displayPerPage = 5,
   displayIndexes = false,
   currentPage = 1,
-  withPagination = true,
+  withPagination = false,
   collapseCols,
-  customPaddings
+  customPaddings,
+  tablePaddings
 }: TableProps) {
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
 
@@ -211,7 +213,7 @@ function Table({
   )
 
   return (
-    <Container withShadow={!withoutShadow}>
+    <Container withShadow={!withoutShadow} customPaddings={tablePaddings}>
       <Head>
         <Row nRows={collapseLastCols} collapseCols={collapseCols}>
           {displayIndexes && <HeadElement>№</HeadElement>}

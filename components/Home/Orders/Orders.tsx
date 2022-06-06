@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
-import dynamic from "next/dynamic"
 
 import Background from "@/shared/Background"
 import Email from "./Modals/Email"
 import Code from "./Modals/Code"
 import CodeInvalid from "./Modals/CodeInvalid"
+import OrderModal from "./OrderModal"
 
 import { BackendClient } from "@/src/BackendClients"
 
@@ -62,8 +62,6 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
     (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()
   )
 }
-
-const OrderModal = dynamic(() => import("./OrderModal"))
 
 function Orders() {
   const dispatch = useAppDispatch()
@@ -194,6 +192,13 @@ function Orders() {
     }
   }
 
+  const clearData = () => {
+    setUserEmail(null)
+    setUserCode(null)
+    setCodeRequestResponse(null)
+    setGetOrdersResponse(null)
+  }
+
   if (!ordersActive) {
     return null
   }
@@ -202,7 +207,10 @@ function Orders() {
     <Background>
       {!showCodeModal && !showOrdersModal && !showCodeInvalidModal && (
         <Email
-          onCancel={() => dispatch(setOrdersActive(false))}
+          onCancel={() => {
+            dispatch(setOrdersActive(false))
+            clearData()
+          }}
           onAccept={handleEmail}
           isLoading={codeRequestResponse?.state == "pending"}
           errorMessage={
@@ -233,7 +241,14 @@ function Orders() {
       )}
 
       {showOrdersModal && getOrdersResponse?.state == "success" && (
-        <OrderModal orders={getOrdersResponse.result} />
+        <OrderModal
+          orders={getOrdersResponse.result}
+          onClose={() => {
+            dispatch(setOrdersActive(false))
+            setShowOrdersModal(false)
+            clearData()
+          }}
+        />
       )}
     </Background>
   )

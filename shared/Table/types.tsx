@@ -9,6 +9,7 @@ export type TableProps = {
   withPagination?: boolean
   collapseCols?: number[]
   customPaddings?: string
+  tablePaddings?: string
 }
 
 export type TableHeading = {
