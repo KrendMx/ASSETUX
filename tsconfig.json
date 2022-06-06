@@ -16,11 +16,8 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/styles/*": ["styles/*"],
-      "@/components/*": ["components/*"],
       "@/src/*": ["src/*"],
-      "@/public/*": ["public/*"],
-      "@/shared/*": ["shared/*"]
+      "@/public/*": ["public/*"]
     },
     "incremental": true
   },

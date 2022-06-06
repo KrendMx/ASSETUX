@@ -49,7 +49,7 @@ const config = {
     ]
   },
   eslint: {
-    dirs: ["src", "shared", "pages", "components"]
+    dirs: ["src"]
   }
 }
 
