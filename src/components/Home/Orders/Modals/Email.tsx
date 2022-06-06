@@ -1,0 +1,85 @@
+import React, { useState } from "react"
+import { useTranslation } from "next-i18next"
+import Image from "next/image"
+
+import Container from "./Container"
+import Title from "@/src/shared/ModalComponents/Title"
+import Info from "@/src/shared/ModalComponents/Info"
+import ButtonsRow from "@/src/shared/ModalComponents/ButtonsRow"
+import Button from "@/src/shared/ModalComponents/Button"
+import InputSelect from "@/src/shared/InputSelect"
+import Icon from "@/src/shared/ModalComponents/Icon"
+import Shadow from "@/src/shared/ModalComponents/Shadow"
+
+import { emailRegexp } from "@/src/utils/constants"
+
+type EmailProps = {
+  isLoading?: boolean
+  onCancel?: () => void
+  onAccept?: (email: string) => void
+  errorMessage: string | null
+}
+
+function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
+  const { t } = useTranslation("home")
+
+  const [email, setEmail] = useState("")
+  const [isEmailValid, setIsEmailValid] = useState(false)
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value
+
+    setIsEmailValid(emailRegexp.test(value))
+
+    setEmail(value)
+  }
+
+  return (
+    <Container>
+      <Title>
+        <Shadow>
+          <Icon>
+            <Image
+              src="/assets/Question.svg"
+              layout="fill"
+              alt="Exclamation"
+              objectFit="contain"
+              objectPosition="center"
+            />
+          </Icon>
+        </Shadow>
+        <span>{t("home:orders_myOperations")}</span>
+      </Title>
+      <Info>{t("home:orders_pleaseFill")}</Info>
+      <InputSelect
+        label={t("home:orders_email")}
+        id="orders_email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        onChange={handleChange}
+        value={email}
+        error={
+          errorMessage
+            ? errorMessage
+            : !isEmailValid && email != ""
+            ? t("home:orders_invalidEmail")
+            : undefined
+        }
+        changeable
+        focused
+      />
+      <ButtonsRow>
+        <Button onClick={onCancel}>{t("home:orders_cancel")}</Button>
+        <Button
+          onClick={() => onAccept && isEmailValid && onAccept(email)}
+          main
+        >
+          {isLoading ? t("home:orders_loading") : "OK"}
+        </Button>
+      </ButtonsRow>
+    </Container>
+  )
+}
+
+export default Email

@@ -1,5 +1,5 @@
 import axios from "axios"
-import config from "../config"
+import config from "../utils/config"
 
 import type { AxiosRequestConfig } from "axios"
 import type { Response } from "./types"
