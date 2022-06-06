@@ -111,6 +111,7 @@ function CodeInput({ nBlocks = 6, onChange }: CodeInputProps) {
           onPaste={handlePaste(index)}
           maxLength={1}
           autoComplete="off"
+          inputMode="decimal"
         />
       ))}
     </Container>
