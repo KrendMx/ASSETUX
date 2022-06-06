@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { toChecksumAddress } from "web3-utils"
 
 import {
   Form,
@@ -14,7 +13,7 @@ import {
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile } from "@/src/constants"
+import { mobile, walletRegexp } from "@/src/constants"
 import { EcommerceClient } from "@/src/BackendClients"
 import { toBase64 } from "@/src/helpers"
 import { useAuthorized } from "@/src/hooks"
@@ -90,73 +89,75 @@ function FormGroup({
   ) => {
     event.preventDefault()
 
-    try {
-      toChecksumAddress(wallet)
+    const valid = walletRegexp.test(wallet)
 
-      setInputError((prev) => ({
-        ...prev,
-        [inputId.wallet]: undefined
-      }))
-
-      setRequests((prev) => ({
-        ...prev,
-        wallet: { state: "pending" }
-      }))
-
-      const token = checkAuthorized()
-
-      if (!token) {
-        router.push("/profile/login")
-
-        return
-      }
-
-      const response = await EcommerceClient.changeWallet({ wallet, token })
-
-      if (response.state != "success") {
-        if (
-          response.state == "error" &&
-          response.data.message == "Wallet is not valid"
-        ) {
-          setInputError((prev) => ({
-            ...prev,
-            [inputId.wallet]: t("walletError")
-          }))
-        } else if (
-          response.state == "error" &&
-          response.data.message == "The wallet must be unique"
-        ) {
-          setInputError((prev) => ({
-            ...prev,
-            [inputId.wallet]: t("walletUnique")
-          }))
-        } else {
-          setInputError((prev) => ({
-            ...prev,
-            [inputId.wallet]: t("smthHappened")
-          }))
-        }
-
-        setRequests((prev) => ({
-          ...prev,
-          wallet: { state: "error", error: null }
-        }))
-
-        return
-      }
-
-      prevPublicKey.current = wallet
-
-      setRequests((prev) => ({
-        ...prev,
-        wallet: { state: "success", result: null }
-      }))
-    } catch (e) {
+    if (!valid) {
       setInputError((prev) => ({
         ...prev,
         [inputId.wallet]: t("walletError")
       }))
+
+      return
     }
+
+    setInputError((prev) => ({
+      ...prev,
+      [inputId.wallet]: undefined
+    }))
+
+    setRequests((prev) => ({
+      ...prev,
+      wallet: { state: "pending" }
+    }))
+
+    const token = checkAuthorized()
+
+    if (!token) {
+      router.push("/profile/login")
+
+      return
+    }
+
+    const response = await EcommerceClient.changeWallet({ wallet, token })
+
+    if (response.state != "success") {
+      if (
+        response.state == "error" &&
+        response.data.message == "Wallet is not valid"
+      ) {
+        setInputError((prev) => ({
+          ...prev,
+          [inputId.wallet]: t("walletError")
+        }))
+      } else if (
+        response.state == "error" &&
+        response.data.message == "The wallet must be unique"
+      ) {
+        setInputError((prev) => ({
+          ...prev,
+          [inputId.wallet]: t("walletUnique")
+        }))
+      } else {
+        setInputError((prev) => ({
+          ...prev,
+          [inputId.wallet]: t("smthHappened")
+        }))
+      }
+
+      setRequests((prev) => ({
+        ...prev,
+        wallet: { state: "error", error: null }
+      }))
+
+      return
+    }
+
+    prevPublicKey.current = wallet
+
+    setRequests((prev) => ({
+      ...prev,
+      wallet: { state: "success", result: null }
+    }))
   }
 
   const handleWidgetSubmit: React.FormEventHandler<HTMLFormElement> = async (
