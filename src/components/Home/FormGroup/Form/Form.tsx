@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 import Buttons from "./Buttons"
 import FormController from "./FormController"
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
 const Container = styled.div`
   flex-grow: 0;

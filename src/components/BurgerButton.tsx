@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
-import { setBurgerActive } from "@/src/redux/uiSlice"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { setBurgerActive } from "@/redux/uiSlice"
 
 type StyledButtonProps = {
   active: boolean

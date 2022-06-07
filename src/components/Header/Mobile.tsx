@@ -5,10 +5,10 @@ import Link from "next/link"
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import BurgerButton from "../BurgerButton"
-import Logo from "@/src/shared/Logo"
+import Logo from "@/shared/Logo"
 
-import { mobile } from "@/src/utils/constants"
-import { useAppSelector } from "@/src/redux/hooks"
+import { mobile } from "@/utils/constants"
+import { useAppSelector } from "@/redux/hooks"
 
 const MobileContainer = styled(Container)`
   display: none;

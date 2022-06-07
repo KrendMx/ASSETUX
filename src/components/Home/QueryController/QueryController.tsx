@@ -1,19 +1,19 @@
 import { useEffect } from "react"
 import { useRouter } from "next/router"
 
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import {
   setSelectedToken,
   setSelectedBlockchain,
   swapAction,
   setSellOrderId
-} from "@/src/redux/cryptoSlice"
-import { setCurrentCurrency } from "@/src/redux/uiSlice"
-import { isCurrencyDeclared } from "@/src/utils/currencies"
-import { mapQueryObject, updateURL } from "@/src/utils/helpers"
-import { usePrevious } from "@/src/utils/hooks"
+} from "@/redux/cryptoSlice"
+import { setCurrentCurrency } from "@/redux/uiSlice"
+import { isCurrencyDeclared } from "@/utils/currencies"
+import { mapQueryObject, updateURL } from "@/utils/helpers"
+import { usePrevious } from "@/utils/hooks"
 
-import type { QueryObject } from "@/src/utils/helpers"
+import type { QueryObject } from "@/utils/helpers"
 
 let processedQuery = false
 

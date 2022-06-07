@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
 
-import { mobile, optimizeRemoteImages } from "@/src/utils/constants"
+import { mobile, optimizeRemoteImages } from "@/utils/constants"
 
 type BalanceProps = {
   amount: string

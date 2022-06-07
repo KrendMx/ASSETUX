@@ -1,4 +1,4 @@
-import { mobile, mobileLayoutForTablet } from "@/src/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/utils/constants"
 
 function useSliderConfig() {
   const toShow = 3

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 
 type LabelProps = {
   error?: boolean

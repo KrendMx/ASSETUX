@@ -5,13 +5,13 @@ import { Magic } from "magic-sdk"
 import { useRouter } from "next/router"
 import Cookies from "js-cookie"
 
-import config from "@/src/utils/config"
-import { EcommerceClient } from "@/src/BackendClients"
-import { mobile, emailRegexp, mappedCookies } from "@/src/utils/constants"
-import { isLocaleDeclared } from "@/src/utils/locales"
+import config from "@/utils/config"
+import { EcommerceClient } from "@/backend/clients"
+import { mobile, emailRegexp, mappedCookies } from "@/utils/constants"
+import { isLocaleDeclared } from "@/utils/locales"
 
-import InputSelect from "@/src/shared/InputSelect"
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import InputSelect from "@/shared/InputSelect"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 import { Form, Button } from "../shared/FormComponents"
 
 const Container = styled(AdaptiveFont).attrs({

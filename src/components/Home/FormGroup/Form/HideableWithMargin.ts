@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import Hideable from "@/src/shared/Hideable"
+import Hideable from "@/shared/Hideable"
 
 type HideableWithMarginProps = {
   margins?: boolean | string

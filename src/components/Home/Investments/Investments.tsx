@@ -4,8 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
 
-import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
-import { useAppSelector } from "@/src/redux/hooks"
+import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { useAppSelector } from "@/redux/hooks"
 
 import {
   Container,
@@ -16,10 +16,10 @@ import {
   Store,
   QRContainer
 } from "./styles"
-import DefaultModal from "@/src/shared/Modals/DefaultModal"
+import DefaultModal from "@/shared/Modals/DefaultModal"
 
-import AbsoluteSkeletonContainer from "@/src/shared/AbsoluteSkeletonContainer"
-import InvestmentsSlider from "@/src/shared/Investments/Slider/Slider"
+import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
+import InvestmentsSlider from "@/shared/Investments/Slider/Slider"
 
 function Investments() {
   const { t } = useTranslation("home")

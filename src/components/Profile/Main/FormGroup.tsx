@@ -10,17 +10,17 @@ import {
   Balance,
   Paragraph
 } from "../shared/FormComponents"
-import InputSelect from "@/src/shared/InputSelect"
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import InputSelect from "@/shared/InputSelect"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile, walletRegexp } from "@/src/utils/constants"
-import { EcommerceClient } from "@/src/BackendClients"
-import { toBase64 } from "@/src/utils/helpers"
-import { useAuthorized } from "@/src/utils/hooks"
+import { mobile, walletRegexp } from "@/utils/constants"
+import { EcommerceClient } from "@/backend/clients"
+import { toBase64 } from "@/utils/helpers"
+import { useAuthorized } from "@/utils/hooks"
 
-import type { Profile, UserImage } from "@/src/BackendClients/ecommerce/types"
-import type { RequestState } from "@/src/BackendClients/types"
-import type { Nullable } from "@/src/utils/helpers"
+import type { Profile, UserImage } from "@/backend/ecommerce/types"
+import type { RequestState } from "@/backend/types"
+import type { Nullable } from "@/utils/helpers"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,

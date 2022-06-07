@@ -4,9 +4,9 @@ import Image from "next/image"
 import { useTranslation } from "next-i18next"
 import { isValidPhoneNumber } from "libphonenumber-js"
 
-import LanguageCurrencyChange from "@/src/components/Header/LanguageCurrencyChange"
-import InputSelect from "@/src/shared/InputSelect"
-import HideableWithMargin from "@/src/components/Home/FormGroup/Form/HideableWithMargin"
+import LanguageCurrencyChange from "@/components/Header/LanguageCurrencyChange"
+import InputSelect from "@/shared/InputSelect"
+import HideableWithMargin from "@/components/Home/FormGroup/Form/HideableWithMargin"
 import {
   Header,
   Footer,
@@ -18,14 +18,14 @@ import {
   PoweredBy
 } from "./styles"
 
-import { EcommerceClient } from "@/src/BackendClients"
-import { emailRegexp } from "@/src/utils/constants"
-import { stringToPieces } from "@/src/utils/helpers"
-import config from "@/src/utils/config"
+import { EcommerceClient } from "@/backend/clients"
+import { emailRegexp } from "@/utils/constants"
+import { stringToPieces } from "@/utils/helpers"
+import config from "@/utils/config"
 
-import type { Bill } from "@/src/BackendClients/ecommerce/types"
-import type { FiatProvider } from "@/src/BackendClients/main/types"
-import type { Option } from "@/src/shared/InputSelect/types"
+import type { Bill } from "@/backend/ecommerce/types"
+import type { FiatProvider } from "@/backend/main/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 const inputIds = {
   email: "email",

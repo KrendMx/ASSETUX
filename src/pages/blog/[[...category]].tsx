@@ -3,19 +3,16 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BlogComponent from "@/src/components/Blog"
+import BlogComponent from "@/components/Blog"
 
-import { BackendClient } from "@/src/BackendClients"
-import {
-  postCategories,
-  isPostCategoryDeclared
-} from "@/src/BackendClients/main/types"
-import { getDefaultMetaTags } from "@/src/utils/seo"
+import { BackendClient } from "@/backend/clients"
+import { postCategories, isPostCategoryDeclared } from "@/backend/main/types"
+import { getDefaultMetaTags } from "@/utils/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { PostCategory } from "@/src/BackendClients/main/types"
-import type { BlogProps } from "@/src/components/Blog"
+import type { PostCategory } from "@/backend/main/types"
+import type { BlogProps } from "@/components/Blog"
 
 function Blog(props: BlogProps) {
   const { t } = useTranslation("news")

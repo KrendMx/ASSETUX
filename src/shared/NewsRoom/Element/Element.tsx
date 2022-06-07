@@ -5,14 +5,14 @@ import Skeleton from "react-loading-skeleton"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
-import { useAppSelector } from "@/src/redux/hooks"
-import { getFormattedDate } from "@/src/utils/date"
+import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { useAppSelector } from "@/redux/hooks"
+import { getFormattedDate } from "@/utils/date"
 
-import config from "@/src/utils/config"
-import { BackendClient } from "@/src/BackendClients"
+import config from "@/utils/config"
+import { BackendClient } from "@/backend/clients"
 
-import AbsoluteSkeletonContainer from "@/src/shared/AbsoluteSkeletonContainer"
+import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
 import {
   Container,
   ImgContainer,

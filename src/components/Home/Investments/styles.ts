@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobileLayoutForTablet, mobile } from "@/src/utils/constants"
+import { mobileLayoutForTablet, mobile } from "@/utils/constants"
 
 const breakPoint = 680
 

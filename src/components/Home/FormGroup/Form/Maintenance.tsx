@@ -3,11 +3,11 @@ import styled from "styled-components"
 import Image from "next/image"
 import { useTranslation } from "next-i18next"
 
-import Container from "@/src/shared/ModalComponents/Container"
-import Icon from "@/src/shared/ModalComponents/Icon"
-import Info from "@/src/shared/ModalComponents/Info"
-import Shadow from "@/src/shared/ModalComponents/Shadow"
-import Title from "@/src/shared/ModalComponents/Title"
+import Container from "@/shared/ModalComponents/Container"
+import Icon from "@/shared/ModalComponents/Icon"
+import Info from "@/shared/ModalComponents/Info"
+import Shadow from "@/shared/ModalComponents/Shadow"
+import Title from "@/shared/ModalComponents/Title"
 
 const SmallContainer = styled(Container)`
   width: 72%;

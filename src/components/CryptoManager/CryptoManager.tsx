@@ -1,9 +1,9 @@
 import { useEffect } from "react"
 import io from "socket.io-client"
 
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
-import { getBlockchains, getTokens } from "@/src/redux/cryptoSlice/thunks"
-import { setExplorerData } from "@/src/redux/cryptoSlice"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { getBlockchains, getTokens } from "@/redux/cryptoSlice/thunks"
+import { setExplorerData } from "@/redux/cryptoSlice"
 
 import type { Socket } from "socket.io-client"
 import type { ExplorerData } from "./types"

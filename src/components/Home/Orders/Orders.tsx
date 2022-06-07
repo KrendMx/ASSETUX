@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react"
 
-import Background from "@/src/shared/Background"
+import Background from "@/shared/Background"
 import Email from "./Modals/Email"
 import Code from "./Modals/Code"
 import CodeInvalid from "./Modals/CodeInvalid"
 import OrderModal from "./OrderModal"
 
-import { BackendClient } from "@/src/BackendClients"
+import { BackendClient } from "@/backend/clients"
 
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
-import { setOrdersActive } from "@/src/redux/uiSlice"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import { setOrdersActive } from "@/redux/uiSlice"
 
 import type { OrderInfo } from "./OrderModal/types"
-import type { OrdersData } from "@/src/BackendClients/main/types"
-import type { RequestState } from "@/src/BackendClients/types"
+import type { OrdersData } from "@/backend/main/types"
+import type { RequestState } from "@/backend/types"
 
 const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   const allOrders: OrderInfo[] = []

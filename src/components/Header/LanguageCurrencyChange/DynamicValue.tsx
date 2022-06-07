@@ -1,9 +1,9 @@
 import React from "react"
 import { useRouter } from "next/router"
-import { useAppSelector } from "@/src/redux/hooks"
+import { useAppSelector } from "@/redux/hooks"
 import { mapLanguage } from "./Popup/Languages"
-import { mapCurrency } from "@/src/utils/currencies"
-import { isLocaleDeclared } from "@/src/utils/locales"
+import { mapCurrency } from "@/utils/currencies"
+import { isLocaleDeclared } from "@/utils/locales"
 
 function DynamicValue() {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)

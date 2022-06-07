@@ -2,17 +2,17 @@ import React, { useMemo, useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
-import { setOrdersActive } from "@/src/redux/uiSlice"
-import { setSellOrderId, swapAction } from "@/src/redux/cryptoSlice"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import { setOrdersActive } from "@/redux/uiSlice"
+import { setSellOrderId, swapAction } from "@/redux/cryptoSlice"
 
-import { capitalizeString, ellipsisString } from "@/src/utils/helpers"
-import { mapCurrency, isCurrencyDeclared } from "@/src/utils/currencies"
+import { capitalizeString, ellipsisString } from "@/utils/helpers"
+import { mapCurrency, isCurrencyDeclared } from "@/utils/currencies"
 
-import Title from "@/src/shared/ModalComponents/Title"
-import Shadow from "@/src/shared/ModalComponents/Shadow"
-import Icon from "@/src/shared/ModalComponents/Icon"
-import Pages from "@/src/shared/Pages"
+import Title from "@/shared/ModalComponents/Title"
+import Shadow from "@/shared/ModalComponents/Shadow"
+import Icon from "@/shared/ModalComponents/Icon"
+import Pages from "@/shared/Pages"
 
 import {
   PairIconsContainer,
@@ -35,10 +35,10 @@ import {
   PagesContainer
 } from "./styles"
 
-import Table from "@/src/shared/Table"
-import Cards from "@/src/shared/Cards"
+import Table from "@/shared/Table"
+import Cards from "@/shared/Cards"
 
-import { optimizeRemoteImages, cardsPerPage } from "@/src/utils/constants"
+import { optimizeRemoteImages, cardsPerPage } from "@/utils/constants"
 
 import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"

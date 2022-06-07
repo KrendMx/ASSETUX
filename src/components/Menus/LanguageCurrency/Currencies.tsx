@@ -1,13 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import {
-  currencies,
-  mapCurrency,
-  mapCurrencyName
-} from "@/src/utils/currencies"
+import { currencies, mapCurrency, mapCurrencyName } from "@/utils/currencies"
 import ActiveNavLink from "./ActiveNavLink"
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
-import { setCurrentCurrency } from "@/src/redux/uiSlice"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import { setCurrentCurrency } from "@/redux/uiSlice"
 
 const Button = styled(ActiveNavLink)`
   border: none;

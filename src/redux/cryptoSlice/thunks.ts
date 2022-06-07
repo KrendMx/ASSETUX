@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { BackendClient } from "@/src/BackendClients"
+import { BackendClient } from "@/backend/clients"
 
 import type { RootState } from "../store"
-import type { GetBlockchains, GetTokens } from "@/src/BackendClients/main/types"
+import type { GetBlockchains, GetTokens } from "@/backend/main/types"
 
 export const getBlockchains = createAsyncThunk<
   GetBlockchains,

@@ -3,8 +3,8 @@ import Image from "next/image"
 import { useTranslation } from "next-i18next"
 import { IoIosArrowDown } from "react-icons/io"
 
-import { ellipsisString } from "@/src/utils/helpers"
-import { optimizeRemoteImages } from "@/src/utils/constants"
+import { ellipsisString } from "@/utils/helpers"
+import { optimizeRemoteImages } from "@/utils/constants"
 
 import InputWrapper from "./InputWrapper"
 import InputContainer from "./InputContainer"

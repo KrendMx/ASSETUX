@@ -2,24 +2,24 @@ import React, { useState, useMemo, useEffect, useCallback } from "react"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import { mapCurrency } from "@/src/utils/currencies"
+import { mapCurrency } from "@/utils/currencies"
 import {
   allowSkeletons,
   cardsPerPage,
   perPageValues,
   cardsWidth
-} from "@/src/utils/constants"
+} from "@/utils/constants"
 
-import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
-import { swapAction, setSelectedToken } from "@/src/redux/cryptoSlice"
+import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { swapAction, setSelectedToken } from "@/redux/cryptoSlice"
 
-import { useIsomorphicLayoutEffect } from "@/src/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 
-import Table from "@/src/shared/Table"
-import Cards from "@/src/shared/Cards"
-import ControlRow from "@/src/shared/ControlRow"
-import Pages from "@/src/shared/Pages"
+import Table from "@/shared/Table"
+import Cards from "@/shared/Cards"
+import ControlRow from "@/shared/ControlRow"
+import Pages from "@/shared/Pages"
 
 import {
   Container,
@@ -30,8 +30,8 @@ import {
   ActionButton
 } from "./styles"
 
-import type { ActionType } from "@/src/redux/cryptoSlice/types"
-import type { Token } from "@/src/BackendClients/main/types"
+import type { ActionType } from "@/redux/cryptoSlice/types"
+import type { Token } from "@/backend/main/types"
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
 

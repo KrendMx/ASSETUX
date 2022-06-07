@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 
 const Text = styled.span`
   color: gray;

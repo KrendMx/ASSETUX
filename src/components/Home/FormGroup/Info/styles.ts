@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { mobile, mobileLayoutForTablet } from "@/src/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/utils/constants"
 
 type ColoredSpanProps = {
   colorIn: "green" | "red"

@@ -2,17 +2,17 @@ import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 
 import {
   setOrdersActive,
   setBurgerActive,
   setCurrentCurrency
-} from "@/src/redux/uiSlice"
-import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
-import { company, legal, popular, commerce } from "@/src/utils/routes"
-import { isCurrencyDeclared } from "@/src/utils/currencies"
-import { logout } from "@/src/utils/helpers"
+} from "@/redux/uiSlice"
+import { setSelectedToken, swapAction } from "@/redux/cryptoSlice"
+import { company, legal, popular, commerce } from "@/utils/routes"
+import { isCurrencyDeclared } from "@/utils/currencies"
+import { logout } from "@/utils/helpers"
 
 import NavGroup from "./NavGroup"
 import NavLink from "../NavLink"
@@ -20,7 +20,7 @@ import MobileButton from "./MobileButton"
 import Container from "../Container"
 import Social from "../Social"
 
-import type { Route } from "@/src/utils/routes"
+import type { Route } from "@/utils/routes"
 
 function BurgerMenu() {
   const { t } = useTranslation("header")

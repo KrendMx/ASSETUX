@@ -4,16 +4,16 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { useAppDispatch } from "@/src/redux/hooks"
-import { setOrdersActive } from "@/src/redux/uiSlice"
+import { useAppDispatch } from "@/redux/hooks"
+import { setOrdersActive } from "@/redux/uiSlice"
 
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
-import TextLogo from "@/src/shared/TextLogo"
+import TextLogo from "@/shared/TextLogo"
 
-import { commerce } from "@/src/utils/routes"
-import { mobile } from "@/src/utils/constants"
-import { logout } from "@/src/utils/helpers"
+import { commerce } from "@/utils/routes"
+import { mobile } from "@/utils/constants"
+import { logout } from "@/utils/helpers"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {

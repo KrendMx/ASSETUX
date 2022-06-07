@@ -2,15 +2,15 @@ import React from "react"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import ArticleComponent from "@/src/components/Blog/Article"
+import ArticleComponent from "@/components/Blog/Article"
 
-import { BackendClient } from "@/src/BackendClients"
-import { getDefaultMetaTags } from "@/src/utils/seo"
+import { BackendClient } from "@/backend/clients"
+import { getDefaultMetaTags } from "@/utils/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { ArticleProps } from "@/src/components/Blog/Article"
-import type { PostData } from "@/src/BackendClients/main/types"
+import type { ArticleProps } from "@/components/Blog/Article"
+import type { PostData } from "@/backend/main/types"
 
 function Article(props: ArticleProps) {
   return (

@@ -3,7 +3,7 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import parse from "html-react-parser"
 
-import Post from "@/src/shared/NewsRoom/Element"
+import Post from "@/shared/NewsRoom/Element"
 import {
   Container,
   Content,
@@ -15,11 +15,11 @@ import {
   Column
 } from "./styles"
 
-import { getFormattedDate } from "@/src/utils/date"
-import { BackendClient } from "@/src/BackendClients"
-import { sanitize } from "@/src/utils/helpers"
+import { getFormattedDate } from "@/utils/date"
+import { BackendClient } from "@/backend/clients"
+import { sanitize } from "@/utils/helpers"
 
-import type { PostData } from "@/src/BackendClients/main/types"
+import type { PostData } from "@/backend/main/types"
 
 export type ArticleProps = {
   data: PostData

@@ -4,15 +4,15 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BaseContainer from "@/src/shared/BaseContainer"
-import HeadingRow from "@/src/components/Profile/shared/HeadingRow"
-import FormGroup from "@/src/components/Profile/Main/FormGroup"
+import BaseContainer from "@/shared/BaseContainer"
+import HeadingRow from "@/components/Profile/shared/HeadingRow"
+import FormGroup from "@/components/Profile/Main/FormGroup"
 
-import { EcommerceClient } from "@/src/BackendClients"
-import { checkAuthorization } from "@/src/utils/helpers"
+import { EcommerceClient } from "@/backend/clients"
+import { checkAuthorization } from "@/utils/helpers"
 
 import type { GetServerSideProps } from "next"
-import type { FormGroupProps } from "@/src/components/Profile/Main/FormGroup"
+import type { FormGroupProps } from "@/components/Profile/Main/FormGroup"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);

@@ -1,9 +1,9 @@
-import LoginComponent from "@/src/components/Profile/Login"
+import LoginComponent from "@/components/Profile/Login"
 import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import { getDefaultMetaTags } from "@/src/utils/seo"
+import { getDefaultMetaTags } from "@/utils/seo"
 
 import type { GetStaticProps } from "next"
 

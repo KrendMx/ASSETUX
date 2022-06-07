@@ -2,9 +2,9 @@ import React from "react"
 import Skeleton from "react-loading-skeleton"
 import { useTranslation } from "next-i18next"
 
-import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
-import { swapAction } from "@/src/redux/cryptoSlice"
+import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { swapAction } from "@/redux/cryptoSlice"
 
 import { Container, SkeletonContainer, SellButton, BuyButton } from "./styles"
 

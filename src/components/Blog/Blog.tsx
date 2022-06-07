@@ -3,17 +3,17 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 
-import BaseContainer from "@/src/shared/BaseContainer"
-import ControlRow from "@/src/shared/ControlRow"
+import BaseContainer from "@/shared/BaseContainer"
+import ControlRow from "@/shared/ControlRow"
 import MainBlock from "./MainBlock"
-import Pages from "@/src/shared/Pages"
+import Pages from "@/shared/Pages"
 
-import { postCategories } from "@/src/BackendClients/main/types"
-import { mobile, mobileLayoutForTablet } from "@/src/utils/constants"
-import { BackendClient } from "@/src/BackendClients"
-import { useDebounce, usePrevious } from "@/src/utils/hooks"
+import { postCategories } from "@/backend/main/types"
+import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { BackendClient } from "@/backend/clients"
+import { useDebounce, usePrevious } from "@/utils/hooks"
 
-import type { PostData, PostCategory } from "@/src/BackendClients/main/types"
+import type { PostData, PostCategory } from "@/backend/main/types"
 
 const Container = styled(BaseContainer)`
   font-size: 1rem;

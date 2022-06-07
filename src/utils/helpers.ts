@@ -2,7 +2,7 @@ import Cookies from "js-cookie"
 import cookie from "cookie"
 import sanitizeHtml from "sanitize-html"
 
-import { EcommerceClient } from "../BackendClients"
+import { EcommerceClient } from "../backend/clients"
 import { mappedCookies, floatRegexp } from "./constants"
 
 import type { GetServerSidePropsContext } from "next"
