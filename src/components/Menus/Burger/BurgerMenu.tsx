@@ -8,8 +8,8 @@ import {
   setOrdersActive,
   setBurgerActive,
   setCurrentCurrency
-} from "@/redux/uiSlice"
-import { setSelectedToken, swapAction } from "@/redux/cryptoSlice"
+} from "@/redux/ui"
+import { setSelectedToken, swapAction } from "@/redux/crypto"
 import { company, legal, popular, commerce } from "@/utils/routes"
 import { isCurrencyDeclared } from "@/utils/currencies"
 import { logout } from "@/utils/helpers"

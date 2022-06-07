@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next"
 import { useImmediateMobile, useToggle } from "@/utils/hooks"
 import { mobile } from "@/utils/constants"
 import { useAppDispatch } from "@/redux/hooks"
-import { setHideBurgerButton } from "@/redux/uiSlice"
+import { setHideBurgerButton } from "@/redux/ui"
 
 import Search from "@/shared/Search"
 import Background from "../Background"

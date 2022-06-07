@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 
 import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setCurrentRate, setSellOrderId } from "@/redux/cryptoSlice"
+import { setCurrentRate, setSellOrderId } from "@/redux/crypto"
 
 import SelectForm from "./SelectForm"
 import { BackendClient } from "@/backend/clients"

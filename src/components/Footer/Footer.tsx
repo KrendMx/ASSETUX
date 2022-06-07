@@ -2,8 +2,8 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { setCurrentCurrency } from "@/redux/uiSlice"
-import { setSelectedToken, swapAction } from "@/redux/cryptoSlice"
+import { setCurrentCurrency } from "@/redux/ui"
+import { setSelectedToken, swapAction } from "@/redux/crypto"
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import { useImmediateMobile } from "@/utils/hooks"
 

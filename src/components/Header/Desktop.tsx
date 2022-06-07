@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
 import { useAppDispatch } from "@/redux/hooks"
-import { setOrdersActive } from "@/redux/uiSlice"
+import { setOrdersActive } from "@/redux/ui"
 
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"

@@ -26,7 +26,7 @@ const initialState: CryptoState = {
   sellOrderId: null
 }
 
-export const cryptoSlice = createSlice({
+export const slice = createSlice({
   name: "crypto",
   initialState,
   reducers: {
@@ -97,4 +97,4 @@ export const cryptoSlice = createSlice({
   }
 })
 
-export default cryptoSlice
+export default slice

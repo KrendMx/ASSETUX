@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setCurrentRate } from "@/redux/cryptoSlice"
+import { setCurrentRate } from "@/redux/crypto"
 
 import SelectForm from "./SelectForm"
 import Step from "./SelectForm/Steps"

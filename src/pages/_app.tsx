@@ -22,7 +22,7 @@ import {
   setMobileLayoutForTablet,
   setAppLoaded,
   setLanguageCurrencyActive
-} from "@/redux/uiSlice"
+} from "@/redux/ui"
 
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"

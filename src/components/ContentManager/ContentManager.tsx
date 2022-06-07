@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useRouter } from "next/router"
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setBurgerActive, setLanguageCurrencyActive } from "@/redux/uiSlice"
+import { setBurgerActive, setLanguageCurrencyActive } from "@/redux/ui"
 
 import { mobile } from "@/utils/constants"
 

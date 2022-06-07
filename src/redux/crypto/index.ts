@@ -1,4 +1,4 @@
-import cryptoSlice from "./slice"
+import slice from "./slice"
 
 export const {
   setSelectedToken,
@@ -7,6 +7,6 @@ export const {
   setCurrentRate,
   setExplorerData,
   setSellOrderId
-} = cryptoSlice.actions
+} = slice.actions
 
-export default cryptoSlice.reducer
+export default slice.reducer

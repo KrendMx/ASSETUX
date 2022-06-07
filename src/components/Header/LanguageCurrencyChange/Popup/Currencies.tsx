@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setCurrentCurrency } from "@/redux/uiSlice"
+import { setCurrentCurrency } from "@/redux/ui"
 import PopupRow from "../PopupRow"
 import PopupItem from "../PopupItem"
 import { currencies, mapCurrency } from "@/utils/currencies"

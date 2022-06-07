@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react"
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setSelectedToken } from "@/redux/cryptoSlice"
+import { setSelectedToken } from "@/redux/crypto"
 import { BackendClient } from "@/backend/clients"
 import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 

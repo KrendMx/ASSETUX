@@ -7,8 +7,8 @@ import {
   setSelectedBlockchain,
   swapAction,
   setSellOrderId
-} from "@/redux/cryptoSlice"
-import { setCurrentCurrency } from "@/redux/uiSlice"
+} from "@/redux/crypto"
+import { setCurrentCurrency } from "@/redux/ui"
 import { isCurrencyDeclared } from "@/utils/currencies"
 import { mapQueryObject, updateURL } from "@/utils/helpers"
 import { usePrevious } from "@/utils/hooks"

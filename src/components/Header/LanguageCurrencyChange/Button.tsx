@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { setLanguageCurrencyActive } from "@/redux/uiSlice"
+import { setLanguageCurrencyActive } from "@/redux/ui"
 import DynamicValue from "./DynamicValue"
 import styled from "styled-components"
 import { IoIosArrowUp } from "react-icons/io"

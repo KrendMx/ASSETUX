@@ -5,7 +5,7 @@ import Skeleton from "react-loading-skeleton"
 
 import { useImmediateMobile } from "@/utils/hooks"
 import { useAppSelector } from "@/redux/hooks"
-import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 import { perPageValues, cardsPerPage, cardsWidth } from "@/utils/constants"
 import { getFormattedDate } from "@/utils/date"
 

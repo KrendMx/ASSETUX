@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setOrdersActive } from "@/redux/uiSlice"
-import { setSellOrderId, swapAction } from "@/redux/cryptoSlice"
+import { setOrdersActive } from "@/redux/ui"
+import { setSellOrderId, swapAction } from "@/redux/crypto"
 
 import { capitalizeString, ellipsisString } from "@/utils/helpers"
 import { mapCurrency, isCurrencyDeclared } from "@/utils/currencies"

@@ -3,9 +3,9 @@ import Link from "next/link"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 import { useAppSelector } from "@/redux/hooks"
-import useSliderConfig from "../sliderConfig"
+import { useSliderConfig } from "@/utils/hooks"
 
 import Slider from "@/shared/Slider"
 import Element from "./Element"

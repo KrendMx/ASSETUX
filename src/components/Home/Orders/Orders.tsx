@@ -9,7 +9,7 @@ import OrderModal from "./OrderModal"
 import { BackendClient } from "@/backend/clients"
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setOrdersActive } from "@/redux/uiSlice"
+import { setOrdersActive } from "@/redux/ui"
 
 import type { OrderInfo } from "./OrderModal/types"
 import type { OrdersData } from "@/backend/main/types"

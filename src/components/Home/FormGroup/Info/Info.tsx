@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Skeleton from "react-loading-skeleton"
 
-import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 import { useAppSelector } from "@/redux/hooks"
 
 import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"

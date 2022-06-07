@@ -1,5 +1,5 @@
 import { AppDispatch } from "../redux/store"
-import { setCurrentCurrency } from "@/redux/uiSlice"
+import { setCurrentCurrency } from "@/redux/ui"
 import { locales } from "./locales"
 
 export const currencies = ["RUB"] as const

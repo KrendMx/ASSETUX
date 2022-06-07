@@ -2,18 +2,17 @@ import React, { useMemo, useCallback } from "react"
 import styled from "styled-components"
 
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setSelectedToken, swapAction } from "@/redux/cryptoSlice"
+import { setSelectedToken, swapAction } from "@/redux/crypto"
 import { mobile } from "@/utils/constants"
 import { mapCurrency } from "@/utils/currencies"
-
-import useSliderConfig from "@/shared/sliderConfig"
+import { useSliderConfig } from "@/utils/hooks"
 
 import Element from "./Element"
 import Slider from "@/shared/Slider"
 
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { Token, MarketHistoryData } from "@/backend/main/types"
-import type { ActionType } from "@/redux/cryptoSlice/types"
+import type { ActionType } from "@/redux/crypto/types"
 import type { CurrenciesType } from "@/utils/currencies"
 import type { GraphData } from "./Element/Graph"
 

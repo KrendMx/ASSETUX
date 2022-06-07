@@ -5,7 +5,7 @@ import Skeleton from "react-loading-skeleton"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 import { useAppSelector } from "@/redux/hooks"
 import { getFormattedDate } from "@/utils/date"
 

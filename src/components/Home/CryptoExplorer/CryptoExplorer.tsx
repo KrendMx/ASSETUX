@@ -10,9 +10,9 @@ import {
   cardsWidth
 } from "@/utils/constants"
 
-import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { swapAction, setSelectedToken } from "@/redux/cryptoSlice"
+import { swapAction, setSelectedToken } from "@/redux/crypto"
 
 import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 
@@ -30,7 +30,7 @@ import {
   ActionButton
 } from "./styles"
 
-import type { ActionType } from "@/redux/cryptoSlice/types"
+import type { ActionType } from "@/redux/crypto/types"
 import type { Token } from "@/backend/main/types"
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"

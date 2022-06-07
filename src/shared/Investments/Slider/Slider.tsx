@@ -3,9 +3,9 @@ import Slider from "react-slick"
 import Image from "next/image"
 import Skeleton from "react-loading-skeleton"
 
-import verticalSliderProps from "@/utils/verticalSliderProps"
+import verticalSliderProps from "@/utils/vertical-slider-props"
 import { useAppSelector } from "@/redux/hooks"
-import { selectShowSkeleton } from "@/redux/uiSlice/selectors"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 
 import {
   FlexWrapper,

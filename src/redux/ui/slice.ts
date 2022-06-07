@@ -19,7 +19,7 @@ const initialState: UiState = {
   hideBurgerButton: false
 }
 
-export const uiSlice = createSlice({
+export const slice = createSlice({
   name: "ui",
   initialState,
   reducers: {
@@ -80,4 +80,4 @@ export const uiSlice = createSlice({
   }
 })
 
-export default uiSlice
+export default slice

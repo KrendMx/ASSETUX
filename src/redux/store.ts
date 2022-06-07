@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { createWrapper } from "next-redux-wrapper"
 
-import uiSlice from "./uiSlice"
-import cryptoSlice from "./cryptoSlice"
+import ui from "./ui"
+import crypto from "./crypto"
 
 const makeStore = () =>
   configureStore({
     reducer: {
-      ui: uiSlice,
-      crypto: cryptoSlice
+      ui,
+      crypto
     }
   })
 
