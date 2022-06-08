@@ -231,10 +231,6 @@ function SellForm({
     const sellOrderId = router.query.id
 
     if (!sellOrderId || Array.isArray(sellOrderId)) {
-      setCurrentStep(Step.Details)
-      setExchangeInfo(null)
-      dispatch(setSellOrderId(null))
-
       return
     }
 
