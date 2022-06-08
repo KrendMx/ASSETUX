@@ -21,6 +21,7 @@ import {
   FormContent,
   ExchangeInfoWrapper
 } from "./styles"
+import LinkModal from "./LinkModal"
 
 import { BackendClient, EcommerceClient } from "@/backend/clients"
 import {
@@ -92,6 +93,14 @@ function Bill() {
 
   const [getActive, setGetActive] = useState(false)
   const [waitingResponse, setWaitingResponse] = useState(false)
+
+  const [linkModalProps, setLinkModalProps] = useState<
+    | {
+        open: true
+        link: string
+      }
+    | { open: false }
+  >({ open: false })
 
   const copyTimeout = useRef<NodeJS.Timeout | null>(null)
 
@@ -227,13 +236,13 @@ function Bill() {
     setWaitingResponse(false)
 
     if (response.state == "success") {
-      if ("clipboard" in navigator) {
-        const link =
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          `/payment/${response.data.bill.hash}`
+      const link =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        `/payment/${response.data.bill.hash}`
 
+      if ("clipboard" in navigator) {
         navigator.clipboard.writeText(link)
 
         setSubmitValue(t("copied"))
@@ -243,6 +252,8 @@ function Bill() {
           copyTimeout.current = null
         }, 2000)
       } else {
+        setLinkModalProps({ open: true, link })
+
         setSubmitValue(t("copyLink"))
       }
     } else {
@@ -366,6 +377,12 @@ function Bill() {
 
   return (
     <>
+      {linkModalProps.open && (
+        <LinkModal
+          link={linkModalProps.link}
+          onAccept={() => setLinkModalProps({ open: false })}
+        />
+      )}
       <CryptoManager getToken />
       <Container>
         <Paragraph>{t("p1")}</Paragraph>
