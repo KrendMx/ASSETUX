@@ -14,6 +14,7 @@ info: Первая фиатно-криптовалютная биржа, пос�
 
 orders_myOperations: Мои операции
 orders_buy: Покупка
+orders_email: Email
 orders_sell: Продажа
 orders_pleaseFill: Пожалуйста, укажите Email, использованный для операций в ASSETUX
 orders_request: Запрос
@@ -22,7 +23,7 @@ orders_closed: Выполнен
 orders_expired: Отменен
 orders_refunded: Отменен
 orders_pending: В процессе
-orders_email: Email
+orders_date: Дата
 orders_cancel: Отмена
 orders_invalidEmail: Неверный Email
 orders_loading: Загрузка...

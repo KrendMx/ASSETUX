@@ -27,7 +27,6 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       curIn: sellOrder.cur_in.symbol,
       curOut: sellOrder.cur_out.currency,
       status: sellOrder.status.split(":")[0],
-      email: sellOrder.email,
       tokenLogo: sellOrder.cur_in.logo_uri,
       buy: false,
       orderId: sellOrder.order_id,
@@ -50,7 +49,6 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       curIn: buyOrder.currency,
       curOut: buyOrder.token.symbol,
       status: buyOrder.status,
-      email: buyOrder.email,
       tokenLogo: buyOrder.token.logo_uri,
       buy: true,
       orderId: null,
@@ -242,6 +240,7 @@ function Orders() {
 
       {showOrdersModal && getOrdersResponse?.state == "success" && (
         <OrderModal
+          email={userEmail}
           orders={getOrdersResponse.result}
           onClose={() => {
             dispatch(setOrdersActive(false))

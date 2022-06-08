@@ -14,6 +14,7 @@ info: The first fiat-to-crypto exchange build on interoperable DeFi
 
 orders_myOperations: My Operations
 orders_pleaseFill: Please enter the email used for ASSETUX operations
+orders_date: Date
 orders_email: Email
 orders_cancel: Cancel
 orders_invalidEmail: Invalid email address
