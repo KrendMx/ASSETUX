@@ -39,7 +39,10 @@ function Code({ isLoading, onCancel, onAccept }: CodeProps) {
         <span>{t("home:orders_codeSent")}</span>
       </Title>
       <Info>{t("home:orders_enterCode")}</Info>
-      <CodeInput onChange={(code) => setCode(code)} />
+      <CodeInput
+        onChange={(code) => setCode(code)}
+        onEnterPress={() => onAccept && onAccept(code)}
+      />
       <ButtonsRow>
         <Button onClick={onCancel}>Cancel</Button>
         <Button onClick={() => onAccept && onAccept(code)} main>

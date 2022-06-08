@@ -48,6 +48,7 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
         label={t("home:sell_wallet")}
         id="refund_wallet"
         onChange={handleChange}
+        onEnterPress={() => onAccept && onAccept(wallet)}
         value={wallet}
         changeable
       />

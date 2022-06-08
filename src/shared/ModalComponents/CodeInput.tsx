@@ -29,9 +29,10 @@ const InputBlock = styled.input`
 type CodeInputProps = {
   nBlocks?: number
   onChange?: (code: string) => void
+  onEnterPress?: () => void
 }
 
-function CodeInput({ nBlocks = 6, onChange }: CodeInputProps) {
+function CodeInput({ nBlocks = 6, onChange, onEnterPress }: CodeInputProps) {
   const [values, setValues] = useState<string[]>(new Array(nBlocks).fill(""))
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
@@ -61,6 +62,10 @@ function CodeInput({ nBlocks = 6, onChange }: CodeInputProps) {
 
   const handleKeyDown = (order: number) => {
     return (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key == "Enter" && order == nBlocks - 1) {
+        onEnterPress && onEnterPress()
+      }
+
       if (event.key == "Backspace" && values[order] == "") {
         event.preventDefault()
 

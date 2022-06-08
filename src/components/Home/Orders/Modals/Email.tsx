@@ -58,6 +58,7 @@ function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
         type="email"
         autocomplete="email"
         onChange={handleChange}
+        onEnterPress={() => onAccept && isEmailValid && onAccept(email)}
         value={email}
         error={
           errorMessage
