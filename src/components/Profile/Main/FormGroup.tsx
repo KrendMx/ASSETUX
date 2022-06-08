@@ -15,7 +15,7 @@ import AdaptiveFont from "@/shared/AdaptiveFont"
 
 import { mobile, walletRegexp } from "@/utils/constants"
 import { EcommerceClient } from "@/backend/clients"
-import { toBase64 } from "@/utils/helpers"
+import { toBase64, getEcommercePrefix } from "@/utils/helpers"
 import { useAuthorized } from "@/utils/hooks"
 
 import type { Profile, UserImage } from "@/backend/ecommerce/types"
@@ -113,7 +113,7 @@ function FormGroup({
     const token = checkAuthorized()
 
     if (!token) {
-      router.push("/profile/login")
+      router.push(`${getEcommercePrefix()}/login`)
 
       return
     }
@@ -173,7 +173,7 @@ function FormGroup({
     const token = checkAuthorized()
 
     if (!token) {
-      router.push("/profile/login")
+      router.push(`${getEcommercePrefix()}/login`)
 
       return
     }

@@ -9,7 +9,7 @@ import HeadingRow from "@/components/Profile/shared/HeadingRow"
 import HistoryComponent from "@/components/Profile/History"
 
 import { EcommerceClient } from "@/backend/clients"
-import { checkAuthorization } from "@/utils/helpers"
+import { checkAuthorization, getEcommercePrefix } from "@/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { HistoryProps } from "@/components/Profile/History"
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
   const errorProps = {
     props: {},
     redirect: {
-      destination: "/profile/login",
+      destination: `${getEcommercePrefix()}/login`,
       permanent: false
     }
   }

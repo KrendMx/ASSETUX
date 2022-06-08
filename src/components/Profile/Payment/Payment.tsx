@@ -223,11 +223,18 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
         </Form>
       </Content>
       <Footer>
-        <Link href="/" passHref>
-          <a>
+        {config.isStage ? (
+          <Link href="/" passHref>
+            <a>
+              <PoweredBy />
+            </a>
+          </Link>
+        ) : (
+          <a href="https://assetux.com">
             <PoweredBy />
           </a>
-        </Link>
+        )}
+
         <LanguageCurrencyChange direction="top" />
       </Footer>
     </>

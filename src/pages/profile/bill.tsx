@@ -9,7 +9,7 @@ import HeadingRow from "@/components/Profile/shared/HeadingRow"
 import BillComponent from "@/components/Profile/Bill"
 
 import { EcommerceClient } from "@/backend/clients"
-import { checkAuthorization } from "@/utils/helpers"
+import { checkAuthorization, getEcommercePrefix } from "@/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { BillProps } from "@/components/Profile/Bill/Bill"
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<
   const errorProps = {
     props: {},
     redirect: {
-      destination: "/profile/login",
+      destination: `${getEcommercePrefix()}/login`,
       permanent: false
     }
   }

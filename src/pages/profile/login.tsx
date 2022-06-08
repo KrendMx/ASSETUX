@@ -4,6 +4,7 @@ import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import { getDefaultMetaTags } from "@/utils/seo"
+import { getEcommercePrefix } from "@/utils/helpers"
 
 import type { GetStaticProps } from "next"
 
@@ -16,7 +17,7 @@ function Login() {
         {...getDefaultMetaTags({
           title: t("title"),
           description: t("description"),
-          pathname: "/profile/login"
+          pathname: `${getEcommercePrefix()}/login`
         })}
       />
       <LoginComponent />

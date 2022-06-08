@@ -12,7 +12,8 @@ import {
 import { setSelectedToken, swapAction } from "@/redux/crypto"
 import { company, legal, popular, commerce } from "@/utils/routes"
 import { isCurrencyDeclared } from "@/utils/currencies"
-import { logout } from "@/utils/helpers"
+import { logout, getEcommercePrefix } from "@/utils/helpers"
+import config from "@/utils/config"
 
 import NavGroup from "./NavGroup"
 import NavLink from "../NavLink"
@@ -33,8 +34,11 @@ function BurgerMenu() {
 
   const isMainPage = router.pathname == "/"
   const isCommercePage =
-    router.pathname.startsWith("/profile") && !router.pathname.includes("login")
-  const isCommerceLogin = router.pathname == "/profile/login"
+    (router.pathname.includes("profile") ||
+      router.pathname.includes("bill") ||
+      router.pathname.includes("history")) &&
+    !router.pathname.includes("login")
+  const isCommerceLogin = router.pathname == `${getEcommercePrefix()}/login`
 
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {
@@ -96,9 +100,15 @@ function BurgerMenu() {
             </li>
             {!isCommerceLogin && (
               <li>
-                <Link href="/profile" passHref>
-                  <NavLink bold>{t("commerce")}</NavLink>
-                </Link>
+                {config.isStage ? (
+                  <Link href="/profile" passHref>
+                    <NavLink bold>{t("commerce")}</NavLink>
+                  </Link>
+                ) : (
+                  <NavLink href="https://commerce.assetux.com" bold>
+                    {t("commerce")}
+                  </NavLink>
+                )}
               </li>
             )}
           </>
@@ -118,7 +128,7 @@ function BurgerMenu() {
                 bold
                 onClick={() => {
                   logout()
-                  router.push("/profile/login")
+                  router.push(`${getEcommercePrefix()}/login`)
                 }}
               >
                 {t("exit")}

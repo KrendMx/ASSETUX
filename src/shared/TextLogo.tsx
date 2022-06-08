@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Link from "next/link"
 
 import Logo from "./Logo"
+import config from "@/utils/config"
 
 const LogoLink = styled.a`
   display: flex;
@@ -26,17 +27,27 @@ const ColoredLogoText = styled.span`
   color: #191919;
 `
 
+const Content = () => (
+  <>
+    <Logo width={45} height={45} />
+    <LogoText>
+      <span>ASSET</span>
+      <ColoredLogoText>UX</ColoredLogoText>
+    </LogoText>
+  </>
+)
+
 function TextLogo() {
-  return (
+  return config.isStage ? (
     <Link href="/" passHref>
       <LogoLink>
-        <Logo width={45} height={45} />
-        <LogoText>
-          <span>ASSET</span>
-          <ColoredLogoText>UX</ColoredLogoText>
-        </LogoText>
+        <Content />
       </LogoLink>
     </Link>
+  ) : (
+    <LogoLink href="https://assetux.com">
+      <Content />
+    </LogoLink>
   )
 }
 

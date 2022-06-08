@@ -31,7 +31,7 @@ import {
   mapShortCurrencyName
 } from "@/utils/currencies"
 import { rateCheckInterval } from "@/utils/constants"
-import { validateDecimal } from "@/utils/helpers"
+import { validateDecimal, getEcommercePrefix } from "@/utils/helpers"
 
 import type { Profile } from "@/backend/ecommerce/types"
 import type { Option } from "@/shared/InputSelect/types"
@@ -203,7 +203,7 @@ function Bill() {
     const token = checkAuthorized()
 
     if (!token) {
-      router.push("/profile/login")
+      router.push(`${getEcommercePrefix()}/login`)
 
       return
     }

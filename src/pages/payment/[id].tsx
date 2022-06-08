@@ -6,6 +6,7 @@ import PaymentComponent from "@/components/Profile/Payment"
 
 import { EcommerceClient, BackendClient } from "@/backend/clients"
 import { getDefaultMetaTags } from "@/utils/seo"
+import { getEcommercePrefix } from "@/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
@@ -20,7 +21,7 @@ function Payment(props: PaymentProps) {
         {...getDefaultMetaTags({
           title: t("title"),
           description: "Powered by ASSETUX.",
-          pathname: `/profile/payment/${props.bill.id}`,
+          pathname: `${getEcommercePrefix()}/payment/${props.bill.id}`,
           siteName: props.bill.ecommerceUser.widget.nameCompany || undefined,
           seoImage: props.bill.ecommerceUser.widget.backgroundCompany
             ? {
