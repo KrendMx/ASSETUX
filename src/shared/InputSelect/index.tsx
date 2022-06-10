@@ -3,8 +3,8 @@ import Image from "next/image"
 import { useTranslation } from "next-i18next"
 import { IoIosArrowDown } from "react-icons/io"
 
-import { ellipsisString } from "@/src/utils/helpers"
-import { optimizeRemoteImages } from "@/src/utils/constants"
+import { ellipsisString } from "@/utils/helpers"
+import { optimizeRemoteImages } from "@/utils/constants"
 
 import InputWrapper from "./InputWrapper"
 import InputContainer from "./InputContainer"
@@ -27,6 +27,7 @@ type InputSelectProps = {
   label?: string
   onSelect?: (selectedValue: string) => void
   onActiveChange?: (active: boolean) => void
+  onEnterPress?: () => void
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onUpload?: (file: File) => void
   value?: string
@@ -58,6 +59,7 @@ function InputSelect({
   label,
   onSelect,
   onActiveChange,
+  onEnterPress,
   options,
   changeable,
   selectLabel,
@@ -239,6 +241,11 @@ function InputSelect({
             disabled={!changeable || hideLabel}
             value={!file ? displayedValue : undefined}
             onChange={file ? handleUpload : handleInput}
+            onKeyDown={(event) => {
+              if (event.key == "Enter") {
+                onEnterPress && onEnterPress()
+              }
+            }}
             placeholder={placeholder}
           />
         </InputContainer>

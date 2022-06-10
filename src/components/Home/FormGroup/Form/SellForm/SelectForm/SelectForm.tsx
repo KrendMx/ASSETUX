@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useRef } from "react"
 import { useTranslation } from "next-i18next"
 
-import { useIsomorphicLayoutEffect } from "@/src/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 
-import InputSelect from "@/src/shared/InputSelect"
+import InputSelect from "@/shared/InputSelect"
 
 import {
   Container,
@@ -16,7 +16,7 @@ import {
 
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
-import ExchangeRow from "@/src/shared/ExchangeInfo"
+import ExchangeRow from "@/shared/ExchangeInfo"
 import HideableWithMargin from "../../HideableWithMargin"
 import ExchangeInfoRow from "./ExchangeInfoRow"
 import QRcode from "./QRcode"
@@ -31,23 +31,19 @@ import ExchangeModal from "./Modals/Exchange/Modal"
 import ExchangeResultModal from "./Modals/Exchange/Result"
 import ExchangeUnknownModal from "./Modals/Exchange/UnknownError"
 import ExchangeExpired from "./Modals/ExchangeExpired"
-import Background from "@/src/shared/Background"
+import Background from "@/shared/Background"
 import Maintenance from "../../Maintenance"
 
-import {
-  holderRegexp,
-  emailRegexp,
-  allowSkeletons
-} from "@/src/utils/constants"
+import { holderRegexp, emailRegexp, allowSkeletons } from "@/utils/constants"
 
 import Skeleton from "react-loading-skeleton"
-import { useAppSelector } from "@/src/redux/hooks"
-import { stringToPieces, validateDecimal } from "@/src/utils/helpers"
+import { useAppSelector } from "@/redux/hooks"
+import { stringToPieces, validateDecimal } from "@/utils/helpers"
 import { Step } from "./Steps"
-import { mapCurrencyName, isCurrencyDeclared } from "@/src/utils/currencies"
+import { mapCurrencyName, isCurrencyDeclared } from "@/utils/currencies"
 
 import type { Error, SelectFormProps } from "./types"
-import type { Option } from "@/src/shared/InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 const inputIds = {
   get: "get",

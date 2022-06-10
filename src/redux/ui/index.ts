@@ -1,4 +1,4 @@
-import uiSlice from "./slice"
+import slice from "./slice"
 
 export const {
   setMobile,
@@ -11,6 +11,6 @@ export const {
   setCurrentCurrency,
   setAppLoaded,
   setHideBurgerButton
-} = uiSlice.actions
+} = slice.actions
 
-export default uiSlice.reducer
+export default slice.reducer

@@ -2,13 +2,13 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { setCurrentCurrency } from "@/src/redux/uiSlice"
-import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
-import { useImmediateMobile } from "@/src/utils/hooks"
+import { setCurrentCurrency } from "@/redux/ui"
+import { setSelectedToken, swapAction } from "@/redux/crypto"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import { useImmediateMobile } from "@/utils/hooks"
 
-import { company, popular, legal, Route } from "@/src/utils/routes"
-import { isCurrencyDeclared } from "@/src/utils/currencies"
+import { company, popular, legal, Route } from "@/utils/routes"
+import { isCurrencyDeclared } from "@/utils/currencies"
 
 import List from "./List"
 import {

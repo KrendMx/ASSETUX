@@ -1,6 +1,6 @@
 import React from "react"
 
-import InputSelect from "@/src/shared/InputSelect"
+import InputSelect from "@/shared/InputSelect"
 
 import {
   Container,

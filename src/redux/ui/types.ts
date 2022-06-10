@@ -1,4 +1,4 @@
-import type { CurrenciesType } from "@/src/utils/currencies"
+import type { CurrenciesType } from "@/utils/currencies"
 
 export type UiState = {
   isMobile: boolean

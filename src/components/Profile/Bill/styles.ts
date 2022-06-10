@@ -1,9 +1,9 @@
 import styled from "styled-components"
 
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 import { Form as SharedForm } from "../shared/FormComponents"
 
-import { mobile, tablet } from "@/src/utils/constants"
+import { mobile, tablet } from "@/utils/constants"
 
 export const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,

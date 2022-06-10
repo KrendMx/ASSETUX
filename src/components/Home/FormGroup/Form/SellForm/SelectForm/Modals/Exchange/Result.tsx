@@ -2,15 +2,15 @@ import React from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
-import InputSelect from "@/src/shared/InputSelect"
-import Container from "@/src/shared/ModalComponents/Container"
-import Title from "@/src/shared/ModalComponents/Title"
-import ButtonsRow from "@/src/shared/ModalComponents/ButtonsRow"
-import Button from "@/src/shared/ModalComponents/Button"
-import Icon from "@/src/shared/ModalComponents/Icon"
-import Shadow from "@/src/shared/ModalComponents/Shadow"
+import InputSelect from "@/shared/InputSelect"
+import Container from "@/shared/ModalComponents/Container"
+import Title from "@/shared/ModalComponents/Title"
+import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
+import Button from "@/shared/ModalComponents/Button"
+import Icon from "@/shared/ModalComponents/Icon"
+import Shadow from "@/shared/ModalComponents/Shadow"
 
-import type { Option } from "@/src/shared/InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 type ResultModalProps = {
   getToken?: Option

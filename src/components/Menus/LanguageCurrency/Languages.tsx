@@ -3,11 +3,11 @@ import styled from "styled-components"
 import Image from "next/image"
 import { useRouter } from "next/router"
 
-import { locales } from "@/src/utils/locales"
+import { locales } from "@/utils/locales"
 
 import ActiveNavLink from "./ActiveNavLink"
 
-import type { LocalesType } from "@/src/utils/locales"
+import type { LocalesType } from "@/utils/locales"
 
 const CountryContainer = styled.div`
   display: block;

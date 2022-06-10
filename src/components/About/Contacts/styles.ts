@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 
 export const Container = styled.section`
   width: 100%;
@@ -97,6 +97,7 @@ export const SupportButtonsRow = styled.div`
 `
 
 export const ButtonLink = styled.a`
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;

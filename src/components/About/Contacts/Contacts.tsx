@@ -2,8 +2,8 @@ import React from "react"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import { useAppSelector } from "@/src/redux/hooks"
-import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
+import { useAppSelector } from "@/redux/hooks"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
 
 import {
   Container,
@@ -39,7 +39,7 @@ function Contacts() {
               <Skeleton width="100%" height="100%" />
             </ButtonLinkSkeleton>
           ) : (
-            <ButtonLink>
+            <ButtonLink href="https://telegram.me/assetux">
               <Telegram />
               <span>{t("contacts_news_link")}</span>
             </ButtonLink>
@@ -55,7 +55,7 @@ function Contacts() {
                 <Skeleton width="100%" height="100%" />
               </ButtonLinkSkeleton>
             ) : (
-              <ButtonLink>
+              <ButtonLink href="https://telegram.me/assetux_support">
                 <Telegram />
                 <span>{t("contacts_support_link1")}</span>
               </ButtonLink>
@@ -65,7 +65,7 @@ function Contacts() {
                 <Skeleton width="100%" height="100%" />
               </ButtonLinkSkeleton>
             ) : (
-              <ButtonLink>
+              <ButtonLink href="mailto:support@assetux.com">
                 <Email />
                 <span>{t("contacts_support_link2")}</span>
               </ButtonLink>

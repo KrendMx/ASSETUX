@@ -1,18 +1,20 @@
 import React, { useMemo, useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
+import { useRouter } from "next/router"
 
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
-import { setOrdersActive } from "@/src/redux/uiSlice"
-import { setSellOrderId, swapAction } from "@/src/redux/cryptoSlice"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import { setOrdersActive } from "@/redux/ui"
+import { setSellOrderId, swapAction } from "@/redux/crypto"
 
-import { capitalizeString, ellipsisString } from "@/src/utils/helpers"
-import { mapCurrency, isCurrencyDeclared } from "@/src/utils/currencies"
+import { capitalizeString, ellipsisString } from "@/utils/helpers"
+import { getFormattedDate } from "@/utils/date"
+import { mapCurrency, isCurrencyDeclared } from "@/utils/currencies"
 
-import Title from "@/src/shared/ModalComponents/Title"
-import Shadow from "@/src/shared/ModalComponents/Shadow"
-import Icon from "@/src/shared/ModalComponents/Icon"
-import Pages from "@/src/shared/Pages"
+import Title from "@/shared/ModalComponents/Title"
+import Shadow from "@/shared/ModalComponents/Shadow"
+import Icon from "@/shared/ModalComponents/Icon"
+import Pages from "@/shared/Pages"
 
 import {
   PairIconsContainer,
@@ -35,10 +37,10 @@ import {
   PagesContainer
 } from "./styles"
 
-import Table from "@/src/shared/Table"
-import Cards from "@/src/shared/Cards"
+import Table from "@/shared/Table"
+import Cards from "@/shared/Cards"
 
-import { optimizeRemoteImages, cardsPerPage } from "@/src/utils/constants"
+import { optimizeRemoteImages, cardsPerPage } from "@/utils/constants"
 
 import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"
@@ -92,10 +94,6 @@ const tableHeadings = (t: TFunction) => [
     value: t("home:orders_request"),
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
-  {
-    value: t("home:orders_status"),
-    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  },
   { value: "" },
   {
     value: t("home:orders_pair"),
@@ -106,9 +104,6 @@ const tableHeadings = (t: TFunction) => [
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: t("home:orders_email")
-  },
-  {
     value: t("home:orders_sent"),
     sortFn: (a: number, b: number) => b - a
   },
@@ -117,28 +112,38 @@ const tableHeadings = (t: TFunction) => [
     sortFn: (a: number, b: number) => b - a
   },
   {
+    value: t("home:orders_date"),
+    sortFn: (a: number, b: number) => b - a
+  },
+  {
+    value: t("home:orders_status"),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
+  },
+  {
     value: ""
   }
 ]
 
 const cardNames = (t: TFunction) => [
   t("home:orders_request"),
-  t("home:orders_status"),
   "",
   t("home:orders_pair"),
   t("home:orders_network"),
-  t("home:orders_email"),
   t("home:orders_sent"),
-  t("home:orders_got")
+  t("home:orders_got"),
+  t("home:orders_date"),
+  t("home:orders_status")
 ]
 
 type OrderModalProps = {
   orders: OrderInfo[]
+  email: string | null
   onClose?: () => void
 }
 
-function OrderModal({ orders, onClose }: OrderModalProps) {
+function OrderModal({ orders, email, onClose }: OrderModalProps) {
   const { t } = useTranslation("home")
+  const router = useRouter()
 
   const dispatch = useAppDispatch()
   const isMobile = useAppSelector((state) => state.ui.isMobile)
@@ -169,14 +174,6 @@ function OrderModal({ orders, onClose }: OrderModalProps) {
               </Colored>
             ),
             sortValue: order.buy ? "buy" : "sell"
-          },
-          {
-            value: (
-              <StatusColored status={order.status} key={order.id + "_status"}>
-                {capitalizeString(t("orders_" + order.status))}
-              </StatusColored>
-            ),
-            sortValue: order.status
           },
           {
             value: (
@@ -285,20 +282,28 @@ function OrderModal({ orders, onClose }: OrderModalProps) {
             sortValue: blockchain ? blockchain.title : ""
           },
           {
-            value: (
-              <span key={order.id + "_email"} title={order.email}>
-                {ellipsisString(order.email, 17)}
-              </span>
-            ),
-            sortValue: order.email
-          },
-          {
             value: order.amountIn.toFixed(2) + " " + order.curIn,
             sortValue: order.amountIn
           },
           {
             value: order.amountOut.toFixed(2) + " " + order.curOut,
             sortValue: order.amountOut
+          },
+          {
+            value: (
+              <span key={order.id + "_date"}>
+                {getFormattedDate(order.date, router.locale!)}
+              </span>
+            ),
+            sortValue: new Date(order.date).valueOf()
+          },
+          {
+            value: (
+              <StatusColored status={order.status} key={order.id + "_status"}>
+                {capitalizeString(t("orders_" + order.status))}
+              </StatusColored>
+            ),
+            sortValue: order.status
           },
           {
             value:
@@ -319,7 +324,13 @@ function OrderModal({ orders, onClose }: OrderModalProps) {
         ]
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [orders, availableBlockchains, isMobileLayoutForTablet, isMobile]
+    [
+      orders,
+      availableBlockchains,
+      isMobileLayoutForTablet,
+      isMobile,
+      router.locale
+    ]
   )
 
   const pages = useMemo(
@@ -363,7 +374,9 @@ function OrderModal({ orders, onClose }: OrderModalProps) {
             />
           </Icon>
         </Shadow>
-        <span>{t("home:orders_myOperations")}</span>
+        <span>
+          {t("home:orders_myOperations")} - {email}
+        </span>
       </Title>
 
       {isMobileLayoutForTablet || isMobile ? (

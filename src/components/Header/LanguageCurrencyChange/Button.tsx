@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
-import { setLanguageCurrencyActive } from "@/src/redux/uiSlice"
+import { setLanguageCurrencyActive } from "@/redux/ui"
 import DynamicValue from "./DynamicValue"
 import styled from "styled-components"
 import { IoIosArrowUp } from "react-icons/io"
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 
 const Container = styled.button`
   display: flex;

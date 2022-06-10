@@ -1,7 +1,7 @@
 title: Bill
 
 bill: Bill
-blockchain: Blockchain 
+blockchain: Blockchain
 get: You get
 send: Client pays
 allIncluded: All fees included
@@ -13,3 +13,10 @@ item1: Fill in payment information.
 item2: Click "Copy payment link".
 item3: Send it to the client.
 formHeading: Create new
+loading: Loading ...
+copied: Copied
+
+minError: "Minimal amount is {{min}}"
+maxError: "Maximum amount is {{max}}"
+
+paymentLink: Payment link

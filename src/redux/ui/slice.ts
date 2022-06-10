@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
 
-import type { CurrenciesType } from "@/src/utils/currencies"
+import type { CurrenciesType } from "@/utils/currencies"
 import type { RootState } from "../store"
 import type { UiState } from "./types"
 
@@ -19,7 +19,7 @@ const initialState: UiState = {
   hideBurgerButton: false
 }
 
-export const uiSlice = createSlice({
+export const slice = createSlice({
   name: "ui",
   initialState,
   reducers: {
@@ -80,4 +80,4 @@ export const uiSlice = createSlice({
   }
 })
 
-export default uiSlice
+export default slice

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 
 export const ExchangeStat = styled.span`
   color: #6e6e73;

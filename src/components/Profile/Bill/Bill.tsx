@@ -3,13 +3,13 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
 
-import { useAppSelector } from "@/src/redux/hooks"
-import { useIsomorphicLayoutEffect, useAuthorized } from "@/src/utils/hooks"
+import { useAppSelector } from "@/redux/hooks"
+import { useIsomorphicLayoutEffect, useAuthorized } from "@/utils/hooks"
 
-import CryptoManager from "@/src/components/CryptoManager"
-import InputSelect from "@/src/shared/InputSelect"
-import ExchangeInfo from "@/src/shared/ExchangeInfo"
-import HideableWithMargin from "@/src/components/Home/FormGroup/Form/HideableWithMargin"
+import CryptoManager from "@/components/CryptoManager"
+import InputSelect from "@/shared/InputSelect"
+import ExchangeInfo from "@/shared/ExchangeInfo"
+import HideableWithMargin from "@/components/Home/FormGroup/Form/HideableWithMargin"
 import { FormHeading, Button } from "../shared/FormComponents"
 import {
   Container,
@@ -21,20 +21,21 @@ import {
   FormContent,
   ExchangeInfoWrapper
 } from "./styles"
+import LinkModal from "./LinkModal"
 
-import { BackendClient, EcommerceClient } from "@/src/BackendClients"
+import { BackendClient, EcommerceClient } from "@/backend/clients"
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/src/utils/currencies"
-import { rateCheckInterval } from "@/src/utils/constants"
-import { validateDecimal } from "@/src/utils/helpers"
+} from "@/utils/currencies"
+import { rateCheckInterval } from "@/utils/constants"
+import { validateDecimal, getEcommercePrefix } from "@/utils/helpers"
 
-import type { Profile } from "@/src/BackendClients/ecommerce/types"
-import type { Option } from "@/src/shared/InputSelect/types"
-import type { Blockchain, FiatRate } from "@/src/BackendClients/main/types"
+import type { Profile } from "@/backend/ecommerce/types"
+import type { Option } from "@/shared/InputSelect/types"
+import type { Blockchain, FiatRate } from "@/backend/main/types"
 
 const inputIds = {
   get: "get",
@@ -92,6 +93,14 @@ function Bill() {
 
   const [getActive, setGetActive] = useState(false)
   const [waitingResponse, setWaitingResponse] = useState(false)
+
+  const [linkModalProps, setLinkModalProps] = useState<
+    | {
+        open: true
+        link: string
+      }
+    | { open: false }
+  >({ open: false })
 
   const copyTimeout = useRef<NodeJS.Timeout | null>(null)
 
@@ -194,7 +203,7 @@ function Bill() {
     const token = checkAuthorized()
 
     if (!token) {
-      router.push("/profile/login")
+      router.push(`${getEcommercePrefix()}/login`)
 
       return
     }
@@ -227,13 +236,13 @@ function Bill() {
     setWaitingResponse(false)
 
     if (response.state == "success") {
-      if ("clipboard" in navigator) {
-        const link =
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          `/payment/${response.data.bill.hash}`
+      const link =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        `/payment/${response.data.bill.hash}`
 
+      if ("clipboard" in navigator) {
         navigator.clipboard.writeText(link)
 
         setSubmitValue(t("copied"))
@@ -243,6 +252,8 @@ function Bill() {
           copyTimeout.current = null
         }, 2000)
       } else {
+        setLinkModalProps({ open: true, link })
+
         setSubmitValue(t("copyLink"))
       }
     } else {
@@ -366,6 +377,12 @@ function Bill() {
 
   return (
     <>
+      {linkModalProps.open && (
+        <LinkModal
+          link={linkModalProps.link}
+          onAccept={() => setLinkModalProps({ open: false })}
+        />
+      )}
       <CryptoManager getToken />
       <Container>
         <Paragraph>{t("p1")}</Paragraph>

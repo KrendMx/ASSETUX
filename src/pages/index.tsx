@@ -5,27 +5,25 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BaseContainer from "@/src/shared/BaseContainer"
-import FormGroup from "@/src/components/Home/FormGroup"
-import Investments from "@/src/components/Home/Investments"
-import NewsRoom from "@/src/shared/NewsRoom"
-import AboutUs from "@/src/components/Home/AboutUs"
-import CryptoManager from "@/src/components/CryptoManager"
-import QueryController from "@/src/components/Home/QueryController"
-import Orders from "@/src/components/Home/Orders"
+import BaseContainer from "@/shared/BaseContainer"
+import FormGroup from "@/components/Home/FormGroup"
+import Investments from "@/components/Home/Investments"
+import NewsRoom from "@/shared/NewsRoom"
+import AboutUs from "@/components/Home/AboutUs"
+import CryptoManager from "@/components/CryptoManager"
+import QueryController from "@/components/Home/QueryController"
+import Orders from "@/components/Home/Orders"
 
-import { mobile, mobileLayoutForTablet } from "@/src/utils/constants"
-import { getDefaultMetaTags } from "@/src/utils/seo"
+import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { getDefaultMetaTags } from "@/utils/seo"
 
-import { BackendClient } from "@/src/BackendClients"
+import { BackendClient } from "@/backend/clients"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/src/BackendClients/main/types"
+import type { PostData } from "@/backend/main/types"
 
-const CryptoSlide = dynamic(() => import("@/src/components/Home/CryptoSlide"))
-const CryptoExplorer = dynamic(
-  () => import("@/src/components/Home/CryptoExplorer")
-)
+const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
+const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
 
 const Container = styled(BaseContainer)`
   & > section:not(:last-child) {

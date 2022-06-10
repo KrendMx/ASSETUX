@@ -12,8 +12,8 @@ import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { SkeletonTheme } from "react-loading-skeleton"
 
-import wrapper from "@/src/redux/store"
-import { useAppDispatch } from "@/src/redux/hooks"
+import wrapper from "@/redux/store"
+import { useAppDispatch } from "@/redux/hooks"
 import {
   setMobile,
   setTablet,
@@ -22,24 +22,24 @@ import {
   setMobileLayoutForTablet,
   setAppLoaded,
   setLanguageCurrencyActive
-} from "@/src/redux/uiSlice"
+} from "@/redux/ui"
 
-import Header from "@/src/components/Header"
-import ContentManager from "@/src/components/ContentManager"
+import Header from "@/components/Header"
+import ContentManager from "@/components/ContentManager"
 
-import GlobalStyles from "@/src/styles/GlobalStyles"
+import GlobalStyles from "@/styles/GlobalStyles"
 
-import { mobile, tablet, mobileLayoutForTablet } from "@/src/utils/constants"
-import { checkCurrency } from "@/src/utils/currencies"
-import { useMount } from "@/src/utils/hooks"
+import { mobile, tablet, mobileLayoutForTablet } from "@/utils/constants"
+import { checkCurrency } from "@/utils/currencies"
+import { useMount } from "@/utils/hooks"
 
 import type { AppProps } from "next/app"
 
 import "react-loading-skeleton/dist/skeleton.css"
 import "core-js/features/array/at"
-import "@/src/styles/fonts.css"
+import "@/styles/fonts.css"
 
-const ScrollButton = dynamic(() => import("@/src/components/ScrollButton"), {
+const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {
   ssr: false
 })
 

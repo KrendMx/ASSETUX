@@ -4,15 +4,15 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BaseContainer from "@/src/shared/BaseContainer"
-import HeadingRow from "@/src/components/Profile/shared/HeadingRow"
-import BillComponent from "@/src/components/Profile/Bill"
+import BaseContainer from "@/shared/BaseContainer"
+import HeadingRow from "@/components/Profile/shared/HeadingRow"
+import BillComponent from "@/components/Profile/Bill"
 
-import { EcommerceClient } from "@/src/BackendClients"
-import { checkAuthorization } from "@/src/utils/helpers"
+import { EcommerceClient } from "@/backend/clients"
+import { checkAuthorization, getEcommercePrefix } from "@/utils/helpers"
 
 import type { GetServerSideProps } from "next"
-import type { BillProps } from "@/src/components/Profile/Bill/Bill"
+import type { BillProps } from "@/components/Profile/Bill/Bill"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<
   const errorProps = {
     props: {},
     redirect: {
-      destination: "/profile/login",
+      destination: `${getEcommercePrefix()}/login`,
       permanent: false
     }
   }

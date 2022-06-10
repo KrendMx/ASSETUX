@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { mobileLayoutForTablet } from "@/src/utils/constants"
+import { mobileLayoutForTablet } from "@/utils/constants"
 
 export const PairIconsContainer = styled.span`
   display: inline-block;

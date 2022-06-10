@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
 export const Container = styled.section`
   display: flex;

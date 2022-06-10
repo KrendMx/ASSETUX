@@ -9,8 +9,8 @@ import type {
   Blockchain,
   GetTokens,
   Token
-} from "@/src/BackendClients/main/types"
-import type { ExplorerData } from "@/src/components/CryptoManager/types"
+} from "@/backend/main/types"
+import type { ExplorerData } from "@/components/CryptoManager/types"
 import type { ActionType, CryptoState } from "./types"
 
 const hydrate = createAction<RootState>(HYDRATE)
@@ -26,7 +26,7 @@ const initialState: CryptoState = {
   sellOrderId: null
 }
 
-export const cryptoSlice = createSlice({
+export const slice = createSlice({
   name: "crypto",
   initialState,
   reducers: {
@@ -97,4 +97,4 @@ export const cryptoSlice = createSlice({
   }
 })
 
-export default cryptoSlice
+export default slice

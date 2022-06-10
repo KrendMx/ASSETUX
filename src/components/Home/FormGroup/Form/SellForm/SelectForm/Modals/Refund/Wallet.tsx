@@ -2,14 +2,14 @@ import React, { useState } from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
-import Container from "@/src/shared/ModalComponents/Container"
-import Title from "@/src/shared/ModalComponents/Title"
-import Info from "@/src/shared/ModalComponents/Info"
-import ButtonsRow from "@/src/shared/ModalComponents/ButtonsRow"
-import Button from "@/src/shared/ModalComponents/Button"
-import InputSelect from "@/src/shared/InputSelect"
-import Icon from "@/src/shared/ModalComponents/Icon"
-import Shadow from "@/src/shared/ModalComponents/Shadow"
+import Container from "@/shared/ModalComponents/Container"
+import Title from "@/shared/ModalComponents/Title"
+import Info from "@/shared/ModalComponents/Info"
+import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
+import Button from "@/shared/ModalComponents/Button"
+import InputSelect from "@/shared/InputSelect"
+import Icon from "@/shared/ModalComponents/Icon"
+import Shadow from "@/shared/ModalComponents/Shadow"
 
 type RefundWalletModalProps = {
   onCancel?: () => void
@@ -48,6 +48,7 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
         label={t("home:sell_wallet")}
         id="refund_wallet"
         onChange={handleChange}
+        onEnterPress={() => onAccept && onAccept(wallet)}
         value={wallet}
         changeable
       />

@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
+import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile, cardsWidth } from "@/src/utils/constants"
+import { mobile, cardsWidth } from "@/utils/constants"
 
 export const Container = styled.section`
   display: flex;

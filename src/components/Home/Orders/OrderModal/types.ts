@@ -7,7 +7,6 @@ export type OrderInfo = {
   curOut: string
   amountIn: number
   amountOut: number
-  email: string
   buy: boolean
   orderId: string | null
   date: string

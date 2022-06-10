@@ -2,14 +2,15 @@ import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import PaymentComponent from "@/src/components/Profile/Payment"
+import PaymentComponent from "@/components/Profile/Payment"
 
-import { EcommerceClient, BackendClient } from "@/src/BackendClients"
-import { getDefaultMetaTags } from "@/src/utils/seo"
+import { EcommerceClient, BackendClient } from "@/backend/clients"
+import { getDefaultMetaTags } from "@/utils/seo"
+import { getEcommercePrefix } from "@/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { PaymentProps } from "@/src/components/Profile/Payment"
+import type { PaymentProps } from "@/components/Profile/Payment"
 
 function Payment(props: PaymentProps) {
   const { t } = useTranslation("profile-payment")
@@ -20,7 +21,7 @@ function Payment(props: PaymentProps) {
         {...getDefaultMetaTags({
           title: t("title"),
           description: "Powered by ASSETUX.",
-          pathname: `/profile/payment/${props.bill.id}`,
+          pathname: `${getEcommercePrefix()}/payment/${props.bill.id}`,
           siteName: props.bill.ecommerceUser.widget.nameCompany || undefined,
           seoImage: props.bill.ecommerceUser.widget.backgroundCompany
             ? {

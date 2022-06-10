@@ -2,14 +2,14 @@ import React, { useMemo, memo, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useRouter } from "next/router"
 
-import { useAppSelector, useAppDispatch } from "@/src/redux/hooks"
-import { setBurgerActive, setLanguageCurrencyActive } from "@/src/redux/uiSlice"
+import { useAppSelector, useAppDispatch } from "@/redux/hooks"
+import { setBurgerActive, setLanguageCurrencyActive } from "@/redux/ui"
 
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 
-import BurgerMenu from "@/src/components/Menus/Burger"
-import LanguageCurrencyMenu from "@/src/components/Menus/LanguageCurrency"
-import Footer from "@/src/components/Footer"
+import BurgerMenu from "@/components/Menus/Burger"
+import LanguageCurrencyMenu from "@/components/Menus/LanguageCurrency"
+import Footer from "@/components/Footer"
 
 import type { AppProps } from "next/app"
 

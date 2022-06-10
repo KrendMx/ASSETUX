@@ -3,15 +3,15 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import Container from "./Container"
-import Title from "@/src/shared/ModalComponents/Title"
-import Info from "@/src/shared/ModalComponents/Info"
-import ButtonsRow from "@/src/shared/ModalComponents/ButtonsRow"
-import Button from "@/src/shared/ModalComponents/Button"
-import InputSelect from "@/src/shared/InputSelect"
-import Icon from "@/src/shared/ModalComponents/Icon"
-import Shadow from "@/src/shared/ModalComponents/Shadow"
+import Title from "@/shared/ModalComponents/Title"
+import Info from "@/shared/ModalComponents/Info"
+import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
+import Button from "@/shared/ModalComponents/Button"
+import InputSelect from "@/shared/InputSelect"
+import Icon from "@/shared/ModalComponents/Icon"
+import Shadow from "@/shared/ModalComponents/Shadow"
 
-import { emailRegexp } from "@/src/utils/constants"
+import { emailRegexp } from "@/utils/constants"
 
 type EmailProps = {
   isLoading?: boolean
@@ -58,6 +58,7 @@ function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
         type="email"
         autocomplete="email"
         onChange={handleChange}
+        onEnterPress={() => onAccept && isEmailValid && onAccept(email)}
         value={email}
         error={
           errorMessage

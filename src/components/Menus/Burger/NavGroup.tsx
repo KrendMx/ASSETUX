@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next"
 import NavButton from "../NavButton"
 import NavLink from "../NavLink"
 
-import type { Route } from "@/src/utils/routes"
+import type { Route } from "@/utils/routes"
 
 type NavGroupProps = {
   title: string

@@ -3,8 +3,7 @@ import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Image from "next/image"
 
-import { mobile, optimizeRemoteImages } from "@/src/utils/constants"
-import IconSearch from "@/public/assets/Search.svg"
+import { mobile, optimizeRemoteImages } from "@/utils/constants"
 
 import type { Option } from "../types"
 
@@ -213,7 +212,7 @@ function Search({ options, onSelect, display, label, hide }: SearchProps) {
         <Shadow>
           <SearchIconContainer>
             <Image
-              src={IconSearch}
+              src="/assets/Search.svg"
               width={30}
               height={30}
               layout="responsive"

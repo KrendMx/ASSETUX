@@ -4,18 +4,18 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BaseContainer from "@/src/shared/BaseContainer"
-import Intro from "@/src/components/About/Intro"
-import Info from "@/src/components/About/Info"
-import Investments from "@/src/components/About/Investments"
-import Contacts from "@/src/components/About/Contacts"
-import NewsRoom from "@/src/shared/NewsRoom"
+import BaseContainer from "@/shared/BaseContainer"
+import Intro from "@/components/About/Intro"
+import Info from "@/components/About/Info"
+import Investments from "@/components/About/Investments"
+import Contacts from "@/components/About/Contacts"
+import NewsRoom from "@/shared/NewsRoom"
 
-import { BackendClient } from "@/src/BackendClients"
-import { getDefaultMetaTags } from "@/src/utils/seo"
+import { BackendClient } from "@/backend/clients"
+import { getDefaultMetaTags } from "@/utils/seo"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/src/BackendClients/main/types"
+import type { PostData } from "@/backend/main/types"
 
 const Container = styled(BaseContainer)`
   padding: 5.1em 0;

@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { mobile } from "@/src/utils/constants"
+import { mobile } from "@/utils/constants"
 
 export const Container = styled.div`
   display: grid;

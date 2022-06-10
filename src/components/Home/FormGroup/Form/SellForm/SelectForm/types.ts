@@ -1,8 +1,8 @@
 import { Step } from "./Steps"
 
-import type { RequestState } from "@/src/BackendClients/types"
+import type { RequestState } from "@/backend/types"
 import type { PaymentOption } from "../../types"
-import type { Option } from "@/src/shared/InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 export type Error = {
   [key: string]: string | undefined

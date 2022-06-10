@@ -3,15 +3,15 @@ import Link from "next/link"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import { selectShowSkeleton } from "@/src/redux/uiSlice/selectors"
-import { useAppSelector } from "@/src/redux/hooks"
-import useSliderConfig from "../sliderConfig"
+import { selectShowSkeleton } from "@/redux/ui/selectors"
+import { useAppSelector } from "@/redux/hooks"
+import { useSliderConfig } from "@/utils/hooks"
 
-import Slider from "@/src/shared/Slider"
+import Slider from "@/shared/Slider"
 import Element from "./Element"
 import { Container, MoreLink, Row, SliderContainer } from "./styles"
 
-import type { PostData } from "@/src/BackendClients/main/types"
+import type { PostData } from "@/backend/main/types"
 
 type NewsRoomProps = {
   news: PostData[]

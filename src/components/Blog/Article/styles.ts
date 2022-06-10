@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-import BaseContainer from "@/src/shared/BaseContainer"
-import AdaptiveFont from "@/src/shared/AdaptiveFont"
-import { mobile, mobileLayoutForTablet, tablet } from "@/src/utils/constants"
+import BaseContainer from "@/shared/BaseContainer"
+import AdaptiveFont from "@/shared/AdaptiveFont"
+import { mobile, mobileLayoutForTablet, tablet } from "@/utils/constants"
 
 export const Container = styled(BaseContainer)`
   font-size: 1rem;

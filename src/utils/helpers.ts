@@ -2,7 +2,8 @@ import Cookies from "js-cookie"
 import cookie from "cookie"
 import sanitizeHtml from "sanitize-html"
 
-import { EcommerceClient } from "../BackendClients"
+import config from "./config"
+import { EcommerceClient } from "../backend/clients"
 import { mappedCookies, floatRegexp } from "./constants"
 
 import type { GetServerSidePropsContext } from "next"
@@ -108,3 +109,5 @@ export const sanitize = (html: string) =>
   })
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null }
+
+export const getEcommercePrefix = () => (config.isStage ? "/profile" : "")

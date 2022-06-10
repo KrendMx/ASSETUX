@@ -1,14 +1,14 @@
 import React, { useState, useMemo, useEffect } from "react"
-import { useIsomorphicLayoutEffect } from "@/src/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/utils/hooks"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 import { isValidPhoneNumber } from "libphonenumber-js"
 
-import InputSelect from "@/src/shared/InputSelect"
+import InputSelect from "@/shared/InputSelect"
 
 import InputSelectButton from "../../InputSelectButton"
 import NextButton from "../../NextButton"
-import ExchangeRow from "@/src/shared/ExchangeInfo"
+import ExchangeRow from "@/shared/ExchangeInfo"
 import NetworkRow from "../../NetworkRow"
 import HideableWithMargin from "../../HideableWithMargin"
 import Maintenance from "../../Maintenance"
@@ -17,17 +17,13 @@ import { Container, FormContainer } from "./styles"
 
 import Step from "./Steps"
 
-import {
-  emailRegexp,
-  allowSkeletons,
-  walletRegexp
-} from "@/src/utils/constants"
-import { useAppSelector } from "@/src/redux/hooks"
+import { emailRegexp, allowSkeletons, walletRegexp } from "@/utils/constants"
+import { useAppSelector } from "@/redux/hooks"
 
-import { stringToPieces, validateDecimal } from "@/src/utils/helpers"
+import { stringToPieces, validateDecimal } from "@/utils/helpers"
 
 import type { Error, SelectFormProps } from "./types"
-import type { Option } from "@/src/shared/InputSelect/types"
+import type { Option } from "@/shared/InputSelect/types"
 
 const inputIds = {
   get: "get",

@@ -2,17 +2,18 @@ import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
-import { useAppDispatch, useAppSelector } from "@/src/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/redux/hooks"
 
 import {
   setOrdersActive,
   setBurgerActive,
   setCurrentCurrency
-} from "@/src/redux/uiSlice"
-import { setSelectedToken, swapAction } from "@/src/redux/cryptoSlice"
-import { company, legal, popular, commerce } from "@/src/utils/routes"
-import { isCurrencyDeclared } from "@/src/utils/currencies"
-import { logout } from "@/src/utils/helpers"
+} from "@/redux/ui"
+import { setSelectedToken, swapAction } from "@/redux/crypto"
+import { company, legal, popular, commerce } from "@/utils/routes"
+import { isCurrencyDeclared } from "@/utils/currencies"
+import { logout, getEcommercePrefix } from "@/utils/helpers"
+import config from "@/utils/config"
 
 import NavGroup from "./NavGroup"
 import NavLink from "../NavLink"
@@ -20,7 +21,7 @@ import MobileButton from "./MobileButton"
 import Container from "../Container"
 import Social from "../Social"
 
-import type { Route } from "@/src/utils/routes"
+import type { Route } from "@/utils/routes"
 
 function BurgerMenu() {
   const { t } = useTranslation("header")
@@ -33,8 +34,11 @@ function BurgerMenu() {
 
   const isMainPage = router.pathname == "/"
   const isCommercePage =
-    router.pathname.startsWith("/profile") && !router.pathname.includes("login")
-  const isCommerceLogin = router.pathname == "/profile/login"
+    (router.pathname.includes("profile") ||
+      router.pathname.includes("bill") ||
+      router.pathname.includes("history")) &&
+    !router.pathname.includes("login")
+  const isCommerceLogin = router.pathname == `${getEcommercePrefix()}/login`
 
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {
@@ -96,9 +100,15 @@ function BurgerMenu() {
             </li>
             {!isCommerceLogin && (
               <li>
-                <Link href="/profile" passHref>
-                  <NavLink bold>{t("commerce")}</NavLink>
-                </Link>
+                {config.isStage ? (
+                  <Link href="/profile" passHref>
+                    <NavLink bold>{t("commerce")}</NavLink>
+                  </Link>
+                ) : (
+                  <NavLink href="https://commerce.assetux.com" bold>
+                    {t("commerce")}
+                  </NavLink>
+                )}
               </li>
             )}
           </>
@@ -118,7 +128,7 @@ function BurgerMenu() {
                 bold
                 onClick={() => {
                   logout()
-                  router.push("/profile/login")
+                  router.push(`${getEcommercePrefix()}/login`)
                 }}
               >
                 {t("exit")}

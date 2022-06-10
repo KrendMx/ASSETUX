@@ -4,16 +4,17 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { useAppDispatch } from "@/src/redux/hooks"
-import { setOrdersActive } from "@/src/redux/uiSlice"
+import { useAppDispatch } from "@/redux/hooks"
+import { setOrdersActive } from "@/redux/ui"
 
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
-import TextLogo from "@/src/shared/TextLogo"
+import TextLogo from "@/shared/TextLogo"
 
-import { commerce } from "@/src/utils/routes"
-import { mobile } from "@/src/utils/constants"
-import { logout } from "@/src/utils/helpers"
+import { commerce } from "@/utils/routes"
+import { mobile } from "@/utils/constants"
+import { logout, getEcommercePrefix } from "@/utils/helpers"
+import config from "@/utils/config"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {
@@ -79,8 +80,11 @@ function Desktop() {
 
   const isMainPage = router.pathname == "/"
   const isCommercePage =
-    router.pathname.startsWith("/profile") && !router.pathname.includes("login")
-  const isCommerceLogin = router.pathname == "/profile/login"
+    (router.pathname.includes("profile") ||
+      router.pathname.includes("bill") ||
+      router.pathname.includes("history")) &&
+    !router.pathname.includes("login")
+  const isCommerceLogin = router.pathname == `${getEcommercePrefix()}/login`
 
   return (
     <DesktopContainer>
@@ -107,7 +111,7 @@ function Desktop() {
                 as="button"
                 onClick={() => {
                   logout()
-                  router.push("/profile/login")
+                  router.push(`${getEcommercePrefix()}/login`)
                 }}
               >
                 {t("exit")}
@@ -122,11 +126,17 @@ function Desktop() {
               {t("header:operations")}
             </NavLink>
           )}
-          {!isCommercePage && !isCommerceLogin && (
-            <Link href="/profile" passHref>
-              <NavLink>{t("commerce")}</NavLink>
-            </Link>
-          )}
+          {!isCommercePage &&
+            !isCommerceLogin &&
+            (config.isStage ? (
+              <Link href="/profile" passHref>
+                <NavLink>{t("commerce")}</NavLink>
+              </Link>
+            ) : (
+              <NavLink href="https://commerce.assetux.com">
+                {t("commerce")}
+              </NavLink>
+            ))}
         </NavContainer>
         <LanguageCurrencyChange />
       </RightContainer>
