@@ -9,6 +9,7 @@ import Logo from "@/shared/Logo"
 
 import { mobile } from "@/utils/constants"
 import { useAppSelector } from "@/redux/hooks"
+import config from "@/utils/config"
 
 const MobileContainer = styled(Container)`
   display: none;
@@ -36,11 +37,17 @@ function Mobile() {
     <MobileContainer>
       <LanguageCurrencyChange />
       <ImageContainer>
-        <Link href="/" passHref>
-          <LogoLink>
+        {config.isStage ? (
+          <Link href="/" passHref>
+            <LogoLink>
+              <Logo width={38} height={38} />
+            </LogoLink>
+          </Link>
+        ) : (
+          <LogoLink href="https://assetux.com">
             <Logo width={38} height={38} />
           </LogoLink>
-        </Link>
+        )}
       </ImageContainer>
       {!hideBurgerButton && <BurgerButton />}
     </MobileContainer>
