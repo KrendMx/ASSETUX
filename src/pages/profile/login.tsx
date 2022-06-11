@@ -15,6 +15,7 @@ function Login() {
     <>
       <NextSeo
         {...getDefaultMetaTags({
+          ecommerce: true,
           title: t("title"),
           description: t("description"),
           pathname: `${getEcommercePrefix()}/login`
