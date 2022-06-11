@@ -47,7 +47,7 @@ export const popular: Route[] = [
 export const commerce = [
   {
     key: "profile",
-    href: getEcommerceRoot()
+    href: `${getEcommercePrefix()}/profile`
   },
   {
     key: "history",
