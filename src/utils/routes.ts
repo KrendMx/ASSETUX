@@ -1,4 +1,4 @@
-import { getEcommercePrefix } from "./helpers"
+import { getEcommercePrefix, getEcommerceRoot } from "./helpers"
 
 export type Route = {
   href: string
@@ -47,7 +47,7 @@ export const popular: Route[] = [
 export const commerce = [
   {
     key: "profile",
-    href: getEcommercePrefix()
+    href: getEcommerceRoot()
   },
   {
     key: "history",

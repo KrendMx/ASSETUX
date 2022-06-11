@@ -12,6 +12,9 @@ type SeoMedia = {
 }
 
 const host = `${config.hostProtocol}://${config.host}`
+const ecommerceHost = config.isStage
+  ? host + "/profile"
+  : "https://commerce.assetux.com"
 
 type SEOProps = {
   title: string
@@ -19,6 +22,7 @@ type SEOProps = {
   pathname: string
   seoImage?: SeoMedia
   siteName?: string
+  ecommerce?: boolean
 }
 
 export const getDefaultMetaTags = ({
@@ -26,16 +30,20 @@ export const getDefaultMetaTags = ({
   description,
   pathname,
   seoImage,
-  siteName
+  siteName,
+  ecommerce = false
 }: SEOProps): NextSeoProps => ({
   title,
   description,
   languageAlternates: locales.map((locale) => ({
     hrefLang: locale,
-    href: host + (locale == "ru" ? "" : `/${locale}`) + pathname
+    href:
+      (ecommerce ? ecommerceHost : host) +
+      (locale == "ru" ? "" : `/${locale}`) +
+      pathname
   })),
   openGraph: {
-    url: host + pathname,
+    url: (ecommerce ? ecommerceHost : host) + pathname,
     title,
     description,
     site_name: siteName || "ASSETUX",

@@ -19,9 +19,10 @@ function Payment(props: PaymentProps) {
     <>
       <NextSeo
         {...getDefaultMetaTags({
+          ecommerce: true,
           title: t("title"),
           description: "Powered by ASSETUX.",
-          pathname: `${getEcommercePrefix()}/payment/${props.bill.id}`,
+          pathname: `${getEcommercePrefix()}/payment/${props.bill.hash}`,
           siteName: props.bill.ecommerceUser.widget.nameCompany || undefined,
           seoImage: props.bill.ecommerceUser.widget.backgroundCompany
             ? {

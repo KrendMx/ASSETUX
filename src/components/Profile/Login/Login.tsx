@@ -9,7 +9,7 @@ import config from "@/utils/config"
 import { EcommerceClient } from "@/backend/clients"
 import { mobile, emailRegexp, mappedCookies } from "@/utils/constants"
 import { isLocaleDeclared } from "@/utils/locales"
-import { getEcommercePrefix } from "@/utils/helpers"
+import { getEcommerceRoot } from "@/utils/helpers"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -105,7 +105,7 @@ function LoginContainer() {
             expires: 365
           })
 
-          router.push(getEcommercePrefix())
+          router.push(getEcommerceRoot())
         } else {
           setEmailError(t("smthHappened"))
         }
