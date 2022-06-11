@@ -80,11 +80,9 @@ function Desktop() {
 
   const isMainPage = router.pathname == "/"
   const isCommercePage =
-    (router.pathname.includes("profile") ||
-      router.pathname.includes("bill") ||
-      router.pathname.includes("history")) &&
-    !router.pathname.includes("login")
-  const isCommerceLogin = router.pathname == `${getEcommercePrefix()}/login`
+    router.pathname.startsWith("/profile") &&
+    router.pathname != "/profile/login"
+  const isCommerceLogin = router.pathname == "/profile/login"
 
   return (
     <DesktopContainer>
