@@ -7,8 +7,16 @@ import { setSelectedToken, swapAction } from "@/redux/crypto"
 import { useAppSelector, useAppDispatch } from "@/redux/hooks"
 import { useImmediateMobile } from "@/utils/hooks"
 
-import { company, popular, legal, Route } from "@/utils/routes"
+import {
+  company,
+  popular,
+  legal,
+  Route,
+  companyAbsolute,
+  popularAbsolute
+} from "@/utils/routes"
 import { isCurrencyDeclared } from "@/utils/currencies"
+import config from "@/utils/config"
 
 import List from "./List"
 import {
@@ -74,18 +82,29 @@ type FooterProps = {
 
 function Footer({ hide }: FooterProps) {
   const isMobile = useImmediateMobile()
+  const router = useRouter()
   const { t } = useTranslation("footer")
+
+  const isCommercePage = router.pathname.startsWith("/profile")
 
   return (
     <Wrapper hide={hide}>
       <Container>
         <Group>
           <h3>{t("company")}</h3>
-          <List routes={company} />
+          <List
+            routes={
+              isCommercePage && !config.isStage ? companyAbsolute : company
+            }
+          />
         </Group>
         <Group>
           <h3>{t("popular")}</h3>
-          <PopularList />
+          {isCommercePage && !config.isStage ? (
+            <List routes={popularAbsolute} />
+          ) : (
+            <PopularList />
+          )}
         </Group>
         <Group>
           <h3>{t("legal")}</h3>

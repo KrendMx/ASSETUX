@@ -127,7 +127,7 @@ function Desktop() {
           {!isCommercePage &&
             !isCommerceLogin &&
             (config.isStage ? (
-              <Link href="/profile/profile" passHref>
+              <Link href="/profile" passHref>
                 <NavLink>{t("commerce")}</NavLink>
               </Link>
             ) : (

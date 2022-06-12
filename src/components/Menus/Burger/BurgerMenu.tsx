@@ -10,7 +10,14 @@ import {
   setCurrentCurrency
 } from "@/redux/ui"
 import { setSelectedToken, swapAction } from "@/redux/crypto"
-import { company, legal, popular, commerce } from "@/utils/routes"
+import {
+  company,
+  legal,
+  popular,
+  commerce,
+  companyAbsolute,
+  popularAbsolute
+} from "@/utils/routes"
 import { isCurrencyDeclared } from "@/utils/currencies"
 import { logout, getEcommercePrefix } from "@/utils/helpers"
 import config from "@/utils/config"
@@ -84,14 +91,25 @@ function BurgerMenu() {
         {!isCommercePage && (
           <>
             <li>
-              <NavGroup title={t("company")} routes={company} />
+              <NavGroup
+                title={t("company")}
+                routes={
+                  !config.isStage && (isCommercePage || isCommerceLogin)
+                    ? companyAbsolute
+                    : company
+                }
+              />
             </li>
             <li>
-              <NavGroup
-                title={t("popular")}
-                routes={popular}
-                onClick={popularAction}
-              />
+              {!config.isStage && (isCommercePage || isCommerceLogin) ? (
+                <NavGroup title={t("popular")} routes={popularAbsolute} />
+              ) : (
+                <NavGroup
+                  title={t("popular")}
+                  routes={popular}
+                  onClick={popularAction}
+                />
+              )}
             </li>
             <li>
               <NavGroup title={t("legal")} routes={legal} />

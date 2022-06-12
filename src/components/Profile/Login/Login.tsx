@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { Magic } from "magic-sdk"
@@ -9,7 +9,6 @@ import config from "@/utils/config"
 import { EcommerceClient } from "@/backend/clients"
 import { mobile, emailRegexp, mappedCookies } from "@/utils/constants"
 import { isLocaleDeclared } from "@/utils/locales"
-import { getEcommerceRoot } from "@/utils/helpers"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
@@ -105,7 +104,7 @@ function LoginContainer() {
             expires: 365
           })
 
-          router.push(getEcommerceRoot())
+          router.push("/profile")
         } else {
           setEmailError(t("smthHappened"))
         }

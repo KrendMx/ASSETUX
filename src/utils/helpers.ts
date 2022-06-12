@@ -111,13 +111,3 @@ export const sanitize = (html: string) =>
 export type Nullable<T> = { [K in keyof T]: T[K] | null }
 
 export const getEcommercePrefix = () => (config.isStage ? "/profile" : "")
-
-export const getEcommerceRoot = () => {
-  const prefix = getEcommercePrefix()
-
-  if (prefix == "") {
-    return "/"
-  }
-
-  return prefix
-}

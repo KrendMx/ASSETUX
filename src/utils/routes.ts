@@ -1,4 +1,7 @@
-import { getEcommercePrefix, getEcommerceRoot } from "./helpers"
+import config from "./config"
+import { getEcommercePrefix } from "./helpers"
+
+const host = config.hostProtocol + "://" + config.host
 
 export type Route = {
   href: string
@@ -14,6 +17,19 @@ export const company: Route[] = [
   {
     key: "news",
     href: "/blog"
+  }
+]
+
+export const companyAbsolute: Route[] = [
+  {
+    key: "about",
+    href: `${host}/about`,
+    absolute: true
+  },
+  {
+    key: "news",
+    href: `${host}/blog`,
+    absolute: true
   }
 ]
 
@@ -44,10 +60,43 @@ export const popular: Route[] = [
   }
 ]
 
+export const popularAbsolute: Route[] = [
+  {
+    key: "RUBtoBTCB",
+    href: `${host}/?action=buy&currency=rub&token=btcb`,
+    absolute: true
+  },
+  {
+    key: "RUBtoETH",
+    href: `${host}/?action=buy&currency=rub&token=eth`,
+    absolute: true
+  },
+  {
+    key: "RUBtoBNB",
+    href: `${host}/?action=buy&currency=rub&token=bnb`,
+    absolute: true
+  },
+  {
+    key: "RUBtoCAKE",
+    href: `${host}/?action=buy&currency=rub&token=cake`,
+    absolute: true
+  },
+  {
+    key: "RUBtoUSDT",
+    href: `${host}/?action=buy&currency=rub&token=usdt`,
+    absolute: true
+  },
+  {
+    key: "RUBtoBUSD",
+    href: `${host}/?action=buy&currency=rub&token=busd`,
+    absolute: true
+  }
+]
+
 export const commerce = [
   {
     key: "profile",
-    href: `${getEcommercePrefix()}/profile`
+    href: "/profile"
   },
   {
     key: "history",
