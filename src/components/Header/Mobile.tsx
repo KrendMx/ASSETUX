@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
@@ -31,22 +32,24 @@ const LogoLink = styled.a`
 `
 
 function Mobile() {
+  const router = useRouter()
   const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
+  const isCommercePage = router.pathname.startsWith("/profile")
 
   return (
     <MobileContainer>
       <LanguageCurrencyChange />
       <ImageContainer>
-        {config.isStage ? (
+        {!config.isStage && isCommercePage ? (
+          <LogoLink href="https://assetux.com">
+            <Logo width={38} height={38} />
+          </LogoLink>
+        ) : (
           <Link href="/" passHref>
             <LogoLink>
               <Logo width={38} height={38} />
             </LogoLink>
           </Link>
-        ) : (
-          <LogoLink href="https://assetux.com">
-            <Logo width={38} height={38} />
-          </LogoLink>
         )}
       </ImageContainer>
       {!hideBurgerButton && <BurgerButton />}

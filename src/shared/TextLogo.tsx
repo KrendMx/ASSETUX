@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 import Logo from "./Logo"
 import config from "@/utils/config"
@@ -38,16 +39,19 @@ const Content = () => (
 )
 
 function TextLogo() {
-  return config.isStage ? (
+  const router = useRouter()
+  const isCommercePage = router.pathname.startsWith("/profile")
+
+  return !config.isStage && isCommercePage ? (
+    <LogoLink href="https://assetux.com">
+      <Content />
+    </LogoLink>
+  ) : (
     <Link href="/" passHref>
       <LogoLink>
         <Content />
       </LogoLink>
     </Link>
-  ) : (
-    <LogoLink href="https://assetux.com">
-      <Content />
-    </LogoLink>
   )
 }
 
