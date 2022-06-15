@@ -4,7 +4,7 @@ module.exports = {
   i18n: {
     defaultLocale: "ru",
     locales,
-    localeDetection: false,
+    localeDetection: true,
     localeExtension: "yaml"
   }
 }

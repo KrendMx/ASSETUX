@@ -1,7 +1,11 @@
 import React from "react"
 import styled from "styled-components"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/router"
+
+import { useAppDispatch } from "@/redux/hooks"
+import { setLanguageCurrencyActive } from "@/redux/ui"
 
 import { locales } from "@/utils/locales"
 
@@ -26,27 +30,30 @@ const mapLanguage = (locale: LocalesType) => {
 
 function Languages() {
   const router = useRouter()
-  const { locale: currentLocale, defaultLocale } = router
+  const dispatch = useAppDispatch()
+  const { locale: currentLocale } = router
 
   return (
     <ul>
       {locales.map((locale) => (
         <li key={locale}>
-          <ActiveNavLink
-            active={currentLocale == locale}
-            href={(locale == defaultLocale ? "" : "/" + locale) + router.asPath}
-          >
-            <CountryContainer>
-              <Image
-                src={`/flags/${locale}.png`}
-                width={12}
-                height={11}
-                layout="responsive"
-                alt=""
-              />
-            </CountryContainer>
-            <span>{mapLanguage(locale)}</span>
-          </ActiveNavLink>
+          <Link href={router.asPath} locale={locale} passHref>
+            <ActiveNavLink
+              active={currentLocale == locale}
+              onClick={() => dispatch(setLanguageCurrencyActive(false))}
+            >
+              <CountryContainer>
+                <Image
+                  src={`/flags/${locale}.png`}
+                  width={12}
+                  height={11}
+                  layout="responsive"
+                  alt=""
+                />
+              </CountryContainer>
+              <span>{mapLanguage(locale)}</span>
+            </ActiveNavLink>
+          </Link>
         </li>
       ))}
     </ul>

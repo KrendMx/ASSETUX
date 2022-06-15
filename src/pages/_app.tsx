@@ -4,13 +4,14 @@ if (process.env.NODE_ENV === "development") {
   import("preact/debug")
 }
 
-import React from "react"
+import React, { useEffect } from "react"
 import { DefaultSeo } from "next-seo"
 import Head from "next/head"
 import { appWithTranslation } from "next-i18next"
 import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { SkeletonTheme } from "react-loading-skeleton"
+import Cookies from "js-cookie"
 
 import wrapper from "@/redux/store"
 import { useAppDispatch } from "@/redux/hooks"
@@ -20,8 +21,7 @@ import {
   setDesktop,
   setBurgerActive,
   setMobileLayoutForTablet,
-  setAppLoaded,
-  setLanguageCurrencyActive
+  setAppLoaded
 } from "@/redux/ui"
 
 import Header from "@/components/Header"
@@ -52,7 +52,6 @@ function MyApp(props: AppProps) {
   useMount(() => {
     const closeMenus = () => {
       dispatch(setBurgerActive(false))
-      dispatch(setLanguageCurrencyActive(false))
     }
 
     const handleRouteChange = () => {
@@ -114,6 +113,14 @@ function MyApp(props: AppProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   })
+
+  useEffect(() => {
+    if (!router.locale) {
+      return
+    }
+
+    Cookies.set("NEXT_LOCALE", router.locale)
+  }, [router.locale])
 
   return (
     <>
