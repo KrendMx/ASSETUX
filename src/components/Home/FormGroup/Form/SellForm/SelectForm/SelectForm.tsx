@@ -132,6 +132,26 @@ function SelectForm({
     [currentDetails]
   )
 
+  const currentPaymentOption = payments?.find(
+    (payment) => payment.value == currentPayment
+  )
+
+  const checkRanges = (value: number): string | null => {
+    if (!currentPaymentOption) {
+      return null
+    }
+
+    if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
+      if (value > currentPaymentOption.max) {
+        return t("home:sell_maximumIs") + " " + currentPaymentOption.max
+      } else {
+        return t("home:sell_minimumIs") + " " + currentPaymentOption.min
+      }
+    } else {
+      return null
+    }
+  }
+
   useIsomorphicLayoutEffect(() => {
     if (!refundRequestInfo) {
       return
@@ -148,6 +168,24 @@ function SelectForm({
         break
     }
   }, [refundRequestInfo])
+
+  useIsomorphicLayoutEffect(() => {
+    const errorRanges = checkRanges(Number(getAmount))
+
+    if (errorRanges) {
+      setInputError({
+        ...inputError,
+        [inputIds.get]: errorRanges
+      })
+    } else {
+      setInputError({
+        ...inputError,
+        [inputIds.get]: undefined
+      })
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPayment, giveAmount])
 
   useIsomorphicLayoutEffect(() => {
     if (!refundInfo) {
@@ -259,6 +297,18 @@ function SelectForm({
       errorObject[inputIds.give] = t("home:sell_invalidGive")
     }
 
+    if (+getAmount < currentPaymentOption!.min) {
+      errorObject[inputIds.get] = `${t("home:sell_minimumIs")} ${
+        currentPaymentOption!.min
+      }`
+    }
+
+    if (+getAmount > currentPaymentOption!.max) {
+      errorObject[inputIds.get] = `${t("home:sell_maximumIs")} ${
+        currentPaymentOption!.max
+      }`
+    }
+
     if (currentStep == Step.Payment) {
       if (currentDetails == "") {
         errorObject[inputIds.details] = t("home:sell_invalidCard")
@@ -341,12 +391,15 @@ function SelectForm({
               />
               {!isLoading ? (
                 <InputSelect
-                  label={t("home:sell_get")}
+                  label={`${t("home:sell_get")}: ${
+                    currentPaymentOption?.min
+                  } - ${currentPaymentOption?.max}`}
                   id={inputIds.get}
                   options={checkedCurrencies}
                   displayInSelect={1}
                   onActiveChange={(active) => setGetActive(active)}
                   selectedValue={currentCurrency}
+                  error={inputError[inputIds.get]}
                   onSelect={onCurrencyChange}
                   selectable={false}
                   onlyNumbers

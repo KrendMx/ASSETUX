@@ -116,6 +116,8 @@ sell_smthWentWrong: Что-то пошло не так.
 Sell_refundError: Возврат не удался. Скорее всего, вы всё сделали правильно.
 sell_callSupport: Обратиться в службу поддержки - самое правильное решение в данной ситуации.
 sell_blockchainLabel: Вы используете ASSETUX на
+sell_maximumIs: Максимальная сумма
+sell_minimumIs: Минимальная сумма
 
 network_sure: Убедитесь, что ваш кошелек поддерживает выбранную сеть
 network_help: |-

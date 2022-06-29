@@ -223,6 +223,20 @@ function SellForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (!!currentRate && !!processedPayments!.length) {
+      const currentPaymentOption = processedPayments?.find(
+        (payment) => payment.value == selectedPayment
+      )
+      ;(+giveAmount < +currentPaymentOption!.min / currentRate ||
+        +giveAmount > +currentPaymentOption!.max / currentRate) &&
+        setGiveAmount(
+          parseFloat((+currentPaymentOption!.min / currentRate).toFixed(8)) + ""
+        )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [processedPayments, selectedPayment, currentRate])
+
   useIsomorphicLayoutEffect(() => {
     if (currentBlockchain == null) {
       return

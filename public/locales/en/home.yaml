@@ -107,6 +107,8 @@ sell_smthWentWrong: Something went wrong
 sell_refundError: The return failed. Most likely, you have done everything correctly
 sell_callSupport: Contacting support is the right thing to do in this situation
 sell_blockchainLabel: You are using ASSETUX on
+sell_maximumIs: The maximum amount is
+sell_minimumIs: The minimum amount is
 
 network_sure: Please make sure your wallet supports selected network
 network_help: |-
