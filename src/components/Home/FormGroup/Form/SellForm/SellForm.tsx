@@ -224,7 +224,7 @@ function SellForm({
   }, [])
 
   useEffect(() => {
-    if (!!currentRate && !!processedPayments!.length) {
+    if (!!currentRate && !!processedPayments?.length) {
       const currentPaymentOption = processedPayments?.find(
         (payment) => payment.value == selectedPayment
       )
