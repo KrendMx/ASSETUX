@@ -132,8 +132,9 @@ function SelectForm({
     [currentDetails]
   )
 
-  const currentPaymentOption = payments?.find(
-    (payment) => payment.value == currentPayment
+  const currentPaymentOption = useMemo(
+    () => payments?.find((payment) => payment.value == currentPayment),
+    [payments, currentPayment]
   )
 
   const checkRanges = (value: number): string | null => {
@@ -171,19 +172,10 @@ function SelectForm({
 
   useIsomorphicLayoutEffect(() => {
     const errorRanges = checkRanges(Number(getAmount))
-
-    if (errorRanges) {
-      setInputError({
-        ...inputError,
-        [inputIds.get]: errorRanges
-      })
-    } else {
-      setInputError({
-        ...inputError,
-        [inputIds.get]: undefined
-      })
-    }
-
+    setInputError({
+      ...inputError,
+      [inputIds.get]: errorRanges ?? undefined
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPayment, giveAmount])
 
@@ -293,20 +285,14 @@ function SelectForm({
 
     let errorObject: Error = {}
 
+    const errorRanges = checkRanges(Number(getAmount))
+
+    if (errorRanges) {
+      errorObject[inputIds.get] = errorRanges
+    }
+
     if (giveAmount == "") {
       errorObject[inputIds.give] = t("home:sell_invalidGive")
-    }
-
-    if (+getAmount < currentPaymentOption!.min) {
-      errorObject[inputIds.get] = `${t("home:sell_minimumIs")} ${
-        currentPaymentOption!.min
-      }`
-    }
-
-    if (+getAmount > currentPaymentOption!.max) {
-      errorObject[inputIds.get] = `${t("home:sell_maximumIs")} ${
-        currentPaymentOption!.max
-      }`
     }
 
     if (currentStep == Step.Payment) {

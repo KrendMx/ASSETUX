@@ -224,15 +224,25 @@ function SellForm({
   }, [])
 
   useEffect(() => {
-    if (!!currentRate && !!processedPayments?.length) {
-      const currentPaymentOption = processedPayments?.find(
-        (payment) => payment.value == selectedPayment
-      )
-      ;(+giveAmount < +currentPaymentOption!.min / currentRate ||
-        +giveAmount > +currentPaymentOption!.max / currentRate) &&
+    const currentPaymentOption = processedPayments?.find(
+      (payment) => payment.value == selectedPayment
+    )
+    if (
+      !!currentRate &&
+      !!processedPayments?.length &&
+      !!currentPaymentOption?.min
+    ) {
+      const isMinError =
+        Number(giveAmount) < Number(currentPaymentOption!.min) / currentRate
+      const isMaxError =
+        Number(giveAmount) > Number(currentPaymentOption!.max) / currentRate
+      if (isMinError || isMaxError) {
         setGiveAmount(
-          parseFloat((+currentPaymentOption!.min / currentRate).toFixed(8)) + ""
+          parseFloat(
+            (Number(currentPaymentOption!.min) / currentRate).toFixed(8)
+          ).toString()
         )
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [processedPayments, selectedPayment, currentRate])
