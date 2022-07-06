@@ -228,21 +228,21 @@ function SellForm({
       (payment) => payment.value == selectedPayment
     )
     if (
-      !!currentRate &&
-      !!processedPayments?.length &&
-      !!currentPaymentOption?.min
+      !currentRate ||
+      !processedPayments?.length ||
+      !currentPaymentOption?.min
     ) {
-      const isMinError =
-        Number(giveAmount) < Number(currentPaymentOption!.min) / currentRate
-      const isMaxError =
-        Number(giveAmount) > Number(currentPaymentOption!.max) / currentRate
-      if (isMinError || isMaxError) {
-        setGiveAmount(
-          parseFloat(
-            (Number(currentPaymentOption!.min) / currentRate).toFixed(8)
-          ).toString()
-        )
-      }
+      return
+    }
+
+    const isMinError =
+      Number(giveAmount) < currentPaymentOption.min / currentRate
+    const isMaxError =
+      Number(giveAmount) > currentPaymentOption.max / currentRate
+    if (isMinError || isMaxError) {
+      setGiveAmount(
+        Number((currentPaymentOption.min / currentRate).toFixed(8)).toString()
+      )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [processedPayments, selectedPayment, currentRate])
