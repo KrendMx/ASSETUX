@@ -132,6 +132,27 @@ function SelectForm({
     [currentDetails]
   )
 
+  const currentPaymentOption = useMemo(
+    () => payments?.find((payment) => payment.value == currentPayment),
+    [payments, currentPayment]
+  )
+
+  const checkRanges = (value: number): string | null => {
+    if (!currentPaymentOption) {
+      return null
+    }
+
+    if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
+      if (value > currentPaymentOption.max) {
+        return t("home:sell_maximumIs") + " " + currentPaymentOption.max
+      } else {
+        return t("home:sell_minimumIs") + " " + currentPaymentOption.min
+      }
+    } else {
+      return null
+    }
+  }
+
   useIsomorphicLayoutEffect(() => {
     if (!refundRequestInfo) {
       return
@@ -148,6 +169,15 @@ function SelectForm({
         break
     }
   }, [refundRequestInfo])
+
+  useIsomorphicLayoutEffect(() => {
+    const errorRanges = checkRanges(Number(getAmount))
+    setInputError({
+      ...inputError,
+      [inputIds.get]: errorRanges ?? undefined
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPayment, giveAmount])
 
   useIsomorphicLayoutEffect(() => {
     if (!refundInfo) {
@@ -255,6 +285,12 @@ function SelectForm({
 
     let errorObject: Error = {}
 
+    const errorRanges = checkRanges(Number(getAmount))
+
+    if (errorRanges) {
+      errorObject[inputIds.get] = errorRanges
+    }
+
     if (giveAmount == "") {
       errorObject[inputIds.give] = t("home:sell_invalidGive")
     }
@@ -341,12 +377,15 @@ function SelectForm({
               />
               {!isLoading ? (
                 <InputSelect
-                  label={t("home:sell_get")}
+                  label={`${t("home:sell_get")}: ${
+                    currentPaymentOption?.min
+                  } - ${currentPaymentOption?.max}`}
                   id={inputIds.get}
                   options={checkedCurrencies}
                   displayInSelect={1}
                   onActiveChange={(active) => setGetActive(active)}
                   selectedValue={currentCurrency}
+                  error={inputError[inputIds.get]}
                   onSelect={onCurrencyChange}
                   selectable={false}
                   onlyNumbers
