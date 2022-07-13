@@ -28,7 +28,7 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
   }
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

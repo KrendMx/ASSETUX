@@ -1,8 +1,12 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
 
-const Container = styled.div`
-  position: fixed;
+type ContainerProps = {
+  absolute?: boolean
+}
+
+const Container = styled.div<ContainerProps>`
+  position: ${(props) => (props.absolute ? "absolute" : "fixed")};
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.35);
@@ -15,6 +19,7 @@ type BackgroundProps = {
   allowScrolling?: boolean
   scrollToTop?: boolean
   children?: React.ReactNode
+  absolute?: boolean
   onClick?: () => void
 }
 
@@ -22,6 +27,7 @@ function Background({
   allowScrolling,
   scrollToTop,
   children,
+  absolute,
   onClick
 }: BackgroundProps) {
   useEffect(() => {
@@ -35,6 +41,7 @@ function Background({
 
   return (
     <Container
+      absolute={absolute}
       onWheel={(event) =>
         !allowScrolling && event.cancelable && event.preventDefault()
       }

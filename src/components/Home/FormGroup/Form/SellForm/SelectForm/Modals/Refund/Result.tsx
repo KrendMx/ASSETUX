@@ -42,7 +42,7 @@ function RefundResultModal({
   }
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

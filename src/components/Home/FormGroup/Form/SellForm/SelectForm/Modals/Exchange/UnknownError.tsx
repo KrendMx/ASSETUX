@@ -18,7 +18,7 @@ function UnknownError({ onAccept }: UnknownErrorProps) {
   const { t } = useTranslation("home")
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

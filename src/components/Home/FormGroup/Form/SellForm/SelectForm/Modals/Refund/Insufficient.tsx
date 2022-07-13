@@ -38,7 +38,7 @@ function RefundInsufficient({
   }
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

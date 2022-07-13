@@ -26,7 +26,7 @@ function ResultModal({ getToken, getValue, onAccept }: ResultModalProps) {
   }
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

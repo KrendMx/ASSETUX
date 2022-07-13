@@ -686,7 +686,9 @@ function SelectForm({
         showExpiredModal ||
         showExchangeModal ||
         showExchangeResultModal ||
-        showExchangeUnknownModal) && <Background scrollToTop />}
+        showExchangeUnknownModal) && (
+        <Background scrollToTop absolute allowScrolling />
+      )}
     </Container>
   )
 }

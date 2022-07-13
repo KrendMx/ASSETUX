@@ -18,7 +18,7 @@ function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
   const { t } = useTranslation("home")
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

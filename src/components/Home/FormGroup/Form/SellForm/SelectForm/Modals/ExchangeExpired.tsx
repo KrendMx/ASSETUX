@@ -66,7 +66,7 @@ function ExchangeExpired({
   }
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>

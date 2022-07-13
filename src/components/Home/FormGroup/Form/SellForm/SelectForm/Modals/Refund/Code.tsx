@@ -27,7 +27,7 @@ function RefundCodeModal({
   const [code, setCode] = useState("")
 
   return (
-    <Container>
+    <Container allowScrolling>
       <Title>
         <Shadow>
           <Icon>
