@@ -13,6 +13,7 @@ export const Container = styled(AdaptiveFont).attrs({
   tabletFactor: 1.2
 })<ContainerProps>`
   width: 100%;
+  height: 100%;
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   background-color: var(--bgColor);
@@ -84,6 +85,10 @@ export const ImgContainer = styled.div`
 export const InfoContainer = styled.div`
   padding: 1.2em 0.9em;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 export const Title = styled.h4`
