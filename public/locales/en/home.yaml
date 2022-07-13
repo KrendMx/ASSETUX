@@ -85,7 +85,7 @@ sell_sureRefund: Are you sure you want to refund?
 sell_depositConfirmed: Deposit confirmed
 sell_loading: Loading...
 sell_sentInsufficient: You sent insufficient amount of crypto to make refund
-Sell_ahtung: According to the rules of ASSETUX, the funds received on the wallet and not used for the exchange are not refundable
+sell_ahtung: According to the rules of ASSETUX, the funds received on the wallet and not used for the exchange are not refundable
 sell_review: Your feedback will help us become better!
 sell_message: Your message
 Sell_timedOut: The order has expired
