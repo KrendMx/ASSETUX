@@ -39,7 +39,7 @@ type GetStaticPropsParams = ParsedUrlQuery & {
 }
 
 export const getStaticProps: GetStaticProps<
-  Partial<ArticleProps>,
+  ArticleProps,
   GetStaticPropsParams
 > = async ({ locale, params }) => {
   const errorProps = {

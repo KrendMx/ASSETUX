@@ -37,11 +37,11 @@ function Main(props: MainProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<
-  Partial<MainProps>
-> = async ({ locale, req }) => {
+export const getServerSideProps: GetServerSideProps<MainProps> = async ({
+  locale,
+  req
+}) => {
   const errorProps = {
-    props: {},
     redirect: {
       destination: `${getEcommercePrefix()}/login`,
       permanent: false

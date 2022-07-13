@@ -36,11 +36,11 @@ function Bill(props: BillProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<
-  Partial<BillProps>
-> = async ({ locale, req }) => {
+export const getServerSideProps: GetServerSideProps<BillProps> = async ({
+  locale,
+  req
+}) => {
   const errorProps = {
-    props: {},
     redirect: {
       destination: `${getEcommercePrefix()}/login`,
       permanent: false
