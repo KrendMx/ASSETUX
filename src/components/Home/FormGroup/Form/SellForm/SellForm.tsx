@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 
-import { useIsomorphicLayoutEffect } from "@/utils/hooks"
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setCurrentRate, setSellOrderId } from "@/redux/crypto"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { setCurrentRate, setSellOrderId } from "@/lib/redux/crypto"
 
 import SelectForm from "./SelectForm"
-import { BackendClient } from "@/backend/clients"
+import { BackendClient } from "@/lib/backend/clients"
 import { Step } from "./SelectForm/Steps"
 
 import type { Option } from "@/shared/InputSelect/types"
@@ -16,10 +16,10 @@ import type {
   FiatProvider,
   Blockchain,
   Token
-} from "@/backend/main/types"
-import type { RequestState } from "@/backend/types"
+} from "@/lib/backend/main/types"
+import type { RequestState } from "@/core/backend/types"
 import type { ExchangeInfo } from "./SelectForm/types"
-import type { CurrenciesType } from "@/utils/currencies"
+import type { CurrenciesType } from "@/lib/data/currencies"
 
 type SellFormProps = {
   currentBlockchain: Blockchain | null
@@ -223,7 +223,7 @@ function SellForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const currentPaymentOption = processedPayments?.find(
       (payment) => payment.value == selectedPayment
     )

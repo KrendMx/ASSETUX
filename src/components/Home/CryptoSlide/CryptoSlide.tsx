@@ -1,19 +1,19 @@
 import React, { useMemo, useCallback } from "react"
 import styled from "styled-components"
 
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setSelectedToken, swapAction } from "@/redux/crypto"
-import { mobile } from "@/utils/constants"
-import { mapCurrency } from "@/utils/currencies"
-import { useSliderConfig } from "@/utils/hooks"
+import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { setSelectedToken, swapAction } from "@/lib/redux/crypto"
+import { mobile } from "@/lib/data/constants"
+import { mapCurrency } from "@/lib/data/currencies"
+import { useSliderConfig } from "@/lib/hooks"
 
 import Element from "./Element"
 import Slider from "@/shared/Slider"
 
 import type { ExplorerData } from "../../CryptoManager/types"
-import type { Token, MarketHistoryData } from "@/backend/main/types"
-import type { ActionType } from "@/redux/crypto/types"
-import type { CurrenciesType } from "@/utils/currencies"
+import type { Token, MarketHistoryData } from "@/lib/backend/main/types"
+import type { ActionType } from "@/lib/redux/crypto/types"
+import type { CurrenciesType } from "@/lib/data/currencies"
 import type { GraphData } from "./Element/Graph"
 
 const Container = styled.section`

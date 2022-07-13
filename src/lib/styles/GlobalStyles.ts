@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components"
-import { mobile, tablet } from "@/utils/constants"
+import { mobile, tablet } from "@/lib/data/constants"
 
 export const maxWidth = 1440
 export const desktopPaddings = 125

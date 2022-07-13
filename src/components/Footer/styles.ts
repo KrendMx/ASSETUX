@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 export const StyledList = styled.ul`
   list-style: none;

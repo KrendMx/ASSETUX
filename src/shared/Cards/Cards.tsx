@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 
 import { paginate } from "@/shared/Table/paginate"
 
-import { cardsPerPage } from "@/utils/constants"
+import { cardsPerPage } from "@/lib/data/constants"
 
 import {
   Container,

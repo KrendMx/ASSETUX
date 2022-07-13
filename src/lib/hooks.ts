@@ -8,7 +8,7 @@ import {
 } from "react"
 import Cookies from "js-cookie"
 
-import { mobile, mappedCookies, mobileLayoutForTablet } from "./constants"
+import { mobile, mappedCookies, mobileLayoutForTablet } from "./data/constants"
 
 import type { RefObject, EffectCallback } from "react"
 

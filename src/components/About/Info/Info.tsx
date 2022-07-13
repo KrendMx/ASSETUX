@@ -2,8 +2,8 @@ import React from "react"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import { useAppSelector } from "@/redux/hooks"
-import { selectShowSkeleton } from "@/redux/ui/selectors"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
 
 import {
   Container,

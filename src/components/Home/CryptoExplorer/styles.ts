@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile, cardsWidth } from "@/utils/constants"
+import { mobile, cardsWidth } from "@/lib/data/constants"
 
 export const Container = styled.section`
   display: flex;

@@ -18,13 +18,13 @@ import {
   PoweredBy
 } from "./styles"
 
-import { EcommerceClient } from "@/backend/clients"
-import { emailRegexp } from "@/utils/constants"
-import { stringToPieces } from "@/utils/helpers"
-import config from "@/utils/config"
+import { EcommerceClient } from "@/lib/backend/clients"
+import { emailRegexp } from "@/lib/data/constants"
+import { stringToPieces } from "@/lib/utils/helpers"
+import config from "@/lib/config"
 
-import type { Bill } from "@/backend/ecommerce/types"
-import type { FiatProvider } from "@/backend/main/types"
+import type { Bill } from "@/lib/backend/ecommerce/types"
+import type { FiatProvider } from "@/lib/backend/main/types"
 import type { Option } from "@/shared/InputSelect/types"
 
 const inputIds = {

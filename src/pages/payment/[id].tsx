@@ -4,9 +4,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import PaymentComponent from "@/components/Profile/Payment"
 
-import { EcommerceClient, BackendClient } from "@/backend/clients"
-import { getDefaultMetaTags } from "@/utils/seo"
-import { getEcommercePrefix } from "@/utils/helpers"
+import { EcommerceClient, BackendClient } from "@/lib/backend/clients"
+import { getDefaultMetaTags } from "@/lib/utils/seo"
+import { getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
@@ -45,15 +45,13 @@ type Params = ParsedUrlQuery & {
 }
 
 export const getServerSideProps: GetServerSideProps<
-  Partial<PaymentProps>,
+  PaymentProps,
   Params
 > = async ({ locale, params }) => {
   const errorProps = {
     notFound: true,
-    props: {
-      bill: undefined
-    }
-  }
+    revalidate: 3600
+  } as const
 
   const id = params!.id
 
@@ -109,7 +107,8 @@ export const getServerSideProps: GetServerSideProps<
         "profile-payment",
         "inputSelect"
       ]))
-    }
+    },
+    revalidate: 3600
   }
 }
 

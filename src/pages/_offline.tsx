@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 import type { GetStaticProps } from "next"
 

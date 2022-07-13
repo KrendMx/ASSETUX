@@ -4,7 +4,7 @@ import styled from "styled-components"
 import Info from "./Info"
 import Form from "./Form"
 
-import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 const Container = styled.section`
   display: flex;

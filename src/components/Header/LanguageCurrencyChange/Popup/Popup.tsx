@@ -2,8 +2,8 @@ import React, { useCallback } from "react"
 import styled, { css } from "styled-components"
 import Currencies from "./Currencies"
 import Languages from "./Languages"
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setLanguageCurrencyActive } from "@/redux/ui"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { setLanguageCurrencyActive } from "@/lib/redux/ui"
 
 type ContainerProps = {
   hidden: boolean

@@ -4,14 +4,14 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-import { useAppDispatch } from "@/redux/hooks"
-import { setLanguageCurrencyActive } from "@/redux/ui"
+import { useAppDispatch } from "@/lib/redux/hooks"
+import { setLanguageCurrencyActive } from "@/lib/redux/ui"
 
-import { locales } from "@/utils/locales"
+import { locales } from "@/lib/data/locales"
 
 import ActiveNavLink from "./ActiveNavLink"
 
-import type { LocalesType } from "@/utils/locales"
+import type { LocalesType } from "@/lib/data/locales"
 
 const CountryContainer = styled.div`
   display: block;

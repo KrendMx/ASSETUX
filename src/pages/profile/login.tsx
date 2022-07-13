@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import { getDefaultMetaTags } from "@/utils/seo"
-import { getEcommercePrefix } from "@/utils/helpers"
+import { getDefaultMetaTags } from "@/lib/utils/seo"
+import { getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetStaticProps } from "next"
 

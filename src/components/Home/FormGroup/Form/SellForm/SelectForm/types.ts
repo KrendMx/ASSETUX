@@ -1,6 +1,6 @@
 import { Step } from "./Steps"
 
-import type { RequestState } from "@/backend/types"
+import type { RequestState } from "@/core/backend/types"
 import type { PaymentOption } from "../../types"
 import type { Option } from "@/shared/InputSelect/types"
 

@@ -14,14 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/backend/*": ["backend/*"],
-      "@/components/*": ["components/*"],
-      "@/redux/*": ["redux/*"],
-      "@/shared/*": ["shared/*"],
-      "@/styles/*": ["styles/*"],
-      "@/utils/*": ["utils/*"],
+      "@/*": ["src/*"]
     },
     "incremental": true
   },

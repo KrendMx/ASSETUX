@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Image from "next/image"
 
-import { mobile, optimizeRemoteImages } from "@/utils/constants"
+import { mobile, optimizeRemoteImages } from "@/lib/data/constants"
 
 import type { Option } from "../types"
 

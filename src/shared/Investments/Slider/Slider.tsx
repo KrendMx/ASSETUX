@@ -3,9 +3,9 @@ import Slider from "react-slick"
 import Image from "next/image"
 import Skeleton from "react-loading-skeleton"
 
-import verticalSliderProps from "@/utils/vertical-slider-props"
-import { useAppSelector } from "@/redux/hooks"
-import { selectShowSkeleton } from "@/redux/ui/selectors"
+import verticalSliderProps from "@/lib/data/vertical-slider-props"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
 
 import {
   FlexWrapper,
@@ -15,7 +15,7 @@ import {
   SliderContainer
 } from "./styles"
 import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
-import VerticalSliderStyles from "@/styles/VerticalSliderStyles"
+import VerticalSliderStyles from "@/lib/styles/VerticalSliderStyles"
 
 function InvestmentsSlider() {
   const showSkeleton = useAppSelector(selectShowSkeleton)

@@ -1,10 +1,9 @@
 import axios from "axios"
-import config from "../utils/config"
 
 import type { AxiosRequestConfig } from "axios"
 import type { Response } from "./types"
 
-export const handleRequest = async (
+const handleRequest = async (
   props: AxiosRequestConfig
 ): Promise<Response<any, any>> => {
   try {
@@ -40,6 +39,4 @@ export const handleRequest = async (
   }
 }
 
-export const constructURL = (apiHost: string) => {
-  return `${config.hostProtocol}://${apiHost}`
-}
+export default handleRequest

@@ -2,10 +2,10 @@ import React, { useMemo, memo, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { useRouter } from "next/router"
 
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setBurgerActive, setLanguageCurrencyActive } from "@/redux/ui"
+import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { setBurgerActive, setLanguageCurrencyActive } from "@/lib/redux/ui"
 
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 import BurgerMenu from "@/components/Menus/Burger"
 import LanguageCurrencyMenu from "@/components/Menus/LanguageCurrency"

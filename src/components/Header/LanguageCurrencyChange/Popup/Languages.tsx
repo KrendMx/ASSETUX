@@ -4,12 +4,12 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-import { locales } from "@/utils/locales"
+import { locales } from "@/lib/data/locales"
 
 import PopupItem from "../PopupItem"
 import PopupRow from "../PopupRow"
 
-import type { LocalesType } from "@/utils/locales"
+import type { LocalesType } from "@/lib/data/locales"
 
 const CountryContainer = styled.div`
   display: block;

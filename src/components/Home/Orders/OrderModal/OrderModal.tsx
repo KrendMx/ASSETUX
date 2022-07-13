@@ -3,13 +3,13 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import { useRouter } from "next/router"
 
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setOrdersActive } from "@/redux/ui"
-import { setSellOrderId, swapAction } from "@/redux/crypto"
+import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { setOrdersActive } from "@/lib/redux/ui"
+import { setSellOrderId, swapAction } from "@/lib/redux/crypto"
 
-import { capitalizeString, ellipsisString } from "@/utils/helpers"
-import { getFormattedDate } from "@/utils/date"
-import { mapCurrency, isCurrencyDeclared } from "@/utils/currencies"
+import { capitalizeString, ellipsisString } from "@/lib/utils/helpers"
+import { getFormattedDate } from "@/lib/utils/date"
+import { mapCurrency, isCurrencyDeclared } from "@/lib/data/currencies"
 
 import Title from "@/shared/ModalComponents/Title"
 import Shadow from "@/shared/ModalComponents/Shadow"
@@ -40,7 +40,7 @@ import {
 import Table from "@/shared/Table"
 import Cards from "@/shared/Cards"
 
-import { optimizeRemoteImages, cardsPerPage } from "@/utils/constants"
+import { optimizeRemoteImages, cardsPerPage } from "@/lib/data/constants"
 
 import type { OrderInfo } from "./types"
 import type { TFunction } from "next-i18next"

@@ -1,7 +1,8 @@
-import { handleRequest, constructURL } from "../helpers"
+import { constructURL } from "../helpers"
 import Client from "../client"
+import handleRequest from "@/core/backend/handle-request"
 
-import type { UrlRequest, Abortable } from "../types"
+import type { UrlRequest, Abortable } from "@/core/backend/types"
 import type {
   GetFiatRates,
   GetTokens,

@@ -11,11 +11,11 @@ import Investments from "@/components/About/Investments"
 import Contacts from "@/components/About/Contacts"
 import NewsRoom from "@/shared/NewsRoom"
 
-import { BackendClient } from "@/backend/clients"
-import { getDefaultMetaTags } from "@/utils/seo"
+import { BackendClient } from "@/lib/backend/clients"
+import { getDefaultMetaTags } from "@/lib/utils/seo"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types"
 
 const Container = styled(BaseContainer)`
   padding: 5.1em 0;

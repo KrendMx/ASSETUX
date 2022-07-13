@@ -2,9 +2,9 @@ import Cookies from "js-cookie"
 import cookie from "cookie"
 import sanitizeHtml from "sanitize-html"
 
-import config from "./config"
+import config from "../config"
 import { EcommerceClient } from "../backend/clients"
-import { mappedCookies, floatRegexp } from "./constants"
+import { mappedCookies, floatRegexp } from "../data/constants"
 
 import type { GetServerSidePropsContext } from "next"
 

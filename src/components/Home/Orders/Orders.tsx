@@ -6,14 +6,14 @@ import Code from "./Modals/Code"
 import CodeInvalid from "./Modals/CodeInvalid"
 import OrderModal from "./OrderModal"
 
-import { BackendClient } from "@/backend/clients"
+import { BackendClient } from "@/lib/backend/clients"
 
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setOrdersActive } from "@/redux/ui"
+import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { setOrdersActive } from "@/lib/redux/ui"
 
 import type { OrderInfo } from "./OrderModal/types"
-import type { OrdersData } from "@/backend/main/types"
-import type { RequestState } from "@/backend/types"
+import type { OrdersData } from "@/lib/backend/main/types"
+import type { RequestState } from "@/core/backend/types"
 
 const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   const allOrders: OrderInfo[] = []

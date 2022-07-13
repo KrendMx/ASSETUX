@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next"
 
 import { StyledList, StyledLink } from "./styles"
 
-import type { Route } from "@/utils/routes"
+import type { Route } from "@/lib/routes"
 
 type ListProps = {
   routes: Route[]

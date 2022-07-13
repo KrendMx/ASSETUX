@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { mobileLayoutForTablet } from "@/utils/constants"
+import { mobileLayoutForTablet } from "@/lib/data/constants"
 
 export const BlockchainContainer = styled.span`
   display: flex;

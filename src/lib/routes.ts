@@ -1,5 +1,5 @@
 import config from "./config"
-import { getEcommercePrefix } from "./helpers"
+import { getEcommercePrefix } from "./utils/helpers"
 
 const host = config.hostProtocol + "://" + config.host
 

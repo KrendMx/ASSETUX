@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 const Button = styled.button`
   flex: 0 0 auto;

@@ -8,9 +8,9 @@ import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import BurgerButton from "../BurgerButton"
 import Logo from "@/shared/Logo"
 
-import { mobile } from "@/utils/constants"
-import { useAppSelector } from "@/redux/hooks"
-import config from "@/utils/config"
+import { mobile } from "@/lib/data/constants"
+import { useAppSelector } from "@/lib/redux/hooks"
+import config from "@/lib/config"
 
 const MobileContainer = styled(Container)`
   display: none;

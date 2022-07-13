@@ -14,13 +14,13 @@ import CryptoManager from "@/components/CryptoManager"
 import QueryController from "@/components/Home/QueryController"
 import Orders from "@/components/Home/Orders"
 
-import { mobile, mobileLayoutForTablet } from "@/utils/constants"
-import { getDefaultMetaTags } from "@/utils/seo"
+import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import { getDefaultMetaTags } from "@/lib/utils/seo"
 
-import { BackendClient } from "@/backend/clients"
+import { BackendClient } from "@/lib/backend/clients"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types"
 
 const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
 const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))

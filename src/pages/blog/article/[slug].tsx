@@ -4,13 +4,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import ArticleComponent from "@/components/Blog/Article"
 
-import { BackendClient } from "@/backend/clients"
-import { getDefaultMetaTags } from "@/utils/seo"
+import { BackendClient } from "@/lib/backend/clients"
+import { getDefaultMetaTags } from "@/lib/utils/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { ArticleProps } from "@/components/Blog/Article"
-import type { PostData } from "@/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types"
 
 function Article(props: ArticleProps) {
   return (
@@ -43,9 +43,9 @@ export const getStaticProps: GetStaticProps<
   GetStaticPropsParams
 > = async ({ locale, params }) => {
   const errorProps = {
-    props: {},
-    notFound: true
-  }
+    notFound: true,
+    revalidate: 3600
+  } as const
 
   const { slug } = params!
 

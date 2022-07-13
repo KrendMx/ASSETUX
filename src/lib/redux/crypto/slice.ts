@@ -9,7 +9,7 @@ import type {
   Blockchain,
   GetTokens,
   Token
-} from "@/backend/main/types"
+} from "@/lib/backend/main/types"
 import type { ExplorerData } from "@/components/CryptoManager/types"
 import type { ActionType, CryptoState } from "./types"
 

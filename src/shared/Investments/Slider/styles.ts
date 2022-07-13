@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import { mobileLayoutForTablet } from "@/utils/constants"
+import { mobileLayoutForTablet } from "@/lib/data/constants"
 
 const breakPoint = 680
 

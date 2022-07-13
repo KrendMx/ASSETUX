@@ -2,10 +2,10 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { setCurrentCurrency } from "@/redux/ui"
-import { setSelectedToken, swapAction } from "@/redux/crypto"
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { useImmediateMobile } from "@/utils/hooks"
+import { setCurrentCurrency } from "@/lib/redux/ui"
+import { setSelectedToken, swapAction } from "@/lib/redux/crypto"
+import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { useImmediateMobile } from "@/lib/hooks"
 
 import {
   company,
@@ -14,9 +14,9 @@ import {
   Route,
   companyAbsolute,
   popularAbsolute
-} from "@/utils/routes"
-import { isCurrencyDeclared } from "@/utils/currencies"
-import config from "@/utils/config"
+} from "@/lib/routes"
+import { isCurrencyDeclared } from "@/lib/data/currencies"
+import config from "@/lib/config"
 
 import List from "./List"
 import {

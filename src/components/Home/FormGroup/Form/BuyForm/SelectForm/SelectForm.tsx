@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react"
-import { useIsomorphicLayoutEffect } from "@/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 import { isValidPhoneNumber } from "libphonenumber-js"
@@ -17,10 +17,10 @@ import { Container, FormContainer } from "./styles"
 
 import Step from "./Steps"
 
-import { emailRegexp, allowSkeletons, walletRegexp } from "@/utils/constants"
-import { useAppSelector } from "@/redux/hooks"
+import { emailRegexp, allowSkeletons, walletRegexp } from "@/lib/data/constants"
+import { useAppSelector } from "@/lib/redux/hooks"
 
-import { stringToPieces, validateDecimal } from "@/utils/helpers"
+import { stringToPieces, validateDecimal } from "@/lib/utils/helpers"
 
 import type { Error, SelectFormProps } from "./types"
 import type { Option } from "@/shared/InputSelect/types"

@@ -1,4 +1,4 @@
-import { allowSkeletons } from "@/utils/constants"
+import { allowSkeletons } from "@/lib/data/constants"
 
 import type { RootState } from "../store"
 

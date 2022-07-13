@@ -4,8 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import Skeleton from "react-loading-skeleton"
 
-import { selectShowSkeleton } from "@/redux/ui/selectors"
-import { useAppSelector } from "@/redux/hooks"
+import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import { useAppSelector } from "@/lib/redux/hooks"
 
 import {
   Container,

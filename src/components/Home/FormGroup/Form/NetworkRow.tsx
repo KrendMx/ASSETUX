@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Help from "@/shared/ExchangeInfo/Help"
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 import Skeleton from "react-loading-skeleton"
 
 const Container = styled.div`

@@ -1,4 +1,4 @@
-import type { Response } from "../types"
+import type { Response } from "@/core/backend/types"
 import type { Token } from "../main/types"
 
 export type AuthorizedProps = {

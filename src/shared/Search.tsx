@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react"
 import styled from "styled-components"
 import { IoIosSearch, IoMdClose } from "react-icons/io"
 
-import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 const Container = styled.div`
   border-radius: 0.625em;

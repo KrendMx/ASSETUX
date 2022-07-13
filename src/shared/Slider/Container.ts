@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
-import { maxWidth } from "@/styles/GlobalStyles"
-import { tablet } from "@/utils/constants"
+import { maxWidth } from "@/lib/styles/GlobalStyles"
+import { tablet } from "@/lib/data/constants"
 import type { ResponsiveProps } from "./types"
 
 type ContainerProps = {

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
 
-import type { CurrenciesType } from "@/utils/currencies"
+import type { CurrenciesType } from "@/lib/data/currencies"
 import type { RootState } from "../store"
 import type { UiState } from "./types"
 

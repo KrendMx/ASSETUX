@@ -13,8 +13,8 @@ import { useRouter } from "next/router"
 import { SkeletonTheme } from "react-loading-skeleton"
 import Cookies from "js-cookie"
 
-import wrapper from "@/redux/store"
-import { useAppDispatch } from "@/redux/hooks"
+import wrapper from "@/lib/redux/store"
+import { useAppDispatch } from "@/lib/redux/hooks"
 import {
   setMobile,
   setTablet,
@@ -22,22 +22,22 @@ import {
   setBurgerActive,
   setMobileLayoutForTablet,
   setAppLoaded
-} from "@/redux/ui"
+} from "@/lib/redux/ui"
 
 import Header from "@/components/Header"
 import ContentManager from "@/components/ContentManager"
 
-import GlobalStyles from "@/styles/GlobalStyles"
+import GlobalStyles from "@/lib/styles/GlobalStyles"
 
-import { mobile, tablet, mobileLayoutForTablet } from "@/utils/constants"
-import { checkCurrency } from "@/utils/currencies"
-import { useMount } from "@/utils/hooks"
+import { mobile, tablet, mobileLayoutForTablet } from "@/lib/data/constants"
+import { checkCurrency } from "@/lib/data/currencies"
+import { useMount } from "@/lib/hooks"
 
 import type { AppProps } from "next/app"
 
 import "react-loading-skeleton/dist/skeleton.css"
 import "core-js/features/array/at"
-import "@/styles/fonts.css"
+import "@/lib/styles/fonts.css"
 
 const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {
   ssr: false

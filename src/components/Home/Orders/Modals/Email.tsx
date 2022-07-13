@@ -11,7 +11,7 @@ import InputSelect from "@/shared/InputSelect"
 import Icon from "@/shared/ModalComponents/Icon"
 import Shadow from "@/shared/ModalComponents/Shadow"
 
-import { emailRegexp } from "@/utils/constants"
+import { emailRegexp } from "@/lib/data/constants"
 
 type EmailProps = {
   isLoading?: boolean

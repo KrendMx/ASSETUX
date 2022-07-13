@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 export const Container = styled.section`
   width: 100%;

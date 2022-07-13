@@ -3,7 +3,7 @@ import styled from "styled-components"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 import { Form as SharedForm } from "../shared/FormComponents"
 
-import { mobile, tablet } from "@/utils/constants"
+import { mobile, tablet } from "@/lib/data/constants"
 
 export const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,

@@ -8,8 +8,8 @@ import BaseContainer from "@/shared/BaseContainer"
 import HeadingRow from "@/components/Profile/shared/HeadingRow"
 import FormGroup from "@/components/Profile/Main/FormGroup"
 
-import { EcommerceClient } from "@/backend/clients"
-import { checkAuthorization, getEcommercePrefix } from "@/utils/helpers"
+import { EcommerceClient } from "@/lib/backend/clients"
+import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { FormGroupProps } from "@/components/Profile/Main/FormGroup"

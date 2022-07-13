@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react"
 
-import { useIsomorphicLayoutEffect } from "@/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setCurrentRate } from "@/redux/crypto"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { setCurrentRate } from "@/lib/redux/crypto"
 
 import SelectForm from "./SelectForm"
 import Step from "./SelectForm/Steps"
 
-import { BackendClient } from "@/backend/clients"
+import { BackendClient } from "@/lib/backend/clients"
 
 import type { Option } from "@/shared/InputSelect/types"
 import type { PaymentOption, TokenOption } from "../types"
@@ -17,8 +17,8 @@ import type {
   FiatProvider,
   Blockchain,
   Token
-} from "@/backend/main/types"
-import type { CurrenciesType } from "@/utils/currencies"
+} from "@/lib/backend/main/types"
+import type { CurrenciesType } from "@/lib/data/currencies"
 
 type BuyFormProps = {
   currentBlockchain: Blockchain | null

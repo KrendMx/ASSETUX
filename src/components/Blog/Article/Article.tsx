@@ -15,11 +15,11 @@ import {
   Column
 } from "./styles"
 
-import { getFormattedDate } from "@/utils/date"
-import { BackendClient } from "@/backend/clients"
-import { sanitize } from "@/utils/helpers"
+import { getFormattedDate } from "@/lib/utils/date"
+import { BackendClient } from "@/lib/backend/clients"
+import { sanitize } from "@/lib/utils/helpers"
 
-import type { PostData } from "@/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types"
 
 export type ArticleProps = {
   data: PostData

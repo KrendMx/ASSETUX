@@ -1,5 +1,5 @@
-import config from "./config"
-import { locales } from "./locales"
+import config from "../config"
+import { locales } from "../data/locales"
 
 import type { NextSeoProps } from "next-seo"
 

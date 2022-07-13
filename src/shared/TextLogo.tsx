@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 import Logo from "./Logo"
-import config from "@/utils/config"
+import config from "@/lib/config"
 
 const LogoLink = styled.a`
   display: flex;

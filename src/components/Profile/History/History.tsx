@@ -3,11 +3,11 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
 
-import { useImmediateMobile } from "@/utils/hooks"
-import { useAppSelector } from "@/redux/hooks"
-import { selectShowSkeleton } from "@/redux/ui/selectors"
-import { perPageValues, cardsPerPage, cardsWidth } from "@/utils/constants"
-import { getFormattedDate } from "@/utils/date"
+import { useImmediateMobile } from "@/lib/hooks"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import { perPageValues, cardsPerPage, cardsWidth } from "@/lib/data/constants"
+import { getFormattedDate } from "@/lib/utils/date"
 
 import Table from "@/shared/Table"
 import Cards from "@/shared/Cards"
@@ -15,7 +15,7 @@ import Search from "@/shared/Search"
 import Pages from "@/shared/Pages"
 import { Container, NoAssets, ControlsRow } from "./styles"
 
-import type { Profile } from "@/backend/ecommerce/types"
+import type { Profile } from "@/lib/backend/ecommerce/types"
 import type { TFunction } from "next-i18next"
 
 export type HistoryType = {

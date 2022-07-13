@@ -1,6 +1,6 @@
 import styled, { keyframes, css } from "styled-components"
 
-import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
 

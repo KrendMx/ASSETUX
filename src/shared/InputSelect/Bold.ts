@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 const Bold = styled.span`
   font-size: 1em;

@@ -13,14 +13,14 @@ import {
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile, walletRegexp } from "@/utils/constants"
-import { EcommerceClient } from "@/backend/clients"
-import { toBase64, getEcommercePrefix } from "@/utils/helpers"
-import { useAuthorized } from "@/utils/hooks"
+import { mobile, walletRegexp } from "@/lib/data/constants"
+import { EcommerceClient } from "@/lib/backend/clients"
+import { toBase64, getEcommercePrefix } from "@/lib/utils/helpers"
+import { useAuthorized } from "@/lib/hooks"
 
-import type { Profile, UserImage } from "@/backend/ecommerce/types"
-import type { RequestState } from "@/backend/types"
-import type { Nullable } from "@/utils/helpers"
+import type { Profile, UserImage } from "@/lib/backend/ecommerce/types"
+import type { RequestState } from "@/core/backend/types"
+import type { Nullable } from "@/lib/utils/helpers"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,

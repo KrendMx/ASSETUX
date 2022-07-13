@@ -4,7 +4,7 @@ import styled from "styled-components"
 import Copy from "./Copy"
 import Timer from "./Timer"
 
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 const Container = styled.div`
   font-size: 1rem;

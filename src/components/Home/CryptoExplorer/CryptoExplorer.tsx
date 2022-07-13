@@ -2,19 +2,19 @@ import React, { useState, useMemo, useEffect, useCallback } from "react"
 import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 
-import { mapCurrency } from "@/utils/currencies"
+import { mapCurrency } from "@/lib/data/currencies"
 import {
   allowSkeletons,
   cardsPerPage,
   perPageValues,
   cardsWidth
-} from "@/utils/constants"
+} from "@/lib/data/constants"
 
-import { selectShowSkeleton } from "@/redux/ui/selectors"
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { swapAction, setSelectedToken } from "@/redux/crypto"
+import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { swapAction, setSelectedToken } from "@/lib/redux/crypto"
 
-import { useIsomorphicLayoutEffect } from "@/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
 import Table from "@/shared/Table"
 import Cards from "@/shared/Cards"
@@ -30,8 +30,8 @@ import {
   ActionButton
 } from "./styles"
 
-import type { ActionType } from "@/redux/crypto/types"
-import type { Token } from "@/backend/main/types"
+import type { ActionType } from "@/lib/redux/crypto/types"
+import type { Token } from "@/lib/backend/main/types"
 import type { ExplorerData } from "../../CryptoManager/types"
 import type { TFunction } from "next-i18next"
 

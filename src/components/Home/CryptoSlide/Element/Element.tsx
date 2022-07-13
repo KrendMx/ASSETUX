@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import Skeleton from "react-loading-skeleton"
 
-import { useAppSelector } from "@/redux/hooks"
-import { optimizeRemoteImages, allowSkeletons } from "@/utils/constants"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { optimizeRemoteImages, allowSkeletons } from "@/lib/data/constants"
 
 import Graph from "./Graph"
 import {

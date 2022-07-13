@@ -1,10 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
-import { setCurrentCurrency } from "@/redux/ui"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { setCurrentCurrency } from "@/lib/redux/ui"
 import PopupRow from "../PopupRow"
 import PopupItem from "../PopupItem"
-import { currencies, mapCurrency } from "@/utils/currencies"
+import { currencies, mapCurrency } from "@/lib/data/currencies"
 
 const CurrencyContainer = styled.span``
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react"
 
-import { useAppSelector, useAppDispatch } from "@/redux/hooks"
-import { setSelectedToken } from "@/redux/crypto"
-import { BackendClient } from "@/backend/clients"
-import { useIsomorphicLayoutEffect } from "@/utils/hooks"
+import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { setSelectedToken } from "@/lib/redux/crypto"
+import { BackendClient } from "@/lib/backend/clients"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
 import SellForm from "./SellForm"
 import BuyForm from "./BuyForm"
@@ -15,8 +15,8 @@ import {
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/utils/currencies"
-import { rateCheckInterval } from "@/utils/constants"
+} from "@/lib/data/currencies"
+import { rateCheckInterval } from "@/lib/data/constants"
 
 import type { TokenOption } from "./types"
 import type {
@@ -25,7 +25,7 @@ import type {
   FiatRate,
   LiquidityData,
   Blockchain
-} from "@/backend/main/types"
+} from "@/lib/backend/main/types"
 
 const mapTokens = (tokens: Token[]): TokenOption[] =>
   tokens

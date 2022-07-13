@@ -3,7 +3,7 @@ import React from "react"
 import Element from "@/shared/NewsRoom/Element"
 import { Container } from "./styles"
 
-import type { PostData } from "@/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types"
 
 type MainBlockProps = {
   pinnedPost: PostData | null

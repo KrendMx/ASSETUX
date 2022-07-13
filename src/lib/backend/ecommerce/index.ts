@@ -1,5 +1,5 @@
-import { handleRequest } from "../helpers"
 import Client from "../client"
+import handleRequest from "@/core/backend/handle-request"
 
 import type {
   GetProfileProps,

@@ -1,4 +1,4 @@
-import { Response, UrlRequest } from "../types"
+import { Response, UrlRequest } from "@/core/backend/types"
 
 export type FiatRate = {
   chain_id: string

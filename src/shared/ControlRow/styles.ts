@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 import ModalContainer from "../ModalComponents/Container"
-import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 type ContainerProps = {
   spaceBetween?: boolean

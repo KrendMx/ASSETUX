@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
 
-import { useAppSelector } from "@/redux/hooks"
-import { useIsomorphicLayoutEffect, useAuthorized } from "@/utils/hooks"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { useIsomorphicLayoutEffect, useAuthorized } from "@/lib/hooks"
 
 import CryptoManager from "@/components/CryptoManager"
 import InputSelect from "@/shared/InputSelect"
@@ -23,19 +23,19 @@ import {
 } from "./styles"
 import LinkModal from "./LinkModal"
 
-import { BackendClient, EcommerceClient } from "@/backend/clients"
+import { BackendClient, EcommerceClient } from "@/lib/backend/clients"
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/utils/currencies"
-import { rateCheckInterval } from "@/utils/constants"
-import { validateDecimal, getEcommercePrefix } from "@/utils/helpers"
+} from "@/lib/data/currencies"
+import { rateCheckInterval } from "@/lib/data/constants"
+import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 
-import type { Profile } from "@/backend/ecommerce/types"
+import type { Profile } from "@/lib/backend/ecommerce/types"
 import type { Option } from "@/shared/InputSelect/types"
-import type { Blockchain, FiatRate } from "@/backend/main/types"
+import type { Blockchain, FiatRate } from "@/lib/backend/main/types"
 
 const inputIds = {
   get: "get",

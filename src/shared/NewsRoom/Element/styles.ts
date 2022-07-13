@@ -2,7 +2,7 @@ import styled, { css } from "styled-components"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
 
-import { mobile, mobileLayoutForTablet } from "@/utils/constants"
+import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 type ContainerProps = {
   pinned?: boolean

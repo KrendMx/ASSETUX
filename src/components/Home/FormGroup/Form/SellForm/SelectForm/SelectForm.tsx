@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef } from "react"
 import { useTranslation } from "next-i18next"
 
-import { useIsomorphicLayoutEffect } from "@/utils/hooks"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
 import InputSelect from "@/shared/InputSelect"
 
@@ -34,13 +34,13 @@ import ExchangeExpired from "./Modals/ExchangeExpired"
 import Background from "@/shared/Background"
 import Maintenance from "../../Maintenance"
 
-import { holderRegexp, emailRegexp, allowSkeletons } from "@/utils/constants"
+import { holderRegexp, emailRegexp, allowSkeletons } from "@/lib/data/constants"
 
 import Skeleton from "react-loading-skeleton"
-import { useAppSelector } from "@/redux/hooks"
-import { stringToPieces, validateDecimal } from "@/utils/helpers"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { stringToPieces, validateDecimal } from "@/lib/utils/helpers"
 import { Step } from "./Steps"
-import { mapCurrencyName, isCurrencyDeclared } from "@/utils/currencies"
+import { mapCurrencyName, isCurrencyDeclared } from "@/lib/data/currencies"
 
 import type { Error, SelectFormProps } from "./types"
 import type { Option } from "@/shared/InputSelect/types"
@@ -172,6 +172,7 @@ function SelectForm({
 
   useIsomorphicLayoutEffect(() => {
     const errorRanges = checkRanges(Number(getAmount))
+
     setInputError({
       ...inputError,
       [inputIds.get]: errorRanges ?? undefined

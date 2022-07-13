@@ -4,17 +4,17 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { useAppDispatch } from "@/redux/hooks"
-import { setOrdersActive } from "@/redux/ui"
+import { useAppDispatch } from "@/lib/redux/hooks"
+import { setOrdersActive } from "@/lib/redux/ui"
 
 import Container from "./Container"
 import LanguageCurrencyChange from "./LanguageCurrencyChange"
 import TextLogo from "@/shared/TextLogo"
 
-import { commerce } from "@/utils/routes"
-import { mobile } from "@/utils/constants"
-import { logout, getEcommercePrefix } from "@/utils/helpers"
-import config from "@/utils/config"
+import { commerce } from "@/lib/routes"
+import { mobile } from "@/lib/data/constants"
+import { logout, getEcommercePrefix } from "@/lib/utils/helpers"
+import config from "@/lib/config"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {

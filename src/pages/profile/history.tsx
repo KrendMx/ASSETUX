@@ -8,8 +8,8 @@ import BaseContainer from "@/shared/BaseContainer"
 import HeadingRow from "@/components/Profile/shared/HeadingRow"
 import HistoryComponent from "@/components/Profile/History"
 
-import { EcommerceClient } from "@/backend/clients"
-import { checkAuthorization, getEcommercePrefix } from "@/utils/helpers"
+import { EcommerceClient } from "@/lib/backend/clients"
+import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { HistoryProps } from "@/components/Profile/History"

@@ -5,13 +5,16 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BlogComponent from "@/components/Blog"
 
-import { BackendClient } from "@/backend/clients"
-import { postCategories, isPostCategoryDeclared } from "@/backend/main/types"
-import { getDefaultMetaTags } from "@/utils/seo"
+import { BackendClient } from "@/lib/backend/clients"
+import {
+  postCategories,
+  isPostCategoryDeclared
+} from "@/lib/backend/main/types"
+import { getDefaultMetaTags } from "@/lib/utils/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { PostCategory } from "@/backend/main/types"
+import type { PostCategory } from "@/lib/backend/main/types"
 import type { BlogProps } from "@/components/Blog"
 
 function Blog(props: BlogProps) {
@@ -37,13 +40,13 @@ type GetStaticPropsParams = ParsedUrlQuery & {
 }
 
 export const getStaticProps: GetStaticProps<
-  Partial<BlogProps>,
+  BlogProps,
   GetStaticPropsParams
 > = async ({ locale, params }) => {
   const errorProps = {
-    props: {},
-    notFound: true
-  }
+    notFound: true,
+    revalidate: 3600
+  } as const
 
   const { category } = params!
   let checkedCategory: PostCategory = "all"

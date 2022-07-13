@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { mobile } from "@/utils/constants"
+import { mobile } from "@/lib/data/constants"
 
 const ChangeFileContainer = styled.div`
   flex: 0 0 auto;
