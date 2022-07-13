@@ -121,19 +121,7 @@ export type CheckSellData = {
   orderId: string
   chainId: string
   amountIn: number
-  curIn: {
-    id: string
-    name: string
-    symbol: string
-    address: string
-    decimals: number
-    enabled: boolean
-    contract: string
-    fee_id: number
-    stable: boolean
-    chain_id: number
-    logo_uri: string
-  }
+  curIn: Token
   curOut: {
     id: number
     type: string

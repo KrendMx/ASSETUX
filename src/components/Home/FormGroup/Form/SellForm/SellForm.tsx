@@ -3,7 +3,11 @@ import { useRouter } from "next/router"
 
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { setCurrentRate, setSellOrderId } from "@/lib/redux/crypto"
+import {
+  setCurrentRate,
+  setSellOrderId,
+  setSelectedToken
+} from "@/lib/redux/crypto"
 
 import SelectForm from "./SelectForm"
 import { BackendClient } from "@/lib/backend/clients"
@@ -271,10 +275,13 @@ function SellForm({
         response.state == "success" &&
         response.data.result.status == "pending"
       ) {
-        const { wallet, orderId, timestamp, amountIn } = response.data.result
+        const { wallet, orderId, timestamp, amountIn, curIn } =
+          response.data.result
 
         const startTimestamp = Number(timestamp)
         const endTimestamp = startTimestamp + 3.6e6
+
+        dispatch(setSelectedToken(curIn))
 
         setExchangeInfo({
           wallet,
