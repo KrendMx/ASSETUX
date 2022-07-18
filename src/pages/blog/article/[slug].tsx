@@ -52,7 +52,8 @@ export const getStaticProps: GetStaticProps<
   const responses = await Promise.all([
     BackendClient.findPost({
       query: slug,
-      category: "all"
+      category: "all",
+      strict: true
     }),
     BackendClient.getNews({ category: "all", page: 1 })
   ])

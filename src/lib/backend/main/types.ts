@@ -366,6 +366,7 @@ export type GetNewsResponse = Response<NewsData>
 
 export type FindPostProps = {
   category: PostCategory
+  strict?: boolean
   query: string
 }
 

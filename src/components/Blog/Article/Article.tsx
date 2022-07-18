@@ -38,8 +38,8 @@ function Article({ data, recentPosts }: ArticleProps) {
         <PreviewImage>
           <Image
             src={BackendClient.genericURL + data.img}
-            width={560}
-            height={416}
+            width={383}
+            height={216}
             layout="responsive"
             alt="Post preview image"
           />

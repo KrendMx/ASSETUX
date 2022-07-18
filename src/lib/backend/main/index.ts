@@ -258,6 +258,7 @@ class BackendClient extends Client {
   public async findPost({
     category,
     query,
+    strict,
     signal
   }: FindPostProps & Abortable): Promise<FindPostResponse> {
     return handleRequest({
@@ -265,7 +266,7 @@ class BackendClient extends Client {
       method: "GET",
       headers: this.headers,
       signal,
-      params: { query }
+      params: { query, strict }
     })
   }
 }
