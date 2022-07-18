@@ -114,18 +114,18 @@ function Footer({ hide }: FooterProps) {
           <h3>{t("social")}</h3>
           <StyledList>
             <IconElement iconPath="/social/telegram_white.svg">
-              <span>
+              <a href="https://t.me/assetux">
                 <Bolder>{t("footer:telegramChannel")}</Bolder>
                 <br />
                 @assetux
-              </span>
+              </a>
             </IconElement>
             <IconElement iconPath="/social/telegram_white.svg">
-              <span>
+              <a href="https://t.me/assetux_chat">
                 <Bolder>{t("footer:telegramGroup")}</Bolder>
                 <br />
-                @assetuxchat
-              </span>
+                @assetux_chat
+              </a>
             </IconElement>
           </StyledList>
         </Group>
@@ -135,20 +135,20 @@ function Footer({ hide }: FooterProps) {
             <IconElement
               iconPath={!isMobile ? "/social/telegram_white.svg" : null}
             >
-              <span>
+              <a href="https://t.me/assetux_support">
                 <Bolder>{t("footer:telegramChat")}</Bolder>
                 <br />
                 @assetux_support
-              </span>
+              </a>
             </IconElement>
             <IconElement
               iconPath={!isMobile ? "/social/instagram_white.svg" : null}
             >
-              <span>
+              <a href="mailto:support@assetux.com">
                 <Bolder>E-mail</Bolder>
                 <br />
                 support@assetux.com
-              </span>
+              </a>
             </IconElement>
           </StyledList>
         </Group>

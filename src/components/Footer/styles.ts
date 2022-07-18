@@ -24,6 +24,11 @@ export const IconElement = styled.li<IconElementProps>`
     display: inline-block;
   }
 
+  & > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
   &::before {
     display: ${(props) => (props.iconPath ? "inline-block" : "none")};
     content: "";
