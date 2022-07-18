@@ -57,8 +57,8 @@ function Element({
         <Image
           src={BackendClient.genericURL + img}
           layout="responsive"
-          width={560}
-          height={416}
+          width={383}
+          height={216}
           alt={`${title} image`}
         />
         {showSkeleton && (
