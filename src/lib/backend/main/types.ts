@@ -66,7 +66,7 @@ export type GetFiatRates = Response<FiatRate[]>
 
 export type GetTokens = Response<Token[]>
 
-export type GetFiatProviders = Response<FiatProvider[]>
+export type GetFiatProviders = Response<{ fiatproviders: FiatProvider[] }>
 
 export type GetBlockchains = Response<Blockchain[]>
 
