@@ -20,6 +20,7 @@ export const Container = styled(AdaptiveFont).attrs({
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 
   ${(props) =>
     props.pinned &&
