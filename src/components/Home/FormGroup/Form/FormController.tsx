@@ -139,7 +139,7 @@ function FormController() {
       const liquidity = responses[2]
 
       if (fiatProviders.state == "success") {
-        setPayments(fiatProviders.data)
+        setPayments(fiatProviders.data.fiatproviders)
       }
 
       if (fiatRates.state == "success") {
