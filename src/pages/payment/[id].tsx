@@ -49,8 +49,7 @@ export const getServerSideProps: GetServerSideProps<
   Params
 > = async ({ locale, params }) => {
   const errorProps = {
-    notFound: true,
-    revalidate: 3600
+    notFound: true
   } as const
 
   const id = params!.id
@@ -107,8 +106,7 @@ export const getServerSideProps: GetServerSideProps<
         "profile-payment",
         "inputSelect"
       ]))
-    },
-    revalidate: 3600
+    }
   }
 }
 
