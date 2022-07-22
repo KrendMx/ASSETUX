@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
 
-import { maxWidth } from "@/lib/styles/GlobalStyles"
+import { maxWidth } from "@/lib/styles/global"
 import { tablet } from "@/lib/data/constants"
 
 import type { ResponsiveProps } from "./types"

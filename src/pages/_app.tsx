@@ -27,7 +27,7 @@ import {
 import Header from "@/components/common/header"
 import ContentManager from "@/components/common/content-manager"
 
-import GlobalStyles from "@/lib/styles/GlobalStyles"
+import GlobalStyles from "@/lib/styles/global"
 
 import { mobile, tablet, mobileLayoutForTablet } from "@/lib/data/constants"
 import { checkCurrency } from "@/lib/data/currencies"

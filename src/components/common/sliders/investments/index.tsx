@@ -15,7 +15,7 @@ import {
   SliderContainer
 } from "./styles"
 import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
-import VerticalSliderStyles from "@/lib/styles/VerticalSliderStyles"
+import VerticalSliderStyles from "@/lib/styles/vertical-slider"
 
 const InvestmentsSlider: React.FC = () => {
   const showSkeleton = useAppSelector(selectShowSkeleton)
