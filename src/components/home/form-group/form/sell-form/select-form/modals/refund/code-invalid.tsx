@@ -2,13 +2,13 @@ import React from "react"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
-import Button from "@/shared/ModalComponents/Button"
-import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
-import Container from "@/shared/ModalComponents/Container"
-import Icon from "@/shared/ModalComponents/Icon"
-import Shadow from "@/shared/ModalComponents/Shadow"
-import Info from "@/shared/ModalComponents/Info"
-import Title from "@/shared/ModalComponents/Title"
+import Button from "@/components/common/modal-components/Button"
+import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
+import Container from "@/components/common/modal-components/Container"
+import Icon from "@/components/common/modal-components/Icon"
+import Shadow from "@/components/common/modal-components/Shadow"
+import Info from "@/components/common/modal-components/Info"
+import Title from "@/components/common/modal-components/Title"
 
 type RefundCodeInvalidProps = {
   onAccept: () => void

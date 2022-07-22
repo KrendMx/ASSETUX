@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
-import BaseContainer from "@/shared/BaseContainer"
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import BaseContainer from "@/components/common/base-container"
+import AdaptiveFont from "@/components/common/adaptive-font"
 import { mobile, mobileLayoutForTablet, tablet } from "@/lib/data/constants"
 
 export const Container = styled(BaseContainer)`

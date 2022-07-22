@@ -2,7 +2,7 @@ import styled, { keyframes, css } from "styled-components"
 
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import AdaptiveFont from "@/components/common/adaptive-font"
 
 export const Button = styled.button`
   flex: 1 1 auto;

@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next"
 import { isValidPhoneNumber } from "libphonenumber-js"
 
 import Configure from "@/components/common/header/configure"
-import InputSelect from "@/shared/InputSelect"
+import InputSelect from "@/components/common/input-select"
 import HideableWithMargin from "@/components/home/form-group/form/hideable-with-margin"
 import {
   Header,
@@ -25,7 +25,7 @@ import config from "@/lib/config"
 
 import type { Bill } from "@/lib/backend/ecommerce/types"
 import type { FiatProvider } from "@/lib/backend/main/types"
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 
 const inputIds = {
   email: "email",

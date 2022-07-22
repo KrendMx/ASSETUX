@@ -4,7 +4,7 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BaseContainer from "@/shared/BaseContainer"
+import BaseContainer from "@/components/common/base-container"
 import HeadingRow from "@/components/profile/common/heading-row"
 import HistoryComponent from "@/components/profile/history"
 

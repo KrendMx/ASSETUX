@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import AdaptiveFont from "@/components/common/adaptive-font"
 
 import { mobileLayoutForTablet, mobile } from "@/lib/data/constants"
 

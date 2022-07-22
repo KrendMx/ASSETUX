@@ -3,7 +3,7 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import parse from "html-react-parser"
 
-import Post from "@/shared/NewsRoom/Element"
+import Post from "@/components/common/news/element"
 import {
   Container,
   Content,

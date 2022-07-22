@@ -4,14 +4,14 @@ import Image from "next/image"
 import styled from "styled-components"
 import Link from "next/link"
 
-import Background from "@/shared/Background"
-import Container from "@/shared/ModalComponents/Container"
-import Title from "@/shared/ModalComponents/Title"
-import Info from "@/shared/ModalComponents/Info"
-import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
-import Button from "@/shared/ModalComponents/Button"
-import Icon from "@/shared/ModalComponents/Icon"
-import Shadow from "@/shared/ModalComponents/Shadow"
+import Background from "@/components/common/background"
+import Container from "@/components/common/modal-components/Container"
+import Title from "@/components/common/modal-components/Title"
+import Info from "@/components/common/modal-components/Info"
+import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
+import Button from "@/components/common/modal-components/Button"
+import Icon from "@/components/common/modal-components/Icon"
+import Shadow from "@/components/common/modal-components/Shadow"
 
 const Payment = styled.a`
   text-decoration: none;

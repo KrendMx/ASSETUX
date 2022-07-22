@@ -3,10 +3,10 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 
-import BaseContainer from "@/shared/BaseContainer"
-import ControlRow from "@/shared/ControlRow"
+import BaseContainer from "@/components/common/base-container"
+import ControlRow from "@/components/common/control-row"
 import MainBlock from "./main-block"
-import Pages from "@/shared/Pages"
+import Pages from "@/components/common/pagination"
 
 import { postCategories } from "@/lib/backend/main/types"
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"

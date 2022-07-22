@@ -11,10 +11,10 @@ import { capitalizeString, ellipsisString } from "@/lib/utils/helpers"
 import { getFormattedDate } from "@/lib/utils/date"
 import { mapCurrency, isCurrencyDeclared } from "@/lib/data/currencies"
 
-import Title from "@/shared/ModalComponents/Title"
-import Shadow from "@/shared/ModalComponents/Shadow"
-import Icon from "@/shared/ModalComponents/Icon"
-import Pages from "@/shared/Pages"
+import Title from "@/components/common/modal-components/Title"
+import Shadow from "@/components/common/modal-components/Shadow"
+import Icon from "@/components/common/modal-components/Icon"
+import Pages from "@/components/common/pagination"
 
 import {
   PairIconsContainer,
@@ -37,8 +37,8 @@ import {
   PagesContainer
 } from "./styles"
 
-import Table from "@/shared/Table"
-import Cards from "@/shared/Cards"
+import Table from "@/components/common/table"
+import Cards from "@/components/common/cards"
 
 import { optimizeRemoteImages, cardsPerPage } from "@/lib/data/constants"
 

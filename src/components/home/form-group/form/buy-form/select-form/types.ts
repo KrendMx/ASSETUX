@@ -1,6 +1,6 @@
 import Step from "./steps"
 
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 import type { PaymentOption } from "../../types"
 
 export type Error = {

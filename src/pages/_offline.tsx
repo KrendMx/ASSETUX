@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import AdaptiveFont from "@/components/common/adaptive-font"
 import { mobile } from "@/lib/data/constants"
 
 import type { GetStaticProps } from "next"

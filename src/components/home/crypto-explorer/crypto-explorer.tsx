@@ -16,10 +16,10 @@ import { swapAction, setSelectedToken } from "@/lib/redux/crypto"
 
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
-import Table from "@/shared/Table"
-import Cards from "@/shared/Cards"
-import ControlRow from "@/shared/ControlRow"
-import Pages from "@/shared/Pages"
+import Table from "@/components/common/table"
+import Cards from "@/components/common/cards"
+import ControlRow from "@/components/common/control-row"
+import Pages from "@/components/common/pagination"
 
 import {
   Container,

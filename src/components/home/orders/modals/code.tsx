@@ -3,13 +3,13 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import Container from "./container"
-import Title from "@/shared/ModalComponents/Title"
-import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
-import Button from "@/shared/ModalComponents/Button"
-import Icon from "@/shared/ModalComponents/Icon"
-import Shadow from "@/shared/ModalComponents/Shadow"
-import Info from "@/shared/ModalComponents/Info"
-import CodeInput from "@/shared/ModalComponents/CodeInput"
+import Title from "@/components/common/modal-components/Title"
+import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
+import Button from "@/components/common/modal-components/Button"
+import Icon from "@/components/common/modal-components/Icon"
+import Shadow from "@/components/common/modal-components/Shadow"
+import Info from "@/components/common/modal-components/Info"
+import CodeInput from "@/components/common/modal-components/CodeInput"
 
 type CodeProps = {
   isLoading?: boolean

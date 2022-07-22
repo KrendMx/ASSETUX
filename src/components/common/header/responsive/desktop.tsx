@@ -9,7 +9,7 @@ import { setOrdersActive } from "@/lib/redux/ui"
 
 import Container from "./container"
 import Configure from "../configure"
-import TextLogo from "@/shared/TextLogo"
+import TextLogo from "@/components/common/text-logo"
 
 import { commerce } from "@/lib/routes"
 import { mobile } from "@/lib/data/constants"

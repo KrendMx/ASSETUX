@@ -7,7 +7,7 @@ import Skeleton from "react-loading-skeleton"
 import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
 import { useAppSelector } from "@/lib/redux/hooks"
 
-import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
+import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
 import {
   Container,
   TextColumn,

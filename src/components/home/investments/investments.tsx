@@ -16,10 +16,10 @@ import {
   Store,
   QRContainer
 } from "./styles"
-import DefaultModal from "@/shared/Modals/DefaultModal"
+import DefaultModal from "@/components/common/modals/default-modal"
 
-import AbsoluteSkeletonContainer from "@/shared/AbsoluteSkeletonContainer"
-import InvestmentsSlider from "@/shared/Investments/Slider/Slider"
+import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
+import InvestmentsSlider from "@/components/common/sliders/investments"
 
 function Investments() {
   const { t } = useTranslation("home")

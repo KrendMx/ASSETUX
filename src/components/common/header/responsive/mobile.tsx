@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import Container from "./container"
 import Configure from "../configure"
 import BurgerButton from "./burger-button"
-import Logo from "@/shared/Logo"
+import Logo from "@/components/common/logo"
 
 import { mobile } from "@/lib/data/constants"
 import { useAppSelector } from "@/lib/redux/hooks"

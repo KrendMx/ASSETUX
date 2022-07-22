@@ -3,16 +3,16 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 import styled from "styled-components"
 
-import Button from "@/shared/ModalComponents/Button"
-import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
-import Container from "@/shared/ModalComponents/Container"
-import Title from "@/shared/ModalComponents/Title"
-import Icon from "@/shared/ModalComponents/Icon"
-import Shadow from "@/shared/ModalComponents/Shadow"
-import InputSelect from "@/shared/InputSelect"
-import Info from "@/shared/ModalComponents/Info"
+import Button from "@/components/common/modal-components/Button"
+import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
+import Container from "@/components/common/modal-components/Container"
+import Title from "@/components/common/modal-components/Title"
+import Icon from "@/components/common/modal-components/Icon"
+import Shadow from "@/components/common/modal-components/Shadow"
+import InputSelect from "@/components/common/input-select"
+import Info from "@/components/common/modal-components/Info"
 
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 
 const Ahtung = styled(Info)`
   color: var(--red);

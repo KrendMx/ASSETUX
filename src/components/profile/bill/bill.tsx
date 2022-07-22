@@ -7,8 +7,8 @@ import { useAppSelector } from "@/lib/redux/hooks"
 import { useIsomorphicLayoutEffect, useAuthorized } from "@/lib/hooks"
 
 import CryptoManager from "@/components/common/crypto-manager"
-import InputSelect from "@/shared/InputSelect"
-import ExchangeInfo from "@/shared/ExchangeInfo"
+import InputSelect from "@/components/common/input-select"
+import ExchangeInfo from "@/components/common/exchange-info"
 import HideableWithMargin from "@/components/home/form-group/form/hideable-with-margin"
 import { FormHeading, Button } from "../common/form-components"
 import {
@@ -34,7 +34,7 @@ import { rateCheckInterval } from "@/lib/data/constants"
 import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { Profile } from "@/lib/backend/ecommerce/types"
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 import type { Blockchain, FiatRate } from "@/lib/backend/main/types"
 
 const inputIds = {

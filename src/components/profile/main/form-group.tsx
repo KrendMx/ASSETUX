@@ -10,8 +10,8 @@ import {
   Balance,
   Paragraph
 } from "../common/form-components"
-import InputSelect from "@/shared/InputSelect"
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import InputSelect from "@/components/common/input-select"
+import AdaptiveFont from "@/components/common/adaptive-font"
 
 import { mobile, walletRegexp } from "@/lib/data/constants"
 import { EcommerceClient } from "@/lib/backend/clients"

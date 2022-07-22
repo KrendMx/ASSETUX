@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import Background from "@/shared/Background"
+import Background from "@/components/common/background"
 import Email from "./modals/email"
 import Code from "./modals/code"
 import CodeInvalid from "./modals/code-invalid"

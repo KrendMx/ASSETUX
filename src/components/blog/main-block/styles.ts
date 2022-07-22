@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
 
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import AdaptiveFont from "@/components/common/adaptive-font"
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 type ContainerProps = {

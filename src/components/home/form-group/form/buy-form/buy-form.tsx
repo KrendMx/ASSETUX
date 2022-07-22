@@ -10,7 +10,7 @@ import Step from "./select-form/steps"
 
 import { BackendClient } from "@/lib/backend/clients"
 
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 import type { PaymentOption, TokenOption } from "../types"
 import type {
   FiatRate,

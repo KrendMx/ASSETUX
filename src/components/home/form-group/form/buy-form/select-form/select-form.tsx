@@ -4,11 +4,11 @@ import { useTranslation } from "next-i18next"
 import Skeleton from "react-loading-skeleton"
 import { isValidPhoneNumber } from "libphonenumber-js"
 
-import InputSelect from "@/shared/InputSelect"
+import InputSelect from "@/components/common/input-select"
 
 import InputSelectButton from "../../input-select-button"
 import NextButton from "../../next-button"
-import ExchangeRow from "@/shared/ExchangeInfo"
+import ExchangeRow from "@/components/common/exchange-info"
 import NetworkRow from "../../network-row"
 import HideableWithMargin from "../../hideable-with-margin"
 import Maintenance from "../../maintenance"
@@ -23,7 +23,7 @@ import { useAppSelector } from "@/lib/redux/hooks"
 import { stringToPieces, validateDecimal } from "@/lib/utils/helpers"
 
 import type { Error, SelectFormProps } from "./types"
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 
 const inputIds = {
   get: "get",

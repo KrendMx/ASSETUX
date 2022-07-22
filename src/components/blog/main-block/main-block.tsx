@@ -1,6 +1,6 @@
 import React from "react"
 
-import Element from "@/shared/NewsRoom/Element"
+import Element from "@/components/common/news/element"
 import { Container } from "./styles"
 
 import type { PostData } from "@/lib/backend/main/types"

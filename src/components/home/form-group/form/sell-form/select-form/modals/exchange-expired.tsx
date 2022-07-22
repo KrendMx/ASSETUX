@@ -3,16 +3,16 @@ import { useTranslation } from "next-i18next"
 import Image from "next/image"
 
 import styled from "styled-components"
-import Container from "@/shared/ModalComponents/Container"
-import Title from "@/shared/ModalComponents/Title"
-import Info from "@/shared/ModalComponents/Info"
-import ButtonsRow from "@/shared/ModalComponents/ButtonsRow"
-import Button from "@/shared/ModalComponents/Button"
-import Icon from "@/shared/ModalComponents/Icon"
-import Shadow from "@/shared/ModalComponents/Shadow"
-import InputSelect from "@/shared/InputSelect"
+import Container from "@/components/common/modal-components/Container"
+import Title from "@/components/common/modal-components/Title"
+import Info from "@/components/common/modal-components/Info"
+import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
+import Button from "@/components/common/modal-components/Button"
+import Icon from "@/components/common/modal-components/Icon"
+import Shadow from "@/components/common/modal-components/Shadow"
+import InputSelect from "@/components/common/input-select"
 
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 
 const Success = styled(Info)`
   background-color: #68cc4533;

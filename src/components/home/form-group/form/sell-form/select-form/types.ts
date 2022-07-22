@@ -2,7 +2,7 @@ import { Step } from "./steps"
 
 import type { RequestState } from "@/core/backend/types"
 import type { PaymentOption } from "../../types"
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 
 export type Error = {
   [key: string]: string | undefined

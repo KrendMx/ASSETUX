@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
-import InputSelect from "@/shared/InputSelect"
+import InputSelect from "@/components/common/input-select"
 
 import {
   Container,
@@ -16,7 +16,7 @@ import {
 
 import InputSelectButton from "../../input-select-button"
 import NextButton from "../../next-button"
-import ExchangeRow from "@/shared/ExchangeInfo"
+import ExchangeRow from "@/components/common/exchange-info"
 import HideableWithMargin from "../../hideable-with-margin"
 import ExchangeInfoRow from "./exchange-info-row"
 import QRcode from "./qr-code"
@@ -31,7 +31,7 @@ import ExchangeModal from "./modals/exchange/modal"
 import ExchangeResultModal from "./modals/exchange/result"
 import ExchangeUnknownModal from "./modals/exchange/unknown-error"
 import ExchangeExpired from "./modals/exchange-expired"
-import Background from "@/shared/Background"
+import Background from "@/components/common/background"
 import Maintenance from "../../maintenance"
 
 import { holderRegexp, emailRegexp, allowSkeletons } from "@/lib/data/constants"
@@ -43,7 +43,7 @@ import { Step } from "./steps"
 import { mapCurrencyName, isCurrencyDeclared } from "@/lib/data/currencies"
 
 import type { Error, SelectFormProps } from "./types"
-import type { Option } from "@/shared/InputSelect/types"
+import type { Option } from "@/components/common/input-select/types"
 
 const inputIds = {
   get: "get",

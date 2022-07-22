@@ -10,8 +10,8 @@ import { EcommerceClient } from "@/lib/backend/clients"
 import { mobile, emailRegexp, mappedCookies } from "@/lib/data/constants"
 import { isLocaleDeclared } from "@/lib/data/locales"
 
-import InputSelect from "@/shared/InputSelect"
-import AdaptiveFont from "@/shared/AdaptiveFont"
+import InputSelect from "@/components/common/input-select"
+import AdaptiveFont from "@/components/common/adaptive-font"
 import { Form, Button } from "../common/form-components"
 
 const Container = styled(AdaptiveFont).attrs({

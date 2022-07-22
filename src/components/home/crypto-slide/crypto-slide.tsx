@@ -8,7 +8,7 @@ import { mapCurrency } from "@/lib/data/currencies"
 import { useSliderConfig } from "@/lib/hooks"
 
 import Element from "./element"
-import Slider from "@/shared/Slider"
+import Slider from "@/components/common/slider"
 
 import type { ExplorerData } from "@/components/common/crypto-manager/types"
 import type { Token, MarketHistoryData } from "@/lib/backend/main/types"
