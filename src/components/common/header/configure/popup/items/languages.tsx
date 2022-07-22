@@ -5,26 +5,15 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 import { locales } from "@/lib/data/locales"
+import mapLanguage from "../../map-language"
 
-import PopupItem from "../popup-item"
-import PopupRow from "../popup-row"
-
-import type { LocalesType } from "@/lib/data/locales"
+import { PopupItem, PopupRow } from "./styles"
 
 const CountryContainer = styled.div`
   display: block;
   width: 14px;
   height: 11px;
 `
-
-export const mapLanguage = (locale: LocalesType) => {
-  switch (locale) {
-    case "en":
-      return "EN"
-    case "ru":
-      return "RUS"
-  }
-}
 
 type LanguagesProps = {
   onClick: () => void

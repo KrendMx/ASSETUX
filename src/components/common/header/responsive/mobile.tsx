@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 import Container from "./container"
-import LanguageCurrencyChange from "./language-currency-change"
+import Configure from "../configure"
 import BurgerButton from "./burger-button"
 import Logo from "@/shared/Logo"
 
@@ -31,14 +31,14 @@ const LogoLink = styled.a`
   display: flex;
 `
 
-function Mobile() {
+const Mobile: React.FC = () => {
   const router = useRouter()
   const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
   const isCommercePage = router.pathname.startsWith("/profile")
 
   return (
     <MobileContainer>
-      <LanguageCurrencyChange />
+      <Configure />
       <ImageContainer>
         {!config.isStage && isCommercePage ? (
           <LogoLink href="https://assetux.com">

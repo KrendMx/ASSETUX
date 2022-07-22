@@ -7,13 +7,11 @@ const Container = styled.div`
   position: relative;
 `
 
-type LanguageCurrencyChangeProps = {
+type ConfigureProps = {
   direction?: "top" | "down"
 }
 
-function LanguageCurrencyChange({
-  direction = "down"
-}: LanguageCurrencyChangeProps) {
+const Configure: React.FC<ConfigureProps> = ({ direction = "down" }) => {
   const [popupWidth, setPopupWidth] = useState(0)
   const [buttonWidth, setButtonWidth] = useState(0)
 
@@ -41,4 +39,4 @@ function LanguageCurrencyChange({
   )
 }
 
-export default LanguageCurrencyChange
+export default Configure

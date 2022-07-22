@@ -9,7 +9,7 @@ import {
   FormHeading,
   Balance,
   Paragraph
-} from "../shared/form-components"
+} from "../common/form-components"
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
 

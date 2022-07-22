@@ -1,6 +1,14 @@
 import styled from "styled-components"
 
-const PopupRow = styled.a`
+type PopupItemProps = {
+  active: boolean
+}
+
+export const PopupItem = styled.span<PopupItemProps>`
+  color: ${(props) => (props.active ? "var(--blue)" : "var(--black)")};
+`
+
+export const PopupRow = styled.a`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,5 +26,3 @@ const PopupRow = styled.a`
     margin-right: 15px;
   }
 `
-
-export default PopupRow

@@ -39,7 +39,7 @@ const Bar = styled.span`
   background-color: #000000;
 `
 
-function Button() {
+const Button: React.FC = () => {
   const dispatch = useAppDispatch()
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
 

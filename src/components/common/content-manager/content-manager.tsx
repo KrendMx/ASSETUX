@@ -3,12 +3,12 @@ import styled from "styled-components"
 import { useRouter } from "next/router"
 
 import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
-import { setBurgerActive, setLanguageCurrencyActive } from "@/lib/redux/ui"
+import { setBurgerActive, setConfigureActive } from "@/lib/redux/ui"
 
 import { mobile } from "@/lib/data/constants"
 
 import BurgerMenu from "@/components/menus/burger"
-import LanguageCurrencyMenu from "@/components/menus/language-currency"
+import ConfigureMenu from "@/components/menus/configure"
 import Footer from "@/components/common/footer"
 
 import type { AppProps } from "next/app"
@@ -51,34 +51,32 @@ type ContentManagerProps = {
 
 const MemoizedFooter = memo(Footer)
 
-function ContentManager(props: ContentManagerProps) {
+const ContentManager: React.FC<ContentManagerProps> = (props) => {
   const { Component, pageProps } = props.appProps
   const router = useRouter()
   const dispatch = useAppDispatch()
   const burgerActive = useAppSelector((state) => state.ui.burgerActive)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
-  const languageCurrencyActive = useAppSelector(
-    (state) => state.ui.languageCurrencyActive
-  )
+  const configureActive = useAppSelector((state) => state.ui.configureActive)
   const lastActive = useRef<"burger" | "languageCurrency" | null>(null)
 
   const isCommercePayment = router.pathname == "/payment/[id]"
 
   useEffect(() => {
-    if (burgerActive && languageCurrencyActive) {
+    if (burgerActive && configureActive) {
       if (lastActive.current == "burger") {
         dispatch(setBurgerActive(false))
       } else {
-        dispatch(setLanguageCurrencyActive(false))
+        dispatch(setConfigureActive(false))
       }
     } else {
       if (burgerActive) {
         lastActive.current = "burger"
-      } else if (languageCurrencyActive) {
+      } else if (configureActive) {
         lastActive.current = "languageCurrency"
       }
     }
-  }, [burgerActive, languageCurrencyActive, dispatch])
+  }, [burgerActive, configureActive, dispatch])
 
   const MemoizedComponent = useMemo(
     () => <Component {...pageProps} />,
@@ -87,20 +85,18 @@ function ContentManager(props: ContentManagerProps) {
 
   return (
     <>
-      <Wrapper hide={burgerActive || (languageCurrencyActive && isMobile)}>
+      <Wrapper hide={burgerActive || (configureActive && isMobile)}>
         <Container resetMargins={isCommercePayment}>
           {MemoizedComponent}
         </Container>
       </Wrapper>
       <MemoizedFooter
         hide={
-          burgerActive ||
-          (languageCurrencyActive && isMobile) ||
-          isCommercePayment
+          burgerActive || (configureActive && isMobile) || isCommercePayment
         }
       />
       {burgerActive && <BurgerMenu />}
-      {languageCurrencyActive && isMobile && <LanguageCurrencyMenu />}
+      {configureActive && isMobile && <ConfigureMenu />}
     </>
   )
 }

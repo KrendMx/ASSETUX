@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-import Info from "./index"
+import Info from "./info"
 import Form from "./form"
 
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"

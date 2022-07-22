@@ -37,7 +37,7 @@ type NavButtonProps = {
   active: boolean
 }
 
-function NavButton({ title, onClick, active }: NavButtonProps) {
+const NavButton: React.FC<NavButtonProps> = ({ title, onClick, active }) => {
   return (
     <Button onClick={onClick} active={active}>
       <ButtonTitle>{title}</ButtonTitle>

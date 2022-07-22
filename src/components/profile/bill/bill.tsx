@@ -10,7 +10,7 @@ import CryptoManager from "@/components/common/crypto-manager"
 import InputSelect from "@/shared/InputSelect"
 import ExchangeInfo from "@/shared/ExchangeInfo"
 import HideableWithMargin from "@/components/home/form-group/form/hideable-with-margin"
-import { FormHeading, Button } from "../shared/form-components"
+import { FormHeading, Button } from "../common/form-components"
 import {
   Container,
   Paragraph,

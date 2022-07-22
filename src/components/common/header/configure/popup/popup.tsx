@@ -1,9 +1,11 @@
 import React, { useCallback } from "react"
 import styled, { css } from "styled-components"
-import Currencies from "./currencies"
-import Languages from "./languages"
+
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { setLanguageCurrencyActive } from "@/lib/redux/ui"
+import { setConfigureActive } from "@/lib/redux/ui"
+
+import Currencies from "./items/currencies"
+import Languages from "./items/languages"
 
 type ContainerProps = {
   hidden: boolean
@@ -40,14 +42,12 @@ type PopupProps = {
 
 const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
   ({ offsetX, direction }, ref) => {
-    const languageCurrencyActive = useAppSelector(
-      (state) => state.ui.languageCurrencyActive
-    )
+    const configureActive = useAppSelector((state) => state.ui.configureActive)
     const isMobile = useAppSelector((state) => state.ui.isMobile)
     const dispatch = useAppDispatch()
 
     const handleClick = useCallback(
-      () => dispatch(setLanguageCurrencyActive(false)),
+      () => dispatch(setConfigureActive(false)),
       [dispatch]
     )
 
@@ -58,7 +58,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
     return (
       <Container
         ref={ref}
-        hidden={!languageCurrencyActive}
+        hidden={!configureActive}
         offsetX={offsetX}
         direction={direction}
       >

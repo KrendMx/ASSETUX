@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { Form as SharedForm } from "../shared/form-components"
+import { Form as SharedForm } from "../common/form-components"
 
 import { mobile, tablet } from "@/lib/data/constants"
 

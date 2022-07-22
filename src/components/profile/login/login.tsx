@@ -12,7 +12,7 @@ import { isLocaleDeclared } from "@/lib/data/locales"
 
 import InputSelect from "@/shared/InputSelect"
 import AdaptiveFont from "@/shared/AdaptiveFont"
-import { Form, Button } from "../shared/form-components"
+import { Form, Button } from "../common/form-components"
 
 const Container = styled(AdaptiveFont).attrs({
   as: "section",

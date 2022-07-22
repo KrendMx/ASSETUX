@@ -6,7 +6,7 @@ export const {
   setDesktop,
   setBurgerActive,
   setMobileLayoutForTablet,
-  setLanguageCurrencyActive,
+  setConfigureActive,
   setOrdersActive,
   setCurrentCurrency,
   setAppLoaded,

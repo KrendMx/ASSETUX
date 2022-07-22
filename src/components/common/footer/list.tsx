@@ -12,7 +12,7 @@ type ListProps = {
   onClick?: (route: Route) => void
 }
 
-function List({ routes, mobileSmall, onClick }: ListProps) {
+const List: React.FC<ListProps> = ({ routes, mobileSmall, onClick }) => {
   const { t } = useTranslation("routes")
 
   return (

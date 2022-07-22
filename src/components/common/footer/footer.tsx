@@ -28,7 +28,7 @@ import {
   StyledList
 } from "./styles"
 
-function PopularList() {
+const PopularList: React.FC = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const availableTokens = useAppSelector(
@@ -80,7 +80,7 @@ type FooterProps = {
   hide: boolean
 }
 
-function Footer({ hide }: FooterProps) {
+const Footer: React.FC<FooterProps> = ({ hide }) => {
   const isMobile = useImmediateMobile()
   const router = useRouter()
   const { t } = useTranslation("footer")

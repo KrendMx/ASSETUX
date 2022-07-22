@@ -5,7 +5,7 @@ export type UiState = {
   isTablet: boolean
   isMobileLayoutForTablet: boolean
   burgerActive: boolean
-  languageCurrencyActive: boolean
+  configureActive: boolean
   ordersActive: boolean
   currentCurrency: CurrenciesType
   appLoaded: boolean

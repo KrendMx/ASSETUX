@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { currencies, mapCurrency, mapCurrencyName } from "@/lib/data/currencies"
-import ActiveNavLink from "./active-nav-link"
+import { ActiveNavLink } from "./styles"
 import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
 import { setCurrentCurrency } from "@/lib/redux/ui"
 
@@ -12,7 +12,7 @@ const Button = styled(ActiveNavLink)`
   cursor: pointer;
 `
 
-function Languages() {
+const Languages: React.FC = () => {
   const dispatch = useAppDispatch()
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 

@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/lib/redux/hooks"
 import { setOrdersActive } from "@/lib/redux/ui"
 
 import Container from "./container"
-import LanguageCurrencyChange from "./language-currency-change"
+import Configure from "../configure"
 import TextLogo from "@/shared/TextLogo"
 
 import { commerce } from "@/lib/routes"
@@ -73,7 +73,7 @@ const NavLink = styled.a<NavLinkProps>`
   }
 `
 
-function Desktop() {
+const Desktop: React.FC = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const { t } = useTranslation("header")
@@ -136,7 +136,7 @@ function Desktop() {
               </NavLink>
             ))}
         </NavContainer>
-        <LanguageCurrencyChange />
+        <Configure />
       </RightContainer>
     </DesktopContainer>
   )

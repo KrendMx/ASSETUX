@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
-import HeadingRow from "@/components/profile/shared/heading-row"
+import HeadingRow from "@/components/profile/common/heading-row"
 import HistoryComponent from "@/components/profile/history"
 
 import { EcommerceClient } from "@/lib/backend/clients"

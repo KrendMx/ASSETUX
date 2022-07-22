@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useTranslation } from "next-i18next"
 import { isValidPhoneNumber } from "libphonenumber-js"
 
-import LanguageCurrencyChange from "@/components/common/header/language-currency-change"
+import Configure from "@/components/common/header/configure"
 import InputSelect from "@/shared/InputSelect"
 import HideableWithMargin from "@/components/home/form-group/form/hideable-with-margin"
 import {
@@ -235,7 +235,7 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
           </a>
         )}
 
-        <LanguageCurrencyChange direction="top" />
+        <Configure direction="top" />
       </Footer>
     </>
   )

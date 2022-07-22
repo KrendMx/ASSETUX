@@ -26,7 +26,7 @@ const Button = styled.button`
   }
 `
 
-function ScrollButton() {
+const ScrollButton: React.FC = () => {
   const [active, setActive] = useState(false)
 
   useEffect(() => {

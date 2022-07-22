@@ -19,7 +19,7 @@ const LinkLogo = styled.a`
   }
 `
 
-function Social() {
+const Social: React.FC = () => {
   return (
     <Container>
       <LinkLogo href="#">

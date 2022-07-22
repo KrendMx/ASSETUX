@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import Link from "next/link"
 import { useTranslation } from "next-i18next"
 
-import NavButton from "../nav-button"
-import NavLink from "../nav-link"
+import NavButton from "../common/nav-button"
+import NavLink from "../common/nav-link"
 
 import type { Route } from "@/lib/routes"
 
@@ -13,7 +13,7 @@ type NavGroupProps = {
   onClick?: (route: Route) => void
 }
 
-function NavGroup({ title, routes, onClick }: NavGroupProps) {
+const NavGroup: React.FC<NavGroupProps> = ({ title, routes, onClick }) => {
   const [active, setActive] = useState(false)
   const { t } = useTranslation("routes")
 

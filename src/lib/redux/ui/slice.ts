@@ -12,7 +12,7 @@ const initialState: UiState = {
   burgerActive: false,
   isTablet: false,
   isMobileLayoutForTablet: false,
-  languageCurrencyActive: false,
+  configureActive: false,
   ordersActive: false,
   currentCurrency: "RUB",
   appLoaded: false,
@@ -46,8 +46,8 @@ export const slice = createSlice({
       state.isTablet = false
       state.isMobile = false
     },
-    setLanguageCurrencyActive: (state, action: PayloadAction<boolean>) => {
-      state.languageCurrencyActive = action.payload
+    setConfigureActive: (state, action: PayloadAction<boolean>) => {
+      state.configureActive = action.payload
     },
     setOrdersActive: (state, action: PayloadAction<boolean>) => {
       state.ordersActive = action.payload

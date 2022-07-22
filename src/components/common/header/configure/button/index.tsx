@@ -1,9 +1,14 @@
 import React, { useEffect } from "react"
-import { setLanguageCurrencyActive } from "@/lib/redux/ui"
-import DynamicValue from "./dynamic-value"
+import { useRouter } from "next/router"
 import styled from "styled-components"
 import { IoIosArrowUp } from "react-icons/io"
+
+import { setConfigureActive } from "@/lib/redux/ui"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { mapCurrency } from "@/lib/data/currencies"
+import { isLocaleDeclared } from "@/lib/data/locales"
+
+import mapLanguage from "../map-language"
 
 const Container = styled.button`
   display: flex;
@@ -24,18 +29,31 @@ const Container = styled.button`
   }
 `
 
+const DynamicValue: React.FC = () => {
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const router = useRouter()
+  const { locale: currentLocale } = router
+
+  return (
+    <span>
+      {currentLocale &&
+        isLocaleDeclared(currentLocale) &&
+        mapLanguage(currentLocale)}{" "}
+      / {mapCurrency(currentCurrency)}
+    </span>
+  )
+}
+
 const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   const dispatch = useAppDispatch()
 
-  const languageCurrencyActive = useAppSelector(
-    (state) => state.ui.languageCurrencyActive
-  )
+  const configureActive = useAppSelector((state) => state.ui.configureActive)
   const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   useEffect(() => {
     if (!isMobile) {
       const handleClick = () => {
-        dispatch(setLanguageCurrencyActive(false))
+        dispatch(setConfigureActive(false))
       }
 
       window.addEventListener("click", handleClick)
@@ -50,9 +68,7 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   return (
     <Container
       ref={ref}
-      onClick={() =>
-        dispatch(setLanguageCurrencyActive(!languageCurrencyActive))
-      }
+      onClick={() => dispatch(setConfigureActive(!configureActive))}
     >
       <DynamicValue />
       <IoIosArrowUp />

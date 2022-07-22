@@ -1,9 +1,10 @@
 import React from "react"
 import Link from "next/link"
+import styled from "styled-components"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
 
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
 import {
   setOrdersActive,
   setBurgerActive,
@@ -22,15 +23,29 @@ import { isCurrencyDeclared } from "@/lib/data/currencies"
 import { logout, getEcommercePrefix } from "@/lib/utils/helpers"
 import config from "@/lib/config"
 
-import NavGroup from "./nav-group"
-import NavLink from "../nav-link"
-import MobileButton from "./mobile-button"
-import Container from "../container"
-import Social from "../social"
+import NavGroup from "./group"
+import NavLink from "../common/nav-link"
+import Container from "../common/container"
+import Social from "../common/social"
 
 import type { Route } from "@/lib/routes"
 
-function BurgerMenu() {
+const MobileButton = styled.button`
+  display: flex;
+  width: 100%;
+  justify-content: flex-star5t;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px 0;
+  color: var(--black);
+  font-weight: 700;
+  font-size: 1.7em;
+`
+
+const BurgerMenu: React.FC = () => {
   const { t } = useTranslation("header")
   const dispatch = useAppDispatch()
   const router = useRouter()

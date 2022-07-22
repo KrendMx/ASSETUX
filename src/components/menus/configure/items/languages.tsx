@@ -5,11 +5,10 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 import { useAppDispatch } from "@/lib/redux/hooks"
-import { setLanguageCurrencyActive } from "@/lib/redux/ui"
-
+import { setConfigureActive } from "@/lib/redux/ui"
 import { locales } from "@/lib/data/locales"
 
-import ActiveNavLink from "./active-nav-link"
+import { ActiveNavLink } from "./styles"
 
 import type { LocalesType } from "@/lib/data/locales"
 
@@ -28,7 +27,7 @@ const mapLanguage = (locale: LocalesType) => {
   }
 }
 
-function Languages() {
+const Languages: React.FC = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const { locale: currentLocale } = router
@@ -40,7 +39,7 @@ function Languages() {
           <Link href={router.asPath} locale={locale} passHref>
             <ActiveNavLink
               active={currentLocale == locale}
-              onClick={() => dispatch(setLanguageCurrencyActive(false))}
+              onClick={() => dispatch(setConfigureActive(false))}
             >
               <CountryContainer>
                 <Image
