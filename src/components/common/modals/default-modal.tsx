@@ -23,7 +23,7 @@ const DefaultModal: React.FC<DefaultModalProps> = ({
 }) => {
   return createPortal(
     <>
-      <Background onClick={() => onClose && onClose()}>
+      <Background>
         <Container onClick={(event) => event.stopPropagation()} spanContent>
           <Title>
             <Shadow>

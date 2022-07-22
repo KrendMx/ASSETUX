@@ -85,7 +85,7 @@ const ControlRow: React.FC<ControlRowProps> = ({
         />
       </Container>
       {showModal && (
-        <Background onClick={manuallyToggleModal}>
+        <Background>
           <CloseButton onClick={manuallyToggleModal} />
           <Modal spanContent>
             {buttons

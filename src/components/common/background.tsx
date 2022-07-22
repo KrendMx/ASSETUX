@@ -20,15 +20,13 @@ type BackgroundProps = {
   scrollToTop?: boolean
   children?: React.ReactNode
   absolute?: boolean
-  onClick?: () => void
 }
 
 const Background: React.FC<BackgroundProps> = ({
   allowScrolling,
   scrollToTop,
   children,
-  absolute,
-  onClick
+  absolute
 }) => {
   useEffect(() => {
     if (!scrollToTop) {
