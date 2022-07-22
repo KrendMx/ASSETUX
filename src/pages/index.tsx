@@ -6,13 +6,13 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
-import FormGroup from "@/components/Home/FormGroup"
-import Investments from "@/components/Home/Investments"
+import FormGroup from "@/components/home/form-group"
+import Investments from "@/components/home/investments"
 import NewsRoom from "@/shared/NewsRoom"
-import AboutUs from "@/components/Home/AboutUs"
-import CryptoManager from "@/components/CryptoManager"
-import QueryController from "@/components/Home/QueryController"
-import Orders from "@/components/Home/Orders"
+import AboutUs from "@/components/home/about-us"
+import CryptoManager from "@/components/common/crypto-manager"
+import QueryController from "@/components/home/query-controller"
+import Orders from "@/components/home/orders"
 
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 import { getDefaultMetaTags } from "@/lib/utils/seo"
@@ -22,8 +22,10 @@ import { BackendClient } from "@/lib/backend/clients"
 import type { GetStaticProps } from "next"
 import type { PostData } from "@/lib/backend/main/types"
 
-const CryptoSlide = dynamic(() => import("@/components/Home/CryptoSlide"))
-const CryptoExplorer = dynamic(() => import("@/components/Home/CryptoExplorer"))
+const CryptoSlide = dynamic(() => import("@/components/home/crypto-slide"))
+const CryptoExplorer = dynamic(
+  () => import("@/components/home/crypto-explorer")
+)
 
 const Container = styled(BaseContainer)`
   & > section:not(:last-child) {

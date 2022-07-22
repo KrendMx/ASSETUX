@@ -5,14 +5,14 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/shared/BaseContainer"
-import HeadingRow from "@/components/Profile/shared/HeadingRow"
-import FormGroup from "@/components/Profile/Main/FormGroup"
+import HeadingRow from "@/components/profile/shared/heading-row"
+import FormGroup from "@/components/profile/main/form-group"
 
 import { EcommerceClient } from "@/lib/backend/clients"
 import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
-import type { FormGroupProps } from "@/components/Profile/Main/FormGroup"
+import type { FormGroupProps } from "@/components/profile/main/form-group"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);

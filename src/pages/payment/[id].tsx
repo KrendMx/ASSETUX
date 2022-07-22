@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import PaymentComponent from "@/components/Profile/Payment"
+import PaymentComponent from "@/components/profile/payment"
 
 import { EcommerceClient, BackendClient } from "@/lib/backend/clients"
 import { getDefaultMetaTags } from "@/lib/utils/seo"
@@ -10,7 +10,7 @@ import { getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { PaymentProps } from "@/components/Profile/Payment"
+import type { PaymentProps } from "@/components/profile/payment"
 
 function Payment(props: PaymentProps) {
   const { t } = useTranslation("profile-payment")

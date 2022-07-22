@@ -2,14 +2,14 @@ import React from "react"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import ArticleComponent from "@/components/Blog/Article"
+import ArticleComponent from "@/components/blog/article"
 
 import { BackendClient } from "@/lib/backend/clients"
 import { getDefaultMetaTags } from "@/lib/utils/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { ArticleProps } from "@/components/Blog/Article"
+import type { ArticleProps } from "@/components/blog/article"
 import type { PostData } from "@/lib/backend/main/types"
 
 function Article(props: ArticleProps) {

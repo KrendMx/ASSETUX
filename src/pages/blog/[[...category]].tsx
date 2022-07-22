@@ -3,7 +3,7 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import BlogComponent from "@/components/Blog"
+import BlogComponent from "@/components/blog"
 
 import { BackendClient } from "@/lib/backend/clients"
 import {
@@ -15,7 +15,7 @@ import { getDefaultMetaTags } from "@/lib/utils/seo"
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { PostCategory } from "@/lib/backend/main/types"
-import type { BlogProps } from "@/components/Blog"
+import type { BlogProps } from "@/components/blog"
 
 function Blog(props: BlogProps) {
   const { t } = useTranslation("news")

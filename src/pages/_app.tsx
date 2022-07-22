@@ -24,8 +24,8 @@ import {
   setAppLoaded
 } from "@/lib/redux/ui"
 
-import Header from "@/components/Header"
-import ContentManager from "@/components/ContentManager"
+import Header from "@/components/common/header"
+import ContentManager from "@/components/common/content-manager"
 
 import GlobalStyles from "@/lib/styles/GlobalStyles"
 
@@ -39,9 +39,12 @@ import "react-loading-skeleton/dist/skeleton.css"
 import "core-js/features/array/at"
 import "@/lib/styles/fonts.css"
 
-const ScrollButton = dynamic(() => import("@/components/ScrollButton"), {
-  ssr: false
-})
+const ScrollButton = dynamic(
+  () => import("@/components/common/scroll-button"),
+  {
+    ssr: false
+  }
+)
 
 function MyApp(props: AppProps) {
   const router = useRouter()
