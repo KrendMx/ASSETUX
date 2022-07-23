@@ -2,6 +2,7 @@ import React from "react"
 import Slider from "react-slick"
 import Image from "next/image"
 import Skeleton from "react-loading-skeleton"
+import { useRouter } from "next/router"
 
 import verticalSliderProps from "@/lib/data/vertical-slider-props"
 import { useAppSelector } from "@/lib/redux/hooks"
@@ -17,8 +18,16 @@ import {
 import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
 import VerticalSliderStyles from "@/lib/styles/vertical-slider"
 
+const paths = (locale: string) => [
+  `/assets/investments/${locale}/metaverse.png`,
+  `/assets/investments/${locale}/defi.png`,
+  `/assets/investments/${locale}/gamefi.png`,
+  `/assets/investments/${locale}/top-coins.png`
+]
+
 const InvestmentsSlider: React.FC = () => {
   const showSkeleton = useAppSelector(selectShowSkeleton)
+  const router = useRouter()
 
   return (
     <>
@@ -32,54 +41,20 @@ const InvestmentsSlider: React.FC = () => {
           )}
           <SliderContainer visible={!showSkeleton}>
             <Slider {...verticalSliderProps}>
-              <ImagePositioner>
-                <ImageContainer>
-                  <Image
-                    src="/assets/investments/gamefi.png"
-                    layout="responsive"
-                    width={477}
-                    height={307}
-                    alt="gamefi"
-                    loading="eager"
-                  />
-                </ImageContainer>
-              </ImagePositioner>
-              <ImagePositioner>
-                <ImageContainer>
-                  <Image
-                    src="/assets/investments/defi.png"
-                    layout="responsive"
-                    width={477}
-                    height={307}
-                    alt="DeFi"
-                    loading="eager"
-                  />
-                </ImageContainer>
-              </ImagePositioner>
-              <ImagePositioner>
-                <ImageContainer>
-                  <Image
-                    src="/assets/investments/metaverse.png"
-                    layout="responsive"
-                    width={477}
-                    height={307}
-                    alt="Metaverse"
-                    loading="eager"
-                  />
-                </ImageContainer>
-              </ImagePositioner>
-              <ImagePositioner>
-                <ImageContainer>
-                  <Image
-                    src="/assets/investments/top-coins.png"
-                    layout="responsive"
-                    width={477}
-                    height={307}
-                    alt="TopCoins"
-                    loading="eager"
-                  />
-                </ImageContainer>
-              </ImagePositioner>
+              {paths(router.locale!).map((path) => (
+                <ImagePositioner key={path}>
+                  <ImageContainer>
+                    <Image
+                      src={path}
+                      layout="responsive"
+                      width={467}
+                      height={301}
+                      alt="gamefi"
+                      loading="eager"
+                    />
+                  </ImageContainer>
+                </ImagePositioner>
+              ))}
             </Slider>
           </SliderContainer>
         </Container>
