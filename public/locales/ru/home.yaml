@@ -118,6 +118,10 @@ sell_callSupport: Обратиться в службу поддержки - са
 sell_blockchainLabel: Вы используете ASSETUX на
 sell_maximumIs: Максимальная сумма
 sell_minimumIs: Минимальная сумма
+sell_notEnoughTitle: Внимание
+sell_notEnoughDesc:
+  - Минимальная сумма обмена {{min}} {{cur}}
+  - Если вы хотите прервать операцию, вы можете оформить возврат
 
 network_sure: Убедитесь, что ваш кошелек поддерживает выбранную сеть
 network_help: |-

@@ -31,6 +31,7 @@ import ExchangeModal from "./modals/exchange/modal"
 import ExchangeResultModal from "./modals/exchange/result"
 import ExchangeUnknownModal from "./modals/exchange/unknown-error"
 import ExchangeExpired from "./modals/exchange-expired"
+import NotEnough from "./modals/exchange/not-enough"
 import Background from "@/components/common/background"
 import ExchangeRow from "@/components/common/exchange-info"
 
@@ -113,6 +114,7 @@ function SelectForm({
 
   const [showExpiredModal, setShowExpiredModal] = useState(false)
 
+  const [showNotEnoughModal, setShowNotEnoughModal] = useState(false)
   const [showExchangeModal, setShowExchangeModal] = useState(false)
   const [showExchangeResultModal, setShowExchangeResultModal] = useState(false)
   const [showExchangeUnknownModal, setShowExchangeUnknownModal] =
@@ -517,7 +519,19 @@ function SelectForm({
             </ExchangeInfoContainer>
           </FormContainer>
           <ExchangeButtonsContainer>
-            <ExchangeButton onClick={() => setShowExchangeModal(true)}>
+            <ExchangeButton
+              onClick={() => {
+                if (!currentPaymentOption) {
+                  return
+                }
+
+                if (Number(creditedGetAmount) < currentPaymentOption.min) {
+                  setShowNotEnoughModal(true)
+                } else {
+                  setShowExchangeModal(true)
+                }
+              }}
+            >
               {t("home:sell_exchange")}
             </ExchangeButton>
             <RefundButton onClick={() => setShowRefundModal(true)}>
@@ -628,6 +642,14 @@ function SelectForm({
         />
       )}
 
+      {showNotEnoughModal && currentPaymentOption && currentCurrency && (
+        <NotEnough
+          min={currentPaymentOption.min}
+          fiat={currentCurrency}
+          onAccept={() => setShowNotEnoughModal(false)}
+        />
+      )}
+
       {exchangeInfo && showExchangeModal && (
         <ExchangeModal
           getValue={creditedGetAmount}
@@ -694,7 +716,8 @@ function SelectForm({
         showExpiredModal ||
         showExchangeModal ||
         showExchangeResultModal ||
-        showExchangeUnknownModal) && (
+        showExchangeUnknownModal ||
+        showNotEnoughModal) && (
         <Background scrollToTop absolute allowScrolling />
       )}
     </Container>

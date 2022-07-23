@@ -109,6 +109,10 @@ sell_callSupport: Contacting support is the right thing to do in this situation
 sell_blockchainLabel: You are using ASSETUX on
 sell_maximumIs: The maximum amount is
 sell_minimumIs: The minimum amount is
+sell_notEnoughTitle: Attention
+sell_notEnoughDesc:
+  - Minimum exchange is {{min}} {{cur}}
+  - If you want to revert that operation, please go to refund
 
 network_sure: Please make sure your wallet supports selected network
 network_help: |-
