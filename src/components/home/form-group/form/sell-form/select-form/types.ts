@@ -51,4 +51,5 @@ export type SelectFormProps = {
   onRefund: (code: string, wallet: string) => void
   onRefundRequest: () => void
   getRefundAmounts: () => Promise<number | null>
+  onReview: (review: string) => void
 }

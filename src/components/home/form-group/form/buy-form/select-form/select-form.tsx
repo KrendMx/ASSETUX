@@ -7,11 +7,11 @@ import { isValidPhoneNumber } from "libphonenumber-js"
 import InputSelect from "@/components/common/input-select"
 
 import InputSelectButton from "../../input-select-button"
-import NextButton from "../../next-button"
+import NextButton from "../../common/next-button"
 import ExchangeRow from "@/components/common/exchange-info"
-import NetworkRow from "../../network-row"
-import HideableWithMargin from "../../hideable-with-margin"
-import Maintenance from "../../maintenance"
+import NetworkRow from "../../common/network-row"
+import HideableWithMargin from "../../common/hideable-with-margin"
+import Maintenance from "../../common/maintenance"
 
 import { Container, FormContainer } from "./styles"
 

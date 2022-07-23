@@ -371,3 +371,8 @@ export type FindPostProps = {
 }
 
 export type FindPostResponse = Response<{ news: PostData | null }>
+
+export type CreateFeedbackProps = UrlRequest & {
+  content: string
+  orderId: string
+}

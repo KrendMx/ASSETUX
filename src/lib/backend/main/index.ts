@@ -33,7 +33,8 @@ import type {
   GetNewsProps,
   GetNewsResponse,
   FindPostProps,
-  FindPostResponse
+  FindPostResponse,
+  CreateFeedbackProps
 } from "./types"
 
 class BackendClient extends Client {
@@ -267,6 +268,20 @@ class BackendClient extends Client {
       headers: this.headers,
       signal,
       params: { query, strict }
+    })
+  }
+
+  public async createFeedback({
+    apiHost,
+    signal,
+    ...data
+  }: CreateFeedbackProps & Abortable) {
+    return handleRequest({
+      url: `${constructURL(apiHost)}/api/selltoken/createFeedback`,
+      method: "POST",
+      headers: this.headers,
+      signal,
+      data
     })
   }
 }

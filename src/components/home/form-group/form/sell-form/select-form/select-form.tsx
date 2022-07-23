@@ -15,11 +15,11 @@ import {
 } from "./styles"
 
 import InputSelectButton from "../../input-select-button"
-import NextButton from "../../next-button"
-import ExchangeRow from "@/components/common/exchange-info"
-import HideableWithMargin from "../../hideable-with-margin"
-import ExchangeInfoRow from "./exchange-info-row"
-import QRcode from "./qr-code"
+import NextButton from "../../common/next-button"
+import HideableWithMargin from "../../common/hideable-with-margin"
+import ExchangeInfoRow from "../../common/exchange-info-row"
+import QRcode from "../../common/qr-code"
+import Maintenance from "../../common/maintenance"
 
 import RefundModal from "./modals/refund/modal"
 import RefundWalletModal from "./modals/refund/wallet"
@@ -32,7 +32,7 @@ import ExchangeResultModal from "./modals/exchange/result"
 import ExchangeUnknownModal from "./modals/exchange/unknown-error"
 import ExchangeExpired from "./modals/exchange-expired"
 import Background from "@/components/common/background"
-import Maintenance from "../../maintenance"
+import ExchangeRow from "@/components/common/exchange-info"
 
 import { holderRegexp, emailRegexp, allowSkeletons } from "@/lib/data/constants"
 
@@ -90,7 +90,8 @@ function SelectForm({
   onExchange,
   onRefund,
   onRefundRequest,
-  getRefundAmounts
+  getRefundAmounts,
+  onReview
 }: SelectFormProps) {
   const { t } = useTranslation("home")
 
@@ -603,9 +604,11 @@ function SelectForm({
 
       {showRefundModalResult && (
         <RefundResultModal
-          onAccept={() => {
+          onAccept={(review) => {
             setShowRefundModalResult(false)
             setCurrentStep(Step.Details)
+
+            onReview(review)
           }}
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
@@ -616,7 +619,10 @@ function SelectForm({
 
       {showRefundInsufficient && (
         <RefundInsufficient
-          onAccept={() => setShowRefundInsufficient(false)}
+          onAccept={(review) => {
+            setShowRefundInsufficient(false)
+            onReview(review)
+          }}
           sentValue={exchangeInfo?.creditedAmount.toString()}
           sentToken={tokens?.find((token) => token.value == currentToken)}
         />
@@ -659,9 +665,11 @@ function SelectForm({
 
       {exchangeInfo && rate && minimalRefundAmount && showExpiredModal && (
         <ExchangeExpired
-          onAccept={() => {
+          onAccept={(review) => {
             setShowExpiredModal(false)
             setCurrentStep(Step.Details)
+
+            onReview(review)
           }}
           getValue={creditedGetAmount}
           sentValue={exchangeInfo.creditedAmount.toString()}

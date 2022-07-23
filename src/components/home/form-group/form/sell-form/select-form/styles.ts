@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import { mobile } from "@/lib/data/constants"
 
-import NextButton from "../../next-button"
+import NextButton from "../../common/next-button"
 
 import { Step } from "./steps"
 

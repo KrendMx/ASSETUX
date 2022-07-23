@@ -36,7 +36,7 @@ const ExchangeInfo = styled(Info)`
 `
 
 type ExchangeExpiredProps = {
-  onAccept: () => void
+  onAccept: (review: string) => void
   getValue: string
   getToken?: Option
   sentValue: string
@@ -134,7 +134,7 @@ function ExchangeExpired({
         changeable
       />
       <ButtonsRow>
-        <Button onClick={() => onAccept()} main>
+        <Button onClick={() => onAccept(review)} main>
           OK
         </Button>
       </ButtonsRow>

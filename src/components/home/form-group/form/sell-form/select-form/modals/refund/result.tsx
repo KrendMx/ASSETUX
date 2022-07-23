@@ -23,7 +23,7 @@ const Success = styled(Info)`
 `
 
 type RefundResultModalProps = {
-  onAccept?: () => void
+  onAccept?: (review: string) => void
   getValue?: string
   getToken?: Option
 }
@@ -74,7 +74,7 @@ function RefundResultModal({
         changeable
       />
       <ButtonsRow>
-        <Button onClick={() => onAccept && onAccept()} main>
+        <Button onClick={() => onAccept && onAccept(review)} main>
           OK
         </Button>
       </ButtonsRow>

@@ -220,6 +220,18 @@ function SellForm({
     setCurrentStep(step)
   }
 
+  const handleReview = (review: string) => {
+    if (!exchangeInfo?.orderId || !currentBlockchain || review) {
+      return
+    }
+
+    BackendClient.createFeedback({
+      apiHost: currentBlockchain.url,
+      content: review,
+      orderId: exchangeInfo.orderId
+    })
+  }
+
   useEffect(() => {
     return () => {
       dispatch(setSellOrderId(null))
@@ -419,6 +431,7 @@ function SellForm({
       onRefund={onRefund}
       onRefundRequest={onRefundRequest}
       getRefundAmounts={getRefundAmounts}
+      onReview={handleReview}
     />
   )
 }

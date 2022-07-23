@@ -19,7 +19,7 @@ const Ahtung = styled(Info)`
 `
 
 type RefundInsufficientProps = {
-  onAccept: () => void
+  onAccept: (review: string) => void
   sentValue?: string
   sentToken?: Option
 }
@@ -70,7 +70,7 @@ function RefundInsufficient({
         changeable
       />
       <ButtonsRow>
-        <Button onClick={onAccept} main>
+        <Button onClick={() => onAccept(review)} main>
           OK
         </Button>
       </ButtonsRow>
