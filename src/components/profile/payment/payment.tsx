@@ -6,7 +6,7 @@ import { isValidPhoneNumber } from "libphonenumber-js"
 
 import Configure from "@/components/common/header/configure"
 import InputSelect from "@/components/common/input-select"
-import HideableWithMargin from "@/components/home/form-group/form/hideable-with-margin"
+import HideableWithMargin from "@/components/home/form-group/form/common/hideable-with-margin"
 import {
   Header,
   Footer,

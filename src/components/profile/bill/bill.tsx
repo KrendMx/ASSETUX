@@ -9,7 +9,7 @@ import { useIsomorphicLayoutEffect, useAuthorized } from "@/lib/hooks"
 import CryptoManager from "@/components/common/crypto-manager"
 import InputSelect from "@/components/common/input-select"
 import ExchangeInfo from "@/components/common/exchange-info"
-import HideableWithMargin from "@/components/home/form-group/form/hideable-with-margin"
+import HideableWithMargin from "@/components/home/form-group/form/common/hideable-with-margin"
 import { FormHeading, Button } from "../common/form-components"
 import {
   Container,
