@@ -113,7 +113,8 @@ function SellForm({
           wallet: data.wallet,
           creditedAmount: 0,
           timestamp: data.end,
-          orderId: data.orderId.toString()
+          orderId: data.orderId.toString(),
+          totalAmount: data.totalAmount
         })
 
         setCurrentStep(Step.Exchange)
@@ -287,19 +288,17 @@ function SellForm({
         response.state == "success" &&
         response.data.result.status == "pending"
       ) {
-        const { wallet, orderId, timestamp, amountIn, curIn } =
+        const { wallet, orderId, endTimestamp, totalAmount, amountIn, curIn } =
           response.data.result
-
-        const startTimestamp = Number(timestamp)
-        const endTimestamp = startTimestamp + 3.6e6
 
         dispatch(setSelectedToken(curIn))
 
         setExchangeInfo({
           wallet,
           orderId,
-          timestamp: endTimestamp.toString(),
-          creditedAmount: amountIn
+          timestamp: endTimestamp,
+          creditedAmount: amountIn,
+          totalAmount
         })
 
         setCurrentStep(Step.Exchange)

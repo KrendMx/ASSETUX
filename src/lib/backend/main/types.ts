@@ -110,6 +110,7 @@ export type SellTokenCreateData = {
   wallet: string
   orderId: number
   end: string
+  totalAmount: number
 }
 
 export type SellTokenCreate = Response<
@@ -122,6 +123,8 @@ export type CheckSellData = {
   chainId: string
   amountIn: number
   curIn: Token
+  endTimestamp: string
+  totalAmount: number
   curOut: {
     id: number
     type: string

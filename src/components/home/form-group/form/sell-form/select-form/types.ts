@@ -12,6 +12,7 @@ export type ExchangeInfo = {
   wallet: string
   timestamp: string
   creditedAmount: number
+  totalAmount: number
   orderId: string
 }
 

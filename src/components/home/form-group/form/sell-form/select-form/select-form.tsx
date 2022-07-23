@@ -478,9 +478,9 @@ function SelectForm({
               />
               <ExchangeInfoRow
                 label={t("home:sell_totalAmount")}
-                value={`${giveAmount} ${currentToken}`}
+                value={`${exchangeInfo.totalAmount} ${currentToken}`}
                 copyLabel={t("home:sell_copyAmount")}
-                valueToCopy={giveAmount}
+                valueToCopy={exchangeInfo.totalAmount.toString()}
               />
               <ExchangeInfoRow
                 label={t("home:sell_creditedAmount")}
