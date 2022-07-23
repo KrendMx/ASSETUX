@@ -1,5 +1,6 @@
 import styled from "styled-components"
 
+import AdaptiveFont from "@/components/common/adaptive-font"
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 
 type ColoredSpanProps = {
@@ -55,12 +56,6 @@ export const TextColumn = styled.div`
     margin-bottom: 25px;
   }
 
-  & > h2 {
-    font-size: 1.1em;
-    color: var(--gray);
-    font-weight: 400;
-  }
-
   @media only screen and (max-width: ${mobileLayoutForTablet}px) {
     & > h1 {
       margin-bottom: 15px;
@@ -72,6 +67,16 @@ export const TextColumn = styled.div`
       margin-bottom: 25px;
     }
   }
+`
+
+export const SubHeading = styled(AdaptiveFont).attrs({
+  as: "h2",
+  mobileFactor: 1.34,
+  tabletFactor: 1.25,
+  desktopFactor: 1.1
+})`
+  color: var(--gray);
+  font-weight: 400;
 `
 
 export const SponsorsContainer = styled.div`

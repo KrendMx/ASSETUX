@@ -15,7 +15,8 @@ import {
   SponsorsContainer,
   SkeletonContainer,
   SponsorContainer,
-  Sponsors
+  Sponsors,
+  SubHeading
 } from "./styles"
 
 function Info() {
@@ -41,7 +42,7 @@ function Info() {
             <Skeleton count={3} />
           </SkeletonContainer>
         )}
-        {!showSkeleton && <h2>{t("info")}</h2>}
+        {!showSkeleton && <SubHeading>{t("info")}</SubHeading>}
         {showSkeleton && (
           <SkeletonContainer as="h2">
             <Skeleton count={2} />
