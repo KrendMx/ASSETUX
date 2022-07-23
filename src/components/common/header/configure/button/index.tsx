@@ -51,6 +51,10 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   const isMobile = useAppSelector((state) => state.ui.isMobile)
 
   useEffect(() => {
+    if (!configureActive) {
+      return
+    }
+
     if (!isMobile) {
       const handleClick = () => {
         dispatch(setConfigureActive(false))
@@ -63,7 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile])
+  }, [isMobile, configureActive])
 
   return (
     <Container

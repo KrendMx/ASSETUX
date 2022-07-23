@@ -114,7 +114,9 @@ function SellForm({
           creditedAmount: 0,
           timestamp: data.end,
           orderId: data.orderId.toString(),
-          totalAmount: data.totalAmount
+          totalAmount: data.totalAmount,
+          curIn: currentCurrency,
+          curOut: currentToken.symbol
         })
 
         setCurrentStep(Step.Exchange)
@@ -265,7 +267,7 @@ function SellForm({
   }, [processedPayments, selectedPayment, currentRate])
 
   useIsomorphicLayoutEffect(() => {
-    if (currentBlockchain == null) {
+    if (currentBlockchain == null || exchangeInfo) {
       return
     }
 
@@ -288,17 +290,24 @@ function SellForm({
         response.state == "success" &&
         response.data.result.status == "pending"
       ) {
-        const { wallet, orderId, endTimestamp, totalAmount, amountIn, curIn } =
-          response.data.result
-
-        dispatch(setSelectedToken(curIn))
+        const {
+          wallet,
+          orderId,
+          endTimestamp,
+          totalAmount,
+          amountIn,
+          curIn,
+          curOut
+        } = response.data.result
 
         setExchangeInfo({
           wallet,
           orderId,
           timestamp: endTimestamp,
           creditedAmount: amountIn,
-          totalAmount
+          totalAmount,
+          curIn: curOut.currency,
+          curOut: curIn.symbol
         })
 
         setCurrentStep(Step.Exchange)

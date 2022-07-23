@@ -14,6 +14,8 @@ export type ExchangeInfo = {
   creditedAmount: number
   totalAmount: number
   orderId: string
+  curIn: string
+  curOut: string
 }
 
 export type SelectFormProps = {

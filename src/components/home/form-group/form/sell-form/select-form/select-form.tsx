@@ -480,13 +480,13 @@ function SelectForm({
               />
               <ExchangeInfoRow
                 label={t("home:sell_totalAmount")}
-                value={`${exchangeInfo.totalAmount} ${currentToken}`}
+                value={`${exchangeInfo.totalAmount} ${exchangeInfo.curOut}`}
                 copyLabel={t("home:sell_copyAmount")}
                 valueToCopy={exchangeInfo.totalAmount.toString()}
               />
               <ExchangeInfoRow
                 label={t("home:sell_creditedAmount")}
-                value={`${exchangeInfo.creditedAmount} ${currentToken}`}
+                value={`${exchangeInfo.creditedAmount} ${exchangeInfo.curOut}`}
                 timestamp={Number(exchangeInfo.timestamp)}
                 onExpired={async () => {
                   const response = await getRefundAmounts()
@@ -501,8 +501,8 @@ function SelectForm({
                 }}
               />
               <ExchangeRow
-                token={currentToken}
-                currency={currentCurrency}
+                token={exchangeInfo.curIn}
+                currency={exchangeInfo.curIn}
                 rate={rate}
                 isLoading={false}
                 placeholder={t("home:exchange_fees")}
@@ -510,11 +510,11 @@ function SelectForm({
               />
               <ExchangeInfoRow
                 label={t("home:sell_amountToGet")}
-                value={`${creditedGetAmount} ${
-                  currentCurrency &&
-                  isCurrencyDeclared(currentCurrency) &&
-                  mapCurrencyName(currentCurrency)
-                } (${currentCurrency})`}
+                value={`≈${creditedGetAmount} ${
+                  exchangeInfo.curIn &&
+                  isCurrencyDeclared(exchangeInfo.curIn) &&
+                  mapCurrencyName(exchangeInfo.curIn)
+                } (${exchangeInfo.curIn})`}
               />
             </ExchangeInfoContainer>
           </FormContainer>
@@ -642,13 +642,16 @@ function SelectForm({
         />
       )}
 
-      {showNotEnoughModal && currentPaymentOption && currentCurrency && (
-        <NotEnough
-          min={currentPaymentOption.min}
-          fiat={currentCurrency}
-          onAccept={() => setShowNotEnoughModal(false)}
-        />
-      )}
+      {showNotEnoughModal &&
+        currentPaymentOption &&
+        currentCurrency &&
+        exchangeInfo && (
+          <NotEnough
+            min={currentPaymentOption.min}
+            fiat={exchangeInfo.curIn}
+            onAccept={() => setShowNotEnoughModal(false)}
+          />
+        )}
 
       {exchangeInfo && showExchangeModal && (
         <ExchangeModal
