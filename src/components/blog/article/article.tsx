@@ -2,6 +2,7 @@ import React, { useMemo } from "react"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import parse from "html-react-parser"
+import { useTranslation } from "next-i18next"
 
 import Post from "@/components/common/news/element"
 import {
@@ -28,6 +29,7 @@ export type ArticleProps = {
 
 function Article({ data, recentPosts }: ArticleProps) {
   const router = useRouter()
+  const { t } = useTranslation("news")
 
   const sanitized = useMemo(() => sanitize(data.text), [data.text])
 
@@ -51,7 +53,7 @@ function Article({ data, recentPosts }: ArticleProps) {
       </Content>
       <RecentPosts>
         <Title as="h2" secondary>
-          Последние новости
+          {t("latestNews")}
         </Title>
         {recentPosts != null && (
           <Column>
