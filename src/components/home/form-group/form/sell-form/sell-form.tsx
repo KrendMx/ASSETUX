@@ -106,6 +106,14 @@ function SellForm({
 
       setProcessingRequest(false)
 
+      const payment = processedPayments?.find(
+        (payment) => payment.value == selectedPayment
+      )
+
+      if (!payment) {
+        return
+      }
+
       if (response.state == "success") {
         const data = response.data.result
 
@@ -116,7 +124,8 @@ function SellForm({
           orderId: data.orderId.toString(),
           totalAmount: data.totalAmount,
           curIn: currentCurrency,
-          curOut: currentToken.symbol
+          curOut: currentToken.symbol,
+          min: payment.min
         })
 
         setCurrentStep(Step.Exchange)
@@ -307,7 +316,8 @@ function SellForm({
           creditedAmount: amountIn,
           totalAmount,
           curIn: curOut.currency,
-          curOut: curIn.symbol
+          curOut: curIn.symbol,
+          min: 5001
         })
 
         setCurrentStep(Step.Exchange)

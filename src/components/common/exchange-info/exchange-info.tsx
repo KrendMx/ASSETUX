@@ -30,7 +30,7 @@ const ExchangeInfo: React.FC<ExchangeInfoProps> = ({
       {!isLoading ? (
         <>
           <ExchangeStat>
-            1 {token} = {rate} {currency}
+            1 {token} = {rate ?? "..."} {currency}
           </ExchangeStat>
           <ExchangeHelp onMouseEnter={() => {}} onMouseLeave={() => {}}>
             {placeholder}

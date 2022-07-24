@@ -16,6 +16,7 @@ export type ExchangeInfo = {
   orderId: string
   curIn: string
   curOut: string
+  min: number
 }
 
 export type SelectFormProps = {

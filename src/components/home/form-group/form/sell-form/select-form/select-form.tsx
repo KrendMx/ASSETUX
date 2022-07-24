@@ -507,10 +507,11 @@ function SelectForm({
                 isLoading={false}
                 placeholder={t("home:exchange_fees")}
                 text="asdads"
+                margins
               />
               <ExchangeInfoRow
                 label={t("home:sell_amountToGet")}
-                value={`≈${creditedGetAmount} ${
+                value={`≈${creditedGetAmount || "..."} ${
                   exchangeInfo.curIn &&
                   isCurrencyDeclared(exchangeInfo.curIn) &&
                   mapCurrencyName(exchangeInfo.curIn)
@@ -647,7 +648,7 @@ function SelectForm({
         currentCurrency &&
         exchangeInfo && (
           <NotEnough
-            min={currentPaymentOption.min}
+            min={exchangeInfo.min}
             fiat={exchangeInfo.curIn}
             onAccept={() => setShowNotEnoughModal(false)}
           />
