@@ -363,6 +363,7 @@ export const isPostCategoryDeclared = (
 export type GetNewsProps = {
   category: PostCategory
   page?: number
+  lang: string
 }
 
 export type GetNewsResponse = Response<NewsData>
@@ -371,6 +372,7 @@ export type FindPostProps = {
   category: PostCategory
   strict?: boolean
   query: string
+  lang: string
 }
 
 export type FindPostResponse = Response<{ news: PostData | null }>

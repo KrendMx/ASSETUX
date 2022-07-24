@@ -244,14 +244,16 @@ class BackendClient extends Client {
 
   public async getNews({
     category,
-    page
+    page,
+    lang
   }: GetNewsProps): Promise<GetNewsResponse> {
     return handleRequest({
       url: `${this.genericURL}/api/blog/${category}`,
       method: "GET",
       headers: this.headers,
       params: {
-        page
+        page,
+        lang
       }
     })
   }
@@ -260,6 +262,7 @@ class BackendClient extends Client {
     category,
     query,
     strict,
+    lang,
     signal
   }: FindPostProps & Abortable): Promise<FindPostResponse> {
     return handleRequest({
@@ -267,7 +270,7 @@ class BackendClient extends Client {
       method: "GET",
       headers: this.headers,
       signal,
-      params: { query, strict }
+      params: { query, strict, lang }
     })
   }
 

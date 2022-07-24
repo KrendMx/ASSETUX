@@ -53,9 +53,10 @@ export const getStaticProps: GetStaticProps<
     BackendClient.findPost({
       query: slug,
       category: "all",
-      strict: true
+      strict: true,
+      lang: locale!
     }),
-    BackendClient.getNews({ category: "all", page: 1 })
+    BackendClient.getNews({ category: "all", page: 1, lang: locale! })
   ])
 
   const postResponse = responses[0]
@@ -93,31 +94,26 @@ export const getStaticProps: GetStaticProps<
 }
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
-  const errorProps = {
-    paths: [],
-    fallback: "blocking" as const
-  }
-
-  const response = await BackendClient.getNews({ category: "all", page: 1 })
-
-  if (response.state != "success") {
-    return errorProps
-  }
-
-  if (response.data.news == null) {
-    return errorProps
-  }
-
   const paths: GetStaticPathsResult["paths"] = []
 
-  response.data.news.forEach((post) => {
-    locales!.forEach((locale) => {
+  for (const locale of locales!) {
+    const response = await BackendClient.getNews({
+      category: "all",
+      page: 1,
+      lang: locale
+    })
+
+    if (response.state != "success" || response.data.news == null) {
+      continue
+    }
+
+    response.data.news.forEach((post) => {
       paths.push({
         params: { slug: post.slug },
         locale
       })
     })
-  })
+  }
 
   return {
     paths,

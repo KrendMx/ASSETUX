@@ -98,7 +98,10 @@ function Index({ news }: IndexProps) {
 export const getStaticProps: GetStaticProps<IndexProps> = async ({
   locale
 }) => {
-  const response = await BackendClient.getNews({ category: "news" })
+  const response = await BackendClient.getNews({
+    category: "news",
+    lang: locale!
+  })
 
   return {
     props: {

@@ -71,7 +71,10 @@ function About({ news }: AboutProps) {
 export const getStaticProps: GetStaticProps<AboutProps> = async ({
   locale
 }) => {
-  const response = await BackendClient.getNews({ category: "news" })
+  const response = await BackendClient.getNews({
+    category: "news",
+    lang: locale!
+  })
 
   return {
     props: {

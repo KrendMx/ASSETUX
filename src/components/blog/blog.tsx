@@ -82,7 +82,8 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
     const response = await BackendClient.findPost({
       category,
       query,
-      signal
+      signal,
+      lang: router.locale!
     })
 
     if (response.state == "error" || response.state == "cancelled") {

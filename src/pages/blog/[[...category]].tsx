@@ -67,7 +67,8 @@ export const getStaticProps: GetStaticProps<
 
   const response = await BackendClient.getNews({
     category: checkedCategory,
-    page: 1
+    page: 1,
+    lang: locale!
   })
 
   if (response.state != "success") {
