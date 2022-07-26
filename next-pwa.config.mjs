@@ -1,4 +1,6 @@
-const enablePWA = process.env.ENABLE_PWA == "true"
+import { env } from "./src/lib/env/server.mjs"
+
+const enablePWA = env.ENABLE_PWA == "true"
 
 const runtimeCaching = [
   {
@@ -165,7 +167,7 @@ const runtimeCaching = [
   }
 ]
 
-const pwa = {
+export const pwa = {
   dest: "public",
   disable: !enablePWA,
   buildExcludes: [
@@ -174,5 +176,3 @@ const pwa = {
   ],
   runtimeCaching
 }
-
-module.exports = { pwa }

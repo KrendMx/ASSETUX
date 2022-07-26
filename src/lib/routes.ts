@@ -1,7 +1,7 @@
-import config from "./config"
+import { env } from "./env/client.mjs"
 import { getEcommercePrefix } from "./utils/helpers"
 
-const host = config.hostProtocol + "://" + config.host
+const host = env.hostProtocol + "://" + env.host
 
 export type Route = {
   href: string

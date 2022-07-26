@@ -1,4 +1,6 @@
-export const locales = ["en", "ru"] as const
+import _locales from "../../../locales"
+
+export const locales = _locales
 
 export type LocalesType = typeof locales[number]
 

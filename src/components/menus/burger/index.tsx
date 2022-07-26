@@ -21,7 +21,7 @@ import {
 } from "@/lib/routes"
 import { isCurrencyDeclared } from "@/lib/data/currencies"
 import { logout, getEcommercePrefix } from "@/lib/utils/helpers"
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 
 import NavGroup from "./group"
 import NavLink from "../common/nav-link"
@@ -109,14 +109,14 @@ const BurgerMenu: React.FC = () => {
               <NavGroup
                 title={t("company")}
                 routes={
-                  !config.isStage && (isCommercePage || isCommerceLogin)
+                  !env.isStage && (isCommercePage || isCommerceLogin)
                     ? companyAbsolute
                     : company
                 }
               />
             </li>
             <li>
-              {!config.isStage && (isCommercePage || isCommerceLogin) ? (
+              {!env.isStage && (isCommercePage || isCommerceLogin) ? (
                 <NavGroup title={t("popular")} routes={popularAbsolute} />
               ) : (
                 <NavGroup
@@ -131,7 +131,7 @@ const BurgerMenu: React.FC = () => {
             </li>
             {!isCommerceLogin && (
               <li>
-                {config.isStage ? (
+                {env.isStage ? (
                   <Link href="/profile" passHref>
                     <NavLink bold>{t("commerce")}</NavLink>
                   </Link>

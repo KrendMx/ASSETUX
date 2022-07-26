@@ -1,5 +1,5 @@
-import config from "../config"
+import { env } from "../env/client.mjs"
 
 export const constructURL = (apiHost: string) => {
-  return `${config.hostProtocol}://${apiHost}`
+  return `${env.hostProtocol}://${apiHost}`
 }

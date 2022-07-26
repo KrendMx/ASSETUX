@@ -21,7 +21,7 @@ import {
 import { EcommerceClient } from "@/lib/backend/clients"
 import { emailRegexp } from "@/lib/data/constants"
 import { stringToPieces } from "@/lib/utils/helpers"
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 
 import type { Bill } from "@/lib/backend/ecommerce/types"
 import type { FiatProvider } from "@/lib/backend/main/types"
@@ -63,7 +63,7 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
     () =>
       providers.map((provider) => ({
         icon: provider.logo
-          ? config.hostProtocol + "://" + blockchainURL + provider.logo
+          ? env.hostProtocol + "://" + blockchainURL + provider.logo
           : undefined,
         value:
           provider.method == "VISAMASTER" ? "QIWIVISAMASTER" : provider.method,
@@ -223,7 +223,7 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
         </Form>
       </Content>
       <Footer>
-        {config.isStage ? (
+        {env.isStage ? (
           <Link href="/" passHref>
             <a>
               <PoweredBy />

@@ -394,6 +394,7 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
 
               return (
                 <Action
+                  key="action"
                   onClick={() => {
                     dispatch(setSellOrderId(order.orderId))
                     dispatch(setOrdersActive(false))

@@ -1,9 +1,3 @@
-if (process.env.NODE_ENV === "development") {
-  import("preact/devtools")
-  // @ts-ignore
-  import("preact/debug")
-}
-
 import React, { useEffect } from "react"
 import { DefaultSeo } from "next-seo"
 import Head from "next/head"

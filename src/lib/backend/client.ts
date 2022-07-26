@@ -1,7 +1,7 @@
-import config from "../config"
+import { env } from "@/lib/env/client.mjs"
 
 class Client {
-  public genericURL = `${config.hostProtocol}://bsc.${config.host}`
+  public genericURL = `${env.hostProtocol}://bsc.${env.host}`
 }
 
 export default Client

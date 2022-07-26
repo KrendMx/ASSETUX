@@ -10,7 +10,7 @@ import Logo from "@/components/common/logo"
 
 import { mobile } from "@/lib/data/constants"
 import { useAppSelector } from "@/lib/redux/hooks"
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 
 const MobileContainer = styled(Container)`
   display: none;
@@ -40,7 +40,7 @@ const Mobile: React.FC = () => {
     <MobileContainer>
       <Configure />
       <ImageContainer>
-        {!config.isStage && isCommercePage ? (
+        {!env.isStage && isCommercePage ? (
           <LogoLink href="https://assetux.com">
             <Logo width={38} height={38} />
           </LogoLink>

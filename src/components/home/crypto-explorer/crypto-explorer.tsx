@@ -270,6 +270,7 @@ function CryptoExplorer() {
           buttons={[
             (dataIndex) => (
               <ActionButton
+                key="buy"
                 action="buy"
                 onClick={() => handleCardAction("BUY", dataIndex)}
               >
@@ -278,6 +279,7 @@ function CryptoExplorer() {
             ),
             (dataIndex) => (
               <ActionButton
+                key="sell"
                 action="sell"
                 onClick={() => handleCardAction("SELL", dataIndex)}
               >

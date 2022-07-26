@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 import Logo from "./logo"
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 
 const LogoLink = styled.a`
   display: flex;
@@ -42,7 +42,7 @@ const TextLogo: React.FC = () => {
   const router = useRouter()
   const isCommercePage = router.pathname.startsWith("/profile")
 
-  return !config.isStage && isCommercePage ? (
+  return !env.isStage && isCommercePage ? (
     <LogoLink href="https://assetux.com">
       <Content />
     </LogoLink>

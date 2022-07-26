@@ -1,10 +1,15 @@
-const locales = require("./locales.js")
+const locales = require("./locales")
+
+const config = {
+  defaultLocale: "ru",
+  locales,
+  localeDetection: true
+}
 
 module.exports = {
   i18n: {
-    defaultLocale: "ru",
-    locales,
-    localeDetection: true,
+    ...config,
     localeExtension: "yaml"
-  }
+  },
+  config
 }

@@ -5,7 +5,7 @@ import { Magic } from "magic-sdk"
 import { useRouter } from "next/router"
 import Cookies from "js-cookie"
 
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 import { EcommerceClient } from "@/lib/backend/clients"
 import { mobile, emailRegexp, mappedCookies } from "@/lib/data/constants"
 import { isLocaleDeclared } from "@/lib/data/locales"
@@ -81,7 +81,7 @@ function LoginContainer() {
     setWaiting(true)
 
     try {
-      const token = await new Magic(config.magicKey, {
+      const token = await new Magic(env.magicKey, {
         locale: isLocaleDeclared(router.locale!) ? router.locale : undefined
       }).auth.loginWithMagicLink({
         email

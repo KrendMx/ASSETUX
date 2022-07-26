@@ -14,7 +14,7 @@ import TextLogo from "@/components/common/text-logo"
 import { commerce } from "@/lib/routes"
 import { mobile } from "@/lib/data/constants"
 import { logout, getEcommercePrefix } from "@/lib/utils/helpers"
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 
 const DesktopContainer = styled(Container)`
   @media only screen and (max-width: ${mobile}px) {
@@ -126,7 +126,7 @@ const Desktop: React.FC = () => {
           )}
           {!isCommercePage &&
             !isCommerceLogin &&
-            (config.isStage ? (
+            (env.isStage ? (
               <Link href="/profile" passHref>
                 <NavLink>{t("commerce")}</NavLink>
               </Link>

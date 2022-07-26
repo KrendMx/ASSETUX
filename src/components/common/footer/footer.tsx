@@ -16,7 +16,7 @@ import {
   popularAbsolute
 } from "@/lib/routes"
 import { isCurrencyDeclared } from "@/lib/data/currencies"
-import config from "@/lib/config"
+import { env } from "@/lib/env/client.mjs"
 
 import List from "./list"
 import {
@@ -93,14 +93,12 @@ const Footer: React.FC<FooterProps> = ({ hide }) => {
         <Group>
           <h3>{t("company")}</h3>
           <List
-            routes={
-              isCommercePage && !config.isStage ? companyAbsolute : company
-            }
+            routes={isCommercePage && !env.isStage ? companyAbsolute : company}
           />
         </Group>
         <Group>
           <h3>{t("popular")}</h3>
-          {isCommercePage && !config.isStage ? (
+          {isCommercePage && !env.isStage ? (
             <List routes={popularAbsolute} />
           ) : (
             <PopularList />

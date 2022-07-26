@@ -1,4 +1,4 @@
-import config from "../config"
+import { env } from "../env/client.mjs"
 import { locales } from "../data/locales"
 
 import type { NextSeoProps } from "next-seo"
@@ -11,8 +11,8 @@ type SeoMedia = {
   type: string
 }
 
-const host = `${config.hostProtocol}://${config.host}`
-const ecommerceHost = config.isStage
+const host = `${env.hostProtocol}://${env.host}`
+const ecommerceHost = env.isStage
   ? host + "/profile"
   : "https://commerce.assetux.com"
 
