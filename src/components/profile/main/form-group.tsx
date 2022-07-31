@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useMemo, useEffect } from "react"
 import styled from "styled-components"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
@@ -13,7 +13,7 @@ import {
 import InputSelect from "@/components/common/input-select"
 import AdaptiveFont from "@/components/common/adaptive-font"
 
-import { mobile, walletRegexp } from "@/lib/data/constants"
+import { mobile, tablet, walletRegexp } from "@/lib/data/constants"
 import { EcommerceClient } from "@/lib/backend/clients"
 import { toBase64, getEcommercePrefix } from "@/lib/utils/helpers"
 import { useAuthorized } from "@/lib/hooks"
@@ -21,11 +21,15 @@ import { useAuthorized } from "@/lib/hooks"
 import type { Profile, UserImage } from "@/lib/backend/ecommerce/types"
 import type { RequestState } from "@/core/backend/types"
 import type { Nullable } from "@/lib/utils/helpers"
+import { useAppSelector } from "@/lib/redux/hooks"
+import { Blockchain, Token } from "@/lib/backend/main/types"
+import CryptoManager from "@/components/common/crypto-manager"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
   tabletFactor: 1.25
 })`
+  width: 100%;
   max-width: 574px;
   display: grid;
   row-gap: 2.1em;
@@ -33,6 +37,29 @@ const Container = styled(AdaptiveFont).attrs({
   @media only screen and (max-width: ${mobile}px) {
     gap: 1.466em;
   }
+`
+
+const Flex = styled(AdaptiveFont).attrs({
+  mobileFactor: 1.3335,
+  tabletFactor: 1.25
+})`
+  /* max-width: 574px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1em;
+
+  @media only screen and (max-width: ${tablet}px) {
+    flex-direction: column;
+  }
+`
+
+const Label = styled(Paragraph)`
+  margin-top: 16px;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 20px;
+  word-break: break-all;
 `
 
 const inputId = {
@@ -45,15 +72,30 @@ const inputId = {
 
 type Widgets = "wallet" | "company"
 
+type Option = {
+  icon?: string
+  shortDescription?: string
+  description?: string
+  value: string
+  chain_id?: number
+}
+
 export type FormGroupProps = Profile
 
-function FormGroup({
-  email,
-  public_key,
-  widget: { nameCompany, logoCompanyName, backgroundCompanyName }
-}: FormGroupProps) {
+function FormGroup(props: FormGroupProps) {
+  const {
+    email,
+    public_key,
+    widget: { nameCompany, logoCompanyName, backgroundCompanyName },
+    balance,
+    token_info,
+    mode
+  } = props
   const { t } = useTranslation("profile")
   const router = useRouter()
+  const isRETENTION = mode == "RETENTION"
+
+  console.log(props)
 
   const checkAuthorized = useAuthorized()
 
@@ -78,6 +120,10 @@ function FormGroup({
   })
 
   const [updatedWidget, setUpdatedWidget] = useState(false)
+  const [selectedChain, setSelectedChain] = useState<Option | undefined>()
+  const [selectedToken, setSelectedToken] = useState<Token | undefined>(
+    !!token_info?.length ? token_info[0].token : undefined
+  )
 
   const prevPublicKey = useRef(public_key)
   const prevCompany = useRef(nameCompany == null ? "" : nameCompany)
@@ -300,113 +346,188 @@ function FormGroup({
       }
     }
 
+  const onBlockchainChange = (blockchainTitle: string) => {
+    const _selectedChain = !!blockchains?.length
+      ? blockchains.filter(
+          (blockchain) => blockchain.value === blockchainTitle
+        )[0]
+      : undefined
+    !!token_info?.length &&
+      !!_selectedChain &&
+      setSelectedToken(
+        token_info.filter(
+          ({ token }: { token: Token }) =>
+            token.chain_id === _selectedChain.chain_id
+        )[0].token
+      )
+    setSelectedChain(_selectedChain)
+  }
+
+  const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
+    blockchains.map((blockchain) => {
+      return {
+        value: blockchain.title,
+        description: blockchain.title,
+        icon: blockchain.logo,
+        chain_id: blockchain.chain_id
+      }
+    })
+  const availableBlockchains = useAppSelector(
+    (state) => state.crypto.availableBlockchains
+  )
+  const blockchains: Option[] | undefined = useMemo(
+    () =>
+      availableBlockchains ? mapBlockchains(availableBlockchains) : undefined,
+    [availableBlockchains]
+  )
+
+  useEffect(() => {
+    if (!!blockchains?.length && !!token_info?.length) {
+      setSelectedChain(blockchains[0])
+      setSelectedToken(
+        token_info.filter(
+          ({ token }: { token: Token }) =>
+            token.chain_id === blockchains[0].chain_id
+        )[0].token
+      )
+    }
+  }, [blockchains, token_info])
+
   return (
-    <Container>
-      <Form as="section">
-        <FormHeading>{t("balance")}</FormHeading>
-        <Paragraph>{t("assets")}</Paragraph>
-        {/* <Balance
-          amount="1528540.00"
-          icon="https://bscscan.com/token/images/busd_32.png"
-          symbol="BUSD"
-        />
-        <Balance amount="1528540.00" icon="₽" symbol="BUSD" fiat /> */}
-      </Form>
-      <Form as="section">
-        <FormHeading>{t("personalInfo")}</FormHeading>
-        <InputSelect
-          id={inputId.email}
-          label="E-Mail"
-          autocomplete="email"
-          value={email}
-          selectable={false}
-        />
-      </Form>
-      <Form onSubmit={handlePaymentSubmit}>
-        <FormHeading>{t("payment")}</FormHeading>
-        <InputSelect
-          id={inputId.wallet}
-          label={t("wallet")}
-          selectable={false}
-          onChange={handleSetWallet}
-          value={wallet}
-          error={inputError[inputId.wallet]}
-          changeable
-        />
-        <Button
-          type="submit"
-          isLoading={requests.wallet?.state == "pending"}
-          disabled={
-            wallet == prevPublicKey.current ||
-            (requests.wallet != null && requests.wallet.state != "success") ||
-            inputError[inputId.wallet] != undefined
-          }
-        >
-          {requests.wallet?.state == "pending" ? t("loading") : t("change")}
-        </Button>
-      </Form>
-      <Form onSubmit={handleWidgetSubmit}>
-        <FormHeading>{t("widgetPersonalization")}</FormHeading>
-        <InputSelect
-          id={inputId.companyName}
-          error={
-            requests.company?.state == "error" ? t("smthHappened") : undefined
-          }
-          label={t("nameYourCompany")}
-          value={company}
-          onChange={handleSetCompany}
-          selectable={false}
-          changeable
-        />
-        <InputSelect
-          id={inputId.companyLogo}
-          error={
-            requests.company?.state == "error"
-              ? t("smthHappened")
-              : inputError[inputId.companyLogo]
-          }
-          label={t("logo")}
-          onUpload={handleFile(inputId.companyLogo)}
-          fileLabel={t("upload")}
-          accept=".png,.jpg,.jpeg"
-          selectable={false}
-          uploadedFileName={logo.name ? logo.name : undefined}
-          changeable
-          file
-        />
-        <InputSelect
-          id={inputId.companyBackground}
-          error={
-            requests.company?.state == "error"
-              ? t("smthHappened")
-              : inputError[inputId.companyBackground]
-          }
-          label={t("background")}
-          onUpload={handleFile(inputId.companyBackground)}
-          fileLabel={t("upload")}
-          accept=".png,.jpg,.jpeg"
-          selectable={false}
-          uploadedFileName={background.name ? background.name : undefined}
-          changeable
-          file
-        />
-        <Button
-          type="submit"
-          isLoading={requests.company?.state == "pending"}
-          disabled={
-            !updatedWidget ||
-            (company == prevCompany.current &&
-              logo.name == prevLogo.current &&
-              background.name == prevBackground.current) ||
-            inputError[inputId.companyLogo] != undefined ||
-            inputError[inputId.companyBackground] != undefined ||
-            (requests.company != null && requests.company.state != "success")
-          }
-        >
-          {requests.company?.state == "pending" ? t("loading") : t("change")}
-        </Button>
-      </Form>
-    </Container>
+    <Flex>
+      <CryptoManager />
+      <Container>
+        <Form as="section">
+          <FormHeading>{t("balance")}</FormHeading>
+          {!!balance ? (
+            <Balance
+              amount={balance ? parseFloat(balance.toFixed(2)) + "" : "0.00"}
+              icon="₽"
+              symbol="RUB"
+              fiat
+            />
+          ) : (
+            <Paragraph>{t("assets")}</Paragraph>
+          )}
+        </Form>
+        <Form as="section">
+          <FormHeading>{t("personalInfo")}</FormHeading>
+          <InputSelect
+            id={inputId.email}
+            label="E-Mail"
+            autocomplete="email"
+            value={email}
+            selectable={false}
+          />
+        </Form>
+        <Form onSubmit={handlePaymentSubmit}>
+          <FormHeading>{t("payment")}</FormHeading>
+          <InputSelect
+            id={inputId.wallet}
+            label={t("wallet")}
+            selectable={false}
+            onChange={handleSetWallet}
+            value={wallet}
+            error={inputError[inputId.wallet]}
+            changeable
+          />
+          <Button
+            type="submit"
+            isLoading={requests.wallet?.state == "pending"}
+            disabled={
+              wallet == prevPublicKey.current ||
+              (requests.wallet != null && requests.wallet.state != "success") ||
+              inputError[inputId.wallet] != undefined
+            }
+          >
+            {requests.wallet?.state == "pending" ? t("loading") : t("change")}
+          </Button>
+        </Form>
+        <Form onSubmit={handleWidgetSubmit}>
+          <FormHeading>{t("widgetPersonalization")}</FormHeading>
+          <InputSelect
+            id={inputId.companyName}
+            error={
+              requests.company?.state == "error" ? t("smthHappened") : undefined
+            }
+            label={t("nameYourCompany")}
+            value={company}
+            onChange={handleSetCompany}
+            selectable={false}
+            changeable
+          />
+          <InputSelect
+            id={inputId.companyLogo}
+            error={
+              requests.company?.state == "error"
+                ? t("smthHappened")
+                : inputError[inputId.companyLogo]
+            }
+            label={t("logo")}
+            onUpload={handleFile(inputId.companyLogo)}
+            fileLabel={t("upload")}
+            accept=".png,.jpg,.jpeg"
+            selectable={false}
+            uploadedFileName={logo.name ? logo.name : undefined}
+            changeable
+            file
+          />
+          <InputSelect
+            id={inputId.companyBackground}
+            error={
+              requests.company?.state == "error"
+                ? t("smthHappened")
+                : inputError[inputId.companyBackground]
+            }
+            label={t("background")}
+            onUpload={handleFile(inputId.companyBackground)}
+            fileLabel={t("upload")}
+            accept=".png,.jpg,.jpeg"
+            selectable={false}
+            uploadedFileName={background.name ? background.name : undefined}
+            changeable
+            file
+          />
+          <Button
+            type="submit"
+            isLoading={requests.company?.state == "pending"}
+            disabled={
+              !updatedWidget ||
+              (company == prevCompany.current &&
+                logo.name == prevLogo.current &&
+                background.name == prevBackground.current) ||
+              inputError[inputId.companyLogo] != undefined ||
+              inputError[inputId.companyBackground] != undefined ||
+              (requests.company != null && requests.company.state != "success")
+            }
+          >
+            {requests.company?.state == "pending" ? t("loading") : t("change")}
+          </Button>
+        </Form>
+      </Container>
+      {isRETENTION && !!token_info?.length && (
+        <Container>
+          <Form as="section">
+            <FormHeading>{t("token")}</FormHeading>
+            <InputSelect
+              label={t("home:buy_blockchain")}
+              id={"blockchains"}
+              selectLabel={t("home:buy_blockchainLabel")}
+              options={blockchains}
+              displayInSelect={2}
+              onActiveChange={(active) => {}}
+              onSelect={onBlockchainChange}
+              selectedValue={selectedChain?.value}
+              selectable={!!blockchains && blockchains.length > 1}
+              displayIcon
+            />
+            <Label>
+              {!!selectedToken?.address ? selectedToken?.address : ""}
+            </Label>
+          </Form>
+        </Container>
+      )}
+    </Flex>
   )
 }
 

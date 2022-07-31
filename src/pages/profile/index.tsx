@@ -68,6 +68,7 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
         "footer",
         "profile",
         "routes",
+        "home",
         "inputSelect"
       ]))
     }

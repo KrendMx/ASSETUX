@@ -13,23 +13,36 @@ export type LoginProps = AuthorizedProps
 
 export type LoginResponse = Response<Login>
 
-export type Profile = {
+export interface Profile {
   id: number
   public_key: string
   issuer: string
   lastLogin: string
   widget_id: number
   email: string
-  phone: string | null
+  phone?: null
+  balance: number
+  fee?: null
+  type: string
+  mode: "RETENTION" | "TRANSFER"
   userId: string
-  widget: {
-    id: number
-    backgroundCompany: string | null
-    backgroundCompanyName: string | null
-    logoCompany: string | null
-    logoCompanyName: string | null
-    nameCompany: string | null
-  }
+  widget: Widget
+  token_info?: TokenInfo[] | null
+}
+export interface Widget {
+  id: number
+  backgroundCompany: string | null
+  backgroundCompanyName: string | null
+  logoCompany: string | null
+  logoCompanyName: string | null
+  nameCompany: string | null
+}
+export interface TokenInfo {
+  id: number
+  token_id: number
+  ecommerce_users_id: number
+  url: string
+  token: Token
 }
 
 export type GetProfileProps = AuthorizedProps
