@@ -95,8 +95,6 @@ function FormGroup(props: FormGroupProps) {
   const router = useRouter()
   const isRETENTION = mode == "RETENTION"
 
-  console.log(props)
-
   const checkAuthorized = useAuthorized()
 
   const [wallet, setWallet] = useState(public_key)
