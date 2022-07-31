@@ -120,7 +120,7 @@ function FormGroup(props: FormGroupProps) {
   const [updatedWidget, setUpdatedWidget] = useState(false)
   const [selectedChain, setSelectedChain] = useState<Option | undefined>()
   const [selectedToken, setSelectedToken] = useState<Token | undefined>(
-    !!token_info?.length ? token_info[0].token : undefined
+    !!token_info?.length ? token_info[0]?.token : undefined
   )
 
   const prevPublicKey = useRef(public_key)
@@ -356,7 +356,7 @@ function FormGroup(props: FormGroupProps) {
         token_info.filter(
           ({ token }: { token: Token }) =>
             token.chain_id === _selectedChain.chain_id
-        )[0].token
+        )[0]?.token
       )
     setSelectedChain(_selectedChain)
   }
@@ -386,7 +386,7 @@ function FormGroup(props: FormGroupProps) {
         token_info.filter(
           ({ token }: { token: Token }) =>
             token.chain_id === blockchains[0].chain_id
-        )[0].token
+        )[0]?.token
       )
     }
   }, [blockchains, token_info])
