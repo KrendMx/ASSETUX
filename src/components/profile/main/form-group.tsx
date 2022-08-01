@@ -50,7 +50,7 @@ const Flex = styled(AdaptiveFont).attrs({
   gap: 1em;
 
   @media only screen and (max-width: ${tablet}px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 `
 
