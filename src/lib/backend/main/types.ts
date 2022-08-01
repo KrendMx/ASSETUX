@@ -13,6 +13,7 @@ export type FiatRate = {
 }
 
 export type Token = {
+  chain: Blockchain
   id: number
   name: string
   symbol: string

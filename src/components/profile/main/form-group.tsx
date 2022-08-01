@@ -118,6 +118,7 @@ function FormGroup(props: FormGroupProps) {
   })
 
   const [updatedWidget, setUpdatedWidget] = useState(false)
+  const [avaliableChains, setAvaliableChains] = useState<Option[] | undefined>()
   const [selectedChain, setSelectedChain] = useState<Option | undefined>()
   const [selectedToken, setSelectedToken] = useState<Token | undefined>(
     !!token_info?.length ? token_info[0]?.token : undefined
@@ -345,8 +346,8 @@ function FormGroup(props: FormGroupProps) {
     }
 
   const onBlockchainChange = (blockchainTitle: string) => {
-    const _selectedChain = !!blockchains?.length
-      ? blockchains.filter(
+    const _selectedChain = !!avaliableChains?.length
+      ? avaliableChains.filter(
           (blockchain) => blockchain.value === blockchainTitle
         )[0]
       : undefined
@@ -361,35 +362,23 @@ function FormGroup(props: FormGroupProps) {
     setSelectedChain(_selectedChain)
   }
 
-  const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
-    blockchains.map((blockchain) => {
-      return {
-        value: blockchain.title,
-        description: blockchain.title,
-        icon: blockchain.logo,
-        chain_id: blockchain.chain_id
-      }
-    })
-  const availableBlockchains = useAppSelector(
-    (state) => state.crypto.availableBlockchains
-  )
-  const blockchains: Option[] | undefined = useMemo(
-    () =>
-      availableBlockchains ? mapBlockchains(availableBlockchains) : undefined,
-    [availableBlockchains]
-  )
-
   useEffect(() => {
-    if (!!blockchains?.length && !!token_info?.length) {
-      setSelectedChain(blockchains[0])
-      setSelectedToken(
-        token_info.filter(
-          ({ token }: { token: Token }) =>
-            token.chain_id === blockchains[0].chain_id
-        )[0]?.token
+    if (!!token_info?.length) {
+      const formatedChains: Option[] = token_info.map(
+        ({ token: { chain } }) => {
+          return {
+            value: chain.title,
+            description: chain.title,
+            icon: chain.logo,
+            chain_id: chain.chain_id
+          }
+        }
       )
+      setAvaliableChains(formatedChains)
+      setSelectedChain(formatedChains[0])
+      setSelectedToken(token_info[0].token)
     }
-  }, [blockchains, token_info])
+  }, [token_info])
 
   return (
     <Flex>
@@ -511,12 +500,12 @@ function FormGroup(props: FormGroupProps) {
               label={t("home:buy_blockchain")}
               id={"blockchains"}
               selectLabel={t("home:buy_blockchainLabel")}
-              options={blockchains}
+              options={avaliableChains}
               displayInSelect={2}
               onActiveChange={(active) => {}}
               onSelect={onBlockchainChange}
               selectedValue={selectedChain?.value}
-              selectable={!!blockchains && blockchains.length > 1}
+              selectable={!!avaliableChains && avaliableChains.length > 1}
               displayIcon
             />
             <Label>
