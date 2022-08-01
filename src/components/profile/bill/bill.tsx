@@ -48,16 +48,19 @@ const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
     return {
       value: blockchain.title,
       description: blockchain.title,
-      icon: blockchain.logo
+      icon: blockchain.logo,
+      chain_id: blockchain.chain_id
     }
   })
 
 export type BillProps = { profile: Profile }
 
-function Bill() {
+function Bill({ profile }: BillProps) {
+  const { token_info, mode } = profile
   const { t } = useTranslation("profile-bill")
   const router = useRouter()
   const checkAuthorized = useAuthorized()
+  const isTRANSFER = mode == "TRANSFER"
 
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
@@ -74,6 +77,14 @@ function Bill() {
     [availableBlockchains]
   )
 
+  const transferBlockchains = useMemo(
+    () =>
+      token_info && isTRANSFER
+        ? mapBlockchains(token_info.map(({ token }) => token.chain))
+        : null,
+    [isTRANSFER, token_info]
+  )
+
   const [tokens, setTokens] = useState<Option[] | null>(null)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
   const [rates, setRates] = useState<FiatRate[] | null>(null)
@@ -83,6 +94,9 @@ function Bill() {
   const [inputError, setInputError] = useState("")
   const [submitValue, setSubmitValue] = useState<string>(t("copyLink"))
 
+  const [selectedChain, setSelectedChain] = useState<Option | undefined>(
+    undefined
+  )
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [get, setGet] = useState({
@@ -339,7 +353,7 @@ function Bill() {
   }, [selectedBlockchain])
 
   useEffect(() => {
-    if (!availableTokens) {
+    if (!availableTokens || isTRANSFER) {
       return
     }
 
@@ -359,7 +373,43 @@ function Bill() {
 
     setTokens(mappedTokens)
     setSelectedToken(mappedTokens[0].value)
-  }, [availableTokens])
+  }, [availableTokens, isTRANSFER])
+
+  useEffect(() => {
+    if (!token_info || !isTRANSFER) {
+      return
+    }
+
+    const mappedTokens = token_info.map(({ token }) => ({
+      value: token.symbol,
+      icon: token.logo_uri,
+      description: token.name,
+      shortDescription: token.name,
+      address: token.address,
+      chain_id: token?.chain_id
+    }))
+
+    if (mappedTokens.length == 0) {
+      return
+    }
+
+    setTokens(mappedTokens)
+    setSelectedToken(mappedTokens[0].value)
+  }, [token_info, isTRANSFER])
+
+  useEffect(() => {
+    if (!transferBlockchains || !tokens || !isTRANSFER) {
+      return
+    }
+
+    const [_selectedToken] = tokens.filter(
+      ({ value }) => value === selectedToken
+    )
+    const [_selectedChain] = transferBlockchains.filter((blockchain) => {
+      return blockchain.chain_id === _selectedToken.chain_id
+    })
+    setSelectedChain(_selectedChain)
+  }, [transferBlockchains, selectedToken, tokens, isTRANSFER])
 
   useIsomorphicLayoutEffect(() => {
     if (!currentRate) {
@@ -402,7 +452,13 @@ function Bill() {
                 <InputSelect
                   label={t("blockchain")}
                   id={inputIds.blockchains}
-                  options={blockchains ? blockchains : undefined}
+                  options={
+                    blockchains && !isTRANSFER
+                      ? blockchains
+                      : !!selectedChain && isTRANSFER
+                      ? [selectedChain]
+                      : undefined
+                  }
                   displayIcon
                   selectable={false}
                 />

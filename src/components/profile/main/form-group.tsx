@@ -93,7 +93,7 @@ function FormGroup(props: FormGroupProps) {
   } = props
   const { t } = useTranslation("profile")
   const router = useRouter()
-  const isRETENTION = mode == "RETENTION"
+  const isTRANSFER = mode == "TRANSFER"
 
   const checkAuthorized = useAuthorized()
 
@@ -386,16 +386,16 @@ function FormGroup(props: FormGroupProps) {
       <Container>
         <Form as="section">
           <FormHeading>{t("balance")}</FormHeading>
-          {!!balance ? (
-            <Balance
-              amount={balance ? parseFloat(balance.toFixed(2)) + "" : "0.00"}
-              icon="₽"
-              symbol="RUB"
-              fiat
-            />
-          ) : (
+          {/* {!!balance ? ( */}
+          <Balance
+            amount={balance ? parseFloat(balance.toFixed(2)) + "" : "0.00"}
+            icon="₽"
+            symbol="RUB"
+            fiat
+          />
+          {/* ) : (
             <Paragraph>{t("assets")}</Paragraph>
-          )}
+          )} */}
         </Form>
         <Form as="section">
           <FormHeading>{t("personalInfo")}</FormHeading>
@@ -492,7 +492,7 @@ function FormGroup(props: FormGroupProps) {
           </Button>
         </Form>
       </Container>
-      {isRETENTION && !!token_info?.length && (
+      {isTRANSFER && !!token_info?.length && (
         <Container>
           <Form as="section">
             <FormHeading>{t("token")}</FormHeading>

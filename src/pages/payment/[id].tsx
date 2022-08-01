@@ -104,7 +104,9 @@ export const getServerSideProps: GetServerSideProps<
       blockchainURL: blockchain.url,
       ...(await serverSideTranslations(locale!, [
         "profile-payment",
-        "inputSelect"
+        "inputSelect",
+        "footer",
+        "routes"
       ]))
     }
   }
