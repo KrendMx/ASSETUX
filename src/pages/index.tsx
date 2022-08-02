@@ -80,7 +80,7 @@ function Index({ news }: IndexProps) {
       />
       <Container>
         <FormGroup />
-        <Investments />
+        {/* <Investments /> */}
         <CryptoSlide />
         <CryptoExplorer />
         {news && <NewsRoom news={news} />}

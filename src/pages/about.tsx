@@ -60,7 +60,7 @@ function About({ news }: AboutProps) {
       <Container>
         <Intro />
         <Info />
-        <Investments />
+        {/* <Investments /> */}
         <Contacts />
         {news && <NewsRoom news={news} />}
       </Container>
