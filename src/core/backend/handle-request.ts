@@ -2,12 +2,20 @@ import axios from "axios"
 
 import type { AxiosRequestConfig } from "axios"
 import type { Response } from "./types"
-
+import Cookies from "js-cookie"
 const handleRequest = async (
   props: AxiosRequestConfig
 ): Promise<Response<any, any>> => {
   try {
-    const response = await axios(props)
+    const locale: string = Cookies.get("NEXT_LOCALE") || "ru"
+    console.log("locale", locale)
+    const response = await axios({
+      ...props,
+      headers: {
+        ...props.headers,
+        locale
+      }
+    })
 
     return {
       state: "success",
