@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
@@ -83,8 +83,8 @@ type FooterProps = {
 const Footer: React.FC<FooterProps> = ({ hide }) => {
   const isMobile = useImmediateMobile()
   const router = useRouter()
-  const { t } = useTranslation("footer")
-
+  const { t, i18n } = useTranslation("footer")
+  const isRu = useMemo(() => i18n.language === "ru", [i18n])
   const isCommercePage = router.pathname.startsWith("/profile")
 
   return (
@@ -112,17 +112,44 @@ const Footer: React.FC<FooterProps> = ({ hide }) => {
           <h3>{t("social")}</h3>
           <StyledList>
             <IconElement iconPath="/social/telegram_white.svg">
-              <a href="https://t.me/assetux">
+              <a
+                href={isRu ? "https://t.me/assetux" : "https://t.me/assetux_en"}
+                target="__blank"
+              >
                 <Bolder>{t("footer:telegramChannel")}</Bolder>
+                <br />
+                {isRu ? "@assetux" : "@assetux_en"}
+              </a>
+            </IconElement>
+            <IconElement iconPath="/social/telegram_white.svg">
+              <a
+                href={
+                  isRu
+                    ? "https://t.me/assetux_chat_ru"
+                    : "https://t.me/assetux_chat"
+                }
+                target="__blank"
+              >
+                <Bolder>{t("footer:telegramChat")}</Bolder>
+                <br />
+                {isRu ? "@assetux_chat_ru" : "@assetux_chat"}
+              </a>
+            </IconElement>
+            <IconElement iconPath="/social/twitter_white.svg">
+              <a href={"https://twitter.com/assetux"} target="__blank">
+                <Bolder>Twitter</Bolder>
                 <br />
                 @assetux
               </a>
             </IconElement>
-            <IconElement iconPath="/social/telegram_white.svg">
-              <a href="https://t.me/assetux_chat">
-                <Bolder>{t("footer:telegramGroup")}</Bolder>
+            <IconElement iconPath="/social/linkedin_white.svg">
+              <a
+                href={"https://www.linkedin.com/company/assetux"}
+                target="__blank"
+              >
+                <Bolder>LinkedIn</Bolder>
                 <br />
-                @assetux_chat
+                @assetux
               </a>
             </IconElement>
           </StyledList>
@@ -133,14 +160,14 @@ const Footer: React.FC<FooterProps> = ({ hide }) => {
             <IconElement
               iconPath={!isMobile ? "/social/telegram_white.svg" : null}
             >
-              <a href="https://t.me/assetux_support">
-                <Bolder>{t("footer:telegramChat")}</Bolder>
+              <a href="https://t.me/assetux_support" target="__blank">
+                <Bolder>{t("footer:telegramGroup")}</Bolder>
                 <br />
                 @assetux_support
               </a>
             </IconElement>
             <IconElement
-              iconPath={!isMobile ? "/social/instagram_white.svg" : null}
+              iconPath={!isMobile ? "/social/email_white.svg" : null}
             >
               <a href="mailto:support@assetux.com">
                 <Bolder>E-mail</Bolder>
