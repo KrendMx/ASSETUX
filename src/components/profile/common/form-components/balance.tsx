@@ -9,6 +9,7 @@ type BalanceProps = {
   symbol: string
   fiat?: boolean
   icon: string
+  style?: React.CSSProperties | undefined
 }
 
 const Container = styled.div`
@@ -88,9 +89,9 @@ const Icon = styled.div`
   }
 `
 
-function Balance({ amount, symbol, fiat, icon }: BalanceProps) {
+function Balance({ amount, symbol, fiat, icon, style }: BalanceProps) {
   return (
-    <Container>
+    <Container style={style}>
       <Amount>{amount}</Amount>
       <Info>
         <Symbol>{symbol}</Symbol>

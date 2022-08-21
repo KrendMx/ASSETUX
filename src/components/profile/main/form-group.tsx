@@ -12,6 +12,9 @@ import {
 } from "../common/form-components"
 import InputSelect from "@/components/common/input-select"
 import AdaptiveFont from "@/components/common/adaptive-font"
+import Image from "next/image"
+import Icon from "@/components/common/modal-components/Icon"
+import Shadow from "@/components/common/modal-components/Shadow"
 
 import { mobile, tablet, walletRegexp } from "@/lib/data/constants"
 import { EcommerceClient } from "@/lib/backend/clients"
@@ -24,6 +27,8 @@ import type { Nullable } from "@/lib/utils/helpers"
 import { useAppSelector } from "@/lib/redux/hooks"
 import { Blockchain, Token } from "@/lib/backend/main/types"
 import CryptoManager from "@/components/common/crypto-manager"
+import SupportPopup from "./support-popup"
+import styles from "./popup.module.css"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -84,6 +89,7 @@ export type FormGroupProps = Profile
 
 function FormGroup(props: FormGroupProps) {
   const {
+    userId,
     email,
     public_key,
     widget: { nameCompany, logoCompanyName, backgroundCompanyName },
@@ -117,6 +123,7 @@ function FormGroup(props: FormGroupProps) {
     company: null
   })
 
+  const [supportOpen, setSupportOpen] = useState(false)
   const [updatedWidget, setUpdatedWidget] = useState(false)
   const [avaliableChains, setAvaliableChains] = useState<Option[] | undefined>()
   const [selectedChain, setSelectedChain] = useState<Option | undefined>()
@@ -387,12 +394,36 @@ function FormGroup(props: FormGroupProps) {
         <Form as="section">
           <FormHeading>{t("balance")}</FormHeading>
           {/* {!!balance ? ( */}
-          <Balance
-            amount={balance ? parseFloat(balance.toFixed(2)) + "" : "0.00"}
-            icon="₽"
-            symbol="RUB"
-            fiat
-          />
+          <div
+            style={{
+              display: "flex",
+              gap: 17
+            }}
+          >
+            <Balance
+              amount={balance ? parseFloat(balance.toFixed(2)) + "" : "0.00"}
+              icon="₽"
+              symbol="RUB"
+              fiat
+              style={{ width: "100%" }}
+            />
+            <button
+              className={styles.copyButton}
+              onClick={() => setSupportOpen(true)}
+            >
+              <Shadow>
+                <Icon>
+                  <Image
+                    src="/assets/Out.svg"
+                    layout="fill"
+                    alt="copy"
+                    objectFit="contain"
+                    objectPosition="center"
+                  />
+                </Icon>
+              </Shadow>
+            </button>
+          </div>
           {/* ) : (
             <Paragraph>{t("assets")}</Paragraph>
           )} */}
@@ -513,6 +544,9 @@ function FormGroup(props: FormGroupProps) {
             </Label>
           </Form>
         </Container>
+      )}
+      {supportOpen && (
+        <SupportPopup userId={userId} email={email} setOpen={setSupportOpen} />
       )}
     </Flex>
   )
