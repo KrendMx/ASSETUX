@@ -9,4 +9,5 @@ submit: Продолжить
 invalidEmail: Неверный Email
 invalidPhone: Неверный номер телефона
 invalidCard: Неверный номер карты
+invalidWallet: Неверный адрес кошелька
 loading: Загрузка ...
