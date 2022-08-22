@@ -26,11 +26,14 @@ import { env } from "@/lib/env/client.mjs"
 import type { Bill } from "@/lib/backend/ecommerce/types"
 import type { FiatProvider } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
+import NetworkRow from "@/components/home/form-group/form/common/network-row"
+import { mapTokens } from "@/components/home/form-group/form/form-controller"
 
 const inputIds = {
   email: "email",
   phone: "phone",
-  card: "cardnumber"
+  card: "cardnumber",
+  wallet: "publickey"
 }
 
 export type PaymentProps = {
@@ -39,7 +42,9 @@ export type PaymentProps = {
   blockchainURL: string
 }
 
-function Payment({ bill, providers, blockchainURL }: PaymentProps) {
+function Payment(props: PaymentProps) {
+  const { bill, providers, blockchainURL } = props
+  const isTRANSFER = bill.ecommerceUser.mode == "TRANSFER"
   const widget = bill.ecommerceUser.widget
   const displayHeader =
     widget.logoCompany != null ||
@@ -55,7 +60,7 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
   const [paymentActive, setPaymentActive] = useState(false)
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")
-
+  const [wallet, setWallet] = useState("")
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
 
@@ -85,6 +90,12 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
     validated && setDetails(value)
   }
 
+  const handleAddress: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value.replaceAll(" ", "")
+    const validated = /^[0-9a-zA-Z]*$/.test(value)
+    validated && setWallet(value)
+  }
+
   const handlePhone: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
 
@@ -102,15 +113,17 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
         ? details != "" && isValidPhoneNumber(details, "RU")
         : true
     const validCard = selectedPayment != "QIWI" ? details.length == 16 : true
+    const validWallet = !isTRANSFER || wallet.length === 42
 
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t("invalidEmail"),
       [inputIds.phone]: validPhone ? undefined : t("invalidPhone"),
-      [inputIds.card]: validCard ? undefined : t("invalidCard")
+      [inputIds.card]: validCard ? undefined : t("invalidCard"),
+      [inputIds.wallet]: validWallet ? undefined : t("invalidWallet")
     }))
 
-    if (!validEmail || !validPhone || !validCard) {
+    if (!validEmail || !validPhone || !validCard || !validWallet) {
       return
     }
 
@@ -120,7 +133,8 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
       paymentMethod: selectedPayment,
       email,
       creditCard: details,
-      ecommerceBillId: bill.id
+      ecommerceBillId: bill.id,
+      address: isTRANSFER ? wallet : undefined
     })
 
     setWaitingResponse(false)
@@ -162,12 +176,34 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
             : undefined
         }
       >
-        <Form onSubmit={handleSubmit}>
+        <Form
+          onSubmit={handleSubmit}
+          style={
+            isTRANSFER
+              ? {
+                  maxWidth: 510,
+                  height: 630
+                }
+              : {}
+          }
+        >
           <InputSelect
             label={t("toPay")}
             value={bill.amountIn.toString()}
             visuallyDisabled
           />
+          {isTRANSFER && (
+            <InputSelect
+              label={t("home:buy_give")}
+              id={"give"}
+              value={bill.sendAmount + ""}
+              selectedValue={bill.tokens.symbol}
+              selectable={false}
+              onlyNumbers
+              options={mapTokens([bill.tokens])}
+              changeable={false}
+            />
+          )}
           <InputSelect
             label={t("paymentMethod")}
             options={paymentOptions}
@@ -213,6 +249,18 @@ function Payment({ bill, providers, blockchainURL }: PaymentProps) {
                 autocomplete="cc-number"
                 error={errors[inputIds.card]}
                 onlyNumbers
+                changeable
+              />
+            )}
+            {isTRANSFER && <NetworkRow isLoading={false} />}
+            {isTRANSFER && (
+              <InputSelect
+                label={t("home:buy_wallet")}
+                id={"wallet"}
+                onChange={handleAddress}
+                value={wallet}
+                error={errors[inputIds.wallet]}
+                placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
                 changeable
               />
             )}

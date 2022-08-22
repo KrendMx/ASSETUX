@@ -106,7 +106,8 @@ export const getServerSideProps: GetServerSideProps<
         "profile-payment",
         "inputSelect",
         "footer",
-        "routes"
+        "routes",
+        "home"
       ]))
     }
   }

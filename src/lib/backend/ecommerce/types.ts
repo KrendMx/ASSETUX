@@ -122,6 +122,7 @@ export type CreatePaymentProps = {
   email: string
   creditCard: string
   ecommerceBillId: number
+  address?: string
 }
 
 export type CreatePaymentResponse = Response<{

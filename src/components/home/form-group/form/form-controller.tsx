@@ -26,7 +26,7 @@ import type {
   Blockchain
 } from "@/lib/backend/main/types"
 
-const mapTokens = (tokens: Token[]): TokenOption[] =>
+export const mapTokens = (tokens: Token[]): TokenOption[] =>
   tokens
     .filter((token) => token.enabled)
     .map((token) => ({

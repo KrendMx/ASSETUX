@@ -7,8 +7,7 @@ const handleRequest = async (
   props: AxiosRequestConfig
 ): Promise<Response<any, any>> => {
   try {
-    const locale: string = Cookies.get("NEXT_LOCALE") || "ru"
-    console.log("locale", locale)
+    const locale = Cookies.get("NEXT_LOCALE") || "ru"
     const response = await axios({
       ...props,
       headers: {

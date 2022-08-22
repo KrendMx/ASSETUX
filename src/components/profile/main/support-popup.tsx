@@ -44,7 +44,7 @@ interface IProps {
 }
 
 const SupportPopup = ({ userId, email, setOpen }: IProps) => {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation("profile")
 
   const handleCopy = () => {
     if ("clipboard" in navigator && userId && email) {
@@ -69,11 +69,10 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
               />
             </Icon>
           </Shadow>
-          <span>Дорогой пользователь</span>
+          <span>{t("dear")}</span>
         </Title>
         <Info misc style={{ fontWeight: 500 }}>
-          На данный момент автоматический вывод недоступен, пожалуйста,
-          скопируйте сообщение ниже и отправьте одним из следующих способов.
+          {t("text")}
         </Info>
         <Bordered>
           <div
@@ -82,7 +81,7 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
               justifyContent: "space-between"
             }}
           >
-            <Label as="span">Идентификатор пользователя</Label>
+            <Label as="span">{t("userid")}</Label>
             <Text as="span">M-{userId}</Text>
           </div>
           <div className={styles.bottomBorderedBlock}>
@@ -92,7 +91,7 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
                 flexDirection: "column"
               }}
             >
-              <Label as="span">Электронная почта</Label>
+              <Label as="span">{t("email")}</Label>
               <Title as="span" style={{ margin: 0 }}>
                 {email}
               </Title>
