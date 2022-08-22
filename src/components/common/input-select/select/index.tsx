@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react"
 import { useTranslation } from "next-i18next"
 import styled from "styled-components"
 import Image from "next/image"
-
+import SearchIcon from "../../../../../public/assets/Search.svg"
 import { mobile, optimizeRemoteImages } from "@/lib/data/constants"
 
 import type { Option } from "../types"
@@ -218,7 +218,7 @@ const Select: React.FC<SearchProps> = ({
         <Shadow>
           <SearchIconContainer>
             <Image
-              src="/assets/Search.svg"
+              src={SearchIcon}
               width={30}
               height={30}
               layout="responsive"
