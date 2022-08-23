@@ -34,7 +34,8 @@ import type {
   GetNewsResponse,
   FindPostProps,
   FindPostResponse,
-  CreateFeedbackProps
+  CreateFeedbackProps,
+  GetTokensProps
 } from "./types"
 
 class BackendClient extends Client {
@@ -59,10 +60,11 @@ class BackendClient extends Client {
 
   public async getTokens({
     apiHost,
-    signal
-  }: UrlRequest & Abortable): Promise<GetTokens> {
+    signal,
+    type
+  }: UrlRequest & Abortable & GetTokensProps): Promise<GetTokens> {
     return handleRequest({
-      url: `${constructURL(apiHost)}/api/tokens`,
+      url: `${constructURL(apiHost)}/api/tokens?type=${type}`,
       method: "GET",
       headers: this.headers,
       signal

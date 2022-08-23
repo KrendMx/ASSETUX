@@ -12,7 +12,11 @@ import {
 
 import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { swapAction, setSelectedToken } from "@/lib/redux/crypto"
+import {
+  swapAction,
+  setSelectedToken,
+  setSelectedSellToken
+} from "@/lib/redux/crypto"
 
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
@@ -112,6 +116,7 @@ function CryptoExplorer() {
     (action: ActionType, token: Token) => {
       dispatch(swapAction(action))
       dispatch(setSelectedToken(token))
+      dispatch(setSelectedSellToken(token))
       window.scrollTo({
         top: 0,
         left: 0,

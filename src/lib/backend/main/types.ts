@@ -82,6 +82,10 @@ export type GetPaymentUrlProps = UrlRequest & {
   card: string
 }
 
+export type GetTokensProps = {
+  type: "buy" | "sell"
+}
+
 export type GeyPaymentUrlData = {
   id?: number
   link?: string

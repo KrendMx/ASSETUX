@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react"
 
 import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
-import { setSelectedToken } from "@/lib/redux/crypto"
+import { setSelectedSellToken, setSelectedToken } from "@/lib/redux/crypto"
 import { BackendClient } from "@/lib/backend/clients"
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
@@ -59,13 +59,23 @@ function FormController() {
     (state) => state.crypto.availableTokens
   )
 
+  const availableSellTokens = useAppSelector((state) => state.crypto.sellTokens)
+
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
+  const selectedSellToken = useAppSelector(
+    (state) => state.crypto.selectedSellToken
+  )
   const action = useAppSelector((state) => state.crypto.action)
 
   const tokens = useMemo(
     () => (availableTokens ? mapTokens(availableTokens) : null),
     [availableTokens]
+  )
+
+  const tokensForSell = useMemo(
+    () => (availableSellTokens ? mapTokens(availableSellTokens) : null),
+    [availableSellTokens]
   )
   const blockchains = useMemo(
     () => (availableBlockchains ? mapBlockchains(availableBlockchains) : null),
@@ -92,6 +102,17 @@ function FormController() {
       )
       if (foundToken) {
         dispatch(setSelectedToken(foundToken))
+      }
+    }
+  }
+
+  const handleTokenSellChange = (tokenSymbol: string) => {
+    if (availableSellTokens) {
+      const foundToken = availableSellTokens.find(
+        (token) => token.symbol == tokenSymbol
+      )
+      if (foundToken) {
+        dispatch(setSelectedSellToken(foundToken))
       }
     }
   }
@@ -197,15 +218,15 @@ function FormController() {
   ) : (
     <SellForm
       blockchains={blockchains}
-      tokens={tokens}
+      tokens={tokensForSell}
       currencies={currencies}
       rates={fiatRates}
       payments={sellPayments}
       serviceAvailable={liquidityData ? liquidityData.sell : null}
       currentBlockchain={selectedBlockchain}
-      currentToken={selectedToken}
+      currentToken={selectedSellToken}
       currentCurrency={currentCurrency}
-      onTokenChange={handleTokenChange}
+      onTokenChange={handleTokenSellChange}
     />
   )
 }

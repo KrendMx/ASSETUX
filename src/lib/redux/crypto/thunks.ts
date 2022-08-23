@@ -15,19 +15,40 @@ export const getBlockchains = createAsyncThunk<
   return BackendClient.getBlockchains(signal)
 })
 
-export const getTokens = createAsyncThunk<
+export const getBuyTokens = createAsyncThunk<
   GetTokens | null,
-  AbortSignal | undefined,
+  { signal: AbortSignal | undefined },
   {
     state: RootState
   }
->("crypto/getTokens", async (signal, { getState }) => {
+>("crypto/getTokens", async ({ signal }, { getState }) => {
   const state = getState()
 
   if (state.crypto.selectedBlockchain) {
     return BackendClient.getTokens({
       apiHost: state.crypto.selectedBlockchain.url,
-      signal
+      signal,
+      type: "buy"
+    })
+  }
+
+  return null
+})
+
+export const getSellTokens = createAsyncThunk<
+  GetTokens | null,
+  { signal: AbortSignal | undefined },
+  {
+    state: RootState
+  }
+>("crypto/getSellTokens", async ({ signal }, { getState }) => {
+  const state = getState()
+
+  if (state.crypto.selectedBlockchain) {
+    return BackendClient.getTokens({
+      apiHost: state.crypto.selectedBlockchain.url,
+      signal,
+      type: "sell"
     })
   }
 

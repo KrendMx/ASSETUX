@@ -2,7 +2,11 @@ import { useEffect } from "react"
 import io from "socket.io-client"
 
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { getBlockchains, getTokens } from "@/lib/redux/crypto/thunks"
+import {
+  getBlockchains,
+  getBuyTokens,
+  getSellTokens
+} from "@/lib/redux/crypto/thunks"
 import { setExplorerData } from "@/lib/redux/crypto"
 
 import type { Socket } from "socket.io-client"
@@ -76,7 +80,8 @@ function CryptoManager({ getToken, getChart }: CryptoManagerProps) {
     }
 
     const controller = new AbortController()
-    dispatch(getTokens(controller.signal))
+    dispatch(getBuyTokens({ signal: controller.signal }))
+    dispatch(getSellTokens({ signal: controller.signal }))
 
     prevSelectedBlockchainId = selectedBlockchain.chain_id
 

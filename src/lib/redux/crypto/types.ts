@@ -7,7 +7,9 @@ export type CryptoState = {
   availableBlockchains: Blockchain[] | null
   selectedBlockchain: Blockchain | null
   availableTokens: Token[] | null
+  sellTokens: Token[] | null
   selectedToken: Token | null
+  selectedSellToken: Token | null
   currentRate: number | null
   action: ActionType
   explorerData: ExplorerData[] | null

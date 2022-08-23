@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
 import { HYDRATE } from "next-redux-wrapper"
 
-import { getBlockchains, getTokens } from "./thunks"
+import { getBlockchains, getBuyTokens, getSellTokens } from "./thunks"
 
 import type { RootState } from "../store"
 import type {
@@ -19,7 +19,9 @@ const initialState: CryptoState = {
   selectedBlockchain: null,
   availableBlockchains: null,
   availableTokens: null,
+  sellTokens: null,
   selectedToken: null,
+  selectedSellToken: null,
   currentRate: null,
   action: "BUY",
   explorerData: null,
@@ -35,6 +37,9 @@ export const slice = createSlice({
     },
     setSelectedToken: (state, action: PayloadAction<Token>) => {
       state.selectedToken = action.payload
+    },
+    setSelectedSellToken: (state, action: PayloadAction<Token>) => {
+      state.selectedSellToken = action.payload
     },
     setCurrentRate: (state, action: PayloadAction<number | null>) => {
       state.currentRate = action.payload
@@ -78,17 +83,32 @@ export const slice = createSlice({
       }
     )
     builder.addCase(
-      getTokens.fulfilled,
+      getBuyTokens.fulfilled,
       (state, action: PayloadAction<GetTokens | null>) => {
         if (action.payload) {
           const payload = action.payload
-
           if (payload.state == "success") {
             const data = payload.data
 
             if (data && data.length > 0) {
               state.availableTokens = data
               state.selectedToken = data[0]
+            }
+          }
+        }
+      }
+    )
+    builder.addCase(
+      getSellTokens.fulfilled,
+      (state, action: PayloadAction<GetTokens | null>) => {
+        if (action.payload) {
+          const payload = action.payload
+          if (payload.state == "success") {
+            const data = payload.data
+
+            if (data && data.length > 0) {
+              state.sellTokens = data
+              state.selectedSellToken = data[0]
             }
           }
         }
