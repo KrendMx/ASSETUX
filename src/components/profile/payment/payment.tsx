@@ -194,7 +194,7 @@ function Payment(props: PaymentProps) {
           />
           {isTRANSFER && (
             <InputSelect
-              label={t("home:buy_give")}
+              label={t("home:buy_get")}
               id={"give"}
               value={bill.sendAmount + ""}
               selectedValue={bill.tokens.symbol}
