@@ -1,5 +1,4 @@
 const locales = require("./locales")
-
 const config = {
   defaultLocale: "ru",
   locales,
@@ -11,5 +10,10 @@ module.exports = {
     ...config,
     localeExtension: "yaml"
   },
-  config
+  config,
+  fallbackLng: {
+    default: ["ru"],
+    "en-US": ["en"]
+  },
+  nonExplicitSupportedLngs: true
 }
