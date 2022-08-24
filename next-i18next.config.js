@@ -8,12 +8,18 @@ const config = {
 module.exports = {
   i18n: {
     ...config,
-    localeExtension: "yaml"
+    localeExtension: "yaml",
+    domains: [
+      {
+        domain: "assetux.com",
+        defaultLocale: "ru"
+      },
+      {
+        domain: "commerce.assetux.com",
+        defaultLocale: "ru"
+      }
+    ]
   },
   config,
-  fallbackLng: {
-    default: ["ru"],
-    "en-US": ["en"]
-  },
   nonExplicitSupportedLngs: true
 }
