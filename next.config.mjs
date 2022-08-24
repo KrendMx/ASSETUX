@@ -26,6 +26,11 @@ const config = {
     ]
   },
   i18n: i18n.config,
+  fallbackLng: {
+    default: ["ru"],
+    "en-US": ["en"]
+  },
+  nonExplicitSupportedLngs: true,
   pwa,
   compiler: {
     styledComponents: true
