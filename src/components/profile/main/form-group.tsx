@@ -29,6 +29,7 @@ import { Blockchain, Token } from "@/lib/backend/main/types"
 import CryptoManager from "@/components/common/crypto-manager"
 import SupportPopup from "./support-popup"
 import styles from "./popup.module.css"
+import OutIcon from "../../../../public/assets/Out.svg"
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -414,7 +415,7 @@ function FormGroup(props: FormGroupProps) {
               <Shadow>
                 <Icon>
                   <Image
-                    src="/assets/Out.svg"
+                    src={OutIcon}
                     layout="fill"
                     alt="copy"
                     objectFit="contain"

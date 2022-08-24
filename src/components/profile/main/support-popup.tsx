@@ -14,6 +14,8 @@ import styled from "styled-components"
 import { Label } from "@/components/common/input-select/input/styles"
 import styles from "./popup.module.css"
 import Background from "@/components/common/background"
+import CopyIcon from "../../../../public/assets/Copy.svg"
+import ExclamationGreenIcon from "../../../../public/assets/Exclamation-green.svg"
 
 const Bordered = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -61,7 +63,7 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
           <Shadow>
             <Icon>
               <Image
-                src="/assets/Exclamation-green.svg"
+                src={ExclamationGreenIcon}
                 layout="fill"
                 alt="Exclamation"
                 objectFit="contain"
@@ -100,7 +102,7 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
               <Shadow>
                 <Icon>
                   <Image
-                    src="/assets/Copy.svg"
+                    src={CopyIcon}
                     layout="fill"
                     alt="copy"
                     objectFit="contain"
