@@ -2,7 +2,8 @@ title: Bill
 
 bill: Bill
 blockchain: Blockchain
-get: You give
+get: You get
+give: You give
 send: Client pays
 allIncluded: All fees included
 copyLink: Copy payment link

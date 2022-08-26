@@ -468,7 +468,7 @@ function Bill({ profile }: BillProps) {
               <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
-                    label={t("get")}
+                    label={isTRANSFER ? t("give") : t("get")}
                     id={inputIds.get}
                     options={tokens ? tokens : undefined}
                     onChange={handleGet}
