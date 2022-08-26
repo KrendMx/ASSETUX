@@ -480,9 +480,17 @@ function SelectForm({
               />
               <ExchangeInfoRow
                 label={t("home:sell_totalAmount")}
-                value={`${exchangeInfo.totalAmount} ${exchangeInfo.curOut}`}
+                value={`${
+                  !!exchangeInfo?.totalAmount
+                    ? exchangeInfo?.totalAmount?.toString()
+                    : "0"
+                } ${exchangeInfo.curOut}`}
                 copyLabel={t("home:sell_copyAmount")}
-                valueToCopy={exchangeInfo.totalAmount.toString()}
+                valueToCopy={
+                  !!exchangeInfo?.totalAmount
+                    ? exchangeInfo?.totalAmount?.toString()
+                    : "0"
+                }
               />
               <ExchangeInfoRow
                 label={t("home:sell_creditedAmount")}
@@ -501,7 +509,7 @@ function SelectForm({
                 }}
               />
               <ExchangeRow
-                token={exchangeInfo.curIn}
+                token={exchangeInfo.curOut}
                 currency={exchangeInfo.curIn}
                 rate={rate}
                 isLoading={false}

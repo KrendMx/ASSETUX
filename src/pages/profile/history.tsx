@@ -54,13 +54,10 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     return errorProps
   }
 
-  const responses = await Promise.all([
+  const [profileResponse, historyResponse] = await Promise.all([
     EcommerceClient.getProfile({ token }),
     EcommerceClient.getHistory({ token })
   ])
-
-  const profileResponse = responses[0]
-  const historyResponse = responses[1]
 
   if (profileResponse.state != "success") {
     return errorProps
