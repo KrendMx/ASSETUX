@@ -103,6 +103,14 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
     lang: locale!
   })
 
+  if (
+    response.state == "success" &&
+    !!response?.data?.pin &&
+    !!response.data.news
+  ) {
+    response.data.news.splice(0, 0, response.data.pin)
+  }
+
   return {
     props: {
       news: response.state == "success" ? response.data.news : null,
