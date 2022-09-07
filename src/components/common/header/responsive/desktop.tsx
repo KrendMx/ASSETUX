@@ -128,17 +128,11 @@ const Desktop: React.FC = () => {
           {!isCommercePage &&
             !isCommerceLogin &&
             (env.isStage ? (
-              <Link href="/profile" passHref>
+              <Link href="https://commerce.dev.assetux.com/profile" passHref>
                 <NavLink>{t("commerce")}</NavLink>
               </Link>
             ) : (
-              <NavLink
-                href={
-                  env.host === "dev.assetux.com"
-                    ? `https://commerce.dev.assetux.com/profile`
-                    : `https://commerce.assetux.com/profile`
-                }
-              >
+              <NavLink href="https://commerce.assetux.com/profile">
                 {t("commerce")}
               </NavLink>
             ))}
