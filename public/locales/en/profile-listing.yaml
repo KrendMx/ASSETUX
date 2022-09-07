@@ -1,0 +1,23 @@
+title: Listing
+
+bill: Listing
+blockchain: Blockchain
+get: You get
+give: You give
+send: Client pays
+allIncluded: All fees included
+copyLink: Copy link to payment page 
+p1: >-
+  To invoice:
+p2: When the payment is made, you will receive an E-mail.
+item1: Fill in payment information.
+item2: Click "Copy payment link".
+item3: Send it to the client.
+formHeading: Calculator
+loading: Loading ...
+copied: Copied
+
+minError: "Minimal amount is {{min}}"
+maxError: "Maximum amount is {{max}}"
+
+paymentLink: Payment link
