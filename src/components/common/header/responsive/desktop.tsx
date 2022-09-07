@@ -132,7 +132,7 @@ const Desktop: React.FC = () => {
                 <NavLink>{t("commerce")}</NavLink>
               </Link>
             ) : (
-              <NavLink href="https://commerce.assetux.com/profile">
+              <NavLink href={`${getEcommercePrefix()}/profile`}>
                 {t("commerce")}
               </NavLink>
             ))}
