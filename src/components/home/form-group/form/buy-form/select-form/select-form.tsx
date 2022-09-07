@@ -331,7 +331,7 @@ function SelectForm({
                 onSelect={onCurrencyChange}
                 error={inputError[inputIds.give]}
                 selectedValue={currentCurrency}
-                selectable={false}
+                selectable={!!checkedCurrencies && checkedCurrencies.length > 1}
                 onlyNumbers
                 changeable
               />

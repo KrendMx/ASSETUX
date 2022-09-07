@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useTranslation } from "next-i18next"
@@ -18,6 +18,13 @@ import {
   PoweredBy
 } from "./styles"
 
+import {
+  currencies as definedCurrencies,
+  mapCurrency,
+  mapCurrencyName,
+  mapShortCurrencyName
+} from "@/lib/data/currencies"
+
 import { EcommerceClient } from "@/lib/backend/clients"
 import { emailRegexp } from "@/lib/data/constants"
 import { stringToPieces } from "@/lib/utils/helpers"
@@ -28,6 +35,8 @@ import type { FiatProvider } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
 import NetworkRow from "@/components/home/form-group/form/common/network-row"
 import { mapTokens } from "@/components/home/form-group/form/form-controller"
+import { useAppSelector } from "@/lib/redux/hooks"
+import ExchangeInfo from "@/components/common/exchange-info"
 
 const inputIds = {
   email: "email",
@@ -51,7 +60,7 @@ function Payment(props: PaymentProps) {
     (widget.nameCompany != null && widget.nameCompany != "")
 
   const { t } = useTranslation("profile-payment")
-
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == "VISAMASTER")
       ? "QIWIVISAMASTER"
@@ -63,19 +72,43 @@ function Payment(props: PaymentProps) {
   const [wallet, setWallet] = useState("")
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
+  const [currencies, setCurrencies] = useState<Option[] | null>(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
+    currentCurrency
+  )
+  const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
 
-  const paymentOptions: Option[] = useMemo(
-    () =>
-      providers.map((provider) => ({
+  useEffect(() => {
+    const mappedCurrencies = definedCurrencies.map((currency) => ({
+      value: currency,
+      description: mapCurrencyName(currency),
+      shortDescription:
+        mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+    }))
+
+    if (mappedCurrencies.length > 0) {
+      setCurrencies(mappedCurrencies)
+      setSelectedCurrency(
+        mappedCurrencies.find(({ value }) => value === currentCurrency)
+          ?.value || mappedCurrencies[0].value
+      )
+    }
+  }, [currentCurrency])
+
+  const paymentOptions: Option[] = useMemo(() => {
+    const options = providers
+      .filter(({ currency }) => currency === selectedCurrency)
+      .map((provider) => ({
         icon: provider.logo
           ? env.hostProtocol + "://" + blockchainURL + provider.logo
           : undefined,
         value:
           provider.method == "VISAMASTER" ? "QIWIVISAMASTER" : provider.method,
         description: provider.method
-      })),
-    [providers, blockchainURL]
-  )
+      }))
+    selectedCurrency !== "RUB" && setSelectedPayment(options[0].value)
+    return options
+  }, [providers, blockchainURL, selectedCurrency])
 
   const handleEmail: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
@@ -191,82 +224,99 @@ function Payment(props: PaymentProps) {
             label={t("toPay")}
             value={bill.amountIn.toString()}
             visuallyDisabled
-          />
-          {isTRANSFER && (
-            <InputSelect
-              label={t("home:buy_get")}
-              id={"give"}
-              value={bill.sendAmount + ""}
-              selectedValue={bill.tokens.symbol}
-              selectable={false}
-              onlyNumbers
-              options={mapTokens([bill.tokens])}
-              changeable={false}
-            />
-          )}
-          <InputSelect
-            label={t("paymentMethod")}
-            options={paymentOptions}
-            selectedValue={selectedPayment}
+            options={currencies ? currencies : undefined}
+            selectedValue={selectedCurrency}
+            onSelect={(val) => setSelectedCurrency(val)}
+            onActiveChange={setGetCurrencyActive}
             displayInSelect={1}
-            onActiveChange={setPaymentActive}
-            onSelect={(value) => {
-              setSelectedPayment(value)
-              setDetails("")
-            }}
-            displayIcon
-            selectable
           />
-          <HideableWithMargin hide={paymentActive} space="0.842em">
-            <InputSelect
-              id={inputIds.email}
-              label={t("email")}
-              placeholder="coolemail@gmail.com"
-              autocomplete="email"
-              value={email}
-              onChange={handleEmail}
-              error={errors[inputIds.email]}
-              type="email"
-              changeable
-            />
-            {selectedPayment == "QIWI" ? (
+          <HideableWithMargin hide={getCurrencyActive} space="0.842em">
+            {/* <ExchangeInfo
+              token={currentToken}
+              currency={currentCurrency}
+              rate={rate}
+              isLoading={false}
+              placeholder={t("home:exchange_fees")}
+              text="asd"
+              margins
+            /> */}
+            {
               <InputSelect
-                label={t("phoneNumber")}
-                id={inputIds.phone}
-                value={details}
-                onChange={handlePhone}
-                autocomplete="tel"
-                error={errors[inputIds.phone]}
-                type="tel"
-                changeable
-              />
-            ) : (
-              <InputSelect
-                id={inputIds.card}
-                value={stringToPieces(details, 4, " ")}
-                onChange={handleCard}
-                label={t("creditCard")}
-                autocomplete="cc-number"
-                error={errors[inputIds.card]}
+                label={t("home:buy_get")}
+                id={"give"}
+                value={bill.sendAmount + ""}
+                selectedValue={bill.tokens.symbol}
+                selectable={false}
                 onlyNumbers
-                changeable
+                options={mapTokens([bill.tokens])}
+                changeable={false}
+                visuallyDisabled
               />
-            )}
-            {isTRANSFER && <NetworkRow isLoading={false} />}
-            {isTRANSFER && (
+            }
+            <InputSelect
+              label={t("paymentMethod")}
+              options={paymentOptions}
+              selectedValue={selectedPayment}
+              displayInSelect={1}
+              onActiveChange={setPaymentActive}
+              onSelect={(value) => {
+                setSelectedPayment(value)
+                setDetails("")
+              }}
+              displayIcon
+              selectable
+            />
+            <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
-                label={t("home:buy_wallet")}
-                id={"wallet"}
-                onChange={handleAddress}
-                value={wallet}
-                error={errors[inputIds.wallet]}
-                placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
+                id={inputIds.email}
+                label={t("email")}
+                placeholder="coolemail@gmail.com"
+                autocomplete="email"
+                value={email}
+                onChange={handleEmail}
+                error={errors[inputIds.email]}
+                type="email"
                 changeable
               />
-            )}
-            <Submit disabled={waitingResponse}>
-              {waitingResponse ? t("loading") : t("submit")}
-            </Submit>
+              {selectedPayment == "QIWI" ? (
+                <InputSelect
+                  label={t("phoneNumber")}
+                  id={inputIds.phone}
+                  value={details}
+                  onChange={handlePhone}
+                  autocomplete="tel"
+                  error={errors[inputIds.phone]}
+                  type="tel"
+                  changeable
+                />
+              ) : (
+                <InputSelect
+                  id={inputIds.card}
+                  value={stringToPieces(details, 4, " ")}
+                  onChange={handleCard}
+                  label={t("creditCard")}
+                  autocomplete="cc-number"
+                  error={errors[inputIds.card]}
+                  onlyNumbers
+                  changeable
+                />
+              )}
+              {isTRANSFER && <NetworkRow isLoading={false} />}
+              {isTRANSFER && (
+                <InputSelect
+                  label={t("home:buy_wallet")}
+                  id={"wallet"}
+                  onChange={handleAddress}
+                  value={wallet}
+                  error={errors[inputIds.wallet]}
+                  placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
+                  changeable
+                />
+              )}
+              <Submit disabled={waitingResponse}>
+                {waitingResponse ? t("loading") : t("submit")}
+              </Submit>
+            </HideableWithMargin>
           </HideableWithMargin>
         </Form>
       </Content>

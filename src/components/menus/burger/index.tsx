@@ -49,11 +49,11 @@ const BurgerMenu: React.FC = () => {
   const { t } = useTranslation("header")
   const dispatch = useAppDispatch()
   const router = useRouter()
-
+  const isTransferer = useAppSelector((state) => state.ui.isTransferer)
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
-
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const isMainPage = router.pathname == "/"
   const isCommercePage =
     router.pathname.startsWith("/profile") &&
@@ -68,7 +68,7 @@ const BurgerMenu: React.FC = () => {
       })
     }
 
-    const splitted = route.key.split("to")
+    const splitted = route.key.split(" to ")
 
     if (splitted.length != 2) {
       return
@@ -117,11 +117,14 @@ const BurgerMenu: React.FC = () => {
             </li>
             <li>
               {!env.isStage && (isCommercePage || isCommerceLogin) ? (
-                <NavGroup title={t("popular")} routes={popularAbsolute} />
+                <NavGroup
+                  title={t("popular")}
+                  routes={popularAbsolute(currentCurrency)}
+                />
               ) : (
                 <NavGroup
                   title={t("popular")}
-                  routes={popular}
+                  routes={popular(currentCurrency)}
                   onClick={popularAction}
                 />
               )}
@@ -146,7 +149,7 @@ const BurgerMenu: React.FC = () => {
         )}
         {isCommercePage && (
           <>
-            {commerce.map((route) => (
+            {commerce(isTransferer).map((route) => (
               <li key={route.key}>
                 <Link href={route.href} passHref>
                   <NavLink bold>{t(route.key)}</NavLink>

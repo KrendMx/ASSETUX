@@ -28,7 +28,7 @@ import type {
 
 export const mapTokens = (tokens: Token[]): TokenOption[] =>
   tokens
-    .filter((token) => token.enabled)
+    // .filter((token) => token.enabled)
     .map((token) => ({
       value: token.symbol,
       icon: token.logo_uri,
@@ -83,7 +83,12 @@ function FormController() {
   )
 
   const [payments, setPayments] = useState<FiatProvider[] | null>(null)
-  const [currencies, setCurrencies] = useState<Option[] | null>(null)
+  const [currenciesForBuy, setCurrenciesForBuy] = useState<Option[] | null>(
+    null
+  )
+  const [currenciesForSell, setCurrenciesForSell] = useState<Option[] | null>(
+    null
+  )
   const [fiatRates, setFiatRates] = useState<FiatRate[] | null>(null)
   const [liquidityData, setLiquidityData] = useState<LiquidityData | null>(null)
 
@@ -123,7 +128,7 @@ function FormController() {
     }
 
     const fetch = async (signal: AbortSignal) => {
-      const responses = await Promise.all([
+      const [fiatProviders, fiatRates, liquidity] = await Promise.all([
         BackendClient.getFiatProviders({
           apiHost: selectedBlockchain.url,
           signal
@@ -139,10 +144,6 @@ function FormController() {
         })
       ])
 
-      const fiatProviders = responses[0]
-      const fiatRates = responses[1]
-      const liquidity = responses[2]
-
       if (fiatProviders.state == "success") {
         setPayments(fiatProviders.data)
       }
@@ -155,17 +156,6 @@ function FormController() {
         setLiquidityData(liquidity.data)
       }
     }
-
-    setCurrencies(
-      definedCurrencies.map((currency) => {
-        return {
-          value: currency,
-          description: mapCurrencyName(currency),
-          shortDescription:
-            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
-        }
-      })
-    )
 
     const controller = new AbortController()
 
@@ -202,11 +192,38 @@ function FormController() {
     }
   }, [selectedBlockchain])
 
+  useEffect(() => {
+    setCurrenciesForBuy(
+      definedCurrencies
+        .map((currency) => ({
+          value: currency,
+          description: mapCurrencyName(currency),
+          shortDescription:
+            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        }))
+        .filter(({ value }) =>
+          buyPayments?.find(({ currency }) => currency === value)
+        )
+    )
+
+    setCurrenciesForSell(
+      definedCurrencies
+        .map((currency) => ({
+          value: currency,
+          description: mapCurrencyName(currency),
+          shortDescription:
+            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        }))
+        .filter(({ value }) =>
+          sellPayments?.find(({ currency }) => currency === value)
+        )
+    )
+  }, [sellPayments, buyPayments])
   return action == "BUY" ? (
     <BuyForm
       blockchains={blockchains}
       tokens={tokens}
-      currencies={currencies}
+      currencies={currenciesForBuy}
       rates={fiatRates}
       payments={buyPayments}
       serviceAvailable={liquidityData ? liquidityData.buy : null}
@@ -219,13 +236,13 @@ function FormController() {
     <SellForm
       blockchains={blockchains}
       tokens={tokensForSell}
-      currencies={currencies}
+      currencies={currenciesForSell}
       rates={fiatRates}
       payments={sellPayments}
       serviceAvailable={liquidityData ? liquidityData.sell : null}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedSellToken}
-      currentCurrency={currentCurrency}
+      currentCurrency={"RUB"}
       onTokenChange={handleTokenSellChange}
     />
   )

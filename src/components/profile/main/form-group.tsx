@@ -25,6 +25,8 @@ import type { Profile, UserImage } from "@/lib/backend/ecommerce/types"
 import type { RequestState } from "@/core/backend/types"
 import type { Nullable } from "@/lib/utils/helpers"
 import { useAppSelector } from "@/lib/redux/hooks"
+import { setIsTransferer } from "@/lib/redux/ui"
+import { useAppDispatch } from "@/lib/redux/hooks"
 import { Blockchain, Token } from "@/lib/backend/main/types"
 import CryptoManager from "@/components/common/crypto-manager"
 import SupportPopup from "./support-popup"
@@ -124,6 +126,7 @@ function FormGroup(props: FormGroupProps) {
     company: null
   })
 
+  const dispatch = useAppDispatch()
   const [supportOpen, setSupportOpen] = useState(false)
   const [updatedWidget, setUpdatedWidget] = useState(false)
   const [avaliableChains, setAvaliableChains] = useState<Option[] | undefined>()
@@ -131,6 +134,10 @@ function FormGroup(props: FormGroupProps) {
   const [selectedToken, setSelectedToken] = useState<Token | undefined>(
     !!token_info?.length ? token_info[0]?.token : undefined
   )
+
+  useEffect(() => {
+    dispatch(setIsTransferer(isTRANSFER))
+  }, [dispatch, isTRANSFER])
 
   const prevPublicKey = useRef(public_key)
   const prevCompany = useRef(nameCompany == null ? "" : nameCompany)

@@ -98,7 +98,7 @@ function Element({
               )}
             </ChangeLabel>
           </ChangeContainer>
-          {change24h && (
+          {!(change24h == undefined) && (
             <Graph
               coords={marketHistory}
               color={
