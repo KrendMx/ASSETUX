@@ -87,6 +87,16 @@ export type Bill = {
     title: string
   }
   ecommerceUser: Profile
+  // new history type in ecom
+  email?: string
+  order_id?: number
+  client?: string
+  type?: string
+  chain?: {
+    title: string
+  }
+  token: any
+  amount_in?: number
 }
 
 export type Payment = {

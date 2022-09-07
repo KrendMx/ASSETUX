@@ -13,6 +13,7 @@ import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { HistoryProps } from "@/components/profile/history"
+import { Bill } from "@/lib/backend/ecommerce/types"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -24,7 +25,6 @@ const Container = styled(BaseContainer)`
 
 function History(props: HistoryProps) {
   const { t } = useTranslation("profile-history")
-
   return (
     <>
       <NextSeo title={t("title")} />
@@ -73,9 +73,26 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
   if (!history) {
     return errorProps
   }
+  const userHistory = history.filter((obj) =>
+    obj.hasOwnProperty("ecommerce_payments")
+  )
+  const ecomerceHistory: any[] = history
+    .filter((obj) => !obj.hasOwnProperty("ecommerce_payments"))
+    .map((item) => ({
+      id: item.id,
+      timestamp: item.timestamp,
+      email: item.email,
+      creditCard: item.client,
+      blockchain: item.token.chain.title,
+      currency: item.currency,
+      token: item.token.symbol,
+      amount: item.amount_in,
+      method: item.type
+    }))
 
-  const mappedHistory = []
-  for (const item of history) {
+  const mappedHistory: any[] = []
+
+  for (const item of userHistory) {
     for (const payment of item.ecommerce_payments) {
       mappedHistory.push({
         id: payment.id,
@@ -94,9 +111,10 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
   return {
     props: {
       profile: profileResponse.data.user,
-      history: mappedHistory.sort(
-        (a, b) => Number(b.timestamp) - Number(a.timestamp)
-      ),
+      history: mappedHistory
+        .concat(ecomerceHistory)
+        .sort((a, b) => Number(b.timestamp) - Number(a.timestamp)),
+      jopa: history,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
