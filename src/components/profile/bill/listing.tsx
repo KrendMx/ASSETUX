@@ -16,7 +16,8 @@ import {
   FormContainer,
   Form,
   FormContent,
-  ExchangeInfoWrapper
+  ExchangeInfoWrapper,
+  ContainerForListing
 } from "./styles"
 import LinkModal from "./link-modal"
 
@@ -381,7 +382,7 @@ function ListingComponent({ profile }: BillProps) {
         />
       )}
       <CryptoManager getToken />
-      <Container>
+      <ContainerForListing>
         {/* <Paragraph>{t("p1")}</Paragraph>
         <List>
           <Item>{t("item1")}</Item>
@@ -471,7 +472,7 @@ function ListingComponent({ profile }: BillProps) {
             )
           )}
         </FormContainer>
-      </Container>
+      </ContainerForListing>
     </>
   )
 }

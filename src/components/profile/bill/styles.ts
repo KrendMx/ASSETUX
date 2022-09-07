@@ -8,6 +8,11 @@ import { mobile, tablet } from "@/lib/data/constants"
 export const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
   tabletFactor: 1.25
+})``
+
+export const ContainerForListing = styled(AdaptiveFont).attrs({
+  mobileFactor: 1.3335,
+  tabletFactor: 1.25
 })`
   display: flex;
   justify-content: space-between;
