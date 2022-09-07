@@ -19,6 +19,8 @@ import type {
   CreatePaymentProps,
   CreatePaymentResponse
 } from "./types"
+import { CurrenciesType } from "@/lib/data/currencies"
+import { ActionType } from "@/lib/redux/crypto/types"
 
 class EcommerceClient extends Client {
   public constructor() {
@@ -128,6 +130,18 @@ class EcommerceClient extends Client {
       url: `${this.genericURL}/ecommerce/payment/create`,
       method: "POST",
       data
+    })
+  }
+
+  public async calcFee(
+    amount: number,
+    currency: CurrenciesType,
+    method: ActionType,
+    reverseCalc: boolean
+  ) {
+    return handleRequest({
+      url: `${this.genericURL}/api/buytoken/calc_fee?amount=${amount}&currency=${currency}&reverseCalc=${reverseCalc}&method=${method}`,
+      method: "GET"
     })
   }
 }

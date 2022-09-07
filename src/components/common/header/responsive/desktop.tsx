@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 
-import { useAppDispatch } from "@/lib/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
 import { setOrdersActive } from "@/lib/redux/ui"
 
 import Container from "./container"
@@ -76,6 +76,7 @@ const NavLink = styled.a<NavLinkProps>`
 const Desktop: React.FC = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
+  const isTransferer = useAppSelector((state) => state.ui.isTransferer)
   const { t } = useTranslation("header")
 
   const isMainPage = router.pathname == "/"
@@ -100,7 +101,7 @@ const Desktop: React.FC = () => {
           </Link> */}
           {isCommercePage && (
             <>
-              {commerce.map((route) => (
+              {commerce(isTransferer).map((route) => (
                 <Link href={route.href} key={route.href} passHref>
                   <NavLink>{t(route.key)}</NavLink>
                 </Link>

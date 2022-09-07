@@ -8,7 +8,15 @@ import { mobile, tablet } from "@/lib/data/constants"
 export const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
   tabletFactor: 1.25
-})``
+})`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+`
 
 export const Paragraph = styled.p`
   margin: 1em 0;

@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
 
 import { useImmediateMobile } from "@/lib/hooks"
-import { useAppSelector } from "@/lib/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
 import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
 import { perPageValues, cardsPerPage, cardsWidth } from "@/lib/data/constants"
 import { getFormattedDate } from "@/lib/utils/date"
@@ -17,6 +17,7 @@ import { Container, NoAssets, ControlsRow } from "./styles"
 
 import type { Profile } from "@/lib/backend/ecommerce/types"
 import type { TFunction } from "next-i18next"
+import { setIsTransferer } from "@/lib/redux/ui"
 
 export type HistoryType = {
   id: number
@@ -75,12 +76,17 @@ const cardNames = (t: TFunction) => [
   t("amount")
 ]
 
-function History({ history }: HistoryProps) {
+function History({ history, profile: { mode } }: HistoryProps) {
   const isMobile = useImmediateMobile()
   const displayCards = useImmediateMobile(cardsWidth)
   const { t } = useTranslation("profile-history")
   const router = useRouter()
+  const isTRANSFER = mode == "TRANSFER"
+  const dispatch = useAppDispatch()
 
+  useEffect(() => {
+    dispatch(setIsTransferer(isTRANSFER))
+  }, [dispatch, isTRANSFER])
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
   const [searchContext, setSearchContext] = useState("")

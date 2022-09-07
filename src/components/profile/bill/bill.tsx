@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import Skeleton from "react-loading-skeleton"
 
-import { useAppSelector } from "@/lib/redux/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
 import { useIsomorphicLayoutEffect, useAuthorized } from "@/lib/hooks"
 
 import CryptoManager from "@/components/common/crypto-manager"
@@ -36,6 +36,7 @@ import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 import type { Profile } from "@/lib/backend/ecommerce/types"
 import type { Option } from "@/components/common/input-select/types"
 import type { Blockchain, FiatRate } from "@/lib/backend/main/types"
+import { setIsTransferer } from "@/lib/redux/ui"
 
 const inputIds = {
   get: "get",
@@ -61,7 +62,11 @@ function Bill({ profile }: BillProps) {
   const router = useRouter()
   const checkAuthorized = useAuthorized()
   const isTRANSFER = mode == "TRANSFER"
+  const dispatch = useAppDispatch()
 
+  useEffect(() => {
+    dispatch(setIsTransferer(isTRANSFER))
+  }, [dispatch, isTRANSFER])
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
@@ -71,6 +76,8 @@ function Bill({ profile }: BillProps) {
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
+
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 
   const blockchains = useMemo(
     () => (availableBlockchains ? mapBlockchains(availableBlockchains) : null),
@@ -106,6 +113,7 @@ function Bill({ profile }: BillProps) {
   const [send, setSend] = useState("10000")
 
   const [getActive, setGetActive] = useState(false)
+  const [getCurrencyActive, setGetCurrencyActive] = useState(false)
   const [waitingResponse, setWaitingResponse] = useState(false)
 
   const [linkModalProps, setLinkModalProps] = useState<
@@ -335,7 +343,10 @@ function Bill({ profile }: BillProps) {
 
     if (mappedCurrencies.length > 0) {
       setCurrencies(mappedCurrencies)
-      setSelectedCurrency(mappedCurrencies[0].value)
+      setSelectedCurrency(
+        mappedCurrencies.find(({ value }) => value === currentCurrency)
+          ?.value || mappedCurrencies[0].value
+      )
     }
 
     const controller = new AbortController()
@@ -350,7 +361,7 @@ function Bill({ profile }: BillProps) {
       clearInterval(rateInterval)
       controller.abort()
     }
-  }, [selectedBlockchain])
+  }, [selectedBlockchain, currentCurrency])
 
   useEffect(() => {
     if (!availableTokens || isTRANSFER) {
@@ -443,7 +454,10 @@ function Bill({ profile }: BillProps) {
         </List>
         <Paragraph>{t("p2")}</Paragraph>
         <FormContainer>
-          <Form getActive={getActive} onSubmit={handleSubmit}>
+          <Form
+            getActive={getActive || getCurrencyActive}
+            onSubmit={handleSubmit}
+          >
             <FormContent>
               <FormHeading>
                 {loading ? <Skeleton /> : t("formHeading")}
@@ -506,10 +520,13 @@ function Bill({ profile }: BillProps) {
                         onChange={handleSend}
                         value={send}
                         selectedValue={selectedCurrency}
-                        selectable={false}
+                        selectable={!!currencies && currencies.length > 1}
                         error={inputError == "" ? undefined : inputError}
                         changeable
                         onlyNumbers
+                        onSelect={(val) => setSelectedCurrency(val)}
+                        onActiveChange={setGetCurrencyActive}
+                        displayInSelect={1}
                       />
                     ) : (
                       <Skeleton containerClassName="input-skeleton" />

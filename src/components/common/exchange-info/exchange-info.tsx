@@ -5,11 +5,11 @@ import Help from "./help"
 import { Container, ExchangeHelp, ExchangeStat } from "./styles"
 
 type ExchangeInfoProps = {
-  token: string | null
-  currency: string | null
+  token?: string | null
+  currency?: string | null
   placeholder: string
   text: string
-  rate: number | null
+  rate?: number | null
   isLoading: boolean
   margins?: boolean
 }
@@ -29,9 +29,11 @@ const ExchangeInfo: React.FC<ExchangeInfoProps> = ({
     <Container margins={margins}>
       {!isLoading ? (
         <>
-          <ExchangeStat>
-            1 {token} = {rate ?? "..."} {currency}
-          </ExchangeStat>
+          {!!token && !!currency && (
+            <ExchangeStat>
+              1 {token} ≈ {rate ?? "..."} {currency}
+            </ExchangeStat>
+          )}
           <ExchangeHelp onMouseEnter={() => {}} onMouseLeave={() => {}}>
             {placeholder}
           </ExchangeHelp>

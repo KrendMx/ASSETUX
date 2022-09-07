@@ -6,13 +6,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/components/common/base-container"
 import HeadingRow from "@/components/profile/common/heading-row"
-import BillComponent from "@/components/profile/bill"
 
 import { EcommerceClient } from "@/lib/backend/clients"
 import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { BillProps } from "@/components/profile/bill"
+import ListingComponent from "@/components/profile/bill/listing"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -22,15 +22,15 @@ const Container = styled(BaseContainer)`
   min-height: calc(100vh - var(--header-height));
 `
 
-function Bill(props: BillProps) {
-  const { t } = useTranslation("profile-bill")
+function Listing(props: BillProps) {
+  const { t } = useTranslation("profile-listing")
 
   return (
     <>
       <NextSeo title={t("title")} />
       <Container>
         <HeadingRow heading={t("bill")} id={`M-${props.profile.userId}`} />
-        <BillComponent profile={props.profile} />
+        <ListingComponent profile={props.profile} />
       </Container>
     </>
   )
@@ -47,9 +47,9 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
     }
   }
 
-  const transferProps = {
+  const notTransferProps = {
     redirect: {
-      destination: `${getEcommercePrefix()}/listing`,
+      destination: `${getEcommercePrefix()}/bill`,
       permanent: false
     }
   }
@@ -66,8 +66,8 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
     return errorProps
   }
 
-  if (profile.data.user.mode === "TRANSFER") {
-    return transferProps
+  if (profile.data.user.mode !== "TRANSFER") {
+    return notTransferProps
   }
 
   return {
@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",
-        "profile-bill",
+        "profile-listing",
         "routes",
         "inputSelect"
       ]))
@@ -84,4 +84,4 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
   }
 }
 
-export default Bill
+export default Listing

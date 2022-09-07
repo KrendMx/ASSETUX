@@ -10,4 +10,5 @@ export type UiState = {
   currentCurrency: CurrenciesType
   appLoaded: boolean
   hideBurgerButton: boolean
+  isTransferer: boolean
 }

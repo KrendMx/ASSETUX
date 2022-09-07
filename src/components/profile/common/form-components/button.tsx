@@ -16,7 +16,7 @@ const Button = styled.button<ButtonProps>`
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-
+  min-height: 49px;
   ${(props) =>
     !props.isLoading &&
     css`

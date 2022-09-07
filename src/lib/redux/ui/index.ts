@@ -10,7 +10,8 @@ export const {
   setOrdersActive,
   setCurrentCurrency,
   setAppLoaded,
-  setHideBurgerButton
+  setHideBurgerButton,
+  setIsTransferer
 } = slice.actions
 
 export default slice.reducer
