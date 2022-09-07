@@ -45,7 +45,8 @@ const config = {
 }
 
 // https://github.com/shadowwalker/next-pwa/issues/367#issuecomment-1194057483
-const pwaConfig = withPWA(config)
+const pwaConfig = env.isStage ? config : withPWA(config)
+
 delete pwaConfig.pwa
 
 export default withBundleAnalyzer(pwaConfig)
