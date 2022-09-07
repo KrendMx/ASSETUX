@@ -132,7 +132,13 @@ const Desktop: React.FC = () => {
                 <NavLink>{t("commerce")}</NavLink>
               </Link>
             ) : (
-              <NavLink href={`https://commerce.dev.assetux.com/profile`}>
+              <NavLink
+                href={
+                  env.host === "dev.assetux.com"
+                    ? `https://commerce.dev.assetux.com/profile`
+                    : `https://commerce.assetux.com/profile`
+                }
+              >
                 {t("commerce")}
               </NavLink>
             ))}
