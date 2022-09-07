@@ -10,6 +10,8 @@ export const mapCurrency = (currency: CurrenciesType) => {
   switch (currency) {
     case "RUB":
       return "₽"
+    // case "UAH":
+    //   return "₴"
   }
 }
 
@@ -17,6 +19,8 @@ export const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case "RUB":
       return "Rus"
+    // case "UAH":
+    //   return "Ukr"
   }
 }
 
@@ -24,6 +28,8 @@ export const mapCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case "RUB":
       return "Russian Ruble"
+    // case "UAH":
+    //   return "Ukrainian hryvnia"
   }
 }
 

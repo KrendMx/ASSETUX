@@ -35,6 +35,8 @@ const PopularList: React.FC = () => {
     (state) => state.crypto.availableTokens
   )
 
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+
   const popularAction = (route: Route) => {
     if (router.pathname != "/") {
       router.push("/", undefined, {
@@ -43,7 +45,7 @@ const PopularList: React.FC = () => {
       })
     }
 
-    const splitted = route.key.split("to")
+    const splitted = route.key.split(" to ")
 
     if (splitted.length != 2) {
       return
@@ -73,7 +75,7 @@ const PopularList: React.FC = () => {
     })
   }
 
-  return <List routes={popular} onClick={popularAction} />
+  return <List routes={popular(currentCurrency)} onClick={popularAction} />
 }
 
 type FooterProps = {
@@ -86,7 +88,7 @@ const Footer: React.FC<FooterProps> = ({ hide }) => {
   const { t, i18n } = useTranslation("footer")
   const isRu = useMemo(() => i18n.language === "ru", [i18n])
   const isCommercePage = router.pathname.startsWith("/profile")
-
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   return (
     <Wrapper hide={hide}>
       <Container>
@@ -99,7 +101,7 @@ const Footer: React.FC<FooterProps> = ({ hide }) => {
         <Group>
           <h3>{t("popular")}</h3>
           {isCommercePage && !env.isStage ? (
-            <List routes={popularAbsolute} />
+            <List routes={popularAbsolute(currentCurrency)} />
           ) : (
             <PopularList />
           )}

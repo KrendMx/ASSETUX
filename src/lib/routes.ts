@@ -1,3 +1,4 @@
+import { CurrenciesType } from "./data/currencies.js"
 import { env } from "./env/client.mjs"
 import { getEcommercePrefix } from "./utils/helpers"
 
@@ -33,67 +34,67 @@ export const companyAbsolute: Route[] = [
   }
 ]
 
-export const popular: Route[] = [
+export const popular = (currency: CurrenciesType): Route[] => [
   {
-    key: "RUBtoBTCB",
+    key: `${currency} to BTCB`,
     href: "/"
   },
   {
-    key: "RUBtoETH",
+    key: `${currency} to ETH`,
     href: "/"
   },
   {
-    key: "RUBtoBNB",
+    key: `${currency} to BNB`,
     href: "/"
   },
   {
-    key: "RUBtoCAKE",
+    key: `${currency} to CAKE`,
     href: "/"
   },
   {
-    key: "RUBtoUSDT",
+    key: `${currency} to USDT`,
     href: "/"
   },
   {
-    key: "RUBtoBUSD",
+    key: `${currency} to BUSD`,
     href: "/"
   }
 ]
 
-export const popularAbsolute: Route[] = [
+export const popularAbsolute = (currency: CurrenciesType): Route[] => [
   {
-    key: "RUBtoBTCB",
-    href: `${host}/?action=buy&currency=rub&token=btcb`,
+    key: `${currency} to BTCB`,
+    href: `${host}/?action=buy&currency=${currency}&token=btcb`,
     absolute: true
   },
   {
-    key: "RUBtoETH",
-    href: `${host}/?action=buy&currency=rub&token=eth`,
+    key: `${currency} to ETH`,
+    href: `${host}/?action=buy&currency=${currency}&token=eth`,
     absolute: true
   },
   {
-    key: "RUBtoBNB",
-    href: `${host}/?action=buy&currency=rub&token=bnb`,
+    key: `${currency} to BNB`,
+    href: `${host}/?action=buy&currency=${currency}&token=bnb`,
     absolute: true
   },
   {
-    key: "RUBtoCAKE",
-    href: `${host}/?action=buy&currency=rub&token=cake`,
+    key: `${currency} to CAKE`,
+    href: `${host}/?action=buy&currency=${currency}&token=cake`,
     absolute: true
   },
   {
-    key: "RUBtoUSDT",
-    href: `${host}/?action=buy&currency=rub&token=usdt`,
+    key: `${currency} to USDT`,
+    href: `${host}/?action=buy&currency=${currency}&token=usdt`,
     absolute: true
   },
   {
-    key: "RUBtoBUSD",
-    href: `${host}/?action=buy&currency=rub&token=busd`,
+    key: `${currency} to BUSD`,
+    href: `${host}/?action=buy&currency=${currency}&token=busd`,
     absolute: true
   }
 ]
 
-export const commerce = [
+export const commerce = (isTransferer: boolean) => [
   {
     key: "profile",
     href: "/profile"
@@ -103,8 +104,8 @@ export const commerce = [
     href: `${getEcommercePrefix()}/history`
   },
   {
-    key: "bill",
-    href: `${getEcommercePrefix()}/bill`
+    key: isTransferer ? "listing" : "bill",
+    href: `${getEcommercePrefix()}/${isTransferer ? "listing" : "bill"}`
   }
 ]
 
