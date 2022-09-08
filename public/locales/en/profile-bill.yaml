@@ -2,7 +2,7 @@ title: Bill
 
 bill: Bill
 blockchain: Blockchain
-get: You get
+get: "You get: {{min}} - {{max}}"
 give: You give
 send: Client pays
 allIncluded: All fees included

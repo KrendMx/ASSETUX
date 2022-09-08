@@ -165,7 +165,7 @@ export const Content = styled.div<ContentProps>`
 export const Form = styled.form`
   max-width: 469px;
   width: 100%;
-  height: 433px;
+  min-height: 520px;
   padding: 30px 25px;
   background: var(--white);
   border-radius: 10px;

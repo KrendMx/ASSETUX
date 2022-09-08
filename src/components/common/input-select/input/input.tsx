@@ -55,6 +55,7 @@ type InputSelectProps = {
   focused?: boolean
   visuallyDisabled?: boolean
   uploadedFileName?: string
+  maxValue?: number
 }
 
 const InputSelect: React.FC<InputSelectProps> = ({
@@ -86,7 +87,8 @@ const InputSelect: React.FC<InputSelectProps> = ({
   paleBorders = false,
   focused = false,
   visuallyDisabled = false,
-  uploadedFileName
+  uploadedFileName,
+  maxValue
 }) => {
   const { t } = useTranslation("inputSelect")
 
@@ -165,10 +167,14 @@ const InputSelect: React.FC<InputSelectProps> = ({
   }
 
   const handleInput: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const value = event.target.value
+    if (maxValue && +value > maxValue) {
+      return
+    }
     if (onChange) {
       onChange(event)
     }
-    const value = event.target.value
+
     setUserInput({ value })
   }
 

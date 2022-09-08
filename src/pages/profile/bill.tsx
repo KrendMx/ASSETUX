@@ -6,13 +6,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import BaseContainer from "@/components/common/base-container"
 import HeadingRow from "@/components/profile/common/heading-row"
-import BillComponent from "@/components/profile/bill"
 
 import { EcommerceClient } from "@/lib/backend/clients"
 import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { BillProps } from "@/components/profile/bill"
+import ListingComponent from "@/components/profile/bill/listing"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -30,7 +30,7 @@ function Bill(props: BillProps) {
       <NextSeo title={t("title")} />
       <Container>
         <HeadingRow heading={t("bill")} id={`M-${props.profile.userId}`} />
-        <BillComponent profile={props.profile} />
+        <ListingComponent profile={props.profile} />
       </Container>
     </>
   )
@@ -78,7 +78,8 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
         "footer",
         "profile-bill",
         "routes",
-        "inputSelect"
+        "inputSelect",
+        "profile-listing"
       ]))
     }
   }

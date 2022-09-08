@@ -34,10 +34,8 @@ import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { Profile } from "@/lib/backend/ecommerce/types"
 import type { Option } from "@/components/common/input-select/types"
-import type { Blockchain, FiatRate } from "@/lib/backend/main/types"
 import { setIsTransferer } from "@/lib/redux/ui"
 import { env } from "@/lib/env/client.mjs"
-import Client from "@/lib/backend/client"
 
 const inputIds = {
   get: "get",
@@ -45,24 +43,15 @@ const inputIds = {
   blockchains: "blockchains"
 }
 
-const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
-  blockchains.map((blockchain) => {
-    return {
-      value: blockchain.title,
-      description: blockchain.title,
-      icon: blockchain.logo,
-      chain_id: blockchain.chain_id
-    }
-  })
-
 export type BillProps = { profile: Profile }
 
 function ListingComponent({ profile }: BillProps) {
   const { token_info, mode } = profile
-  const { t } = useTranslation("profile-listing")
+  const isTRANSFER = mode === "TRANSFER"
+  const isRETENTION = !isTRANSFER
+  const { t } = useTranslation(isRETENTION ? "profile-bill" : "profile-listing")
   const router = useRouter()
   const checkAuthorized = useAuthorized()
-  const isTRANSFER = mode == "TRANSFER"
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -76,6 +65,7 @@ function ListingComponent({ profile }: BillProps) {
     null
   )
   const [inputError, setInputError] = useState("")
+  const [outputError, setOutputError] = useState("")
   const [submitValue, setSubmitValue] = useState<string>(t("copyLink"))
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [get, setGet] = useState({
@@ -126,18 +116,30 @@ function ListingComponent({ profile }: BillProps) {
     )
 
     if (sumWithFee.state === "success") {
-      setSend(Number(sumWithFee.data.data.amount.toFixed(2)) + "")
+      setSend(
+        Number(sumWithFee.data.data.amount)
+          ? Number(sumWithFee.data.data.amount.toFixed(2)) + ""
+          : ""
+      )
 
       const resultNum = Number(result)
       const sendRes = sumWithFee.data.data.amount
       const sendAmount = resultNum
 
-      if (sendAmount < ranges.min || sendRes < ranges.min) {
+      if (sendRes < ranges.min) {
         setInputError(t("minError", { min: ranges.min }))
-      } else if (sendAmount > ranges.max || sendRes > ranges.max) {
+      } else if (sendRes > ranges.max) {
         setInputError(t("maxError", { max: ranges.max }))
       } else {
         setInputError("")
+      }
+
+      if (sendAmount < ranges.min) {
+        setOutputError(t("minError", { min: ranges.min }))
+      } else if (sendAmount > ranges.max) {
+        setOutputError(t("maxError", { max: ranges.max }))
+      } else {
+        setOutputError("")
       }
     }
 
@@ -174,26 +176,38 @@ function ListingComponent({ profile }: BillProps) {
     if (sumWithFee.state === "success") {
       const amountRes = sumWithFee.data.data.amount
       setGet({
-        visible: Number(amountRes.toFixed(2)) + "",
+        visible: Number(amountRes) > 0 ? Number(amountRes.toFixed(2)) + "" : "",
         actual: amountRes
       })
 
       const resultNum = Number(result)
 
-      if (resultNum < ranges.min || +amountRes < ranges.min) {
+      if (resultNum < ranges.min) {
         setInputError(t("minError", { min: ranges.min }))
-      } else if (resultNum > ranges.max || +amountRes > ranges.max) {
+      } else if (resultNum > ranges.max) {
         setInputError(t("maxError", { max: ranges.max }))
       } else {
         setInputError("")
       }
+
+      if (+amountRes < ranges.min) {
+        setOutputError(t("minError", { min: ranges.min }))
+      } else if (+amountRes > ranges.max) {
+        setOutputError(t("maxError", { max: ranges.max }))
+      } else {
+        setOutputError("")
+      }
     }
   }
 
-  const handleSubmit: React.FormEventHandler<HTMLButtonElement> = async (
-    event
-  ) => {
+  const handleSubmit: React.FormEventHandler<
+    HTMLButtonElement | HTMLFormElement
+  > = async (event) => {
     event.preventDefault()
+
+    if (!selectedToken || !availableTokens || !selectedCurrency) {
+      return
+    }
 
     const token = checkAuthorized()
 
@@ -210,13 +224,44 @@ function ListingComponent({ profile }: BillProps) {
 
     setSubmitValue(t("loading"))
 
+    const tokenId = availableTokens.find(
+      (token) => token.symbol == selectedToken
+    )?.id
+
+    if (!tokenId) {
+      return
+    }
+
+    const response =
+      isRETENTION &&
+      (await EcommerceClient.createBill({
+        token,
+        chainId: 56,
+        tokensId: tokenId,
+        amountIn: Number(send),
+        sendAmount: get.actual,
+        currency: selectedCurrency
+      }))
+
     setWaitingResponse(false)
 
-    const link =
-      window.location.protocol +
-      "//" +
-      window.location.host +
-      `/payment_listing/${selectedToken}`
+    let link = ""
+
+    if (!!response && response.state == "success") {
+      link =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        `/payment/${response.data.bill.hash}`
+    } else if (isTRANSFER) {
+      link =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        `/payment_listing/${selectedToken}`
+    } else {
+      setSubmitValue(t("copyLink"))
+    }
 
     if ("clipboard" in navigator) {
       navigator.clipboard.writeText(link)
@@ -240,7 +285,6 @@ function ListingComponent({ profile }: BillProps) {
         apiHost: `bsc.${env.host}`,
         signal
       })
-      console.log(response)
       if (response.state == "success") {
         const fiatProviders = response.data
         const buyProviders = fiatProviders.filter(
@@ -346,6 +390,7 @@ function ListingComponent({ profile }: BillProps) {
   useEffect(() => {
     t("copyLink") === submitValue &&
       !!selectedToken &&
+      isTRANSFER &&
       setSubmitValue(t("copyLink") + ` ${selectedToken}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitValue, selectedToken])
@@ -359,10 +404,7 @@ function ListingComponent({ profile }: BillProps) {
         "BUY",
         false
       )
-      console.log("effect", sumWithFee)
       if (sumWithFee.state === "success") {
-        console.log("sumWithFee", sumWithFee.data.data.amount)
-
         setGet({
           visible: Number(sumWithFee.data.data.amount.toFixed(2)) + "",
           actual: sumWithFee.data.data.amount
@@ -393,8 +435,8 @@ function ListingComponent({ profile }: BillProps) {
         <FormContainer>
           <Form
             getActive={getActive || getCurrencyActive}
-            // onSubmit={handleSubmit}
-            style={{ height: 300 }}
+            onSubmit={handleSubmit}
+            style={isTRANSFER ? { height: 300 } : {}}
           >
             <FormContent>
               <FormHeading>
@@ -403,7 +445,10 @@ function ListingComponent({ profile }: BillProps) {
               <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
-                    label={t("get")}
+                    label={t("get", {
+                      min: ranges.min,
+                      max: ranges.max
+                    })}
                     id={inputIds.send}
                     options={currencies ? currencies : undefined}
                     onChange={handleSend}
@@ -416,6 +461,7 @@ function ListingComponent({ profile }: BillProps) {
                     onSelect={(val) => setSelectedCurrency(val)}
                     onActiveChange={setGetCurrencyActive}
                     displayInSelect={1}
+                    maxValue={ranges.max}
                   />
                 ) : (
                   <Skeleton containerClassName="input-skeleton" />
@@ -443,35 +489,58 @@ function ListingComponent({ profile }: BillProps) {
                     value={get.visible}
                     selectedValue={selectedCurrency}
                     selectable={!!currencies && currencies.length > 1}
-                    error={inputError == "" ? undefined : inputError}
-                    changeable
+                    error={outputError == "" ? undefined : outputError}
+                    changeable={isTRANSFER}
                     onlyNumbers
                     onSelect={(val) => setSelectedCurrency(val)}
                     onActiveChange={setGetCurrencyActive}
                     displayInSelect={1}
+                    visuallyDisabled={isRETENTION}
                   />
                 ) : (
                   <Skeleton containerClassName="input-skeleton" />
                 )}
               </HideableWithMargin>
             </FormContent>
+            {loading && isRETENTION ? (
+              <Skeleton containerClassName="button-skeleton" />
+            ) : (
+              !getActive &&
+              isRETENTION && (
+                <Button
+                  type="submit"
+                  disabled={
+                    get.visible == "" ||
+                    send == "" ||
+                    waitingResponse ||
+                    !ranges ||
+                    get.actual > ranges?.max ||
+                    +send < ranges?.min
+                  }
+                >
+                  {submitValue}
+                </Button>
+              )
+            )}
           </Form>
         </FormContainer>
-        <FormContainer>
-          {loading ? (
-            <Skeleton containerClassName="button-skeleton" />
-          ) : (
-            !getActive && (
-              <Button
-                type="submit"
-                onClick={handleSubmit}
-                disabled={get.visible == "" || send == "" || waitingResponse}
-              >
-                {submitValue}
-              </Button>
-            )
-          )}
-        </FormContainer>
+        {isTRANSFER && (
+          <FormContainer>
+            {loading ? (
+              <Skeleton containerClassName="button-skeleton" />
+            ) : (
+              !getActive && (
+                <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  disabled={get.visible == "" || send == "" || waitingResponse}
+                >
+                  {submitValue}
+                </Button>
+              )
+            )}
+          </FormContainer>
+        )}
       </ContainerForListing>
     </>
   )
