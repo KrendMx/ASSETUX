@@ -241,7 +241,7 @@ function ListingComponent({ profile }: BillProps) {
         window.location.protocol +
         "//" +
         window.location.host +
-        `/payment/${response.data.bill.hash}`
+        `/payment/${response.data.data.bill.hash}`
     } else if (isTRANSFER) {
       link =
         window.location.protocol +

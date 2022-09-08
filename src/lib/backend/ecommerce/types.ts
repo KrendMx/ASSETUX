@@ -119,7 +119,9 @@ export type CreateBillProps = AuthorizedProps & {
 }
 
 export type CreateBillResponse = Response<{
-  bill: { hash: string }
+  data: {
+    bill: { hash: string }
+  }
 }>
 
 export type GetBillResponse = Response<{ bill: Bill }>

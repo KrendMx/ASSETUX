@@ -259,7 +259,7 @@ function Bill({ profile }: BillProps) {
         window.location.protocol +
         "//" +
         window.location.host +
-        `/payment/${response.data.bill.hash}`
+        `/payment/${response.data.data.bill.hash}`
 
       if ("clipboard" in navigator) {
         navigator.clipboard.writeText(link)
