@@ -248,10 +248,7 @@ function Bill({ profile }: BillProps) {
 
     const response = await EcommerceClient.createBill({
       token,
-      chainId: selectedBlockchain.chain_id,
-      tokensId: tokenId,
       amountIn: Number(send),
-      sendAmount: get.actual,
       currency: selectedCurrency
     })
 

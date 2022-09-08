@@ -114,10 +114,7 @@ export type GetHistoryResponse = Response<{
 }>
 
 export type CreateBillProps = AuthorizedProps & {
-  chainId: number
-  tokensId: number
   amountIn: number
-  sendAmount: number
   currency: string
 }
 

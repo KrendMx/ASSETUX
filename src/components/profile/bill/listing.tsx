@@ -224,22 +224,11 @@ function ListingComponent({ profile }: BillProps) {
 
     setSubmitValue(t("loading"))
 
-    const tokenId = availableTokens.find(
-      (token) => token.symbol == selectedToken
-    )?.id
-
-    if (!tokenId) {
-      return
-    }
-
     const response =
       isRETENTION &&
       (await EcommerceClient.createBill({
         token,
-        chainId: 56,
-        tokensId: tokenId,
         amountIn: Number(send),
-        sendAmount: get.actual,
         currency: selectedCurrency
       }))
 
