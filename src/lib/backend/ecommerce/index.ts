@@ -17,7 +17,8 @@ import type {
   CreateBillResponse,
   GetBillResponse,
   CreatePaymentProps,
-  CreatePaymentResponse
+  CreatePaymentResponse,
+  MerchantBillResponse
 } from "./types"
 import { CurrenciesType } from "@/lib/data/currencies"
 import { ActionType } from "@/lib/redux/crypto/types"
@@ -130,6 +131,13 @@ class EcommerceClient extends Client {
       url: `${this.genericURL}/ecommerce/payment/create`,
       method: "POST",
       data
+    })
+  }
+
+  public async getMerchantToken(token: string): Promise<MerchantBillResponse> {
+    return handleRequest({
+      url: `${this.genericURL}/ecommerce/merchant/listing/${token}`,
+      method: "GET"
     })
   }
 

@@ -60,7 +60,9 @@ const ContentManager: React.FC<ContentManagerProps> = (props) => {
   const configureActive = useAppSelector((state) => state.ui.configureActive)
   const lastActive = useRef<"burger" | "languageCurrency" | null>(null)
 
-  const isCommercePayment = router.pathname == "/payment/[id]"
+  const isCommercePayment =
+    router.pathname == "/payment/[id]" ||
+    router.pathname == "/payment_listing/[token]"
 
   useEffect(() => {
     if (burgerActive && configureActive) {

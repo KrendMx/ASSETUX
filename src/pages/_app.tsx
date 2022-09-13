@@ -44,7 +44,9 @@ function MyApp(props: AppProps) {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
-  const isCommercePayment = router.pathname == "/payment/[id]"
+  const isCommercePayment =
+    router.pathname == "/payment/[id]" ||
+    router.pathname == "/payment_listing/[token]"
 
   useMount(() => {
     const closeMenus = () => {

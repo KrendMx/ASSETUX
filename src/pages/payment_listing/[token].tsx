@@ -1,9 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { NextSeo } from "next-seo"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-
-import PaymentComponent from "@/components/profile/payment"
-
 import { EcommerceClient, BackendClient } from "@/lib/backend/clients"
 import { getDefaultMetaTags } from "@/lib/utils/seo"
 import { getEcommercePrefix } from "@/lib/utils/helpers"
@@ -11,9 +8,12 @@ import { getEcommercePrefix } from "@/lib/utils/helpers"
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { PaymentProps } from "@/components/profile/payment"
+import { MerchantData } from "@/lib/backend/ecommerce/types"
+import ListingPayment from "@/components/profile/payment/listing_payment"
 
-function Payment(props: PaymentProps) {
+function Payment(props: PaymentProps<MerchantData>) {
   const { t } = useTranslation("profile-payment")
+  const { token, widget } = props.bill
 
   return (
     <>
@@ -22,20 +22,18 @@ function Payment(props: PaymentProps) {
           ecommerce: true,
           title: t("title"),
           description: "Powered by ASSETUX.",
-          pathname: `${getEcommercePrefix()}/payment/${props.bill.hash}`,
-          siteName: props.bill.ecommerceUser.widget.nameCompany || undefined,
-          seoImage: props.bill.ecommerceUser.widget.backgroundCompany
+          pathname: `${getEcommercePrefix()}/payment_listing/${token.symbol}`,
+          siteName: widget.nameCompany || undefined,
+          seoImage: widget.backgroundCompany
             ? {
-                url:
-                  BackendClient.genericURL +
-                  props.bill.ecommerceUser.widget.backgroundCompany,
+                url: BackendClient.genericURL + widget.backgroundCompany,
                 alt: "Company Preview",
                 type: "image/png"
               }
             : undefined
         })}
       />
-      <PaymentComponent {...props} />
+      <ListingPayment {...props} />
     </>
   )
 }
@@ -45,7 +43,7 @@ type Params = ParsedUrlQuery & {
 }
 
 export const getServerSideProps: GetServerSideProps<
-  PaymentProps,
+  PaymentProps<MerchantData>,
   Params
 > = async ({ locale, params }) => {
   const errorProps = {
@@ -58,11 +56,13 @@ export const getServerSideProps: GetServerSideProps<
     return errorProps
   }
 
-  const bill = await EcommerceClient.getBill(id)
+  const bill = await EcommerceClient.getMerchantToken(id)
 
   if (bill.state != "success") {
     return errorProps
   }
+
+  const merchantBill = bill.data.data
 
   const blockchains = await BackendClient.getBlockchains()
 
@@ -70,38 +70,36 @@ export const getServerSideProps: GetServerSideProps<
     return errorProps
   }
 
-  const blockchain = blockchains.data.find(
-    (blockchain) => blockchain.chain_id == bill.data.bill.chainId
-  )
-
-  if (!blockchain) {
-    return errorProps
-  }
-
   const fiatProviders = await BackendClient.getFiatProviders({
-    apiHost: blockchain.url
+    apiHost: blockchains.data[0].url
   })
 
-  if (fiatProviders.state != "success") {
+  const fiatrates = await BackendClient.getFiatRates({
+    apiHost: merchantBill.token.chain.url
+  })
+
+  if (fiatProviders.state != "success" || fiatrates.state != "success") {
     return errorProps
   }
 
-  const toPay = bill.data.bill.amountIn
-
   const buyProviders = fiatProviders.data.filter(
-    (provider) =>
-      provider.type == "BUY" && toPay <= provider.max && toPay >= provider.min
+    (provider) => provider.type == "BUY"
   )
 
-  if (buyProviders.length == 0) {
+  const currentFiatrate = fiatrates.data.find(
+    (fiatrate) => fiatrate.name === merchantBill.token.symbol
+  )
+
+  if (buyProviders.length == 0 || !currentFiatrate) {
     return errorProps
   }
 
   return {
     props: {
-      bill: bill.data.bill,
+      bill: merchantBill,
       providers: buyProviders,
-      blockchainURL: blockchain.url,
+      blockchainURL: blockchains.data[0].url,
+      fiatrate: currentFiatrate,
       ...(await serverSideTranslations(locale!, [
         "profile-payment",
         "inputSelect",

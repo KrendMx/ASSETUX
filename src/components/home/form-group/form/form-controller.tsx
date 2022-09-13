@@ -37,7 +37,7 @@ export const mapTokens = (tokens: Token[]): TokenOption[] =>
       address: token.address
     }))
 
-const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
+export const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
   blockchains.map((blockchain) => {
     return {
       value: blockchain.title,

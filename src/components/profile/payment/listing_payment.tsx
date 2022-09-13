@@ -25,37 +25,36 @@ import {
   mapShortCurrencyName
 } from "@/lib/data/currencies"
 
-import { EcommerceClient } from "@/lib/backend/clients"
+import { BackendClient, EcommerceClient } from "@/lib/backend/clients"
 import { emailRegexp } from "@/lib/data/constants"
 import { stringToPieces } from "@/lib/utils/helpers"
 import { env } from "@/lib/env/client.mjs"
 
-import type { Bill } from "@/lib/backend/ecommerce/types"
-import type { FiatProvider, FiatRate } from "@/lib/backend/main/types"
+import type { MerchantData } from "@/lib/backend/ecommerce/types"
+import type { FiatProvider } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
 import NetworkRow from "@/components/home/form-group/form/common/network-row"
-import { mapTokens } from "@/components/home/form-group/form/form-controller"
+import {
+  mapBlockchains,
+  mapTokens
+} from "@/components/home/form-group/form/form-controller"
 import { useAppSelector } from "@/lib/redux/hooks"
 import ExchangeInfo from "@/components/common/exchange-info"
+import { PaymentProps } from "./payment"
+import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
 const inputIds = {
   email: "email",
   phone: "phone",
   card: "cardnumber",
-  wallet: "publickey"
+  wallet: "publickey",
+  give: "give"
 }
 
-export type PaymentProps<T> = {
-  bill: T
-  providers: FiatProvider[]
-  blockchainURL: string
-  fiatrate: FiatRate
-}
-
-function Payment(props: PaymentProps<Bill>) {
-  const { bill, providers, blockchainURL } = props
-  const isTRANSFER = bill.ecommerceUser.mode == "TRANSFER"
-  const widget = bill.ecommerceUser.widget
+function ListingPayment(props: PaymentProps<MerchantData>) {
+  const { bill, providers, blockchainURL, fiatrate } = props
+  const widget = bill.widget
+  const merchantToken = bill.token
   const displayHeader =
     widget.logoCompany != null ||
     (widget.nameCompany != null && widget.nameCompany != "")
@@ -64,9 +63,10 @@ function Payment(props: PaymentProps<Bill>) {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == "VISAMASTER")
-      ? "QIWIVISAMASTER"
+      ? "VISAMASTER"
       : providers[0].method
   )
+  const [get, setGet] = useState("10000")
   const [paymentActive, setPaymentActive] = useState(false)
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")
@@ -96,6 +96,24 @@ function Payment(props: PaymentProps<Bill>) {
     }
   }, [currentCurrency])
 
+  useIsomorphicLayoutEffect(() => {
+    const errorRanges = checkRanges(
+      Number(+get * fiatrate?.buy[currentCurrency])
+    )
+
+    if (errorRanges) {
+      setErrors({
+        ...errors,
+        [inputIds.give]: errorRanges
+      })
+    } else {
+      setErrors({
+        ...errors,
+        [inputIds.give]: undefined
+      })
+    }
+  }, [selectedPayment, get, providers])
+
   const paymentOptions: Option[] = useMemo(() => {
     const options = providers
       .filter(({ currency }) => currency === selectedCurrency)
@@ -103,13 +121,32 @@ function Payment(props: PaymentProps<Bill>) {
         icon: provider.logo
           ? env.hostProtocol + "://" + blockchainURL + provider.logo
           : undefined,
-        value:
-          provider.method == "VISAMASTER" ? "QIWIVISAMASTER" : provider.method,
+        value: provider.method == "VISAMASTER" ? "VISAMASTER" : provider.method,
         description: provider.method
       }))
     selectedCurrency !== "RUB" && setSelectedPayment(options[0].value)
     return options
   }, [providers, blockchainURL, selectedCurrency])
+
+  const checkRanges = (value: number): string | undefined => {
+    const currentPayment = providers.find(
+      ({ currency, method }) =>
+        currency === selectedCurrency && method === selectedPayment
+    )
+    if (!currentPayment) {
+      return undefined
+    }
+
+    if (value < currentPayment.min || value > currentPayment.max) {
+      if (value > currentPayment.max) {
+        return t("home:buy_maximumIs") + " " + currentPayment.max
+      } else {
+        return t("home:buy_minimumIs") + " " + currentPayment.min
+      }
+    } else {
+      return undefined
+    }
+  }
 
   const handleEmail: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
@@ -147,37 +184,51 @@ function Payment(props: PaymentProps<Bill>) {
         ? details != "" && isValidPhoneNumber(details, "RU")
         : true
     const validCard = selectedPayment != "QIWI" ? details.length == 16 : true
-    const validWallet = !isTRANSFER || wallet.length === 42
+    const validWallet = wallet.length === 42
+    const validRanges = checkRanges(
+      Number(+get * fiatrate?.buy[currentCurrency])
+    )
 
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t("invalidEmail"),
       [inputIds.phone]: validPhone ? undefined : t("invalidPhone"),
       [inputIds.card]: validCard ? undefined : t("invalidCard"),
-      [inputIds.wallet]: validWallet ? undefined : t("invalidWallet")
+      [inputIds.wallet]: validWallet ? undefined : t("invalidWallet"),
+      [inputIds.give]: validRanges
     }))
 
-    if (!validEmail || !validPhone || !validCard || !validWallet) {
+    if (
+      !validEmail ||
+      !validPhone ||
+      !validCard ||
+      !validWallet ||
+      !selectedCurrency
+    ) {
       return
     }
 
     setWaitingResponse(true)
 
-    const response = await EcommerceClient.createPayment({
-      paymentMethod: selectedPayment,
+    const response = await BackendClient.getPaymentUrl({
+      apiHost: blockchainURL,
+      ticker: selectedCurrency,
+      provider: selectedPayment,
+      amount: Number(+get * fiatrate?.buy[currentCurrency]),
+      cryptoAddress: wallet,
+      chainId: merchantToken.chain_id,
+      tokenAddress: merchantToken.address,
       email,
-      creditCard: details,
-      ecommerceBillId: bill.id,
-      address: isTRANSFER ? wallet : undefined
+      card: details
     })
 
     setWaitingResponse(false)
 
-    if (response.state != "success") {
+    if (response.state != "success" || !response.data.link) {
       return
     }
 
-    location.href = response.data.bill.linkToPayemntString
+    location.href = response.data.link
   }
 
   return (
@@ -210,50 +261,52 @@ function Payment(props: PaymentProps<Bill>) {
             : undefined
         }
       >
-        <Form
-          onSubmit={handleSubmit}
-          style={
-            isTRANSFER
-              ? {
-                  maxWidth: 510,
-                  height: 630
-                }
-              : {}
-          }
-        >
+        <Form onSubmit={handleSubmit}>
+          <InputSelect
+            label={t("home:buy_blockchain")}
+            id={"blockchains"}
+            selectLabel={t("home:buy_blockchainLabel")}
+            options={mapBlockchains([merchantToken.chain])}
+            displayInSelect={3}
+            onActiveChange={() => null}
+            onSelect={() => null}
+            selectedValue={merchantToken.chain.title}
+            selectable={false}
+            displayIcon
+          />
+          <InputSelect
+            label={t("home:buy_get")}
+            id={"get"}
+            value={get}
+            selectedValue={merchantToken.symbol}
+            selectable={false}
+            onlyNumbers
+            options={mapTokens([merchantToken])}
+            onChange={(event) => setGet(event.target.value)}
+            changeable
+          />
+          <ExchangeInfo
+            token={merchantToken.symbol}
+            currency={currentCurrency}
+            rate={fiatrate?.buy[currentCurrency]}
+            isLoading={false}
+            placeholder={t("home:exchange_fees")}
+            text="asd"
+            margins
+          />
           <InputSelect
             label={t("toPay")}
-            value={bill.amountIn.toString()}
-            visuallyDisabled
+            value={+get * fiatrate?.buy[currentCurrency] + ""}
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
             onSelect={(val) => setSelectedCurrency(val)}
             onActiveChange={setGetCurrencyActive}
-            displayInSelect={1}
+            displayInSelect={2}
+            selectable={!!currencies && currencies.length > 1}
+            visuallyDisabled
+            error={errors[inputIds.give]}
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
-            {/* <ExchangeInfo
-              token={currentToken}
-              currency={currentCurrency}
-              rate={rate}
-              isLoading={false}
-              placeholder={t("home:exchange_fees")}
-              text="asd"
-              margins
-            /> */}
-            {
-              <InputSelect
-                label={t("home:buy_get")}
-                id={"give"}
-                value={bill.sendAmount + ""}
-                selectedValue={bill.tokens.symbol}
-                selectable={false}
-                onlyNumbers
-                options={mapTokens([bill.tokens])}
-                changeable={false}
-                visuallyDisabled
-              />
-            }
             <InputSelect
               label={t("paymentMethod")}
               options={paymentOptions}
@@ -302,18 +355,16 @@ function Payment(props: PaymentProps<Bill>) {
                   changeable
                 />
               )}
-              {isTRANSFER && <NetworkRow isLoading={false} />}
-              {isTRANSFER && (
-                <InputSelect
-                  label={t("home:buy_wallet")}
-                  id={"wallet"}
-                  onChange={handleAddress}
-                  value={wallet}
-                  error={errors[inputIds.wallet]}
-                  placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
-                  changeable
-                />
-              )}
+
+              <InputSelect
+                label={t("home:buy_wallet")}
+                id={"wallet"}
+                onChange={handleAddress}
+                value={wallet}
+                error={errors[inputIds.wallet]}
+                placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
+                changeable
+              />
               <Submit disabled={waitingResponse}>
                 {waitingResponse ? t("loading") : t("submit")}
               </Submit>
@@ -340,4 +391,4 @@ function Payment(props: PaymentProps<Bill>) {
   )
 }
 
-export default Payment
+export default ListingPayment

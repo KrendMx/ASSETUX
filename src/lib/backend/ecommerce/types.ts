@@ -1,3 +1,4 @@
+import { Blockchain } from "@/lib/backend/main/types"
 import type { Response } from "@/core/backend/types"
 import type { Token } from "../main/types"
 
@@ -137,3 +138,48 @@ export type CreatePaymentProps = {
 export type CreatePaymentResponse = Response<{
   bill: { linkToPayemntString: string }
 }>
+
+export type MerchantBillResponse = Response<MerchantBill>
+
+export interface MerchantBill {
+  success: boolean
+  data: MerchantData
+}
+export interface MerchantData {
+  token: MerchantToken
+  widget: Widget
+}
+export interface MerchantToken {
+  id: number
+  name: string
+  symbol: string
+  address: string
+  decimals: number
+  enabled: boolean
+  contract: string
+  fee_id: number
+  stable: boolean
+  chain_id: number
+  logo_uri: string
+  fee: Fee
+  chain: Blockchain
+  info: Info
+}
+export interface Fee {
+  id: number
+  token: number
+  pool: number
+  service: number
+}
+export interface Chain {
+  title: string
+  url: string
+  logo: string
+}
+export interface Info {
+  id: number
+  token_id: number
+  ecommerce_users_id: number
+  url: string
+  fixed_course: boolean
+}
