@@ -82,7 +82,7 @@ export type Bill = {
   tx_hash: null
   fee: null
   status: string
-  tokens: Token
+  tokens: Token[]
   hash: string
   chains: {
     title: string

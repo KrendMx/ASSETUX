@@ -52,3 +52,10 @@ export type UrlRequest = {
 export type Abortable = {
   signal?: AbortSignal
 }
+
+export enum PayProviders {
+  VISAMASTER = "VISAMASTER",
+  QIWI = "QIWI"
+}
+
+export const { VISAMASTER, QIWI } = PayProviders

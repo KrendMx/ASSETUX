@@ -18,6 +18,7 @@ import { Container, NoAssets, ControlsRow } from "./styles"
 import type { Profile } from "@/lib/backend/ecommerce/types"
 import type { TFunction } from "next-i18next"
 import { setIsTransferer } from "@/lib/redux/ui"
+import { PayProviders, QIWI } from "@/core/backend/types"
 
 export type HistoryType = {
   id: number
@@ -28,7 +29,7 @@ export type HistoryType = {
   currency: string
   token: string
   amount: number
-  method: "QIWI" | "QIWIVISAMASTER"
+  method: PayProviders
 }
 
 export type HistoryProps = {
@@ -115,7 +116,7 @@ function History({ history, profile: { mode } }: HistoryProps) {
           { value: item.email },
           {
             value:
-              item.method == "QIWI"
+              item.method == QIWI
                 ? `** (***) *** ${item.creditCard}`
                 : `**** **** **** ${item.creditCard}`
           },

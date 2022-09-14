@@ -12,8 +12,9 @@ import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { PaymentProps } from "@/components/profile/payment"
 import { Bill } from "@/lib/backend/ecommerce/types"
+import { FiatRate } from "@/lib/backend/main/types"
 
-function Payment(props: PaymentProps<Bill>) {
+function Payment(props: PaymentProps<Bill, FiatRate[]>) {
   const { t } = useTranslation("profile-payment")
 
   return (
@@ -71,9 +72,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     return errorProps
   }
 
-  const blockchain = blockchains.data.find(
-    (blockchain) => blockchain.chain_id == bill.data.bill.chainId
-  )
+  const blockchain = blockchains.data[0]
 
   if (!blockchain) {
     return errorProps

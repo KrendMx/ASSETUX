@@ -10,8 +10,9 @@ import type { ParsedUrlQuery } from "querystring"
 import type { PaymentProps } from "@/components/profile/payment"
 import { MerchantData } from "@/lib/backend/ecommerce/types"
 import ListingPayment from "@/components/profile/payment/listing_payment"
+import { FiatRate } from "@/lib/backend/main/types"
 
-function Payment(props: PaymentProps<MerchantData>) {
+function Payment(props: PaymentProps<MerchantData, FiatRate>) {
   const { t } = useTranslation("profile-payment")
   const { token, widget } = props.bill
 
@@ -43,7 +44,7 @@ type Params = ParsedUrlQuery & {
 }
 
 export const getServerSideProps: GetServerSideProps<
-  PaymentProps<MerchantData>,
+  PaymentProps<MerchantData, FiatRate>,
   Params
 > = async ({ locale, params }) => {
   const errorProps = {
