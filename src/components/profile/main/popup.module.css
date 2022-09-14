@@ -12,7 +12,8 @@
 .bottomBorderedBlock{
     display: flex;
     justify-content: space-between;
-    margin-top: 14px;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .link{

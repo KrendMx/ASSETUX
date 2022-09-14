@@ -26,7 +26,7 @@ const Bordered = styled(AdaptiveFont).attrs({
   width: 100%;
   padding: 10px 20px 14px 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 `
 const Text = styled.span.attrs({
   mobileFactor: 1.3335,
@@ -76,17 +76,40 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
         <Info misc style={{ fontWeight: 500 }}>
           {t("text")}
         </Info>
+        <ul style={{ margin: "0 0 25px 30px" }}>
+          <li>
+            <Text as="div" style={{ marginTop: 24, marginBottom: 12 }}>
+              <a className={styles.link} href="mailto:support@assetux.com">
+                support@assetux.com
+              </a>
+            </Text>
+          </li>
+          <li>
+            <Text as="div">
+              <a
+                className={styles.link}
+                href="https://t.me/assetux_support"
+                target={"_blank"}
+                rel="noreferrer"
+              >
+                Telegram
+              </a>
+            </Text>
+          </li>
+        </ul>
         <Bordered>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between"
-            }}
-          >
-            <Label as="span">{t("userid")}</Label>
-            <Text as="span">M-{userId}</Text>
-          </div>
           <div className={styles.bottomBorderedBlock}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column"
+              }}
+            >
+              <Label as="span">{t("userid")}</Label>
+              <Title as="span" style={{ margin: 0 }}>
+                M-{userId}
+              </Title>
+            </div>
             <div
               style={{
                 display: "flex",
@@ -98,39 +121,21 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
                 {email}
               </Title>
             </div>
-            <button className={styles.copyButton} onClick={handleCopy}>
-              <Shadow>
-                <Icon>
-                  <Image
-                    src={CopyIcon}
-                    layout="fill"
-                    alt="copy"
-                    objectFit="contain"
-                    objectPosition="center"
-                  />
-                </Icon>
-              </Shadow>
-            </button>
           </div>
+          <button className={styles.copyButton} onClick={handleCopy}>
+            <Shadow>
+              <Icon>
+                <Image
+                  src={CopyIcon}
+                  layout="fill"
+                  alt="copy"
+                  objectFit="contain"
+                  objectPosition="center"
+                />
+              </Icon>
+            </Shadow>
+          </button>
         </Bordered>
-
-        <Text as="div" style={{ marginTop: 24, marginBottom: 12 }}>
-          <a className={styles.link} href="mailto:support@assetux.com">
-            support@assetux.com
-          </a>
-        </Text>
-
-        <Text as="div">
-          <a
-            className={styles.link}
-            href="https://t.me/assetux_support"
-            target={"_blank"}
-            rel="noreferrer"
-          >
-            Telegram
-          </a>
-        </Text>
-
         <ButtonsRow>
           <Button onClick={() => setOpen(false)} main>
             OK
