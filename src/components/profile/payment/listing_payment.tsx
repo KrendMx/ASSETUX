@@ -31,7 +31,7 @@ import { stringToPieces } from "@/lib/utils/helpers"
 import { env } from "@/lib/env/client.mjs"
 
 import type { MerchantData } from "@/lib/backend/ecommerce/types"
-import type { FiatProvider } from "@/lib/backend/main/types"
+import type { FiatRate } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
 import NetworkRow from "@/components/home/form-group/form/common/network-row"
 import {
@@ -42,6 +42,8 @@ import { useAppSelector } from "@/lib/redux/hooks"
 import ExchangeInfo from "@/components/common/exchange-info"
 import { PaymentProps } from "./payment"
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
+import { validatePhone } from "@/lib/backend/helpers"
+import { VISAMASTER } from "@/core/backend/types"
 
 const inputIds = {
   email: "email",
@@ -51,7 +53,7 @@ const inputIds = {
   give: "give"
 }
 
-function ListingPayment(props: PaymentProps<MerchantData>) {
+function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
   const { bill, providers, blockchainURL, fiatrate } = props
   const widget = bill.widget
   const merchantToken = bill.token
@@ -62,8 +64,8 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
   const { t } = useTranslation("profile-payment")
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedPayment, setSelectedPayment] = useState(
-    providers.find((provider) => provider.method == "VISAMASTER")
-      ? "VISAMASTER"
+    providers.find((provider) => provider.method == VISAMASTER)
+      ? VISAMASTER
       : providers[0].method
   )
   const [get, setGet] = useState("10000")
@@ -121,7 +123,7 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
         icon: provider.logo
           ? env.hostProtocol + "://" + blockchainURL + provider.logo
           : undefined,
-        value: provider.method == "VISAMASTER" ? "VISAMASTER" : provider.method,
+        value: provider.method == VISAMASTER ? VISAMASTER : provider.method,
         description: provider.method
       }))
     selectedCurrency !== "RUB" && setSelectedPayment(options[0].value)
@@ -170,7 +172,7 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
   const handlePhone: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
 
-    setDetails(value)
+    setDetails(value.length > details.length ? validatePhone(value) : value)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -203,7 +205,8 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
       !validPhone ||
       !validCard ||
       !validWallet ||
-      !selectedCurrency
+      !selectedCurrency ||
+      validRanges
     ) {
       return
     }
@@ -220,6 +223,10 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
       tokenAddress: merchantToken.address,
       email,
       card: details
+        .replaceAll("(", "")
+        .replaceAll(")", "")
+        .replaceAll(" ", "")
+        .replaceAll("-", "")
     })
 
     setWaitingResponse(false)
@@ -296,7 +303,9 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
           />
           <InputSelect
             label={t("toPay")}
-            value={+get * fiatrate?.buy[currentCurrency] + ""}
+            value={
+              Number((+get * fiatrate?.buy[currentCurrency]).toFixed(2)) + ""
+            }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
             onSelect={(val) => setSelectedCurrency(val)}
@@ -342,10 +351,12 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
                   error={errors[inputIds.phone]}
                   type="tel"
                   changeable
+                  placeholder="+7 (123) 456 7890"
                 />
               ) : (
                 <InputSelect
                   id={inputIds.card}
+                  placeholder="0000 0000 0000 0000"
                   value={stringToPieces(details, 4, " ")}
                   onChange={handleCard}
                   label={t("creditCard")}
@@ -362,7 +373,7 @@ function ListingPayment(props: PaymentProps<MerchantData>) {
                 onChange={handleAddress}
                 value={wallet}
                 error={errors[inputIds.wallet]}
-                placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
+                placeholder="0x09A6...d5B"
                 changeable
               />
               <Submit disabled={waitingResponse}>

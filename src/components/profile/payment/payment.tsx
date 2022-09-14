@@ -34,9 +34,9 @@ import type { Bill } from "@/lib/backend/ecommerce/types"
 import type { FiatProvider, FiatRate } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
 import NetworkRow from "@/components/home/form-group/form/common/network-row"
-import { mapTokens } from "@/components/home/form-group/form/form-controller"
 import { useAppSelector } from "@/lib/redux/hooks"
-import ExchangeInfo from "@/components/common/exchange-info"
+import { validatePhone } from "@/lib/backend/helpers"
+import { VISAMASTER } from "@/core/backend/types"
 
 const inputIds = {
   email: "email",
@@ -45,14 +45,14 @@ const inputIds = {
   wallet: "publickey"
 }
 
-export type PaymentProps<T> = {
+export type PaymentProps<T, B> = {
   bill: T
   providers: FiatProvider[]
   blockchainURL: string
-  fiatrate: FiatRate
+  fiatrate: B
 }
 
-function Payment(props: PaymentProps<Bill>) {
+function Payment(props: PaymentProps<Bill, FiatRate[]>) {
   const { bill, providers, blockchainURL } = props
   const isTRANSFER = bill.ecommerceUser.mode == "TRANSFER"
   const widget = bill.ecommerceUser.widget
@@ -63,7 +63,7 @@ function Payment(props: PaymentProps<Bill>) {
   const { t } = useTranslation("profile-payment")
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedPayment, setSelectedPayment] = useState(
-    providers.find((provider) => provider.method == "VISAMASTER")
+    providers.find((provider) => provider.method == VISAMASTER)
       ? "QIWIVISAMASTER"
       : providers[0].method
   )
@@ -104,7 +104,7 @@ function Payment(props: PaymentProps<Bill>) {
           ? env.hostProtocol + "://" + blockchainURL + provider.logo
           : undefined,
         value:
-          provider.method == "VISAMASTER" ? "QIWIVISAMASTER" : provider.method,
+          provider.method == VISAMASTER ? "QIWIVISAMASTER" : provider.method,
         description: provider.method
       }))
     selectedCurrency !== "RUB" && setSelectedPayment(options[0].value)
@@ -133,7 +133,7 @@ function Payment(props: PaymentProps<Bill>) {
   const handlePhone: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
 
-    setDetails(value)
+    setDetails(value.length > details.length ? validatePhone(value) : value)
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (
@@ -166,7 +166,11 @@ function Payment(props: PaymentProps<Bill>) {
     const response = await EcommerceClient.createPayment({
       paymentMethod: selectedPayment,
       email,
-      creditCard: details,
+      creditCard: details
+        .replaceAll("(", "")
+        .replaceAll(")", "")
+        .replaceAll(" ", "")
+        .replaceAll("-", ""),
       ecommerceBillId: bill.id,
       address: isTRANSFER ? wallet : undefined
     })
@@ -215,45 +219,23 @@ function Payment(props: PaymentProps<Bill>) {
           style={
             isTRANSFER
               ? {
-                  maxWidth: 510,
-                  height: 630
+                  maxWidth: 510
                 }
               : {}
           }
         >
           <InputSelect
             label={t("toPay")}
-            value={bill.amountIn.toString()}
+            value={bill.sendAmount + ""}
             visuallyDisabled
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
             onSelect={(val) => setSelectedCurrency(val)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={1}
+            selectable={!!currencies && currencies.length > 1}
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
-            {/* <ExchangeInfo
-              token={currentToken}
-              currency={currentCurrency}
-              rate={rate}
-              isLoading={false}
-              placeholder={t("home:exchange_fees")}
-              text="asd"
-              margins
-            /> */}
-            {
-              <InputSelect
-                label={t("home:buy_get")}
-                id={"give"}
-                value={bill.sendAmount + ""}
-                selectedValue={bill.tokens.symbol}
-                selectable={false}
-                onlyNumbers
-                options={mapTokens([bill.tokens])}
-                changeable={false}
-                visuallyDisabled
-              />
-            }
             <InputSelect
               label={t("paymentMethod")}
               options={paymentOptions}
@@ -289,6 +271,7 @@ function Payment(props: PaymentProps<Bill>) {
                   error={errors[inputIds.phone]}
                   type="tel"
                   changeable
+                  placeholder="+7 (123) 456 7890"
                 />
               ) : (
                 <InputSelect
@@ -298,6 +281,7 @@ function Payment(props: PaymentProps<Bill>) {
                   label={t("creditCard")}
                   autocomplete="cc-number"
                   error={errors[inputIds.card]}
+                  placeholder="0000 0000 0000 0000"
                   onlyNumbers
                   changeable
                 />
@@ -310,7 +294,7 @@ function Payment(props: PaymentProps<Bill>) {
                   onChange={handleAddress}
                   value={wallet}
                   error={errors[inputIds.wallet]}
-                  placeholder={"0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"}
+                  placeholder="0x09A6...d5B"
                   changeable
                 />
               )}
