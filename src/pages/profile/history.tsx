@@ -101,7 +101,7 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
         creditCard: payment.creditCard,
         blockchain: item.chains.title,
         currency: item.currency,
-        token: item.tokens.symbol,
+        // token: item.tokens.symbol,
         amount: item.amountIn,
         method: payment.paymentMethod
       })

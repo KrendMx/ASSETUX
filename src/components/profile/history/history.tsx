@@ -57,10 +57,10 @@ const tableHeadings = (t: TFunction) => [
     value: t("paid"),
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
-  {
-    value: t("received"),
-    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  },
+  // {
+  //   value: t("received"),
+  //   sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
+  // },
   {
     value: t("amount"),
     sortFn: (a: number, b: number) => b - a
@@ -73,7 +73,7 @@ const cardNames = (t: TFunction) => [
   t("creditCard"),
   t("blockchain"),
   t("paid"),
-  t("received"),
+  // t("received"),
   t("amount")
 ]
 
@@ -122,7 +122,7 @@ function History({ history, profile: { mode } }: HistoryProps) {
           },
           { value: item.blockchain },
           { value: item.currency },
-          { value: item.token },
+          // { value: item.token },
           { value: item.amount }
         ]),
     [history, router.locale, searchContext]
