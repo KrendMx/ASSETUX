@@ -11,8 +11,9 @@ import { getEcommercePrefix } from "@/lib/utils/helpers"
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { PaymentProps } from "@/components/profile/payment"
+import { Bill } from "@/lib/backend/ecommerce/types"
 
-function Payment(props: PaymentProps) {
+function Payment(props: PaymentProps<Bill>) {
   const { t } = useTranslation("profile-payment")
 
   return (
@@ -44,10 +45,10 @@ type Params = ParsedUrlQuery & {
   id: string
 }
 
-export const getServerSideProps: GetServerSideProps<
-  PaymentProps,
-  Params
-> = async ({ locale, params }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  params
+}) => {
   const errorProps = {
     notFound: true
   } as const
@@ -102,6 +103,7 @@ export const getServerSideProps: GetServerSideProps<
       bill: bill.data.bill,
       providers: buyProviders,
       blockchainURL: blockchain.url,
+      fiatrate: null,
       ...(await serverSideTranslations(locale!, [
         "profile-payment",
         "inputSelect",
