@@ -76,7 +76,7 @@ const NavLink = styled.a<NavLinkProps>`
 const Desktop: React.FC = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const isTransferer = useAppSelector((state) => state.ui.isTransferer)
+  const merchantMode = useAppSelector((state) => state.ui.merchantMode)
   const { t } = useTranslation("header")
 
   const isMainPage = router.pathname == "/"
@@ -99,9 +99,9 @@ const Desktop: React.FC = () => {
           <Link href="/404" passHref>
             <NavLink>{t("blog")}</NavLink>
           </Link> */}
-          {isCommercePage && (
+          {isCommercePage && merchantMode && (
             <>
-              {commerce(isTransferer).map((route) => (
+              {commerce(merchantMode).map((route) => (
                 <Link href={route.href} key={route.href} passHref>
                   <NavLink>{t(route.key)}</NavLink>
                 </Link>

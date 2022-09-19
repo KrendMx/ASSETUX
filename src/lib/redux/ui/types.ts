@@ -1,3 +1,4 @@
+import { MerchantMode } from "@/lib/backend/ecommerce/types"
 import type { CurrenciesType } from "@/lib/data/currencies"
 
 export type UiState = {
@@ -10,5 +11,5 @@ export type UiState = {
   currentCurrency: CurrenciesType
   appLoaded: boolean
   hideBurgerButton: boolean
-  isTransferer: boolean
+  merchantMode?: MerchantMode
 }

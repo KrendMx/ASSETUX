@@ -4,6 +4,7 @@ import { HYDRATE } from "next-redux-wrapper"
 import type { CurrenciesType } from "@/lib/data/currencies"
 import type { RootState } from "../store"
 import type { UiState } from "./types"
+import { MerchantMode } from "@/lib/backend/ecommerce/types"
 
 const hydrate = createAction<RootState>(HYDRATE)
 
@@ -17,7 +18,7 @@ const initialState: UiState = {
   currentCurrency: "RUB",
   appLoaded: false,
   hideBurgerButton: false,
-  isTransferer: false
+  merchantMode: undefined
 }
 
 export const slice = createSlice({
@@ -70,8 +71,8 @@ export const slice = createSlice({
     setHideBurgerButton: (state, action: PayloadAction<boolean>) => {
       state.hideBurgerButton = action.payload
     },
-    setIsTransferer: (state, action: PayloadAction<boolean>) => {
-      state.isTransferer = action.payload
+    setMerchantMode: (state, action: PayloadAction<MerchantMode>) => {
+      state.merchantMode = action.payload
     }
   },
   extraReducers: (builder) => {

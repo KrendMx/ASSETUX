@@ -11,7 +11,7 @@ export const {
   setCurrentCurrency,
   setAppLoaded,
   setHideBurgerButton,
-  setIsTransferer
+  setMerchantMode
 } = slice.actions
 
 export default slice.reducer

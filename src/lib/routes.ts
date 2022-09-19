@@ -1,3 +1,4 @@
+import { MerchantMode } from "./backend/ecommerce/types.js"
 import { CurrenciesType } from "./data/currencies.js"
 import { env } from "./env/client.mjs"
 import { getEcommercePrefix } from "./utils/helpers"
@@ -94,20 +95,29 @@ export const popularAbsolute = (currency: CurrenciesType): Route[] => [
   }
 ]
 
-export const commerce = (isTransferer: boolean) => [
-  {
-    key: "profile",
-    href: "/profile"
-  },
-  {
-    key: "history",
-    href: `${getEcommercePrefix()}/history`
-  },
-  {
-    key: isTransferer ? "listing" : "bill",
-    href: `${getEcommercePrefix()}/${isTransferer ? "listing" : "bill"}`
+export const commerce = (merchantMode: MerchantMode) => {
+  const routes = [
+    {
+      key: "profile",
+      href: "/profile"
+    },
+    {
+      key: "history",
+      href: `${getEcommercePrefix()}/history`
+    }
+  ]
+
+  if (!(merchantMode === "CONNECT")) {
+    routes.push({
+      key: merchantMode === "TRANSFER" ? "listing" : "bill",
+      href: `${getEcommercePrefix()}/${
+        merchantMode === "TRANSFER" ? "listing" : "bill"
+      }`
+    })
   }
-]
+
+  return routes
+}
 
 export const legal: Route[] = [
   {

@@ -49,7 +49,7 @@ const BurgerMenu: React.FC = () => {
   const { t } = useTranslation("header")
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const isTransferer = useAppSelector((state) => state.ui.isTransferer)
+  const merchantMode = useAppSelector((state) => state.ui.merchantMode)
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
@@ -147,9 +147,9 @@ const BurgerMenu: React.FC = () => {
             )}
           </>
         )}
-        {isCommercePage && (
+        {isCommercePage && merchantMode && (
           <>
-            {commerce(isTransferer).map((route) => (
+            {commerce(merchantMode).map((route) => (
               <li key={route.key}>
                 <Link href={route.href} passHref>
                   <NavLink bold>{t(route.key)}</NavLink>
