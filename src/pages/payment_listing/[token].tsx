@@ -50,7 +50,6 @@ export const getServerSideProps: GetServerSideProps<
   const errorProps = {
     notFound: true
   } as const
-  console.log("params", params)
   const id = params!.token
 
   if (!id || Array.isArray(id)) {
@@ -63,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<
     return errorProps
   }
 
-  const merchantBill = bill.data.data
+  const merchantBill = bill.data
 
   const blockchains = await BackendClient.getBlockchains()
 
@@ -76,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<
   })
 
   const fiatrates = await BackendClient.getFiatRates({
-    apiHost: merchantBill.token.chain.url
+    apiHost: merchantBill.chain.url
   })
 
   if (fiatProviders.state != "success" || fiatrates.state != "success") {

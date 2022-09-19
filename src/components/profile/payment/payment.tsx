@@ -30,10 +30,9 @@ import { emailRegexp } from "@/lib/data/constants"
 import { stringToPieces } from "@/lib/utils/helpers"
 import { env } from "@/lib/env/client.mjs"
 
-import type { Bill } from "@/lib/backend/ecommerce/types"
+import type { IEcommerceBill } from "@/lib/backend/ecommerce/types"
 import type { FiatProvider, FiatRate } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
-import NetworkRow from "@/components/home/form-group/form/common/network-row"
 import { useAppSelector } from "@/lib/redux/hooks"
 import { validatePhone } from "@/lib/backend/helpers"
 import { VISAMASTER } from "@/core/backend/types"
@@ -52,10 +51,9 @@ export type PaymentProps<T, B> = {
   fiatrate: B
 }
 
-function Payment(props: PaymentProps<Bill, FiatRate[]>) {
+function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
   const { bill, providers, blockchainURL } = props
-  const isTRANSFER = bill.ecommerceUser.mode == "TRANSFER"
-  const widget = bill.ecommerceUser.widget
+  const widget = bill.widget
   const displayHeader =
     widget.logoCompany != null ||
     (widget.nameCompany != null && widget.nameCompany != "")
@@ -70,7 +68,6 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
   const [paymentActive, setPaymentActive] = useState(false)
   const [email, setEmail] = useState("")
   const [details, setDetails] = useState("")
-  const [wallet, setWallet] = useState("")
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
@@ -124,12 +121,6 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
     validated && setDetails(value)
   }
 
-  const handleAddress: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const value = event.target.value.replaceAll(" ", "")
-    const validated = /^[0-9a-zA-Z]*$/.test(value)
-    validated && setWallet(value)
-  }
-
   const handlePhone: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
 
@@ -147,17 +138,15 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
         ? details != "" && isValidPhoneNumber(details, "RU")
         : true
     const validCard = selectedPayment != "QIWI" ? details.length == 16 : true
-    const validWallet = !isTRANSFER || wallet.length === 42
 
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t("invalidEmail"),
       [inputIds.phone]: validPhone ? undefined : t("invalidPhone"),
-      [inputIds.card]: validCard ? undefined : t("invalidCard"),
-      [inputIds.wallet]: validWallet ? undefined : t("invalidWallet")
+      [inputIds.card]: validCard ? undefined : t("invalidCard")
     }))
 
-    if (!validEmail || !validPhone || !validCard || !validWallet) {
+    if (!validEmail || !validPhone || !validCard) {
       return
     }
 
@@ -171,8 +160,7 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
         .replaceAll(")", "")
         .replaceAll(" ", "")
         .replaceAll("-", ""),
-      ecommerceBillId: bill.id,
-      address: isTRANSFER ? wallet : undefined
+      ecommerceBillHash: bill.bill.hash
     })
 
     setWaitingResponse(false)
@@ -181,7 +169,7 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
       return
     }
 
-    location.href = response.data.bill.linkToPayemntString
+    location.href = response.data.linkToPaymentString
   }
 
   return (
@@ -214,19 +202,10 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
             : undefined
         }
       >
-        <Form
-          onSubmit={handleSubmit}
-          style={
-            isTRANSFER
-              ? {
-                  maxWidth: 510
-                }
-              : {}
-          }
-        >
+        <Form onSubmit={handleSubmit} style={{ minHeight: 440 }}>
           <InputSelect
             label={t("toPay")}
-            value={bill.sendAmount + ""}
+            value={bill.bill.sendAmount + ""}
             visuallyDisabled
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
@@ -283,18 +262,6 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
                   error={errors[inputIds.card]}
                   placeholder="0000 0000 0000 0000"
                   onlyNumbers
-                  changeable
-                />
-              )}
-              {isTRANSFER && <NetworkRow isLoading={false} />}
-              {isTRANSFER && (
-                <InputSelect
-                  label={t("home:buy_wallet")}
-                  id={"wallet"}
-                  onChange={handleAddress}
-                  value={wallet}
-                  error={errors[inputIds.wallet]}
-                  placeholder="0x09A6...d5B"
                   changeable
                 />
               )}

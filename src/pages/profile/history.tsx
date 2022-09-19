@@ -13,7 +13,6 @@ import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { HistoryProps } from "@/components/profile/history"
-import { Bill } from "@/lib/backend/ecommerce/types"
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -29,7 +28,10 @@ function History(props: HistoryProps) {
     <>
       <NextSeo title={t("title")} />
       <Container>
-        <HeadingRow heading={t("history")} id={`M-${props.profile.userId}`} />
+        <HeadingRow
+          heading={t("history")}
+          id={`M-${props.profile.user.userId}`}
+        />
         <HistoryComponent {...props} />
       </Container>
     </>
@@ -65,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
 
   const history =
     historyResponse.state == "success"
-      ? historyResponse.data.payments
+      ? historyResponse.data
       : historyResponse.state == "error" && historyResponse.status == 404
       ? []
       : null
@@ -82,12 +84,10 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
       id: item.id,
       timestamp: item.timestamp,
       email: item.email,
-      creditCard: item.client,
-      blockchain: item.token.chain.title,
+      creditCard: item.creditCard,
       currency: item.currency,
-      token: item.token.symbol,
-      amount: item.amount_in,
-      method: item.type
+      amount: item.amount,
+      method: item.method
     }))
 
   const mappedHistory: any[] = []
@@ -96,21 +96,19 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     for (const payment of item.ecommerce_payments) {
       mappedHistory.push({
         id: payment.id,
-        timestamp: payment.timestamp,
+        timestamp: item.timestamp,
         email: payment.email,
         creditCard: payment.creditCard,
-        blockchain: item.chains.title,
         currency: item.currency,
-        // token: item.tokens.symbol,
-        amount: item.amountIn,
-        method: payment.paymentMethod
+        amount: item.amount,
+        method: payment.method
       })
     }
   }
 
   return {
     props: {
-      profile: profileResponse.data.user,
+      profile: profileResponse.data,
       history: mappedHistory
         .concat(ecomerceHistory)
         .sort((a, b) => Number(b.timestamp) - Number(a.timestamp)),

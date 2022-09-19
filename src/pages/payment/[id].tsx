@@ -9,12 +9,11 @@ import { getDefaultMetaTags } from "@/lib/utils/seo"
 import { getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
-import type { ParsedUrlQuery } from "querystring"
 import type { PaymentProps } from "@/components/profile/payment"
-import { Bill } from "@/lib/backend/ecommerce/types"
+import { IEcommerceBill } from "@/lib/backend/ecommerce/types"
 import { FiatRate } from "@/lib/backend/main/types"
 
-function Payment(props: PaymentProps<Bill, FiatRate[]>) {
+function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
   const { t } = useTranslation("profile-payment")
 
   return (
@@ -24,13 +23,13 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
           ecommerce: true,
           title: t("title"),
           description: "Powered by ASSETUX.",
-          pathname: `${getEcommercePrefix()}/payment/${props.bill.hash}`,
-          siteName: props.bill.ecommerceUser.widget.nameCompany || undefined,
-          seoImage: props.bill.ecommerceUser.widget.backgroundCompany
+          pathname: `${getEcommercePrefix()}/payment/${props.bill.bill.hash}`,
+          siteName: props.bill.widget.nameCompany || undefined,
+          seoImage: props.bill.widget.backgroundCompany
             ? {
                 url:
                   BackendClient.genericURL +
-                  props.bill.ecommerceUser.widget.backgroundCompany,
+                  props.bill.widget.backgroundCompany,
                 alt: "Company Preview",
                 type: "image/png"
               }
@@ -40,10 +39,6 @@ function Payment(props: PaymentProps<Bill, FiatRate[]>) {
       <PaymentComponent {...props} />
     </>
   )
-}
-
-type Params = ParsedUrlQuery & {
-  id: string
 }
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -86,7 +81,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     return errorProps
   }
 
-  const toPay = bill.data.bill.amountIn
+  const toPay = bill.data.bill.sendAmount
 
   const buyProviders = fiatProviders.data.filter(
     (provider) =>
@@ -99,7 +94,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   return {
     props: {
-      bill: bill.data.bill,
+      bill: bill.data,
       providers: buyProviders,
       blockchainURL: blockchain.url,
       fiatrate: null,

@@ -33,10 +33,10 @@ import {
 import { rateCheckInterval } from "@/lib/data/constants"
 import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 
-import type { Profile } from "@/lib/backend/ecommerce/types"
+import type { IChain, IMerchant } from "@/lib/backend/ecommerce/types"
 import type { Option } from "@/components/common/input-select/types"
 import type { Blockchain, FiatRate } from "@/lib/backend/main/types"
-import { setIsTransferer } from "@/lib/redux/ui"
+import { setMerchantMode } from "@/lib/redux/ui"
 
 const inputIds = {
   get: "get",
@@ -44,20 +44,27 @@ const inputIds = {
   blockchains: "blockchains"
 }
 
-const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
+export const mapBlockchains = (
+  blockchains: IChain[] | Blockchain[]
+): Option[] =>
   blockchains.map((blockchain) => {
     return {
       value: blockchain.title,
       description: blockchain.title,
       icon: blockchain.logo,
-      chain_id: blockchain.chain_id
+      chain_id: (blockchain as Object).hasOwnProperty("id")
+        ? (blockchain as IChain).id
+        : (blockchain as Blockchain).chain_id
     }
   })
 
-export type BillProps = { profile: Profile }
+export type BillProps = { profile: IMerchant }
 
 function Bill({ profile }: BillProps) {
-  const { token_info, mode } = profile
+  const {
+    user: { mode },
+    tokens: token_info
+  } = profile
   const { t } = useTranslation("profile-bill")
   const router = useRouter()
   const checkAuthorized = useAuthorized()
@@ -65,8 +72,8 @@ function Bill({ profile }: BillProps) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(setIsTransferer(isTRANSFER))
-  }, [dispatch, isTRANSFER])
+    dispatch(setMerchantMode(mode))
+  }, [dispatch, mode])
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain
   )
@@ -87,7 +94,7 @@ function Bill({ profile }: BillProps) {
   const transferBlockchains = useMemo(
     () =>
       token_info && isTRANSFER
-        ? mapBlockchains(token_info.map(({ token }) => token.chain))
+        ? mapBlockchains(token_info.map((token) => token.chain))
         : null,
     [isTRANSFER, token_info]
   )
@@ -259,7 +266,7 @@ function Bill({ profile }: BillProps) {
         window.location.protocol +
         "//" +
         window.location.host +
-        `/payment/${response.data.data.bill.hash}`
+        `/payment/${response.data.hash}`
 
       if ("clipboard" in navigator) {
         navigator.clipboard.writeText(link)
@@ -388,13 +395,13 @@ function Bill({ profile }: BillProps) {
       return
     }
 
-    const mappedTokens = token_info.map(({ token }) => ({
+    const mappedTokens = token_info.map((token) => ({
       value: token.symbol,
       icon: token.logo_uri,
       description: token.name,
       shortDescription: token.name,
       address: token.address,
-      chain_id: token?.chain_id
+      chain_id: token.chain.id
     }))
 
     if (mappedTokens.length == 0) {

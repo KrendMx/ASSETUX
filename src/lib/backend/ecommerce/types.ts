@@ -1,4 +1,3 @@
-import { Blockchain } from "@/lib/backend/main/types"
 import type { Response } from "@/core/backend/types"
 import type { Token } from "../main/types"
 
@@ -14,22 +13,6 @@ export type LoginProps = AuthorizedProps
 
 export type LoginResponse = Response<Login>
 
-export interface Profile {
-  id: number
-  public_key: string
-  issuer: string
-  lastLogin: string
-  widget_id: number
-  email: string
-  phone?: null
-  balance: number
-  fee?: null
-  type: string
-  mode: "RETENTION" | "TRANSFER"
-  userId: string
-  widget: Widget
-  token_info?: TokenInfo[] | null
-}
 export interface Widget {
   id: number
   backgroundCompany: string | null
@@ -48,7 +31,50 @@ export interface TokenInfo {
 
 export type GetProfileProps = AuthorizedProps
 
-export type GetProfileResponse = Response<{ user: Profile }>
+export type GetProfileResponse = Response<IMerchant>
+
+export interface IMerchant {
+  user: {
+    email: string
+    public_key: string
+    mode: MerchantMode
+    type: string
+    balance: number
+    userId: string
+  }
+  widget: {
+    nameCompany: string
+    logoCompanyName: string
+    backgroundCompanyName: string
+  }
+  tokens: Array<{
+    id: number
+    logo_uri: string
+    name: string
+    symbol: string
+    address: string
+    chain: IChain
+  }>
+}
+
+export type MerchantMode = "RETENTION" | "TRANSFER" | "CONNECT"
+
+export interface Profile {
+  id: number
+  public_key: string
+  issuer: string
+  lastLogin: string
+  widget_id: number
+  email: string
+  phone?: null
+  balance: number
+  fee?: null
+  type: string
+  mode: MerchantMode
+  userId: string
+  widget: Widget
+  token_info?: TokenInfo[] | null
+}
 
 export type ChangeWalletProps = AuthorizedProps & {
   wallet: string
@@ -110,9 +136,34 @@ export type Payment = {
 
 export type GetHistoryProps = AuthorizedProps
 
-export type GetHistoryResponse = Response<{
-  payments: (Bill & { ecommerce_payments: Payment[] })[]
-}>
+export type GetHistoryResponse = Response<IHistory[]>
+
+interface IHistory {
+  id: number
+  email?: string
+  timestamp?: string
+  currency: string
+  creditCard?: string
+  method?: string
+  amount?: number
+  chain?: {
+    title: string
+    url: string
+    logo: string
+  }
+  token?: {
+    name: string
+    symbol: string
+    logo_uri: string
+  }
+
+  ecommerce_payments: Array<{
+    id: number
+    email: string
+    method: string
+    creditCard: string | null
+  }>
+}
 
 export type CreateBillProps = AuthorizedProps & {
   amountIn: number
@@ -120,58 +171,58 @@ export type CreateBillProps = AuthorizedProps & {
 }
 
 export type CreateBillResponse = Response<{
-  data: {
-    bill: { hash: string }
-  }
+  hash: string
 }>
 
-export type GetBillResponse = Response<{ bill: Bill }>
+export type GetBillResponse = Response<IEcommerceBill>
 
-export type CreatePaymentProps = {
+export interface IEcommerceBill {
+  bill: {
+    currency: string
+    sendAmount: number
+    hash: string
+  }
+  widget: {
+    nameCompany: string
+    logoCompany: string
+    backgroundCompany: string
+  }
+}
+
+export interface ICreatePaymentProps {
   paymentMethod: string
   email: string
   creditCard: string
-  ecommerceBillId: number
-  address?: string
+  ecommerceBillHash: string
 }
 
 export type CreatePaymentResponse = Response<{
-  bill: { linkToPayemntString: string }
+  linkToPaymentString: string
 }>
 
-export type MerchantBillResponse = Response<MerchantBill>
+export type MerchantBillResponse = Response<MerchantData>
 
-export interface MerchantBill {
-  success: boolean
-  data: MerchantData
-}
 export interface MerchantData {
-  token: MerchantToken
-  widget: Widget
+  token: IMerchantToken
+  chain: IChain
+  widget: {
+    nameCompany: string
+    logoCompany: string
+    backgroundCompany: string
+  }
 }
-export interface MerchantToken {
+
+export interface IMerchantToken {
   id: number
   name: string
   symbol: string
   address: string
-  decimals: number
-  enabled: boolean
-  contract: string
-  fee_id: number
-  stable: boolean
   chain_id: number
   logo_uri: string
-  fee: Fee
-  chain: Blockchain
-  info: Info
 }
-export interface Fee {
+
+export interface IChain {
   id: number
-  token: number
-  pool: number
-  service: number
-}
-export interface Chain {
   title: string
   url: string
   logo: string

@@ -32,9 +32,9 @@ import {
 import { rateCheckInterval } from "@/lib/data/constants"
 import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 
-import type { Profile } from "@/lib/backend/ecommerce/types"
+import type { IMerchant } from "@/lib/backend/ecommerce/types"
 import type { Option } from "@/components/common/input-select/types"
-import { setIsTransferer } from "@/lib/redux/ui"
+import { setMerchantMode } from "@/lib/redux/ui"
 import { env } from "@/lib/env/client.mjs"
 
 const inputIds = {
@@ -43,10 +43,13 @@ const inputIds = {
   blockchains: "blockchains"
 }
 
-export type BillProps = { profile: Profile }
+export type BillProps = { profile: IMerchant }
 
 function ListingComponent({ profile }: BillProps) {
-  const { token_info, mode } = profile
+  const {
+    user: { mode },
+    tokens
+  } = profile
   const isTRANSFER = mode === "TRANSFER"
   const isRETENTION = !isTRANSFER
   const { t } = useTranslation(isRETENTION ? "profile-bill" : "profile-listing")
@@ -55,8 +58,8 @@ function ListingComponent({ profile }: BillProps) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(setIsTransferer(isTRANSFER))
-  }, [dispatch, isTRANSFER])
+    dispatch(setMerchantMode(mode))
+  }, [dispatch, mode])
 
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
@@ -117,13 +120,13 @@ function ListingComponent({ profile }: BillProps) {
 
     if (sumWithFee.state === "success") {
       setSend(
-        Number(sumWithFee.data.data.amount)
-          ? Number(sumWithFee.data.data.amount.toFixed(2)) + ""
+        Number(sumWithFee.data.amount)
+          ? Number(sumWithFee.data.amount.toFixed(2)) + ""
           : ""
       )
 
       const resultNum = Number(result)
-      const sendRes = sumWithFee.data.data.amount
+      const sendRes = sumWithFee.data.amount
       const sendAmount = resultNum
 
       if (sendRes < ranges.min) {
@@ -174,7 +177,7 @@ function ListingComponent({ profile }: BillProps) {
     )
 
     if (sumWithFee.state === "success") {
-      const amountRes = sumWithFee.data.data.amount
+      const amountRes = sumWithFee.data.amount
       setGet({
         visible: Number(amountRes) > 0 ? Number(amountRes.toFixed(2)) + "" : "",
         actual: amountRes
@@ -241,7 +244,7 @@ function ListingComponent({ profile }: BillProps) {
         window.location.protocol +
         "//" +
         window.location.host +
-        `/payment/${response.data.data.bill.hash}`
+        `/payment/${response.data.hash}`
     } else if (isTRANSFER) {
       link =
         window.location.protocol +
@@ -356,17 +359,17 @@ function ListingComponent({ profile }: BillProps) {
   }, [availableTokens, isTRANSFER])
 
   useEffect(() => {
-    if (!token_info || !isTRANSFER) {
+    if (!tokens || !isTRANSFER) {
       return
     }
 
-    const mappedTokens = token_info.map(({ token }) => ({
+    const mappedTokens = tokens.map((token) => ({
       value: token.symbol,
       icon: token.logo_uri,
       description: token.name,
       shortDescription: token.name,
       address: token.address,
-      chain_id: token?.chain_id
+      chain_id: token.chain.id
     }))
 
     if (mappedTokens.length == 0) {
@@ -374,7 +377,7 @@ function ListingComponent({ profile }: BillProps) {
     }
 
     setSelectedToken(mappedTokens[0].value)
-  }, [token_info, isTRANSFER])
+  }, [tokens, isTRANSFER])
 
   useEffect(() => {
     t("copyLink") === submitValue &&
@@ -395,10 +398,10 @@ function ListingComponent({ profile }: BillProps) {
       )
       if (sumWithFee.state === "success") {
         setGet({
-          visible: Number(sumWithFee.data.data.amount.toFixed(2)) + "",
-          actual: sumWithFee.data.data.amount
+          visible: Number(sumWithFee.data.amount.toFixed(2)) + "",
+          actual: sumWithFee.data.amount
         })
-        setSend(Number(sumWithFee.data.data.amountIn.toFixed(2)) + "")
+        setSend(Number(sumWithFee.data.amountIn.toFixed(2)) + "")
       }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps

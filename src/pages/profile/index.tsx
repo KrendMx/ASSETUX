@@ -29,8 +29,8 @@ function Main(props: MainProps) {
   return (
     <>
       <NextSeo title={t("title")} />
-      <Container>
-        <HeadingRow heading={t("profile")} id={`M-${props.userId}`} />
+      <Container style={{ minHeight: "calc(100vh - var(--header-height))" }}>
+        <HeadingRow heading={t("profile")} id={`M-${props.user.userId}`} />
         <FormGroup {...props} />
       </Container>
     </>
@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
 
   return {
     props: {
-      ...profile.data.user,
+      ...profile.data,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

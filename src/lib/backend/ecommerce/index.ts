@@ -16,7 +16,7 @@ import type {
   CreateBillProps,
   CreateBillResponse,
   GetBillResponse,
-  CreatePaymentProps,
+  ICreatePaymentProps,
   CreatePaymentResponse,
   MerchantBillResponse
 } from "./types"
@@ -125,7 +125,7 @@ class EcommerceClient extends Client {
   }
 
   public async createPayment(
-    data: CreatePaymentProps
+    data: ICreatePaymentProps
   ): Promise<CreatePaymentResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/payment/create`,

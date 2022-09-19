@@ -29,7 +29,7 @@ function Bill(props: BillProps) {
     <>
       <NextSeo title={t("title")} />
       <Container>
-        <HeadingRow heading={t("bill")} id={`M-${props.profile.userId}`} />
+        <HeadingRow heading={t("bill")} id={`M-${props.profile.user.userId}`} />
         <ListingComponent profile={props.profile} />
       </Container>
     </>
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
 
   const transferProps = {
     redirect: {
-      destination: `${getEcommercePrefix()}/listing`,
+      destination: `${getEcommercePrefix()}`,
       permanent: false
     }
   }
@@ -66,13 +66,13 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
     return errorProps
   }
 
-  if (profile.data.user.mode === "TRANSFER") {
+  if (profile.data.user.mode !== "RETENTION") {
     return transferProps
   }
 
   return {
     props: {
-      profile: profile.data.user,
+      profile: profile.data,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

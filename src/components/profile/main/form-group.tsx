@@ -21,13 +21,10 @@ import { EcommerceClient } from "@/lib/backend/clients"
 import { toBase64, getEcommercePrefix } from "@/lib/utils/helpers"
 import { useAuthorized } from "@/lib/hooks"
 
-import type { Profile, UserImage } from "@/lib/backend/ecommerce/types"
+import type { IMerchant, UserImage } from "@/lib/backend/ecommerce/types"
 import type { RequestState } from "@/core/backend/types"
-import type { Nullable } from "@/lib/utils/helpers"
-import { useAppSelector } from "@/lib/redux/hooks"
-import { setIsTransferer } from "@/lib/redux/ui"
+import { setMerchantMode } from "@/lib/redux/ui"
 import { useAppDispatch } from "@/lib/redux/hooks"
-import { Blockchain, Token } from "@/lib/backend/main/types"
 import CryptoManager from "@/components/common/crypto-manager"
 import SupportPopup from "./support-popup"
 import styles from "./popup.module.css"
@@ -88,33 +85,30 @@ type Option = {
   chain_id?: number
 }
 
-export type FormGroupProps = Profile
+export type FormGroupProps = IMerchant
 
 function FormGroup(props: FormGroupProps) {
   const {
-    userId,
-    email,
-    public_key,
-    widget: { nameCompany, logoCompanyName, backgroundCompanyName },
-    balance,
-    token_info,
-    mode
+    user: { userId, email, public_key, balance, mode },
+    tokens,
+    widget: { nameCompany, logoCompanyName, backgroundCompanyName }
   } = props
   const { t } = useTranslation("profile")
   const router = useRouter()
   const isTRANSFER = mode == "TRANSFER"
+  const isCONNECT = mode == "CONNECT"
 
   const checkAuthorized = useAuthorized()
 
   const [wallet, setWallet] = useState(public_key)
   const [company, setCompany] = useState(nameCompany == null ? "" : nameCompany)
-  const [logo, setLogo] = useState<Nullable<UserImage>>({
+  const [logo, setLogo] = useState({
     name: logoCompanyName,
-    img: null
+    img: null as string | null
   })
-  const [background, setBackground] = useState<Nullable<UserImage>>({
+  const [background, setBackground] = useState({
     name: backgroundCompanyName,
-    img: null
+    img: null as string | null
   })
   const [inputError, setInputError] = useState<
     Record<string, string | undefined>
@@ -131,13 +125,13 @@ function FormGroup(props: FormGroupProps) {
   const [updatedWidget, setUpdatedWidget] = useState(false)
   const [avaliableChains, setAvaliableChains] = useState<Option[] | undefined>()
   const [selectedChain, setSelectedChain] = useState<Option | undefined>()
-  const [selectedToken, setSelectedToken] = useState<Token | undefined>(
-    !!token_info?.length ? token_info[0]?.token : undefined
+  const [selectedToken, setSelectedToken] = useState(
+    !!tokens?.length ? tokens[0] : undefined
   )
 
   useEffect(() => {
-    dispatch(setIsTransferer(isTRANSFER))
-  }, [dispatch, isTRANSFER])
+    dispatch(setMerchantMode(mode))
+  }, [dispatch, mode])
 
   const prevPublicKey = useRef(public_key)
   const prevCompany = useRef(nameCompany == null ? "" : nameCompany)
@@ -366,34 +360,29 @@ function FormGroup(props: FormGroupProps) {
           (blockchain) => blockchain.value === blockchainTitle
         )[0]
       : undefined
-    !!token_info?.length &&
+    !!tokens?.length &&
       !!_selectedChain &&
       setSelectedToken(
-        token_info.filter(
-          ({ token }: { token: Token }) =>
-            token.chain_id === _selectedChain.chain_id
-        )[0]?.token
+        tokens.filter(({ chain }) => chain.id === _selectedChain.chain_id)[0]
       )
     setSelectedChain(_selectedChain)
   }
 
   useEffect(() => {
-    if (!!token_info?.length) {
-      const formatedChains: Option[] = token_info.map(
-        ({ token: { chain } }) => {
-          return {
-            value: chain.title,
-            description: chain.title,
-            icon: chain.logo,
-            chain_id: chain.chain_id
-          }
+    if (!!tokens?.length) {
+      const formatedChains: Option[] = tokens.map(({ chain }) => {
+        return {
+          value: chain.title,
+          description: chain.title,
+          icon: chain.logo,
+          chain_id: chain.id
         }
-      )
+      })
       setAvaliableChains(formatedChains)
       setSelectedChain(formatedChains[0])
-      setSelectedToken(token_info[0].token)
+      setSelectedToken(tokens[0])
     }
-  }, [token_info])
+  }, [tokens])
 
   return (
     <Flex>
@@ -409,7 +398,7 @@ function FormGroup(props: FormGroupProps) {
             }}
           >
             <Balance
-              amount={balance ? parseFloat(balance.toFixed(2)) + "" : "0.00"}
+              amount={balance ? parseFloat((+balance).toFixed(2)) + "" : "0.00"}
               icon="₽"
               symbol="RUB"
               fiat
@@ -446,92 +435,104 @@ function FormGroup(props: FormGroupProps) {
             selectable={false}
           />
         </Form>
-        <Form onSubmit={handlePaymentSubmit}>
-          <FormHeading>{t("payment")}</FormHeading>
-          <InputSelect
-            id={inputId.wallet}
-            label={t("wallet")}
-            selectable={false}
-            onChange={handleSetWallet}
-            value={wallet}
-            error={inputError[inputId.wallet]}
-            changeable
-          />
-          <Button
-            type="submit"
-            isLoading={requests.wallet?.state == "pending"}
-            disabled={
-              wallet == prevPublicKey.current ||
-              (requests.wallet != null && requests.wallet.state != "success") ||
-              inputError[inputId.wallet] != undefined
-            }
-          >
-            {requests.wallet?.state == "pending" ? t("loading") : t("change")}
-          </Button>
-        </Form>
-        <Form onSubmit={handleWidgetSubmit}>
-          <FormHeading>{t("widgetPersonalization")}</FormHeading>
-          <InputSelect
-            id={inputId.companyName}
-            error={
-              requests.company?.state == "error" ? t("smthHappened") : undefined
-            }
-            label={t("nameYourCompany")}
-            value={company}
-            onChange={handleSetCompany}
-            selectable={false}
-            changeable
-          />
-          <InputSelect
-            id={inputId.companyLogo}
-            error={
-              requests.company?.state == "error"
-                ? t("smthHappened")
-                : inputError[inputId.companyLogo]
-            }
-            label={t("logo")}
-            onUpload={handleFile(inputId.companyLogo)}
-            fileLabel={t("upload")}
-            accept=".png,.jpg,.jpeg"
-            selectable={false}
-            uploadedFileName={logo.name ? logo.name : undefined}
-            changeable
-            file
-          />
-          <InputSelect
-            id={inputId.companyBackground}
-            error={
-              requests.company?.state == "error"
-                ? t("smthHappened")
-                : inputError[inputId.companyBackground]
-            }
-            label={t("background")}
-            onUpload={handleFile(inputId.companyBackground)}
-            fileLabel={t("upload")}
-            accept=".png,.jpg,.jpeg"
-            selectable={false}
-            uploadedFileName={background.name ? background.name : undefined}
-            changeable
-            file
-          />
-          <Button
-            type="submit"
-            isLoading={requests.company?.state == "pending"}
-            disabled={
-              !updatedWidget ||
-              (company == prevCompany.current &&
-                logo.name == prevLogo.current &&
-                background.name == prevBackground.current) ||
-              inputError[inputId.companyLogo] != undefined ||
-              inputError[inputId.companyBackground] != undefined ||
-              (requests.company != null && requests.company.state != "success")
-            }
-          >
-            {requests.company?.state == "pending" ? t("loading") : t("change")}
-          </Button>
-        </Form>
+        {!isCONNECT && (
+          <>
+            <Form onSubmit={handlePaymentSubmit}>
+              <FormHeading>{t("payment")}</FormHeading>
+              <InputSelect
+                id={inputId.wallet}
+                label={t("wallet")}
+                selectable={false}
+                onChange={handleSetWallet}
+                value={wallet}
+                error={inputError[inputId.wallet]}
+                changeable
+              />
+              <Button
+                type="submit"
+                isLoading={requests.wallet?.state == "pending"}
+                disabled={
+                  wallet == prevPublicKey.current ||
+                  (requests.wallet != null &&
+                    requests.wallet.state != "success") ||
+                  inputError[inputId.wallet] != undefined
+                }
+              >
+                {requests.wallet?.state == "pending"
+                  ? t("loading")
+                  : t("change")}
+              </Button>
+            </Form>
+            <Form onSubmit={handleWidgetSubmit}>
+              <FormHeading>{t("widgetPersonalization")}</FormHeading>
+              <InputSelect
+                id={inputId.companyName}
+                error={
+                  requests.company?.state == "error"
+                    ? t("smthHappened")
+                    : undefined
+                }
+                label={t("nameYourCompany")}
+                value={company}
+                onChange={handleSetCompany}
+                selectable={false}
+                changeable
+              />
+              <InputSelect
+                id={inputId.companyLogo}
+                error={
+                  requests.company?.state == "error"
+                    ? t("smthHappened")
+                    : inputError[inputId.companyLogo]
+                }
+                label={t("logo")}
+                onUpload={handleFile(inputId.companyLogo)}
+                fileLabel={t("upload")}
+                accept=".png,.jpg,.jpeg"
+                selectable={false}
+                uploadedFileName={logo.name ? logo.name : undefined}
+                changeable
+                file
+              />
+              <InputSelect
+                id={inputId.companyBackground}
+                error={
+                  requests.company?.state == "error"
+                    ? t("smthHappened")
+                    : inputError[inputId.companyBackground]
+                }
+                label={t("background")}
+                onUpload={handleFile(inputId.companyBackground)}
+                fileLabel={t("upload")}
+                accept=".png,.jpg,.jpeg"
+                selectable={false}
+                uploadedFileName={background.name ? background.name : undefined}
+                changeable
+                file
+              />
+              <Button
+                type="submit"
+                isLoading={requests.company?.state == "pending"}
+                disabled={
+                  !updatedWidget ||
+                  (company == prevCompany.current &&
+                    logo.name == prevLogo.current &&
+                    background.name == prevBackground.current) ||
+                  inputError[inputId.companyLogo] != undefined ||
+                  inputError[inputId.companyBackground] != undefined ||
+                  (requests.company != null &&
+                    requests.company.state != "success")
+                }
+              >
+                {requests.company?.state == "pending"
+                  ? t("loading")
+                  : t("change")}
+              </Button>
+            </Form>
+          </>
+        )}
       </Container>
-      {isTRANSFER && !!token_info?.length && (
+      {isTRANSFER && !!tokens?.length && (
         <Container>
           <Form as="section">
             <FormHeading>{t("token")}</FormHeading>
@@ -548,7 +549,7 @@ function FormGroup(props: FormGroupProps) {
               displayIcon
             />
             <Label>
-              {!!selectedToken?.address ? selectedToken?.address : ""}
+              {!!selectedToken?.address ? selectedToken.address : ""}
             </Label>
           </Form>
         </Container>

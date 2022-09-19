@@ -25,8 +25,10 @@ import type {
   LiquidityData,
   Blockchain
 } from "@/lib/backend/main/types"
+import { mapBlockchains } from "@/components/profile/bill/bill"
+import { IMerchantToken } from "@/lib/backend/ecommerce/types"
 
-export const mapTokens = (tokens: Token[]): TokenOption[] =>
+export const mapTokens = (tokens: Token[] | IMerchantToken[]): TokenOption[] =>
   tokens
     // .filter((token) => token.enabled)
     .map((token) => ({
@@ -36,15 +38,6 @@ export const mapTokens = (tokens: Token[]): TokenOption[] =>
       shortDescription: token.name,
       address: token.address
     }))
-
-export const mapBlockchains = (blockchains: Blockchain[]): Option[] =>
-  blockchains.map((blockchain) => {
-    return {
-      value: blockchain.title,
-      description: blockchain.title,
-      icon: blockchain.logo
-    }
-  })
 
 function FormController() {
   const dispatch = useAppDispatch()

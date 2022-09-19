@@ -60,6 +60,13 @@ const GlobalStyles = createGlobalStyle`
     line-height: 0;
   }
 
+  #__next {
+    /* min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+  }
+
   @media only screen and (max-width: ${tablet}px) {
     :root {
       --paddings: ${tabletPaddings}px;

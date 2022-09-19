@@ -34,16 +34,14 @@ import type { MerchantData } from "@/lib/backend/ecommerce/types"
 import type { FiatRate } from "@/lib/backend/main/types"
 import type { Option } from "@/components/common/input-select/types"
 import NetworkRow from "@/components/home/form-group/form/common/network-row"
-import {
-  mapBlockchains,
-  mapTokens
-} from "@/components/home/form-group/form/form-controller"
+import { mapTokens } from "@/components/home/form-group/form/form-controller"
 import { useAppSelector } from "@/lib/redux/hooks"
 import ExchangeInfo from "@/components/common/exchange-info"
 import { PaymentProps } from "./payment"
 import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 import { validatePhone } from "@/lib/backend/helpers"
 import { VISAMASTER } from "@/core/backend/types"
+import { mapBlockchains } from "../bill/bill"
 
 const inputIds = {
   email: "email",
@@ -54,9 +52,12 @@ const inputIds = {
 }
 
 function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
-  const { bill, providers, blockchainURL, fiatrate } = props
-  const widget = bill.widget
-  const merchantToken = bill.token
+  const {
+    bill: { token, chain, widget },
+    providers,
+    blockchainURL,
+    fiatrate
+  } = props
   const displayHeader =
     widget.logoCompany != null ||
     (widget.nameCompany != null && widget.nameCompany != "")
@@ -219,8 +220,8 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
       provider: selectedPayment,
       amount: Number(+get * fiatrate?.buy[currentCurrency]),
       cryptoAddress: wallet,
-      chainId: merchantToken.chain_id,
-      tokenAddress: merchantToken.address,
+      chainId: token.chain_id,
+      tokenAddress: token.address,
       email,
       card: details
         .replaceAll("(", "")
@@ -273,11 +274,11 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
             label={t("home:buy_blockchain")}
             id={"blockchains"}
             selectLabel={t("home:buy_blockchainLabel")}
-            options={mapBlockchains([merchantToken.chain])}
+            options={mapBlockchains([chain])}
             displayInSelect={3}
             onActiveChange={() => null}
             onSelect={() => null}
-            selectedValue={merchantToken.chain.title}
+            selectedValue={chain.title}
             selectable={false}
             displayIcon
           />
@@ -285,15 +286,15 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
             label={t("home:buy_get")}
             id={"get"}
             value={get}
-            selectedValue={merchantToken.symbol}
+            selectedValue={token.symbol}
             selectable={false}
             onlyNumbers
-            options={mapTokens([merchantToken])}
+            options={mapTokens([token])}
             onChange={(event) => setGet(event.target.value)}
             changeable
           />
           <ExchangeInfo
-            token={merchantToken.symbol}
+            token={token.symbol}
             currency={currentCurrency}
             rate={fiatrate?.buy[currentCurrency]}
             isLoading={false}

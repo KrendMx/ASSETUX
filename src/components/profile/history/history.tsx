@@ -15,9 +15,9 @@ import Search from "@/components/common/search"
 import Pages from "@/components/common/pagination"
 import { Container, NoAssets, ControlsRow } from "./styles"
 
-import type { Profile } from "@/lib/backend/ecommerce/types"
+import type { IMerchant } from "@/lib/backend/ecommerce/types"
 import type { TFunction } from "next-i18next"
-import { setIsTransferer } from "@/lib/redux/ui"
+import { setMerchantMode } from "@/lib/redux/ui"
 import { PayProviders, QIWI } from "@/core/backend/types"
 
 export type HistoryType = {
@@ -25,15 +25,13 @@ export type HistoryType = {
   timestamp: string
   email: string
   creditCard: string
-  blockchain: string
   currency: string
-  token: string
   amount: number
   method: PayProviders
 }
 
 export type HistoryProps = {
-  profile: Profile
+  profile: IMerchant
   history: HistoryType[]
 }
 
@@ -49,10 +47,10 @@ const tableHeadings = (t: TFunction) => [
   {
     value: t("creditCard")
   },
-  {
-    value: t("blockchain"),
-    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  },
+  // {
+  //   value: t("blockchain"),
+  //   sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
+  // },
   {
     value: t("paid"),
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
@@ -77,7 +75,12 @@ const cardNames = (t: TFunction) => [
   t("amount")
 ]
 
-function History({ history, profile: { mode } }: HistoryProps) {
+function History({
+  history,
+  profile: {
+    user: { mode }
+  }
+}: HistoryProps) {
   const isMobile = useImmediateMobile()
   const displayCards = useImmediateMobile(cardsWidth)
   const { t } = useTranslation("profile-history")
@@ -86,8 +89,8 @@ function History({ history, profile: { mode } }: HistoryProps) {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(setIsTransferer(isTRANSFER))
-  }, [dispatch, isTRANSFER])
+    dispatch(setMerchantMode(mode))
+  }, [dispatch, mode])
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
   const [searchContext, setSearchContext] = useState("")
@@ -120,7 +123,7 @@ function History({ history, profile: { mode } }: HistoryProps) {
                 ? `** (***) *** ${item.creditCard}`
                 : `**** **** **** ${item.creditCard}`
           },
-          { value: item.blockchain },
+          // { value: item.blockchain },
           { value: item.currency },
           // { value: item.token },
           { value: item.amount }
