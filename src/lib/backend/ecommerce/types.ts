@@ -1,4 +1,4 @@
-import type { Response } from "@/core/backend/types"
+import type { PayProviders, Response } from "@/core/backend/types"
 import type { Token } from "../main/types"
 
 export type AuthorizedProps = {
@@ -144,7 +144,7 @@ interface IHistory {
   timestamp?: string
   currency: string
   creditCard?: string
-  method?: string
+  method?: PayProviders
   amount?: number
   chain?: {
     title: string
@@ -157,12 +157,12 @@ interface IHistory {
     logo_uri: string
   }
 
-  ecommerce_payments: Array<{
+  ecommerce_payments: {
     id: number
-    email: string
-    method: string
-    creditCard: string | null
-  }>
+    email?: string
+    method?: PayProviders
+    creditCard?: string
+  }[]
 }
 
 export type CreateBillProps = AuthorizedProps & {

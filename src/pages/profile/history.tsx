@@ -78,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
   const userHistory = history.filter((obj) =>
     obj.hasOwnProperty("ecommerce_payments")
   )
-  const ecomerceHistory: any[] = history
+  const ecomerceHistory = history
     .filter((obj) => !obj.hasOwnProperty("ecommerce_payments"))
     .map((item) => ({
       id: item.id,
@@ -87,10 +87,12 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
       creditCard: item.creditCard,
       currency: item.currency,
       amount: item.amount,
-      method: item.method
+      method: item.method,
+      blockchain: item?.chain?.title || null,
+      token: item?.token?.symbol || null
     }))
 
-  const mappedHistory: any[] = []
+  const mappedHistory = []
 
   for (const item of userHistory) {
     for (const payment of item.ecommerce_payments) {
@@ -101,7 +103,9 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
         creditCard: payment.creditCard,
         currency: item.currency,
         amount: item.amount,
-        method: payment.method
+        method: payment.method,
+        blockchain: item?.chain?.title || null,
+        token: item?.token?.symbol || null
       })
     }
   }
@@ -112,7 +116,6 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
       history: mappedHistory
         .concat(ecomerceHistory)
         .sort((a, b) => Number(b.timestamp) - Number(a.timestamp)),
-      jopa: history,
       ...(await serverSideTranslations(locale!, [
         "header",
         "footer",

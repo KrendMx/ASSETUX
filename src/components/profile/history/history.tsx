@@ -16,64 +16,26 @@ import Pages from "@/components/common/pagination"
 import { Container, NoAssets, ControlsRow } from "./styles"
 
 import type { IMerchant } from "@/lib/backend/ecommerce/types"
-import type { TFunction } from "next-i18next"
 import { setMerchantMode } from "@/lib/redux/ui"
 import { PayProviders, QIWI } from "@/core/backend/types"
+import { cardNames, tableHeadings } from "./mock"
 
 export type HistoryType = {
   id: number
-  timestamp: string
-  email: string
-  creditCard: string
+  timestamp?: string
+  email?: string
+  creditCard?: string
   currency: string
-  amount: number
-  method: PayProviders
+  amount?: number
+  method?: PayProviders
+  blockchain?: string | null
+  token?: string | null
 }
 
 export type HistoryProps = {
   profile: IMerchant
   history: HistoryType[]
 }
-
-const tableHeadings = (t: TFunction) => [
-  {
-    value: t("dateTime"),
-    sortFn: (a: number, b: number) => b - a
-  },
-  {
-    value: t("email"),
-    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  },
-  {
-    value: t("creditCard")
-  },
-  // {
-  //   value: t("blockchain"),
-  //   sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  // },
-  {
-    value: t("paid"),
-    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  },
-  // {
-  //   value: t("received"),
-  //   sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  // },
-  {
-    value: t("amount"),
-    sortFn: (a: number, b: number) => b - a
-  }
-]
-
-const cardNames = (t: TFunction) => [
-  t("dateTime"),
-  t("email"),
-  t("creditCard"),
-  t("blockchain"),
-  t("paid"),
-  // t("received"),
-  t("amount")
-]
 
 function History({
   history,
@@ -101,34 +63,60 @@ function History({
     () =>
       history
         .filter(
-          (item) =>
-            item.email.includes(searchContext) ||
-            item.creditCard.includes(searchContext) ||
-            item.amount.toString() == searchContext
+          ({ email, creditCard, amount, token }) =>
+            email?.includes(searchContext) ||
+            creditCard?.includes(searchContext) ||
+            amount?.toString() == searchContext ||
+            token?.toLowerCase()?.includes(searchContext.toLowerCase())
         )
-        .map((item) => [
-          {
-            value: (
-              <span key={item.id + "datetime"}>
-                {getFormattedDate(Number(item.timestamp), router.locale!)}
-              </span>
-            ),
-            sortValue: Number(item.timestamp)
-          },
+        .map((item) =>
+          isTRANSFER
+            ? [
+                {
+                  value: (
+                    <span key={item.id + "datetime"}>
+                      {getFormattedDate(Number(item.timestamp), router.locale!)}
+                    </span>
+                  ),
+                  sortValue: Number(item.timestamp)
+                },
 
-          { value: item.email },
-          {
-            value:
-              item.method == QIWI
-                ? `** (***) *** ${item.creditCard}`
-                : `**** **** **** ${item.creditCard}`
-          },
-          // { value: item.blockchain },
-          { value: item.currency },
-          // { value: item.token },
-          { value: item.amount }
-        ]),
-    [history, router.locale, searchContext]
+                { value: item.email },
+                {
+                  value:
+                    item.method == QIWI
+                      ? `** (***) *** ${item.creditCard}`
+                      : `**** **** **** ${item.creditCard}`
+                },
+                { value: item.blockchain },
+                { value: item.currency },
+                { value: item.token },
+                { value: item.amount }
+              ]
+            : [
+                {
+                  value: (
+                    <span key={item.id + "datetime"}>
+                      {getFormattedDate(Number(item.timestamp), router.locale!)}
+                    </span>
+                  ),
+                  sortValue: Number(item.timestamp)
+                },
+
+                { value: item.email },
+                {
+                  value:
+                    item.method == QIWI
+                      ? `** (***) *** ${item.creditCard}`
+                      : `**** **** **** ${item.creditCard}`
+                },
+                // { value: item.blockchain },
+                { value: item.currency },
+                // { value: item.token },
+                { value: item.amount }
+              ]
+        ),
+    [history, isTRANSFER, router.locale, searchContext]
   )
 
   const pages = useMemo(
@@ -162,7 +150,7 @@ function History({
           </ControlsRow>
           {displayCards ? (
             <Cards
-              rowNames={cardNames(t)}
+              rowNames={cardNames(t, mode)}
               mobile={isMobile}
               data={processedHistory}
               currentPage={currentPage}
@@ -170,7 +158,7 @@ function History({
             />
           ) : (
             <Table
-              customHeadings={tableHeadings(t)}
+              customHeadings={tableHeadings(t, mode)}
               currentPage={currentPage}
               displayPerPage={desktopPerPage}
               data={processedHistory}
