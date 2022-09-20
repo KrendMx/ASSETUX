@@ -135,11 +135,25 @@ const BurgerMenu: React.FC = () => {
             {!isCommerceLogin && (
               <li>
                 {env.isStage ? (
-                  <Link href="/profile" passHref>
+                  <Link
+                    href={
+                      process.env.NODE_ENV == "development"
+                        ? "/profile"
+                        : "https://commerce.dev.assetux.com/profile"
+                    }
+                    passHref
+                  >
                     <NavLink bold>{t("commerce")}</NavLink>
                   </Link>
                 ) : (
-                  <NavLink href="https://commerce.assetux.com" bold>
+                  <NavLink
+                    href={
+                      process.env.NODE_ENV == "development"
+                        ? "/profile"
+                        : "https://commerce.assetux.com/profile"
+                    }
+                    bold
+                  >
                     {t("commerce")}
                   </NavLink>
                 )}

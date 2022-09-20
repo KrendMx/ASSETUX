@@ -44,6 +44,10 @@ const Mobile: React.FC = () => {
           <LogoLink href="https://assetux.com">
             <Logo width={38} height={38} />
           </LogoLink>
+        ) : env.isStage && isCommercePage ? (
+          <LogoLink href="https://dev.assetux.com">
+            <Logo width={38} height={38} />
+          </LogoLink>
         ) : (
           <Link href="/" passHref>
             <LogoLink>
