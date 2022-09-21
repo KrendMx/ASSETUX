@@ -4,7 +4,7 @@ import Desktop from "./responsive/desktop"
 import Mobile from "./responsive/mobile"
 import { Wrapper, OuterContainer } from "./styles"
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
     <Wrapper>
       <OuterContainer>

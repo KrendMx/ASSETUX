@@ -28,7 +28,7 @@ import {
   StyledList
 } from "./styles"
 
-const PopularList: React.FC = () => {
+const PopularList = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const availableTokens = useAppSelector(

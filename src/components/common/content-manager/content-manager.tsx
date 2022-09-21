@@ -1,53 +1,14 @@
 import React, { useMemo, memo, useEffect, useRef } from "react"
-import styled from "styled-components"
 import { useRouter } from "next/router"
 
 import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
 import { setBurgerActive, setConfigureActive } from "@/lib/redux/ui"
 
-import { mobile } from "@/lib/data/constants"
-
 import BurgerMenu from "@/components/menus/burger"
 import ConfigureMenu from "@/components/menus/configure"
 import Footer from "@/components/common/footer"
-
-import type { AppProps } from "next/app"
-
-type WrapperProps = {
-  hide: boolean
-}
-
-const Wrapper = styled.main<WrapperProps>`
-  width: 100%;
-  background-color: var(--bgColor);
-  display: ${(props) => (props.hide ? "none" : "block")};
-`
-
-type ContainerProps = {
-  resetMargins?: boolean
-}
-
-const Container = styled.div<ContainerProps>`
-  margin-top: ${(props) => (props.resetMargins ? 0 : "var(--header-height)")};
-  width: 100%;
-  font-size: 1rem;
-
-  @media only screen and (max-width: 1340px) {
-    font-size: 0.8rem;
-  }
-
-  @media only screen and (max-width: 1230px) {
-    font-size: 0.7rem;
-  }
-
-  @media only screen and (max-width: ${mobile}px) {
-    font-size: 3vw;
-  }
-`
-
-type ContentManagerProps = {
-  appProps: AppProps
-}
+import { ContentManagerProps } from "./types.content-manager"
+import { Container, Wrapper } from "./styles"
 
 const MemoizedFooter = memo(Footer)
 

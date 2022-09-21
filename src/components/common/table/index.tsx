@@ -1,102 +1,20 @@
 import React, { useMemo, useState, useCallback } from "react"
-import styled, { css } from "styled-components"
 import { paginate } from "./paginate"
 import { IoIosArrowDown } from "react-icons/io"
 
-import type { SortInfo, TableProps, RowData } from "./types"
+import type { SortInfo, TableProps, RowData } from "./types.table"
+import {
+  Row,
+  Element,
+  HeadElement,
+  SortableHeading,
+  ArrowContainer,
+  Head,
+  Body,
+  Container
+} from "./styles"
 
-type ContainerProps = {
-  withShadow?: boolean
-  customPaddings?: string
-}
-
-const Container = styled.table<ContainerProps>`
-  width: 100%;
-  background-color: var(--bgColor);
-  box-shadow: ${(props) =>
-    props.withShadow ? "1px 4px 19px rgba(0, 0, 0, 0.12)" : "none"};
-  border-radius: 10px;
-  padding: ${(props) => props.customPaddings || "43px 21px"};
-  border-spacing: 10px 0;
-`
-
-const Head = styled.thead``
-
-const HeadElement = styled.th`
-  font-size: 15px;
-  color: var(--gray);
-  text-align: center;
-  font-weight: 500;
-`
-
-const SortableHeading = styled.button`
-  border: none;
-  outline: none;
-  background: transparent;
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--gray);
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-`
-
-type ArrowContainerProps = {
-  shouldRotate?: boolean
-}
-
-const ArrowContainer = styled.span<ArrowContainerProps>`
-  display: flex;
-  position: absolute;
-  top: 50%;
-  transform: ${(props) =>
-    props.shouldRotate
-      ? "translateY(-50%) rotate(180deg)"
-      : "translateY(-50%)"};
-  right: -1.1em;
-  font-size: 1em;
-`
-
-type RowProps = {
-  nRows?: number
-  collapseCols?: number[]
-}
-
-const Row = styled.tr<RowProps>`
-  ${(props) =>
-    props.nRows &&
-    css`
-      & > *:nth-last-child(-n + ${props.nRows}) {
-        width: 1px;
-      }
-    `}
-
-  ${(props) =>
-    props.collapseCols &&
-    props.collapseCols.map(
-      (col) => css`
-        & > *:nth-child(${col}) {
-          width: 1px;
-        }
-      `
-    )}
-`
-
-const Body = styled.tbody``
-
-type ElementProps = {
-  paddings?: string
-}
-
-const Element = styled.td<ElementProps>`
-  font-size: 15px;
-  color: var(--black);
-  text-align: center;
-  font-weight: 500;
-  padding: ${(props) => props.paddings || "14px"} 0;
-`
-
-const Table: React.FC<TableProps> = ({
+const Table = ({
   customHeadings,
   data,
   collapseLastCols,
@@ -108,7 +26,7 @@ const Table: React.FC<TableProps> = ({
   collapseCols,
   customPaddings,
   tablePaddings
-}) => {
+}: TableProps) => {
   const [sortInfo, setSortInfo] = useState<SortInfo | null>(null)
 
   const mapRows = useCallback(

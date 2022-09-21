@@ -2,12 +2,9 @@ import styled from "styled-components"
 
 import ModalContainer from "../modal-components/Container"
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import { ButtonStyledProps, ContainerStyledProps } from "./types"
 
-type ContainerProps = {
-  spaceBetween?: boolean
-}
-
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div<ContainerStyledProps>`
   display: flex;
   justify-content: ${(props) =>
     props.spaceBetween ? "space-between" : "flex-end"};
@@ -31,12 +28,7 @@ export const Controls = styled.div`
   }
 `
 
-type ButtonProps = {
-  active?: boolean
-  spanWidth?: boolean
-}
-
-export const Button = styled.button<ButtonProps>`
+export const Button = styled.button<ButtonStyledProps>`
   border: none;
   outline: none;
   display: flex;

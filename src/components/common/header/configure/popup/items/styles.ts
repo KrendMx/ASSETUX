@@ -26,3 +26,9 @@ export const PopupRow = styled.a`
     margin-right: 15px;
   }
 `
+
+export const CountryContainer = styled.div`
+  display: block;
+  width: 14px;
+  height: 11px;
+`

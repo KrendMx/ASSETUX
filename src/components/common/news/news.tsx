@@ -17,7 +17,7 @@ type NewsProps = {
   news: PostData[]
 }
 
-const News: React.FC<NewsProps> = ({ news }) => {
+const News = ({ news }: NewsProps) => {
   const { t } = useTranslation("news")
 
   const showSkeleton = useAppSelector(selectShowSkeleton)

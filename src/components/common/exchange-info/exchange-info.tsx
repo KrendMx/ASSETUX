@@ -3,18 +3,9 @@ import Skeleton from "react-loading-skeleton"
 
 import Help from "./help"
 import { Container, ExchangeHelp, ExchangeStat } from "./styles"
+import { ExchangeInfoProps } from "./types.exchange-info"
 
-type ExchangeInfoProps = {
-  token?: string | null
-  currency?: string | null
-  placeholder: string
-  text: string
-  rate?: number | null
-  isLoading: boolean
-  margins?: boolean
-}
-
-const ExchangeInfo: React.FC<ExchangeInfoProps> = ({
+const ExchangeInfo = ({
   token,
   currency,
   placeholder,
@@ -22,7 +13,7 @@ const ExchangeInfo: React.FC<ExchangeInfoProps> = ({
   rate,
   isLoading,
   margins
-}) => {
+}: ExchangeInfoProps) => {
   const [hovered, setHovered] = useState(false)
 
   return (

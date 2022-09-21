@@ -11,3 +11,14 @@ export type ExplorerData = {
   volume24: number
   token: Token
 }
+
+export type ServerToClientEvents = {
+  chart: (data: ExplorerData[]) => void
+}
+
+export type ClientToServerEvents = {}
+
+export type CryptoManagerProps = {
+  getToken?: boolean
+  getChart?: boolean
+}

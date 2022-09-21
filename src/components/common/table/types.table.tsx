@@ -26,3 +26,18 @@ export type SortInfo = {
   ascending: boolean
   nColumn: number
 }
+
+export type ContainerProps = {
+  withShadow?: boolean
+  customPaddings?: string
+}
+export type ArrowContainerProps = {
+  shouldRotate?: boolean
+}
+export type RowProps = {
+  nRows?: number
+  collapseCols?: number[]
+}
+export type ElementProps = {
+  paddings?: string
+}

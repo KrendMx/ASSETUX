@@ -16,11 +16,7 @@ type DefaultModalProps = {
   onClose?: () => void
 }
 
-const DefaultModal: React.FC<DefaultModalProps> = ({
-  title,
-  content,
-  onClose
-}) => {
+const DefaultModal = ({ title, content, onClose }: DefaultModalProps) => {
   return createPortal(
     <>
       <Background>

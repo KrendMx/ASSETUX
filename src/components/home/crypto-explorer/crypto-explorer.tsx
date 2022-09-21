@@ -36,7 +36,7 @@ import {
 
 import type { ActionType } from "@/lib/redux/crypto/types"
 import type { Token } from "@/lib/backend/main/types"
-import type { ExplorerData } from "@/components/common/crypto-manager/types"
+import type { ExplorerData } from "@/components/common/crypto-manager/types.crypto-manager"
 import type { TFunction } from "next-i18next"
 
 const tableHeadings = (t: TFunction) => [

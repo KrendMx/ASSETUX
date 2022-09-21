@@ -7,13 +7,7 @@ import { useRouter } from "next/router"
 import { locales } from "@/lib/data/locales"
 import mapLanguage from "../../map-language"
 
-import { PopupItem, PopupRow } from "./styles"
-
-const CountryContainer = styled.div`
-  display: block;
-  width: 14px;
-  height: 11px;
-`
+import { CountryContainer, PopupItem, PopupRow } from "./styles"
 
 type LanguagesProps = {
   onClick: () => void

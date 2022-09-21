@@ -10,20 +10,14 @@ import {
 import { setExplorerData } from "@/lib/redux/crypto"
 
 import type { Socket } from "socket.io-client"
-import type { ExplorerData } from "./types"
+import type {
+  ClientToServerEvents,
+  CryptoManagerProps,
+  ExplorerData,
+  ServerToClientEvents
+} from "./types.crypto-manager"
 
 let prevSelectedBlockchainId: number | null = null
-
-type ServerToClientEvents = {
-  chart: (data: ExplorerData[]) => void
-}
-
-type ClientToServerEvents = {}
-
-type CryptoManagerProps = {
-  getToken?: boolean
-  getChart?: boolean
-}
 
 function CryptoManager({ getToken, getChart }: CryptoManagerProps) {
   const dispatch = useAppDispatch()

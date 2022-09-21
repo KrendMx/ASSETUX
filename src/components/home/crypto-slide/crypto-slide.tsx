@@ -10,7 +10,7 @@ import { useSliderConfig } from "@/lib/hooks"
 import Element from "./element"
 import Slider from "@/components/common/slider"
 
-import type { ExplorerData } from "@/components/common/crypto-manager/types"
+import type { ExplorerData } from "@/components/common/crypto-manager/types.crypto-manager"
 import type { Token, MarketHistoryData } from "@/lib/backend/main/types"
 import type { ActionType } from "@/lib/redux/crypto/types"
 import type { CurrenciesType } from "@/lib/data/currencies"

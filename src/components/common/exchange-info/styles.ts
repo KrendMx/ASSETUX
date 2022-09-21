@@ -36,3 +36,22 @@ export const Container = styled.div<ContainerProps>`
     font-size: 3.5vw;
   }
 `
+
+type HelpContainerProps = {
+  offsetY: number
+}
+
+export const HelpContainer = styled.div<HelpContainerProps>`
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  left: 0;
+  top: ${(props) => `calc(100% + ${props.offsetY}px)`};
+  border-radius: 10px;
+  z-index: 10;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #ffffff;
+  padding: 0.978em 1.654em;
+  backdrop-filter: blur(4px);
+`

@@ -23,42 +23,10 @@ import {
 import Select from "../select"
 
 import type { ChangeEventHandler } from "react"
+import { InputSelectProps } from "./types.input"
 import type { Option } from "../types"
 
-type InputSelectProps = {
-  label?: string
-  onSelect?: (selectedValue: string) => void
-  onActiveChange?: (active: boolean) => void
-  onEnterPress?: () => void
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
-  onUpload?: (file: File) => void
-  value?: string
-  placeholder?: string
-  options?: Option[]
-  changeable?: boolean
-  defaultValue?: string
-  displayIcon?: boolean
-  displayInSelect?: number
-  selectLabel?: string
-  onlyNumbers?: boolean
-  file?: boolean
-  fileLabel?: string
-  accept?: string
-  type?: React.HTMLInputTypeAttribute
-  id?: string
-  name?: string
-  error?: string
-  selectable?: boolean
-  selectedValue?: string | null
-  autocomplete?: string
-  paleBorders?: boolean
-  focused?: boolean
-  visuallyDisabled?: boolean
-  uploadedFileName?: string
-  maxValue?: number
-}
-
-const InputSelect: React.FC<InputSelectProps> = ({
+const InputSelect = ({
   label,
   onSelect,
   onActiveChange,
@@ -89,7 +57,7 @@ const InputSelect: React.FC<InputSelectProps> = ({
   visuallyDisabled = false,
   uploadedFileName,
   maxValue
-}) => {
+}: InputSelectProps) => {
   const { t } = useTranslation("inputSelect")
 
   const hasOptions = options != undefined

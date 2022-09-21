@@ -1,54 +1,9 @@
 import React, { useMemo } from "react"
-
 import { paginate } from "@/components/common/table/paginate"
 import { cardsPerPage } from "@/lib/data/constants"
-
-import {
-  Container,
-  Card,
-  Row,
-  RowSpacer,
-  RowName,
-  RowValue,
-  ButtonsContainer
-} from "./styles"
-
-import type { CardsProps, CardData, ActionElement } from "./types"
-
-const mapCards = (
-  rowNames: string[],
-  currentPage: number,
-  cardData?: CardData[][],
-  buttons?: ActionElement[]
-) => {
-  return cardData?.map((data, paginatedDataIndex) => {
-    const currentIndex = (currentPage - 1) * cardsPerPage + paginatedDataIndex
-
-    const buttonComponents =
-      buttons && buttons.map((button) => button(currentIndex))
-
-    return (
-      <Card key={`card-${currentIndex}`}>
-        <RowSpacer>
-          {rowNames?.map((name, index) => {
-            const item = data[index].value
-
-            return (
-              <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>
-                <RowName>{name}</RowName>
-                <RowValue>{item}</RowValue>
-              </Row>
-            )
-          })}
-        </RowSpacer>
-        {buttonComponents &&
-          buttonComponents.some((element) => element != null) && (
-            <ButtonsContainer>{buttonComponents}</ButtonsContainer>
-          )}
-      </Card>
-    )
-  })
-}
+import { Container } from "./styles"
+import { CardsProps } from "./types"
+import { mapCards } from "./helpers.cards"
 
 const Cards: React.FC<CardsProps> = ({
   data,
