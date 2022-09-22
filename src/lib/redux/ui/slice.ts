@@ -55,10 +55,10 @@ export const slice = createSlice({
       state.ordersActive = action.payload
     },
     setCurrentCurrency: {
-      reducer(state, action: PayloadAction<CurrenciesType>) {
+      reducer: (state, action: PayloadAction<CurrenciesType>) => {
         state.currentCurrency = action.payload
       },
-      prepare(currency: CurrenciesType) {
+      prepare: (currency: CurrenciesType) => {
         window.localStorage.setItem('currency', currency)
         return {
           payload: currency
