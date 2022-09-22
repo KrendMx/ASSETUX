@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^12.2.3",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
     "@types/cookie": "^0.5.1",
     "@types/jest": "^27.5.0",
     "@types/js-cookie": "^3.0.2",
