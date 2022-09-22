@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 export const StyledList = styled.ul`
   list-style: none;
@@ -30,13 +30,13 @@ export const IconElement = styled.li<IconElementProps>`
   }
 
   &::before {
-    display: ${(props) => (props.iconPath ? "inline-block" : "none")};
-    content: "";
+    display: ${(props) => (props.iconPath ? 'inline-block' : 'none')};
+    content: '';
     vertical-align: top;
     width: 14px;
     height: 14px;
     background-image: ${(props) =>
-      props.iconPath ? `url(${props.iconPath})` : "none"};
+      props.iconPath ? `url(${props.iconPath})` : 'none'};
     background-repeat: no-repeat;
     background-size: contain;
     margin-right: 10px;
@@ -69,7 +69,7 @@ type WrapperProps = {
 
 export const Wrapper = styled.footer<WrapperProps>`
   background-color: var(--black);
-  display: ${(props) => (props.hide ? "none" : "block")};
+  display: ${(props) => (props.hide ? 'none' : 'block')};
 `
 
 export const Container = styled.div`
@@ -157,11 +157,11 @@ export const StyledLink = styled.a<StyledLinkProps>`
   font-size: 0.8em;
 
   @media only screen and (max-width: 650px) {
-    font-size: ${(props) => (props.mobileSmall ? "0.7em" : "0.8em")};
-    padding: ${(props) => (props.mobileSmall ? "6px 0" : "7px 0")};
+    font-size: ${(props) => (props.mobileSmall ? '0.7em' : '0.8em')};
+    padding: ${(props) => (props.mobileSmall ? '6px 0' : '7px 0')};
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    font-size: ${(props) => (props.mobileSmall ? "0.86em" : "1em")};
+    font-size: ${(props) => (props.mobileSmall ? '0.86em' : '1em')};
   }
 `

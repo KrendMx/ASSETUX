@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-import { Button, Label, Value } from "./styles"
+import { Button, Label, Value } from './styles'
 
 type InputSelectButtonProps = {
   value?: string

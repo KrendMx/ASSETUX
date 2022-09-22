@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components"
+import styled, { css } from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import AdaptiveFont from '@/components/common/adaptive-font'
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
 
 type ContainerProps = {
   hasPinned?: boolean

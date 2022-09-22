@@ -1,9 +1,9 @@
-import React from "react"
-import { useTranslation } from "next-i18next"
-import Skeleton from "react-loading-skeleton"
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import Skeleton from 'react-loading-skeleton'
 
-import { useAppSelector } from "@/lib/redux/hooks"
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import { useAppSelector } from '@/lib/redux/hooks'
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
 
 import {
   Container,
@@ -22,9 +22,9 @@ import {
   BlockItem,
   CheckMarkContainer,
   CloseMarkContainer
-} from "./styles"
+} from './styles'
 
-import { CloseMark, CheckMark } from "./icons"
+import { CloseMark, CheckMark } from './icons'
 
 type BlockData = {
   title: string
@@ -64,7 +64,7 @@ const generateBlockItems = (
 )
 
 function Info() {
-  const { t } = useTranslation("about")
+  const { t } = useTranslation('about')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
@@ -75,28 +75,28 @@ function Info() {
           <Skeleton />
         ) : (
           <>
-            <Colored colorIn="green">{t("info_buy")}</Colored>/
-            <Colored colorIn="red">{t("info_sell")}</Colored> {t("info_easier")}
+            <Colored colorIn="green">{t('info_buy')}</Colored>/
+            <Colored colorIn="red">{t('info_sell')}</Colored> {t('info_easier')}
           </>
         )}
       </Title>
       <SubTitleParagraph>
-        {showSkeleton ? <Skeleton /> : t("info_subTitleParagraph")}
+        {showSkeleton ? <Skeleton /> : t('info_subTitleParagraph')}
       </SubTitleParagraph>
       <ExampleBlocks>
         <DescriptionSide>
           <ExampleDescription>
             <Paragraph>
-              {showSkeleton ? <Skeleton count={2} /> : t("info_p1")}
+              {showSkeleton ? <Skeleton count={2} /> : t('info_p1')}
             </Paragraph>
             <Paragraph preLine>
               {showSkeleton ? (
                 <Skeleton count={3} />
               ) : (
                 <>
-                  <Bold>{t("info_exampleBold")}</Bold>
+                  <Bold>{t('info_exampleBold')}</Bold>
                   <br />
-                  {t("info_exampleDesc")}
+                  {t('info_exampleDesc')}
                 </>
               )}
             </Paragraph>
@@ -104,8 +104,8 @@ function Info() {
           <GoodBlock isLoading={showSkeleton}>
             {generateBlockItems(
               {
-                title: t("info_goodBlockTitle"),
-                items: [t("info_goodBlockItem1")]
+                title: t('info_goodBlockTitle'),
+                items: [t('info_goodBlockItem1')]
               },
               showSkeleton,
               true
@@ -115,12 +115,12 @@ function Info() {
         <BadBlock isLoading={showSkeleton}>
           {generateBlockItems(
             {
-              title: t("info_badBlockTitle"),
+              title: t('info_badBlockTitle'),
               items: [
-                t("info_badBlockItem1"),
-                t("info_badBlockItem2"),
-                t("info_badBlockItem3"),
-                t("info_badBlockItem4")
+                t('info_badBlockItem1'),
+                t('info_badBlockItem2'),
+                t('info_badBlockItem3'),
+                t('info_badBlockItem4')
               ]
             },
             showSkeleton,

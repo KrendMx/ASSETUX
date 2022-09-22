@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react"
-import styled from "styled-components"
-import { IoIosSearch, IoMdClose } from "react-icons/io"
+import React, { useRef, useState } from 'react'
+import styled from 'styled-components'
+import { IoIosSearch, IoMdClose } from 'react-icons/io'
 
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
 
 const Container = styled.div`
   border-radius: 0.625em;
@@ -69,7 +69,7 @@ type SearchProps = {
   onChange: (value: string) => void
 }
 
-const Search: React.FC<SearchProps> = ({ value, placeholder, onChange }) => {
+const Search = ({ value, placeholder, onChange }: SearchProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -88,8 +88,8 @@ const Search: React.FC<SearchProps> = ({ value, placeholder, onChange }) => {
       />
       <IconButton
         onClick={() => {
-          if (value != "") {
-            onChange("")
+          if (value != '') {
+            onChange('')
           } else {
             if (inputRef.current) {
               inputRef.current.focus()
@@ -97,7 +97,7 @@ const Search: React.FC<SearchProps> = ({ value, placeholder, onChange }) => {
           }
         }}
       >
-        {value == "" ? <IoIosSearch /> : <IoMdClose />}
+        {value == '' ? <IoIosSearch /> : <IoMdClose />}
       </IconButton>
     </Container>
   )

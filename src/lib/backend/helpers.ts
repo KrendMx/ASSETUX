@@ -1,4 +1,4 @@
-import { env } from "../env/client.mjs"
+import { env } from '../env/client.mjs'
 
 export const constructURL = (apiHost: string) => {
   return `${env.hostProtocol}://${apiHost}`
@@ -8,17 +8,17 @@ export const toLocaleBalance = (
   amount: number | undefined,
   style?: string
 ): string =>
-  typeof amount !== "undefined" && !isNaN(amount)
+  typeof amount !== 'undefined' && !isNaN(amount)
     ? `${amount.toLocaleString(undefined, {
         maximumFractionDigits: 2,
-        style: !!style ? style : "decimal",
-        currency: "RUB"
+        style: !!style ? style : 'decimal',
+        currency: 'RUB'
       })}`
-    : "0"
+    : '0'
 
 export const validatePhone = (value: string) => {
   let groups = value
-    .replace(/\D/g, "")
+    .replace(/\D/g, '')
     .trim()
     .match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/)
   value = !groups![3]

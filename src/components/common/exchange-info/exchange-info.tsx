@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import Skeleton from "react-loading-skeleton"
+import React, { useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 
-import Help from "./help"
-import { Container, ExchangeHelp, ExchangeStat } from "./styles"
-import { ExchangeInfoProps } from "./types.exchange-info"
+import Help from './help'
+import { Container, ExchangeHelp, ExchangeStat } from './styles'
+import { ExchangeInfoProps } from './types.exchange-info'
 
 const ExchangeInfo = ({
   token,
@@ -22,7 +22,7 @@ const ExchangeInfo = ({
         <>
           {!!token && !!currency && (
             <ExchangeStat>
-              1 {token} ≈ {rate ?? "..."} {currency}
+              1 {token} ≈ {rate ?? '...'} {currency}
             </ExchangeStat>
           )}
           <ExchangeHelp onMouseEnter={() => {}} onMouseLeave={() => {}}>

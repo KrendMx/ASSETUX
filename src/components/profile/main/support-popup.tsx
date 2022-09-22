@@ -1,21 +1,21 @@
-import React from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 
-import Container from "@/components/common/modal-components/Container"
-import Title from "@/components/common/modal-components/Title"
-import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
-import Button from "@/components/common/modal-components/Button"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
-import Info from "@/components/common/modal-components/Info"
-import AdaptiveFont from "@/components/common/adaptive-font"
-import styled from "styled-components"
-import { Label } from "@/components/common/input-select/input/styles"
-import styles from "./popup.module.css"
-import Background from "@/components/common/background"
-import CopyIcon from "../../../../public/assets/Copy.svg"
-import ExclamationGreenIcon from "../../../../public/assets/Exclamation-green.svg"
+import Container from '@/components/common/modal-components/Container'
+import Title from '@/components/common/modal-components/Title'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Button from '@/components/common/modal-components/Button'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
+import Info from '@/components/common/modal-components/Info'
+import AdaptiveFont from '@/components/common/adaptive-font'
+import styled from 'styled-components'
+import { Label } from '@/components/common/input-select/input/styles'
+import styles from './popup.module.css'
+import Background from '@/components/common/background'
+import CopyIcon from '../../../../public/assets/Copy.svg'
+import ExclamationGreenIcon from '../../../../public/assets/Exclamation-green.svg'
 
 const Bordered = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -46,10 +46,10 @@ interface IProps {
 }
 
 const SupportPopup = ({ userId, email, setOpen }: IProps) => {
-  const { t } = useTranslation("profile")
+  const { t } = useTranslation('profile')
 
   const handleCopy = () => {
-    if ("clipboard" in navigator && userId && email) {
+    if ('clipboard' in navigator && userId && email) {
       navigator.clipboard.writeText(
         `Withdraw\nMerchant Id: M-${userId}\nEmail: ${email}`
       )
@@ -71,12 +71,12 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
               />
             </Icon>
           </Shadow>
-          <span>{t("dear")}</span>
+          <span>{t('dear')}</span>
         </Title>
         <Info misc style={{ fontWeight: 500 }}>
-          {t("text")}
+          {t('text')}
         </Info>
-        <ul style={{ margin: "0 0 25px 30px" }}>
+        <ul style={{ margin: '0 0 25px 30px' }}>
           <li>
             <Text as="div" style={{ marginTop: 24, marginBottom: 12 }}>
               <a className={styles.link} href="mailto:support@assetux.com">
@@ -89,7 +89,7 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
               <a
                 className={styles.link}
                 href="https://t.me/assetux_support"
-                target={"_blank"}
+                target={'_blank'}
                 rel="noreferrer"
               >
                 Telegram
@@ -101,22 +101,22 @@ const SupportPopup = ({ userId, email, setOpen }: IProps) => {
           <div className={styles.bottomBorderedBlock}>
             <div
               style={{
-                display: "flex",
-                flexDirection: "column"
+                display: 'flex',
+                flexDirection: 'column'
               }}
             >
-              <Label as="span">{t("userid")}</Label>
+              <Label as="span">{t('userid')}</Label>
               <Title as="span" style={{ margin: 0 }}>
                 M-{userId}
               </Title>
             </div>
             <div
               style={{
-                display: "flex",
-                flexDirection: "column"
+                display: 'flex',
+                flexDirection: 'column'
               }}
             >
-              <Label as="span">{t("email")}</Label>
+              <Label as="span">{t('email')}</Label>
               <Title as="span" style={{ margin: 0 }}>
                 {email}
               </Title>

@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 type RowProps = {
   centerContent?: boolean
@@ -7,7 +7,7 @@ type RowProps = {
 export const Row = styled.div<RowProps>`
   display: flex;
   justify-content: ${(props) =>
-    props.centerContent ? "center" : "space-between"};
+    props.centerContent ? 'center' : 'space-between'};
 `
 
 export const Container = styled.div`
@@ -32,11 +32,11 @@ export const Button = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${(props) => (props.active ? "var(--blue)" : "var(--lightgray)")};
+  background: ${(props) => (props.active ? 'var(--blue)' : 'var(--lightgray)')};
   border-radius: 7px;
   font-size: 13px;
-  color: ${(props) => (props.active ? "#ffffff" : "var(--gray)")};
-  cursor: ${(props) => (props.nonClickable ? "arrow" : "pointer")};
+  color: ${(props) => (props.active ? '#ffffff' : 'var(--gray)')};
+  cursor: ${(props) => (props.nonClickable ? 'arrow' : 'pointer')};
 
   &:disabled {
     opacity: var(--opacity);
@@ -51,5 +51,5 @@ export const ArrowContainer = styled.span<ArrowContainerProps>`
   display: flex;
   font-size: 20px;
 
-  transform: rotate(${(props) => (props.mirror ? "180deg" : "0")});
+  transform: rotate(${(props) => (props.mirror ? '180deg' : '0')});
 `

@@ -1,8 +1,8 @@
-import React, { useState } from "react"
-import styled from "styled-components"
-import { useTranslation } from "next-i18next"
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { useTranslation } from 'next-i18next'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 const Button = styled.button`
   flex: 0 0 auto;
@@ -24,13 +24,13 @@ type CopyProps = {
 }
 
 function Copy({ label, valueToCopy }: CopyProps) {
-  const { t } = useTranslation("common")
+  const { t } = useTranslation('common')
   const [labelValue, setLabelValue] = useState(label)
 
   const handleCopy: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setLabelValue(t("copied"))
+    setLabelValue(t('copied'))
 
-    if (valueToCopy && "clipboard" in navigator) {
+    if (valueToCopy && 'clipboard' in navigator) {
       navigator.clipboard.writeText(valueToCopy)
     }
 

@@ -1,11 +1,11 @@
-import React from "react"
+import React from 'react'
 
 type LogoProps = {
   width: number | string
   height: number | string
 }
 
-const Logo: React.FC<LogoProps> = ({ width, height }) => (
+const Logo = ({ width, height }: LogoProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}

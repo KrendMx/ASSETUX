@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useMemo } from "react"
+import React, { useEffect, useState, useMemo } from 'react'
 
-import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
-import { setSelectedSellToken, setSelectedToken } from "@/lib/redux/crypto"
-import { BackendClient } from "@/lib/backend/clients"
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
+import { setSelectedSellToken, setSelectedToken } from '@/lib/redux/crypto'
+import { BackendClient } from '@/lib/backend/clients'
 
-import SellForm from "./sell-form"
-import BuyForm from "./buy-form"
-import { Option } from "@/components/common/input-select/types"
+import SellForm from './sell-form'
+import BuyForm from './buy-form'
+import { Option } from '@/components/common/input-select/types'
 
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/lib/data/currencies"
-import { rateCheckInterval } from "@/lib/data/constants"
+} from '@/lib/data/currencies'
+import { rateCheckInterval } from '@/lib/data/constants'
 
 import type {
   Token,
@@ -22,9 +22,9 @@ import type {
   FiatRate,
   LiquidityData,
   Blockchain
-} from "@/lib/backend/main/types.backend.main"
-import { mapBlockchains } from "@/components/profile/bill/bill"
-import { mapTokens } from "@/lib/helpers.global"
+} from '@/lib/backend/main/types.backend.main'
+import { mapBlockchains } from '@/components/profile/bill/bill'
+import { mapTokens } from '@/lib/helpers.global'
 
 const FormController = () => {
   const dispatch = useAppDispatch()
@@ -73,11 +73,11 @@ const FormController = () => {
   const [liquidityData, setLiquidityData] = useState<LiquidityData | null>(null)
 
   const buyPayments = useMemo(() => {
-    return payments && payments.filter((payment) => payment.type == "BUY")
+    return payments && payments.filter((payment) => payment.type == 'BUY')
   }, [payments])
 
   const sellPayments = useMemo(() => {
-    return payments && payments.filter((payment) => payment.type == "SELL")
+    return payments && payments.filter((payment) => payment.type == 'SELL')
   }, [payments])
 
   const handleTokenChange = (tokenSymbol: string) => {
@@ -124,15 +124,15 @@ const FormController = () => {
         })
       ])
 
-      if (fiatProviders.state == "success") {
+      if (fiatProviders.state == 'success') {
         setPayments(fiatProviders.data)
       }
 
-      if (fiatRates.state == "success") {
+      if (fiatRates.state == 'success') {
         setFiatRates(fiatRates.data)
       }
 
-      if (liquidity.state == "success") {
+      if (liquidity.state == 'success') {
         setLiquidityData(liquidity.data)
       }
     }
@@ -157,11 +157,11 @@ const FormController = () => {
       const fiatRates = responses[0]
       const liquidity = responses[1]
 
-      if (fiatRates.state == "success") {
+      if (fiatRates.state == 'success') {
         setFiatRates(fiatRates.data)
       }
 
-      if (liquidity.state == "success") {
+      if (liquidity.state == 'success') {
         setLiquidityData(liquidity.data)
       }
     }, rateCheckInterval)
@@ -179,7 +179,7 @@ const FormController = () => {
           value: currency,
           description: mapCurrencyName(currency),
           shortDescription:
-            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+            mapShortCurrencyName(currency) + ' ' + mapCurrency(currency)
         }))
         .filter(({ value }) =>
           buyPayments?.find(({ currency }) => currency === value)
@@ -192,7 +192,7 @@ const FormController = () => {
           value: currency,
           description: mapCurrencyName(currency),
           shortDescription:
-            mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+            mapShortCurrencyName(currency) + ' ' + mapCurrency(currency)
         }))
         .filter(({ value }) =>
           sellPayments?.find(({ currency }) => currency === value)
@@ -200,7 +200,7 @@ const FormController = () => {
     )
   }, [sellPayments, buyPayments])
 
-  return action == "BUY" ? (
+  return action == 'BUY' ? (
     <BuyForm
       blockchains={blockchains}
       tokens={tokens}
@@ -223,7 +223,7 @@ const FormController = () => {
       serviceAvailable={liquidityData ? liquidityData.sell : null}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedSellToken}
-      currentCurrency={"RUB"}
+      currentCurrency={'RUB'}
       onTokenChange={handleTokenSellChange}
     />
   )

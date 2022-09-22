@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 export const Container = styled.section`
   width: 100%;
@@ -45,7 +45,7 @@ export const Paragraph = styled.p<ParagraphProps>`
   color: #616161;
   font-size: 1em;
   font-weight: 400;
-  text-align: ${(props) => (props.alignRight ? "right" : "left")};
+  text-align: ${(props) => (props.alignRight ? 'right' : 'left')};
   white-space: pre-line;
 
   @media only screen and (max-width: 680px) {

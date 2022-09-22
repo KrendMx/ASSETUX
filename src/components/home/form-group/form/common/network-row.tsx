@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
-import styled from "styled-components"
-import Help from "@/components/common/exchange-info/help"
-import { mobile } from "@/lib/data/constants"
-import Skeleton from "react-loading-skeleton"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import styled from 'styled-components'
+import Help from '@/components/common/exchange-info/help'
+import { mobile } from '@/lib/data/constants'
+import Skeleton from 'react-loading-skeleton'
 
 const Container = styled.div`
   width: 100%;
@@ -51,7 +51,7 @@ const QuestionMark = styled.span`
   cursor: pointer;
 
   &::before {
-    content: "?";
+    content: '?';
     color: var(--blue);
   }
 
@@ -68,7 +68,7 @@ type NetworkRowProps = {
 }
 
 function NetworkRow({ isLoading }: NetworkRowProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   const [hovered, setHovered] = useState(false)
 
@@ -76,12 +76,12 @@ function NetworkRow({ isLoading }: NetworkRowProps) {
     <Container>
       {!isLoading ? (
         <>
-          <span>{t("home:network_sure")}</span>
+          <span>{t('home:network_sure')}</span>
           <QuestionMark
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           />
-          {hovered && <Help offsetY={14}>{t("home:network_help")}</Help>}
+          {hovered && <Help offsetY={14}>{t('home:network_help')}</Help>}
         </>
       ) : (
         <Skeleton containerClassName="skeletonFlexContainer" />

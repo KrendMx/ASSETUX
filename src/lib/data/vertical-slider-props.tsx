@@ -51,7 +51,7 @@ const verticalSliderProps = {
   autoplay: true,
   autoplaySpeed: 3000,
   speed: 500,
-  centerPadding: "0px",
+  centerPadding: '0px',
   slidesToShow: 3,
   slidesToScroll: 1,
   draggable: false,

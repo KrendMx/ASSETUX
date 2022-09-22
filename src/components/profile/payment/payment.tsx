@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { useTranslation } from "next-i18next"
-import { isValidPhoneNumber } from "libphonenumber-js"
+import React, { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
+import { isValidPhoneNumber } from 'libphonenumber-js'
 
-import Configure from "@/components/common/header/configure"
-import InputSelect from "@/components/common/input-select"
-import HideableWithMargin from "@/components/home/form-group/form/common/hideable-with-margin"
+import Configure from '@/components/common/header/configure'
+import InputSelect from '@/components/common/input-select'
+import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
 import {
   Header,
   Footer,
@@ -16,35 +16,35 @@ import {
   Name,
   Submit,
   PoweredBy
-} from "./styles"
+} from './styles'
 
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/lib/data/currencies"
+} from '@/lib/data/currencies'
 
-import { EcommerceClient } from "@/lib/backend/clients"
-import { emailRegexp } from "@/lib/data/constants"
-import { stringToPieces } from "@/lib/utils/helpers"
-import { env } from "@/lib/env/client.mjs"
+import { EcommerceClient } from '@/lib/backend/clients'
+import { emailRegexp } from '@/lib/data/constants'
+import { stringToPieces } from '@/lib/utils/helpers'
+import { env } from '@/lib/env/client.mjs'
 
-import type { IEcommerceBill } from "@/lib/backend/ecommerce/types.backend.ecommerce"
+import type { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type {
   FiatProvider,
   FiatRate
-} from "@/lib/backend/main/types.backend.main"
-import type { Option } from "@/components/common/input-select/types"
-import { useAppSelector } from "@/lib/redux/hooks"
-import { validatePhone } from "@/lib/backend/helpers"
-import { VISAMASTER } from "@/core/backend/types"
+} from '@/lib/backend/main/types.backend.main'
+import type { Option } from '@/components/common/input-select/types'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { validatePhone } from '@/lib/backend/helpers'
+import { VISAMASTER } from '@/core/backend/types'
 
 const inputIds = {
-  email: "email",
-  phone: "phone",
-  card: "cardnumber",
-  wallet: "publickey"
+  email: 'email',
+  phone: 'phone',
+  card: 'cardnumber',
+  wallet: 'publickey'
 }
 
 export type PaymentProps<T, B> = {
@@ -59,18 +59,18 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
   const widget = bill.widget
   const displayHeader =
     widget.logoCompany != null ||
-    (widget.nameCompany != null && widget.nameCompany != "")
+    (widget.nameCompany != null && widget.nameCompany != '')
 
-  const { t } = useTranslation("profile-payment")
+  const { t } = useTranslation('profile-payment')
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == VISAMASTER)
-      ? "QIWIVISAMASTER"
+      ? 'QIWIVISAMASTER'
       : providers[0].method
   )
   const [paymentActive, setPaymentActive] = useState(false)
-  const [email, setEmail] = useState("")
-  const [details, setDetails] = useState("")
+  const [email, setEmail] = useState('')
+  const [details, setDetails] = useState('')
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
@@ -84,7 +84,7 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
       value: currency,
       description: mapCurrencyName(currency),
       shortDescription:
-        mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        mapShortCurrencyName(currency) + ' ' + mapCurrency(currency)
     }))
 
     if (mappedCurrencies.length > 0) {
@@ -101,13 +101,13 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
       .filter(({ currency }) => currency === selectedCurrency)
       .map((provider) => ({
         icon: provider.logo
-          ? env.hostProtocol + "://" + blockchainURL + provider.logo
+          ? env.hostProtocol + '://' + blockchainURL + provider.logo
           : undefined,
         value:
-          provider.method == VISAMASTER ? "QIWIVISAMASTER" : provider.method,
+          provider.method == VISAMASTER ? 'QIWIVISAMASTER' : provider.method,
         description: provider.method
       }))
-    selectedCurrency !== "RUB" && setSelectedPayment(options[0].value)
+    selectedCurrency !== 'RUB' && setSelectedPayment(options[0].value)
     return options
   }, [providers, blockchainURL, selectedCurrency])
 
@@ -118,7 +118,7 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
   }
 
   const handleCard: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const value = event.target.value.replaceAll(" ", "")
+    const value = event.target.value.replaceAll(' ', '')
     const validated = /^[0-9]*$/.test(value)
 
     validated && setDetails(value)
@@ -135,18 +135,18 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
   ) => {
     event.preventDefault()
 
-    const validEmail = email != "" && emailRegexp.test(email)
+    const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
-      selectedPayment == "QIWI"
-        ? details != "" && isValidPhoneNumber(details, "RU")
+      selectedPayment == 'QIWI'
+        ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCard = selectedPayment != "QIWI" ? details.length == 16 : true
+    const validCard = selectedPayment != 'QIWI' ? details.length == 16 : true
 
     setErrors((prev) => ({
       ...prev,
-      [inputIds.email]: validEmail ? undefined : t("invalidEmail"),
-      [inputIds.phone]: validPhone ? undefined : t("invalidPhone"),
-      [inputIds.card]: validCard ? undefined : t("invalidCard")
+      [inputIds.email]: validEmail ? undefined : t('invalidEmail'),
+      [inputIds.phone]: validPhone ? undefined : t('invalidPhone'),
+      [inputIds.card]: validCard ? undefined : t('invalidCard')
     }))
 
     if (!validEmail || !validPhone || !validCard) {
@@ -159,16 +159,16 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
       paymentMethod: selectedPayment,
       email,
       creditCard: details
-        .replaceAll("(", "")
-        .replaceAll(")", "")
-        .replaceAll(" ", "")
-        .replaceAll("-", ""),
+        .replaceAll('(', '')
+        .replaceAll(')', '')
+        .replaceAll(' ', '')
+        .replaceAll('-', ''),
       ecommerceBillHash: bill.bill.hash
     })
 
     setWaitingResponse(false)
 
-    if (response.state != "success") {
+    if (response.state != 'success') {
       return
     }
 
@@ -207,8 +207,8 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
       >
         <Form onSubmit={handleSubmit} style={{ minHeight: 440 }}>
           <InputSelect
-            label={t("toPay")}
-            value={bill.bill.sendAmount + ""}
+            label={t('toPay')}
+            value={bill.bill.sendAmount + ''}
             visuallyDisabled
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
@@ -219,14 +219,14 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
             <InputSelect
-              label={t("paymentMethod")}
+              label={t('paymentMethod')}
               options={paymentOptions}
               selectedValue={selectedPayment}
               displayInSelect={1}
               onActiveChange={setPaymentActive}
               onSelect={(value) => {
                 setSelectedPayment(value)
-                setDetails("")
+                setDetails('')
               }}
               displayIcon
               selectable
@@ -234,7 +234,7 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
                 id={inputIds.email}
-                label={t("email")}
+                label={t('email')}
                 placeholder="coolemail@gmail.com"
                 autocomplete="email"
                 value={email}
@@ -243,9 +243,9 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
                 type="email"
                 changeable
               />
-              {selectedPayment == "QIWI" ? (
+              {selectedPayment == 'QIWI' ? (
                 <InputSelect
-                  label={t("phoneNumber")}
+                  label={t('phoneNumber')}
                   id={inputIds.phone}
                   value={details}
                   onChange={handlePhone}
@@ -258,9 +258,9 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
               ) : (
                 <InputSelect
                   id={inputIds.card}
-                  value={stringToPieces(details, 4, " ")}
+                  value={stringToPieces(details, 4, ' ')}
                   onChange={handleCard}
-                  label={t("creditCard")}
+                  label={t('creditCard')}
                   autocomplete="cc-number"
                   error={errors[inputIds.card]}
                   placeholder="0000 0000 0000 0000"
@@ -269,7 +269,7 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
                 />
               )}
               <Submit disabled={waitingResponse}>
-                {waitingResponse ? t("loading") : t("submit")}
+                {waitingResponse ? t('loading') : t('submit')}
               </Submit>
             </HideableWithMargin>
           </HideableWithMargin>

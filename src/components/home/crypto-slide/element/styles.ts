@@ -1,8 +1,8 @@
-import styled, { keyframes, css } from "styled-components"
+import styled, { keyframes, css } from 'styled-components'
 
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
 export const Button = styled.button`
   flex: 1 1 auto;
@@ -76,7 +76,7 @@ type ChangeInfoProps = {
 }
 
 export const ChangeInfo = styled.span<ChangeInfoProps>`
-  color: ${(props) => (props.up ? "var(--green)" : "var(--red)")};
+  color: ${(props) => (props.up ? 'var(--green)' : 'var(--red)')};
   font-size: 1em;
   font-weight: 500;
 
@@ -107,7 +107,7 @@ export const Container = styled(AdaptiveFont).attrs({
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: ${(props) => (props.active ? "245px" : "177px")};
+  height: ${(props) => (props.active ? '245px' : '177px')};
   border-radius: 10px;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   background-color: var(--bgColor);

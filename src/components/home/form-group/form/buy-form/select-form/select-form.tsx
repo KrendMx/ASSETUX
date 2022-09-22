@@ -1,39 +1,39 @@
-import React, { useState, useMemo, useEffect } from "react"
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
-import { useTranslation } from "next-i18next"
-import Skeleton from "react-loading-skeleton"
-import { isValidPhoneNumber } from "libphonenumber-js"
+import React, { useState, useMemo, useEffect } from 'react'
+import { useIsomorphicLayoutEffect } from '@/lib/hooks'
+import { useTranslation } from 'next-i18next'
+import Skeleton from 'react-loading-skeleton'
+import { isValidPhoneNumber } from 'libphonenumber-js'
 
-import InputSelect from "@/components/common/input-select"
+import InputSelect from '@/components/common/input-select'
 
-import InputSelectButton from "../../input-select-button"
-import NextButton from "../../common/next-button"
-import ExchangeRow from "@/components/common/exchange-info"
-import NetworkRow from "../../common/network-row"
-import HideableWithMargin from "../../common/hideable-with-margin"
-import Maintenance from "../../common/maintenance"
+import InputSelectButton from '../../input-select-button'
+import NextButton from '../../common/next-button'
+import ExchangeRow from '@/components/common/exchange-info'
+import NetworkRow from '../../common/network-row'
+import HideableWithMargin from '../../common/hideable-with-margin'
+import Maintenance from '../../common/maintenance'
 
-import { Container, FormContainer } from "./styles"
+import { Container, FormContainer } from './styles'
 
-import Step from "./steps"
+import Step from './steps'
 
-import { emailRegexp, allowSkeletons, walletRegexp } from "@/lib/data/constants"
-import { useAppSelector } from "@/lib/redux/hooks"
+import { emailRegexp, allowSkeletons, walletRegexp } from '@/lib/data/constants'
+import { useAppSelector } from '@/lib/redux/hooks'
 
-import { stringToPieces, validateDecimal } from "@/lib/utils/helpers"
+import { stringToPieces, validateDecimal } from '@/lib/utils/helpers'
 
-import type { Error, SelectFormProps } from "./types"
-import type { Option } from "@/components/common/input-select/types"
+import type { Error, SelectFormProps } from './types'
+import type { Option } from '@/components/common/input-select/types'
 
 const inputIds = {
-  get: "get",
-  give: "give",
-  wallet: "wallet",
-  email: "email",
-  blockchains: "blockchains",
-  payments: "payments",
-  details: "cardnumber",
-  phoneNumber: "phone"
+  get: 'get',
+  give: 'give',
+  wallet: 'wallet',
+  email: 'email',
+  blockchains: 'blockchains',
+  payments: 'payments',
+  details: 'cardnumber',
+  phoneNumber: 'phone'
 }
 
 function SelectForm({
@@ -69,7 +69,7 @@ function SelectForm({
   onEmailChange,
   onSubmit
 }: SelectFormProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
@@ -79,12 +79,12 @@ function SelectForm({
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
-    () => stringToPieces(currentDetails, 4, " "),
+    () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
   )
 
   useEffect(() => {
-    if (rate && giveAmount != "") {
+    if (rate && giveAmount != '') {
       setGetAmount((Number(giveAmount) / rate).toFixed(2))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,9 +139,9 @@ function SelectForm({
 
     if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
       if (value > currentPaymentOption.max) {
-        return t("home:buy_maximumIs") + " " + currentPaymentOption.max
+        return t('home:buy_maximumIs') + ' ' + currentPaymentOption.max
       } else {
-        return t("home:buy_minimumIs") + " " + currentPaymentOption.min
+        return t('home:buy_minimumIs') + ' ' + currentPaymentOption.min
       }
     } else {
       return null
@@ -191,9 +191,9 @@ function SelectForm({
       return
     }
 
-    let estimatedGiveAmount = ""
+    let estimatedGiveAmount = ''
 
-    if (rate != null && result != "") {
+    if (rate != null && result != '') {
       estimatedGiveAmount = (Number(result) * rate).toFixed(2)
     }
 
@@ -233,7 +233,7 @@ function SelectForm({
   const handleDetailsInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    const value = event.target.value.replaceAll(" ", "")
+    const value = event.target.value.replaceAll(' ', '')
     const validated = /^[0-9]*$/.test(value)
     validated && onDetailsChange(value)
   }
@@ -262,24 +262,24 @@ function SelectForm({
     }
 
     if (currentStep == Step.Credentials) {
-      if (email == "" || !emailRegexp.test(email)) {
-        errorObject[inputIds.email] = t("home:buy_invalidEmail")
+      if (email == '' || !emailRegexp.test(email)) {
+        errorObject[inputIds.email] = t('home:buy_invalidEmail')
       }
 
-      if (currentWallet == "" || !walletRegexp.test(currentWallet)) {
-        errorObject[inputIds.wallet] = t("home:buy_invalidWallet")
+      if (currentWallet == '' || !walletRegexp.test(currentWallet)) {
+        errorObject[inputIds.wallet] = t('home:buy_invalidWallet')
       }
 
-      if (currentPayment == "QIWI") {
+      if (currentPayment == 'QIWI') {
         if (
-          currentPhoneNumber == "" ||
-          !isValidPhoneNumber(currentPhoneNumber, "RU")
+          currentPhoneNumber == '' ||
+          !isValidPhoneNumber(currentPhoneNumber, 'RU')
         ) {
-          errorObject[inputIds.phoneNumber] = t("home:buy_invalidPhoneNumber")
+          errorObject[inputIds.phoneNumber] = t('home:buy_invalidPhoneNumber')
         }
       } else {
-        if (currentDetails == "") {
-          errorObject[inputIds.details] = t("home:buy_invalidCard")
+        if (currentDetails == '') {
+          errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
       }
     }
@@ -303,9 +303,9 @@ function SelectForm({
         <FormContainer>
           {!isLoading ? (
             <InputSelect
-              label={t("home:buy_blockchain")}
+              label={t('home:buy_blockchain')}
               id={inputIds.blockchains}
-              selectLabel={t("home:buy_blockchainLabel")}
+              selectLabel={t('home:buy_blockchainLabel')}
               options={checkedBlockchains}
               displayInSelect={3}
               onActiveChange={(active) => setChainActive(active)}
@@ -320,7 +320,7 @@ function SelectForm({
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
               <InputSelect
-                label={`${t("home:buy_give")}: ${currentPaymentOption?.min} - ${
+                label={`${t('home:buy_give')}: ${currentPaymentOption?.min} - ${
                   currentPaymentOption?.max
                 }`}
                 id={inputIds.give}
@@ -341,7 +341,7 @@ function SelectForm({
             <HideableWithMargin hide={giveActive} margins>
               {!isLoading ? (
                 <InputSelect
-                  label={t("home:buy_payment")}
+                  label={t('home:buy_payment')}
                   id={inputIds.payments}
                   options={checkedPayments}
                   onSelect={onPaymentChange}
@@ -359,13 +359,13 @@ function SelectForm({
                   currency={currentCurrency}
                   rate={rate}
                   isLoading={isLoading}
-                  placeholder={t("home:exchange_fees")}
+                  placeholder={t('home:exchange_fees')}
                   text="asd"
                   margins
                 />
                 {!isLoading ? (
                   <InputSelect
-                    label={t("home:buy_get")}
+                    label={t('home:buy_get')}
                     id={inputIds.get}
                     options={checkedTokens}
                     displayInSelect={2}
@@ -389,27 +389,27 @@ function SelectForm({
       return (
         <FormContainer>
           <InputSelectButton
-            label={t("home:buy_backTo")}
-            value={t("home:buy_orderDetails")}
+            label={t('home:buy_backTo')}
+            value={t('home:buy_orderDetails')}
             onClick={() => setCurrentStep(Step.Details)}
           />
           <NetworkRow isLoading={isLoading} />
           <InputSelect
-            label={t("home:buy_wallet")}
+            label={t('home:buy_wallet')}
             id={inputIds.wallet}
             onChange={handleWalletInput}
             value={currentWallet}
             error={inputError[inputIds.wallet]}
             placeholder={
               inputError[inputIds.wallet]
-                ? ""
-                : "0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f"
+                ? ''
+                : '0x04A6eDc2Cd603D7a1D875479444A8ad2CEDf6d5f'
             }
             changeable
           />
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label={t("home:buy_email")}
+              label={t('home:buy_email')}
               id={inputIds.email}
               value={email}
               error={inputError[inputIds.email]}
@@ -419,9 +419,9 @@ function SelectForm({
               changeable
             />
             <HideableWithMargin hide={false} margins>
-              {currentPayment == "QIWI" ? (
+              {currentPayment == 'QIWI' ? (
                 <InputSelect
-                  label={t("home:buy_phoneNumber")}
+                  label={t('home:buy_phoneNumber')}
                   id={inputIds.phoneNumber}
                   onChange={handleNumberInput}
                   value={currentPhoneNumber}
@@ -432,7 +432,7 @@ function SelectForm({
                 />
               ) : (
                 <InputSelect
-                  label={t("home:buy_cardNumber")}
+                  label={t('home:buy_cardNumber')}
                   id={inputIds.details}
                   onChange={handleDetailsInput}
                   value={piecedDetails}
@@ -466,9 +466,9 @@ function SelectForm({
               containerClassName="skeletonFlexContainer skeletonZeroLineHeight"
             />
           ) : processingRequest ? (
-            t("home:buy_wait")
+            t('home:buy_wait')
           ) : (
-            t("home:buy_next")
+            t('home:buy_next')
           )}
         </NextButton>
       )}

@@ -1,14 +1,14 @@
-import React from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 
-import Container from "@/components/common/modal-components/Container"
-import Title from "@/components/common/modal-components/Title"
-import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
-import Button from "@/components/common/modal-components/Button"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
-import Info from "@/components/common/modal-components/Info"
+import Container from '@/components/common/modal-components/Container'
+import Title from '@/components/common/modal-components/Title'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Button from '@/components/common/modal-components/Button'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
+import Info from '@/components/common/modal-components/Info'
 
 type NotEnoughProps = {
   min: number
@@ -16,8 +16,8 @@ type NotEnoughProps = {
   onAccept?: () => void
 }
 
-const NotEnough: React.FC<NotEnoughProps> = ({ min, fiat, onAccept }) => {
-  const { t } = useTranslation("home")
+const NotEnough = ({ min, fiat, onAccept }: NotEnoughProps) => {
+  const { t } = useTranslation('home')
 
   return (
     <Container allowScrolling>
@@ -33,9 +33,9 @@ const NotEnough: React.FC<NotEnoughProps> = ({ min, fiat, onAccept }) => {
             />
           </Icon>
         </Shadow>
-        <span>{t("home:sell_notEnoughTitle")}</span>
+        <span>{t('home:sell_notEnoughTitle')}</span>
       </Title>
-      {t<string, string[]>("home:sell_notEnoughDesc", {
+      {t<string, string[]>('home:sell_notEnoughDesc', {
         returnObjects: true,
         min,
         cur: fiat

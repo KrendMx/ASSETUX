@@ -1,13 +1,13 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 const breakPoint = 820
 
 export const Container = styled(AdaptiveFont).attrs({
-  as: "section",
+  as: 'section',
   mobileFactor: 1.215,
   tabletFactor: 1
 })`
@@ -67,10 +67,10 @@ type ParagraphProps = {
 }
 
 export const Paragraph = styled.p<ParagraphProps>`
-  color: ${(props) => (props.black ? "var(--black)" : "var(--gray)")};
+  color: ${(props) => (props.black ? 'var(--black)' : 'var(--gray)')};
   font-weight: ${(props) => (props.black ? 500 : 400)};
-  margin-top: ${(props) => (props.decreaseMargins ? "1em" : "1.5em")};
-  white-space: ${(props) => (props.preLine ? "pre-line" : "normal")};
+  margin-top: ${(props) => (props.decreaseMargins ? '1em' : '1.5em')};
+  white-space: ${(props) => (props.preLine ? 'pre-line' : 'normal')};
   font-size: 1.1em;
 
   @media only screen and (max-width: ${mobile}px) {

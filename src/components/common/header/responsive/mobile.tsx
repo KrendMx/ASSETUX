@@ -1,15 +1,15 @@
-import React from "react"
-import styled from "styled-components"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import Configure from "../configure"
-import BurgerButton from "./burger-button"
-import Logo from "@/components/common/logo"
+import React from 'react'
+import styled from 'styled-components'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import Configure from '../configure'
+import BurgerButton from './burger-button'
+import Logo from '@/components/common/logo'
 
-import { mobile } from "@/lib/data/constants"
-import { useAppSelector } from "@/lib/redux/hooks"
-import { env } from "@/lib/env/client.mjs"
-import { Container } from "./style"
+import { mobile } from '@/lib/data/constants'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { env } from '@/lib/env/client.mjs'
+import { Container } from './style'
 
 const MobileContainer = styled(Container)`
   display: none;
@@ -30,10 +30,10 @@ const LogoLink = styled.a`
   display: flex;
 `
 
-const Mobile: React.FC = () => {
+const Mobile = () => {
   const router = useRouter()
   const hideBurgerButton = useAppSelector((state) => state.ui.hideBurgerButton)
-  const isCommercePage = router.pathname.startsWith("/profile")
+  const isCommercePage = router.pathname.startsWith('/profile')
 
   return (
     <MobileContainer>

@@ -1,14 +1,14 @@
 export type PendingRequest = {
-  state: "pending"
+  state: 'pending'
 }
 
 export type SuccessfulRequest<T> = {
-  state: "success"
+  state: 'success'
   result: T
 }
 
 export type ErrorRequest<T> = {
-  state: "error"
+  state: 'error'
   error: T
 }
 
@@ -18,25 +18,25 @@ export type RequestState<S = unknown, E = unknown> =
   | ErrorRequest<E>
 
 export type SuccessfulResponse<T> = {
-  state: "success"
+  state: 'success'
   status: number
   message: string
   data: T
 }
 
 export type ErrorResponse<T> = {
-  state: "error"
+  state: 'error'
   status: number
   message: string
   data: T
 }
 
 export type CancelledResponse = {
-  state: "cancelled"
+  state: 'cancelled'
 }
 
 export type UnavailableResponse = {
-  state: "unavailable"
+  state: 'unavailable'
 }
 
 export type Response<S = unknown, E = unknown> =
@@ -54,8 +54,8 @@ export type Abortable = {
 }
 
 export enum PayProviders {
-  VISAMASTER = "VISAMASTER",
-  QIWI = "QIWI"
+  VISAMASTER = 'VISAMASTER',
+  QIWI = 'QIWI'
 }
 
 export const { VISAMASTER, QIWI } = PayProviders

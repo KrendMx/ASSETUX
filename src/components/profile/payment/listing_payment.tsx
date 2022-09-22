@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { useTranslation } from "next-i18next"
-import { isValidPhoneNumber } from "libphonenumber-js"
+import React, { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
+import { isValidPhoneNumber } from 'libphonenumber-js'
 
-import Configure from "@/components/common/header/configure"
-import InputSelect from "@/components/common/input-select"
-import HideableWithMargin from "@/components/home/form-group/form/common/hideable-with-margin"
+import Configure from '@/components/common/header/configure'
+import InputSelect from '@/components/common/input-select'
+import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
 import {
   Header,
   Footer,
@@ -16,38 +16,38 @@ import {
   Name,
   Submit,
   PoweredBy
-} from "./styles"
+} from './styles'
 
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/lib/data/currencies"
+} from '@/lib/data/currencies'
 
-import { BackendClient, EcommerceClient } from "@/lib/backend/clients"
-import { emailRegexp } from "@/lib/data/constants"
-import { stringToPieces } from "@/lib/utils/helpers"
-import { env } from "@/lib/env/client.mjs"
+import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
+import { emailRegexp } from '@/lib/data/constants'
+import { stringToPieces } from '@/lib/utils/helpers'
+import { env } from '@/lib/env/client.mjs'
 
-import type { MerchantData } from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import type { FiatRate } from "@/lib/backend/main/types.backend.main"
-import type { Option } from "@/components/common/input-select/types"
-import { useAppSelector } from "@/lib/redux/hooks"
-import ExchangeInfo from "@/components/common/exchange-info"
-import { PaymentProps } from "./payment"
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
-import { validatePhone } from "@/lib/backend/helpers"
-import { VISAMASTER } from "@/core/backend/types"
-import { mapBlockchains } from "../bill/bill"
-import { mapTokens } from "@/lib/helpers.global"
+import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type { FiatRate } from '@/lib/backend/main/types.backend.main'
+import type { Option } from '@/components/common/input-select/types'
+import { useAppSelector } from '@/lib/redux/hooks'
+import ExchangeInfo from '@/components/common/exchange-info'
+import { PaymentProps } from './payment'
+import { useIsomorphicLayoutEffect } from '@/lib/hooks'
+import { validatePhone } from '@/lib/backend/helpers'
+import { VISAMASTER } from '@/core/backend/types'
+import { mapBlockchains } from '../bill/bill'
+import { mapTokens } from '@/lib/helpers.global'
 
 const inputIds = {
-  email: "email",
-  phone: "phone",
-  card: "cardnumber",
-  wallet: "publickey",
-  give: "give"
+  email: 'email',
+  phone: 'phone',
+  card: 'cardnumber',
+  wallet: 'publickey',
+  give: 'give'
 }
 
 function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
@@ -59,20 +59,20 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
   } = props
   const displayHeader =
     widget.logoCompany != null ||
-    (widget.nameCompany != null && widget.nameCompany != "")
+    (widget.nameCompany != null && widget.nameCompany != '')
 
-  const { t } = useTranslation("profile-payment")
+  const { t } = useTranslation('profile-payment')
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == VISAMASTER)
       ? VISAMASTER
       : providers[0].method
   )
-  const [get, setGet] = useState("10000")
+  const [get, setGet] = useState('10000')
   const [paymentActive, setPaymentActive] = useState(false)
-  const [email, setEmail] = useState("")
-  const [details, setDetails] = useState("")
-  const [wallet, setWallet] = useState("")
+  const [email, setEmail] = useState('')
+  const [details, setDetails] = useState('')
+  const [wallet, setWallet] = useState('')
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
@@ -86,7 +86,7 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
       value: currency,
       description: mapCurrencyName(currency),
       shortDescription:
-        mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        mapShortCurrencyName(currency) + ' ' + mapCurrency(currency)
     }))
 
     if (mappedCurrencies.length > 0) {
@@ -121,12 +121,12 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
       .filter(({ currency }) => currency === selectedCurrency)
       .map((provider) => ({
         icon: provider.logo
-          ? env.hostProtocol + "://" + blockchainURL + provider.logo
+          ? env.hostProtocol + '://' + blockchainURL + provider.logo
           : undefined,
         value: provider.method == VISAMASTER ? VISAMASTER : provider.method,
         description: provider.method
       }))
-    selectedCurrency !== "RUB" && setSelectedPayment(options[0].value)
+    selectedCurrency !== 'RUB' && setSelectedPayment(options[0].value)
     return options
   }, [providers, blockchainURL, selectedCurrency])
 
@@ -141,9 +141,9 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
 
     if (value < currentPayment.min || value > currentPayment.max) {
       if (value > currentPayment.max) {
-        return t("home:buy_maximumIs") + " " + currentPayment.max
+        return t('home:buy_maximumIs') + ' ' + currentPayment.max
       } else {
-        return t("home:buy_minimumIs") + " " + currentPayment.min
+        return t('home:buy_minimumIs') + ' ' + currentPayment.min
       }
     } else {
       return undefined
@@ -157,14 +157,14 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
   }
 
   const handleCard: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const value = event.target.value.replaceAll(" ", "")
+    const value = event.target.value.replaceAll(' ', '')
     const validated = /^[0-9]*$/.test(value)
 
     validated && setDetails(value)
   }
 
   const handleAddress: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const value = event.target.value.replaceAll(" ", "")
+    const value = event.target.value.replaceAll(' ', '')
     const validated = /^[0-9a-zA-Z]*$/.test(value)
     validated && setWallet(value)
   }
@@ -180,12 +180,12 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
   ) => {
     event.preventDefault()
 
-    const validEmail = email != "" && emailRegexp.test(email)
+    const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
-      selectedPayment == "QIWI"
-        ? details != "" && isValidPhoneNumber(details, "RU")
+      selectedPayment == 'QIWI'
+        ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCard = selectedPayment != "QIWI" ? details.length == 16 : true
+    const validCard = selectedPayment != 'QIWI' ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
       Number(+get * fiatrate?.buy[currentCurrency])
@@ -193,10 +193,10 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
 
     setErrors((prev) => ({
       ...prev,
-      [inputIds.email]: validEmail ? undefined : t("invalidEmail"),
-      [inputIds.phone]: validPhone ? undefined : t("invalidPhone"),
-      [inputIds.card]: validCard ? undefined : t("invalidCard"),
-      [inputIds.wallet]: validWallet ? undefined : t("invalidWallet"),
+      [inputIds.email]: validEmail ? undefined : t('invalidEmail'),
+      [inputIds.phone]: validPhone ? undefined : t('invalidPhone'),
+      [inputIds.card]: validCard ? undefined : t('invalidCard'),
+      [inputIds.wallet]: validWallet ? undefined : t('invalidWallet'),
       [inputIds.give]: validRanges
     }))
 
@@ -223,15 +223,15 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
       tokenAddress: token.address,
       email,
       card: details
-        .replaceAll("(", "")
-        .replaceAll(")", "")
-        .replaceAll(" ", "")
-        .replaceAll("-", "")
+        .replaceAll('(', '')
+        .replaceAll(')', '')
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
     })
 
     setWaitingResponse(false)
 
-    if (response.state != "success" || !response.data.link) {
+    if (response.state != 'success' || !response.data.link) {
       return
     }
 
@@ -270,9 +270,9 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
       >
         <Form onSubmit={handleSubmit}>
           <InputSelect
-            label={t("home:buy_blockchain")}
-            id={"blockchains"}
-            selectLabel={t("home:buy_blockchainLabel")}
+            label={t('home:buy_blockchain')}
+            id={'blockchains'}
+            selectLabel={t('home:buy_blockchainLabel')}
             options={mapBlockchains([chain])}
             displayInSelect={3}
             onActiveChange={() => null}
@@ -282,8 +282,8 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
             displayIcon
           />
           <InputSelect
-            label={t("home:buy_get")}
-            id={"get"}
+            label={t('home:buy_get')}
+            id={'get'}
             value={get}
             selectedValue={token.symbol}
             selectable={false}
@@ -297,14 +297,14 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
             currency={currentCurrency}
             rate={fiatrate?.buy[currentCurrency]}
             isLoading={false}
-            placeholder={t("home:exchange_fees")}
+            placeholder={t('home:exchange_fees')}
             text="asd"
             margins
           />
           <InputSelect
-            label={t("toPay")}
+            label={t('toPay')}
             value={
-              Number((+get * fiatrate?.buy[currentCurrency]).toFixed(2)) + ""
+              Number((+get * fiatrate?.buy[currentCurrency]).toFixed(2)) + ''
             }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
@@ -317,14 +317,14 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
             <InputSelect
-              label={t("paymentMethod")}
+              label={t('paymentMethod')}
               options={paymentOptions}
               selectedValue={selectedPayment}
               displayInSelect={1}
               onActiveChange={setPaymentActive}
               onSelect={(value) => {
                 setSelectedPayment(value)
-                setDetails("")
+                setDetails('')
               }}
               displayIcon
               selectable
@@ -332,7 +332,7 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
                 id={inputIds.email}
-                label={t("email")}
+                label={t('email')}
                 placeholder="coolemail@gmail.com"
                 autocomplete="email"
                 value={email}
@@ -341,9 +341,9 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
                 type="email"
                 changeable
               />
-              {selectedPayment == "QIWI" ? (
+              {selectedPayment == 'QIWI' ? (
                 <InputSelect
-                  label={t("phoneNumber")}
+                  label={t('phoneNumber')}
                   id={inputIds.phone}
                   value={details}
                   onChange={handlePhone}
@@ -357,9 +357,9 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
                 <InputSelect
                   id={inputIds.card}
                   placeholder="0000 0000 0000 0000"
-                  value={stringToPieces(details, 4, " ")}
+                  value={stringToPieces(details, 4, ' ')}
                   onChange={handleCard}
-                  label={t("creditCard")}
+                  label={t('creditCard')}
                   autocomplete="cc-number"
                   error={errors[inputIds.card]}
                   onlyNumbers
@@ -368,8 +368,8 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
               )}
 
               <InputSelect
-                label={t("home:buy_wallet")}
-                id={"wallet"}
+                label={t('home:buy_wallet')}
+                id={'wallet'}
                 onChange={handleAddress}
                 value={wallet}
                 error={errors[inputIds.wallet]}
@@ -377,7 +377,7 @@ function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
                 changeable
               />
               <Submit disabled={waitingResponse}>
-                {waitingResponse ? t("loading") : t("submit")}
+                {waitingResponse ? t('loading') : t('submit')}
               </Submit>
             </HideableWithMargin>
           </HideableWithMargin>

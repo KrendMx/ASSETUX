@@ -1,16 +1,16 @@
-import React from "react"
-import { NextSeo } from "next-seo"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import React from 'react'
+import { NextSeo } from 'next-seo'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import ArticleComponent from "@/components/blog/article"
+import ArticleComponent from '@/components/blog/article'
 
-import { BackendClient } from "@/lib/backend/clients"
-import { getDefaultMetaTags } from "@/lib/utils/seo"
+import { BackendClient } from '@/lib/backend/clients'
+import { getDefaultMetaTags } from '@/lib/utils/seo'
 
-import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
-import type { ParsedUrlQuery } from "querystring"
-import type { ArticleProps } from "@/components/blog/article"
-import type { PostData } from "@/lib/backend/main/types.backend.main"
+import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from 'next'
+import type { ParsedUrlQuery } from 'querystring'
+import type { ArticleProps } from '@/components/blog/article'
+import type { PostData } from '@/lib/backend/main/types.backend.main'
 
 function Article(props: ArticleProps) {
   return (
@@ -24,8 +24,8 @@ function Article(props: ArticleProps) {
             url: BackendClient.genericURL + props.data.img,
             width: 1600,
             height: 900,
-            alt: "Article Preview",
-            type: "image/png"
+            alt: 'Article Preview',
+            type: 'image/png'
           }
         })}
       />
@@ -52,17 +52,17 @@ export const getStaticProps: GetStaticProps<
   const responses = await Promise.all([
     BackendClient.findPost({
       query: slug,
-      category: "all",
+      category: 'all',
       strict: true,
       lang: locale!
     }),
-    BackendClient.getNews({ category: "all", page: 1, lang: locale! })
+    BackendClient.getNews({ category: 'all', page: 1, lang: locale! })
   ])
 
   const postResponse = responses[0]
   const recentPostsResponse = responses[1]
 
-  if (postResponse.state != "success") {
+  if (postResponse.state != 'success') {
     return errorProps
   }
 
@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps<
 
   let recentPosts: PostData[] | null = null
   if (
-    recentPostsResponse.state == "success" &&
+    recentPostsResponse.state == 'success' &&
     recentPostsResponse.data.news != null
   ) {
     recentPosts = recentPostsResponse.data.news.slice(0, 3)
@@ -83,10 +83,10 @@ export const getStaticProps: GetStaticProps<
       data: postResponse.data.news,
       recentPosts,
       ...(await serverSideTranslations(locale!, [
-        "header",
-        "footer",
-        "news",
-        "routes"
+        'header',
+        'footer',
+        'news',
+        'routes'
       ]))
     },
     revalidate: 3600
@@ -94,16 +94,16 @@ export const getStaticProps: GetStaticProps<
 }
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
-  const paths: GetStaticPathsResult["paths"] = []
+  const paths: GetStaticPathsResult['paths'] = []
 
   for (const locale of locales!) {
     const response = await BackendClient.getNews({
-      category: "all",
+      category: 'all',
       page: 1,
       lang: locale
     })
 
-    if (response.state != "success" || response.data.news == null) {
+    if (response.state != 'success' || response.data.news == null) {
       continue
     }
 
@@ -117,7 +117,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 
   return {
     paths,
-    fallback: "blocking"
+    fallback: 'blocking'
   }
 }
 

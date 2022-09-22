@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobileLayoutForTablet } from "@/lib/data/constants"
+import { mobileLayoutForTablet } from '@/lib/data/constants'
 
 const breakPoint = 680
 
@@ -48,6 +48,6 @@ type SliderContainerProps = {
 }
 
 export const SliderContainer = styled.div<SliderContainerProps>`
-  height: ${(props) => (!props.visible ? "642px" : "auto")};
-  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
+  height: ${(props) => (!props.visible ? '642px' : 'auto')};
+  visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
 `

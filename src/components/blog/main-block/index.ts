@@ -1,1 +1,1 @@
-export { default } from "./main-block"
+export { default } from './main-block'

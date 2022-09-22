@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { mobile } from "@/lib/data/constants"
+import styled from 'styled-components'
+import { mobile } from '@/lib/data/constants'
 
 const BaseContainer = styled.div`
   width: 100%;

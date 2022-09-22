@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
-import Background from "@/components/common/background"
-import Email from "./modals/email"
-import Code from "./modals/code"
-import CodeInvalid from "./modals/code-invalid"
-import OrderModal from "./order-modal"
+import Background from '@/components/common/background'
+import Email from './modals/email'
+import Code from './modals/code'
+import CodeInvalid from './modals/code-invalid'
+import OrderModal from './order-modal'
 
-import { BackendClient } from "@/lib/backend/clients"
+import { BackendClient } from '@/lib/backend/clients'
 
-import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
-import { setOrdersActive } from "@/lib/redux/ui"
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
+import { setOrdersActive } from '@/lib/redux/ui'
 
-import type { OrderInfo } from "./order-modal/types"
-import type { OrdersData } from "@/lib/backend/main/types.backend.main"
-import type { RequestState } from "@/core/backend/types"
+import type { OrderInfo } from './order-modal/types'
+import type { OrdersData } from '@/lib/backend/main/types.backend.main'
+import type { RequestState } from '@/core/backend/types'
 
 const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   const allOrders: OrderInfo[] = []
@@ -26,7 +26,7 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
       amountOut: sellOrder.cur_out.amount,
       curIn: sellOrder.cur_in.symbol,
       curOut: sellOrder.cur_out.currency,
-      status: sellOrder.status.split(":")[0],
+      status: sellOrder.status.split(':')[0],
       tokenLogo: sellOrder.cur_in.logo_uri,
       buy: false,
       orderId: sellOrder.order_id,
@@ -35,9 +35,9 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   }
 
   const allBuyOrders = [
-    ...orders.buy.error.map((order) => ({ ...order, status: "expired" })),
-    ...orders.buy.request.map((order) => ({ ...order, status: "pending" })),
-    ...orders.buy.success.map((order) => ({ ...order, status: "closed" }))
+    ...orders.buy.error.map((order) => ({ ...order, status: 'expired' })),
+    ...orders.buy.request.map((order) => ({ ...order, status: 'pending' })),
+    ...orders.buy.success.map((order) => ({ ...order, status: 'closed' }))
   ]
 
   for (const buyOrder of allBuyOrders) {
@@ -104,12 +104,12 @@ function Orders() {
           signal: controller.signal
         })
 
-        if (response.state != "success") {
+        if (response.state != 'success') {
           return
         }
 
         setGetOrdersResponse({
-          state: "success",
+          state: 'success',
           result: mapOrderInfo(response.data)
         })
       }, 10000)
@@ -126,7 +126,7 @@ function Orders() {
 
     if (currentBlockchain) {
       setCodeRequestResponse({
-        state: "pending"
+        state: 'pending'
       })
 
       const response = await BackendClient.requestOrdersEmail({
@@ -134,16 +134,16 @@ function Orders() {
         email
       })
 
-      if (response.state == "success") {
+      if (response.state == 'success') {
         setShowCodeModal(true)
 
         setCodeRequestResponse({
-          state: "success",
+          state: 'success',
           result: true
         })
-      } else if (response.state == "error") {
+      } else if (response.state == 'error') {
         setCodeRequestResponse({
-          state: "error",
+          state: 'error',
           error: response.data.message
         })
       }
@@ -155,7 +155,7 @@ function Orders() {
 
     if (currentBlockchain && userEmail) {
       setGetOrdersResponse({
-        state: "pending"
+        state: 'pending'
       })
 
       const response = await BackendClient.getEmailOrders({
@@ -164,24 +164,24 @@ function Orders() {
         code
       })
 
-      if (response.state == "error") {
+      if (response.state == 'error') {
         setShowCodeInvalidModal(true)
         setShowCodeModal(false)
 
         setGetOrdersResponse({
-          state: "error",
+          state: 'error',
           error: response.data.message
         })
 
         return
       }
 
-      if (response.state != "success") {
+      if (response.state != 'success') {
         return
       }
 
       setGetOrdersResponse({
-        state: "success",
+        state: 'success',
         result: mapOrderInfo(response.data)
       })
 
@@ -210,10 +210,10 @@ function Orders() {
             clearData()
           }}
           onAccept={handleEmail}
-          isLoading={codeRequestResponse?.state == "pending"}
+          isLoading={codeRequestResponse?.state == 'pending'}
           errorMessage={
             codeRequestResponse
-              ? "error" in codeRequestResponse
+              ? 'error' in codeRequestResponse
                 ? codeRequestResponse.error
                 : null
               : null
@@ -225,7 +225,7 @@ function Orders() {
         <Code
           onCancel={() => setShowCodeModal(false)}
           onAccept={handleCode}
-          isLoading={getOrdersResponse?.state == "pending"}
+          isLoading={getOrdersResponse?.state == 'pending'}
         />
       )}
 
@@ -238,7 +238,7 @@ function Orders() {
         />
       )}
 
-      {showOrdersModal && getOrdersResponse?.state == "success" && (
+      {showOrdersModal && getOrdersResponse?.state == 'success' && (
         <OrderModal
           email={userEmail}
           orders={getOrdersResponse.result}

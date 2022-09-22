@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react"
-import styled from "styled-components"
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 const Text = styled.span`
   color: gray;
@@ -49,7 +49,7 @@ function Timer({ timestamp, onExpired }: TimerProps) {
 
   return (
     <Text>
-      Timer: {minutes}:{seconds < 10 ? "0" + seconds : seconds}
+      Timer: {minutes}:{seconds < 10 ? '0' + seconds : seconds}
     </Text>
   )
 }

@@ -1,21 +1,21 @@
-import React, { useState } from "react"
-import styled from "styled-components"
-import { useTranslation } from "next-i18next"
-import { Magic } from "magic-sdk"
-import { useRouter } from "next/router"
-import Cookies from "js-cookie"
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import { useTranslation } from 'next-i18next'
+import { Magic } from 'magic-sdk'
+import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
-import { env } from "@/lib/env/client.mjs"
-import { EcommerceClient } from "@/lib/backend/clients"
-import { mobile, emailRegexp, mappedCookies } from "@/lib/data/constants"
-import { isLocaleDeclared } from "@/lib/data/locales"
+import { env } from '@/lib/env/client.mjs'
+import { EcommerceClient } from '@/lib/backend/clients'
+import { mobile, emailRegexp, mappedCookies } from '@/lib/data/constants'
+import { isLocaleDeclared } from '@/lib/data/locales'
 
-import InputSelect from "@/components/common/input-select"
-import AdaptiveFont from "@/components/common/adaptive-font"
-import { Form, Button } from "../common/form-components"
+import InputSelect from '@/components/common/input-select'
+import AdaptiveFont from '@/components/common/adaptive-font'
+import { Form, Button } from '../common/form-components'
 
 const Container = styled(AdaptiveFont).attrs({
-  as: "section",
+  as: 'section',
   mobileFactor: 1.28,
   tabletFactor: 1.25
 })`
@@ -62,17 +62,17 @@ const LoginWrapper = styled.div`
 
 function LoginContainer() {
   const router = useRouter()
-  const { t } = useTranslation("profile-login")
+  const { t } = useTranslation('profile-login')
 
-  const [email, setEmail] = useState("")
-  const [emailError, setEmailError] = useState("")
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [waiting, setWaiting] = useState(false)
 
   const handleEmail: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
 
     setEmail(value)
-    setEmailError(emailRegexp.test(value) ? "" : t("emailInvalid"))
+    setEmailError(emailRegexp.test(value) ? '' : t('emailInvalid'))
   }
 
   const login: React.FormEventHandler<HTMLFormElement> = async (event) => {
@@ -87,30 +87,30 @@ function LoginContainer() {
         email
       })
 
-      setEmailError("")
+      setEmailError('')
 
       if (token) {
         const login = await EcommerceClient.login({
           token
         })
 
-        if (login.state == "success") {
+        if (login.state == 'success') {
           const authToken = login.data.auth_token
 
           Cookies.set(mappedCookies.authToken, authToken, {
-            path: "/",
-            sameSite: "strict",
+            path: '/',
+            sameSite: 'strict',
             secure: true,
             expires: 365
           })
 
-          router.push("/profile")
+          router.push('/profile')
         } else {
-          setEmailError(t("smthHappened"))
+          setEmailError(t('smthHappened'))
         }
       }
     } catch (_) {
-      setEmailError(t("emailInvalid"))
+      setEmailError(t('emailInvalid'))
     }
 
     setWaiting(false)
@@ -119,26 +119,26 @@ function LoginContainer() {
   return (
     <Container>
       <LoginWrapper>
-        <Title>{t("greetings")}</Title>
-        <Note>{t("explanation")}</Note>
+        <Title>{t('greetings')}</Title>
+        <Note>{t('explanation')}</Note>
         <Form gap="1.578em" onSubmit={login} noValidate>
           <InputSelect
             id="email"
-            label={t("email")}
+            label={t('email')}
             value={email}
             onChange={handleEmail}
             type="email"
             autocomplete="email"
             placeholder="coolemail@gmail.com"
-            error={emailError != "" ? emailError : undefined}
+            error={emailError != '' ? emailError : undefined}
             changeable
           />
           <Button
             type="submit"
             isLoading={waiting}
-            disabled={emailError != "" || email == "" || waiting}
+            disabled={emailError != '' || email == '' || waiting}
           >
-            {waiting ? t("loading") : t("logIn")}
+            {waiting ? t('loading') : t('logIn')}
           </Button>
         </Form>
       </LoginWrapper>

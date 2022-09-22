@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { mobile } from "@/lib/data/constants"
+import styled from 'styled-components'
+import { mobile } from '@/lib/data/constants'
 
 type NextButtonProps = {
   isLoading?: boolean
@@ -13,7 +13,7 @@ const NextButton = styled.button<NextButtonProps>`
   outline: none;
   color: #ffffff;
   background-color: ${(props) =>
-    props.isLoading ? "transparent" : "var(--blue)"};
+    props.isLoading ? 'transparent' : 'var(--blue)'};
   border-radius: 0.619em;
   cursor: pointer;
   height: 3.035em;

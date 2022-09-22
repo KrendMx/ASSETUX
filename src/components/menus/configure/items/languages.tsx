@@ -1,16 +1,16 @@
-import React from "react"
-import styled from "styled-components"
-import Image from "next/image"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import React from 'react'
+import styled from 'styled-components'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import { useAppDispatch } from "@/lib/redux/hooks"
-import { setConfigureActive } from "@/lib/redux/ui"
-import { locales } from "@/lib/data/locales"
+import { useAppDispatch } from '@/lib/redux/hooks'
+import { setConfigureActive } from '@/lib/redux/ui'
+import { locales } from '@/lib/data/locales'
 
-import { ActiveNavLink } from "./styles"
+import { ActiveNavLink } from './styles'
 
-import type { LocalesType } from "@/lib/data/locales"
+import type { LocalesType } from '@/lib/data/locales'
 
 const CountryContainer = styled.div`
   display: block;
@@ -20,14 +20,14 @@ const CountryContainer = styled.div`
 
 const mapLanguage = (locale: LocalesType) => {
   switch (locale) {
-    case "en":
-      return "English"
-    case "ru":
-      return "Russian"
+    case 'en':
+      return 'English'
+    case 'ru':
+      return 'Russian'
   }
 }
 
-const Languages: React.FC = () => {
+const Languages = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const { locale: currentLocale } = router

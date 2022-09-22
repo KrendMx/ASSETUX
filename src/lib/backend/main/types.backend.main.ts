@@ -1,4 +1,4 @@
-import { Response, UrlRequest } from "@/core/backend/types"
+import { Response, UrlRequest } from '@/core/backend/types'
 
 export type FiatRate = {
   chain_id: string
@@ -83,7 +83,7 @@ export type GetPaymentUrlProps = UrlRequest & {
 }
 
 export type GetTokensProps = {
-  type: "buy" | "sell"
+  type: 'buy' | 'sell'
 }
 
 export type GeyPaymentUrlData = {
@@ -356,7 +356,7 @@ export type NewsData = {
   total_pages: number
 }
 
-export const postCategories = ["all", "news", "articles", "actual"] as const
+export const postCategories = ['all', 'news', 'articles', 'actual'] as const
 export type PostCategory = typeof postCategories[number]
 
 export const isPostCategoryDeclared = (

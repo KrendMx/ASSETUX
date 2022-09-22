@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { mobile } from "@/lib/data/constants"
+import styled from 'styled-components'
+import { mobile } from '@/lib/data/constants'
 
 export const Header = styled.header`
   width: 100%;
@@ -145,7 +145,7 @@ type ContentProps = {
 export const Content = styled.div<ContentProps>`
   width: 100%;
   min-height: ${(props) =>
-    props.displayHeader ? "calc(100vh - 73px - 73px)" : "calc(100vh - 73px)"};
+    props.displayHeader ? 'calc(100vh - 73px - 73px)' : 'calc(100vh - 73px)'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,7 +158,7 @@ export const Content = styled.div<ContentProps>`
 
   @media only screen and (max-width: ${mobile}px) {
     min-height: ${(props) =>
-      props.displayHeader ? "calc(100vh - 63px - 63px)" : "calc(100vh - 63px)"};
+      props.displayHeader ? 'calc(100vh - 63px - 63px)' : 'calc(100vh - 63px)'};
   }
 `
 
@@ -187,13 +187,13 @@ export const Form = styled.form`
   }
 `
 
-export const Submit = styled.button.attrs({ type: "submit" })`
+export const Submit = styled.button.attrs({ type: 'submit' })`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   background: var(--blue);
-  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+  cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   color: var(--white);
   border: none;
   outline: none;

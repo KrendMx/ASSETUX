@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 export const Container = styled.div`
   display: grid;
@@ -40,7 +40,7 @@ export const Row = styled.div<RowProps>`
   display: flex;
   flex-direction: row;
   justify-content: ${(props) =>
-    props.withSpace ? "space-between" : "flex-start"};
+    props.withSpace ? 'space-between' : 'flex-start'};
   align-items: center;
 `
 

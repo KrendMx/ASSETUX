@@ -1,24 +1,24 @@
-import React, { useState, useMemo, useEffect } from "react"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
-import Skeleton from "react-loading-skeleton"
+import React, { useState, useMemo, useEffect } from 'react'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import Skeleton from 'react-loading-skeleton'
 
-import { useImmediateMobile } from "@/lib/hooks"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
-import { perPageValues, cardsPerPage, cardsWidth } from "@/lib/data/constants"
-import { getFormattedDate } from "@/lib/utils/date"
+import { useImmediateMobile } from '@/lib/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
+import { perPageValues, cardsPerPage, cardsWidth } from '@/lib/data/constants'
+import { getFormattedDate } from '@/lib/utils/date'
 
-import Table from "@/components/common/table"
-import Cards from "@/components/common/cards"
-import Search from "@/components/common/search"
-import Pages from "@/components/common/pagination"
-import { Container, NoAssets, ControlsRow } from "./styles"
+import Table from '@/components/common/table'
+import Cards from '@/components/common/cards'
+import Search from '@/components/common/search'
+import Pages from '@/components/common/pagination'
+import { Container, NoAssets, ControlsRow } from './styles'
 
-import type { IMerchant } from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import { setMerchantMode } from "@/lib/redux/ui"
-import { PayProviders, QIWI } from "@/core/backend/types"
-import { cardNames, tableHeadings } from "./mock"
+import type { IMerchant } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import { setMerchantMode } from '@/lib/redux/ui'
+import { PayProviders, QIWI } from '@/core/backend/types'
+import { cardNames, tableHeadings } from './mock'
 
 export type HistoryType = {
   id: number
@@ -45,9 +45,9 @@ function History({
 }: HistoryProps) {
   const isMobile = useImmediateMobile()
   const displayCards = useImmediateMobile(cardsWidth)
-  const { t } = useTranslation("profile-history")
+  const { t } = useTranslation('profile-history')
   const router = useRouter()
-  const isTRANSFER = mode == "TRANSFER"
+  const isTRANSFER = mode == 'TRANSFER'
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -55,7 +55,7 @@ function History({
   }, [dispatch, mode])
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
-  const [searchContext, setSearchContext] = useState("")
+  const [searchContext, setSearchContext] = useState('')
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -74,7 +74,7 @@ function History({
             ? [
                 {
                   value: (
-                    <span key={item.id + "datetime"}>
+                    <span key={item.id + 'datetime'}>
                       {getFormattedDate(Number(item.timestamp), router.locale!)}
                     </span>
                   ),
@@ -96,7 +96,7 @@ function History({
             : [
                 {
                   value: (
-                    <span key={item.id + "datetime"}>
+                    <span key={item.id + 'datetime'}>
                       {getFormattedDate(Number(item.timestamp), router.locale!)}
                     </span>
                   ),
@@ -138,12 +138,12 @@ function History({
       {showSkeleton ? (
         <Skeleton height="5.21em" />
       ) : history.length == 0 ? (
-        <NoAssets>{t("noAssets")}</NoAssets>
+        <NoAssets>{t('noAssets')}</NoAssets>
       ) : (
         <>
           <ControlsRow>
             <Search
-              placeholder={t("search")}
+              placeholder={t('search')}
               value={searchContext}
               onChange={setSearchContext}
             />

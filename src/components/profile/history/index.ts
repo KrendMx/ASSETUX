@@ -1,2 +1,2 @@
-export { default } from "./history"
-export type { HistoryType, HistoryProps } from "./history"
+export { default } from './history'
+export type { HistoryType, HistoryProps } from './history'

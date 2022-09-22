@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
-import Skeleton from "react-loading-skeleton"
+import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import Skeleton from 'react-loading-skeleton'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { useAuthorized } from "@/lib/hooks"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { useAuthorized } from '@/lib/hooks'
 
-import CryptoManager from "@/components/common/crypto-manager"
-import InputSelect from "@/components/common/input-select"
-import ExchangeInfo from "@/components/common/exchange-info"
-import HideableWithMargin from "@/components/home/form-group/form/common/hideable-with-margin"
-import { FormHeading, Button } from "../common/form-components"
+import CryptoManager from '@/components/common/crypto-manager'
+import InputSelect from '@/components/common/input-select'
+import ExchangeInfo from '@/components/common/exchange-info'
+import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
+import { FormHeading, Button } from '../common/form-components'
 import {
   Container,
   FormContainer,
@@ -18,29 +18,29 @@ import {
   FormContent,
   ExchangeInfoWrapper,
   ContainerForListing
-} from "./styles"
-import LinkModal from "./link-modal"
+} from './styles'
+import LinkModal from './link-modal'
 
-import { BackendClient, EcommerceClient } from "@/lib/backend/clients"
+import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
 import {
   currencies as definedCurrencies,
   CurrenciesType,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/lib/data/currencies"
-import { rateCheckInterval } from "@/lib/data/constants"
-import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
+} from '@/lib/data/currencies'
+import { rateCheckInterval } from '@/lib/data/constants'
+import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers'
 
-import type { IMerchant } from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import type { Option } from "@/components/common/input-select/types"
-import { setMerchantMode } from "@/lib/redux/ui"
-import { env } from "@/lib/env/client.mjs"
+import type { IMerchant } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type { Option } from '@/components/common/input-select/types'
+import { setMerchantMode } from '@/lib/redux/ui'
+import { env } from '@/lib/env/client.mjs'
 
 const inputIds = {
-  get: "get",
-  send: "send",
-  blockchains: "blockchains"
+  get: 'get',
+  send: 'send',
+  blockchains: 'blockchains'
 }
 
 export type BillProps = { profile: IMerchant }
@@ -50,9 +50,9 @@ function ListingComponent({ profile }: BillProps) {
     user: { mode },
     tokens
   } = profile
-  const isTRANSFER = mode === "TRANSFER"
+  const isTRANSFER = mode === 'TRANSFER'
   const isRETENTION = !isTRANSFER
-  const { t } = useTranslation(isRETENTION ? "profile-bill" : "profile-listing")
+  const { t } = useTranslation(isRETENTION ? 'profile-bill' : 'profile-listing')
   const router = useRouter()
   const checkAuthorized = useAuthorized()
   const dispatch = useAppDispatch()
@@ -67,15 +67,15 @@ function ListingComponent({ profile }: BillProps) {
   const [ranges, setRanges] = useState<{ min: number; max: number } | null>(
     null
   )
-  const [inputError, setInputError] = useState("")
-  const [outputError, setOutputError] = useState("")
-  const [submitValue, setSubmitValue] = useState<string>(t("copyLink"))
+  const [inputError, setInputError] = useState('')
+  const [outputError, setOutputError] = useState('')
+  const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [get, setGet] = useState({
-    visible: "",
+    visible: '',
     actual: 0
   })
-  const [send, setSend] = useState("10000")
+  const [send, setSend] = useState('10000')
 
   const [getActive, setGetActive] = useState(false)
   const [getCurrencyActive, setGetCurrencyActive] = useState(false)
@@ -114,15 +114,15 @@ function ListingComponent({ profile }: BillProps) {
     const sumWithFee = await EcommerceClient.calcFee(
       Number(result),
       selectedCurrency as CurrenciesType,
-      "BUY",
+      'BUY',
       true
     )
 
-    if (sumWithFee.state === "success") {
+    if (sumWithFee.state === 'success') {
       setSend(
         Number(sumWithFee.data.amount)
-          ? Number(sumWithFee.data.amount.toFixed(2)) + ""
-          : ""
+          ? Number(sumWithFee.data.amount.toFixed(2)) + ''
+          : ''
       )
 
       const resultNum = Number(result)
@@ -130,19 +130,19 @@ function ListingComponent({ profile }: BillProps) {
       const sendAmount = resultNum
 
       if (sendRes < ranges.min) {
-        setInputError(t("minError", { min: ranges.min }))
+        setInputError(t('minError', { min: ranges.min }))
       } else if (sendRes > ranges.max) {
-        setInputError(t("maxError", { max: ranges.max }))
+        setInputError(t('maxError', { max: ranges.max }))
       } else {
-        setInputError("")
+        setInputError('')
       }
 
       if (sendAmount < ranges.min) {
-        setOutputError(t("minError", { min: ranges.min }))
+        setOutputError(t('minError', { min: ranges.min }))
       } else if (sendAmount > ranges.max) {
-        setOutputError(t("maxError", { max: ranges.max }))
+        setOutputError(t('maxError', { max: ranges.max }))
       } else {
-        setOutputError("")
+        setOutputError('')
       }
     }
 
@@ -172,33 +172,33 @@ function ListingComponent({ profile }: BillProps) {
     const sumWithFee = await EcommerceClient.calcFee(
       Number(result),
       selectedCurrency as CurrenciesType,
-      "BUY",
+      'BUY',
       false
     )
 
-    if (sumWithFee.state === "success") {
+    if (sumWithFee.state === 'success') {
       const amountRes = sumWithFee.data.amount
       setGet({
-        visible: Number(amountRes) > 0 ? Number(amountRes.toFixed(2)) + "" : "",
+        visible: Number(amountRes) > 0 ? Number(amountRes.toFixed(2)) + '' : '',
         actual: amountRes
       })
 
       const resultNum = Number(result)
 
       if (resultNum < ranges.min) {
-        setInputError(t("minError", { min: ranges.min }))
+        setInputError(t('minError', { min: ranges.min }))
       } else if (resultNum > ranges.max) {
-        setInputError(t("maxError", { max: ranges.max }))
+        setInputError(t('maxError', { max: ranges.max }))
       } else {
-        setInputError("")
+        setInputError('')
       }
 
       if (+amountRes < ranges.min) {
-        setOutputError(t("minError", { min: ranges.min }))
+        setOutputError(t('minError', { min: ranges.min }))
       } else if (+amountRes > ranges.max) {
-        setOutputError(t("maxError", { max: ranges.max }))
+        setOutputError(t('maxError', { max: ranges.max }))
       } else {
-        setOutputError("")
+        setOutputError('')
       }
     }
   }
@@ -225,7 +225,7 @@ function ListingComponent({ profile }: BillProps) {
 
     setWaitingResponse(true)
 
-    setSubmitValue(t("loading"))
+    setSubmitValue(t('loading'))
 
     const response =
       isRETENTION &&
@@ -237,37 +237,37 @@ function ListingComponent({ profile }: BillProps) {
 
     setWaitingResponse(false)
 
-    let link = ""
+    let link = ''
 
-    if (!!response && response.state == "success") {
+    if (!!response && response.state == 'success') {
       link =
         window.location.protocol +
-        "//" +
+        '//' +
         window.location.host +
         `/payment/${response.data.hash}`
     } else if (isTRANSFER) {
       link =
         window.location.protocol +
-        "//" +
+        '//' +
         window.location.host +
         `/payment_listing/${selectedToken}`
     } else {
-      setSubmitValue(t("copyLink"))
+      setSubmitValue(t('copyLink'))
     }
 
-    if ("clipboard" in navigator) {
+    if ('clipboard' in navigator) {
       navigator.clipboard.writeText(link)
 
-      setSubmitValue(t("copied"))
+      setSubmitValue(t('copied'))
 
       setTimeout(() => {
-        setSubmitValue(t("copyLink"))
+        setSubmitValue(t('copyLink'))
         copyTimeout.current = null
       }, 2000)
     } else {
       setLinkModalProps({ open: true, link })
 
-      setSubmitValue(t("copyLink"))
+      setSubmitValue(t('copyLink'))
     }
   }
 
@@ -277,10 +277,10 @@ function ListingComponent({ profile }: BillProps) {
         apiHost: `bsc.${env.host}`,
         signal
       })
-      if (response.state == "success") {
+      if (response.state == 'success') {
         const fiatProviders = response.data
         const buyProviders = fiatProviders.filter(
-          (provider) => provider.type == "BUY"
+          (provider) => provider.type == 'BUY'
         )
 
         if (buyProviders.length != 0) {
@@ -311,7 +311,7 @@ function ListingComponent({ profile }: BillProps) {
       value: currency,
       description: mapCurrencyName(currency),
       shortDescription:
-        mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        mapShortCurrencyName(currency) + ' ' + mapCurrency(currency)
     }))
 
     if (mappedCurrencies.length > 0) {
@@ -380,10 +380,10 @@ function ListingComponent({ profile }: BillProps) {
   }, [tokens, isTRANSFER])
 
   useEffect(() => {
-    t("copyLink") === submitValue &&
+    t('copyLink') === submitValue &&
       !!selectedToken &&
       isTRANSFER &&
-      setSubmitValue(t("copyLink") + ` ${selectedToken}`)
+      setSubmitValue(t('copyLink') + ` ${selectedToken}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [submitValue, selectedToken])
 
@@ -393,15 +393,15 @@ function ListingComponent({ profile }: BillProps) {
       const sumWithFee = await EcommerceClient.calcFee(
         10000,
         selectedCurrency as CurrenciesType,
-        "BUY",
+        'BUY',
         false
       )
-      if (sumWithFee.state === "success") {
+      if (sumWithFee.state === 'success') {
         setGet({
-          visible: Number(sumWithFee.data.amount.toFixed(2)) + "",
+          visible: Number(sumWithFee.data.amount.toFixed(2)) + '',
           actual: sumWithFee.data.amount
         })
-        setSend(Number(sumWithFee.data.amountIn.toFixed(2)) + "")
+        setSend(Number(sumWithFee.data.amountIn.toFixed(2)) + '')
       }
     })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -432,12 +432,12 @@ function ListingComponent({ profile }: BillProps) {
           >
             <FormContent>
               <FormHeading>
-                {loading ? <Skeleton /> : t("formHeading")}
+                {loading ? <Skeleton /> : t('formHeading')}
               </FormHeading>
               <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
-                    label={t("get", {
+                    label={t('get', {
                       min: ranges.min,
                       max: ranges.max
                     })}
@@ -447,7 +447,7 @@ function ListingComponent({ profile }: BillProps) {
                     value={send}
                     selectedValue={selectedCurrency}
                     selectable={!!currencies && currencies.length > 1}
-                    error={inputError == "" ? undefined : inputError}
+                    error={inputError == '' ? undefined : inputError}
                     changeable
                     onlyNumbers
                     onSelect={(val) => setSelectedCurrency(val)}
@@ -463,7 +463,7 @@ function ListingComponent({ profile }: BillProps) {
                 <ExchangeInfoWrapper>
                   <ExchangeInfo
                     isLoading={loading}
-                    placeholder={t("allIncluded")}
+                    placeholder={t('allIncluded')}
                     text=""
                   />
                 </ExchangeInfoWrapper>
@@ -471,7 +471,7 @@ function ListingComponent({ profile }: BillProps) {
               <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
-                    label={t("send", {
+                    label={t('send', {
                       min: ranges.min,
                       max: ranges.max
                     })}
@@ -481,7 +481,7 @@ function ListingComponent({ profile }: BillProps) {
                     value={get.visible}
                     selectedValue={selectedCurrency}
                     selectable={!!currencies && currencies.length > 1}
-                    error={outputError == "" ? undefined : outputError}
+                    error={outputError == '' ? undefined : outputError}
                     changeable={isTRANSFER}
                     onlyNumbers
                     onSelect={(val) => setSelectedCurrency(val)}
@@ -502,8 +502,8 @@ function ListingComponent({ profile }: BillProps) {
                 <Button
                   type="submit"
                   disabled={
-                    get.visible == "" ||
-                    send == "" ||
+                    get.visible == '' ||
+                    send == '' ||
                     waitingResponse ||
                     !ranges ||
                     get.actual > ranges?.max ||
@@ -525,7 +525,7 @@ function ListingComponent({ profile }: BillProps) {
                 <Button
                   type="submit"
                   onClick={handleSubmit}
-                  disabled={get.visible == "" || send == "" || waitingResponse}
+                  disabled={get.visible == '' || send == '' || waitingResponse}
                 >
                   {submitValue}
                 </Button>

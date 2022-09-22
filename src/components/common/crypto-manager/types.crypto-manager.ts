@@ -1,4 +1,4 @@
-import type { Token } from "@/lib/backend/main/types.backend.main"
+import type { Token } from '@/lib/backend/main/types.backend.main'
 
 export type ExplorerData = {
   buy: number

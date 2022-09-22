@@ -1,9 +1,9 @@
-import { ExplorerData } from "@/components/common/crypto-manager/types.crypto-manager"
-import { MarketHistoryData, Token } from "@/lib/backend/main/types.backend.main"
-import { CurrenciesType, mapCurrency } from "@/lib/data/currencies"
-import { ActionType } from "@/lib/redux/crypto/types"
-import { GraphData } from "./element/graph"
-import Element from "./element"
+import { ExplorerData } from '@/components/common/crypto-manager/types.crypto-manager'
+import { MarketHistoryData, Token } from '@/lib/backend/main/types.backend.main'
+import { CurrenciesType, mapCurrency } from '@/lib/data/currencies'
+import { ActionType } from '@/lib/redux/crypto/types'
+import { GraphData } from './element/graph'
+import Element from './element'
 
 const mapMarketHistory = (
   marketHistory: MarketHistoryData[],
@@ -45,7 +45,7 @@ export const mapExplorerData = (
         key={element.id}
         icon={element.token.logo_uri}
         symbol={element.token.symbol}
-        price={`${action == "SELL" ? element.sell : element.buy} ${mapCurrency(
+        price={`${action == 'SELL' ? element.sell : element.buy} ${mapCurrency(
           currency
         )}`}
         change24h={element.change24}
@@ -53,8 +53,8 @@ export const mapExplorerData = (
           element.token.market_history &&
           mapMarketHistory(element.token.market_history, currency)
         }
-        onBuy={() => handleAction("BUY", element.token)}
-        onSell={() => handleAction("SELL", element.token)}
+        onBuy={() => handleAction('BUY', element.token)}
+        onSell={() => handleAction('SELL', element.token)}
       />
     ))
 }

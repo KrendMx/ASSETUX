@@ -1,29 +1,29 @@
-import React, { useState, useMemo, useEffect, useCallback } from "react"
-import { useTranslation } from "next-i18next"
-import Skeleton from "react-loading-skeleton"
+import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import { useTranslation } from 'next-i18next'
+import Skeleton from 'react-loading-skeleton'
 
-import { mapCurrency } from "@/lib/data/currencies"
+import { mapCurrency } from '@/lib/data/currencies'
 import {
   allowSkeletons,
   cardsPerPage,
   perPageValues,
   cardsWidth
-} from "@/lib/data/constants"
+} from '@/lib/data/constants'
 
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import {
   swapAction,
   setSelectedToken,
   setSelectedSellToken
-} from "@/lib/redux/crypto"
+} from '@/lib/redux/crypto'
 
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
+import { useIsomorphicLayoutEffect } from '@/lib/hooks'
 
-import Table from "@/components/common/table"
-import Cards from "@/components/common/cards"
-import ControlRow from "@/components/common/control-row"
-import Pages from "@/components/common/pagination"
+import Table from '@/components/common/table'
+import Cards from '@/components/common/cards'
+import ControlRow from '@/components/common/control-row'
+import Pages from '@/components/common/pagination'
 
 import {
   Container,
@@ -32,18 +32,18 @@ import {
   ControlRowContainer,
   ChangeField,
   ActionButton
-} from "./styles"
+} from './styles'
 
-import type { ActionType } from "@/lib/redux/crypto/types"
-import type { Token } from "@/lib/backend/main/types.backend.main"
+import type { ActionType } from '@/lib/redux/crypto/types'
+import type { Token } from '@/lib/backend/main/types.backend.main'
 import {
   cardRowNames,
   checkExplorerDataByContext,
   tableHeadings
-} from "./helpers"
+} from './helpers'
 
 const CryptoExplorer = () => {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   const dispatch = useAppDispatch()
 
@@ -52,7 +52,7 @@ const CryptoExplorer = () => {
   const explorerData = useAppSelector((state) => state.crypto.explorerData)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 
-  const [searchContext, setSearchContext] = useState("")
+  const [searchContext, setSearchContext] = useState('')
   const [desktopPerPage, setDesktopPerPage] = useState(perPageValues[0])
   const [currentPage, setCurrentPage] = useState(1)
   const [displayCards, setDisplayCards] = useState(false)
@@ -70,7 +70,7 @@ const CryptoExplorer = () => {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "smooth"
+        behavior: 'smooth'
       })
     },
     [dispatch]
@@ -118,7 +118,7 @@ const CryptoExplorer = () => {
                 key={`change24h_${element.id}`}
                 up={element.change24 >= 0}
               >
-                {`${element.change24 >= 0 ? "+" : ""}${element.change24.toFixed(
+                {`${element.change24 >= 0 ? '+' : ''}${element.change24.toFixed(
                   2
                 )}%`}
               </ChangeField>
@@ -133,9 +133,9 @@ const CryptoExplorer = () => {
               <ActionButton
                 key={`buy_${element.id}`}
                 action="buy"
-                onClick={() => handleAction("BUY", element.token)}
+                onClick={() => handleAction('BUY', element.token)}
               >
-                {t("home:explorer_buy")}
+                {t('home:explorer_buy')}
               </ActionButton>
             )
           },
@@ -144,9 +144,9 @@ const CryptoExplorer = () => {
               <ActionButton
                 key={`sell_${element.id}`}
                 action="sell"
-                onClick={() => handleAction("SELL", element.token)}
+                onClick={() => handleAction('SELL', element.token)}
               >
-                {t("home:explorer_sell")}
+                {t('home:explorer_sell')}
               </ActionButton>
             )
           }
@@ -177,10 +177,10 @@ const CryptoExplorer = () => {
 
     handleResize()
 
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
@@ -194,7 +194,7 @@ const CryptoExplorer = () => {
   return (
     <Container>
       <TitleRow>
-        <h3>{!isLoading ? t("home:explorer_title") : <Skeleton />}</h3>
+        <h3>{!isLoading ? t('home:explorer_title') : <Skeleton />}</h3>
         {/* {!isLoading && (
           <AllLink as="a" href="#">
             {isMobile
@@ -207,7 +207,7 @@ const CryptoExplorer = () => {
         {!isLoading ? (
           <ControlRow
             context={searchContext}
-            searchPlaceholder={t("home:search")}
+            searchPlaceholder={t('home:search')}
             onContextChange={handleSearch}
           />
         ) : (
@@ -227,18 +227,18 @@ const CryptoExplorer = () => {
               <ActionButton
                 key="buy"
                 action="buy"
-                onClick={() => handleCardAction("BUY", dataIndex)}
+                onClick={() => handleCardAction('BUY', dataIndex)}
               >
-                {t("home:explorer_buy")}
+                {t('home:explorer_buy')}
               </ActionButton>
             ),
             (dataIndex) => (
               <ActionButton
                 key="sell"
                 action="sell"
-                onClick={() => handleCardAction("SELL", dataIndex)}
+                onClick={() => handleCardAction('SELL', dataIndex)}
               >
-                {t("home:explorer_sell")}
+                {t('home:explorer_sell')}
               </ActionButton>
             )
           ]}

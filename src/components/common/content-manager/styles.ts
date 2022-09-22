@@ -1,15 +1,15 @@
-import { mobile } from "@/lib/data/constants"
-import styled from "styled-components"
-import { ContainerProps, WrapperProps } from "./types.content-manager"
+import { mobile } from '@/lib/data/constants'
+import styled from 'styled-components'
+import { ContainerProps, WrapperProps } from './types.content-manager'
 
 export const Wrapper = styled.main<WrapperProps>`
   width: 100%;
   background-color: var(--bgColor);
-  display: ${(props) => (props.hide ? "none" : "block")};
+  display: ${(props) => (props.hide ? 'none' : 'block')};
 `
 
 export const Container = styled.div<ContainerProps>`
-  margin-top: ${(props) => (props.resetMargins ? 0 : "var(--header-height)")};
+  margin-top: ${(props) => (props.resetMargins ? 0 : 'var(--header-height)')};
   width: 100%;
   font-size: 1rem;
 

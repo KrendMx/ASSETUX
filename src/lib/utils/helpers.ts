@@ -1,16 +1,16 @@
-import Cookies from "js-cookie"
-import cookie from "cookie"
-import sanitizeHtml from "sanitize-html"
+import Cookies from 'js-cookie'
+import cookie from 'cookie'
+import sanitizeHtml from 'sanitize-html'
 
-import { env } from "../env/client.mjs"
-import { EcommerceClient } from "../backend/clients"
-import { mappedCookies, floatRegexp } from "../data/constants"
+import { env } from '../env/client.mjs'
+import { EcommerceClient } from '../backend/clients'
+import { mappedCookies, floatRegexp } from '../data/constants'
 
-import type { GetServerSidePropsContext } from "next"
+import type { GetServerSidePropsContext } from 'next'
 
 export const ellipsisString = (value: string, maxLength: number) => {
   if (value.length > maxLength) {
-    return value.substring(0, maxLength) + "..."
+    return value.substring(0, maxLength) + '...'
   }
 
   return value
@@ -41,7 +41,7 @@ export const capitalizeString = (value: string) => {
 export const updateURL = (newUrl: string) => {
   window.history.replaceState(
     { ...window.history.state, as: newUrl, url: newUrl },
-    "",
+    '',
     newUrl
   )
 }
@@ -53,7 +53,7 @@ export type QueryObject = {
 export const mapQueryObject = (query: QueryObject) => {
   return Object.entries(query)
     .map(([key, value]) => `${key}=${value}`)
-    .join("&")
+    .join('&')
 }
 
 export const toBase64 = (file: File): Promise<string> =>
@@ -77,7 +77,7 @@ export const logout = () => {
 }
 
 export const checkAuthorization = (
-  req: GetServerSidePropsContext["req"]
+  req: GetServerSidePropsContext['req']
 ): string | null => {
   const cookies = req.headers.cookie
 
@@ -96,18 +96,18 @@ export const checkAuthorization = (
 }
 
 export const validateDecimal = (value: string): [boolean, string] => {
-  const processedValue = value.replace(/,/g, ".")
+  const processedValue = value.replace(/,/g, '.')
 
-  const validated = processedValue == "" || floatRegexp.test(processedValue)
+  const validated = processedValue == '' || floatRegexp.test(processedValue)
 
-  return [validated, validated ? processedValue : ""]
+  return [validated, validated ? processedValue : '']
 }
 
 export const sanitize = (html: string) =>
   sanitizeHtml(html, {
-    allowedTags: ["p", "br", "b", "strong", "i", "em"]
+    allowedTags: ['p', 'br', 'b', 'strong', 'i', 'em']
   })
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null }
 
-export const getEcommercePrefix = () => (env.isStage ? "/profile" : "")
+export const getEcommercePrefix = () => (env.isStage ? '/profile' : '')

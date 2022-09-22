@@ -1,7 +1,7 @@
-import { env } from "../env/client.mjs"
-import { locales } from "../data/locales"
+import { env } from '../env/client.mjs'
+import { locales } from '../data/locales'
 
-import type { NextSeoProps } from "next-seo"
+import type { NextSeoProps } from 'next-seo'
 
 type SeoMedia = {
   url: string
@@ -13,8 +13,8 @@ type SeoMedia = {
 
 const host = `${env.hostProtocol}://${env.host}`
 const ecommerceHost = env.isStage
-  ? host + "/profile"
-  : "https://commerce.assetux.com"
+  ? host + '/profile'
+  : 'https://commerce.assetux.com'
 
 type SEOProps = {
   title: string
@@ -39,14 +39,14 @@ export const getDefaultMetaTags = ({
     hrefLang: locale,
     href:
       (ecommerce ? ecommerceHost : host) +
-      (locale == "ru" ? "" : `/${locale}`) +
+      (locale == 'ru' ? '' : `/${locale}`) +
       pathname
   })),
   openGraph: {
     url: (ecommerce ? ecommerceHost : host) + pathname,
     title,
     description,
-    site_name: siteName || "ASSETUX",
+    site_name: siteName || 'ASSETUX',
     images: seoImage
       ? [seoImage]
       : [
@@ -54,8 +54,8 @@ export const getDefaultMetaTags = ({
             url: `${host}/assets/seo.png`,
             width: 1600,
             height: 900,
-            alt: "Og Seo Image",
-            type: "image/png"
+            alt: 'Og Seo Image',
+            type: 'image/png'
           }
         ]
   }

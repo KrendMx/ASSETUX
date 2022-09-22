@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { mobile } from "@/lib/data/constants"
+import styled from 'styled-components'
+import { mobile } from '@/lib/data/constants'
 
 type SelectedWrapperProps = {
   selectable: boolean
@@ -7,10 +7,10 @@ type SelectedWrapperProps = {
 
 export const SelectedWrapper = styled.button.attrs<SelectedWrapperProps>(
   (props) => ({
-    type: props.selectable ? "button" : undefined
+    type: props.selectable ? 'button' : undefined
   })
 )<SelectedWrapperProps>`
-  flex: 0 0 ${(props) => (!props.selectable ? "3.684em" : "5.263em")};
+  flex: 0 0 ${(props) => (!props.selectable ? '3.684em' : '5.263em')};
   background: transparent;
   border: none;
   outline: none;
@@ -18,10 +18,10 @@ export const SelectedWrapper = styled.button.attrs<SelectedWrapperProps>(
   align-items: center;
   height: 100%;
   font-size: 1em;
-  cursor: ${(props) => (props.selectable ? "pointer" : "default")};
+  cursor: ${(props) => (props.selectable ? 'pointer' : 'default')};
 
   @media only screen and (min-width: 371px) and (max-width: ${mobile}px) {
-    flex: 0 0 ${(props) => (!props.selectable ? "3.684em" : "5.6em")};
+    flex: 0 0 ${(props) => (!props.selectable ? '3.684em' : '5.6em')};
   }
 `
 
@@ -32,15 +32,15 @@ type LabelProps = {
 }
 
 export const Label = styled.label<LabelProps>`
-  font-size: ${(props) => (props.file ? "1em" : "0.79em")};
-  font-weight: ${(props) => (props.file ? "500" : "400")};
+  font-size: ${(props) => (props.file ? '1em' : '0.79em')};
+  font-weight: ${(props) => (props.file ? '500' : '400')};
   color: ${(props) =>
-    props.file ? "var(--blue)" : props.error ? "var(--red)" : "var(--gray)"};
-  text-decoration: ${(props) => (props.file ? "underline" : "none")};
-  cursor: ${(props) => (props.file || props.pointer ? "pointer" : "default")};
+    props.file ? 'var(--blue)' : props.error ? 'var(--red)' : 'var(--gray)'};
+  text-decoration: ${(props) => (props.file ? 'underline' : 'none')};
+  cursor: ${(props) => (props.file || props.pointer ? 'pointer' : 'default')};
 
   @media only screen and (max-width: ${mobile}px) {
-    font-size: ${(props) => (props.file ? "1.066em" : "0.867em")};
+    font-size: ${(props) => (props.file ? '1.066em' : '0.867em')};
   }
 `
 
@@ -60,18 +60,18 @@ export const InputWrapper = styled.div<InputWrapperProps>`
   width: 100%;
   height: 3.421em;
   border: 1px solid
-    ${(props) => (!props.paleBorders ? "#d2d2d7" : "var(--lightgray)")};
+    ${(props) => (!props.paleBorders ? '#d2d2d7' : 'var(--lightgray)')};
   outline: none;
   box-shadow: ${(props) =>
     props.error
-      ? "0px 0px 0.00000001px 3px #FF3333"
+      ? '0px 0px 0.00000001px 3px #FF3333'
       : props.active
-      ? "0px 0px 0.00000001px 3px #8bb0fa"
-      : "none"};
+      ? '0px 0px 0.00000001px 3px #8bb0fa'
+      : 'none'};
   border-radius: 10px;
   padding: 0 0 0 1.052em;
   background: ${(props) =>
-    props.visuallyDisabled ? "#E0E0E0" : "var(--white)"};
+    props.visuallyDisabled ? '#E0E0E0' : 'var(--white)'};
 
   & > * + * {
     margin-left: 0.789em;
@@ -93,16 +93,16 @@ type InputContainerProps = {
 export const InputContainer = styled.div<InputContainerProps>`
   flex: 1 1 100%;
   display: flex;
-  flex-direction: ${(props) => (props.swap ? "row" : "column")};
-  align-items: ${(props) => (props.swap ? "center" : "stretch")};
+  flex-direction: ${(props) => (props.swap ? 'row' : 'column')};
+  align-items: ${(props) => (props.swap ? 'center' : 'stretch')};
   justify-content: flex-start;
 
   & > * + * {
-    margin-top: ${(props) => (!props.swap ? "4px" : 0)};
-    margin-left: ${(props) => (props.swap ? "19px" : 0)};
+    margin-top: ${(props) => (!props.swap ? '4px' : 0)};
+    margin-left: ${(props) => (props.swap ? '19px' : 0)};
   }
 
-  & > input[type="file"] {
+  & > input[type='file'] {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -113,7 +113,7 @@ export const InputContainer = styled.div<InputContainerProps>`
 
   @media only screen and (max-width: 370px) {
     & > * + * {
-      margin-left: ${(props) => (props.swap ? "10px" : 0)};
+      margin-left: ${(props) => (props.swap ? '10px' : 0)};
     }
   }
 `
@@ -164,7 +164,7 @@ type InfoContainerProps = {
 }
 
 export const InfoContainer = styled.span<InfoContainerProps>`
-  flex: 0 0 ${(props) => (!props.selectable ? "2.631em" : "4.21em")};
+  flex: 0 0 ${(props) => (!props.selectable ? '2.631em' : '4.21em')};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -172,7 +172,7 @@ export const InfoContainer = styled.span<InfoContainerProps>`
 
   & > *:first-child {
     margin-bottom: ${(props) =>
-      props.onlyImage || props.active ? 0 : "0.21em"};
+      props.onlyImage || props.active ? 0 : '0.21em'};
   }
 `
 
@@ -257,6 +257,6 @@ export const Arrow = styled.span<ArrowProps>`
   right: 0.5789em;
   top: 50%;
   transform: translateY(-50%)
-    ${(props) => (props.active ? "rotate(180deg)" : "")};
+    ${(props) => (props.active ? 'rotate(180deg)' : '')};
   font-size: 1em;
 `

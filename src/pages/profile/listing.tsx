@@ -1,18 +1,18 @@
-import React from "react"
-import styled from "styled-components"
-import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import React from 'react'
+import styled from 'styled-components'
+import { NextSeo } from 'next-seo'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import BaseContainer from "@/components/common/base-container"
-import HeadingRow from "@/components/profile/common/heading-row"
+import BaseContainer from '@/components/common/base-container'
+import HeadingRow from '@/components/profile/common/heading-row'
 
-import { EcommerceClient } from "@/lib/backend/clients"
-import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
+import { EcommerceClient } from '@/lib/backend/clients'
+import { checkAuthorization, getEcommercePrefix } from '@/lib/utils/helpers'
 
-import type { GetServerSideProps } from "next"
-import type { BillProps } from "@/components/profile/bill"
-import ListingComponent from "@/components/profile/bill/listing"
+import type { GetServerSideProps } from 'next'
+import type { BillProps } from '@/components/profile/bill'
+import ListingComponent from '@/components/profile/bill/listing'
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -23,13 +23,13 @@ const Container = styled(BaseContainer)`
 `
 
 function Listing(props: BillProps) {
-  const { t } = useTranslation("profile-listing")
+  const { t } = useTranslation('profile-listing')
 
   return (
     <>
-      <NextSeo title={t("title")} />
+      <NextSeo title={t('title')} />
       <Container>
-        <HeadingRow heading={t("bill")} id={`M-${props.profile.user.userId}`} />
+        <HeadingRow heading={t('bill')} id={`M-${props.profile.user.userId}`} />
         <ListingComponent profile={props.profile} />
       </Container>
     </>
@@ -62,11 +62,11 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
 
   const profile = await EcommerceClient.getProfile({ token })
 
-  if (profile.state != "success") {
+  if (profile.state != 'success') {
     return errorProps
   }
 
-  if (profile.data.user.mode !== "TRANSFER") {
+  if (profile.data.user.mode !== 'TRANSFER') {
     return notTransferProps
   }
 
@@ -74,11 +74,11 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
     props: {
       profile: profile.data,
       ...(await serverSideTranslations(locale!, [
-        "header",
-        "footer",
-        "profile-listing",
-        "routes",
-        "inputSelect"
+        'header',
+        'footer',
+        'profile-listing',
+        'routes',
+        'inputSelect'
       ]))
     }
   }

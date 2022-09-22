@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
-import { mobileLayoutForTablet, mobile } from "@/lib/data/constants"
+import { mobileLayoutForTablet, mobile } from '@/lib/data/constants'
 
 const breakPoint = 680
 
@@ -38,7 +38,7 @@ export const InfoBlock = styled.div`
 `
 
 export const Paragraph = styled(AdaptiveFont).attrs({
-  as: "p",
+  as: 'p',
   mobileFactor: 1.34,
   tabletFactor: 1.2
 })`

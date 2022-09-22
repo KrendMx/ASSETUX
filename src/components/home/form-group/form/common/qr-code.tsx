@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import QRCode from "qrcode.react"
+import React from 'react'
+import styled from 'styled-components'
+import QRCode from 'qrcode.react'
 
 const Button = styled.button`
   border: none;
@@ -26,7 +26,7 @@ type CopyProps = {
 
 function QRcode({ valueToCopy }: CopyProps) {
   const handleCopy: React.MouseEventHandler<HTMLButtonElement> = () => {
-    if (valueToCopy && "clipboard" in navigator) {
+    if (valueToCopy && 'clipboard' in navigator) {
       navigator.clipboard.writeText(valueToCopy)
     }
   }
@@ -39,7 +39,7 @@ function QRcode({ valueToCopy }: CopyProps) {
           level="Q"
           renderAs="canvas"
           includeMargin={false}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: '100%', height: '100%' }}
         />
       </Button>
     </Container>

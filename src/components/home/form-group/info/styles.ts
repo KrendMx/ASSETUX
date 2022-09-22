@@ -1,15 +1,15 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import AdaptiveFont from '@/components/common/adaptive-font'
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
 
 type ColoredSpanProps = {
-  colorIn: "green" | "red"
+  colorIn: 'green' | 'red'
 }
 
 export const ColoredSpan = styled.span<ColoredSpanProps>`
   color: ${(props) =>
-    props.colorIn == "green" ? "var(--green)" : "var(--red)"};
+    props.colorIn == 'green' ? 'var(--green)' : 'var(--red)'};
 `
 
 export const Container = styled.div`
@@ -70,7 +70,7 @@ export const TextColumn = styled.div`
 `
 
 export const SubHeading = styled(AdaptiveFont).attrs({
-  as: "h2",
+  as: 'h2',
   mobileFactor: 1.34,
   tabletFactor: 1.25,
   desktopFactor: 1.1
@@ -101,7 +101,7 @@ export const Sponsors = styled.div<SponsorsProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  visibility: ${(props) => (props.isLoading ? "hidden" : "visible")};
+  visibility: ${(props) => (props.isLoading ? 'hidden' : 'visible')};
 
   & > *:not(:last-child) {
     margin-right: 15px;

@@ -1,1 +1,1 @@
-export { default } from "./crypto-slide"
+export { default } from './crypto-slide'

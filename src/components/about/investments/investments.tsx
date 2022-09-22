@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
-import Link from "next/link"
-import Skeleton from "react-loading-skeleton"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
+import Link from 'next/link'
+import Skeleton from 'react-loading-skeleton'
 
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
-import { useAppSelector } from "@/lib/redux/hooks"
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
+import { useAppSelector } from '@/lib/redux/hooks'
 
 import {
   Container,
@@ -15,14 +15,14 @@ import {
   Stores,
   Store,
   QRContainer
-} from "./styles"
-import DefaultModal from "@/components/common/modals/default-modal"
+} from './styles'
+import DefaultModal from '@/components/common/modals/default-modal'
 
-import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
-import InvestmentsSlider from "@/components/common/sliders/investments"
+import AbsoluteSkeletonContainer from '@/components/common/absolute-skeleton-container'
+import InvestmentsSlider from '@/components/common/sliders/investments'
 
 function Investments() {
-  const { t } = useTranslation("about")
+  const { t } = useTranslation('about')
 
   const [displayModal, setDisplayModal] = useState(false)
 
@@ -32,19 +32,19 @@ function Investments() {
     <>
       {displayModal && (
         <DefaultModal
-          title={t("investments_modal-title")}
-          content={t("investments_modal-content")}
+          title={t('investments_modal-title')}
+          content={t('investments_modal-content')}
           onClose={() => setDisplayModal(false)}
         />
       )}
       <Container>
         <InfoBlock>
-          <h3>{showSkeleton ? <Skeleton /> : t("investments_title")}</h3>
+          <h3>{showSkeleton ? <Skeleton /> : t('investments_title')}</h3>
           <Paragraph>
-            {showSkeleton ? <Skeleton count={3} /> : t("investments_p1")}
+            {showSkeleton ? <Skeleton count={3} /> : t('investments_p1')}
           </Paragraph>
           <Paragraph>
-            {showSkeleton ? <Skeleton count={6} /> : t("investments_p2")}
+            {showSkeleton ? <Skeleton count={6} /> : t('investments_p2')}
           </Paragraph>
           <Media>
             <Stores>

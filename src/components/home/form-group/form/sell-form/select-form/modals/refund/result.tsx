@@ -1,18 +1,18 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
-import styled from "styled-components"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
+import styled from 'styled-components'
 
-import Container from "@/components/common/modal-components/Container"
-import Title from "@/components/common/modal-components/Title"
-import Info from "@/components/common/modal-components/Info"
-import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
-import Button from "@/components/common/modal-components/Button"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
-import InputSelect from "@/components/common/input-select"
+import Container from '@/components/common/modal-components/Container'
+import Title from '@/components/common/modal-components/Title'
+import Info from '@/components/common/modal-components/Info'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Button from '@/components/common/modal-components/Button'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
+import InputSelect from '@/components/common/input-select'
 
-import type { Option } from "@/components/common/input-select/types"
+import type { Option } from '@/components/common/input-select/types'
 
 const Success = styled(Info)`
   background-color: #68cc4533;
@@ -33,9 +33,9 @@ function RefundResultModal({
   getValue,
   getToken
 }: RefundResultModalProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
-  const [review, setReview] = useState("")
+  const [review, setReview] = useState('')
 
   if (!getValue || !getToken) {
     return null
@@ -55,20 +55,20 @@ function RefundResultModal({
             />
           </Icon>
         </Shadow>
-        <span>{t("home:sell_refundSuccess")}</span>
+        <span>{t('home:sell_refundSuccess')}</span>
       </Title>
       <InputSelect
-        label={t("home:sell_get")}
+        label={t('home:sell_get')}
         id="refund_get"
         value={getValue}
         options={[getToken]}
         selectable={false}
       />
-      <Success>{t("home:sell_receiveEmail")}</Success>
-      <Info>{t("home:sell_review")}</Info>
+      <Success>{t('home:sell_receiveEmail')}</Success>
+      <Info>{t('home:sell_review')}</Info>
       <InputSelect
         id="refund_review"
-        label={t("home:sell_message")}
+        label={t('home:sell_message')}
         value={review}
         onChange={(event) => setReview(event.target.value)}
         changeable

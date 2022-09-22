@@ -1,9 +1,9 @@
-import styled, { css } from "styled-components"
+import styled, { css } from 'styled-components'
 
-import { maxWidth } from "@/lib/styles/global"
-import { tablet } from "@/lib/data/constants"
+import { maxWidth } from '@/lib/styles/global'
+import { tablet } from '@/lib/data/constants'
 
-import type { ResponsiveProps } from "./types.slider"
+import type { ResponsiveProps } from './types.slider'
 
 type ContainerProps = {
   horizPadding: number
@@ -75,7 +75,7 @@ export const Content = styled.div.attrs<ContentProps>(
   width: 100%;
   display: flex;
   flex-direction: row;
-  transition: ${(props) => (props.animate ? "transform 0.3s linear" : "")};
+  transition: ${(props) => (props.animate ? 'transform 0.3s linear' : '')};
 
   & > *:not(:last-child) {
     margin-right: var(--element-gap);

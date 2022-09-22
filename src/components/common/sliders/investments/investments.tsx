@@ -1,12 +1,12 @@
-import React from "react"
-import Slider from "react-slick"
-import Image from "next/image"
-import Skeleton from "react-loading-skeleton"
-import { useRouter } from "next/router"
+import React from 'react'
+import Slider from 'react-slick'
+import Image from 'next/image'
+import Skeleton from 'react-loading-skeleton'
+import { useRouter } from 'next/router'
 
-import verticalSliderProps from "@/lib/data/vertical-slider-props"
-import { useAppSelector } from "@/lib/redux/hooks"
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import verticalSliderProps from '@/lib/data/vertical-slider-props'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
 
 import {
   FlexWrapper,
@@ -14,12 +14,12 @@ import {
   ImagePositioner,
   ImageContainer,
   SliderContainer
-} from "./styles"
-import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
-import VerticalSliderStyles from "@/lib/styles/vertical-slider"
-import { paths } from "./mock"
+} from './styles'
+import AbsoluteSkeletonContainer from '@/components/common/absolute-skeleton-container'
+import VerticalSliderStyles from '@/lib/styles/vertical-slider'
+import { paths } from './mock'
 
-const InvestmentsSlider: React.FC = () => {
+const InvestmentsSlider = () => {
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const router = useRouter()
 

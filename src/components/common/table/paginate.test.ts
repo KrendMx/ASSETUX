@@ -1,6 +1,6 @@
-import { paginate } from "./paginate"
+import { paginate } from './paginate'
 
-test("paginate should work as expected in a basic way", () => {
+test('paginate should work as expected in a basic way', () => {
   const data = [1, 2, 3, 4, 5, 6]
   const perPage = 2
 
@@ -14,7 +14,7 @@ test("paginate should work as expected in a basic way", () => {
   expect(result).toEqual(expectedResult)
 })
 
-test("paginate should return an empty array if data is empty", () => {
+test('paginate should return an empty array if data is empty', () => {
   const data: any[] = []
   const perPage = 2
 
@@ -24,7 +24,7 @@ test("paginate should return an empty array if data is empty", () => {
   expect(result).toEqual(expectedResult)
 })
 
-test("paginate should work as expected if data length % perPage != 0", () => {
+test('paginate should work as expected if data length % perPage != 0', () => {
   const data = [1, 2, 3, 4, 5, 6, 7]
   const perPage = 2
 
@@ -34,7 +34,7 @@ test("paginate should work as expected if data length % perPage != 0", () => {
   expect(result).toEqual(expectedResult)
 })
 
-test("paginate should work as expected if data length < perPage", () => {
+test('paginate should work as expected if data length < perPage', () => {
   const data = [1, 2]
   const perPage = 5
 

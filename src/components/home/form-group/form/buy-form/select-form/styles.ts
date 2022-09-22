@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
-import Step from "./steps"
+import Step from './steps'
 
 type ContainerProps = {
   formStep?: Step
@@ -14,10 +14,10 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   height: ${(props) =>
     props.formStep == Step.Credentials
-      ? "519px"
+      ? '519px'
       : props.lastSelectorActive
-      ? "649px"
-      : "490px"};
+      ? '649px'
+      : '490px'};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
@@ -39,12 +39,12 @@ export const Container = styled.div<ContainerProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => (props.lastSelectorActive ? "599px" : "445px")};
+    height: ${(props) => (props.lastSelectorActive ? '599px' : '445px')};
     padding: 21px 17px;
   }
 
   @media only screen and (max-width: 370px) {
-    height: ${(props) => (props.lastSelectorActive ? "40em" : "30em")};
+    height: ${(props) => (props.lastSelectorActive ? '40em' : '30em')};
   }
 `
 

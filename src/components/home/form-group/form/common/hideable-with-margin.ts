@@ -1,5 +1,5 @@
-import styled, { css } from "styled-components"
-import Hideable from "@/components/common/hideable"
+import styled, { css } from 'styled-components'
+import Hideable from '@/components/common/hideable'
 
 type HideableWithMarginProps = {
   margins?: boolean | string
@@ -8,11 +8,11 @@ type HideableWithMarginProps = {
 
 const HideableWithMargin = styled(Hideable)<HideableWithMarginProps>`
   margin-top: ${(props) =>
-    typeof props.margins == "string"
+    typeof props.margins == 'string'
       ? props.margins
       : props.margins
-      ? "0.842em"
-      : "0px"};
+      ? '0.842em'
+      : '0px'};
 
   ${(props) =>
     props.space &&

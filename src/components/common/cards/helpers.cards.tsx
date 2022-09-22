@@ -1,4 +1,4 @@
-import { cardsPerPage } from "@/lib/data/constants"
+import { cardsPerPage } from '@/lib/data/constants'
 import {
   ButtonsContainer,
   Card,
@@ -6,8 +6,8 @@ import {
   RowName,
   RowSpacer,
   RowValue
-} from "./styles"
-import { ActionElement, CardData } from "./types"
+} from './styles'
+import { ActionElement, CardData } from './types'
 
 export const mapCards = (
   rowNames: string[],
@@ -28,7 +28,7 @@ export const mapCards = (
             const item = data[index].value
 
             return (
-              <Row key={`cardRow-${name}-${index}`} withSpace={name != ""}>
+              <Row key={`cardRow-${name}-${index}`} withSpace={name != ''}>
                 <RowName>{name}</RowName>
                 <RowValue>{item}</RowValue>
               </Row>

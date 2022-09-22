@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
-import { mobile, cardsWidth } from "@/lib/data/constants"
+import { mobile, cardsWidth } from '@/lib/data/constants'
 
 export const Container = styled.section`
   display: flex;
@@ -55,11 +55,11 @@ type ChangeFieldProps = {
 }
 
 export const ChangeField = styled.span<ChangeFieldProps>`
-  color: ${(props) => (props.up ? "var(--green)" : "var(--red)")};
+  color: ${(props) => (props.up ? 'var(--green)' : 'var(--red)')};
 `
 
 type ActionButtonProps = {
-  action: "sell" | "buy"
+  action: 'sell' | 'buy'
 }
 
 export const ActionButton = styled.button<ActionButtonProps>`
@@ -76,7 +76,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
   width: 105px;
   height: 49px;
 
-  color: ${(props) => (props.action == "sell" ? "var(--red)" : "var(--green)")};
+  color: ${(props) => (props.action == 'sell' ? 'var(--red)' : 'var(--green)')};
 
   @media only screen and (max-width: ${cardsWidth}px) {
     width: 100%;

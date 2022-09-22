@@ -1,18 +1,18 @@
-import React, { useMemo } from "react"
-import { paginate } from "@/components/common/table/paginate"
-import { cardsPerPage } from "@/lib/data/constants"
-import { Container } from "./styles"
-import { CardsProps } from "./types"
-import { mapCards } from "./helpers.cards"
+import React, { useMemo } from 'react'
+import { paginate } from '@/components/common/table/paginate'
+import { cardsPerPage } from '@/lib/data/constants'
+import { Container } from './styles'
+import { CardsProps } from './types'
+import { mapCards } from './helpers.cards'
 
-const Cards: React.FC<CardsProps> = ({
+const Cards = ({
   data,
   withPagination = false,
   rowNames,
   mobile,
   buttons,
   currentPage = 1
-}) => {
+}: CardsProps) => {
   const paginatedData = useMemo(
     () => data && paginate(data, mobile ? cardsPerPage : cardsPerPage * 2),
     [data, mobile]

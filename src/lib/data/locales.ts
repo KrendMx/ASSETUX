@@ -1,4 +1,4 @@
-import _locales from "../../../locales"
+import _locales from '../../../locales'
 
 export const locales = _locales
 

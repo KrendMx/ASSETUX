@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from "react"
-import { useTranslation } from "next-i18next"
-import styled from "styled-components"
-import Image from "next/image"
-import SearchIcon from "../../../../../public/assets/Search.svg"
-import { mobile, optimizeRemoteImages } from "@/lib/data/constants"
+import React, { useState, useMemo } from 'react'
+import { useTranslation } from 'next-i18next'
+import styled from 'styled-components'
+import Image from 'next/image'
+import SearchIcon from '../../../../../public/assets/Search.svg'
+import { mobile, optimizeRemoteImages } from '@/lib/data/constants'
 
-import type { Option } from "../types"
+import type { Option } from '../types'
 
 type ItemProps = {
   selectable?: boolean
@@ -22,7 +22,7 @@ const Item = styled.div<ItemProps>`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  cursor: ${(props) => (props.selectable ? "pointer" : "default")};
+  cursor: ${(props) => (props.selectable ? 'pointer' : 'default')};
 
   & > * + * {
     margin-left: 19px;
@@ -165,25 +165,19 @@ type SearchProps = {
   hide: boolean
 }
 
-const Select: React.FC<SearchProps> = ({
-  options,
-  onSelect,
-  display,
-  label,
-  hide
-}) => {
-  const { t } = useTranslation("inputSelect")
+const Select = ({ options, onSelect, display, label, hide }: SearchProps) => {
+  const { t } = useTranslation('inputSelect')
 
-  const [searchContext, setSearchContext] = useState("")
+  const [searchContext, setSearchContext] = useState('')
   const searchedOptions = useMemo(() => {
     const lowerCasedCtx = searchContext.toLowerCase()
 
     return options.filter((option) => {
-      let valuesToCheck = option.value.toLowerCase().split(" ")
+      let valuesToCheck = option.value.toLowerCase().split(' ')
 
       if (option.description) {
         valuesToCheck = valuesToCheck.concat(
-          option.description.toLowerCase().split(" ")
+          option.description.toLowerCase().split(' ')
         )
       }
 
@@ -229,7 +223,7 @@ const Select: React.FC<SearchProps> = ({
         </Shadow>
         <Input
           type="text"
-          placeholder={t("placeholder")}
+          placeholder={t('placeholder')}
           value={searchContext}
           onChange={handleInput}
         />
@@ -242,7 +236,7 @@ const Select: React.FC<SearchProps> = ({
               key={option.value}
               onClick={() => {
                 onSelect(option.value)
-                setSearchContext("")
+                setSearchContext('')
               }}
               selectable
             >
@@ -259,8 +253,8 @@ const Select: React.FC<SearchProps> = ({
                     />
                   </ImageContainer>
                 </Shadow>
-              ) : option?.shortDescription?.split(" ")[1] ? (
-                <Shadow>{option?.shortDescription?.split(" ")[1]}</Shadow>
+              ) : option?.shortDescription?.split(' ')[1] ? (
+                <Shadow>{option?.shortDescription?.split(' ')[1]}</Shadow>
               ) : (
                 <Shadow />
               )}
@@ -269,7 +263,7 @@ const Select: React.FC<SearchProps> = ({
           ))}
         </ScrollableRegion>
       ) : (
-        <NoResultsLabel>{t("noResult")}</NoResultsLabel>
+        <NoResultsLabel>{t('noResult')}</NoResultsLabel>
       )}
     </>
   )

@@ -1,12 +1,12 @@
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { BackendClient } from "@/lib/backend/clients"
+import { BackendClient } from '@/lib/backend/clients'
 
-import type { RootState } from "../store"
+import type { RootState } from '../store'
 import type {
   GetBlockchains,
   GetTokens
-} from "@/lib/backend/main/types.backend.main"
+} from '@/lib/backend/main/types.backend.main'
 
 export const getBlockchains = createAsyncThunk<
   GetBlockchains,
@@ -14,7 +14,7 @@ export const getBlockchains = createAsyncThunk<
   {
     state: RootState
   }
->("crypto/getBlockchains", async (signal) => {
+>('crypto/getBlockchains', async (signal) => {
   return BackendClient.getBlockchains(signal)
 })
 
@@ -24,14 +24,14 @@ export const getBuyTokens = createAsyncThunk<
   {
     state: RootState
   }
->("crypto/getTokens", async ({ signal }, { getState }) => {
+>('crypto/getTokens', async ({ signal }, { getState }) => {
   const state = getState()
 
   if (state.crypto.selectedBlockchain) {
     return BackendClient.getTokens({
       apiHost: state.crypto.selectedBlockchain.url,
       signal,
-      type: "buy"
+      type: 'buy'
     })
   }
 
@@ -44,14 +44,14 @@ export const getSellTokens = createAsyncThunk<
   {
     state: RootState
   }
->("crypto/getSellTokens", async ({ signal }, { getState }) => {
+>('crypto/getSellTokens', async ({ signal }, { getState }) => {
   const state = getState()
 
   if (state.crypto.selectedBlockchain) {
     return BackendClient.getTokens({
       apiHost: state.crypto.selectedBlockchain.url,
       signal,
-      type: "sell"
+      type: 'sell'
     })
   }
 

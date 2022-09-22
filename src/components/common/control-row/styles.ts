@@ -1,13 +1,13 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import ModalContainer from "../modal-components/Container"
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
-import { ButtonStyledProps, ContainerStyledProps } from "./types"
+import ModalContainer from '../modal-components/Container'
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
+import { ButtonStyledProps, ContainerStyledProps } from './types'
 
 export const Container = styled.div<ContainerStyledProps>`
   display: flex;
   justify-content: ${(props) =>
-    props.spaceBetween ? "space-between" : "flex-end"};
+    props.spaceBetween ? 'space-between' : 'flex-end'};
   align-items: center;
 
   & > *:last-child {
@@ -34,8 +34,8 @@ export const Button = styled.button<ButtonStyledProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${(props) => (props.active ? "var(--blue)" : "var(--lightgray)")};
-  color: ${(props) => (props.active ? "var(--white)" : "var(--gray)")};
+  background: ${(props) => (props.active ? 'var(--blue)' : 'var(--lightgray)')};
+  color: ${(props) => (props.active ? 'var(--white)' : 'var(--gray)')};
   font-size: 16px;
   font-weight: 500;
   border-radius: 0.526em;
@@ -58,11 +58,11 @@ export const Button = styled.button<ButtonStyledProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    width: ${(props) => (props.spanWidth ? "100%" : "73px")};
+    width: ${(props) => (props.spanWidth ? '100%' : '73px')};
     font-size: 16px;
 
     &:first-child {
-      width: ${(props) => (props.spanWidth ? "100%" : "127px")};
+      width: ${(props) => (props.spanWidth ? '100%' : '127px')};
     }
   }
 `
@@ -123,7 +123,7 @@ export const CloseButton = styled.button`
     left: 50%;
     transform-origin: top left;
     display: block;
-    content: "";
+    content: '';
     width: 20px;
     height: 2px;
     background: var(--white);

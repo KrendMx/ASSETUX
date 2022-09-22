@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 const FormHeading = styled.h2`
   color: var(--black);

@@ -1,18 +1,18 @@
-import React from "react"
-import Image from "next/image"
-import Link from "next/link"
-import Skeleton from "react-loading-skeleton"
-import { useRouter } from "next/router"
-import { useTranslation } from "next-i18next"
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import Skeleton from 'react-loading-skeleton'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
-import { useAppSelector } from "@/lib/redux/hooks"
-import { getFormattedDate } from "@/lib/utils/date"
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { getFormattedDate } from '@/lib/utils/date'
 
-import { env } from "@/lib/env/client.mjs"
-import { BackendClient } from "@/lib/backend/clients"
+import { env } from '@/lib/env/client.mjs'
+import { BackendClient } from '@/lib/backend/clients'
 
-import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
+import AbsoluteSkeletonContainer from '@/components/common/absolute-skeleton-container'
 import {
   Container,
   ImgContainer,
@@ -23,7 +23,7 @@ import {
   ReadMore,
   PostDate,
   TextWrapper
-} from "./styles"
+} from './styles'
 
 type ElementProps = {
   title: string
@@ -35,7 +35,7 @@ type ElementProps = {
   withSkeletons?: boolean
 }
 
-const Element: React.FC<ElementProps> = ({
+const Element = ({
   title,
   shortDescription,
   img,
@@ -43,9 +43,9 @@ const Element: React.FC<ElementProps> = ({
   pinned,
   slug,
   withSkeletons = true
-}) => {
+}: ElementProps) => {
   const router = useRouter()
-  const { t } = useTranslation("news")
+  const { t } = useTranslation('news')
   const selectedShowSkeleton = useAppSelector(selectShowSkeleton)
   const showSkeleton = withSkeletons && selectedShowSkeleton
 
@@ -78,7 +78,7 @@ const Element: React.FC<ElementProps> = ({
           {!showSkeleton ? (
             <>
               <Link href={`/blog/article/${slug}`} passHref>
-                <ReadMore>{t("readMore")} &#10230;</ReadMore>
+                <ReadMore>{t('readMore')} &#10230;</ReadMore>
               </Link>
 
               <PostDate dateTime={created}>{displayedDate}</PostDate>

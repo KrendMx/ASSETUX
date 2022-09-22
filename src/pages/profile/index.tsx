@@ -1,18 +1,18 @@
-import React from "react"
-import styled from "styled-components"
-import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import React from 'react'
+import styled from 'styled-components'
+import { NextSeo } from 'next-seo'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import BaseContainer from "@/components/common/base-container"
-import HeadingRow from "@/components/profile/common/heading-row"
-import FormGroup from "@/components/profile/main/form-group"
+import BaseContainer from '@/components/common/base-container'
+import HeadingRow from '@/components/profile/common/heading-row'
+import FormGroup from '@/components/profile/main/form-group'
 
-import { EcommerceClient } from "@/lib/backend/clients"
-import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
+import { EcommerceClient } from '@/lib/backend/clients'
+import { checkAuthorization, getEcommercePrefix } from '@/lib/utils/helpers'
 
-import type { GetServerSideProps } from "next"
-import type { FormGroupProps } from "@/components/profile/main/form-group"
+import type { GetServerSideProps } from 'next'
+import type { FormGroupProps } from '@/components/profile/main/form-group'
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -24,13 +24,13 @@ const Container = styled(BaseContainer)`
 type MainProps = FormGroupProps
 
 function Main(props: MainProps) {
-  const { t } = useTranslation("profile")
+  const { t } = useTranslation('profile')
 
   return (
     <>
-      <NextSeo title={t("title")} />
-      <Container style={{ minHeight: "calc(100vh - var(--header-height))" }}>
-        <HeadingRow heading={t("profile")} id={`M-${props.user.userId}`} />
+      <NextSeo title={t('title')} />
+      <Container style={{ minHeight: 'calc(100vh - var(--header-height))' }}>
+        <HeadingRow heading={t('profile')} id={`M-${props.user.userId}`} />
         <FormGroup {...props} />
       </Container>
     </>
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
 
   const profile = await EcommerceClient.getProfile({ token })
 
-  if (profile.state != "success") {
+  if (profile.state != 'success') {
     return errorProps
   }
 
@@ -64,12 +64,12 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
     props: {
       ...profile.data,
       ...(await serverSideTranslations(locale!, [
-        "header",
-        "footer",
-        "profile",
-        "routes",
-        "home",
-        "inputSelect"
+        'header',
+        'footer',
+        'profile',
+        'routes',
+        'home',
+        'inputSelect'
       ]))
     }
   }

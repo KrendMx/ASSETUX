@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { IoIosArrowUp } from "react-icons/io"
+import React from 'react'
+import styled from 'styled-components'
+import { IoIosArrowUp } from 'react-icons/io'
 
 type ButtonProps = {
   active: boolean
@@ -16,12 +16,12 @@ export const Button = styled.button<ButtonProps>`
   background-color: transparent;
   cursor: pointer;
   padding: 10px 0;
-  color: ${(props) => (props.active ? "var(--blue)" : "var(--black)")};
+  color: ${(props) => (props.active ? 'var(--blue)' : 'var(--black)')};
   font-size: 1em;
 
   svg {
     font-size: 1.3em;
-    transform: ${(props) => (props.active ? "rotate(0deg)" : "rotate(180deg)")};
+    transform: ${(props) => (props.active ? 'rotate(0deg)' : 'rotate(180deg)')};
   }
 `
 
@@ -37,7 +37,7 @@ type NavButtonProps = {
   active: boolean
 }
 
-const NavButton: React.FC<NavButtonProps> = ({ title, onClick, active }) => {
+const NavButton = ({ title, onClick, active }: NavButtonProps) => {
   return (
     <Button onClick={onClick} active={active}>
       <ButtonTitle>{title}</ButtonTitle>

@@ -1,1 +1,1 @@
-export { default } from "./query-controller"
+export { default } from './query-controller'

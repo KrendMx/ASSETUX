@@ -1,1 +1,1 @@
-export { default } from "./input-select-button"
+export { default } from './input-select-button'

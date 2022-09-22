@@ -1,14 +1,14 @@
-import React, { useEffect } from "react"
-import Link from "next/link"
-import { useTranslation } from "next-i18next"
+import React, { useEffect } from 'react'
+import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 
-import { useImmediateMobile, useToggle } from "@/lib/hooks"
-import { mobile } from "@/lib/data/constants"
-import { useAppDispatch } from "@/lib/redux/hooks"
-import { setHideBurgerButton } from "@/lib/redux/ui"
+import { useImmediateMobile, useToggle } from '@/lib/hooks'
+import { mobile } from '@/lib/data/constants'
+import { useAppDispatch } from '@/lib/redux/hooks'
+import { setHideBurgerButton } from '@/lib/redux/ui'
 
-import Search from "@/components/common/search"
-import Background from "../background"
+import Search from '@/components/common/search'
+import Background from '../background'
 import {
   Container,
   Controls,
@@ -16,17 +16,17 @@ import {
   Modal,
   CloseButton,
   FilterButton
-} from "./styles"
+} from './styles'
 
-import type { ControlRowProps } from "./types"
+import type { ControlRowProps } from './types'
 
-const ControlRow: React.FC<ControlRowProps> = ({
+const ControlRow = ({
   searchPlaceholder,
   buttons,
   context,
   onContextChange
-}) => {
-  const { t } = useTranslation("controlRow")
+}: ControlRowProps) => {
+  const { t } = useTranslation('controlRow')
   const dispatch = useAppDispatch()
 
   const [showModal, toggleModal] = useToggle()
@@ -51,7 +51,7 @@ const ControlRow: React.FC<ControlRowProps> = ({
         {buttons && (
           <>
             <FilterButton onClick={manuallyToggleModal}>
-              {t("filter")}
+              {t('filter')}
             </FilterButton>
             <Controls>
               {buttons.map((button) =>

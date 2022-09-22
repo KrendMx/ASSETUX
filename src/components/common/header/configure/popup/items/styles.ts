@@ -1,11 +1,11 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 type PopupItemProps = {
   active: boolean
 }
 
 export const PopupItem = styled.span<PopupItemProps>`
-  color: ${(props) => (props.active ? "var(--blue)" : "var(--black)")};
+  color: ${(props) => (props.active ? 'var(--blue)' : 'var(--black)')};
 `
 
 export const PopupRow = styled.a`

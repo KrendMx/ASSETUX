@@ -1,1 +1,1 @@
-export { default } from "./exchange-info"
+export { default } from './exchange-info'

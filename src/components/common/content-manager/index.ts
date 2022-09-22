@@ -1,1 +1,1 @@
-export { default } from "./content-manager"
+export { default } from './content-manager'

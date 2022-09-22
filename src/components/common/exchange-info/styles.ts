@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 export const ExchangeStat = styled.span`
   color: #6e6e73;
@@ -24,12 +24,12 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: ${(props) => (props.margins ? "15px 0 14px" : "0px")};
+  margin: ${(props) => (props.margins ? '15px 0 14px' : '0px')};
   font-size: 0.8em;
 
   @media only screen and (max-width: ${mobile}px) {
     font-size: 0.865em;
-    margin: ${(props) => (props.margins ? "11px 0" : "0px")};
+    margin: ${(props) => (props.margins ? '11px 0' : '0px')};
   }
 
   @media only screen and (max-width: 370px) {

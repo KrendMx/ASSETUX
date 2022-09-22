@@ -1,6 +1,6 @@
-import { TokenOption } from "@/components/home/form-group/form/types"
-import { IMerchantToken } from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import { Token } from "./backend/main/types.backend.main"
+import { TokenOption } from '@/components/home/form-group/form/types'
+import { IMerchantToken } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import { Token } from './backend/main/types.backend.main'
 
 export const mapTokens = (tokens: Token[] | IMerchantToken[]): TokenOption[] =>
   tokens

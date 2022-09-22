@@ -1,13 +1,13 @@
-import React from "react"
-import styled from "styled-components"
-import Image from "next/image"
-import { useTranslation } from "next-i18next"
+import React from 'react'
+import styled from 'styled-components'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
 
-import Container from "@/components/common/modal-components/Container"
-import Icon from "@/components/common/modal-components/Icon"
-import Info from "@/components/common/modal-components/Info"
-import Shadow from "@/components/common/modal-components/Shadow"
-import Title from "@/components/common/modal-components/Title"
+import Container from '@/components/common/modal-components/Container'
+import Icon from '@/components/common/modal-components/Icon'
+import Info from '@/components/common/modal-components/Info'
+import Shadow from '@/components/common/modal-components/Shadow'
+import Title from '@/components/common/modal-components/Title'
 
 const SmallContainer = styled(Container)`
   width: 72%;
@@ -32,7 +32,7 @@ const ColoredInfo = styled(Info)`
 `
 
 function Maintenance() {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   return (
     <Background>
@@ -49,10 +49,10 @@ function Maintenance() {
               />
             </Icon>
           </Shadow>
-          <span>{t("home:maintenance_title")}</span>
+          <span>{t('home:maintenance_title')}</span>
         </Title>
-        <ColoredInfo misc>{t("home:maintenance_p1")}</ColoredInfo>
-        <ColoredInfo misc>{t("home:maintenance_p2")}</ColoredInfo>
+        <ColoredInfo misc>{t('home:maintenance_p1')}</ColoredInfo>
+        <ColoredInfo misc>{t('home:maintenance_p2')}</ColoredInfo>
       </SmallContainer>
     </Background>
   )

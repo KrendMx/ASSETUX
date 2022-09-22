@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useRef } from "react"
-import { useTranslation } from "next-i18next"
+import React, { useState, useMemo, useRef } from 'react'
+import { useTranslation } from 'next-i18next'
 
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
+import { useIsomorphicLayoutEffect } from '@/lib/hooks'
 
-import InputSelect from "@/components/common/input-select"
+import InputSelect from '@/components/common/input-select'
 
 import {
   Container,
@@ -12,48 +12,48 @@ import {
   ExchangeButton,
   ExchangeInfoContainer,
   RefundButton
-} from "./styles"
+} from './styles'
 
-import InputSelectButton from "../../input-select-button"
-import NextButton from "../../common/next-button"
-import HideableWithMargin from "../../common/hideable-with-margin"
-import ExchangeInfoRow from "../../common/exchange-info-row"
-import QRcode from "../../common/qr-code"
-import Maintenance from "../../common/maintenance"
+import InputSelectButton from '../../input-select-button'
+import NextButton from '../../common/next-button'
+import HideableWithMargin from '../../common/hideable-with-margin'
+import ExchangeInfoRow from '../../common/exchange-info-row'
+import QRcode from '../../common/qr-code'
+import Maintenance from '../../common/maintenance'
 
-import RefundModal from "./modals/refund/modal"
-import RefundWalletModal from "./modals/refund/wallet"
-import RefundCodeModal from "./modals/refund/code"
-import RefundInsufficient from "./modals/refund/insufficient"
-import RefundResultModal from "./modals/refund/result"
-import RefundCodeInvalid from "./modals/refund/code-invalid"
-import ExchangeModal from "./modals/exchange/modal"
-import ExchangeResultModal from "./modals/exchange/result"
-import ExchangeUnknownModal from "./modals/exchange/unknown-error"
-import ExchangeExpired from "./modals/exchange-expired"
-import NotEnough from "./modals/exchange/not-enough"
-import Background from "@/components/common/background"
-import ExchangeRow from "@/components/common/exchange-info"
+import RefundModal from './modals/refund/modal'
+import RefundWalletModal from './modals/refund/wallet'
+import RefundCodeModal from './modals/refund/code'
+import RefundInsufficient from './modals/refund/insufficient'
+import RefundResultModal from './modals/refund/result'
+import RefundCodeInvalid from './modals/refund/code-invalid'
+import ExchangeModal from './modals/exchange/modal'
+import ExchangeResultModal from './modals/exchange/result'
+import ExchangeUnknownModal from './modals/exchange/unknown-error'
+import ExchangeExpired from './modals/exchange-expired'
+import NotEnough from './modals/exchange/not-enough'
+import Background from '@/components/common/background'
+import ExchangeRow from '@/components/common/exchange-info'
 
-import { holderRegexp, emailRegexp, allowSkeletons } from "@/lib/data/constants"
+import { holderRegexp, emailRegexp, allowSkeletons } from '@/lib/data/constants'
 
-import Skeleton from "react-loading-skeleton"
-import { useAppSelector } from "@/lib/redux/hooks"
-import { stringToPieces, validateDecimal } from "@/lib/utils/helpers"
-import { Step } from "./steps"
-import { mapCurrencyName, isCurrencyDeclared } from "@/lib/data/currencies"
+import Skeleton from 'react-loading-skeleton'
+import { useAppSelector } from '@/lib/redux/hooks'
+import { stringToPieces, validateDecimal } from '@/lib/utils/helpers'
+import { Step } from './steps'
+import { mapCurrencyName, isCurrencyDeclared } from '@/lib/data/currencies'
 
-import type { Error, SelectFormProps } from "./types"
-import type { Option } from "@/components/common/input-select/types"
+import type { Error, SelectFormProps } from './types'
+import type { Option } from '@/components/common/input-select/types'
 
 const inputIds = {
-  get: "get",
-  give: "give",
-  details: "cardnumber",
-  holder: "ccname",
-  blockchains: "blockchains",
-  payments: "payments",
-  email: "email"
+  get: 'get',
+  give: 'give',
+  details: 'cardnumber',
+  holder: 'ccname',
+  blockchains: 'blockchains',
+  payments: 'payments',
+  email: 'email'
 }
 
 function SelectForm({
@@ -94,7 +94,7 @@ function SelectForm({
   getRefundAmounts,
   onReview
 }: SelectFormProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})
   const [chainActive, setChainActive] = useState(false)
@@ -131,7 +131,7 @@ function SelectForm({
   })
 
   const piecedDetails = useMemo(
-    () => stringToPieces(currentDetails, 4, " "),
+    () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
   )
 
@@ -147,9 +147,9 @@ function SelectForm({
 
     if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
       if (value > currentPaymentOption.max) {
-        return t("home:sell_maximumIs") + " " + currentPaymentOption.max
+        return t('home:sell_maximumIs') + ' ' + currentPaymentOption.max
       } else {
-        return t("home:sell_minimumIs") + " " + currentPaymentOption.min
+        return t('home:sell_minimumIs') + ' ' + currentPaymentOption.min
       }
     } else {
       return null
@@ -162,11 +162,11 @@ function SelectForm({
     }
 
     switch (refundRequestInfo.state) {
-      case "success":
+      case 'success':
         setShowRefundModal(false)
         setShowRefundWalletModal(true)
         break
-      case "error":
+      case 'error':
         setShowRefundModal(false)
         setShowRefundInsufficient(true)
         break
@@ -189,11 +189,11 @@ function SelectForm({
     }
 
     switch (refundInfo.state) {
-      case "success":
+      case 'success':
         setShowRefundModalResult(true)
         setShowRefundCodeModal(false)
         break
-      case "error":
+      case 'error':
         setShowRefundCodeModal(false)
         setShowRefundCodeInvalid(true)
         break
@@ -205,7 +205,7 @@ function SelectForm({
       return
     }
 
-    if ("error" in depositInfo) {
+    if ('error' in depositInfo) {
       setShowExchangeUnknownModal(true)
       setShowExchangeModal(false)
     } else {
@@ -225,13 +225,13 @@ function SelectForm({
 
   const serviceUnavailable = serviceAvailable == null || !serviceAvailable
 
-  let getAmount = ""
-  if (rate && giveAmount != "") {
+  let getAmount = ''
+  if (rate && giveAmount != '') {
     getAmount = (Number(giveAmount) * rate).toFixed(2)
   }
 
-  let creditedGetAmount = ""
-  if (rate && giveAmount != "" && exchangeInfo) {
+  let creditedGetAmount = ''
+  if (rate && giveAmount != '' && exchangeInfo) {
     creditedGetAmount = (exchangeInfo.creditedAmount * rate).toFixed(2)
   }
 
@@ -262,7 +262,7 @@ function SelectForm({
   const handleDetailsInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    const value = event.target.value.replaceAll(" ", "")
+    const value = event.target.value.replaceAll(' ', '')
     const validated = /^[0-9]*$/.test(value)
     validated && onDetailsChange(value)
   }
@@ -295,21 +295,21 @@ function SelectForm({
       errorObject[inputIds.get] = errorRanges
     }
 
-    if (giveAmount == "") {
-      errorObject[inputIds.give] = t("home:sell_invalidGive")
+    if (giveAmount == '') {
+      errorObject[inputIds.give] = t('home:sell_invalidGive')
     }
 
     if (currentStep == Step.Payment) {
-      if (currentDetails == "") {
-        errorObject[inputIds.details] = t("home:sell_invalidCard")
+      if (currentDetails == '') {
+        errorObject[inputIds.details] = t('home:sell_invalidCard')
       }
 
-      if (currentHolder == "" || !holderRegexp.test(currentHolder)) {
-        errorObject[inputIds.holder] = t("home:sell_invalidHolder")
+      if (currentHolder == '' || !holderRegexp.test(currentHolder)) {
+        errorObject[inputIds.holder] = t('home:sell_invalidHolder')
       }
 
-      if (currentEmail == "" || !emailRegexp.test(currentEmail)) {
-        errorObject[inputIds.email] = t("home:sell_invalidEmail")
+      if (currentEmail == '' || !emailRegexp.test(currentEmail)) {
+        errorObject[inputIds.email] = t('home:sell_invalidEmail')
       }
     }
 
@@ -336,9 +336,9 @@ function SelectForm({
         <FormContainer>
           {!isLoading ? (
             <InputSelect
-              label={t("home:sell_blockchain")}
+              label={t('home:sell_blockchain')}
               id={inputIds.blockchains}
-              selectLabel={t("home:sell_blockchainLabel")}
+              selectLabel={t('home:sell_blockchainLabel')}
               options={checkedBlockchains}
               displayInSelect={3}
               onActiveChange={(active) => setChainActive(active)}
@@ -353,7 +353,7 @@ function SelectForm({
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
               <InputSelect
-                label={t("home:sell_give")}
+                label={t('home:sell_give')}
                 id={inputIds.give}
                 value={giveAmount}
                 options={checkedTokens}
@@ -375,13 +375,13 @@ function SelectForm({
                 currency={currentCurrency}
                 rate={rate}
                 isLoading={isLoading}
-                placeholder={t("home:exchange_fees")}
+                placeholder={t('home:exchange_fees')}
                 text="asdads"
                 margins
               />
               {!isLoading ? (
                 <InputSelect
-                  label={`${t("home:sell_get")}: ${
+                  label={`${t('home:sell_get')}: ${
                     currentPaymentOption?.min
                   } - ${currentPaymentOption?.max}`}
                   id={inputIds.get}
@@ -401,7 +401,7 @@ function SelectForm({
               <HideableWithMargin hide={getActive} margins>
                 {!isLoading ? (
                   <InputSelect
-                    label={t("home:sell_payment")}
+                    label={t('home:sell_payment')}
                     id={inputIds.payments}
                     options={checkedPayments}
                     onSelect={onPaymentChange}
@@ -421,13 +421,13 @@ function SelectForm({
       return (
         <FormContainer>
           <InputSelectButton
-            label={t("home:sell_backTo")}
-            value={t("home:sell_orderDetails")}
+            label={t('home:sell_backTo')}
+            value={t('home:sell_orderDetails')}
             onClick={() => setCurrentStep(Step.Details)}
           />
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label={t("home:sell_cardNumber")}
+              label={t('home:sell_cardNumber')}
               id={inputIds.details}
               onChange={handleDetailsInput}
               value={piecedDetails}
@@ -438,7 +438,7 @@ function SelectForm({
           </HideableWithMargin>
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label={t("home:sell_cardHolder")}
+              label={t('home:sell_cardHolder')}
               id={inputIds.holder}
               onChange={handleHolderInput}
               value={currentHolder}
@@ -449,7 +449,7 @@ function SelectForm({
           </HideableWithMargin>
           <HideableWithMargin hide={false} margins>
             <InputSelect
-              label={t("home:sell_email")}
+              label={t('home:sell_email')}
               id={inputIds.email}
               onChange={handleEmailInput}
               value={currentEmail}
@@ -466,34 +466,34 @@ function SelectForm({
         <>
           <FormContainer>
             <InputSelectButton
-              label={t("home:sell_backTo")}
-              value={t("home:sell_orderDetails")}
+              label={t('home:sell_backTo')}
+              value={t('home:sell_orderDetails')}
               onClick={() => setCurrentStep(Step.Details)}
             />
             <ExchangeInfoContainer>
               <QRcode valueToCopy={exchangeInfo.wallet} />
               <ExchangeInfoRow
-                label={t("home:sell_wallet")}
+                label={t('home:sell_wallet')}
                 value={exchangeInfo.wallet}
-                copyLabel={t("home:sell_copyAddress")}
+                copyLabel={t('home:sell_copyAddress')}
                 valueToCopy={exchangeInfo.wallet}
               />
               <ExchangeInfoRow
-                label={t("home:sell_totalAmount")}
+                label={t('home:sell_totalAmount')}
                 value={`${
                   !!exchangeInfo?.totalAmount
                     ? exchangeInfo?.totalAmount?.toString()
-                    : "0"
+                    : '0'
                 } ${exchangeInfo.curOut}`}
-                copyLabel={t("home:sell_copyAmount")}
+                copyLabel={t('home:sell_copyAmount')}
                 valueToCopy={
                   !!exchangeInfo?.totalAmount
                     ? exchangeInfo?.totalAmount?.toString()
-                    : "0"
+                    : '0'
                 }
               />
               <ExchangeInfoRow
-                label={t("home:sell_creditedAmount")}
+                label={t('home:sell_creditedAmount')}
                 value={`${exchangeInfo.creditedAmount} ${exchangeInfo.curOut}`}
                 timestamp={Number(exchangeInfo.timestamp)}
                 onExpired={async () => {
@@ -513,13 +513,13 @@ function SelectForm({
                 currency={exchangeInfo.curIn}
                 rate={rate}
                 isLoading={false}
-                placeholder={t("home:exchange_fees")}
+                placeholder={t('home:exchange_fees')}
                 text="asdads"
                 margins
               />
               <ExchangeInfoRow
-                label={t("home:sell_amountToGet")}
-                value={`≈${creditedGetAmount || "..."} ${
+                label={t('home:sell_amountToGet')}
+                value={`≈${creditedGetAmount || '...'} ${
                   exchangeInfo.curIn &&
                   isCurrencyDeclared(exchangeInfo.curIn) &&
                   mapCurrencyName(exchangeInfo.curIn)
@@ -541,10 +541,10 @@ function SelectForm({
                 }
               }}
             >
-              {t("home:sell_exchange")}
+              {t('home:sell_exchange')}
             </ExchangeButton>
             <RefundButton onClick={() => setShowRefundModal(true)}>
-              {t("home:sell_refund")}
+              {t('home:sell_refund')}
             </RefundButton>
           </ExchangeButtonsContainer>
         </>
@@ -571,9 +571,9 @@ function SelectForm({
                 containerClassName="skeletonFlexContainer skeletonZeroLineHeight"
               />
             ) : processingRequest ? (
-              t("home:sell_wait")
+              t('home:sell_wait')
             ) : (
-              t("home:sell_next")
+              t('home:sell_next')
             )}
           </NextButton>
         )}
@@ -585,7 +585,7 @@ function SelectForm({
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
-          isLoading={refundRequestInfo?.state == "pending"}
+          isLoading={refundRequestInfo?.state == 'pending'}
           onCancel={() => setShowRefundModal(false)}
           onAccept={() => {
             onRefundRequest()
@@ -605,7 +605,7 @@ function SelectForm({
       )}
       {showRefundCodeModal && (
         <RefundCodeModal
-          isLoading={refundInfo?.state == "pending"}
+          isLoading={refundInfo?.state == 'pending'}
           onAccept={(code) => {
             refundData.current.code = code
 
@@ -670,7 +670,7 @@ function SelectForm({
           getToken={currencies?.find(
             (currency) => currency.value == currentCurrency
           )}
-          isLoading={depositInfo?.state == "pending"}
+          isLoading={depositInfo?.state == 'pending'}
           onCancel={() => setShowExchangeModal(false)}
           onAccept={() => {
             onExchange()

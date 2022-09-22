@@ -1,8 +1,8 @@
-import React, { useMemo, useState, useCallback } from "react"
-import { paginate } from "./paginate"
-import { IoIosArrowDown } from "react-icons/io"
+import React, { useMemo, useState, useCallback } from 'react'
+import { paginate } from './paginate'
+import { IoIosArrowDown } from 'react-icons/io'
 
-import type { SortInfo, TableProps, RowData } from "./types.table"
+import type { SortInfo, TableProps, RowData } from './types.table'
 import {
   Row,
   Element,
@@ -12,7 +12,7 @@ import {
   Head,
   Body,
   Container
-} from "./styles"
+} from './styles'
 
 const Table = ({
   customHeadings,

@@ -1,9 +1,10 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
-import { Form as SharedForm } from "../common/form-components"
+import AdaptiveFont from '@/components/common/adaptive-font'
+import { Form as SharedForm } from '../common/form-components'
 
-import { mobile, tablet } from "@/lib/data/constants"
+import { mobile, tablet } from '@/lib/data/constants'
+import BaseContainer from '@/components/common/base-container'
 
 export const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -47,7 +48,7 @@ type FormProps = {
 }
 
 export const Form = styled(SharedForm)<FormProps>`
-  height: ${(props) => (props.getActive ? "570px" : "427px")};
+  height: ${(props) => (props.getActive ? '570px' : '427px')};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -67,11 +68,11 @@ export const Form = styled(SharedForm)<FormProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => (props.getActive ? "550px" : "407px")};
+    height: ${(props) => (props.getActive ? '550px' : '407px')};
   }
 
   @media only screen and (max-width: 370px) {
-    height: ${(props) => (props.getActive ? "36em" : "27em")};
+    height: ${(props) => (props.getActive ? '36em' : '27em')};
   }
 `
 
@@ -101,4 +102,12 @@ export const ExchangeInfoWrapper = styled.div`
   @media only screen and (max-width: ${mobile}px) {
     font-size: 1rem;
   }
+`
+
+export const Wrapper = styled(BaseContainer)`
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 3.15em var(--paddings);
+  min-height: calc(100vh - var(--header-height));
 `

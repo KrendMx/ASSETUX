@@ -1,125 +1,32 @@
-import React, { useEffect } from "react"
-import { DefaultSeo } from "next-seo"
-import Head from "next/head"
-import { appWithTranslation } from "next-i18next"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
-import { SkeletonTheme } from "react-loading-skeleton"
-import Cookies from "js-cookie"
+import React from 'react'
+import { DefaultSeo } from 'next-seo'
+import Head from 'next/head'
+import { appWithTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
+import { SkeletonTheme } from 'react-loading-skeleton'
+import wrapper from '@/lib/redux/store'
 
-import wrapper from "@/lib/redux/store"
-import { useAppDispatch } from "@/lib/redux/hooks"
-import {
-  setMobile,
-  setTablet,
-  setDesktop,
-  setBurgerActive,
-  setMobileLayoutForTablet,
-  setAppLoaded
-} from "@/lib/redux/ui"
+import Header from '@/components/common/header'
+import ContentManager from '@/components/common/content-manager'
 
-import Header from "@/components/common/header"
-import ContentManager from "@/components/common/content-manager"
+import GlobalStyles from '@/lib/styles/global'
+import { useAppMount, useMount } from '@/lib/hooks'
 
-import GlobalStyles from "@/lib/styles/global"
+import type { AppProps } from 'next/app'
 
-import { mobile, tablet, mobileLayoutForTablet } from "@/lib/data/constants"
-import { checkCurrency } from "@/lib/data/currencies"
-import { useMount } from "@/lib/hooks"
-
-import type { AppProps } from "next/app"
-
-import "react-loading-skeleton/dist/skeleton.css"
-import "core-js/features/array/at"
-import "@/lib/styles/fonts.css"
+import 'react-loading-skeleton/dist/skeleton.css'
+import 'core-js/features/array/at'
+import '@/lib/styles/fonts.css'
 
 const ScrollButton = dynamic(
-  () => import("@/components/common/scroll-button"),
+  () => import('@/components/common/scroll-button'),
   {
     ssr: false
   }
 )
 
-function MyApp(props: AppProps) {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
-
-  const isCommercePayment =
-    router.pathname == "/payment/[id]" ||
-    router.pathname == "/payment_listing/[token]"
-
-  useMount(() => {
-    const closeMenus = () => {
-      dispatch(setBurgerActive(false))
-    }
-
-    const handleRouteChange = () => {
-      console.log("[App] Route change")
-    }
-
-    const handleRouteComplete = () => {
-      console.log("[App] Route change complete")
-      closeMenus()
-    }
-
-    const handleRouteError = () => {
-      console.log("[App] Route change error")
-      closeMenus()
-    }
-
-    const handleResize = () => {
-      if (window.innerWidth <= mobile) {
-        dispatch(setMobile())
-      } else if (window.innerWidth <= mobileLayoutForTablet) {
-        dispatch(setMobileLayoutForTablet())
-        dispatch(setBurgerActive(false))
-      } else if (window.innerWidth <= tablet) {
-        dispatch(setTablet())
-        dispatch(setBurgerActive(false))
-      } else {
-        dispatch(setDesktop())
-        dispatch(setBurgerActive(false))
-      }
-    }
-
-    const handleOnLoad = () => {
-      console.log("[App] Page loaded")
-      dispatch(setAppLoaded())
-    }
-
-    const alreadyLoaded = document.readyState == "complete"
-
-    if (alreadyLoaded) {
-      handleOnLoad()
-    } else {
-      window.onload = handleOnLoad
-    }
-
-    window.addEventListener("resize", handleResize)
-
-    handleResize()
-    checkCurrency(dispatch)
-
-    router.events.on("routeChangeStart", handleRouteChange)
-    router.events.on("routeChangeComplete", handleRouteComplete)
-    router.events.on("routeChangeError", handleRouteError)
-
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange)
-      router.events.off("routeChangeComplete", handleRouteComplete)
-      router.events.off("routeChangeError", handleRouteError)
-      window.removeEventListener("resize", handleResize)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  })
-
-  useEffect(() => {
-    if (!router.locale) {
-      return
-    }
-
-    Cookies.set("NEXT_LOCALE", router.locale)
-  }, [router.locale])
+const MyApp = (props: AppProps) => {
+  const { isCommercePayment, router } = useAppMount()
 
   return (
     <>

@@ -1,7 +1,7 @@
-import React, { useState, useRef, useMemo, useEffect } from "react"
-import styled from "styled-components"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import React, { useState, useRef, useMemo, useEffect } from 'react'
+import styled from 'styled-components'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 import {
   Form,
@@ -9,29 +9,29 @@ import {
   FormHeading,
   Balance,
   Paragraph
-} from "../common/form-components"
-import InputSelect from "@/components/common/input-select"
-import AdaptiveFont from "@/components/common/adaptive-font"
-import Image from "next/image"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
+} from '../common/form-components'
+import InputSelect from '@/components/common/input-select'
+import AdaptiveFont from '@/components/common/adaptive-font'
+import Image from 'next/image'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
 
-import { mobile, tablet, walletRegexp } from "@/lib/data/constants"
-import { EcommerceClient } from "@/lib/backend/clients"
-import { toBase64, getEcommercePrefix } from "@/lib/utils/helpers"
-import { useAuthorized } from "@/lib/hooks"
+import { mobile, tablet, walletRegexp } from '@/lib/data/constants'
+import { EcommerceClient } from '@/lib/backend/clients'
+import { toBase64, getEcommercePrefix } from '@/lib/utils/helpers'
+import { useAuthorized } from '@/lib/hooks'
 
 import type {
   IMerchant,
   UserImage
-} from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import type { RequestState } from "@/core/backend/types"
-import { setMerchantMode } from "@/lib/redux/ui"
-import { useAppDispatch } from "@/lib/redux/hooks"
-import CryptoManager from "@/components/common/crypto-manager"
-import SupportPopup from "./support-popup"
-import styles from "./popup.module.css"
-import OutIcon from "../../../../public/assets/Out.svg"
+} from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type { RequestState } from '@/core/backend/types'
+import { setMerchantMode } from '@/lib/redux/ui'
+import { useAppDispatch } from '@/lib/redux/hooks'
+import CryptoManager from '@/components/common/crypto-manager'
+import SupportPopup from './support-popup'
+import styles from './popup.module.css'
+import OutIcon from '../../../../public/assets/Out.svg'
 
 const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,
@@ -71,14 +71,14 @@ const Label = styled(Paragraph)`
 `
 
 const inputId = {
-  wallet: "wallet",
-  email: "email",
-  companyName: "companyName",
-  companyLogo: "companyLogo",
-  companyBackground: "companyBackground"
+  wallet: 'wallet',
+  email: 'email',
+  companyName: 'companyName',
+  companyLogo: 'companyLogo',
+  companyBackground: 'companyBackground'
 } as const
 
-type Widgets = "wallet" | "company"
+type Widgets = 'wallet' | 'company'
 
 type Option = {
   icon?: string
@@ -96,15 +96,15 @@ function FormGroup(props: FormGroupProps) {
     tokens,
     widget: { nameCompany, logoCompanyName, backgroundCompanyName }
   } = props
-  const { t } = useTranslation("profile")
+  const { t } = useTranslation('profile')
   const router = useRouter()
-  const isTRANSFER = mode == "TRANSFER"
-  const isCONNECT = mode == "CONNECT"
+  const isTRANSFER = mode == 'TRANSFER'
+  const isCONNECT = mode == 'CONNECT'
 
   const checkAuthorized = useAuthorized()
 
   const [wallet, setWallet] = useState(public_key)
-  const [company, setCompany] = useState(nameCompany == null ? "" : nameCompany)
+  const [company, setCompany] = useState(nameCompany == null ? '' : nameCompany)
   const [logo, setLogo] = useState({
     name: logoCompanyName,
     img: null as string | null
@@ -137,7 +137,7 @@ function FormGroup(props: FormGroupProps) {
   }, [dispatch, mode])
 
   const prevPublicKey = useRef(public_key)
-  const prevCompany = useRef(nameCompany == null ? "" : nameCompany)
+  const prevCompany = useRef(nameCompany == null ? '' : nameCompany)
   const prevLogo = useRef(logoCompanyName)
   const prevBackground = useRef(backgroundCompanyName)
 
@@ -151,7 +151,7 @@ function FormGroup(props: FormGroupProps) {
     if (!valid) {
       setInputError((prev) => ({
         ...prev,
-        [inputId.wallet]: t("walletError")
+        [inputId.wallet]: t('walletError')
       }))
 
       return
@@ -164,7 +164,7 @@ function FormGroup(props: FormGroupProps) {
 
     setRequests((prev) => ({
       ...prev,
-      wallet: { state: "pending" }
+      wallet: { state: 'pending' }
     }))
 
     const token = checkAuthorized()
@@ -177,33 +177,33 @@ function FormGroup(props: FormGroupProps) {
 
     const response = await EcommerceClient.changeWallet({ wallet, token })
 
-    if (response.state != "success") {
+    if (response.state != 'success') {
       if (
-        response.state == "error" &&
-        response.data.message == "Wallet is not valid"
+        response.state == 'error' &&
+        response.data.message == 'Wallet is not valid'
       ) {
         setInputError((prev) => ({
           ...prev,
-          [inputId.wallet]: t("walletError")
+          [inputId.wallet]: t('walletError')
         }))
       } else if (
-        response.state == "error" &&
-        response.data.message == "The wallet must be unique"
+        response.state == 'error' &&
+        response.data.message == 'The wallet must be unique'
       ) {
         setInputError((prev) => ({
           ...prev,
-          [inputId.wallet]: t("walletUnique")
+          [inputId.wallet]: t('walletUnique')
         }))
       } else {
         setInputError((prev) => ({
           ...prev,
-          [inputId.wallet]: t("smthHappened")
+          [inputId.wallet]: t('smthHappened')
         }))
       }
 
       setRequests((prev) => ({
         ...prev,
-        wallet: { state: "error", error: null }
+        wallet: { state: 'error', error: null }
       }))
 
       return
@@ -213,7 +213,7 @@ function FormGroup(props: FormGroupProps) {
 
     setRequests((prev) => ({
       ...prev,
-      wallet: { state: "success", result: null }
+      wallet: { state: 'success', result: null }
     }))
   }
 
@@ -224,7 +224,7 @@ function FormGroup(props: FormGroupProps) {
 
     setRequests((prev) => ({
       ...prev,
-      company: { state: "pending" }
+      company: { state: 'pending' }
     }))
 
     const token = checkAuthorized()
@@ -267,10 +267,10 @@ function FormGroup(props: FormGroupProps) {
 
     setUpdatedWidget(false)
 
-    if (response.state == "success") {
+    if (response.state == 'success') {
       setRequests((prev) => ({
         ...prev,
-        company: { state: "success", result: null }
+        company: { state: 'success', result: null }
       }))
 
       prevCompany.current = company
@@ -279,7 +279,7 @@ function FormGroup(props: FormGroupProps) {
     } else {
       setRequests((prev) => ({
         ...prev,
-        company: { state: "error", error: null }
+        company: { state: 'error', error: null }
       }))
     }
   }
@@ -291,7 +291,7 @@ function FormGroup(props: FormGroupProps) {
 
     setWallet(value)
 
-    if (requests.wallet?.state == "error") {
+    if (requests.wallet?.state == 'error') {
       setRequests((prev) => ({ ...prev, wallet: null }))
     }
 
@@ -309,7 +309,7 @@ function FormGroup(props: FormGroupProps) {
     setCompany(value)
     setUpdatedWidget(true)
 
-    if (requests.company?.state == "error") {
+    if (requests.company?.state == 'error') {
       setRequests((prev) => ({
         ...prev,
         company: null
@@ -318,8 +318,8 @@ function FormGroup(props: FormGroupProps) {
   }
 
   const handleFile =
-    (image: "companyLogo" | "companyBackground") => async (file: File) => {
-      const validTypes = ["image/png", "image/jpeg"]
+    (image: 'companyLogo' | 'companyBackground') => async (file: File) => {
+      const validTypes = ['image/png', 'image/jpeg']
 
       const setError = (error?: string) =>
         setInputError((prev) => ({
@@ -328,7 +328,7 @@ function FormGroup(props: FormGroupProps) {
         }))
 
       if (!validTypes.includes(file.type)) {
-        setError(t("invalidImage"))
+        setError(t('invalidImage'))
 
         return
       }
@@ -340,20 +340,20 @@ function FormGroup(props: FormGroupProps) {
         setError()
         setUpdatedWidget(true)
 
-        if (requests.company?.state == "error") {
+        if (requests.company?.state == 'error') {
           setRequests((prev) => ({
             ...prev,
             company: null
           }))
         }
 
-        if (image == "companyLogo") {
+        if (image == 'companyLogo') {
           setLogo({ img: base64, name })
         } else {
           setBackground({ img: base64, name })
         }
       } catch (_) {
-        setError(t("invalidImage"))
+        setError(t('invalidImage'))
       }
     }
 
@@ -392,20 +392,20 @@ function FormGroup(props: FormGroupProps) {
       <CryptoManager />
       <Container>
         <Form as="section">
-          <FormHeading>{t("balance")}</FormHeading>
+          <FormHeading>{t('balance')}</FormHeading>
           {/* {!!balance ? ( */}
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               gap: 17
             }}
           >
             <Balance
-              amount={balance ? parseFloat((+balance).toFixed(2)) + "" : "0.00"}
+              amount={balance ? parseFloat((+balance).toFixed(2)) + '' : '0.00'}
               icon="₽"
               symbol="RUB"
               fiat
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
             />
             <button
               className={styles.copyButton}
@@ -429,7 +429,7 @@ function FormGroup(props: FormGroupProps) {
           )} */}
         </Form>
         <Form as="section">
-          <FormHeading>{t("personalInfo")}</FormHeading>
+          <FormHeading>{t('personalInfo')}</FormHeading>
           <InputSelect
             id={inputId.email}
             label="E-Mail"
@@ -441,10 +441,10 @@ function FormGroup(props: FormGroupProps) {
         {!isCONNECT && (
           <>
             <Form onSubmit={handlePaymentSubmit}>
-              <FormHeading>{t("payment")}</FormHeading>
+              <FormHeading>{t('payment')}</FormHeading>
               <InputSelect
                 id={inputId.wallet}
-                label={t("wallet")}
+                label={t('wallet')}
                 selectable={false}
                 onChange={handleSetWallet}
                 value={wallet}
@@ -453,29 +453,29 @@ function FormGroup(props: FormGroupProps) {
               />
               <Button
                 type="submit"
-                isLoading={requests.wallet?.state == "pending"}
+                isLoading={requests.wallet?.state == 'pending'}
                 disabled={
                   wallet == prevPublicKey.current ||
                   (requests.wallet != null &&
-                    requests.wallet.state != "success") ||
+                    requests.wallet.state != 'success') ||
                   inputError[inputId.wallet] != undefined
                 }
               >
-                {requests.wallet?.state == "pending"
-                  ? t("loading")
-                  : t("change")}
+                {requests.wallet?.state == 'pending'
+                  ? t('loading')
+                  : t('change')}
               </Button>
             </Form>
             <Form onSubmit={handleWidgetSubmit}>
-              <FormHeading>{t("widgetPersonalization")}</FormHeading>
+              <FormHeading>{t('widgetPersonalization')}</FormHeading>
               <InputSelect
                 id={inputId.companyName}
                 error={
-                  requests.company?.state == "error"
-                    ? t("smthHappened")
+                  requests.company?.state == 'error'
+                    ? t('smthHappened')
                     : undefined
                 }
-                label={t("nameYourCompany")}
+                label={t('nameYourCompany')}
                 value={company}
                 onChange={handleSetCompany}
                 selectable={false}
@@ -484,13 +484,13 @@ function FormGroup(props: FormGroupProps) {
               <InputSelect
                 id={inputId.companyLogo}
                 error={
-                  requests.company?.state == "error"
-                    ? t("smthHappened")
+                  requests.company?.state == 'error'
+                    ? t('smthHappened')
                     : inputError[inputId.companyLogo]
                 }
-                label={t("logo")}
+                label={t('logo')}
                 onUpload={handleFile(inputId.companyLogo)}
-                fileLabel={t("upload")}
+                fileLabel={t('upload')}
                 accept=".png,.jpg,.jpeg"
                 selectable={false}
                 uploadedFileName={logo.name ? logo.name : undefined}
@@ -500,13 +500,13 @@ function FormGroup(props: FormGroupProps) {
               <InputSelect
                 id={inputId.companyBackground}
                 error={
-                  requests.company?.state == "error"
-                    ? t("smthHappened")
+                  requests.company?.state == 'error'
+                    ? t('smthHappened')
                     : inputError[inputId.companyBackground]
                 }
-                label={t("background")}
+                label={t('background')}
                 onUpload={handleFile(inputId.companyBackground)}
-                fileLabel={t("upload")}
+                fileLabel={t('upload')}
                 accept=".png,.jpg,.jpeg"
                 selectable={false}
                 uploadedFileName={background.name ? background.name : undefined}
@@ -515,7 +515,7 @@ function FormGroup(props: FormGroupProps) {
               />
               <Button
                 type="submit"
-                isLoading={requests.company?.state == "pending"}
+                isLoading={requests.company?.state == 'pending'}
                 disabled={
                   !updatedWidget ||
                   (company == prevCompany.current &&
@@ -524,12 +524,12 @@ function FormGroup(props: FormGroupProps) {
                   inputError[inputId.companyLogo] != undefined ||
                   inputError[inputId.companyBackground] != undefined ||
                   (requests.company != null &&
-                    requests.company.state != "success")
+                    requests.company.state != 'success')
                 }
               >
-                {requests.company?.state == "pending"
-                  ? t("loading")
-                  : t("change")}
+                {requests.company?.state == 'pending'
+                  ? t('loading')
+                  : t('change')}
               </Button>
             </Form>
           </>
@@ -538,11 +538,11 @@ function FormGroup(props: FormGroupProps) {
       {isTRANSFER && !!tokens?.length && (
         <Container>
           <Form as="section">
-            <FormHeading>{t("token")}</FormHeading>
+            <FormHeading>{t('token')}</FormHeading>
             <InputSelect
-              label={t("home:buy_blockchain")}
-              id={"blockchains"}
-              selectLabel={t("home:buy_blockchainLabel")}
+              label={t('home:buy_blockchain')}
+              id={'blockchains'}
+              selectLabel={t('home:buy_blockchainLabel')}
               options={avaliableChains}
               displayInSelect={2}
               onActiveChange={(active) => {}}
@@ -552,7 +552,7 @@ function FormGroup(props: FormGroupProps) {
               displayIcon
             />
             <Label>
-              {!!selectedToken?.address ? selectedToken.address : ""}
+              {!!selectedToken?.address ? selectedToken.address : ''}
             </Label>
           </Form>
         </Container>

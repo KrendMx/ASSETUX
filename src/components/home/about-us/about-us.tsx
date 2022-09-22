@@ -1,13 +1,13 @@
-import React from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
-import Link from "next/link"
-import Skeleton from "react-loading-skeleton"
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
+import Link from 'next/link'
+import Skeleton from 'react-loading-skeleton'
 
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
-import { useAppSelector } from "@/lib/redux/hooks"
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
+import { useAppSelector } from '@/lib/redux/hooks'
 
-import AbsoluteSkeletonContainer from "@/components/common/absolute-skeleton-container"
+import AbsoluteSkeletonContainer from '@/components/common/absolute-skeleton-container'
 
 import {
   Container,
@@ -17,10 +17,10 @@ import {
   ImageContainer,
   ShowLink,
   ShowLinkSkeletonContainer
-} from "./styles"
+} from './styles'
 
 function AboutUs() {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
@@ -29,13 +29,13 @@ function AboutUs() {
       <Content>
         <AboutContainer>
           <h3>
-            {!showSkeleton ? t("home:about_title") : <Skeleton width="50%" />}
+            {!showSkeleton ? t('home:about_title') : <Skeleton width="50%" />}
           </h3>
           <TextContainer>
             {!showSkeleton ? (
               <>
-                <p>{t("home:about_p1")}</p>
-                <p>{t("home:about_p2")}</p>
+                <p>{t('home:about_p1')}</p>
+                <p>{t('home:about_p2')}</p>
               </>
             ) : (
               <Skeleton count={10} />
@@ -63,7 +63,7 @@ function AboutUs() {
             <Skeleton width="100%" height="100%" />
           </ShowLinkSkeletonContainer>
         ) : (
-          <ShowLink>{t("home:about_showMore")}</ShowLink>
+          <ShowLink>{t('home:about_showMore')}</ShowLink>
         )}
       </Link>
     </Container>

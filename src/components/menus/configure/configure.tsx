@@ -1,18 +1,18 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
 
-import Container from "../common/container"
-import Social from "../common/social"
-import NavButton from "../common/nav-button"
-import Languages from "./items/languages"
-import Currencies from "./items/currencies"
+import Container from '../common/container'
+import Social from '../common/social'
+import NavButton from '../common/nav-button'
+import Languages from './items/languages'
+import Currencies from './items/currencies'
 
 type NavGroupProps = {
   title: string
   children: JSX.Element
 }
 
-const Group: React.FC<NavGroupProps> = ({ title, children }) => {
+const Group = ({ title, children }: NavGroupProps) => {
   const [active, setActive] = useState(true)
 
   return (
@@ -27,14 +27,14 @@ const Group: React.FC<NavGroupProps> = ({ title, children }) => {
   )
 }
 
-const Configure: React.FC = () => {
-  const { t } = useTranslation("header")
+const Configure = () => {
+  const { t } = useTranslation('header')
 
   return (
     <Container>
       <ul>
         <li>
-          <Group title={t("language")}>
+          <Group title={t('language')}>
             <Languages />
           </Group>
         </li>

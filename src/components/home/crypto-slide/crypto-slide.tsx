@@ -1,14 +1,14 @@
-import React, { useMemo, useCallback } from "react"
-import styled from "styled-components"
+import React, { useMemo, useCallback } from 'react'
+import styled from 'styled-components'
 
-import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
-import { setSelectedToken, swapAction } from "@/lib/redux/crypto"
-import { mobile } from "@/lib/data/constants"
-import { useSliderConfig } from "@/lib/hooks"
-import Slider from "@/components/common/slider"
-import type { Token } from "@/lib/backend/main/types.backend.main"
-import type { ActionType } from "@/lib/redux/crypto/types"
-import { getSkeletons, mapExplorerData } from "./helpers"
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
+import { setSelectedToken, swapAction } from '@/lib/redux/crypto'
+import { mobile } from '@/lib/data/constants'
+import { useSliderConfig } from '@/lib/hooks'
+import Slider from '@/components/common/slider'
+import type { Token } from '@/lib/backend/main/types.backend.main'
+import type { ActionType } from '@/lib/redux/crypto/types'
+import { getSkeletons, mapExplorerData } from './helpers'
 
 const Container = styled.section`
   display: block;
@@ -37,7 +37,7 @@ const CryptoSlide = () => {
       window.scrollTo({
         top: 0,
         left: 0,
-        behavior: "smooth"
+        behavior: 'smooth'
       })
     },
     [dispatch]

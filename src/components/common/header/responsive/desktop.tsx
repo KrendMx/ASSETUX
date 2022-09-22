@@ -1,34 +1,34 @@
-import React from "react"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useTranslation } from "next-i18next"
+import React from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { setOrdersActive } from "@/lib/redux/ui"
-import Configure from "../configure"
-import TextLogo from "@/components/common/text-logo"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { setOrdersActive } from '@/lib/redux/ui'
+import Configure from '../configure'
+import TextLogo from '@/components/common/text-logo'
 
-import { commerce } from "@/lib/routes"
-import { logout, getEcommercePrefix } from "@/lib/utils/helpers"
-import { env } from "@/lib/env/client.mjs"
+import { commerce } from '@/lib/routes'
+import { logout, getEcommercePrefix } from '@/lib/utils/helpers'
+import { env } from '@/lib/env/client.mjs'
 import {
   DesktopContainer,
   NavContainer,
   NavLink,
   RightContainer
-} from "./style"
+} from './style'
 
 const Desktop = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const merchantMode = useAppSelector((state) => state.ui.merchantMode)
-  const { t } = useTranslation("header")
+  const { t } = useTranslation('header')
 
-  const isMainPage = router.pathname == "/"
+  const isMainPage = router.pathname == '/'
   const isCommercePage =
-    router.pathname.startsWith("/profile") &&
-    router.pathname != "/profile/login"
-  const isCommerceLogin = router.pathname == "/profile/login"
+    router.pathname.startsWith('/profile') &&
+    router.pathname != '/profile/login'
+  const isCommerceLogin = router.pathname == '/profile/login'
 
   return (
     <DesktopContainer>
@@ -58,7 +58,7 @@ const Desktop = () => {
                   router.push(`${getEcommercePrefix()}/login`)
                 }}
               >
-                {t("exit")}
+                {t('exit')}
               </NavLink>
             </>
           )}
@@ -67,7 +67,7 @@ const Desktop = () => {
               as="button"
               onClick={() => dispatch(setOrdersActive(true))}
             >
-              {t("header:operations")}
+              {t('header:operations')}
             </NavLink>
           )}
           {!isCommercePage &&
@@ -75,17 +75,17 @@ const Desktop = () => {
             (env.isStage ? (
               <Link
                 href={
-                  process.env.NODE_ENV == "development"
-                    ? "/profile"
-                    : "https://commerce.dev.assetux.com/profile"
+                  process.env.NODE_ENV == 'development'
+                    ? '/profile'
+                    : 'https://commerce.dev.assetux.com/profile'
                 }
                 passHref
               >
-                <NavLink>{t("commerce")}</NavLink>
+                <NavLink>{t('commerce')}</NavLink>
               </Link>
             ) : (
               <NavLink href="https://commerce.assetux.com/profile">
-                {t("commerce")}
+                {t('commerce')}
               </NavLink>
             ))}
         </NavContainer>

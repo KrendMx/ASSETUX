@@ -1,12 +1,12 @@
-import React, { useEffect } from "react"
-import styled from "styled-components"
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
 
 type ContainerProps = {
   absolute?: boolean
 }
 
 const Container = styled.div<ContainerProps>`
-  position: ${(props) => (props.absolute ? "absolute" : "fixed")};
+  position: ${(props) => (props.absolute ? 'absolute' : 'fixed')};
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.35);
@@ -22,18 +22,18 @@ type BackgroundProps = {
   absolute?: boolean
 }
 
-const Background: React.FC<BackgroundProps> = ({
+const Background = ({
   allowScrolling,
   scrollToTop,
   children,
   absolute
-}) => {
+}: BackgroundProps) => {
   useEffect(() => {
     if (!scrollToTop) {
       return
     }
 
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

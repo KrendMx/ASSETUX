@@ -1,13 +1,13 @@
-import axios from "axios"
+import axios from 'axios'
 
-import type { AxiosRequestConfig } from "axios"
-import type { Response } from "./types"
-import Cookies from "js-cookie"
+import type { AxiosRequestConfig } from 'axios'
+import type { Response } from './types'
+import Cookies from 'js-cookie'
 const handleRequest = async (
   props: AxiosRequestConfig
 ): Promise<Response<any, any>> => {
   try {
-    const locale = Cookies.get("NEXT_LOCALE") || "ru"
+    const locale = Cookies.get('NEXT_LOCALE') || 'ru'
     const response = await axios({
       ...props,
       headers: {
@@ -17,21 +17,21 @@ const handleRequest = async (
     })
 
     if (
-      (response?.data as Object).hasOwnProperty("success") &&
+      (response?.data as Object).hasOwnProperty('success') &&
       !response.data.success
     ) {
       throw {
         status: 404,
-        statusText: "Not success from backend",
+        statusText: 'Not success from backend',
         data: null
       }
     }
 
     return {
-      state: "success",
+      state: 'success',
       status: response.status,
       message: response.statusText,
-      data: (response?.data as Object).hasOwnProperty("success")
+      data: (response?.data as Object).hasOwnProperty('success')
         ? response.data.data
         : response.data
     }
@@ -40,7 +40,7 @@ const handleRequest = async (
       const response = error.response
 
       return {
-        state: "error",
+        state: 'error',
         status: response.status,
         message: response.statusText,
         data: response.data
@@ -48,12 +48,12 @@ const handleRequest = async (
     } else {
       if (axios.isCancel(error)) {
         return {
-          state: "cancelled"
+          state: 'cancelled'
         }
       }
 
       return {
-        state: "unavailable"
+        state: 'unavailable'
       }
     }
   }

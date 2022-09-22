@@ -1,6 +1,6 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobileLayoutForTablet } from "@/lib/data/constants"
+import { mobileLayoutForTablet } from '@/lib/data/constants'
 
 export const BlockchainContainer = styled.span`
   display: flex;
@@ -55,11 +55,11 @@ const BaseColored = styled.span`
 `
 
 type ColoredProps = {
-  colorIn: "red" | "green"
+  colorIn: 'red' | 'green'
 }
 
 export const Colored = styled(BaseColored)<ColoredProps>`
-  color: ${(props) => (props.colorIn == "red" ? "var(--red)" : "var(--green)")};
+  color: ${(props) => (props.colorIn == 'red' ? 'var(--red)' : 'var(--green)')};
 `
 
 type StatusColoredProps = {
@@ -68,11 +68,11 @@ type StatusColoredProps = {
 
 export const StatusColored = styled(BaseColored)<StatusColoredProps>`
   color: ${(props) =>
-    props.status == "closed"
-      ? "var(--green)"
-      : props.status == "pending"
-      ? "#FACE5D"
-      : "var(--red)"};
+    props.status == 'closed'
+      ? 'var(--green)'
+      : props.status == 'pending'
+      ? '#FACE5D'
+      : 'var(--red)'};
 `
 
 export const Container = styled.div`

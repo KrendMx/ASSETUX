@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { VictoryLine } from "victory"
-import { memo } from "react"
+import React from 'react'
+import styled from 'styled-components'
+import { VictoryLine } from 'victory'
+import { memo } from 'react'
 
 const Container = styled.div`
   width: 145px;
@@ -32,7 +32,7 @@ type GraphProps = {
   color: string
 }
 
-const Graph = ({ coords = data, color = "var(--gray)" }: GraphProps) => {
+const Graph = ({ coords = data, color = 'var(--gray)' }: GraphProps) => {
   return (
     <Container>
       <VictoryLine

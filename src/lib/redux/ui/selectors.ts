@@ -1,6 +1,6 @@
-import { allowSkeletons } from "@/lib/data/constants"
+import { allowSkeletons } from '@/lib/data/constants'
 
-import type { RootState } from "../store"
+import type { RootState } from '../store'
 
 export const selectShowSkeleton = (state: RootState) => {
   if (allowSkeletons) {

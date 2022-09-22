@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import Info from "./info"
-import Form from "./form"
+import Info from './info'
+import Form from './form'
 
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
 
 const Container = styled.section`
   display: flex;

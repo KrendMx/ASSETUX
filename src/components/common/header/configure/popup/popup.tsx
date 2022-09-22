@@ -1,31 +1,31 @@
-import React, { useCallback } from "react"
-import styled, { css } from "styled-components"
+import React, { useCallback } from 'react'
+import styled, { css } from 'styled-components'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { setConfigureActive } from "@/lib/redux/ui"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { setConfigureActive } from '@/lib/redux/ui'
 
-import Currencies from "./items/currencies"
-import Languages from "./items/languages"
+import Currencies from './items/currencies'
+import Languages from './items/languages'
 
 type ContainerProps = {
   hidden: boolean
   offsetX: number
-  direction: "top" | "down"
+  direction: 'top' | 'down'
 }
 
 const Container = styled.div<ContainerProps>`
   position: absolute;
   left: ${(props) => `-${props.offsetX}px`};
-  bottom: ${(props) => (props.direction == "top" ? "calc(100% + 10px)" : 0)};
+  bottom: ${(props) => (props.direction == 'top' ? 'calc(100% + 10px)' : 0)};
   display: flex;
   flex-direction: column;
   background-color: var(--bgColor);
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
   border-radius: 10px;
-  visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
+  visibility: ${(props) => (props.hidden ? 'hidden' : 'visible')};
 
   ${(props) =>
-    props.direction == "down" &&
+    props.direction == 'down' &&
     css`
       transform: translateY(calc(100% + 5px));
     `}
@@ -37,7 +37,7 @@ const Container = styled.div<ContainerProps>`
 
 type PopupProps = {
   offsetX: number
-  direction: "top" | "down"
+  direction: 'top' | 'down'
 }
 
 const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
@@ -69,6 +69,6 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
   }
 )
 
-Popup.displayName = "Popup"
+Popup.displayName = 'Popup'
 
 export default Popup

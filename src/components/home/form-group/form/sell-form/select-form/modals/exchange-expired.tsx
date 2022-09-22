@@ -1,18 +1,18 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 
-import styled from "styled-components"
-import Container from "@/components/common/modal-components/Container"
-import Title from "@/components/common/modal-components/Title"
-import Info from "@/components/common/modal-components/Info"
-import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
-import Button from "@/components/common/modal-components/Button"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
-import InputSelect from "@/components/common/input-select"
+import styled from 'styled-components'
+import Container from '@/components/common/modal-components/Container'
+import Title from '@/components/common/modal-components/Title'
+import Info from '@/components/common/modal-components/Info'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Button from '@/components/common/modal-components/Button'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
+import InputSelect from '@/components/common/input-select'
 
-import type { Option } from "@/components/common/input-select/types"
+import type { Option } from '@/components/common/input-select/types'
 
 const Success = styled(Info)`
   background-color: #68cc4533;
@@ -56,8 +56,8 @@ function ExchangeExpired({
   minimalAmount,
   orderId
 }: ExchangeExpiredProps) {
-  const { t } = useTranslation("home")
-  const [review, setReview] = useState("")
+  const { t } = useTranslation('home')
+  const [review, setReview] = useState('')
 
   const success = Number(getValue) >= minimalAmount
 
@@ -79,10 +79,10 @@ function ExchangeExpired({
             />
           </Icon>
         </Shadow>
-        <span>{t("home:sell_timedOut")}</span>
+        <span>{t('home:sell_timedOut')}</span>
       </Title>
       <InputSelect
-        label={t("home:sell_sent")}
+        label={t('home:sell_sent')}
         id="refund_sent"
         value={sentValue}
         options={[sentToken]}
@@ -90,19 +90,19 @@ function ExchangeExpired({
       />
       {!success && (
         <ExchangeInfo misc>
-          {t("home:sell_minimal")} - {minimalAmount} {getToken.value}
+          {t('home:sell_minimal')} - {minimalAmount} {getToken.value}
         </ExchangeInfo>
       )}
       {success && (
         <>
           <ExchangeInfo misc>
-            <span>{t("home:sell_convert")}</span>
+            <span>{t('home:sell_convert')}</span>
             <span>
               {rate} {getToken.value} / {sentToken.value}
             </span>
           </ExchangeInfo>
           <InputSelect
-            label={t("home:sell_get")}
+            label={t('home:sell_get')}
             id="refund_get"
             value={getValue}
             options={[getToken]}
@@ -111,24 +111,24 @@ function ExchangeExpired({
         </>
       )}
 
-      {!success && <Ahtung>{t("home:sell_ahtung")}</Ahtung>}
+      {!success && <Ahtung>{t('home:sell_ahtung')}</Ahtung>}
 
       {success && (
         <>
-          <Info>{t("home:sell_infoExchange")}</Info>
+          <Info>{t('home:sell_infoExchange')}</Info>
           <Success>
-            <span>{t("home:sell_success")}</span>
+            <span>{t('home:sell_success')}</span>
             <span>
-              {t("home:sell_operationId")}: {orderId}
+              {t('home:sell_operationId')}: {orderId}
             </span>
           </Success>
         </>
       )}
 
-      <Info>{t("home:sell_review")}</Info>
+      <Info>{t('home:sell_review')}</Info>
       <InputSelect
         id="refund_review"
-        label={t("home:sell_message")}
+        label={t('home:sell_message')}
         value={review}
         onChange={(event) => setReview(event.target.value)}
         changeable

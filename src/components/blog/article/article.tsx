@@ -1,10 +1,10 @@
-import React, { useMemo } from "react"
-import Image from "next/image"
-import { useRouter } from "next/router"
-import parse from "html-react-parser"
-import { useTranslation } from "next-i18next"
+import React, { useMemo } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import parse from 'html-react-parser'
+import { useTranslation } from 'next-i18next'
 
-import Post from "@/components/common/news/element"
+import Post from '@/components/common/news/element'
 import {
   Container,
   Content,
@@ -14,13 +14,13 @@ import {
   Text,
   RecentPosts,
   Column
-} from "./styles"
+} from './styles'
 
-import { getFormattedDate } from "@/lib/utils/date"
-import { BackendClient } from "@/lib/backend/clients"
-import { sanitize } from "@/lib/utils/helpers"
+import { getFormattedDate } from '@/lib/utils/date'
+import { BackendClient } from '@/lib/backend/clients'
+import { sanitize } from '@/lib/utils/helpers'
 
-import type { PostData } from "@/lib/backend/main/types.backend.main"
+import type { PostData } from '@/lib/backend/main/types.backend.main'
 
 export type ArticleProps = {
   data: PostData
@@ -29,7 +29,7 @@ export type ArticleProps = {
 
 function Article({ data, recentPosts }: ArticleProps) {
   const router = useRouter()
-  const { t } = useTranslation("news")
+  const { t } = useTranslation('news')
 
   const sanitized = useMemo(() => sanitize(data.text), [data.text])
 
@@ -53,7 +53,7 @@ function Article({ data, recentPosts }: ArticleProps) {
       </Content>
       <RecentPosts>
         <Title as="h2" secondary>
-          {t("latestNews")}
+          {t('latestNews')}
         </Title>
         {recentPosts != null && (
           <Column>

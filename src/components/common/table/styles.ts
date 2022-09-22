@@ -1,18 +1,18 @@
-import styled, { css } from "styled-components"
+import styled, { css } from 'styled-components'
 import {
   ArrowContainerProps,
   ContainerProps,
   ElementProps,
   RowProps
-} from "./types.table"
+} from './types.table'
 
 export const Container = styled.table<ContainerProps>`
   width: 100%;
   background-color: var(--bgColor);
   box-shadow: ${(props) =>
-    props.withShadow ? "1px 4px 19px rgba(0, 0, 0, 0.12)" : "none"};
+    props.withShadow ? '1px 4px 19px rgba(0, 0, 0, 0.12)' : 'none'};
   border-radius: 10px;
-  padding: ${(props) => props.customPaddings || "43px 21px"};
+  padding: ${(props) => props.customPaddings || '43px 21px'};
   border-spacing: 10px 0;
 `
 
@@ -43,8 +43,8 @@ export const ArrowContainer = styled.span<ArrowContainerProps>`
   top: 50%;
   transform: ${(props) =>
     props.shouldRotate
-      ? "translateY(-50%) rotate(180deg)"
-      : "translateY(-50%)"};
+      ? 'translateY(-50%) rotate(180deg)'
+      : 'translateY(-50%)'};
   right: -1.1em;
   font-size: 1em;
 `
@@ -76,5 +76,5 @@ export const Element = styled.td<ElementProps>`
   color: var(--black);
   text-align: center;
   font-weight: 500;
-  padding: ${(props) => props.paddings || "14px"} 0;
+  padding: ${(props) => props.paddings || '14px'} 0;
 `

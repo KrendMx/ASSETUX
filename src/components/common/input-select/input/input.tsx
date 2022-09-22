@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useEffect, useRef } from "react"
-import Image from "next/image"
-import { useTranslation } from "next-i18next"
-import { IoIosArrowDown } from "react-icons/io"
+import React, { useState, useMemo, useEffect, useRef } from 'react'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
+import { IoIosArrowDown } from 'react-icons/io'
 
-import { ellipsisString } from "@/lib/utils/helpers"
-import { optimizeRemoteImages } from "@/lib/data/constants"
+import { ellipsisString } from '@/lib/utils/helpers'
+import { optimizeRemoteImages } from '@/lib/data/constants'
 
 import {
   Arrow,
@@ -19,12 +19,12 @@ import {
   InputWrapper,
   Label,
   SelectedWrapper
-} from "./styles"
-import Select from "../select"
+} from './styles'
+import Select from '../select'
 
-import type { ChangeEventHandler } from "react"
-import { InputSelectProps } from "./types.input"
-import type { Option } from "../types"
+import type { ChangeEventHandler } from 'react'
+import { InputSelectProps } from './types.input'
+import type { Option } from '../types'
 
 const InputSelect = ({
   label,
@@ -38,7 +38,7 @@ const InputSelect = ({
   file,
   fileLabel,
   accept,
-  type = "text",
+  type = 'text',
   id,
   name,
   onChange,
@@ -49,7 +49,7 @@ const InputSelect = ({
   autocomplete,
   placeholder,
   displayIcon = false,
-  defaultValue = "",
+  defaultValue = '',
   displayInSelect = 3,
   selectable = true,
   paleBorders = false,
@@ -58,7 +58,7 @@ const InputSelect = ({
   uploadedFileName,
   maxValue
 }: InputSelectProps) => {
-  const { t } = useTranslation("inputSelect")
+  const { t } = useTranslation('inputSelect')
 
   const hasOptions = options != undefined
 
@@ -84,7 +84,7 @@ const InputSelect = ({
     }
   }
 
-  let displayedValue: string = ""
+  let displayedValue: string = ''
 
   // these ifs are cool but it should be refactored
   if (changeable) {
@@ -163,7 +163,7 @@ const InputSelect = ({
   }
 
   return (
-    <Container resetFirstChild={selectLabel == "undefined"}>
+    <Container resetFirstChild={selectLabel == 'undefined'}>
       <InputWrapper
         active={active}
         error={error != undefined}
@@ -175,7 +175,7 @@ const InputSelect = ({
             <Label
               error={error != undefined}
               htmlFor={!file ? id : undefined}
-              as={file ? "span" : "label"}
+              as={file ? 'span' : 'label'}
             >
               {error != undefined ? error : label}
             </Label>
@@ -193,8 +193,8 @@ const InputSelect = ({
                     unoptimized={!optimizeRemoteImages}
                   />
                 </ImageContainer>
-              ) : selectedOption?.shortDescription?.split(" ")[1] ? (
-                selectedOption?.shortDescription?.split(" ")[1]
+              ) : selectedOption?.shortDescription?.split(' ')[1] ? (
+                selectedOption?.shortDescription?.split(' ')[1]
               ) : null}
             </ImageBox>
           )}
@@ -209,16 +209,16 @@ const InputSelect = ({
           <Input
             ref={inputRef}
             id={id}
-            autoComplete={autocomplete ? autocomplete : "off"}
+            autoComplete={autocomplete ? autocomplete : 'off'}
             name={name ? name : id}
-            type={file ? "file" : type}
-            inputMode={onlyNumbers ? "decimal" : undefined}
+            type={file ? 'file' : type}
+            inputMode={onlyNumbers ? 'decimal' : undefined}
             accept={file ? accept : undefined}
             disabled={!changeable || hideLabel}
             value={!file ? displayedValue : undefined}
             onChange={file ? handleUpload : handleInput}
             onKeyDown={(event) => {
-              if (event.key == "Enter") {
+              if (event.key == 'Enter') {
                 onEnterPress && onEnterPress()
               }
             }}
@@ -228,7 +228,7 @@ const InputSelect = ({
         {file && uploadedFileName && (
           <ChangeFileContainer>
             <Label htmlFor={id} file>
-              {t("change")}
+              {t('change')}
             </Label>
           </ChangeFileContainer>
         )}
@@ -237,7 +237,7 @@ const InputSelect = ({
             onClick={toggle}
             selectable={selectable}
             aria-label="Open"
-            as={!selectable ? "div" : undefined}
+            as={!selectable ? 'div' : undefined}
           >
             <InfoContainer
               onlyImage={displayIcon}

@@ -1,20 +1,20 @@
-import React, { useMemo, useState } from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
-import { useRouter } from "next/router"
+import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 
-import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
-import { setOrdersActive } from "@/lib/redux/ui"
-import { setSellOrderId, swapAction } from "@/lib/redux/crypto"
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
+import { setOrdersActive } from '@/lib/redux/ui'
+import { setSellOrderId, swapAction } from '@/lib/redux/crypto'
 
-import { capitalizeString, ellipsisString } from "@/lib/utils/helpers"
-import { getFormattedDate } from "@/lib/utils/date"
-import { mapCurrency, isCurrencyDeclared } from "@/lib/data/currencies"
+import { capitalizeString, ellipsisString } from '@/lib/utils/helpers'
+import { getFormattedDate } from '@/lib/utils/date'
+import { mapCurrency, isCurrencyDeclared } from '@/lib/data/currencies'
 
-import Title from "@/components/common/modal-components/Title"
-import Shadow from "@/components/common/modal-components/Shadow"
-import Icon from "@/components/common/modal-components/Icon"
-import Pages from "@/components/common/pagination"
+import Title from '@/components/common/modal-components/Title'
+import Shadow from '@/components/common/modal-components/Shadow'
+import Icon from '@/components/common/modal-components/Icon'
+import Pages from '@/components/common/pagination'
 
 import {
   PairIconsContainer,
@@ -24,7 +24,7 @@ import {
   BackgroundIcon,
   BlockchainIcon,
   BlockchainIconContainer
-} from "./icons"
+} from './icons'
 import {
   BlockchainContainer,
   Colored,
@@ -35,15 +35,15 @@ import {
   StatusColored,
   Action,
   PagesContainer
-} from "./styles"
+} from './styles'
 
-import Table from "@/components/common/table"
-import Cards from "@/components/common/cards"
+import Table from '@/components/common/table'
+import Cards from '@/components/common/cards'
 
-import { optimizeRemoteImages, cardsPerPage } from "@/lib/data/constants"
+import { optimizeRemoteImages, cardsPerPage } from '@/lib/data/constants'
 
-import type { OrderInfo } from "./types"
-import type { TFunction } from "next-i18next"
+import type { OrderInfo } from './types'
+import type { TFunction } from 'next-i18next'
 
 const wheelPreventer = (event: React.WheelEvent<HTMLDivElement>) => {
   const target = event.currentTarget
@@ -52,11 +52,11 @@ const wheelPreventer = (event: React.WheelEvent<HTMLDivElement>) => {
     target.offsetHeight + target.scrollTop >= target.scrollHeight
   const scrolledToStart = target.scrollTop == 0
 
-  const direction = event.deltaY < 0 ? "top" : "down"
+  const direction = event.deltaY < 0 ? 'top' : 'down'
 
   if (
-    (direction == "down" && !scrolledToEnd) ||
-    (direction == "top" && !scrolledToStart)
+    (direction == 'down' && !scrolledToEnd) ||
+    (direction == 'top' && !scrolledToStart)
   ) {
     event.stopPropagation()
   }
@@ -75,15 +75,15 @@ const touchPreventer = (event: React.TouchEvent<HTMLDivElement>) => {
 
   const target = event.currentTarget
 
-  const direction = event.touches[0].clientY - startY > 0 ? "top" : "down"
+  const direction = event.touches[0].clientY - startY > 0 ? 'top' : 'down'
 
   const scrolledToEnd =
     target.offsetHeight + target.scrollTop >= target.scrollHeight
   const scrolledToStart = target.scrollTop == 0
 
   if (
-    (direction == "down" && !scrolledToEnd) ||
-    (direction == "top" && !scrolledToStart)
+    (direction == 'down' && !scrolledToEnd) ||
+    (direction == 'top' && !scrolledToStart)
   ) {
     event.stopPropagation()
   }
@@ -91,48 +91,48 @@ const touchPreventer = (event: React.TouchEvent<HTMLDivElement>) => {
 
 const tableHeadings = (t: TFunction) => [
   {
-    value: t("home:orders_request"),
+    value: t('home:orders_request'),
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
-  { value: "" },
+  { value: '' },
   {
-    value: t("home:orders_pair"),
-    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
-  },
-  {
-    value: t("home:orders_network"),
+    value: t('home:orders_pair'),
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: t("home:orders_sent"),
+    value: t('home:orders_network'),
+    sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
+  },
+  {
+    value: t('home:orders_sent'),
     sortFn: (a: number, b: number) => b - a
   },
   {
-    value: t("home:orders_got"),
+    value: t('home:orders_got'),
     sortFn: (a: number, b: number) => b - a
   },
   {
-    value: t("home:orders_date"),
+    value: t('home:orders_date'),
     sortFn: (a: number, b: number) => b - a
   },
   {
-    value: t("home:orders_status"),
+    value: t('home:orders_status'),
     sortFn: (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)
   },
   {
-    value: ""
+    value: ''
   }
 ]
 
 const cardNames = (t: TFunction) => [
-  t("home:orders_request"),
-  "",
-  t("home:orders_pair"),
-  t("home:orders_network"),
-  t("home:orders_sent"),
-  t("home:orders_got"),
-  t("home:orders_date"),
-  t("home:orders_status")
+  t('home:orders_request'),
+  '',
+  t('home:orders_pair'),
+  t('home:orders_network'),
+  t('home:orders_sent'),
+  t('home:orders_got'),
+  t('home:orders_date'),
+  t('home:orders_status')
 ]
 
 type OrderModalProps = {
@@ -142,7 +142,7 @@ type OrderModalProps = {
 }
 
 function OrderModal({ orders, email, onClose }: OrderModalProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
   const router = useRouter()
 
   const dispatch = useAppDispatch()
@@ -167,23 +167,23 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
           {
             value: (
               <Colored
-                key={order.id + "_request"}
-                colorIn={order.buy ? "green" : "red"}
+                key={order.id + '_request'}
+                colorIn={order.buy ? 'green' : 'red'}
               >
-                <span>{order.buy ? t("orders_buy") : t("orders_sell")}</span>
+                <span>{order.buy ? t('orders_buy') : t('orders_sell')}</span>
               </Colored>
             ),
-            sortValue: order.buy ? "buy" : "sell"
+            sortValue: order.buy ? 'buy' : 'sell'
           },
           {
             value: (
-              <PairIconsContainer key={order.id + "_pairIcons"}>
+              <PairIconsContainer key={order.id + '_pairIcons'}>
                 <BackgroundIcon>
                   {order.buy ? (
                     isCurrencyDeclared(order.curIn) ? (
                       mapCurrency(order.curIn)
                     ) : (
-                      ""
+                      ''
                     )
                   ) : (
                     <RelativeIcon>
@@ -209,7 +209,7 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
                   ) : isCurrencyDeclared(order.curOut) ? (
                     mapCurrency(order.curOut)
                   ) : (
-                    ""
+                    ''
                   )}
                 </FrontIcon>
               </PairIconsContainer>
@@ -217,15 +217,15 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
           },
           {
             value: (
-              <PairContainer key={order.id + "_pair"}>
-                <span>{order.curIn + " / " + order.curOut}</span>
+              <PairContainer key={order.id + '_pair'}>
+                <span>{order.curIn + ' / ' + order.curOut}</span>
                 <MobilePairIconsContainer>
                   <BackgroundIcon>
                     {order.buy ? (
                       isCurrencyDeclared(order.curIn) ? (
                         mapCurrency(order.curIn)
                       ) : (
-                        ""
+                        ''
                       )
                     ) : (
                       <RelativeIcon>
@@ -251,7 +251,7 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
                     ) : isCurrencyDeclared(order.curOut) ? (
                       mapCurrency(order.curOut)
                     ) : (
-                      ""
+                      ''
                     )}
                   </FrontIcon>
                 </MobilePairIconsContainer>
@@ -263,7 +263,7 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
             value: blockchain ? (
               <BlockchainContainer
                 title={blockchain.title}
-                key={order.id + "_bc-title"}
+                key={order.id + '_bc-title'}
               >
                 <span>{ellipsisString(blockchain.title, 14)}</span>
                 <BlockchainIconContainer>
@@ -277,21 +277,21 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
                 </BlockchainIconContainer>
               </BlockchainContainer>
             ) : (
-              ""
+              ''
             ),
-            sortValue: blockchain ? blockchain.title : ""
+            sortValue: blockchain ? blockchain.title : ''
           },
           {
-            value: order.amountIn.toFixed(2) + " " + order.curIn,
+            value: order.amountIn.toFixed(2) + ' ' + order.curIn,
             sortValue: order.amountIn
           },
           {
-            value: order.amountOut.toFixed(2) + " " + order.curOut,
+            value: order.amountOut.toFixed(2) + ' ' + order.curOut,
             sortValue: order.amountOut
           },
           {
             value: (
-              <span key={order.id + "_date"}>
+              <span key={order.id + '_date'}>
                 {getFormattedDate(order.date, router.locale!)}
               </span>
             ),
@@ -299,25 +299,25 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
           },
           {
             value: (
-              <StatusColored status={order.status} key={order.id + "_status"}>
-                {capitalizeString(t("orders_" + order.status))}
+              <StatusColored status={order.status} key={order.id + '_status'}>
+                {capitalizeString(t('orders_' + order.status))}
               </StatusColored>
             ),
             sortValue: order.status
           },
           {
             value:
-              order.status == "pending" && !order.buy ? (
+              order.status == 'pending' && !order.buy ? (
                 <Action
-                  key={order.id + "_action"}
+                  key={order.id + '_action'}
                   as="button"
                   onClick={() => {
                     dispatch(setSellOrderId(order.orderId))
                     dispatch(setOrdersActive(false))
-                    dispatch(swapAction("SELL"))
+                    dispatch(swapAction('SELL'))
                   }}
                 >
-                  {t("orders_continue")}
+                  {t('orders_continue')}
                 </Action>
               ) : null
           }
@@ -375,7 +375,7 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
           </Icon>
         </Shadow>
         <span>
-          {t("home:orders_myOperations")} - {email}
+          {t('home:orders_myOperations')} - {email}
         </span>
       </Title>
 
@@ -388,7 +388,7 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
             (dataIndex) => {
               const order = orders[dataIndex]
 
-              if (order.buy || order.status != "pending") {
+              if (order.buy || order.status != 'pending') {
                 return null
               }
 
@@ -398,10 +398,10 @@ function OrderModal({ orders, email, onClose }: OrderModalProps) {
                   onClick={() => {
                     dispatch(setSellOrderId(order.orderId))
                     dispatch(setOrdersActive(false))
-                    dispatch(swapAction("SELL"))
+                    dispatch(swapAction('SELL'))
                   }}
                 >
-                  {t("orders_continue")}
+                  {t('orders_continue')}
                 </Action>
               )
             }

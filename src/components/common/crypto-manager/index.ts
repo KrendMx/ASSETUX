@@ -1,1 +1,1 @@
-export { default } from "./crypto-manager"
+export { default } from './crypto-manager'

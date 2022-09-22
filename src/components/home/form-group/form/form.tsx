@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
-import { mobile } from "@/lib/data/constants"
-import Buttons from "./buttons"
-import FormController from "./form-controller"
-import AdaptiveFont from "@/components/common/adaptive-font"
+import React from 'react'
+import styled from 'styled-components'
+import { mobile } from '@/lib/data/constants'
+import Buttons from './buttons'
+import FormController from './form-controller'
+import AdaptiveFont from '@/components/common/adaptive-font'
 
 const Container = styled.div`
   flex-grow: 0;

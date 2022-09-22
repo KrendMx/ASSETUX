@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import AdaptiveFont from "@/components/common/adaptive-font"
+import styled from 'styled-components'
+import AdaptiveFont from '@/components/common/adaptive-font'
 
 export const Container = styled(AdaptiveFont).attrs({
   mobileFactor: 1.3335,

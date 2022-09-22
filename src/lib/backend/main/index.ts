@@ -1,8 +1,8 @@
-import { constructURL } from "../helpers"
-import Client from "../client"
-import handleRequest from "@/core/backend/handle-request"
+import { constructURL } from '../helpers'
+import Client from '../client'
+import handleRequest from '@/core/backend/handle-request'
 
-import type { UrlRequest, Abortable } from "@/core/backend/types"
+import type { UrlRequest, Abortable } from '@/core/backend/types'
 import type {
   GetFiatRates,
   GetTokens,
@@ -36,10 +36,10 @@ import type {
   FindPostResponse,
   CreateFeedbackProps,
   GetTokensProps
-} from "./types.backend.main"
+} from './types.backend.main'
 
 class BackendClient extends Client {
-  private apiKey = ""
+  private apiKey = ''
   private headers = {}
 
   public constructor() {
@@ -52,7 +52,7 @@ class BackendClient extends Client {
   }: UrlRequest & Abortable): Promise<GetFiatRates> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/fiatrates`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       signal
     })
@@ -65,7 +65,7 @@ class BackendClient extends Client {
   }: UrlRequest & Abortable & GetTokensProps): Promise<GetTokens> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/tokens?type=${type}`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       signal
     })
@@ -77,7 +77,7 @@ class BackendClient extends Client {
   }: UrlRequest & Abortable): Promise<GetFiatProviders> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/fiatproviders`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       signal
     })
@@ -86,7 +86,7 @@ class BackendClient extends Client {
   public async getBlockchains(signal?: AbortSignal): Promise<GetBlockchains> {
     return handleRequest({
       url: `${this.genericURL}/api/blockchains`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       signal
     })
@@ -98,7 +98,7 @@ class BackendClient extends Client {
   }: GetPaymentUrlProps): Promise<GetPaymentUrl> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/buytoken/getpaymenturl`,
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       data: params
     })
@@ -110,7 +110,7 @@ class BackendClient extends Client {
   }: SellTokenCreateProps): Promise<SellTokenCreate> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/create`,
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       data
     })
@@ -123,7 +123,7 @@ class BackendClient extends Client {
   }: CheckSellOrderProps & Abortable): Promise<CheckSellOrder> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/check`,
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       data,
       signal
@@ -136,7 +136,7 @@ class BackendClient extends Client {
   }: CloseSellOrderProps): Promise<CloseSellOrder> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/close`,
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       data
     })
@@ -148,7 +148,7 @@ class BackendClient extends Client {
   }: RefundRequestProps): Promise<RefundRequestResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/refund/request`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         orderId
@@ -162,7 +162,7 @@ class BackendClient extends Client {
   }: RefundProps): Promise<RefundResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/refund`,
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       data
     })
@@ -174,7 +174,7 @@ class BackendClient extends Client {
   }: RequestOrdersProps): Promise<RequestOrdersResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/refund`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         email
@@ -188,7 +188,7 @@ class BackendClient extends Client {
   }: GetRefundAmountsProps): Promise<GetRefundAmountsResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/refund/amounts`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         chainId
@@ -202,7 +202,7 @@ class BackendClient extends Client {
   }: RequestOrdersEmailProps): Promise<RequestOrdersEmailResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/orders/request`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         email
@@ -218,7 +218,7 @@ class BackendClient extends Client {
   }: GetEmailOrdersProps & Abortable): Promise<GetEmailOrdersResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/orders`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         email,
@@ -235,7 +235,7 @@ class BackendClient extends Client {
   }: CheckLiquidityProps & Abortable): Promise<CheckLiquidityResponse> {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/liquidity`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         chainId
@@ -251,7 +251,7 @@ class BackendClient extends Client {
   }: GetNewsProps): Promise<GetNewsResponse> {
     return handleRequest({
       url: `${this.genericURL}/api/blog/${category}`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       params: {
         page,
@@ -269,7 +269,7 @@ class BackendClient extends Client {
   }: FindPostProps & Abortable): Promise<FindPostResponse> {
     return handleRequest({
       url: `${this.genericURL}/api/blog/${category}/find`,
-      method: "GET",
+      method: 'GET',
       headers: this.headers,
       signal,
       params: { query, strict, lang }
@@ -283,7 +283,7 @@ class BackendClient extends Client {
   }: CreateFeedbackProps & Abortable) {
     return handleRequest({
       url: `${constructURL(apiHost)}/api/selltoken/createFeedback`,
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       signal,
       data

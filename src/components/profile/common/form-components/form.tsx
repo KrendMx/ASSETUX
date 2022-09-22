@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 type FormProps = {
   gap?: string
@@ -11,7 +11,7 @@ const Form = styled.form<FormProps>`
   border-radius: 10px;
 
   & > * + * {
-    margin-top: ${(props) => props.gap || "0.789em"};
+    margin-top: ${(props) => props.gap || '0.789em'};
   }
 
   @media only screen and (max-width: ${370}px) {

@@ -1,10 +1,10 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
-import NextButton from "../../common/next-button"
+import NextButton from '../../common/next-button'
 
-import { Step } from "./steps"
+import { Step } from './steps'
 
 type ContainerProps = {
   formStep: Step
@@ -16,16 +16,16 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   height: ${(props) =>
     props.formStep == Step.Exchange
-      ? "670px"
+      ? '670px'
       : props.lastSelectorActive
-      ? "568px"
-      : "490px"};
+      ? '568px'
+      : '490px'};
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: ${(props) =>
-    props.formStep != Step.Exchange ? "34px 25px" : "34px 25px 6px 25px"};
+    props.formStep != Step.Exchange ? '34px 25px' : '34px 25px 6px 25px'};
 
   .input-skeleton {
     line-height: 0;
@@ -44,21 +44,21 @@ export const Container = styled.div<ContainerProps>`
   @media only screen and (max-width: ${mobile}px) {
     height: ${(props) =>
       props.formStep == Step.Exchange
-        ? "600px"
+        ? '600px'
         : props.lastSelectorActive
-        ? "521px"
-        : "445px"};
+        ? '521px'
+        : '445px'};
     padding: ${(props) =>
-      props.formStep != Step.Exchange ? "21px 17px" : "21px 17px 6px 17px"};
+      props.formStep != Step.Exchange ? '21px 17px' : '21px 17px 6px 17px'};
   }
 
   @media only screen and (max-width: 370px) {
     height: ${(props) =>
       props.formStep == Step.Exchange
-        ? "42em"
+        ? '42em'
         : props.lastSelectorActive
-        ? "35em"
-        : "30em"};
+        ? '35em'
+        : '30em'};
   }
 `
 

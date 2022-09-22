@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { HiOutlineArrowUp } from "react-icons/hi"
-import { Button } from "./style"
+import React, { useEffect, useState } from 'react'
+import { HiOutlineArrowUp } from 'react-icons/hi'
+import { Button } from './style'
 
 const offsetY = window.innerHeight
 
@@ -18,10 +18,10 @@ const ScrollButton = () => {
 
     checkScroll()
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
@@ -32,7 +32,7 @@ const ScrollButton = () => {
   return (
     <Button
       onClick={() => {
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
       }}
     >
       <HiOutlineArrowUp />

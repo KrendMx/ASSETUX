@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
-import { HYDRATE } from "next-redux-wrapper"
+import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
 
-import type { CurrenciesType } from "@/lib/data/currencies"
-import type { RootState } from "../store"
-import type { UiState } from "./types"
-import { MerchantMode } from "@/lib/backend/ecommerce/types.backend.ecommerce"
+import type { CurrenciesType } from '@/lib/data/currencies'
+import type { RootState } from '../store'
+import type { UiState } from './types'
+import { MerchantMode } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 
 const hydrate = createAction<RootState>(HYDRATE)
 
@@ -15,14 +15,14 @@ const initialState: UiState = {
   isMobileLayoutForTablet: false,
   configureActive: false,
   ordersActive: false,
-  currentCurrency: "RUB",
+  currentCurrency: 'RUB',
   appLoaded: false,
   hideBurgerButton: false,
   merchantMode: undefined
 }
 
 export const slice = createSlice({
-  name: "ui",
+  name: 'ui',
   initialState,
   reducers: {
     setMobile: (state) => {
@@ -59,7 +59,7 @@ export const slice = createSlice({
         state.currentCurrency = action.payload
       },
       prepare(currency: CurrenciesType) {
-        window.localStorage.setItem("currency", currency)
+        window.localStorage.setItem('currency', currency)
         return {
           payload: currency
         }

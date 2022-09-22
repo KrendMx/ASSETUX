@@ -1,10 +1,10 @@
-import React from "react"
-import Link from "next/link"
-import { useTranslation } from "next-i18next"
+import React from 'react'
+import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 
-import { StyledList, StyledLink } from "./styles"
+import { StyledList, StyledLink } from './styles'
 
-import type { Route } from "@/lib/routes"
+import type { Route } from '@/lib/routes'
 
 type ListProps = {
   routes: Route[]
@@ -12,8 +12,8 @@ type ListProps = {
   onClick?: (route: Route) => void
 }
 
-const List: React.FC<ListProps> = ({ routes, mobileSmall, onClick }) => {
-  const { t } = useTranslation("routes")
+const List = ({ routes, mobileSmall, onClick }: ListProps) => {
+  const { t } = useTranslation('routes')
 
   return (
     <StyledList>

@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import Image from "next/image"
+import React from 'react'
+import styled from 'styled-components'
+import Image from 'next/image'
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const LinkLogo = styled.a`
   }
 `
 
-const Social: React.FC = () => {
+const Social = () => {
   return (
     <Container>
       <LinkLogo href="#">

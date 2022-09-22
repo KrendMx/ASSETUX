@@ -1,16 +1,16 @@
-import React from "react"
-import Link from "next/link"
-import styled from "styled-components"
-import { useRouter } from "next/router"
-import { useTranslation } from "next-i18next"
+import React from 'react'
+import Link from 'next/link'
+import styled from 'styled-components'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import {
   setOrdersActive,
   setBurgerActive,
   setCurrentCurrency
-} from "@/lib/redux/ui"
-import { setSelectedToken, swapAction } from "@/lib/redux/crypto"
+} from '@/lib/redux/ui'
+import { setSelectedToken, swapAction } from '@/lib/redux/crypto'
 import {
   company,
   legal,
@@ -18,17 +18,17 @@ import {
   commerce,
   companyAbsolute,
   popularAbsolute
-} from "@/lib/routes"
-import { isCurrencyDeclared } from "@/lib/data/currencies"
-import { logout, getEcommercePrefix } from "@/lib/utils/helpers"
-import { env } from "@/lib/env/client.mjs"
+} from '@/lib/routes'
+import { isCurrencyDeclared } from '@/lib/data/currencies'
+import { logout, getEcommercePrefix } from '@/lib/utils/helpers'
+import { env } from '@/lib/env/client.mjs'
 
-import NavGroup from "./group"
-import NavLink from "../common/nav-link"
-import Container from "../common/container"
-import Social from "../common/social"
+import NavGroup from './group'
+import NavLink from '../common/nav-link'
+import Container from '../common/container'
+import Social from '../common/social'
 
-import type { Route } from "@/lib/routes"
+import type { Route } from '@/lib/routes'
 
 const MobileButton = styled.button`
   display: flex;
@@ -45,8 +45,8 @@ const MobileButton = styled.button`
   font-size: 1.7em;
 `
 
-const BurgerMenu: React.FC = () => {
-  const { t } = useTranslation("header")
+const BurgerMenu = () => {
+  const { t } = useTranslation('header')
   const dispatch = useAppDispatch()
   const router = useRouter()
   const merchantMode = useAppSelector((state) => state.ui.merchantMode)
@@ -54,21 +54,21 @@ const BurgerMenu: React.FC = () => {
     (state) => state.crypto.availableTokens
   )
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
-  const isMainPage = router.pathname == "/"
+  const isMainPage = router.pathname == '/'
   const isCommercePage =
-    router.pathname.startsWith("/profile") &&
-    router.pathname != "/profile/login"
-  const isCommerceLogin = router.pathname == "/profile/login"
+    router.pathname.startsWith('/profile') &&
+    router.pathname != '/profile/login'
+  const isCommerceLogin = router.pathname == '/profile/login'
 
   const popularAction = (route: Route) => {
-    if (router.pathname != "/") {
-      router.push("/", undefined, {
+    if (router.pathname != '/') {
+      router.push('/', undefined, {
         shallow: false,
         scroll: false
       })
     }
 
-    const splitted = route.key.split(" to ")
+    const splitted = route.key.split(' to ')
 
     if (splitted.length != 2) {
       return
@@ -89,14 +89,14 @@ const BurgerMenu: React.FC = () => {
       dispatch(setSelectedToken(foundToken))
     }
 
-    dispatch(swapAction("BUY"))
+    dispatch(swapAction('BUY'))
 
     dispatch(setBurgerActive(false))
 
     window.scrollTo({
       left: 0,
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth'
     })
   }
 
@@ -107,7 +107,7 @@ const BurgerMenu: React.FC = () => {
           <>
             <li>
               <NavGroup
-                title={t("company")}
+                title={t('company')}
                 routes={
                   !env.isStage && (isCommercePage || isCommerceLogin)
                     ? companyAbsolute
@@ -118,43 +118,43 @@ const BurgerMenu: React.FC = () => {
             <li>
               {!env.isStage && (isCommercePage || isCommerceLogin) ? (
                 <NavGroup
-                  title={t("popular")}
+                  title={t('popular')}
                   routes={popularAbsolute(currentCurrency)}
                 />
               ) : (
                 <NavGroup
-                  title={t("popular")}
+                  title={t('popular')}
                   routes={popular(currentCurrency)}
                   onClick={popularAction}
                 />
               )}
             </li>
             <li>
-              <NavGroup title={t("legal")} routes={legal} />
+              <NavGroup title={t('legal')} routes={legal} />
             </li>
             {!isCommerceLogin && (
               <li>
                 {env.isStage ? (
                   <Link
                     href={
-                      process.env.NODE_ENV == "development"
-                        ? "/profile"
-                        : "https://commerce.dev.assetux.com/profile"
+                      process.env.NODE_ENV == 'development'
+                        ? '/profile'
+                        : 'https://commerce.dev.assetux.com/profile'
                     }
                     passHref
                   >
-                    <NavLink bold>{t("commerce")}</NavLink>
+                    <NavLink bold>{t('commerce')}</NavLink>
                   </Link>
                 ) : (
                   <NavLink
                     href={
-                      process.env.NODE_ENV == "development"
-                        ? "/profile"
-                        : "https://commerce.assetux.com/profile"
+                      process.env.NODE_ENV == 'development'
+                        ? '/profile'
+                        : 'https://commerce.assetux.com/profile'
                     }
                     bold
                   >
-                    {t("commerce")}
+                    {t('commerce')}
                   </NavLink>
                 )}
               </li>
@@ -179,7 +179,7 @@ const BurgerMenu: React.FC = () => {
                   router.push(`${getEcommercePrefix()}/login`)
                 }}
               >
-                {t("exit")}
+                {t('exit')}
               </NavLink>
             </li>
           </>
@@ -192,7 +192,7 @@ const BurgerMenu: React.FC = () => {
                 dispatch(setBurgerActive(false))
               }}
             >
-              {t("header:operations")}
+              {t('header:operations')}
             </MobileButton>
           </li>
         )}

@@ -1,19 +1,19 @@
-import { useEffect } from "react"
-import { useRouter } from "next/router"
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
+import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
 import {
   setSelectedToken,
   setSelectedBlockchain,
   swapAction,
   setSellOrderId
-} from "@/lib/redux/crypto"
-import { setCurrentCurrency } from "@/lib/redux/ui"
-import { isCurrencyDeclared } from "@/lib/data/currencies"
-import { mapQueryObject, updateURL } from "@/lib/utils/helpers"
-import { usePrevious } from "@/lib/hooks"
+} from '@/lib/redux/crypto'
+import { setCurrentCurrency } from '@/lib/redux/ui'
+import { isCurrencyDeclared } from '@/lib/data/currencies'
+import { mapQueryObject, updateURL } from '@/lib/utils/helpers'
+import { usePrevious } from '@/lib/hooks'
 
-import type { QueryObject } from "@/lib/utils/helpers"
+import type { QueryObject } from '@/lib/utils/helpers'
 
 let processedQuery = false
 
@@ -40,19 +40,19 @@ function QueryController() {
     if (processedQuery) {
       const query: QueryObject = {}
 
-      query["action"] = action.toLowerCase()
+      query['action'] = action.toLowerCase()
 
       if (sellOrderId) {
-        query["id"] = sellOrderId
+        query['id'] = sellOrderId
       } else {
-        query["currency"] = currentCurrency.toLowerCase()
+        query['currency'] = currentCurrency.toLowerCase()
 
         if (selectedBlockchain) {
           // query["blockchain"] = selectedBlockchain.chain_id.toString()
         }
 
         if (selectedToken) {
-          query["token"] = selectedToken.symbol.toLowerCase()
+          query['token'] = selectedToken.symbol.toLowerCase()
         }
       }
 
@@ -62,7 +62,7 @@ function QueryController() {
           query
         })
       } else {
-        const newUrl = window.location.pathname + "?" + mapQueryObject(query)
+        const newUrl = window.location.pathname + '?' + mapQueryObject(query)
 
         updateURL(newUrl)
       }
@@ -74,17 +74,17 @@ function QueryController() {
     if (availableBlockchains && availableTokens && !processedQuery) {
       const queryParams = new URLSearchParams(window.location.search)
 
-      const action = queryParams.get("action")
-      const currency = queryParams.get("currency")
-      const token = queryParams.get("token")
-      const blockchain = queryParams.get("blockchain")
-      const orderId = queryParams.get("id")
+      const action = queryParams.get('action')
+      const currency = queryParams.get('currency')
+      const token = queryParams.get('token')
+      const blockchain = queryParams.get('blockchain')
+      const orderId = queryParams.get('id')
 
       if (action) {
         const lowerCasedAction = action.toLowerCase()
 
-        if (lowerCasedAction == "sell") {
-          dispatch(swapAction("SELL"))
+        if (lowerCasedAction == 'sell') {
+          dispatch(swapAction('SELL'))
         }
       }
 
@@ -122,7 +122,7 @@ function QueryController() {
         }
       }
 
-      if (action == "sell" && orderId != null) {
+      if (action == 'sell' && orderId != null) {
         dispatch(setSellOrderId(orderId))
       }
 

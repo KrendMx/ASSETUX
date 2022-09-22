@@ -1,10 +1,10 @@
-import React, { useMemo } from "react"
-import { IoIosArrowRoundBack } from "react-icons/io"
-import Skeleton from "react-loading-skeleton"
+import React, { useMemo } from 'react'
+import { IoIosArrowRoundBack } from 'react-icons/io'
+import Skeleton from 'react-loading-skeleton'
 
-import generatePages from "./generate-pages"
+import generatePages from './generate-pages'
 
-import { Row, Container, Button, ArrowContainer } from "./styles"
+import { Row, Container, Button, ArrowContainer } from './styles'
 
 type PaginationProps = {
   pages?: number
@@ -17,7 +17,7 @@ type PaginationProps = {
   setCurrentPage?: (page: number) => void
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   pages,
   currentPage = 1,
   isLoading = false,
@@ -26,7 +26,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPerPageValue,
   setPerPageValue,
   setCurrentPage
-}) => {
+}: PaginationProps) => {
   const pageButtons = useMemo(() => {
     const result: JSX.Element[] = []
 

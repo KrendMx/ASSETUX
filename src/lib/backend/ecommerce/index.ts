@@ -1,5 +1,5 @@
-import Client from "../client"
-import handleRequest from "@/core/backend/handle-request"
+import Client from '../client'
+import handleRequest from '@/core/backend/handle-request'
 
 import type {
   GetProfileProps,
@@ -19,9 +19,9 @@ import type {
   ICreatePaymentProps,
   CreatePaymentResponse,
   MerchantBillResponse
-} from "./types.backend.ecommerce"
-import { CurrenciesType } from "@/lib/data/currencies"
-import { ActionType } from "@/lib/redux/crypto/types"
+} from './types.backend.ecommerce'
+import { CurrenciesType } from '@/lib/data/currencies'
+import { ActionType } from '@/lib/redux/crypto/types'
 
 class EcommerceClient extends Client {
   public constructor() {
@@ -31,7 +31,7 @@ class EcommerceClient extends Client {
   public async login({ token }: LoginProps): Promise<LoginResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/login`,
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -43,7 +43,7 @@ class EcommerceClient extends Client {
   }: GetProfileProps): Promise<GetProfileResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/profile`,
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -56,7 +56,7 @@ class EcommerceClient extends Client {
   }: ChangeWalletProps): Promise<ChangeWalletResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/changeWallet`,
-      method: "PATCH",
+      method: 'PATCH',
       data: {
         public_key: wallet
       },
@@ -72,7 +72,7 @@ class EcommerceClient extends Client {
   }: ChangeCompanyProps): Promise<ChangeCompanyResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/widget/edit`,
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -83,7 +83,7 @@ class EcommerceClient extends Client {
   public async logout({ token }: LogoutProps) {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/user/logout`,
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -95,7 +95,7 @@ class EcommerceClient extends Client {
   }: GetHistoryProps): Promise<GetHistoryResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/payment/gets`,
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -108,7 +108,7 @@ class EcommerceClient extends Client {
   }: CreateBillProps): Promise<CreateBillResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/bill/create`,
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -119,7 +119,7 @@ class EcommerceClient extends Client {
   public async getBill(id: string): Promise<GetBillResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/bill/get`,
-      method: "GET",
+      method: 'GET',
       params: { id }
     })
   }
@@ -129,7 +129,7 @@ class EcommerceClient extends Client {
   ): Promise<CreatePaymentResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/payment/create`,
-      method: "POST",
+      method: 'POST',
       data
     })
   }
@@ -137,7 +137,7 @@ class EcommerceClient extends Client {
   public async getMerchantToken(token: string): Promise<MerchantBillResponse> {
     return handleRequest({
       url: `${this.genericURL}/ecommerce/merchant/listing/${token}`,
-      method: "GET"
+      method: 'GET'
     })
   }
 
@@ -149,7 +149,7 @@ class EcommerceClient extends Client {
   ) {
     return handleRequest({
       url: `${this.genericURL}/api/buytoken/calc_fee?amount=${amount}&currency=${currency}&reverseCalc=${reverseCalc}&method=${method}`,
-      method: "GET"
+      method: 'GET'
     })
   }
 }

@@ -1,7 +1,7 @@
-import React from "react"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { setBurgerActive } from "@/lib/redux/ui"
-import { Bar, StyledButton } from "./style"
+import React from 'react'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { setBurgerActive } from '@/lib/redux/ui'
+import { Bar, StyledButton } from './style'
 
 const Button = () => {
   const dispatch = useAppDispatch()

@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import Copy from "./copy"
-import Timer from "./timer"
+import Copy from './copy'
+import Timer from './timer'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 const Container = styled.div`
   font-size: 1rem;
@@ -44,12 +44,12 @@ type ValueProps = {
 
 const Value = styled.span<ValueProps>`
   color: var(--dark);
-  font-size: ${(props) => (props.small ? "0.85em" : "1em")};
+  font-size: ${(props) => (props.small ? '0.85em' : '1em')};
   font-weight: 500;
   word-break: break-all;
 
   @media only screen and (max-width: ${mobile}px) {
-    font-size: ${(props) => (props.small ? "0.9em" : "1.067em")};
+    font-size: ${(props) => (props.small ? '0.9em' : '1.067em')};
   }
 `
 

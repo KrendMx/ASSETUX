@@ -1,1 +1,1 @@
-export { default } from "./intro"
+export { default } from './intro'

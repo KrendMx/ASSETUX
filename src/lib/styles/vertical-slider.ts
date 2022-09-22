@@ -1,4 +1,4 @@
-import { createGlobalStyle, keyframes } from "styled-components"
+import { createGlobalStyle, keyframes } from 'styled-components'
 
 const overflowAnimation = keyframes`
   to {

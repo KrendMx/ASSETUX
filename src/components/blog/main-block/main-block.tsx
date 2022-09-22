@@ -1,9 +1,9 @@
-import React from "react"
+import React from 'react'
 
-import Element from "@/components/common/news/element"
-import { Container } from "./styles"
+import Element from '@/components/common/news/element'
+import { Container } from './styles'
 
-import type { PostData } from "@/lib/backend/main/types.backend.main"
+import type { PostData } from '@/lib/backend/main/types.backend.main'
 
 type MainBlockProps = {
   pinnedPost: PostData | null

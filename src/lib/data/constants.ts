@@ -31,5 +31,5 @@ export const cardsPerPage = 3
 export const cardsWidth = 850
 
 export const mappedCookies = {
-  authToken: "ecommerce_token"
+  authToken: 'ecommerce_token'
 }

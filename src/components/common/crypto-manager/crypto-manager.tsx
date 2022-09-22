@@ -1,21 +1,21 @@
-import { useEffect } from "react"
-import io from "socket.io-client"
+import { useEffect } from 'react'
+import io from 'socket.io-client'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import {
   getBlockchains,
   getBuyTokens,
   getSellTokens
-} from "@/lib/redux/crypto/thunks"
-import { setExplorerData } from "@/lib/redux/crypto"
+} from '@/lib/redux/crypto/thunks'
+import { setExplorerData } from '@/lib/redux/crypto'
 
-import type { Socket } from "socket.io-client"
+import type { Socket } from 'socket.io-client'
 import type {
   ClientToServerEvents,
   CryptoManagerProps,
   ExplorerData,
   ServerToClientEvents
-} from "./types.crypto-manager"
+} from './types.crypto-manager'
 
 let prevSelectedBlockchainId: number | null = null
 
@@ -48,11 +48,11 @@ function CryptoManager({ getToken, getChart }: CryptoManagerProps) {
     const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
       `https://${selectedBlockchain.url}`,
       {
-        path: "/websocket"
+        path: '/websocket'
       }
     )
 
-    socket.on("chart", (data) => {
+    socket.on('chart', (data) => {
       dispatch(setExplorerData(data))
     })
 

@@ -1,5 +1,5 @@
-import React, { useRef, useState, useEffect } from "react"
-import styled from "styled-components"
+import React, { useRef, useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
@@ -32,12 +32,8 @@ type CodeInputProps = {
   onEnterPress?: () => void
 }
 
-const CodeInput: React.FC<CodeInputProps> = ({
-  nBlocks = 6,
-  onChange,
-  onEnterPress
-}) => {
-  const [values, setValues] = useState<string[]>(new Array(nBlocks).fill(""))
+const CodeInput = ({ nBlocks = 6, onChange, onEnterPress }: CodeInputProps) => {
+  const [values, setValues] = useState<string[]>(new Array(nBlocks).fill(''))
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   useEffect(() => {
@@ -50,27 +46,27 @@ const CodeInput: React.FC<CodeInputProps> = ({
 
       const value = event.target.value
 
-      if (value == "" || !isNaN(parseInt(value))) {
+      if (value == '' || !isNaN(parseInt(value))) {
         copyValues[order] = value
 
-        if (value != "") {
+        if (value != '') {
           inputRefs.current[order + 1]?.focus()
         }
       }
 
       setValues(copyValues)
 
-      onChange && onChange(copyValues.join(""))
+      onChange && onChange(copyValues.join(''))
     }
   }
 
   const handleKeyDown = (order: number) => {
     return (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key == "Enter" && order == nBlocks - 1) {
+      if (event.key == 'Enter' && order == nBlocks - 1) {
         onEnterPress && onEnterPress()
       }
 
-      if (event.key == "Backspace" && values[order] == "") {
+      if (event.key == 'Backspace' && values[order] == '') {
         event.preventDefault()
 
         inputRefs.current[order - 1]?.focus()
@@ -80,7 +76,7 @@ const CodeInput: React.FC<CodeInputProps> = ({
 
       if (
         !isNaN(parseInt(event.key)) &&
-        values[order] != "" &&
+        values[order] != '' &&
         order != nBlocks - 1
       ) {
         const copyValues = [...values]
@@ -99,10 +95,10 @@ const CodeInput: React.FC<CodeInputProps> = ({
         return
       }
 
-      const copyValue = event.clipboardData.getData("text")
+      const copyValue = event.clipboardData.getData('text')
 
       if (!isNaN(Number(copyValue)) && copyValue.length == nBlocks) {
-        setValues(copyValue.split(""))
+        setValues(copyValue.split(''))
         inputRefs.current[nBlocks - 1]?.focus()
       }
     }

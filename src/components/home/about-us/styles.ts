@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
 
 export const Container = styled.section`
   width: 100%;

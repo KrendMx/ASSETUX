@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react"
-import { useRouter } from "next/router"
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
+import { useIsomorphicLayoutEffect } from '@/lib/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import {
   setCurrentRate,
   setSellOrderId,
   setSelectedToken
-} from "@/lib/redux/crypto"
+} from '@/lib/redux/crypto'
 
-import SelectForm from "./select-form"
-import { BackendClient } from "@/lib/backend/clients"
-import { Step } from "./select-form/steps"
+import SelectForm from './select-form'
+import { BackendClient } from '@/lib/backend/clients'
+import { Step } from './select-form/steps'
 
-import type { Option } from "@/components/common/input-select/types"
-import type { PaymentOption, TokenOption } from "../types"
+import type { Option } from '@/components/common/input-select/types'
+import type { PaymentOption, TokenOption } from '../types'
 import type {
   FiatRate,
   FiatProvider,
   Blockchain,
   Token
-} from "@/lib/backend/main/types.backend.main"
-import type { RequestState } from "@/core/backend/types"
-import type { ExchangeInfo } from "./select-form/types"
-import type { CurrenciesType } from "@/lib/data/currencies"
+} from '@/lib/backend/main/types.backend.main'
+import type { RequestState } from '@/core/backend/types'
+import type { ExchangeInfo } from './select-form/types'
+import type { CurrenciesType } from '@/lib/data/currencies'
 
 type SellFormProps = {
   currentBlockchain: Blockchain | null
@@ -58,10 +58,10 @@ function SellForm({
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
-  const [giveAmount, setGiveAmount] = useState("1") // in form it is validated to be a number
-  const [email, setEmail] = useState("")
-  const [details, setDetails] = useState("")
-  const [holder, setHolder] = useState("")
+  const [giveAmount, setGiveAmount] = useState('1') // in form it is validated to be a number
+  const [email, setEmail] = useState('')
+  const [details, setDetails] = useState('')
+  const [holder, setHolder] = useState('')
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
@@ -114,7 +114,7 @@ function SellForm({
         return
       }
 
-      if (response.state == "success") {
+      if (response.state == 'success') {
         const data = response.data.result
 
         setExchangeInfo({
@@ -138,7 +138,7 @@ function SellForm({
   const onExchange = async () => {
     if (currentBlockchain && exchangeInfo) {
       setDepositInfo({
-        state: "pending"
+        state: 'pending'
       })
 
       const response = await BackendClient.closeSellOrder({
@@ -146,9 +146,9 @@ function SellForm({
         orderId: exchangeInfo.orderId
       })
 
-      if (response.state == "success") {
+      if (response.state == 'success') {
         setDepositInfo({
-          state: "success",
+          state: 'success',
           result: response.data.result
         })
       }
@@ -158,7 +158,7 @@ function SellForm({
   const onRefund = async (code: string, wallet: string) => {
     if (currentBlockchain && exchangeInfo) {
       setRefundInfo({
-        state: "pending"
+        state: 'pending'
       })
 
       const response = await BackendClient.refund({
@@ -168,14 +168,14 @@ function SellForm({
         wallet
       })
 
-      if (response.state == "success") {
+      if (response.state == 'success') {
         setRefundInfo({
-          state: "success",
+          state: 'success',
           result: response.data.result
         })
       } else {
         setRefundInfo({
-          state: "error",
+          state: 'error',
           error: true
         })
       }
@@ -185,7 +185,7 @@ function SellForm({
   const onRefundRequest = async () => {
     if (currentBlockchain && exchangeInfo) {
       setRefundRequestInfo({
-        state: "pending"
+        state: 'pending'
       })
 
       const response = await BackendClient.refundRequest({
@@ -193,14 +193,14 @@ function SellForm({
         orderId: exchangeInfo.orderId
       })
 
-      if (response.state == "success") {
+      if (response.state == 'success') {
         setRefundRequestInfo({
-          state: "success",
+          state: 'success',
           result: response.data.result
         })
       } else {
         setRefundRequestInfo({
-          state: "error",
+          state: 'error',
           error: true
         })
       }
@@ -217,7 +217,7 @@ function SellForm({
       chainId: currentBlockchain.chain_id
     })
 
-    if (response.state != "success") {
+    if (response.state != 'success') {
       return null
     }
 
@@ -296,8 +296,8 @@ function SellForm({
       })
 
       if (
-        response.state == "success" &&
-        response.data.result.status == "pending"
+        response.state == 'success' &&
+        response.data.result.status == 'pending'
       ) {
         const {
           wallet,
@@ -395,7 +395,7 @@ function SellForm({
           signal: controller.signal
         })
 
-        if (response.state == "success") {
+        if (response.state == 'success') {
           const data = response.data.result
 
           setExchangeInfo({

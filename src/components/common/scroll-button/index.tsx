@@ -1,1 +1,1 @@
-export { default } from "./scroll-button"
+export { default } from './scroll-button'

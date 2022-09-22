@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import AdaptiveFont from "@/components/common/adaptive-font"
+import AdaptiveFont from '@/components/common/adaptive-font'
 
-import { mobile } from "@/lib/data/constants"
+import { mobile } from '@/lib/data/constants'
 
 export const Container = styled.section`
   width: 100%;
@@ -13,11 +13,11 @@ export const Container = styled.section`
 export const Title = styled.h3``
 
 type ColoredProps = {
-  colorIn: "red" | "green"
+  colorIn: 'red' | 'green'
 }
 
 export const Colored = styled.span<ColoredProps>`
-  color: ${(props) => (props.colorIn == "red" ? "var(--red)" : "var(--green)")};
+  color: ${(props) => (props.colorIn == 'red' ? 'var(--red)' : 'var(--green)')};
 `
 
 export const SubTitleParagraph = styled.p`
@@ -66,7 +66,7 @@ export const Paragraph = styled.p<ParagraphProps>`
   font-size: 1em;
   font-weight: 400;
   color: #616161;
-  white-space: ${(props) => (props.preLine ? "pre-line" : "normal")};
+  white-space: ${(props) => (props.preLine ? 'pre-line' : 'normal')};
 `
 
 export const Bold = styled.span`
@@ -99,7 +99,7 @@ export const GoodBlock = styled(ExampleBlock)<GoodBlockProps>`
   margin-top: 2.1em;
 
   @media only screen and (max-width: ${mobile}px) {
-    border: ${(props) => (props.isLoading ? "none" : "3px solid var(--green)")};
+    border: ${(props) => (props.isLoading ? 'none' : '3px solid var(--green)')};
   }
 `
 
@@ -112,7 +112,7 @@ export const BadBlock = styled(ExampleBlock)<BadBlockProps>`
   align-self: stretch;
 
   @media only screen and (max-width: ${mobile}px) {
-    border: ${(props) => (props.isLoading ? "none" : "3px solid var(--red)")};
+    border: ${(props) => (props.isLoading ? 'none' : '3px solid var(--red)')};
     margin-top: 0.6em;
   }
 `
@@ -134,7 +134,7 @@ type BlockListProps = {
 }
 
 export const BlockList = styled.ul<BlockListProps>`
-  margin-top: ${(props) => (props.decreaseMargins ? "1.578em" : "3em")};
+  margin-top: ${(props) => (props.decreaseMargins ? '1.578em' : '3em')};
   list-style: none;
 
   & > * + * {

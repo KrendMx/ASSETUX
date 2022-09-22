@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
-import Skeleton from "react-loading-skeleton"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
+import Skeleton from 'react-loading-skeleton'
 
-import { useAppSelector } from "@/lib/redux/hooks"
-import { optimizeRemoteImages, allowSkeletons } from "@/lib/data/constants"
+import { useAppSelector } from '@/lib/redux/hooks'
+import { optimizeRemoteImages, allowSkeletons } from '@/lib/data/constants'
 
-import Graph from "./graph"
+import Graph from './graph'
 import {
   Container,
   InfoContainer,
@@ -20,9 +20,9 @@ import {
   ButtonRow,
   SellButton,
   BuyButton
-} from "./styles"
+} from './styles'
 
-import type { GraphData } from "./graph"
+import type { GraphData } from './graph'
 
 type ElementProps = {
   icon?: string
@@ -43,7 +43,7 @@ const Element = ({
   onBuy,
   onSell
 }: ElementProps) => {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
   const [active, setActive] = useState(false)
@@ -85,7 +85,7 @@ const Element = ({
               {isLoading ? (
                 <Skeleton width={50} />
               ) : (
-                `${change24h && change24h >= 0 ? "+" : ""}${change24h?.toFixed(
+                `${change24h && change24h >= 0 ? '+' : ''}${change24h?.toFixed(
                   2
                 )}%`
               )}
@@ -94,7 +94,7 @@ const Element = ({
               {isLoading ? (
                 <Skeleton width={100} />
               ) : (
-                t("home:cryptoSlide_change")
+                t('home:cryptoSlide_change')
               )}
             </ChangeLabel>
           </ChangeContainer>
@@ -103,10 +103,10 @@ const Element = ({
               coords={marketHistory}
               color={
                 change24h > 0
-                  ? "var(--green)"
+                  ? 'var(--green)'
                   : change24h < 0
-                  ? "var(--red)"
-                  : "var(--gray)"
+                  ? 'var(--red)'
+                  : 'var(--gray)'
               }
             />
           )}
@@ -115,14 +115,14 @@ const Element = ({
       <ButtonRow active={active}>
         <BuyButton onClick={() => !isLoading && onBuy && onBuy()}>
           {!isLoading ? (
-            `${t("home:cryptoSlide_buy")} ${symbol}`
+            `${t('home:cryptoSlide_buy')} ${symbol}`
           ) : (
             <Skeleton width={90} />
           )}
         </BuyButton>
         <SellButton onClick={() => !isLoading && onSell && onSell()}>
           {!isLoading ? (
-            `${t("home:cryptoSlide_sell")} ${symbol}`
+            `${t('home:cryptoSlide_sell')} ${symbol}`
           ) : (
             <Skeleton width={90} />
           )}

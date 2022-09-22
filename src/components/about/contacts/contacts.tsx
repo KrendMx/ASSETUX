@@ -1,9 +1,9 @@
-import React from "react"
-import { useTranslation } from "next-i18next"
-import Skeleton from "react-loading-skeleton"
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import Skeleton from 'react-loading-skeleton'
 
-import { useAppSelector } from "@/lib/redux/hooks"
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import { useAppSelector } from '@/lib/redux/hooks'
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
 
 import {
   Container,
@@ -15,24 +15,24 @@ import {
   Support,
   SupportButtonsRow,
   ButtonLinkSkeleton
-} from "./styles"
+} from './styles'
 
-import { Telegram, Email } from "./icons"
+import { Telegram, Email } from './icons'
 
 function Contacts() {
-  const { t } = useTranslation("about")
+  const { t } = useTranslation('about')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
   return (
     <Container>
       <Title>
-        {showSkeleton ? <Skeleton count={2} /> : t("contacts_title")}
+        {showSkeleton ? <Skeleton count={2} /> : t('contacts_title')}
       </Title>
       <Content>
         <News>
           <Paragraph>
-            {showSkeleton ? <Skeleton count={2} /> : t("contacts_news_p")}
+            {showSkeleton ? <Skeleton count={2} /> : t('contacts_news_p')}
           </Paragraph>
           {showSkeleton ? (
             <ButtonLinkSkeleton>
@@ -41,13 +41,13 @@ function Contacts() {
           ) : (
             <ButtonLink href="https://telegram.me/assetux">
               <Telegram />
-              <span>{t("contacts_news_link")}</span>
+              <span>{t('contacts_news_link')}</span>
             </ButtonLink>
           )}
         </News>
         <Support>
           <Paragraph alignRight>
-            {showSkeleton ? <Skeleton count={2} /> : t("contacts_support_p")}
+            {showSkeleton ? <Skeleton count={2} /> : t('contacts_support_p')}
           </Paragraph>
           <SupportButtonsRow>
             {showSkeleton ? (
@@ -57,7 +57,7 @@ function Contacts() {
             ) : (
               <ButtonLink href="https://telegram.me/assetux_support">
                 <Telegram />
-                <span>{t("contacts_support_link1")}</span>
+                <span>{t('contacts_support_link1')}</span>
               </ButtonLink>
             )}
             {showSkeleton ? (
@@ -67,7 +67,7 @@ function Contacts() {
             ) : (
               <ButtonLink href="mailto:support@assetux.com">
                 <Email />
-                <span>{t("contacts_support_link2")}</span>
+                <span>{t('contacts_support_link2')}</span>
               </ButtonLink>
             )}
           </SupportButtonsRow>

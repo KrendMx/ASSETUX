@@ -1,5 +1,5 @@
-import type { PayProviders, Response } from "@/core/backend/types"
-import type { Token } from "../main/types.backend.main"
+import type { PayProviders, Response } from '@/core/backend/types'
+import type { Token } from '../main/types.backend.main'
 
 export type AuthorizedProps = {
   token: string
@@ -57,7 +57,7 @@ export interface IMerchant {
   }>
 }
 
-export type MerchantMode = "RETENTION" | "TRANSFER" | "CONNECT"
+export type MerchantMode = 'RETENTION' | 'TRANSFER' | 'CONNECT'
 
 export interface Profile {
   id: number
@@ -131,7 +131,7 @@ export type Payment = {
   email: string
   creditCard: string
   timestamp: string
-  paymentMethod: "QIWI" | "QIWIVISAMASTER"
+  paymentMethod: 'QIWI' | 'QIWIVISAMASTER'
 }
 
 export type GetHistoryProps = AuthorizedProps

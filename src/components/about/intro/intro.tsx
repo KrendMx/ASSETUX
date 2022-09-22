@@ -1,10 +1,10 @@
-import React from "react"
-import Image from "next/image"
-import { useTranslation } from "next-i18next"
-import Skeleton from "react-loading-skeleton"
+import React from 'react'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
+import Skeleton from 'react-loading-skeleton'
 
-import { useAppSelector } from "@/lib/redux/hooks"
-import { selectShowSkeleton } from "@/lib/redux/ui/selectors"
+import { useAppSelector } from '@/lib/redux/hooks'
+import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
 
 import {
   Container,
@@ -16,10 +16,10 @@ import {
   Paragraph,
   ImageContainer,
   SkeletonImageContainer
-} from "./styles"
+} from './styles'
 
 function Intro() {
-  const { t } = useTranslation("about")
+  const { t } = useTranslation('about')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)
 
@@ -37,13 +37,13 @@ function Intro() {
           )}
         </Title>
         <SubTitle>
-          {showSkeleton ? <Skeleton count={2} /> : t("intro_subTitle")}
+          {showSkeleton ? <Skeleton count={2} /> : t('intro_subTitle')}
         </SubTitle>
         <Paragraph black>
-          {showSkeleton ? <Skeleton count={2} /> : t("intro_p1")}
+          {showSkeleton ? <Skeleton count={2} /> : t('intro_p1')}
         </Paragraph>
         <Paragraph decreaseMargins preLine>
-          {showSkeleton ? <Skeleton count={4} /> : t("intro_p2")}
+          {showSkeleton ? <Skeleton count={4} /> : t('intro_p2')}
         </Paragraph>
       </AboutContainer>
       <ImageContainer>

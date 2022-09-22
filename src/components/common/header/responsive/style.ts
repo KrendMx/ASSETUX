@@ -1,5 +1,5 @@
-import { mobile } from "@/lib/data/constants"
-import styled, { css } from "styled-components"
+import { mobile } from '@/lib/data/constants'
+import styled, { css } from 'styled-components'
 
 type StyledButtonProps = {
   active: boolean
@@ -12,21 +12,21 @@ export const StyledButton = styled.button<StyledButtonProps>`
   cursor: pointer;
 
   & > *:not(:last-child) {
-    margin-bottom: ${(props) => (props.active ? "0" : "5px")};
+    margin-bottom: ${(props) => (props.active ? '0' : '5px')};
   }
 
   & > *:first-child {
     transform: ${(props) =>
-      props.active ? "rotate(45deg) translate(1px, 1px)" : "none"};
+      props.active ? 'rotate(45deg) translate(1px, 1px)' : 'none'};
   }
 
   & > *:last-child {
     transform: ${(props) =>
-      props.active ? "rotate(-45deg) translate(1px, -1px)" : "none"};
+      props.active ? 'rotate(-45deg) translate(1px, -1px)' : 'none'};
   }
 
   & > *:nth-child(2) {
-    display: ${(props) => (props.active ? "none" : "block")};
+    display: ${(props) => (props.active ? 'none' : 'block')};
   }
 `
 
@@ -87,7 +87,7 @@ export const NavLink = styled.a<NavLinkProps>`
   color: var(--black);
 
   ${(props) =>
-    props.as == "button" &&
+    props.as == 'button' &&
     css`
       background: transparent;
       cursor: pointer;

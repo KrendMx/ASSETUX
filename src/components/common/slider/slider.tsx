@@ -1,13 +1,13 @@
-import React, { useState, useRef, useEffect } from "react"
-import { useSwipeable } from "react-swipeable"
+import React, { useState, useRef, useEffect } from 'react'
+import { useSwipeable } from 'react-swipeable'
 
-import { useAppSelector } from "@/lib/redux/hooks"
-import { preventerOpts, swipeProps, swipeTimeout, wheelDelta } from "./config"
+import { useAppSelector } from '@/lib/redux/hooks'
+import { preventerOpts, swipeProps, swipeTimeout, wheelDelta } from './config'
 
-import { Container, Content, Element } from "./styles"
+import { Container, Content, Element } from './styles'
 
-import type { SliderProps } from "./types.slider"
-import type { SwipeDirections } from "react-swipeable"
+import type { SliderProps } from './types.slider'
+import type { SwipeDirections } from 'react-swipeable'
 
 const preventer = (event: Event) => {
   if (event.cancelable) {
@@ -25,7 +25,7 @@ const Slider = ({
 }: SliderProps) => {
   const [swipedPixels, setSwipedPixels] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const swipeDirection = useRef<SwipeDirections | "none">("none")
+  const swipeDirection = useRef<SwipeDirections | 'none'>('none')
   const lastSwipe = useRef<number | null>(null)
   const hovered = useRef(false)
   const responsiveToShow = useRef(toShow)
@@ -38,21 +38,21 @@ const Slider = ({
       swipeDirection.current = event.dir
     },
     onSwiping: (event) => {
-      if (swipeDirection.current == "Left") {
+      if (swipeDirection.current == 'Left') {
         setSwipedPixels(event.deltaX + swipeProps.delta)
-      } else if (swipeDirection.current == "Right") {
+      } else if (swipeDirection.current == 'Right') {
         setSwipedPixels(event.deltaX - swipeProps.delta)
       }
     },
     onSwiped: () => {
       setSwipedPixels(0)
-      swipeDirection.current = "none"
+      swipeDirection.current = 'none'
     },
     onSwipedLeft: () => {
-      swipe("left")
+      swipe('left')
     },
     onSwipedRight: () => {
-      swipe("right")
+      swipe('right')
     },
     ...swipeProps
   })
@@ -87,16 +87,16 @@ const Slider = ({
 
     handleResize()
 
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener("resize", handleResize)
+      window.removeEventListener('resize', handleResize)
     }
   }, [responsive, toShow])
 
-  const swipe = (direction: "left" | "right") => {
+  const swipe = (direction: 'left' | 'right') => {
     let canSwipe = false
-    if (direction == "left") {
+    if (direction == 'left') {
       canSwipe = currentIndex + responsiveToShow.current < childrenLength
     } else {
       canSwipe = currentIndex > 0
@@ -109,7 +109,7 @@ const Slider = ({
       ) {
         lastSwipe.current = currentDate
         const newIndex =
-          direction == "left" ? currentIndex + 1 : currentIndex - 1
+          direction == 'left' ? currentIndex + 1 : currentIndex - 1
         setCurrentIndex(newIndex)
       }
     }
@@ -118,9 +118,9 @@ const Slider = ({
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     if (!isMobile && hovered.current && Math.abs(event.deltaY) > wheelDelta) {
       if (event.deltaY > 0) {
-        swipe("left")
+        swipe('left')
       } else {
-        swipe("right")
+        swipe('right')
       }
     }
   }
@@ -128,14 +128,14 @@ const Slider = ({
   const handleEnter = () => {
     if (!isMobile) {
       hovered.current = true
-      window.addEventListener("wheel", preventer, preventerOpts)
+      window.addEventListener('wheel', preventer, preventerOpts)
     }
   }
 
   const handleLeave = () => {
     if (!isMobile) {
       hovered.current = false
-      window.removeEventListener("wheel", preventer)
+      window.removeEventListener('wheel', preventer)
     }
   }
 

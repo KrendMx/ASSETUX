@@ -1,18 +1,18 @@
-import React from "react"
-import styled from "styled-components"
-import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import React from 'react'
+import styled from 'styled-components'
+import { NextSeo } from 'next-seo'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import BaseContainer from "@/components/common/base-container"
-import HeadingRow from "@/components/profile/common/heading-row"
-import HistoryComponent from "@/components/profile/history"
+import BaseContainer from '@/components/common/base-container'
+import HeadingRow from '@/components/profile/common/heading-row'
+import HistoryComponent from '@/components/profile/history'
 
-import { EcommerceClient } from "@/lib/backend/clients"
-import { checkAuthorization, getEcommercePrefix } from "@/lib/utils/helpers"
+import { EcommerceClient } from '@/lib/backend/clients'
+import { checkAuthorization, getEcommercePrefix } from '@/lib/utils/helpers'
 
-import type { GetServerSideProps } from "next"
-import type { HistoryProps } from "@/components/profile/history"
+import type { GetServerSideProps } from 'next'
+import type { HistoryProps } from '@/components/profile/history'
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -23,13 +23,13 @@ const Container = styled(BaseContainer)`
 `
 
 function History(props: HistoryProps) {
-  const { t } = useTranslation("profile-history")
+  const { t } = useTranslation('profile-history')
   return (
     <>
-      <NextSeo title={t("title")} />
+      <NextSeo title={t('title')} />
       <Container>
         <HeadingRow
-          heading={t("history")}
+          heading={t('history')}
           id={`M-${props.profile.user.userId}`}
         />
         <HistoryComponent {...props} />
@@ -61,14 +61,14 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     EcommerceClient.getHistory({ token })
   ])
 
-  if (profileResponse.state != "success") {
+  if (profileResponse.state != 'success') {
     return errorProps
   }
 
   const history =
-    historyResponse.state == "success"
+    historyResponse.state == 'success'
       ? historyResponse.data
-      : historyResponse.state == "error" && historyResponse.status == 404
+      : historyResponse.state == 'error' && historyResponse.status == 404
       ? []
       : null
 
@@ -76,10 +76,10 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     return errorProps
   }
   const userHistory = history.filter((obj) =>
-    obj.hasOwnProperty("ecommerce_payments")
+    obj.hasOwnProperty('ecommerce_payments')
   )
   const ecomerceHistory = history
-    .filter((obj) => !obj.hasOwnProperty("ecommerce_payments"))
+    .filter((obj) => !obj.hasOwnProperty('ecommerce_payments'))
     .map((item) => ({
       id: item.id,
       timestamp: item.timestamp,
@@ -117,10 +117,10 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
         .concat(ecomerceHistory)
         .sort((a, b) => Number(b.timestamp) - Number(a.timestamp)),
       ...(await serverSideTranslations(locale!, [
-        "header",
-        "footer",
-        "profile-history",
-        "routes"
+        'header',
+        'footer',
+        'profile-history',
+        'routes'
       ]))
     }
   }

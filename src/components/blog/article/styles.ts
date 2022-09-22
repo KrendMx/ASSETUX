@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import BaseContainer from "@/components/common/base-container"
-import AdaptiveFont from "@/components/common/adaptive-font"
-import { mobile, mobileLayoutForTablet, tablet } from "@/lib/data/constants"
+import BaseContainer from '@/components/common/base-container'
+import AdaptiveFont from '@/components/common/adaptive-font'
+import { mobile, mobileLayoutForTablet, tablet } from '@/lib/data/constants'
 
 export const Container = styled(BaseContainer)`
   font-size: 1rem;
@@ -52,7 +52,7 @@ type TitleProps = {
 export const Title = styled.h1<TitleProps>`
   margin-bottom: 0.71em;
   font-weight: 700;
-  color: ${(props) => (props.secondary ? "var(--blue)" : "var(--dark-gray)")};
+  color: ${(props) => (props.secondary ? 'var(--blue)' : 'var(--dark-gray)')};
 
   && {
     font-size: 1.578em;

@@ -1,5 +1,5 @@
-import { MerchantMode } from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import type { CurrenciesType } from "@/lib/data/currencies"
+import { MerchantMode } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type { CurrenciesType } from '@/lib/data/currencies'
 
 export type UiState = {
   isMobile: boolean

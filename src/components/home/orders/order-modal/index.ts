@@ -1,1 +1,1 @@
-export { default } from "./order-modal"
+export { default } from './order-modal'

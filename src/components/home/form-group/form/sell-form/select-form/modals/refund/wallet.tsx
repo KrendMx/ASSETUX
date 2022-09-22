@@ -1,15 +1,15 @@
-import React, { useState } from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
+import React, { useState } from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 
-import Container from "@/components/common/modal-components/Container"
-import Title from "@/components/common/modal-components/Title"
-import Info from "@/components/common/modal-components/Info"
-import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
-import Button from "@/components/common/modal-components/Button"
-import InputSelect from "@/components/common/input-select"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
+import Container from '@/components/common/modal-components/Container'
+import Title from '@/components/common/modal-components/Title'
+import Info from '@/components/common/modal-components/Info'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Button from '@/components/common/modal-components/Button'
+import InputSelect from '@/components/common/input-select'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
 
 type RefundWalletModalProps = {
   onCancel?: () => void
@@ -17,9 +17,9 @@ type RefundWalletModalProps = {
 }
 
 function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
-  const [wallet, setWallet] = useState("")
+  const [wallet, setWallet] = useState('')
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value
@@ -41,11 +41,11 @@ function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
             />
           </Icon>
         </Shadow>
-        <span>{t("home:sell_fillRequiredData")}</span>
+        <span>{t('home:sell_fillRequiredData')}</span>
       </Title>
-      <Info misc>{t("home:sell_accessWallet")}</Info>
+      <Info misc>{t('home:sell_accessWallet')}</Info>
       <InputSelect
-        label={t("home:sell_wallet")}
+        label={t('home:sell_wallet')}
         id="refund_wallet"
         onChange={handleChange}
         onEnterPress={() => onAccept && onAccept(wallet)}

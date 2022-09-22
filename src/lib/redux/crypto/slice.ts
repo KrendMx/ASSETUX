@@ -1,17 +1,17 @@
-import { createSlice, PayloadAction, createAction } from "@reduxjs/toolkit"
-import { HYDRATE } from "next-redux-wrapper"
+import { createSlice, PayloadAction, createAction } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
 
-import { getBlockchains, getBuyTokens, getSellTokens } from "./thunks"
+import { getBlockchains, getBuyTokens, getSellTokens } from './thunks'
 
-import type { RootState } from "../store"
+import type { RootState } from '../store'
 import type {
   GetBlockchains,
   Blockchain,
   GetTokens,
   Token
-} from "@/lib/backend/main/types.backend.main"
-import type { ExplorerData } from "@/components/common/crypto-manager/types.crypto-manager"
-import type { ActionType, CryptoState } from "./types"
+} from '@/lib/backend/main/types.backend.main'
+import type { ExplorerData } from '@/components/common/crypto-manager/types.crypto-manager'
+import type { ActionType, CryptoState } from './types'
 
 const hydrate = createAction<RootState>(HYDRATE)
 
@@ -23,13 +23,13 @@ const initialState: CryptoState = {
   selectedToken: null,
   selectedSellToken: null,
   currentRate: null,
-  action: "BUY",
+  action: 'BUY',
   explorerData: null,
   sellOrderId: null
 }
 
 export const slice = createSlice({
-  name: "crypto",
+  name: 'crypto',
   initialState,
   reducers: {
     setSelectedBlockchain: (state, action: PayloadAction<Blockchain>) => {
@@ -48,10 +48,10 @@ export const slice = createSlice({
       if (action.payload) {
         state.action = action.payload
       } else {
-        if (state.action == "BUY") {
-          state.action = "SELL"
+        if (state.action == 'BUY') {
+          state.action = 'SELL'
         } else {
-          state.action = "BUY"
+          state.action = 'BUY'
         }
       }
     },
@@ -72,7 +72,7 @@ export const slice = createSlice({
     builder.addCase(
       getBlockchains.fulfilled,
       (state, action: PayloadAction<GetBlockchains>) => {
-        if (action.payload.state == "success") {
+        if (action.payload.state == 'success') {
           const data = action.payload.data
 
           if (data && data.length > 0) {
@@ -87,7 +87,7 @@ export const slice = createSlice({
       (state, action: PayloadAction<GetTokens | null>) => {
         if (action.payload) {
           const payload = action.payload
-          if (payload.state == "success") {
+          if (payload.state == 'success') {
             const data = payload.data
 
             if (data && data.length > 0) {
@@ -103,7 +103,7 @@ export const slice = createSlice({
       (state, action: PayloadAction<GetTokens | null>) => {
         if (action.payload) {
           const payload = action.payload
-          if (payload.state == "success") {
+          if (payload.state == 'success') {
             const data = payload.data
 
             if (data && data.length > 0) {

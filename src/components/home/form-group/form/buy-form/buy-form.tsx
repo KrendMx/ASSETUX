@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
+import { useIsomorphicLayoutEffect } from '@/lib/hooks'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { setCurrentRate } from "@/lib/redux/crypto"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { setCurrentRate } from '@/lib/redux/crypto'
 
-import SelectForm from "./select-form"
-import Step from "./select-form/steps"
+import SelectForm from './select-form'
+import Step from './select-form/steps'
 
-import { BackendClient } from "@/lib/backend/clients"
+import { BackendClient } from '@/lib/backend/clients'
 
-import type { Option } from "@/components/common/input-select/types"
-import type { PaymentOption, TokenOption } from "../types"
+import type { Option } from '@/components/common/input-select/types'
+import type { PaymentOption, TokenOption } from '../types'
 import type {
   FiatRate,
   FiatProvider,
   Blockchain,
   Token
-} from "@/lib/backend/main/types.backend.main"
-import type { CurrenciesType } from "@/lib/data/currencies"
+} from '@/lib/backend/main/types.backend.main'
+import type { CurrenciesType } from '@/lib/data/currencies'
 
 type BuyFormProps = {
   currentBlockchain: Blockchain | null
@@ -51,17 +51,17 @@ function BuyForm({
   const [processingRequest, setProcessingRequest] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
-  const [giveAmount, setGiveAmount] = useState("10000") // in form it is validated to be a number
-  const [getAmount, setGetAmount] = useState("")
-  const [email, setEmail] = useState("")
-  const [details, setDetails] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [walletAddress, setWalletAddress] = useState("")
+  const [giveAmount, setGiveAmount] = useState('10000') // in form it is validated to be a number
+  const [getAmount, setGetAmount] = useState('')
+  const [email, setEmail] = useState('')
+  const [details, setDetails] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [walletAddress, setWalletAddress] = useState('')
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
 
-  const [cardError, setCardError] = useState("")
+  const [cardError, setCardError] = useState('')
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
@@ -84,19 +84,19 @@ function BuyForm({
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
-        card: selectedPayment == "QIWI" ? phoneNumber : details
+        card: selectedPayment == 'QIWI' ? phoneNumber : details
       })
 
       setProcessingRequest(false)
 
-      if (response.state != "success") {
+      if (response.state != 'success') {
         return
       }
 
-      setCardError("")
+      setCardError('')
 
-      Object.assign(document.createElement("a"), {
-        target: "_blank",
+      Object.assign(document.createElement('a'), {
+        target: '_blank',
         href: response.data.link
       }).click()
     }

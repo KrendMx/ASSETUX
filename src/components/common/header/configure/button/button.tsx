@@ -1,14 +1,14 @@
-import React, { useEffect } from "react"
-import { useRouter } from "next/router"
-import styled from "styled-components"
-import { IoIosArrowUp } from "react-icons/io"
+import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
+import { IoIosArrowUp } from 'react-icons/io'
 
-import { setConfigureActive } from "@/lib/redux/ui"
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { mapCurrency } from "@/lib/data/currencies"
-import { isLocaleDeclared } from "@/lib/data/locales"
+import { setConfigureActive } from '@/lib/redux/ui'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { mapCurrency } from '@/lib/data/currencies'
+import { isLocaleDeclared } from '@/lib/data/locales'
 
-import mapLanguage from "../map-language"
+import mapLanguage from '../map-language'
 
 const Container = styled.button`
   display: flex;
@@ -29,7 +29,7 @@ const Container = styled.button`
   }
 `
 
-const DynamicValue: React.FC = () => {
+const DynamicValue = () => {
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const router = useRouter()
   const { locale: currentLocale } = router
@@ -38,7 +38,7 @@ const DynamicValue: React.FC = () => {
     <span>
       {currentLocale &&
         isLocaleDeclared(currentLocale) &&
-        mapLanguage(currentLocale)}{" "}
+        mapLanguage(currentLocale)}{' '}
       / {mapCurrency(currentCurrency)}
     </span>
   )
@@ -60,10 +60,10 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
         dispatch(setConfigureActive(false))
       }
 
-      window.addEventListener("click", handleClick)
+      window.addEventListener('click', handleClick)
 
       return () => {
-        window.removeEventListener("click", handleClick)
+        window.removeEventListener('click', handleClick)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,6 +80,6 @@ const Button = React.forwardRef<HTMLButtonElement>((_, ref) => {
   )
 })
 
-Button.displayName = "Button"
+Button.displayName = 'Button'
 
 export default Button

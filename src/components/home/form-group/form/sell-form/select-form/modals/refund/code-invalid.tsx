@@ -1,21 +1,21 @@
-import React from "react"
-import { useTranslation } from "next-i18next"
-import Image from "next/image"
+import React from 'react'
+import { useTranslation } from 'next-i18next'
+import Image from 'next/image'
 
-import Button from "@/components/common/modal-components/Button"
-import ButtonsRow from "@/components/common/modal-components/ButtonsRow"
-import Container from "@/components/common/modal-components/Container"
-import Icon from "@/components/common/modal-components/Icon"
-import Shadow from "@/components/common/modal-components/Shadow"
-import Info from "@/components/common/modal-components/Info"
-import Title from "@/components/common/modal-components/Title"
+import Button from '@/components/common/modal-components/Button'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Container from '@/components/common/modal-components/Container'
+import Icon from '@/components/common/modal-components/Icon'
+import Shadow from '@/components/common/modal-components/Shadow'
+import Info from '@/components/common/modal-components/Info'
+import Title from '@/components/common/modal-components/Title'
 
 type RefundCodeInvalidProps = {
   onAccept: () => void
 }
 
 function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
-  const { t } = useTranslation("home")
+  const { t } = useTranslation('home')
 
   return (
     <Container allowScrolling>
@@ -31,12 +31,12 @@ function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
             />
           </Icon>
         </Shadow>
-        <span>{t("home:sell_error")}</span>
+        <span>{t('home:sell_error')}</span>
       </Title>
-      <Info>{t("home:sell_invalidCode")}</Info>
+      <Info>{t('home:sell_invalidCode')}</Info>
       <ButtonsRow>
         <Button onClick={onAccept} main>
-          {t("home:sell_tryAgain")}
+          {t('home:sell_tryAgain')}
         </Button>
       </ButtonsRow>
     </Container>

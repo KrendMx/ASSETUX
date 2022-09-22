@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useRef } from "react"
-import styled from "styled-components"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
+import React, { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
-import BaseContainer from "@/components/common/base-container"
-import ControlRow from "@/components/common/control-row"
-import MainBlock from "./main-block"
-import Pages from "@/components/common/pagination"
+import BaseContainer from '@/components/common/base-container'
+import ControlRow from '@/components/common/control-row'
+import MainBlock from './main-block'
+import Pages from '@/components/common/pagination'
 
-import { postCategories } from "@/lib/backend/main/types.backend.main"
-import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
-import { BackendClient } from "@/lib/backend/clients"
-import { useDebounce, usePrevious } from "@/lib/hooks"
+import { postCategories } from '@/lib/backend/main/types.backend.main'
+import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
+import { BackendClient } from '@/lib/backend/clients'
+import { useDebounce, usePrevious } from '@/lib/hooks'
 
 import type {
   PostData,
   PostCategory
-} from "@/lib/backend/main/types.backend.main"
+} from '@/lib/backend/main/types.backend.main'
 
 const Container = styled(BaseContainer)`
   font-size: 1rem;
@@ -70,10 +70,10 @@ export type BlogProps = {
 }
 
 function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
-  const { t } = useTranslation("news")
+  const { t } = useTranslation('news')
   const router = useRouter()
 
-  const [searchContext, setSearchContext] = useState("")
+  const [searchContext, setSearchContext] = useState('')
   const debouncedSearchContext = useDebounce(searchContext)
   const [postsToDisplay, setPostsToDisplay] = useState(posts)
 
@@ -89,11 +89,11 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
       lang: router.locale!
     })
 
-    if (response.state == "error" || response.state == "cancelled") {
+    if (response.state == 'error' || response.state == 'cancelled') {
       return
     }
 
-    if (response.state == "unavailable" || response.data.news == null) {
+    if (response.state == 'unavailable' || response.data.news == null) {
       setPostsToDisplay(null)
 
       return
@@ -112,7 +112,7 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
     router.push({
       pathname: router.pathname,
       query:
-        debouncedSearchContext == ""
+        debouncedSearchContext == ''
           ? { category }
           : {
               query: debouncedSearchContext,
@@ -153,26 +153,26 @@ function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
       previousAbortController.abort()
     }
 
-    if (searchContext != "") {
+    if (searchContext != '') {
       skipPush.current = true
     }
 
     setPostsToDisplay(posts)
-    setSearchContext("")
+    setSearchContext('')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
 
   return (
     <Container>
-      <h1>{t("rowTitle")}</h1>
+      <h1>{t('rowTitle')}</h1>
       <ControlRow
         context={searchContext}
-        searchPlaceholder={t("search")}
+        searchPlaceholder={t('search')}
         onContextChange={setSearchContext}
         buttons={postCategories.map((postCategory) => ({
           name: t(postCategory),
           active: postCategory == category,
-          link: `/blog${postCategory == "all" ? "" : "/" + postCategory}`
+          link: `/blog${postCategory == 'all' ? '' : '/' + postCategory}`
         }))}
       />
       <>

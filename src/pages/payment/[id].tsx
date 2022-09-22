@@ -1,28 +1,28 @@
-import { useTranslation } from "next-i18next"
-import { NextSeo } from "next-seo"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from 'next-i18next'
+import { NextSeo } from 'next-seo'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import PaymentComponent from "@/components/profile/payment"
+import PaymentComponent from '@/components/profile/payment'
 
-import { EcommerceClient, BackendClient } from "@/lib/backend/clients"
-import { getDefaultMetaTags } from "@/lib/utils/seo"
-import { getEcommercePrefix } from "@/lib/utils/helpers"
+import { EcommerceClient, BackendClient } from '@/lib/backend/clients'
+import { getDefaultMetaTags } from '@/lib/utils/seo'
+import { getEcommercePrefix } from '@/lib/utils/helpers'
 
-import type { GetServerSideProps } from "next"
-import type { PaymentProps } from "@/components/profile/payment"
-import { IEcommerceBill } from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import { FiatRate } from "@/lib/backend/main/types.backend.main"
+import type { GetServerSideProps } from 'next'
+import type { PaymentProps } from '@/components/profile/payment'
+import { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import { FiatRate } from '@/lib/backend/main/types.backend.main'
 
 function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
-  const { t } = useTranslation("profile-payment")
+  const { t } = useTranslation('profile-payment')
 
   return (
     <>
       <NextSeo
         {...getDefaultMetaTags({
           ecommerce: true,
-          title: t("title"),
-          description: "Powered by ASSETUX.",
+          title: t('title'),
+          description: 'Powered by ASSETUX.',
           pathname: `${getEcommercePrefix()}/payment/${props.bill.bill.hash}`,
           siteName: props.bill.widget.nameCompany || undefined,
           seoImage: props.bill.widget.backgroundCompany
@@ -30,8 +30,8 @@ function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
                 url:
                   BackendClient.genericURL +
                   props.bill.widget.backgroundCompany,
-                alt: "Company Preview",
-                type: "image/png"
+                alt: 'Company Preview',
+                type: 'image/png'
               }
             : undefined
         })}
@@ -57,13 +57,13 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const bill = await EcommerceClient.getBill(id)
 
-  if (bill.state != "success") {
+  if (bill.state != 'success') {
     return errorProps
   }
 
   const blockchains = await BackendClient.getBlockchains()
 
-  if (blockchains.state != "success") {
+  if (blockchains.state != 'success') {
     return errorProps
   }
 
@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     apiHost: blockchain.url
   })
 
-  if (fiatProviders.state != "success") {
+  if (fiatProviders.state != 'success') {
     return errorProps
   }
 
@@ -85,7 +85,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const buyProviders = fiatProviders.data.filter(
     (provider) =>
-      provider.type == "BUY" && toPay <= provider.max && toPay >= provider.min
+      provider.type == 'BUY' && toPay <= provider.max && toPay >= provider.min
   )
 
   if (buyProviders.length == 0) {
@@ -99,11 +99,11 @@ export const getServerSideProps: GetServerSideProps = async ({
       blockchainURL: blockchain.url,
       fiatrate: null,
       ...(await serverSideTranslations(locale!, [
-        "profile-payment",
-        "inputSelect",
-        "footer",
-        "routes",
-        "home"
+        'profile-payment',
+        'inputSelect',
+        'footer',
+        'routes',
+        'home'
       ]))
     }
   }

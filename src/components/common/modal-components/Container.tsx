@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { mobile } from "@/lib/data/constants"
+import styled from 'styled-components'
+import { mobile } from '@/lib/data/constants'
 
 type ContainerProps = {
   spanContent?: boolean
@@ -14,15 +14,15 @@ const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
   onTouchMove: (event: React.TouchEvent) =>
     !allowScrolling && event.cancelable && event.preventDefault()
 }))<ContainerProps>`
-  position: ${(props) => (props.fixed ? "fixed" : "absolute")};
+  position: ${(props) => (props.fixed ? 'fixed' : 'absolute')};
   top: 50%;
-  left: ${(props) => (props.spanContent ? "50%" : "0")};
+  left: ${(props) => (props.spanContent ? '50%' : '0')};
   transform: ${(props) =>
-    props.spanContent ? "translate(-50%, -50%)" : "translateY(-50%)"};
-  width: ${(props) => (props.spanContent ? "auto" : "calc(100% - 40px)")};
+    props.spanContent ? 'translate(-50%, -50%)' : 'translateY(-50%)'};
+  width: ${(props) => (props.spanContent ? 'auto' : 'calc(100% - 40px)')};
   background: var(--white);
   margin: 0 20px;
-  z-index: ${(props) => (props.resetZIndex ? "1" : "100000")};
+  z-index: ${(props) => (props.resetZIndex ? '1' : '100000')};
   border-radius: 0.526em;
   font-size: 1rem;
   padding: 1.052em 1.315em;
@@ -30,7 +30,7 @@ const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
 
   @media only screen and (max-width: ${mobile}px) {
     margin: 0;
-    width: ${(props) => (props.spanContent ? "auto" : "100%")};
+    width: ${(props) => (props.spanContent ? 'auto' : '100%')};
     padding: 0.933em;
     border-radius: 0.666em;
   }

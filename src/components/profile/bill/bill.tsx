@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useMemo, useRef } from "react"
-import { useTranslation } from "next-i18next"
-import { useRouter } from "next/router"
-import Skeleton from "react-loading-skeleton"
+import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import Skeleton from 'react-loading-skeleton'
 
-import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks"
-import { useIsomorphicLayoutEffect, useAuthorized } from "@/lib/hooks"
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
+import { useIsomorphicLayoutEffect, useAuthorized } from '@/lib/hooks'
 
-import CryptoManager from "@/components/common/crypto-manager"
-import InputSelect from "@/components/common/input-select"
-import ExchangeInfo from "@/components/common/exchange-info"
-import HideableWithMargin from "@/components/home/form-group/form/common/hideable-with-margin"
-import { FormHeading, Button } from "../common/form-components"
+import CryptoManager from '@/components/common/crypto-manager'
+import InputSelect from '@/components/common/input-select'
+import ExchangeInfo from '@/components/common/exchange-info'
+import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
+import { FormHeading, Button } from '../common/form-components'
 import {
   Container,
   Paragraph,
@@ -20,34 +20,34 @@ import {
   Form,
   FormContent,
   ExchangeInfoWrapper
-} from "./styles"
-import LinkModal from "./link-modal"
+} from './styles'
+import LinkModal from './link-modal'
 
-import { BackendClient, EcommerceClient } from "@/lib/backend/clients"
+import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
 import {
   currencies as definedCurrencies,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
-} from "@/lib/data/currencies"
-import { rateCheckInterval } from "@/lib/data/constants"
-import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
+} from '@/lib/data/currencies'
+import { rateCheckInterval } from '@/lib/data/constants'
+import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers'
 
 import type {
   IChain,
   IMerchant
-} from "@/lib/backend/ecommerce/types.backend.ecommerce"
-import type { Option } from "@/components/common/input-select/types"
+} from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type { Option } from '@/components/common/input-select/types'
 import type {
   Blockchain,
   FiatRate
-} from "@/lib/backend/main/types.backend.main"
-import { setMerchantMode } from "@/lib/redux/ui"
+} from '@/lib/backend/main/types.backend.main'
+import { setMerchantMode } from '@/lib/redux/ui'
 
 const inputIds = {
-  get: "get",
-  send: "send",
-  blockchains: "blockchains"
+  get: 'get',
+  send: 'send',
+  blockchains: 'blockchains'
 }
 
 export const mapBlockchains = (
@@ -58,7 +58,7 @@ export const mapBlockchains = (
       value: blockchain.title,
       description: blockchain.title,
       icon: blockchain.logo,
-      chain_id: (blockchain as Object).hasOwnProperty("id")
+      chain_id: (blockchain as Object).hasOwnProperty('id')
         ? (blockchain as IChain).id
         : (blockchain as Blockchain).chain_id
     }
@@ -71,10 +71,10 @@ function Bill({ profile }: BillProps) {
     user: { mode },
     tokens: token_info
   } = profile
-  const { t } = useTranslation("profile-bill")
+  const { t } = useTranslation('profile-bill')
   const router = useRouter()
   const checkAuthorized = useAuthorized()
-  const isTRANSFER = mode == "TRANSFER"
+  const isTRANSFER = mode == 'TRANSFER'
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -111,8 +111,8 @@ function Bill({ profile }: BillProps) {
   const [ranges, setRanges] = useState<{ min: number; max: number } | null>(
     null
   )
-  const [inputError, setInputError] = useState("")
-  const [submitValue, setSubmitValue] = useState<string>(t("copyLink"))
+  const [inputError, setInputError] = useState('')
+  const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
 
   const [selectedChain, setSelectedChain] = useState<Option | undefined>(
     undefined
@@ -120,10 +120,10 @@ function Bill({ profile }: BillProps) {
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [get, setGet] = useState({
-    visible: "",
+    visible: '',
     actual: 0
   })
-  const [send, setSend] = useState("10000")
+  const [send, setSend] = useState('10000')
 
   const [getActive, setGetActive] = useState(false)
   const [getCurrencyActive, setGetCurrencyActive] = useState(false)
@@ -178,11 +178,11 @@ function Bill({ profile }: BillProps) {
     const sendAmount = resultNum * currentRate
 
     if (sendAmount < ranges.min) {
-      setInputError(t("minError", { min: ranges.min }))
+      setInputError(t('minError', { min: ranges.min }))
     } else if (sendAmount > ranges.max) {
-      setInputError(t("maxError", { max: ranges.max }))
+      setInputError(t('maxError', { max: ranges.max }))
     } else {
-      setInputError("")
+      setInputError('')
     }
 
     setSend(sendAmount.toFixed(2))
@@ -206,11 +206,11 @@ function Bill({ profile }: BillProps) {
     const resultNum = Number(result)
 
     if (resultNum < ranges.min) {
-      setInputError(t("minError", { min: ranges.min }))
+      setInputError(t('minError', { min: ranges.min }))
     } else if (resultNum > ranges.max) {
-      setInputError(t("maxError", { max: ranges.max }))
+      setInputError(t('maxError', { max: ranges.max }))
     } else {
-      setInputError("")
+      setInputError('')
     }
 
     const getAmount = resultNum / currentRate
@@ -257,7 +257,7 @@ function Bill({ profile }: BillProps) {
 
     setWaitingResponse(true)
 
-    setSubmitValue(t("loading"))
+    setSubmitValue(t('loading'))
 
     const response = await EcommerceClient.createBill({
       token,
@@ -267,29 +267,29 @@ function Bill({ profile }: BillProps) {
 
     setWaitingResponse(false)
 
-    if (response.state == "success") {
+    if (response.state == 'success') {
       const link =
         window.location.protocol +
-        "//" +
+        '//' +
         window.location.host +
         `/payment/${response.data.hash}`
 
-      if ("clipboard" in navigator) {
+      if ('clipboard' in navigator) {
         navigator.clipboard.writeText(link)
 
-        setSubmitValue(t("copied"))
+        setSubmitValue(t('copied'))
 
         setTimeout(() => {
-          setSubmitValue(t("copyLink"))
+          setSubmitValue(t('copyLink'))
           copyTimeout.current = null
         }, 2000)
       } else {
         setLinkModalProps({ open: true, link })
 
-        setSubmitValue(t("copyLink"))
+        setSubmitValue(t('copyLink'))
       }
     } else {
-      setSubmitValue(t("copyLink"))
+      setSubmitValue(t('copyLink'))
     }
   }
 
@@ -310,14 +310,14 @@ function Bill({ profile }: BillProps) {
         })
       ])
 
-      if (responses[0].state == "success") {
+      if (responses[0].state == 'success') {
         setRates(responses[0].data)
       }
 
-      if (responses[1].state == "success") {
+      if (responses[1].state == 'success') {
         const fiatProviders = responses[1].data
         const buyProviders = fiatProviders.filter(
-          (provider) => provider.type == "BUY"
+          (provider) => provider.type == 'BUY'
         )
 
         if (buyProviders.length != 0) {
@@ -348,7 +348,7 @@ function Bill({ profile }: BillProps) {
       value: currency,
       description: mapCurrencyName(currency),
       shortDescription:
-        mapShortCurrencyName(currency) + " " + mapCurrency(currency)
+        mapShortCurrencyName(currency) + ' ' + mapCurrency(currency)
     }))
 
     if (mappedCurrencies.length > 0) {
@@ -456,13 +456,13 @@ function Bill({ profile }: BillProps) {
       )}
       <CryptoManager getToken />
       <Container>
-        <Paragraph>{t("p1")}</Paragraph>
+        <Paragraph>{t('p1')}</Paragraph>
         <List>
-          <Item>{t("item1")}</Item>
-          <Item>{t("item2")}</Item>
-          <Item>{t("item3")}</Item>
+          <Item>{t('item1')}</Item>
+          <Item>{t('item2')}</Item>
+          <Item>{t('item3')}</Item>
         </List>
-        <Paragraph>{t("p2")}</Paragraph>
+        <Paragraph>{t('p2')}</Paragraph>
         <FormContainer>
           <Form
             getActive={getActive || getCurrencyActive}
@@ -470,11 +470,11 @@ function Bill({ profile }: BillProps) {
           >
             <FormContent>
               <FormHeading>
-                {loading ? <Skeleton /> : t("formHeading")}
+                {loading ? <Skeleton /> : t('formHeading')}
               </FormHeading>
               {!loading ? (
                 <InputSelect
-                  label={t("blockchain")}
+                  label={t('blockchain')}
                   id={inputIds.blockchains}
                   options={
                     blockchains && !isTRANSFER
@@ -492,7 +492,7 @@ function Bill({ profile }: BillProps) {
               <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
-                    label={isTRANSFER ? t("give") : t("get")}
+                    label={isTRANSFER ? t('give') : t('get')}
                     id={inputIds.get}
                     options={tokens ? tokens : undefined}
                     onChange={handleGet}
@@ -514,14 +514,14 @@ function Bill({ profile }: BillProps) {
                       currency={selectedCurrency}
                       rate={currentRate}
                       isLoading={loading}
-                      placeholder={t("allIncluded")}
+                      placeholder={t('allIncluded')}
                       text=""
                     />
                   </ExchangeInfoWrapper>
                   <HideableWithMargin hide={false} margins>
                     {!loading ? (
                       <InputSelect
-                        label={t("send", {
+                        label={t('send', {
                           min: ranges.min,
                           max: ranges.max
                         })}
@@ -531,7 +531,7 @@ function Bill({ profile }: BillProps) {
                         value={send}
                         selectedValue={selectedCurrency}
                         selectable={!!currencies && currencies.length > 1}
-                        error={inputError == "" ? undefined : inputError}
+                        error={inputError == '' ? undefined : inputError}
                         changeable
                         onlyNumbers
                         onSelect={(val) => setSelectedCurrency(val)}
@@ -551,7 +551,7 @@ function Bill({ profile }: BillProps) {
               !getActive && (
                 <Button
                   type="submit"
-                  disabled={get.visible == "" || send == "" || waitingResponse}
+                  disabled={get.visible == '' || send == '' || waitingResponse}
                 >
                   {submitValue}
                 </Button>

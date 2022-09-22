@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from "react"
-import styled from "styled-components"
-import Popup from "./popup"
-import Button from "./button"
+import React, { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
+import Popup from './popup'
+import Button from './button'
 
 const Container = styled.div`
   position: relative;
 `
 
 type ConfigureProps = {
-  direction?: "top" | "down"
+  direction?: 'top' | 'down'
 }
 
-const Configure: React.FC<ConfigureProps> = ({ direction = "down" }) => {
+const Configure = ({ direction = 'down' }: ConfigureProps) => {
   const [popupWidth, setPopupWidth] = useState(0)
   const [buttonWidth, setButtonWidth] = useState(0)
 

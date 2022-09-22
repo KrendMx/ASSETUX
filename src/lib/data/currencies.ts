@@ -1,15 +1,15 @@
-import { AppDispatch } from "../redux/store"
-import { setCurrentCurrency } from "@/lib/redux/ui"
-import { locales } from "./locales"
+import { AppDispatch } from '../redux/store'
+import { setCurrentCurrency } from '@/lib/redux/ui'
+import { locales } from './locales'
 
-export const currencies = ["RUB"] as const
+export const currencies = ['RUB'] as const
 
 export type CurrenciesType = typeof currencies[number]
 
 export const mapCurrency = (currency: CurrenciesType) => {
   switch (currency) {
-    case "RUB":
-      return "₽"
+    case 'RUB':
+      return '₽'
     // case "UAH":
     //   return "₴"
   }
@@ -17,8 +17,8 @@ export const mapCurrency = (currency: CurrenciesType) => {
 
 export const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
-    case "RUB":
-      return "Rus"
+    case 'RUB':
+      return 'Rus'
     // case "UAH":
     //   return "Ukr"
   }
@@ -26,8 +26,8 @@ export const mapShortCurrencyName = (currency: CurrenciesType) => {
 
 export const mapCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
-    case "RUB":
-      return "Russian Ruble"
+    case 'RUB':
+      return 'Russian Ruble'
     // case "UAH":
     //   return "Ukrainian hryvnia"
   }
@@ -50,14 +50,14 @@ export const isCurrencyDeclared = (
 }
 
 export const checkCurrency = (dispatch: AppDispatch) => {
-  const savedCurrency = window.localStorage.getItem("currency")
+  const savedCurrency = window.localStorage.getItem('currency')
 
   if (savedCurrency) {
     if (isCurrencyDeclared(savedCurrency)) {
       dispatch(setCurrentCurrency(savedCurrency))
     }
   } else {
-    if ("language" in navigator) {
+    if ('language' in navigator) {
       const userLocale = navigator.language
 
       for (const locale of locales) {

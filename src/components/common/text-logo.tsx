@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import React from 'react'
+import styled from 'styled-components'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import Logo from "./logo"
-import { env } from "@/lib/env/client.mjs"
+import Logo from './logo'
+import { env } from '@/lib/env/client.mjs'
 
 const LogoLink = styled.a`
   display: flex;
@@ -28,7 +28,7 @@ const ColoredLogoText = styled.span`
   color: #191919;
 `
 
-const Content: React.FC = () => (
+const Content = () => (
   <>
     <Logo width={45} height={45} />
     <LogoText>
@@ -38,9 +38,9 @@ const Content: React.FC = () => (
   </>
 )
 
-const TextLogo: React.FC = () => {
+const TextLogo = () => {
   const router = useRouter()
-  const isCommercePage = router.pathname.startsWith("/profile")
+  const isCommercePage = router.pathname.startsWith('/profile')
 
   return !env.isStage && isCommercePage ? (
     <LogoLink href="https://assetux.com">

@@ -1,1 +1,1 @@
-export { default } from "./crypto-explorer"
+export { default } from './crypto-explorer'
