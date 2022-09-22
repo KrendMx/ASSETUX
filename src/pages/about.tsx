@@ -15,7 +15,7 @@ import { BackendClient } from "@/lib/backend/clients"
 import { getDefaultMetaTags } from "@/lib/utils/seo"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/lib/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types.backend.main"
 
 const Container = styled(BaseContainer)`
   padding: 5.1em 0;

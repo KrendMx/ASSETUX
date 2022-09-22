@@ -19,7 +19,7 @@ import type {
   ICreatePaymentProps,
   CreatePaymentResponse,
   MerchantBillResponse
-} from "./types"
+} from "./types.backend.ecommerce"
 import { CurrenciesType } from "@/lib/data/currencies"
 import { ActionType } from "@/lib/redux/crypto/types"
 

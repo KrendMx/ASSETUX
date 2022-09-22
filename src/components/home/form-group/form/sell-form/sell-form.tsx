@@ -20,7 +20,7 @@ import type {
   FiatProvider,
   Blockchain,
   Token
-} from "@/lib/backend/main/types"
+} from "@/lib/backend/main/types.backend.main"
 import type { RequestState } from "@/core/backend/types"
 import type { ExchangeInfo } from "./select-form/types"
 import type { CurrenciesType } from "@/lib/data/currencies"

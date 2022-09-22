@@ -15,7 +15,7 @@ import Search from "@/components/common/search"
 import Pages from "@/components/common/pagination"
 import { Container, NoAssets, ControlsRow } from "./styles"
 
-import type { IMerchant } from "@/lib/backend/ecommerce/types"
+import type { IMerchant } from "@/lib/backend/ecommerce/types.backend.ecommerce"
 import { setMerchantMode } from "@/lib/redux/ui"
 import { PayProviders, QIWI } from "@/core/backend/types"
 import { cardNames, tableHeadings } from "./mock"

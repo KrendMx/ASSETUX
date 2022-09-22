@@ -1,4 +1,4 @@
-import { MerchantMode } from "@/lib/backend/ecommerce/types"
+import { MerchantMode } from "@/lib/backend/ecommerce/types.backend.ecommerce"
 import { TFunction } from "next-i18next"
 
 const ternarSort = (a: string, b: string) => (a > b ? -1 : a < b ? 1 : 0)

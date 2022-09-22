@@ -1,4 +1,4 @@
-import type { Blockchain, Token } from "@/lib/backend/main/types"
+import type { Blockchain, Token } from "@/lib/backend/main/types.backend.main"
 import type { ExplorerData } from "@/components/common/crypto-manager/types.crypto-manager"
 
 export type ActionType = "BUY" | "SELL"

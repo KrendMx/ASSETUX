@@ -19,7 +19,7 @@ import {
   SubHeading
 } from "./styles"
 
-function Info() {
+const Info = () => {
   const router = useRouter()
   const showSkeleton = useAppSelector(selectShowSkeleton)
   const { t } = useTranslation("home")

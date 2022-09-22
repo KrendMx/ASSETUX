@@ -36,7 +36,7 @@ import type {
   FindPostResponse,
   CreateFeedbackProps,
   GetTokensProps
-} from "./types"
+} from "./types.backend.main"
 
 class BackendClient extends Client {
   private apiKey = ""

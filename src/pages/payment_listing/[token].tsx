@@ -8,9 +8,9 @@ import { getEcommercePrefix } from "@/lib/utils/helpers"
 import type { GetServerSideProps } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { PaymentProps } from "@/components/profile/payment"
-import { MerchantData } from "@/lib/backend/ecommerce/types"
+import { MerchantData } from "@/lib/backend/ecommerce/types.backend.ecommerce"
 import ListingPayment from "@/components/profile/payment/listing_payment"
-import { FiatRate } from "@/lib/backend/main/types"
+import { FiatRate } from "@/lib/backend/main/types.backend.main"
 
 function Payment(props: PaymentProps<MerchantData, FiatRate>) {
   const { t } = useTranslation("profile-payment")

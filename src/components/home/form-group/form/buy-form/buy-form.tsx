@@ -17,7 +17,7 @@ import type {
   FiatProvider,
   Blockchain,
   Token
-} from "@/lib/backend/main/types"
+} from "@/lib/backend/main/types.backend.main"
 import type { CurrenciesType } from "@/lib/data/currencies"
 
 type BuyFormProps = {

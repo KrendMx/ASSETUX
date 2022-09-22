@@ -8,12 +8,15 @@ import ControlRow from "@/components/common/control-row"
 import MainBlock from "./main-block"
 import Pages from "@/components/common/pagination"
 
-import { postCategories } from "@/lib/backend/main/types"
+import { postCategories } from "@/lib/backend/main/types.backend.main"
 import { mobile, mobileLayoutForTablet } from "@/lib/data/constants"
 import { BackendClient } from "@/lib/backend/clients"
 import { useDebounce, usePrevious } from "@/lib/hooks"
 
-import type { PostData, PostCategory } from "@/lib/backend/main/types"
+import type {
+  PostData,
+  PostCategory
+} from "@/lib/backend/main/types.backend.main"
 
 const Container = styled(BaseContainer)`
   font-size: 1rem;

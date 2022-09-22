@@ -10,8 +10,8 @@ import { getEcommercePrefix } from "@/lib/utils/helpers"
 
 import type { GetServerSideProps } from "next"
 import type { PaymentProps } from "@/components/profile/payment"
-import { IEcommerceBill } from "@/lib/backend/ecommerce/types"
-import { FiatRate } from "@/lib/backend/main/types"
+import { IEcommerceBill } from "@/lib/backend/ecommerce/types.backend.ecommerce"
+import { FiatRate } from "@/lib/backend/main/types.backend.main"
 
 function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
   const { t } = useTranslation("profile-payment")

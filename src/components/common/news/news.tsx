@@ -11,7 +11,7 @@ import Slider from "@/components/common/slider"
 import Element from "./element"
 import { Container, MoreLink, Row, SliderContainer } from "./styles"
 
-import type { PostData } from "@/lib/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types.backend.main"
 
 type NewsProps = {
   news: PostData[]

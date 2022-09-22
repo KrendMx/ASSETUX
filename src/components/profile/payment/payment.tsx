@@ -30,8 +30,11 @@ import { emailRegexp } from "@/lib/data/constants"
 import { stringToPieces } from "@/lib/utils/helpers"
 import { env } from "@/lib/env/client.mjs"
 
-import type { IEcommerceBill } from "@/lib/backend/ecommerce/types"
-import type { FiatProvider, FiatRate } from "@/lib/backend/main/types"
+import type { IEcommerceBill } from "@/lib/backend/ecommerce/types.backend.ecommerce"
+import type {
+  FiatProvider,
+  FiatRate
+} from "@/lib/backend/main/types.backend.main"
 import type { Option } from "@/components/common/input-select/types"
 import { useAppSelector } from "@/lib/redux/hooks"
 import { validatePhone } from "@/lib/backend/helpers"

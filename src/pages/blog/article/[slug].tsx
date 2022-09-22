@@ -10,7 +10,7 @@ import { getDefaultMetaTags } from "@/lib/utils/seo"
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
 import type { ArticleProps } from "@/components/blog/article"
-import type { PostData } from "@/lib/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types.backend.main"
 
 function Article(props: ArticleProps) {
   return (

@@ -3,7 +3,6 @@ import React, { useEffect, useState, useMemo } from "react"
 import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks"
 import { setSelectedSellToken, setSelectedToken } from "@/lib/redux/crypto"
 import { BackendClient } from "@/lib/backend/clients"
-import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 
 import SellForm from "./sell-form"
 import BuyForm from "./buy-form"
@@ -17,29 +16,17 @@ import {
 } from "@/lib/data/currencies"
 import { rateCheckInterval } from "@/lib/data/constants"
 
-import type { TokenOption } from "./types"
 import type {
   Token,
   FiatProvider,
   FiatRate,
   LiquidityData,
   Blockchain
-} from "@/lib/backend/main/types"
+} from "@/lib/backend/main/types.backend.main"
 import { mapBlockchains } from "@/components/profile/bill/bill"
-import { IMerchantToken } from "@/lib/backend/ecommerce/types"
+import { mapTokens } from "@/lib/helpers.global"
 
-export const mapTokens = (tokens: Token[] | IMerchantToken[]): TokenOption[] =>
-  tokens
-    // .filter((token) => token.enabled)
-    .map((token) => ({
-      value: token.symbol,
-      icon: token.logo_uri,
-      description: token.name,
-      shortDescription: token.name,
-      address: token.address
-    }))
-
-function FormController() {
+const FormController = () => {
   const dispatch = useAppDispatch()
 
   const selectedBlockchain = useAppSelector(
@@ -212,6 +199,7 @@ function FormController() {
         )
     )
   }, [sellPayments, buyPayments])
+
   return action == "BUY" ? (
     <BuyForm
       blockchains={blockchains}

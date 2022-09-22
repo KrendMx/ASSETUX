@@ -1,4 +1,4 @@
-import { MerchantMode } from "./backend/ecommerce/types.js"
+import { MerchantMode } from "./backend/ecommerce/types.backend.ecommerce.js"
 import { CurrenciesType } from "./data/currencies.js"
 import { env } from "./env/client.mjs"
 import { getEcommercePrefix } from "./utils/helpers"

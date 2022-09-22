@@ -34,7 +34,7 @@ type ElementProps = {
   onSell?: () => void
 }
 
-function Element({
+const Element = ({
   icon,
   symbol,
   price,
@@ -42,7 +42,7 @@ function Element({
   marketHistory,
   onBuy,
   onSell
-}: ElementProps) {
+}: ElementProps) => {
   const { t } = useTranslation("home")
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)

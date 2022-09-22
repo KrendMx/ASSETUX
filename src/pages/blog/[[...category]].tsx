@@ -9,12 +9,12 @@ import { BackendClient } from "@/lib/backend/clients"
 import {
   postCategories,
   isPostCategoryDeclared
-} from "@/lib/backend/main/types"
+} from "@/lib/backend/main/types.backend.main"
 import { getDefaultMetaTags } from "@/lib/utils/seo"
 
 import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from "next"
 import type { ParsedUrlQuery } from "querystring"
-import type { PostCategory } from "@/lib/backend/main/types"
+import type { PostCategory } from "@/lib/backend/main/types.backend.main"
 import type { BlogProps } from "@/components/blog"
 
 function Blog(props: BlogProps) {

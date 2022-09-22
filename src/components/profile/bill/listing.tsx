@@ -32,7 +32,7 @@ import {
 import { rateCheckInterval } from "@/lib/data/constants"
 import { validateDecimal, getEcommercePrefix } from "@/lib/utils/helpers"
 
-import type { IMerchant } from "@/lib/backend/ecommerce/types"
+import type { IMerchant } from "@/lib/backend/ecommerce/types.backend.ecommerce"
 import type { Option } from "@/components/common/input-select/types"
 import { setMerchantMode } from "@/lib/redux/ui"
 import { env } from "@/lib/env/client.mjs"

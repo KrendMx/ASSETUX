@@ -43,7 +43,7 @@ const Container = styled.section`
   }
 `
 
-function FormGroup() {
+const FormGroup = () => {
   return (
     <Container>
       <Info />

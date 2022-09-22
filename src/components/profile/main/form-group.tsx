@@ -21,7 +21,10 @@ import { EcommerceClient } from "@/lib/backend/clients"
 import { toBase64, getEcommercePrefix } from "@/lib/utils/helpers"
 import { useAuthorized } from "@/lib/hooks"
 
-import type { IMerchant, UserImage } from "@/lib/backend/ecommerce/types"
+import type {
+  IMerchant,
+  UserImage
+} from "@/lib/backend/ecommerce/types.backend.ecommerce"
 import type { RequestState } from "@/core/backend/types"
 import { setMerchantMode } from "@/lib/redux/ui"
 import { useAppDispatch } from "@/lib/redux/hooks"

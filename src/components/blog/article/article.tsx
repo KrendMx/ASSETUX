@@ -20,7 +20,7 @@ import { getFormattedDate } from "@/lib/utils/date"
 import { BackendClient } from "@/lib/backend/clients"
 import { sanitize } from "@/lib/utils/helpers"
 
-import type { PostData } from "@/lib/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types.backend.main"
 
 export type ArticleProps = {
   data: PostData

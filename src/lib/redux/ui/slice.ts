@@ -4,7 +4,7 @@ import { HYDRATE } from "next-redux-wrapper"
 import type { CurrenciesType } from "@/lib/data/currencies"
 import type { RootState } from "../store"
 import type { UiState } from "./types"
-import { MerchantMode } from "@/lib/backend/ecommerce/types"
+import { MerchantMode } from "@/lib/backend/ecommerce/types.backend.ecommerce"
 
 const hydrate = createAction<RootState>(HYDRATE)
 

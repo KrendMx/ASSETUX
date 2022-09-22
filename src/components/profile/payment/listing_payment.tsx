@@ -30,11 +30,9 @@ import { emailRegexp } from "@/lib/data/constants"
 import { stringToPieces } from "@/lib/utils/helpers"
 import { env } from "@/lib/env/client.mjs"
 
-import type { MerchantData } from "@/lib/backend/ecommerce/types"
-import type { FiatRate } from "@/lib/backend/main/types"
+import type { MerchantData } from "@/lib/backend/ecommerce/types.backend.ecommerce"
+import type { FiatRate } from "@/lib/backend/main/types.backend.main"
 import type { Option } from "@/components/common/input-select/types"
-import NetworkRow from "@/components/home/form-group/form/common/network-row"
-import { mapTokens } from "@/components/home/form-group/form/form-controller"
 import { useAppSelector } from "@/lib/redux/hooks"
 import ExchangeInfo from "@/components/common/exchange-info"
 import { PaymentProps } from "./payment"
@@ -42,6 +40,7 @@ import { useIsomorphicLayoutEffect } from "@/lib/hooks"
 import { validatePhone } from "@/lib/backend/helpers"
 import { VISAMASTER } from "@/core/backend/types"
 import { mapBlockchains } from "../bill/bill"
+import { mapTokens } from "@/lib/helpers.global"
 
 const inputIds = {
   email: "email",

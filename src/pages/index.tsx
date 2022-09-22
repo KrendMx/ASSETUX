@@ -20,7 +20,7 @@ import { getDefaultMetaTags } from "@/lib/utils/seo"
 import { BackendClient } from "@/lib/backend/clients"
 
 import type { GetStaticProps } from "next"
-import type { PostData } from "@/lib/backend/main/types"
+import type { PostData } from "@/lib/backend/main/types.backend.main"
 
 const CryptoSlide = dynamic(() => import("@/components/home/crypto-slide"))
 const CryptoExplorer = dynamic(
