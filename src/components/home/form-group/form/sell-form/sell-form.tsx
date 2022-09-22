@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-
+// need refactor
 import { useIsomorphicLayoutEffect } from '@/lib/hooks'
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import {
@@ -38,7 +38,7 @@ type SellFormProps = {
   onTokenChange: (token: string) => void
 }
 
-function SellForm({
+const SellForm = ({
   currentBlockchain,
   currentToken,
   currentCurrency,
@@ -49,7 +49,7 @@ function SellForm({
   payments,
   serviceAvailable,
   onTokenChange
-}: SellFormProps) {
+}: SellFormProps) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
 

@@ -42,7 +42,7 @@ type HeadingRowProps = {
   id: string
 }
 
-function HeadingRow({ heading, id }: HeadingRowProps) {
+const HeadingRow = ({ heading, id }: HeadingRowProps) => {
   return (
     <Container>
       <Heading>{heading}</Heading>

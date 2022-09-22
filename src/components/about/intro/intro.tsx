@@ -18,7 +18,7 @@ import {
   SkeletonImageContainer
 } from './styles'
 
-function Intro() {
+const Intro = () => {
   const { t } = useTranslation('about')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)

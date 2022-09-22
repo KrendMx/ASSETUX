@@ -1,9 +1,17 @@
 {
   "extends": ["next/core-web-vitals", "prettier"],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "prefer-arrow"],
   "rules": {
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
-    "prettier/prettier": ["warn", { "endOfLine": "auto" }]
+    "prettier/prettier": ["warn", { "endOfLine": "auto" }],
+    "prefer-arrow/prefer-arrow-functions": [
+      "warn",
+      {
+        "disallowPrototype": true,
+        "singleReturnOnly": false,
+        "classPropertiesAllowed": false
+      }
+    ]
   }
 }

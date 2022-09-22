@@ -42,7 +42,7 @@ import { useAppSelector } from '@/lib/redux/hooks'
 import { stringToPieces, validateDecimal } from '@/lib/utils/helpers'
 import { Step } from './steps'
 import { mapCurrencyName, isCurrencyDeclared } from '@/lib/data/currencies'
-
+// need refactor
 import type { Error, SelectFormProps } from './types'
 import type { Option } from '@/components/common/input-select/types'
 
@@ -56,7 +56,7 @@ const inputIds = {
   email: 'email'
 }
 
-function SelectForm({
+const SelectForm = ({
   loadingOrder,
   processingRequest,
   currentBlockchain,
@@ -93,7 +93,7 @@ function SelectForm({
   onRefundRequest,
   getRefundAmounts,
   onReview
-}: SelectFormProps) {
+}: SelectFormProps) => {
   const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})

@@ -17,7 +17,7 @@ type CodeProps = {
   onAccept?: (code: string) => void
 }
 
-function Code({ isLoading, onCancel, onAccept }: CodeProps) {
+const Code = ({ isLoading, onCancel, onAccept }: CodeProps) => {
   const { t } = useTranslation('home')
 
   const [code, setCode] = useState('')

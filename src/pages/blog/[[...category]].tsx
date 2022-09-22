@@ -17,7 +17,7 @@ import type { ParsedUrlQuery } from 'querystring'
 import type { PostCategory } from '@/lib/backend/main/types.backend.main'
 import type { BlogProps } from '@/components/blog'
 
-function Blog(props: BlogProps) {
+const Blog = (props: BlogProps) => {
   const { t } = useTranslation('news')
 
   return (
@@ -95,7 +95,7 @@ export const getStaticProps: GetStaticProps<
 
 export const getStaticPaths: GetStaticPaths = ({ locales }) => {
   const paths: GetStaticPathsResult['paths'] = []
-
+  // need refactor
   postCategories.forEach((category) => {
     locales!.forEach((locale) => {
       paths.push({

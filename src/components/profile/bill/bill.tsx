@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import Skeleton from 'react-loading-skeleton'
-
+// need refactor
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 import { useIsomorphicLayoutEffect, useAuthorized } from '@/lib/hooks'
 
@@ -66,7 +66,7 @@ export const mapBlockchains = (
 
 export type BillProps = { profile: IMerchant }
 
-function Bill({ profile }: BillProps) {
+const Bill = ({ profile }: BillProps) => {
   const {
     user: { mode },
     tokens: token_info

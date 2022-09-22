@@ -23,7 +23,7 @@ type CopyProps = {
   valueToCopy?: string
 }
 
-function Copy({ label, valueToCopy }: CopyProps) {
+const Copy = ({ label, valueToCopy }: CopyProps) => {
   const { t } = useTranslation('common')
   const [labelValue, setLabelValue] = useState(label)
 

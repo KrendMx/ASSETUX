@@ -13,7 +13,7 @@ type LanguagesProps = {
   onClick: () => void
 }
 
-function Languages({ onClick }: LanguagesProps) {
+const Languages = ({ onClick }: LanguagesProps) => {
   const router = useRouter()
   const { locale: currentLocale } = router
 

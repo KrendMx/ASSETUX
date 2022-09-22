@@ -31,7 +31,7 @@ const ColoredInfo = styled(Info)`
   color: #6e6e73;
 `
 
-function Maintenance() {
+const Maintenance = () => {
   const { t } = useTranslation('home')
 
   return (

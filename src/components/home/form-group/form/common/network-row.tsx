@@ -67,7 +67,7 @@ type NetworkRowProps = {
   isLoading: boolean
 }
 
-function NetworkRow({ isLoading }: NetworkRowProps) {
+const NetworkRow = ({ isLoading }: NetworkRowProps) => {
   const { t } = useTranslation('home')
 
   const [hovered, setHovered] = useState(false)

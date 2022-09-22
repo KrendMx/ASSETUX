@@ -59,8 +59,8 @@ const LoginWrapper = styled.div`
     margin-bottom: 0;
   }
 `
-
-function LoginContainer() {
+// need refactor
+const LoginContainer = () => {
   const router = useRouter()
   const { t } = useTranslation('profile-login')
 

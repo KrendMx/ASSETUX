@@ -23,7 +23,7 @@ type RefundModalProps = {
   onAccept?: () => void
 }
 
-function RefundModal({
+const RefundModal = ({
   sentToken,
   getToken,
   sentValue,
@@ -31,7 +31,7 @@ function RefundModal({
   isLoading,
   onCancel,
   onAccept
-}: RefundModalProps) {
+}: RefundModalProps) => {
   const { t } = useTranslation('home')
 
   if (!sentToken || !getToken) {

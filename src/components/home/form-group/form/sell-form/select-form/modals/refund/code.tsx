@@ -17,11 +17,11 @@ type RefundCodeModalProps = {
   onAccept?: (code: string) => void
 }
 
-function RefundCodeModal({
+const RefundCodeModal = ({
   isLoading,
   onCancel,
   onAccept
-}: RefundCodeModalProps) {
+}: RefundCodeModalProps) => {
   const { t } = useTranslation('home')
 
   const [code, setCode] = useState('')

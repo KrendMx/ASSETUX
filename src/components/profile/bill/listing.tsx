@@ -42,10 +42,10 @@ const inputIds = {
   send: 'send',
   blockchains: 'blockchains'
 }
-
+// need refactor
 export type BillProps = { profile: IMerchant }
 
-function ListingComponent({ profile }: BillProps) {
+const ListingComponent = ({ profile }: BillProps) => {
   const {
     user: { mode },
     tokens

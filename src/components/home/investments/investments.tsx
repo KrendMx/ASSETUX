@@ -21,7 +21,7 @@ import DefaultModal from '@/components/common/modals/default-modal'
 import AbsoluteSkeletonContainer from '@/components/common/absolute-skeleton-container'
 import InvestmentsSlider from '@/components/common/sliders/investments'
 
-function Investments() {
+const Investments = () => {
   const { t } = useTranslation('home')
 
   const [displayModal, setDisplayModal] = useState(false)

@@ -13,7 +13,7 @@ import type { PaymentProps } from '@/components/profile/payment'
 import { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import { FiatRate } from '@/lib/backend/main/types.backend.main'
 
-function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
+const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const { t } = useTranslation('profile-payment')
 
   return (

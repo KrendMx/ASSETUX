@@ -16,7 +16,7 @@ type RefundWalletModalProps = {
   onAccept?: (wallet: string) => void
 }
 
-function RefundWalletModal({ onCancel, onAccept }: RefundWalletModalProps) {
+const RefundWalletModal = ({ onCancel, onAccept }: RefundWalletModalProps) => {
   const { t } = useTranslation('home')
 
   const [wallet, setWallet] = useState('')

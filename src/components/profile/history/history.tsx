@@ -37,12 +37,12 @@ export type HistoryProps = {
   history: HistoryType[]
 }
 
-function History({
+const History = ({
   history,
   profile: {
     user: { mode }
   }
-}: HistoryProps) {
+}: HistoryProps) => {
   const isMobile = useImmediateMobile()
   const displayCards = useImmediateMobile(cardsWidth)
   const { t } = useTranslation('profile-history')

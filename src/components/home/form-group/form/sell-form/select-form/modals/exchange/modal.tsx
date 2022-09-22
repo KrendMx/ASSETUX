@@ -23,7 +23,7 @@ type ExchangeModalProps = {
   onAccept?: () => void
 }
 
-function ExchangeModal({
+const ExchangeModal = ({
   sentToken,
   getToken,
   sentValue,
@@ -31,7 +31,7 @@ function ExchangeModal({
   isLoading,
   onCancel,
   onAccept
-}: ExchangeModalProps) {
+}: ExchangeModalProps) => {
   const { t } = useTranslation('home')
 
   if (!sentToken || !getToken) {

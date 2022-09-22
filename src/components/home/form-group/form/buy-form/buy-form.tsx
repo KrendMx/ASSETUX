@@ -33,7 +33,7 @@ type BuyFormProps = {
   onTokenChange: (token: string) => void
 }
 
-function BuyForm({
+const BuyForm = ({
   currentBlockchain,
   currentToken,
   currentCurrency,
@@ -44,7 +44,7 @@ function BuyForm({
   payments,
   serviceAvailable,
   onTokenChange
-}: BuyFormProps) {
+}: BuyFormProps) => {
   const dispatch = useAppDispatch()
 
   const [currentStep, setCurrentStep] = useState(Step.Details)

@@ -13,7 +13,7 @@ import type { BillProps } from '@/components/profile/bill'
 import ListingComponent from '@/components/profile/bill/listing'
 import { Wrapper } from '@/components/profile/bill/styles'
 
-function Bill(props: BillProps) {
+const Bill = (props: BillProps) => {
   const { t } = useTranslation('profile-bill')
 
   return (

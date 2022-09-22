@@ -19,7 +19,7 @@ import type {
 
 let prevSelectedBlockchainId: number | null = null
 
-function CryptoManager({ getToken, getChart }: CryptoManagerProps) {
+const CryptoManager = ({ getToken, getChart }: CryptoManagerProps) => {
   const dispatch = useAppDispatch()
   const selectedBlockchain = useAppSelector(
     (state) => state.crypto.selectedBlockchain

@@ -37,7 +37,7 @@ const FormContainer = styled(AdaptiveFont).attrs({
   background-color: var(--bgColor);
 `
 
-function Form() {
+const Form = () => {
   return (
     <Container>
       <Buttons />

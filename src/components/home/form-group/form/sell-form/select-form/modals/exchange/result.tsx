@@ -18,7 +18,7 @@ type ResultModalProps = {
   onAccept?: () => void
 }
 
-function ResultModal({ getToken, getValue, onAccept }: ResultModalProps) {
+const ResultModal = ({ getToken, getValue, onAccept }: ResultModalProps) => {
   const { t } = useTranslation('home')
 
   if (!getToken) {

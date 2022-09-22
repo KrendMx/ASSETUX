@@ -77,10 +77,11 @@ export const checkCurrency = (dispatch: AppDispatch) => {
   }
 }
 
-function map() {
+const map = () => {
   for (let i = 0; i < locales.length; i++) {
     localeToCurrencyTable[locales[i]] = currencies[i]
   }
 }
 
 map()
+// need refactor

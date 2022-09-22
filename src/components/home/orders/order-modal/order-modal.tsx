@@ -141,7 +141,7 @@ type OrderModalProps = {
   onClose?: () => void
 }
 
-function OrderModal({ orders, email, onClose }: OrderModalProps) {
+const OrderModal = ({ orders, email, onClose }: OrderModalProps) => {
   const { t } = useTranslation('home')
   const router = useRouter()
 

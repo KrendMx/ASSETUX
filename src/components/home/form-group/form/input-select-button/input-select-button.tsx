@@ -8,7 +8,11 @@ type InputSelectButtonProps = {
   onClick?: () => void
 }
 
-function InputSelectButton({ value, label, onClick }: InputSelectButtonProps) {
+const InputSelectButton = ({
+  value,
+  label,
+  onClick
+}: InputSelectButtonProps) => {
   return (
     <Button onClick={onClick}>
       <Label>{label}</Label>

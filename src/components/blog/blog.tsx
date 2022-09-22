@@ -69,7 +69,7 @@ export type BlogProps = {
   category: PostCategory
 }
 
-function Blog({ pinnedPost, posts, totalPages, category }: BlogProps) {
+const Blog = ({ pinnedPost, posts, totalPages, category }: BlogProps) => {
   const { t } = useTranslation('news')
   const router = useRouter()
 

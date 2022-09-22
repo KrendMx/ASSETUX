@@ -19,7 +19,7 @@ import {
 
 import { Telegram, Email } from './icons'
 
-function Contacts() {
+const Contacts = () => {
   const { t } = useTranslation('about')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)

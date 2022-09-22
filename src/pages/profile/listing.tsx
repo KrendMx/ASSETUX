@@ -22,7 +22,7 @@ const Container = styled(BaseContainer)`
   min-height: calc(100vh - var(--header-height));
 `
 
-function Listing(props: BillProps) {
+const Listing = (props: BillProps) => {
   const { t } = useTranslation('profile-listing')
 
   return (

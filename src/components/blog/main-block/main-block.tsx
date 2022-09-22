@@ -10,7 +10,7 @@ type MainBlockProps = {
   posts: PostData[]
 }
 
-function MainBlock({ pinnedPost, posts }: MainBlockProps) {
+const MainBlock = ({ pinnedPost, posts }: MainBlockProps) => {
   return (
     <Container hasPinned={pinnedPost != null}>
       {pinnedPost != null && (

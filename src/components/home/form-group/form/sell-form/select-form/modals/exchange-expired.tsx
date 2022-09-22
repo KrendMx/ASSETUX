@@ -46,7 +46,7 @@ type ExchangeExpiredProps = {
   orderId: string
 }
 
-function ExchangeExpired({
+const ExchangeExpired = ({
   onAccept,
   getValue,
   getToken,
@@ -55,7 +55,7 @@ function ExchangeExpired({
   rate,
   minimalAmount,
   orderId
-}: ExchangeExpiredProps) {
+}: ExchangeExpiredProps) => {
   const { t } = useTranslation('home')
   const [review, setReview] = useState('')
 

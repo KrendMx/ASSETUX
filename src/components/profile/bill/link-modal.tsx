@@ -24,7 +24,7 @@ type LinkModalProps = {
   onAccept?: () => void
 }
 
-function LinkModal({ link, onAccept }: LinkModalProps) {
+const LinkModal = ({ link, onAccept }: LinkModalProps) => {
   const { t } = useTranslation('profile-bill')
 
   return (

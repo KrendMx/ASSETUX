@@ -12,7 +12,7 @@ import { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import ListingPayment from '@/components/profile/payment/listing_payment'
 import { FiatRate } from '@/lib/backend/main/types.backend.main'
 
-function Payment(props: PaymentProps<MerchantData, FiatRate>) {
+const Payment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const { t } = useTranslation('profile-payment')
   const { token, widget } = props.bill
 
@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps<
   if (bill.state != 'success') {
     return errorProps
   }
-
+  // need refactor
   const merchantBill = bill.data
 
   const blockchains = await BackendClient.getBlockchains()

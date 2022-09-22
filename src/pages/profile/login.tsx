@@ -8,7 +8,7 @@ import { getEcommercePrefix } from '@/lib/utils/helpers'
 
 import type { GetStaticProps } from 'next'
 
-function Login() {
+const Login = () => {
   const { t } = useTranslation('profile-login')
 
   return (

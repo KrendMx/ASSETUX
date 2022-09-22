@@ -18,7 +18,7 @@ type TimerProps = {
   onExpired?: () => void
 }
 
-function Timer({ timestamp, onExpired }: TimerProps) {
+const Timer = ({ timestamp, onExpired }: TimerProps) => {
   const [secondsLeft, setSecondsLeft] = useState(
     Math.floor((timestamp - Date.now()) / 1000)
   )

@@ -36,7 +36,7 @@ const inputIds = {
   phoneNumber: 'phone'
 }
 
-function SelectForm({
+const SelectForm = ({
   currentStep,
   currentBlockchain,
   blockchains,
@@ -68,7 +68,7 @@ function SelectForm({
   onGiveAmountChange,
   onEmailChange,
   onSubmit
-}: SelectFormProps) {
+}: SelectFormProps) => {
   const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})

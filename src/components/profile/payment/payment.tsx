@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { isValidPhoneNumber } from 'libphonenumber-js'
-
+// need refactor
 import Configure from '@/components/common/header/configure'
 import InputSelect from '@/components/common/input-select'
 import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
@@ -54,7 +54,7 @@ export type PaymentProps<T, B> = {
   fiatrate: B
 }
 
-function Payment(props: PaymentProps<IEcommerceBill, FiatRate[]>) {
+const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const { bill, providers, blockchainURL } = props
   const widget = bill.widget
   const displayHeader =

@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useEffect } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
-
+// need refactor
 import {
   Form,
   Button,
@@ -90,7 +90,7 @@ type Option = {
 
 export type FormGroupProps = IMerchant
 
-function FormGroup(props: FormGroupProps) {
+const FormGroup = (props: FormGroupProps) => {
   const {
     user: { userId, email, public_key, balance, mode },
     tokens,

@@ -20,7 +20,7 @@ type EmailProps = {
   errorMessage: string | null
 }
 
-function Email({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) {
+const Email = ({ onCancel, onAccept, isLoading, errorMessage }: EmailProps) => {
   const { t } = useTranslation('home')
 
   const [email, setEmail] = useState('')

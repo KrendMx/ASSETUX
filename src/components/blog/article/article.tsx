@@ -27,7 +27,7 @@ export type ArticleProps = {
   recentPosts: PostData[] | null
 }
 
-function Article({ data, recentPosts }: ArticleProps) {
+const Article = ({ data, recentPosts }: ArticleProps) => {
   const router = useRouter()
   const { t } = useTranslation('news')
 

@@ -24,7 +24,7 @@ type CopyProps = {
   valueToCopy: string
 }
 
-function QRcode({ valueToCopy }: CopyProps) {
+const QRcode = ({ valueToCopy }: CopyProps) => {
   const handleCopy: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (valueToCopy && 'clipboard' in navigator) {
       navigator.clipboard.writeText(valueToCopy)

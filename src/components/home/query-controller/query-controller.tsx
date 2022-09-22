@@ -17,7 +17,7 @@ import type { QueryObject } from '@/lib/utils/helpers'
 
 let processedQuery = false
 
-function QueryController() {
+const QueryController = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
 

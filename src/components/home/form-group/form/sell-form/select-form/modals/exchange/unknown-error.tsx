@@ -14,7 +14,7 @@ type UnknownErrorProps = {
   onAccept?: () => void
 }
 
-function UnknownError({ onAccept }: UnknownErrorProps) {
+const UnknownError = ({ onAccept }: UnknownErrorProps) => {
   const { t } = useTranslation('home')
 
   return (

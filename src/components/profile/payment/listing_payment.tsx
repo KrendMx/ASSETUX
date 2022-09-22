@@ -24,7 +24,7 @@ import {
   mapCurrencyName,
   mapShortCurrencyName
 } from '@/lib/data/currencies'
-
+// need refactor
 import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
 import { emailRegexp } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers'
@@ -50,7 +50,7 @@ const inputIds = {
   give: 'give'
 }
 
-function ListingPayment(props: PaymentProps<MerchantData, FiatRate>) {
+const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const {
     bill: { token, chain, widget },
     providers,

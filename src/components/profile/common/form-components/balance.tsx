@@ -88,8 +88,8 @@ const Icon = styled.div`
     font-size: 1.0666em;
   }
 `
-
-function Balance({ amount, symbol, fiat, icon, style }: BalanceProps) {
+// need refactor
+const Balance = ({ amount, symbol, fiat, icon, style }: BalanceProps) => {
   return (
     <Container style={style}>
       <Amount>{amount}</Amount>

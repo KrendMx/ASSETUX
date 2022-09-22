@@ -24,11 +24,11 @@ type RefundInsufficientProps = {
   sentToken?: Option
 }
 
-function RefundInsufficient({
+const RefundInsufficient = ({
   onAccept,
   sentValue,
   sentToken
-}: RefundInsufficientProps) {
+}: RefundInsufficientProps) => {
   const { t } = useTranslation('home')
 
   const [review, setReview] = useState('')

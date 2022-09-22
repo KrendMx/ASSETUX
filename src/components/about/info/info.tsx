@@ -63,7 +63,7 @@ const generateBlockItems = (
   </>
 )
 
-function Info() {
+const Info = () => {
   const { t } = useTranslation('about')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)

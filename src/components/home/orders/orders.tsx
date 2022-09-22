@@ -61,7 +61,7 @@ const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   )
 }
 
-function Orders() {
+const Orders = () => {
   const dispatch = useAppDispatch()
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [userCode, setUserCode] = useState<string | null>(null)

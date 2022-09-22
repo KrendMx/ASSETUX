@@ -13,7 +13,7 @@ type CurrenciesProps = {
   onClick: () => void
 }
 
-function Currencies({ onClick }: CurrenciesProps) {
+const Currencies = ({ onClick }: CurrenciesProps) => {
   const dispatch = useAppDispatch()
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
 

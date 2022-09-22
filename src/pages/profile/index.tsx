@@ -23,7 +23,7 @@ const Container = styled(BaseContainer)`
 
 type MainProps = FormGroupProps
 
-function Main(props: MainProps) {
+const Main = (props: MainProps) => {
   const { t } = useTranslation('profile')
 
   return (

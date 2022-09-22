@@ -14,7 +14,7 @@ type CodeInvalidProps = {
   onAccept: () => void
 }
 
-function CodeInvalid({ onAccept }: CodeInvalidProps) {
+const CodeInvalid = ({ onAccept }: CodeInvalidProps) => {
   const { t } = useTranslation('home')
 
   return (

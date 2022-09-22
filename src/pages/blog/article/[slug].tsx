@@ -12,7 +12,7 @@ import type { ParsedUrlQuery } from 'querystring'
 import type { ArticleProps } from '@/components/blog/article'
 import type { PostData } from '@/lib/backend/main/types.backend.main'
 
-function Article(props: ArticleProps) {
+const Article = (props: ArticleProps) => {
   return (
     <>
       <NextSeo
@@ -95,7 +95,7 @@ export const getStaticProps: GetStaticProps<
 
 export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const paths: GetStaticPathsResult['paths'] = []
-
+  // need refactor
   for (const locale of locales!) {
     const response = await BackendClient.getNews({
       category: 'all',

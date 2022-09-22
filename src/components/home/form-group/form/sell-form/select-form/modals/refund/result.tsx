@@ -28,11 +28,11 @@ type RefundResultModalProps = {
   getToken?: Option
 }
 
-function RefundResultModal({
+const RefundResultModal = ({
   onAccept,
   getValue,
   getToken
-}: RefundResultModalProps) {
+}: RefundResultModalProps) => {
   const { t } = useTranslation('home')
 
   const [review, setReview] = useState('')

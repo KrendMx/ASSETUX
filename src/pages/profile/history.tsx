@@ -22,7 +22,7 @@ const Container = styled(BaseContainer)`
   min-height: calc(100vh - var(--header-height));
 `
 
-function History(props: HistoryProps) {
+const History = (props: HistoryProps) => {
   const { t } = useTranslation('profile-history')
   return (
     <>
@@ -93,7 +93,7 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     }))
 
   const mappedHistory = []
-
+  // need refactor
   for (const item of userHistory) {
     for (const payment of item.ecommerce_payments) {
       mappedHistory.push({

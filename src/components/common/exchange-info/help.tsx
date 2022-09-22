@@ -6,7 +6,7 @@ type HelpProps = {
   children: string
 }
 
-function Help({ offsetY = 10, children }: HelpProps) {
+const Help = ({ offsetY = 10, children }: HelpProps) => {
   return <HelpContainer offsetY={offsetY}>{children}</HelpContainer>
 }
 

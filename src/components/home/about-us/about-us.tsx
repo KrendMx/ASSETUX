@@ -19,7 +19,7 @@ import {
   ShowLinkSkeletonContainer
 } from './styles'
 
-function AboutUs() {
+const AboutUs = () => {
   const { t } = useTranslation('home')
 
   const showSkeleton = useAppSelector(selectShowSkeleton)

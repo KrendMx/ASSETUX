@@ -14,7 +14,7 @@ type RefundCodeInvalidProps = {
   onAccept: () => void
 }
 
-function RefundCodeInvalid({ onAccept }: RefundCodeInvalidProps) {
+const RefundCodeInvalid = ({ onAccept }: RefundCodeInvalidProps) => {
   const { t } = useTranslation('home')
 
   return (

@@ -8,7 +8,7 @@ import { swapAction } from '@/lib/redux/crypto'
 
 import { Container, SkeletonContainer, SellButton, BuyButton } from './styles'
 
-function Buttons() {
+const Buttons = () => {
   const { t } = useTranslation('home')
 
   const dispatch = useAppDispatch()

@@ -62,14 +62,14 @@ type ExchangeInfoRowProps = {
   onExpired?: () => void
 }
 
-function ExchangeInfoRow({
+const ExchangeInfoRow = ({
   label,
   value,
   copyLabel,
   valueToCopy,
   timestamp,
   onExpired
-}: ExchangeInfoRowProps) {
+}: ExchangeInfoRowProps) => {
   return (
     <Container>
       <Label>{label}</Label>
