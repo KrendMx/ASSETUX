@@ -25,8 +25,8 @@ import {
   mapShortCurrencyName
 } from '@/lib/data/currencies'
 // need refactor
-import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
-import { emailRegexp } from '@/lib/data/constants'
+import { BackendClient } from '@/lib/backend/clients'
+import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers'
 import { env } from '@/lib/env/client.mjs'
 
@@ -245,7 +245,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           {widget.logoCompany && (
             <LogoContainer>
               <Image
-                src={EcommerceClient.genericURL + widget.logoCompany}
+                src={genericURL + widget.logoCompany}
                 layout="fill"
                 objectFit="contain"
                 objectPosition="center"
@@ -261,9 +261,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         style={
           widget.backgroundCompany
             ? {
-                backgroundImage: `url(${
-                  EcommerceClient.genericURL + widget.backgroundCompany
-                })`
+                backgroundImage: `url(${genericURL + widget.backgroundCompany})`
               }
             : undefined
         }

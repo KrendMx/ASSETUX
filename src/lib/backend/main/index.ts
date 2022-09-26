@@ -1,7 +1,4 @@
 import { constructURL } from '../helpers'
-import Client from '../client'
-import handleRequest from '@/core/backend/handle-request'
-
 import type { UrlRequest, Abortable } from '@/core/backend/types'
 import type {
   GetFiatRates,
@@ -37,23 +34,15 @@ import type {
   CreateFeedbackProps,
   GetTokensProps
 } from './types.backend.main'
+import { env } from '@/lib/env/client.mjs'
+import { api } from '@/core/backend/handle-request'
 
-class BackendClient extends Client {
-  private apiKey = ''
-  private headers = {}
-
-  public constructor() {
-    super()
-  }
-
+class BackendClient {
   public async getFiatRates({
     apiHost,
     signal
   }: UrlRequest & Abortable): Promise<GetFiatRates> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/fiatrates`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/fiatrates`, {
       signal
     })
   }
@@ -63,10 +52,7 @@ class BackendClient extends Client {
     signal,
     type
   }: UrlRequest & Abortable & GetTokensProps): Promise<GetTokens> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/tokens?type=${type}`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/tokens?type=${type}`, {
       signal
     })
   }
@@ -75,19 +61,13 @@ class BackendClient extends Client {
     apiHost,
     signal
   }: UrlRequest & Abortable): Promise<GetFiatProviders> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/fiatproviders`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/fiatproviders`, {
       signal
     })
   }
 
   public async getBlockchains(signal?: AbortSignal): Promise<GetBlockchains> {
-    return handleRequest({
-      url: `${this.genericURL}/api/blockchains`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`/api/blockchains`, {
       signal
     })
   }
@@ -96,24 +76,17 @@ class BackendClient extends Client {
     apiHost,
     ...params
   }: GetPaymentUrlProps): Promise<GetPaymentUrl> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/buytoken/getpaymenturl`,
-      method: 'POST',
-      headers: this.headers,
-      data: params
-    })
+    return api.post(
+      `${constructURL(apiHost)}/api/buytoken/getpaymenturl`,
+      params
+    )
   }
 
   public async createSellTokenOrder({
     apiHost,
     ...data
   }: SellTokenCreateProps): Promise<SellTokenCreate> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/create`,
-      method: 'POST',
-      headers: this.headers,
-      data
-    })
+    return api.post(`${constructURL(apiHost)}/api/selltoken/create`, data)
   }
 
   public async checkSellOrder({
@@ -121,11 +94,7 @@ class BackendClient extends Client {
     signal,
     ...data
   }: CheckSellOrderProps & Abortable): Promise<CheckSellOrder> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/check`,
-      method: 'POST',
-      headers: this.headers,
-      data,
+    return api.post(`${constructURL(apiHost)}/api/selltoken/check`, data, {
       signal
     })
   }
@@ -134,22 +103,14 @@ class BackendClient extends Client {
     apiHost,
     ...data
   }: CloseSellOrderProps): Promise<CloseSellOrder> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/close`,
-      method: 'POST',
-      headers: this.headers,
-      data
-    })
+    return api.post(`${constructURL(apiHost)}/api/selltoken/close`, data)
   }
 
   public async refundRequest({
     apiHost,
     orderId
   }: RefundRequestProps): Promise<RefundRequestResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/refund/request`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/selltoken/refund/request`, {
       params: {
         orderId
       }
@@ -160,22 +121,14 @@ class BackendClient extends Client {
     apiHost,
     ...data
   }: RefundProps): Promise<RefundResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/refund`,
-      method: 'POST',
-      headers: this.headers,
-      data
-    })
+    return api.post(`${constructURL(apiHost)}/api/selltoken/refund`, data)
   }
 
   public async requestOrdersWithEmail({
     apiHost,
     email
   }: RequestOrdersProps): Promise<RequestOrdersResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/refund`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/selltoken/refund`, {
       params: {
         email
       }
@@ -186,10 +139,7 @@ class BackendClient extends Client {
     apiHost,
     chainId
   }: GetRefundAmountsProps): Promise<GetRefundAmountsResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/refund/amounts`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/selltoken/refund/amounts`, {
       params: {
         chainId
       }
@@ -200,10 +150,7 @@ class BackendClient extends Client {
     apiHost,
     email
   }: RequestOrdersEmailProps): Promise<RequestOrdersEmailResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/orders/request`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/orders/request`, {
       params: {
         email
       }
@@ -216,10 +163,7 @@ class BackendClient extends Client {
     code,
     signal
   }: GetEmailOrdersProps & Abortable): Promise<GetEmailOrdersResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/orders`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`${constructURL(apiHost)}/api/orders`, {
       params: {
         email,
         code
@@ -233,15 +177,22 @@ class BackendClient extends Client {
     chainId,
     signal
   }: CheckLiquidityProps & Abortable): Promise<CheckLiquidityResponse> {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/liquidity`,
-      method: 'GET',
-      headers: this.headers,
-      params: {
-        chainId
-      },
-      signal
-    })
+    return !env.isStage
+      ? api.get(`${constructURL(apiHost)}/api/liquidity`, {
+          params: {
+            chainId
+          },
+          signal
+        })
+      : Promise.resolve({
+          state: 'success',
+          status: 200,
+          message: 'string',
+          data: {
+            buy: true,
+            sell: true
+          }
+        })
   }
 
   public async getNews({
@@ -249,10 +200,7 @@ class BackendClient extends Client {
     page,
     lang
   }: GetNewsProps): Promise<GetNewsResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/api/blog/${category}`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`/api/blog/${category}`, {
       params: {
         page,
         lang
@@ -267,10 +215,7 @@ class BackendClient extends Client {
     lang,
     signal
   }: FindPostProps & Abortable): Promise<FindPostResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/api/blog/${category}/find`,
-      method: 'GET',
-      headers: this.headers,
+    return api.get(`/api/blog/${category}/find`, {
       signal,
       params: { query, strict, lang }
     })
@@ -281,13 +226,13 @@ class BackendClient extends Client {
     signal,
     ...data
   }: CreateFeedbackProps & Abortable) {
-    return handleRequest({
-      url: `${constructURL(apiHost)}/api/selltoken/createFeedback`,
-      method: 'POST',
-      headers: this.headers,
-      signal,
-      data
-    })
+    return api.post(
+      `${constructURL(apiHost)}/api/selltoken/createFeedback`,
+      data,
+      {
+        signal
+      }
+    )
   }
 }
 

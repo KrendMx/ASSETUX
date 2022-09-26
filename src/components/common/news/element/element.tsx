@@ -24,6 +24,7 @@ import {
   PostDate,
   TextWrapper
 } from './styles'
+import { genericURL } from '@/lib/data/constants'
 
 type ElementProps = {
   title: string
@@ -55,7 +56,7 @@ const Element = ({
     <Container as="article" pinned={pinned}>
       <ImgContainer>
         <Image
-          src={BackendClient.genericURL + img}
+          src={genericURL + img}
           layout="responsive"
           width={383}
           height={216}

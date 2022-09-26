@@ -21,6 +21,7 @@ import { BackendClient } from '@/lib/backend/clients'
 import { sanitize } from '@/lib/utils/helpers'
 
 import type { PostData } from '@/lib/backend/main/types.backend.main'
+import { genericURL } from '@/lib/data/constants'
 
 export type ArticleProps = {
   data: PostData
@@ -39,7 +40,7 @@ const Article = ({ data, recentPosts }: ArticleProps) => {
         <Title>{data.title}</Title>
         <PreviewImage>
           <Image
-            src={BackendClient.genericURL + data.img}
+            src={genericURL + data.img}
             width={383}
             height={216}
             layout="responsive"

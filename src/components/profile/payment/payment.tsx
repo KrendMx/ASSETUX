@@ -26,7 +26,7 @@ import {
 } from '@/lib/data/currencies'
 
 import { EcommerceClient } from '@/lib/backend/clients'
-import { emailRegexp } from '@/lib/data/constants'
+import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers'
 import { env } from '@/lib/env/client.mjs'
 
@@ -182,7 +182,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
           {widget.logoCompany && (
             <LogoContainer>
               <Image
-                src={EcommerceClient.genericURL + widget.logoCompany}
+                src={genericURL + widget.logoCompany}
                 layout="fill"
                 objectFit="contain"
                 objectPosition="center"
@@ -198,9 +198,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         style={
           widget.backgroundCompany
             ? {
-                backgroundImage: `url(${
-                  EcommerceClient.genericURL + widget.backgroundCompany
-                })`
+                backgroundImage: `url(${genericURL + widget.backgroundCompany})`
               }
             : undefined
         }

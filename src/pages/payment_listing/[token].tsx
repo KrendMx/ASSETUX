@@ -11,6 +11,7 @@ import type { PaymentProps } from '@/components/profile/payment'
 import { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import ListingPayment from '@/components/profile/payment/listing_payment'
 import { FiatRate } from '@/lib/backend/main/types.backend.main'
+import { genericURL } from '@/lib/data/constants'
 
 const Payment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const { t } = useTranslation('profile-payment')
@@ -27,7 +28,7 @@ const Payment = (props: PaymentProps<MerchantData, FiatRate>) => {
           siteName: widget.nameCompany || undefined,
           seoImage: widget.backgroundCompany
             ? {
-                url: BackendClient.genericURL + widget.backgroundCompany,
+                url: genericURL + widget.backgroundCompany,
                 alt: 'Company Preview',
                 type: 'image/png'
               }

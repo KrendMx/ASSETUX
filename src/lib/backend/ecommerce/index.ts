@@ -1,5 +1,4 @@
-import Client from '../client'
-import handleRequest from '@/core/backend/handle-request'
+import { api } from '@/core/backend/handle-request'
 
 import type {
   GetProfileProps,
@@ -23,15 +22,9 @@ import type {
 import { CurrenciesType } from '@/lib/data/currencies'
 import { ActionType } from '@/lib/redux/crypto/types'
 
-class EcommerceClient extends Client {
-  public constructor() {
-    super()
-  }
-
+class EcommerceClient {
   public async login({ token }: LoginProps): Promise<LoginResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/user/login`,
-      method: 'POST',
+    return api.post(`/ecommerce/user/login`, undefined, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -41,9 +34,7 @@ class EcommerceClient extends Client {
   public async getProfile({
     token
   }: GetProfileProps): Promise<GetProfileResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/user/profile`,
-      method: 'GET',
+    return api.get(`/ecommerce/user/profile`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -54,36 +45,32 @@ class EcommerceClient extends Client {
     wallet,
     token
   }: ChangeWalletProps): Promise<ChangeWalletResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/user/changeWallet`,
-      method: 'PATCH',
-      data: {
+    return api.patch(
+      `/ecommerce/user/changeWallet`,
+      {
         public_key: wallet
       },
-      headers: {
-        Authorization: `Bearer ${token}`
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    })
+    )
   }
 
   public async changeCompany({
     token,
     ...data
   }: ChangeCompanyProps): Promise<ChangeCompanyResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/widget/edit`,
-      method: 'PATCH',
+    return api.patch(`/ecommerce/widget/edit`, data, {
       headers: {
         Authorization: `Bearer ${token}`
-      },
-      data
+      }
     })
   }
 
   public async logout({ token }: LogoutProps) {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/user/logout`,
-      method: 'POST',
+    return api.post(`/ecommerce/user/logout`, undefined, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -93,9 +80,7 @@ class EcommerceClient extends Client {
   public async getHistory({
     token
   }: GetHistoryProps): Promise<GetHistoryResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/payment/gets`,
-      method: 'GET',
+    return api.get(`/ecommerce/payment/gets`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -106,39 +91,25 @@ class EcommerceClient extends Client {
     token,
     ...data
   }: CreateBillProps): Promise<CreateBillResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/bill/create`,
-      method: 'POST',
+    return api.post(`/ecommerce/bill/create`, data, {
       headers: {
         Authorization: `Bearer ${token}`
-      },
-      data
+      }
     })
   }
 
   public async getBill(id: string): Promise<GetBillResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/bill/get`,
-      method: 'GET',
-      params: { id }
-    })
+    return api.get(`/ecommerce/bill/get?id=${id}`)
   }
 
   public async createPayment(
     data: ICreatePaymentProps
   ): Promise<CreatePaymentResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/payment/create`,
-      method: 'POST',
-      data
-    })
+    return api.post(`/ecommerce/payment/create`, data)
   }
 
   public async getMerchantToken(token: string): Promise<MerchantBillResponse> {
-    return handleRequest({
-      url: `${this.genericURL}/ecommerce/merchant/listing/${token}`,
-      method: 'GET'
-    })
+    return api.get(`/ecommerce/merchant/listing/${token}`)
   }
 
   public async calcFee(
@@ -147,10 +118,9 @@ class EcommerceClient extends Client {
     method: ActionType,
     reverseCalc: boolean
   ) {
-    return handleRequest({
-      url: `${this.genericURL}/api/buytoken/calc_fee?amount=${amount}&currency=${currency}&reverseCalc=${reverseCalc}&method=${method}`,
-      method: 'GET'
-    })
+    return api.get(
+      `/api/buytoken/calc_fee?amount=${amount}&currency=${currency}&reverseCalc=${reverseCalc}&method=${method}`
+    )
   }
 }
 

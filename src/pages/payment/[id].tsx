@@ -12,6 +12,7 @@ import type { GetServerSideProps } from 'next'
 import type { PaymentProps } from '@/components/profile/payment'
 import { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import { FiatRate } from '@/lib/backend/main/types.backend.main'
+import { genericURL } from '@/lib/data/constants'
 
 const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const { t } = useTranslation('profile-payment')
@@ -27,9 +28,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
           siteName: props.bill.widget.nameCompany || undefined,
           seoImage: props.bill.widget.backgroundCompany
             ? {
-                url:
-                  BackendClient.genericURL +
-                  props.bill.widget.backgroundCompany,
+                url: genericURL + props.bill.widget.backgroundCompany,
                 alt: 'Company Preview',
                 type: 'image/png'
               }

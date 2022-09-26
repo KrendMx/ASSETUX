@@ -11,6 +11,7 @@ import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from 'next'
 import type { ParsedUrlQuery } from 'querystring'
 import type { ArticleProps } from '@/components/blog/article'
 import type { PostData } from '@/lib/backend/main/types.backend.main'
+import { genericURL } from '@/lib/data/constants'
 
 const Article = (props: ArticleProps) => {
   return (
@@ -21,7 +22,7 @@ const Article = (props: ArticleProps) => {
           description: props.data.short_description,
           pathname: `/blog/article/${props.data.slug}`,
           seoImage: {
-            url: BackendClient.genericURL + props.data.img,
+            url: genericURL + props.data.img,
             width: 1600,
             height: 900,
             alt: 'Article Preview',

@@ -1,3 +1,5 @@
+import { env } from '../env/client.mjs'
+
 export const tablet = 1130
 
 export const mobile = 550
@@ -33,3 +35,5 @@ export const cardsWidth = 850
 export const mappedCookies = {
   authToken: 'ecommerce_token'
 }
+
+export const genericURL = `${env.hostProtocol}://bsc.${env.host}`
