@@ -13,7 +13,7 @@ import { setOrdersActive } from '@/lib/redux/ui'
 
 import type { OrderInfo } from './order-modal/types'
 import type { OrdersData } from '@/lib/backend/main/types.backend.main'
-import type { RequestState } from '@/core/backend/types'
+import type { RequestState } from '@/core/backend/types.core.backend'
 
 const mapOrderInfo = (orders: OrdersData): OrderInfo[] => {
   const allOrders: OrderInfo[] = []

@@ -84,4 +84,3 @@ const map = () => {
 }
 
 map()
-// need refactor

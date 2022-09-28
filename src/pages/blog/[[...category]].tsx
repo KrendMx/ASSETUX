@@ -95,7 +95,7 @@ export const getStaticProps: GetStaticProps<
 
 export const getStaticPaths: GetStaticPaths = ({ locales }) => {
   const paths: GetStaticPathsResult['paths'] = []
-  // need refactor
+
   postCategories.forEach((category) => {
     locales!.forEach((locale) => {
       paths.push({

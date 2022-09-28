@@ -20,10 +20,10 @@ import Step from './steps'
 import { emailRegexp, allowSkeletons, walletRegexp } from '@/lib/data/constants'
 import { useAppSelector } from '@/lib/redux/hooks'
 
-import { stringToPieces, validateDecimal } from '@/lib/utils/helpers'
+import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
 
-import type { Error, SelectFormProps } from './types'
-import type { Option } from '@/components/common/input-select/types'
+import type { Error, SelectFormProps } from './types.select-buy'
+import type { Option } from '@/components/common/input-select/types.input-select'
 
 const inputIds = {
   get: 'get',

@@ -12,7 +12,7 @@ import Icon from '@/components/common/modal-components/Icon'
 import Shadow from '@/components/common/modal-components/Shadow'
 import InputSelect from '@/components/common/input-select'
 
-import type { Option } from '@/components/common/input-select/types'
+import type { Option } from '@/components/common/input-select/types.input-select'
 
 const Success = styled(Info)`
   background-color: #68cc4533;

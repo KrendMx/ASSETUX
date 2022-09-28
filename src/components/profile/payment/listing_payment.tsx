@@ -24,23 +24,20 @@ import {
   mapCurrencyName,
   mapShortCurrencyName
 } from '@/lib/data/currencies'
-// need refactor
 import { BackendClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
-import { stringToPieces } from '@/lib/utils/helpers'
+import { stringToPieces } from '@/lib/utils/helpers.utils'
 import { env } from '@/lib/env/client.mjs'
 
 import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type { FiatRate } from '@/lib/backend/main/types.backend.main'
-import type { Option } from '@/components/common/input-select/types'
+import type { Option } from '@/components/common/input-select/types.input-select'
 import { useAppSelector } from '@/lib/redux/hooks'
 import ExchangeInfo from '@/components/common/exchange-info'
 import { PaymentProps } from './payment'
 import { useIsomorphicLayoutEffect } from '@/lib/hooks'
-import { validatePhone } from '@/lib/backend/helpers'
-import { VISAMASTER } from '@/core/backend/types'
-import { mapBlockchains } from '../bill/bill'
-import { mapTokens } from '@/lib/helpers.global'
+import { VISAMASTER } from '@/core/backend/types.core.backend'
+import { mapBlockchains, mapTokens, validatePhone } from '@/lib/helpers.global'
 
 const inputIds = {
   email: 'email',
@@ -364,21 +361,20 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                   changeable
                 />
               )}
-
-              <InputSelect
-                label={t('home:buy_wallet')}
-                id={'wallet'}
-                onChange={handleAddress}
-                value={wallet}
-                error={errors[inputIds.wallet]}
-                placeholder="0x09A6...d5B"
-                changeable
-              />
-              <Submit disabled={waitingResponse}>
-                {waitingResponse ? t('loading') : t('submit')}
-              </Submit>
             </HideableWithMargin>
           </HideableWithMargin>
+          <InputSelect
+            label={t('home:buy_wallet')}
+            id={'wallet'}
+            onChange={handleAddress}
+            value={wallet}
+            error={errors[inputIds.wallet]}
+            placeholder="0x09A6...d5B"
+            changeable
+          />
+          <Submit disabled={waitingResponse}>
+            {waitingResponse ? t('loading') : t('submit')}
+          </Submit>
         </Form>
       </Content>
       <Footer>

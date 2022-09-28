@@ -7,7 +7,7 @@ import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
 import { setOrdersActive } from '@/lib/redux/ui'
 import { setSellOrderId, swapAction } from '@/lib/redux/crypto'
 
-import { capitalizeString, ellipsisString } from '@/lib/utils/helpers'
+import { capitalizeString, ellipsisString } from '@/lib/utils/helpers.utils'
 import { getFormattedDate } from '@/lib/utils/date'
 import { mapCurrency, isCurrencyDeclared } from '@/lib/data/currencies'
 

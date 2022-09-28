@@ -1,7 +1,7 @@
 import Step from './steps'
 
-import type { Option } from '@/components/common/input-select/types'
-import type { PaymentOption } from '../../types'
+import type { Option } from '@/components/common/input-select/types.input-select'
+import type { PaymentOption } from '../../types.form'
 
 export type Error = {
   [key: string]: string | undefined

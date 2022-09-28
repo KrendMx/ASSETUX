@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { useTranslation } from 'next-i18next'
 import { Magic } from 'magic-sdk'
 import { useRouter } from 'next/router'
@@ -7,59 +6,13 @@ import Cookies from 'js-cookie'
 
 import { env } from '@/lib/env/client.mjs'
 import { EcommerceClient } from '@/lib/backend/clients'
-import { mobile, emailRegexp, mappedCookies } from '@/lib/data/constants'
+import { emailRegexp, mappedCookies } from '@/lib/data/constants'
 import { isLocaleDeclared } from '@/lib/data/locales'
 
 import InputSelect from '@/components/common/input-select'
-import AdaptiveFont from '@/components/common/adaptive-font'
 import { Form, Button } from '../common/form-components'
+import { Container, LoginWrapper, Note, Title } from './styles'
 
-const Container = styled(AdaptiveFont).attrs({
-  as: 'section',
-  mobileFactor: 1.28,
-  tabletFactor: 1.25
-})`
-  width: 100%;
-  min-height: calc(100vh - var(--header-height));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--paddings);
-`
-
-const Title = styled.h1`
-  font-size: 1.25em;
-  font-weight: 700;
-  margin-bottom: 1.36em;
-  color: #2b2b2b;
-
-  @media only screen and (max-width: ${mobile}px) {
-    white-space: pre-line;
-  }
-`
-
-const Note = styled.h2`
-  margin: 0;
-  margin-bottom: 1.36em;
-  font-size: 0.94em;
-  font-weight: 400;
-  color: #2b2b2b;
-
-  @media only screen and (max-width: ${mobile}px) {
-    font-size: 1.042em;
-  }
-`
-
-const LoginWrapper = styled.div`
-  max-width: 469px;
-  width: 100%;
-  margin-bottom: 10vh;
-
-  @media only screen and (max-height: 500px) {
-    margin-bottom: 0;
-  }
-`
-// need refactor
 const LoginContainer = () => {
   const router = useRouter()
   const { t } = useTranslation('profile-login')

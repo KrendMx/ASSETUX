@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { IoIosArrowDown } from 'react-icons/io'
 
-import { ellipsisString } from '@/lib/utils/helpers'
+import { ellipsisString } from '@/lib/utils/helpers.utils'
 import { optimizeRemoteImages } from '@/lib/data/constants'
 
 import {
@@ -24,7 +24,7 @@ import Select from '../select'
 
 import type { ChangeEventHandler } from 'react'
 import { InputSelectProps } from './types.input'
-import type { Option } from '../types'
+import type { Option } from '../types.input-select'
 
 const InputSelect = ({
   label,

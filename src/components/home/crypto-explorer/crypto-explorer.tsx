@@ -34,13 +34,13 @@ import {
   ActionButton
 } from './styles'
 
-import type { ActionType } from '@/lib/redux/crypto/types'
+import type { ActionType } from '@/lib/redux/crypto/types.crypto'
 import type { Token } from '@/lib/backend/main/types.backend.main'
 import {
   cardRowNames,
   checkExplorerDataByContext,
   tableHeadings
-} from './helpers'
+} from './helpers.crypto-explorer'
 
 const CryptoExplorer = () => {
   const { t } = useTranslation('home')

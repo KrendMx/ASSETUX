@@ -9,7 +9,7 @@ import Configure from '../configure'
 import TextLogo from '@/components/common/text-logo'
 
 import { commerce } from '@/lib/routes'
-import { logout, getEcommercePrefix } from '@/lib/utils/helpers'
+import { logout, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import { env } from '@/lib/env/client.mjs'
 import {
   DesktopContainer,

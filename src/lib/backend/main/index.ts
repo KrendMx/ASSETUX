@@ -1,5 +1,4 @@
-import { constructURL } from '../helpers'
-import type { UrlRequest, Abortable } from '@/core/backend/types'
+import type { UrlRequest, Abortable } from '@/core/backend/types.core.backend'
 import type {
   GetFiatRates,
   GetTokens,
@@ -36,6 +35,7 @@ import type {
 } from './types.backend.main'
 import { env } from '@/lib/env/client.mjs'
 import { api } from '@/core/backend/handle-request'
+import { constructURL } from '@/lib/helpers.global'
 
 class BackendClient {
   public async getFiatRates({

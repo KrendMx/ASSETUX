@@ -18,7 +18,7 @@ import {
 
 import { getFormattedDate } from '@/lib/utils/date'
 import { BackendClient } from '@/lib/backend/clients'
-import { sanitize } from '@/lib/utils/helpers'
+import { sanitize } from '@/lib/utils/helpers.utils'
 
 import type { PostData } from '@/lib/backend/main/types.backend.main'
 import { genericURL } from '@/lib/data/constants'

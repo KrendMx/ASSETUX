@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import type { Response } from './types'
+import type { Response } from './types.core.backend'
 import Cookies from 'js-cookie'
 import { genericURL } from '@/lib/data/constants'
 
@@ -18,24 +18,34 @@ export const api = axios.create({
   baseURL: genericURL
 })
 
-api.interceptors.request.use(async (config) => {
-  const locale = Cookies.get('NEXT_LOCALE') || 'ru'
-  return {
-    ...config,
-    headers: {
-      ...config.headers,
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      locale
+api.interceptors.request.use(
+  async (config) => {
+    const locale = Cookies.get('NEXT_LOCALE') || 'ru'
+    return {
+      ...config,
+      headers: {
+        ...config.headers,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        locale
+      }
+    }
+  },
+  async (error) => {
+    return {
+      state: 'error',
+      status: 400,
+      message: 'Request error',
+      data: error
     }
   }
-})
+)
 
 api.interceptors.response.use(
   async (response) => {
     if (
       (response?.data as Object).hasOwnProperty('success') &&
-      !response.data.success
+      !response?.data?.success
     ) {
       throw {
         status: 404,

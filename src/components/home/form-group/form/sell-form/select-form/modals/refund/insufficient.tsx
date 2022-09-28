@@ -12,7 +12,7 @@ import Shadow from '@/components/common/modal-components/Shadow'
 import InputSelect from '@/components/common/input-select'
 import Info from '@/components/common/modal-components/Info'
 
-import type { Option } from '@/components/common/input-select/types'
+import type { Option } from '@/components/common/input-select/types.input-select'
 
 const Ahtung = styled(Info)`
   color: var(--red);

@@ -11,7 +11,7 @@ import Button from '@/components/common/modal-components/Button'
 import Icon from '@/components/common/modal-components/Icon'
 import Shadow from '@/components/common/modal-components/Shadow'
 
-import type { Option } from '@/components/common/input-select/types'
+import type { Option } from '@/components/common/input-select/types.input-select'
 
 type ExchangeModalProps = {
   sentToken?: Option

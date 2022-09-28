@@ -9,7 +9,10 @@ import HeadingRow from '@/components/profile/common/heading-row'
 import HistoryComponent from '@/components/profile/history'
 
 import { EcommerceClient } from '@/lib/backend/clients'
-import { checkAuthorization, getEcommercePrefix } from '@/lib/utils/helpers'
+import {
+  checkAuthorization,
+  getEcommercePrefix
+} from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
 import type { HistoryProps } from '@/components/profile/history'
@@ -93,7 +96,7 @@ export const getServerSideProps: GetServerSideProps<HistoryProps> = async ({
     }))
 
   const mappedHistory = []
-  // need refactor
+
   for (const item of userHistory) {
     for (const payment of item.ecommerce_payments) {
       mappedHistory.push({

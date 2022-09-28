@@ -20,7 +20,7 @@ import {
   popularAbsolute
 } from '@/lib/routes'
 import { isCurrencyDeclared } from '@/lib/data/currencies'
-import { logout, getEcommercePrefix } from '@/lib/utils/helpers'
+import { logout, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import { env } from '@/lib/env/client.mjs'
 
 import NavGroup from './group'

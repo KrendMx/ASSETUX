@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { paginate } from '@/components/common/table/paginate'
 import { cardsPerPage } from '@/lib/data/constants'
 import { Container } from './styles'
-import { CardsProps } from './types'
+import { CardsProps } from './types.cards'
 import { mapCards } from './helpers.cards'
 
 const Cards = ({

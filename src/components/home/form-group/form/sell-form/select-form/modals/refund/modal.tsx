@@ -11,7 +11,7 @@ import Button from '@/components/common/modal-components/Button'
 import Shadow from '@/components/common/modal-components/Shadow'
 import Icon from '@/components/common/modal-components/Icon'
 
-import type { Option } from '@/components/common/input-select/types'
+import type { Option } from '@/components/common/input-select/types.input-select'
 
 type RefundModalProps = {
   sentToken?: Option

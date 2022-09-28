@@ -3,7 +3,7 @@ import { NextSeo } from 'next-seo'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { EcommerceClient, BackendClient } from '@/lib/backend/clients'
 import { getDefaultMetaTags } from '@/lib/utils/seo'
-import { getEcommercePrefix } from '@/lib/utils/helpers'
+import { getEcommercePrefix } from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
 import type { ParsedUrlQuery } from 'querystring'
@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<
   if (bill.state != 'success') {
     return errorProps
   }
-  // need refactor
+
   const merchantBill = bill.data
 
   const blockchains = await BackendClient.getBlockchains()

@@ -17,7 +17,7 @@ import { Container, NoAssets, ControlsRow } from './styles'
 
 import type { IMerchant } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import { setMerchantMode } from '@/lib/redux/ui'
-import { PayProviders, QIWI } from '@/core/backend/types'
+import { PayProviders, QIWI } from '@/core/backend/types.core.backend'
 import { cardNames, tableHeadings } from './mock'
 
 export type HistoryType = {

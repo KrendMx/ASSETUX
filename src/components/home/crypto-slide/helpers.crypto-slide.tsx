@@ -1,7 +1,7 @@
 import { ExplorerData } from '@/components/common/crypto-manager/types.crypto-manager'
 import { MarketHistoryData, Token } from '@/lib/backend/main/types.backend.main'
 import { CurrenciesType, mapCurrency } from '@/lib/data/currencies'
-import { ActionType } from '@/lib/redux/crypto/types'
+import { ActionType } from '@/lib/redux/crypto/types.crypto'
 import { GraphData } from './element/graph'
 import Element from './element'
 

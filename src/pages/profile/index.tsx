@@ -9,7 +9,10 @@ import HeadingRow from '@/components/profile/common/heading-row'
 import FormGroup from '@/components/profile/main/form-group'
 
 import { EcommerceClient } from '@/lib/backend/clients'
-import { checkAuthorization, getEcommercePrefix } from '@/lib/utils/helpers'
+import {
+  checkAuthorization,
+  getEcommercePrefix
+} from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
 import type { FormGroupProps } from '@/components/profile/main/form-group'

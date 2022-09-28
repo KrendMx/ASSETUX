@@ -20,7 +20,7 @@ import type {
   MerchantBillResponse
 } from './types.backend.ecommerce'
 import { CurrenciesType } from '@/lib/data/currencies'
-import { ActionType } from '@/lib/redux/crypto/types'
+import { ActionType } from '@/lib/redux/crypto/types.crypto'
 
 class EcommerceClient {
   public async login({ token }: LoginProps): Promise<LoginResponse> {

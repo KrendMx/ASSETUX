@@ -18,7 +18,7 @@ import {
   FilterButton
 } from './styles'
 
-import type { ControlRowProps } from './types'
+import type { ControlRowProps } from './types.control-row'
 
 const ControlRow = ({
   searchPlaceholder,

@@ -8,7 +8,10 @@ import BaseContainer from '@/components/common/base-container'
 import HeadingRow from '@/components/profile/common/heading-row'
 
 import { EcommerceClient } from '@/lib/backend/clients'
-import { checkAuthorization, getEcommercePrefix } from '@/lib/utils/helpers'
+import {
+  checkAuthorization,
+  getEcommercePrefix
+} from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
 import type { BillProps } from '@/components/profile/bill'

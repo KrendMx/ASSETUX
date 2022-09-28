@@ -11,7 +11,7 @@ import type {
   Token
 } from '@/lib/backend/main/types.backend.main'
 import type { ExplorerData } from '@/components/common/crypto-manager/types.crypto-manager'
-import type { ActionType, CryptoState } from './types'
+import type { ActionType, CryptoState } from './types.crypto'
 
 const hydrate = createAction<RootState>(HYDRATE)
 

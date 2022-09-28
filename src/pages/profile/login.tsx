@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { getDefaultMetaTags } from '@/lib/utils/seo'
-import { getEcommercePrefix } from '@/lib/utils/helpers'
+import { getEcommercePrefix } from '@/lib/utils/helpers.utils'
 
 import type { GetStaticProps } from 'next'
 

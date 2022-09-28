@@ -5,7 +5,7 @@ import Image from 'next/image'
 import SearchIcon from '../../../../../public/assets/Search.svg'
 import { mobile, optimizeRemoteImages } from '@/lib/data/constants'
 
-import type { Option } from '../types'
+import type { Option } from '../types.input-select'
 
 type ItemProps = {
   selectable?: boolean

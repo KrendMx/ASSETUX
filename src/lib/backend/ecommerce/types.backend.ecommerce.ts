@@ -1,4 +1,4 @@
-import type { PayProviders, Response } from '@/core/backend/types'
+import type { PayProviders, Response } from '@/core/backend/types.core.backend'
 import type { Token } from '../main/types.backend.main'
 
 export type AuthorizedProps = {

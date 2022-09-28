@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { isValidPhoneNumber } from 'libphonenumber-js'
-// need refactor
+
 import Configure from '@/components/common/header/configure'
 import InputSelect from '@/components/common/input-select'
 import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
@@ -27,7 +27,7 @@ import {
 
 import { EcommerceClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
-import { stringToPieces } from '@/lib/utils/helpers'
+import { stringToPieces } from '@/lib/utils/helpers.utils'
 import { env } from '@/lib/env/client.mjs'
 
 import type { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
@@ -35,10 +35,10 @@ import type {
   FiatProvider,
   FiatRate
 } from '@/lib/backend/main/types.backend.main'
-import type { Option } from '@/components/common/input-select/types'
+import type { Option } from '@/components/common/input-select/types.input-select'
 import { useAppSelector } from '@/lib/redux/hooks'
-import { validatePhone } from '@/lib/backend/helpers'
-import { VISAMASTER } from '@/core/backend/types'
+import { VISAMASTER } from '@/core/backend/types.core.backend'
+import { validatePhone } from '@/lib/helpers.global'
 
 const inputIds = {
   email: 'email',

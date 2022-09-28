@@ -6,7 +6,7 @@ import PaymentComponent from '@/components/profile/payment'
 
 import { EcommerceClient, BackendClient } from '@/lib/backend/clients'
 import { getDefaultMetaTags } from '@/lib/utils/seo'
-import { getEcommercePrefix } from '@/lib/utils/helpers'
+import { getEcommercePrefix } from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
 import type { PaymentProps } from '@/components/profile/payment'

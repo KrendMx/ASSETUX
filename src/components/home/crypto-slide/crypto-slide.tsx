@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback, memo } from 'react'
 import styled from 'styled-components'
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
@@ -7,8 +7,8 @@ import { mobile } from '@/lib/data/constants'
 import { useSliderConfig } from '@/lib/hooks'
 import Slider from '@/components/common/slider'
 import type { Token } from '@/lib/backend/main/types.backend.main'
-import type { ActionType } from '@/lib/redux/crypto/types'
-import { getSkeletons, mapExplorerData } from './helpers'
+import type { ActionType } from '@/lib/redux/crypto/types.crypto'
+import { getSkeletons, mapExplorerData } from './helpers.crypto-slide'
 
 const Container = styled.section`
   display: block;
@@ -64,4 +64,4 @@ const CryptoSlide = () => {
   )
 }
 
-export default CryptoSlide
+export default memo(CryptoSlide)

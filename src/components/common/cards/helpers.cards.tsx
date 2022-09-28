@@ -7,7 +7,7 @@ import {
   RowSpacer,
   RowValue
 } from './styles'
-import { ActionElement, CardData } from './types'
+import { ActionElement, CardData } from './types.cards'
 
 export const mapCards = (
   rowNames: string[],

@@ -177,12 +177,12 @@ export const Form = styled.form`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    height: 421px;
+    min-height: 421px;
   }
 
   @media only screen and (max-width: 370px) {
     font-size: 4vw;
-    height: 28.2em;
+    min-height: 28.2em;
     border-radius: 0.675em;
   }
 `

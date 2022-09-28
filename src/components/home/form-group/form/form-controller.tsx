@@ -6,7 +6,7 @@ import { BackendClient } from '@/lib/backend/clients'
 
 import SellForm from './sell-form'
 import BuyForm from './buy-form'
-import { Option } from '@/components/common/input-select/types'
+import { Option } from '@/components/common/input-select/types.input-select'
 
 import {
   currencies as definedCurrencies,
@@ -23,8 +23,7 @@ import type {
   LiquidityData,
   Blockchain
 } from '@/lib/backend/main/types.backend.main'
-import { mapBlockchains } from '@/components/profile/bill/bill'
-import { mapTokens } from '@/lib/helpers.global'
+import { mapBlockchains, mapTokens } from '@/lib/helpers.global'
 
 const FormController = () => {
   const dispatch = useAppDispatch()

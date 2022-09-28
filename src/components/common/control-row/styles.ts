@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import ModalContainer from '../modal-components/Container'
 import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
-import { ButtonStyledProps, ContainerStyledProps } from './types'
+import { ButtonStyledProps, ContainerStyledProps } from './types.control-row'
 
 export const Container = styled.div<ContainerStyledProps>`
   display: flex;

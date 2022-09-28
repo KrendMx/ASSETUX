@@ -10,10 +10,10 @@ import {
 } from '@/lib/redux/crypto'
 import { setCurrentCurrency } from '@/lib/redux/ui'
 import { isCurrencyDeclared } from '@/lib/data/currencies'
-import { mapQueryObject, updateURL } from '@/lib/utils/helpers'
+import { mapQueryObject, updateURL } from '@/lib/utils/helpers.utils'
 import { usePrevious } from '@/lib/hooks'
 
-import type { QueryObject } from '@/lib/utils/helpers'
+import type { QueryObject } from '@/lib/utils/helpers.utils'
 
 let processedQuery = false
 
