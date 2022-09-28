@@ -1,5 +1,5 @@
 // @ts-check
-import { z } from "zod"
+import { z } from 'zod'
 
 /**
  * Specify your server-side environment variables schema here.
@@ -32,5 +32,5 @@ export const clientEnv = {
   hostProtocol: process.env.NEXT_PUBLIC_HOST_PROTOCOL,
   host: process.env.NEXT_PUBLIC_HOST,
   magicKey: process.env.NEXT_PUBLIC_MAGIC_PUB_KEY,
-  isStage: process.env.NEXT_PUBLIC_IS_STAGE == "true"
+  isStage: process.env.NEXT_PUBLIC_IS_STAGE == 'true'
 }

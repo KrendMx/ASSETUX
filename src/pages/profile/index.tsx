@@ -15,7 +15,7 @@ import {
 } from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
-import type { FormGroupProps } from '@/components/profile/main/form-group'
+import type { FormGroupProps } from '@/components/profile/main/types.main'
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
