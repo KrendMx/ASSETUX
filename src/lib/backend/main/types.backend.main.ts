@@ -1,6 +1,8 @@
 import { Response, UrlRequest } from '@/core/backend/types.core.backend'
 import { CurrenciesType } from '@/lib/data/currencies'
-
+/**
+ * @group Events
+ */
 export type FiatRate = {
   chain_id: string
   name: string
@@ -12,7 +14,6 @@ export type FiatRate = {
     [key: string]: number
   }
 }
-
 export type Token = {
   chain: Blockchain
   id: number
@@ -34,7 +35,6 @@ export type Token = {
   }
   market_history?: MarketHistoryData[]
 }
-
 export type MarketHistoryData = {
   price: {
     RUB: number
@@ -221,9 +221,7 @@ export type GetRefundAmountsProps = UrlRequest & {
 
 export type GetRefundAmountsResponse = Response<
   {
-    RUB: number
-    UAH: number
-    KZT: number
+    [key in CurrenciesType]: number
   },
   { message: string }
 >
