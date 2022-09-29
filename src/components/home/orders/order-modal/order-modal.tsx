@@ -42,7 +42,7 @@ import Cards from '@/components/common/cards'
 
 import { optimizeRemoteImages, cardsPerPage } from '@/lib/data/constants'
 
-import type { OrderInfo } from './types'
+import type { OrderInfo } from './types.order-modal'
 import type { TFunction } from 'next-i18next'
 
 const wheelPreventer = (event: React.WheelEvent<HTMLDivElement>) => {
