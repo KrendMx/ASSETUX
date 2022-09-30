@@ -20,6 +20,7 @@ import {
 
 import {
   currencies as definedCurrencies,
+  CurrenciesType,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
@@ -73,9 +74,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
-    currentCurrency
-  )
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
   useIsomorphicLayoutEffect(() => {
     const errorRanges = checkRanges(
-      Number(+get * fiatrate?.buy[currentCurrency])
+      Number(+get * fiatrate?.buy[selectedCurrency])
     )
 
     if (errorRanges) {
@@ -111,7 +111,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         [inputIds.give]: undefined
       })
     }
-  }, [selectedPayment, get, providers])
+  }, [selectedPayment, get, providers, selectedCurrency])
 
   const paymentOptions: Option[] = useMemo(() => {
     const options = providers
@@ -234,7 +234,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
     location.href = response.data.link
   }
-
+  console.log(fiatrate?.buy)
   return (
     <>
       {displayHeader && (
@@ -289,8 +289,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           />
           <ExchangeInfo
             token={token.symbol}
-            currency={currentCurrency}
-            rate={fiatrate?.buy[currentCurrency]}
+            currency={selectedCurrency}
+            rate={fiatrate?.buy[selectedCurrency]}
             isLoading={false}
             placeholder={t('home:exchange_fees')}
             text="asd"
@@ -303,7 +303,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
             }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
-            onSelect={(val) => setSelectedCurrency(val)}
+            onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
             selectable={!!currencies && currencies.length > 1}

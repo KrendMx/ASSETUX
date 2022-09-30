@@ -1,0 +1,13 @@
+{
+  "name": "Assetux Frontend",
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src"],
+  "sort": ["source-order"],
+  "media": "public",
+  "categorizeByGroup": false,
+  "hideGenerator": true,
+  "searchInComments": true,
+  "plugin": ["typedoc-plugin-resolve-crossmodule-references"],
+  "entryPointStrategy": "expand",
+  "exclude": ["**/!(types.**(.ts|.tsx))"]
+}

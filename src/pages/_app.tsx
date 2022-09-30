@@ -1,3 +1,6 @@
+/**
+ * @group General Use
+ */
 import React from 'react'
 import { DefaultSeo } from 'next-seo'
 import Head from 'next/head'

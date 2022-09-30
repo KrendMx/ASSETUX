@@ -71,7 +71,7 @@ const ListingComponent = ({ profile }: BillProps) => {
           <Form
             getActive={getActive || getCurrencyActive}
             onSubmit={handleSubmit}
-            style={isTRANSFER ? { height: 300 } : {}}
+            style={isTRANSFER ? { minHeight: 300 } : {}}
           >
             <FormContent>
               <FormHeading>

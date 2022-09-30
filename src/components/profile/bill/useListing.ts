@@ -44,7 +44,9 @@ const useListing = ({ profile }: BillProps) => {
   const [inputError, setInputError] = useState('')
   const [outputError, setOutputError] = useState('')
   const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
+    currentCurrency | null
+  )
   const [get, setGet] = useState({
     visible: '',
     actual: 0
@@ -254,7 +256,7 @@ const useListing = ({ profile }: BillProps) => {
       if (response.state == 'success') {
         const fiatProviders = response.data
         const buyProviders = fiatProviders.filter(
-          (provider) => provider.type == 'BUY'
+          ({ type, currency }) => type == 'BUY' && currency === selectedCurrency
         )
 
         if (buyProviders.length != 0) {
@@ -281,6 +283,21 @@ const useListing = ({ profile }: BillProps) => {
       }
     }
 
+    const controller = new AbortController()
+    fetch(controller.signal)
+
+    const rateInterval = setInterval(
+      () => fetch(controller.signal),
+      rateCheckInterval
+    )
+
+    return () => {
+      clearInterval(rateInterval)
+      controller.abort()
+    }
+  }, [selectedCurrency])
+
+  useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
       value: currency,
       description: mapCurrencyName(currency),
@@ -294,19 +311,6 @@ const useListing = ({ profile }: BillProps) => {
         mappedCurrencies.find(({ value }) => value === currentCurrency)
           ?.value || mappedCurrencies[0].value
       )
-    }
-
-    const controller = new AbortController()
-    fetch(controller.signal)
-
-    const rateInterval = setInterval(
-      () => fetch(controller.signal),
-      rateCheckInterval
-    )
-
-    return () => {
-      clearInterval(rateInterval)
-      controller.abort()
     }
   }, [currentCurrency])
 

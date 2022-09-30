@@ -39,3 +39,6 @@ yarn-error.log*
 
 # sw
 /public/*.js
+
+/docs
+/documentation

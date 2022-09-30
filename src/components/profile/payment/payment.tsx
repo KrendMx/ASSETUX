@@ -20,6 +20,7 @@ import {
 
 import {
   currencies as definedCurrencies,
+  CurrenciesType,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
@@ -74,9 +75,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
-    currentCurrency
-  )
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
 
   useEffect(() => {
@@ -175,6 +175,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     location.href = response.data.linkToPaymentString
   }
 
+  console.log(bill)
+
   return (
     <>
       {displayHeader && (
@@ -210,9 +212,9 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
             visuallyDisabled
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
-            onSelect={(val) => setSelectedCurrency(val)}
+            onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
-            displayInSelect={1}
+            displayInSelect={2}
             selectable={!!currencies && currencies.length > 1}
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
