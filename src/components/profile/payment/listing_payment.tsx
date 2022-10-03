@@ -39,6 +39,9 @@ import { PaymentProps } from './payment'
 import { useIsomorphicLayoutEffect } from '@/lib/hooks'
 import { VISAMASTER } from '@/core/backend/types.core.backend'
 import { mapBlockchains, mapTokens, validatePhone } from '@/lib/helpers.global'
+import Maintenance, {
+  MerchantPaymentMaintenance
+} from '@/components/home/form-group/form/common/maintenance'
 
 const inputIds = {
   email: 'email',
@@ -53,7 +56,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     bill: { token, chain, widget },
     providers,
     blockchainURL,
-    fiatrate
+    fiatrate,
+    balanceOfToken
   } = props
   const displayHeader =
     widget.logoCompany != null ||
@@ -77,6 +81,13 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const [selectedCurrency, setSelectedCurrency] =
     useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
+  const [serviceUnavaliable, setServiceUnavaliable] = useState<{
+    unavaliable: boolean
+    invalidBalance: boolean
+  }>({
+    unavaliable: false,
+    invalidBalance: false
+  })
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -177,6 +188,14 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   ) => {
     event.preventDefault()
 
+    if (!!balanceOfToken?.balance && +get > +balanceOfToken.balance) {
+      setServiceUnavaliable({
+        invalidBalance: true,
+        unavaliable: false
+      })
+      return
+    }
+
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
       selectedPayment == 'QIWI'
@@ -229,12 +248,16 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     setWaitingResponse(false)
 
     if (response.state != 'success' || !response.data.link) {
+      setServiceUnavaliable({
+        invalidBalance: false,
+        unavaliable: true
+      })
       return
     }
 
     location.href = response.data.link
   }
-  console.log(fiatrate?.buy)
+
   return (
     <>
       {displayHeader && (
@@ -264,6 +287,17 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         }
       >
         <Form onSubmit={handleSubmit}>
+          {balanceOfToken?.balance &&
+            (+balanceOfToken?.balance === 0 ||
+              serviceUnavaliable.invalidBalance) && (
+              <MerchantPaymentMaintenance
+                tokenAmount={+balanceOfToken.balance}
+                symbol={'YAY'}
+              />
+            )}
+          {serviceUnavaliable.unavaliable && (
+            <Maintenance bgStyle={{ borderRadius: 10 }} />
+          )}
           <InputSelect
             label={t('home:buy_blockchain')}
             id={'blockchains'}

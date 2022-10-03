@@ -57,6 +57,7 @@ const BuyForm = ({
   const [details, setDetails] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [walletAddress, setWalletAddress] = useState('')
+  const [apiError, setApiError] = useState(false)
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
@@ -90,6 +91,7 @@ const BuyForm = ({
       setProcessingRequest(false)
 
       if (response.state != 'success') {
+        setApiError(true)
         return
       }
 
@@ -188,7 +190,7 @@ const BuyForm = ({
       rate={currentRate}
       processingRequest={processingRequest}
       cardError={cardError}
-      serviceAvailable={serviceAvailable}
+      serviceAvailable={serviceAvailable && !apiError}
       setCurrentStep={setCurrentStep}
       setGetAmount={setGetAmount}
       onBlockchainChange={(blockchain) => {}}

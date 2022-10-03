@@ -28,6 +28,7 @@ const useSellForm = ({
   const [currentStep, setCurrentStep] = useState(Step.Details)
   const [loadingOrder, setLoadingOrder] = useState(false) // used to indicate a loading state if there's an id in query
   const [processingRequest, setProcessingRequest] = useState(false)
+  const [apiError, setApiError] = useState(false)
   const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState('1') // in form it is validated to be a number
@@ -87,7 +88,7 @@ const useSellForm = ({
       }
 
       if (response.state == 'success') {
-        const data = response.data.result
+        const data = response.data
 
         setExchangeInfo({
           wallet: data.wallet,
@@ -103,6 +104,9 @@ const useSellForm = ({
         setCurrentStep(Step.Exchange)
 
         dispatch(setSellOrderId(data.orderId.toString()))
+      } else {
+        setApiError(true)
+        return
       }
     }
   }
@@ -267,10 +271,7 @@ const useSellForm = ({
         signal
       })
 
-      if (
-        response.state == 'success' &&
-        response.data.result.status == 'pending'
-      ) {
+      if (response.state == 'success') {
         const {
           wallet,
           orderId,
@@ -279,7 +280,7 @@ const useSellForm = ({
           amountIn,
           curIn,
           curOut
-        } = response.data.result
+        } = response.data
 
         setExchangeInfo({
           wallet,
@@ -368,7 +369,7 @@ const useSellForm = ({
         })
 
         if (response.state == 'success') {
-          const data = response.data.result
+          const data = response.data
 
           setExchangeInfo({
             ...exchangeInfo,
@@ -418,7 +419,7 @@ const useSellForm = ({
     currencies: currencies,
     currentToken: currentToken && currentToken.symbol,
     tokens: tokens,
-    serviceAvailable: serviceAvailable,
+    serviceAvailable: serviceAvailable && !apiError,
     onBlockchainChange: (blockchain: any) => {},
     onTokenChange: onTokenChange
   }

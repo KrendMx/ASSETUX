@@ -31,7 +31,10 @@ import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
 import { env } from '@/lib/env/client.mjs'
 
-import type { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type {
+  IEcommerceBill,
+  ITokenBalance
+} from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type {
   FiatProvider,
   FiatRate
@@ -40,6 +43,7 @@ import type { Option } from '@/components/common/input-select/types.input-select
 import { useAppSelector } from '@/lib/redux/hooks'
 import { VISAMASTER } from '@/core/backend/types.core.backend'
 import { validatePhone } from '@/lib/helpers.global'
+import Maintenance from '@/components/home/form-group/form/common/maintenance'
 
 const inputIds = {
   email: 'email',
@@ -53,6 +57,7 @@ export type PaymentProps<T, B> = {
   providers: FiatProvider[]
   blockchainURL: string
   fiatrate: B
+  balanceOfToken?: ITokenBalance
 }
 
 const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
@@ -78,6 +83,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [selectedCurrency, setSelectedCurrency] =
     useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
+  const [serviceUnavaliable, setServiceUnavaliable] = useState<boolean>(false)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -169,13 +175,12 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     setWaitingResponse(false)
 
     if (response.state != 'success') {
+      setServiceUnavaliable(true)
       return
     }
 
     location.href = response.data.linkToPaymentString
   }
-
-  console.log(bill)
 
   return (
     <>
@@ -206,6 +211,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         }
       >
         <Form onSubmit={handleSubmit} style={{ minHeight: 440 }}>
+          {serviceUnavaliable && <Maintenance bgStyle={{ borderRadius: 10 }} />}
           <InputSelect
             label={t('toPay')}
             value={bill.bill.sendAmount + ''}

@@ -117,10 +117,7 @@ export type SellTokenCreateData = {
   totalAmount: number
 }
 
-export type SellTokenCreate = Response<
-  { error: false; result: SellTokenCreateData },
-  { error: true; result: string }
->
+export type SellTokenCreate = Response<CheckSellData>
 
 export type CheckSellData = {
   orderId: string
@@ -142,18 +139,10 @@ export type CheckSellData = {
   status: string
   timestamp: string
   wallet: string
+  end: string
 }
 
-export type CheckSellOrder = Response<
-  {
-    error: false
-    result: CheckSellData
-  },
-  {
-    error: true
-    result: string
-  }
->
+export type CheckSellOrder = Response<CheckSellData>
 
 export type CheckSellOrderProps = UrlRequest & {
   orderId: string

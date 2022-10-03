@@ -16,6 +16,7 @@ import LinkModal from './link-modal'
 
 import type { IMerchant } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import useListing from './useListing'
+import { CurrenciesType } from '@/lib/data/currencies'
 
 const inputIds = {
   get: 'get',
@@ -93,7 +94,9 @@ const ListingComponent = ({ profile }: BillProps) => {
                     error={inputError == '' ? undefined : inputError}
                     changeable
                     onlyNumbers
-                    onSelect={(val) => setSelectedCurrency(val)}
+                    onSelect={(val) =>
+                      setSelectedCurrency(val as CurrenciesType)
+                    }
                     onActiveChange={setGetCurrencyActive}
                     displayInSelect={1}
                     maxValue={ranges?.max}
@@ -127,7 +130,9 @@ const ListingComponent = ({ profile }: BillProps) => {
                     error={outputError == '' ? undefined : outputError}
                     changeable={isTRANSFER}
                     onlyNumbers
-                    onSelect={(val) => setSelectedCurrency(val)}
+                    onSelect={(val) =>
+                      setSelectedCurrency(val as CurrenciesType)
+                    }
                     onActiveChange={setGetCurrencyActive}
                     displayInSelect={1}
                     visuallyDisabled={isRETENTION}

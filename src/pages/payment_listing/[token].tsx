@@ -83,6 +83,12 @@ export const getServerSideProps: GetServerSideProps<
     return errorProps
   }
 
+  const balanceOfToken = await EcommerceClient.checkBalanceOfToken(id)
+
+  if (balanceOfToken.state != 'success') {
+    return errorProps
+  }
+
   const buyProviders = fiatProviders.data.filter(
     (provider) => provider.type == 'BUY'
   )
@@ -101,8 +107,10 @@ export const getServerSideProps: GetServerSideProps<
       providers: buyProviders,
       blockchainURL: blockchains.data[0].url,
       fiatrate: currentFiatrate,
+      balanceOfToken: balanceOfToken.data,
       ...(await serverSideTranslations(locale!, [
         'profile-payment',
+        'profile-listing',
         'inputSelect',
         'footer',
         'routes',

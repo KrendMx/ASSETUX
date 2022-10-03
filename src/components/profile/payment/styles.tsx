@@ -163,6 +163,7 @@ export const Content = styled.div<ContentProps>`
 `
 
 export const Form = styled.form`
+  position: relative;
   max-width: 469px;
   width: 100%;
   min-height: 520px;

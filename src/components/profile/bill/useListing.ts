@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
@@ -44,9 +43,8 @@ const useListing = ({ profile }: BillProps) => {
   const [inputError, setInputError] = useState('')
   const [outputError, setOutputError] = useState('')
   const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
-    currentCurrency | null
-  )
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrenciesType>(currentCurrency)
   const [get, setGet] = useState({
     visible: '',
     actual: 0
@@ -184,7 +182,7 @@ const useListing = ({ profile }: BillProps) => {
   > = async (event) => {
     event.preventDefault()
 
-    if (!selectedToken || !availableTokens || !selectedCurrency) {
+    if (!selectedToken || !selectedCurrency) {
       return
     }
 

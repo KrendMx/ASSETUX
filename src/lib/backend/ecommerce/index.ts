@@ -17,7 +17,9 @@ import type {
   GetBillResponse,
   ICreatePaymentProps,
   CreatePaymentResponse,
-  MerchantBillResponse
+  MerchantBillResponse,
+  TokenBalanceResponse,
+  CalcFeeResponse
 } from './types.backend.ecommerce'
 import { CurrenciesType } from '@/lib/data/currencies'
 import { ActionType } from '@/lib/redux/crypto/types.crypto'
@@ -117,10 +119,16 @@ class EcommerceClient {
     currency: CurrenciesType,
     method: ActionType,
     reverseCalc: boolean
-  ) {
+  ): Promise<CalcFeeResponse> {
     return api.get(
       `/api/buytoken/calc_fee?amount=${amount}&currency=${currency}&reverseCalc=${reverseCalc}&method=${method}`
     )
+  }
+
+  public async checkBalanceOfToken(
+    tokenSymbol: string
+  ): Promise<TokenBalanceResponse> {
+    return api.get(`ecommerce/merchant/checkavailable/${tokenSymbol}`)
   }
 }
 

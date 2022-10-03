@@ -6,7 +6,7 @@ get: You get
 give: You give
 send: Client pays
 allIncluded: All fees included
-copyLink: Copy link to payment page 
+copyLink: Copy link to payment page
 p1: >-
   To invoice:
 p2: When the payment is made, you will receive an E-mail.
@@ -17,7 +17,11 @@ formHeading: Calculator
 loading: Loading ...
 copied: Copied
 
-minError: "Minimal amount is {{min}}"
-maxError: "Maximum amount is {{max}}"
+minError: 'Minimal amount is {{min}}'
+maxError: 'Maximum amount is {{max}}'
 
 paymentLink: Payment link
+
+maintenance_title: 'Oops! '
+maintenance_p1: '{{X}} amount of tokens left to buy.'
+maintenance_p2: All the tokens are redeemed.
