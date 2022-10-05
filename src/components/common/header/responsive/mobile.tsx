@@ -8,7 +8,7 @@ import Logo from '@/components/common/logo'
 
 import { mobile } from '@/lib/data/constants'
 import { useAppSelector } from '@/lib/redux/hooks'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 import { Container } from './style'
 
 const MobileContainer = styled(Container)`

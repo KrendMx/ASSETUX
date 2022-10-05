@@ -16,7 +16,7 @@ import {
   popularAbsolute
 } from '@/lib/routes'
 import { isCurrencyDeclared } from '@/lib/data/currencies'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
 import List from './list'
 import {

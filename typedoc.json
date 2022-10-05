@@ -1,13 +1,31 @@
 {
   "name": "Assetux Frontend",
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./src"],
+  "entryPoints": [
+    "./src/core/backend/types.core.backend.ts",
+    "./src/lib/backend/ecommerce/types.backend.ecommerce.ts",
+    "./src/lib/backend/ecommerce/index.ts",
+    "./src/lib/backend/main/index.ts",
+    "./src/lib/backend/main/types.backend.main.ts",
+    "./src/lib/backend/clients.ts",
+    "./src/lib/data/currencies.ts",
+    "./src/lib/data/constants.ts",
+    "./src/lib/data/locales.ts",
+    "./src/lib/env/schema.js",
+    "./src/lib/redux/crypto",
+    "./src/lib/redux/ui",
+    "./src/lib/helpers.global.ts",
+    "./src/lib/hooks.ts",
+    "./src/lib/routes.ts"
+  ],
   "sort": ["source-order"],
   "media": "public",
   "categorizeByGroup": false,
   "hideGenerator": true,
   "searchInComments": true,
-  "plugin": ["typedoc-plugin-resolve-crossmodule-references"],
-  "entryPointStrategy": "expand",
-  "exclude": ["**/!(types.**(.ts|.tsx))"]
+  "plugin": [
+    "typedoc-plugin-resolve-crossmodule-references",
+    "typedoc-plugin-missing-exports",
+    "typedoc-plugin-markdown"
+  ]
 }

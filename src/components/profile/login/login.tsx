@@ -4,7 +4,7 @@ import { Magic } from 'magic-sdk'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 import { EcommerceClient } from '@/lib/backend/clients'
 import { emailRegexp, mappedCookies } from '@/lib/data/constants'
 import { isLocaleDeclared } from '@/lib/data/locales'

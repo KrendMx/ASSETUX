@@ -24,7 +24,7 @@ import type {
 import { CurrenciesType } from '@/lib/data/currencies'
 import { ActionType } from '@/lib/redux/crypto/types.crypto'
 
-class EcommerceClient {
+export class EcommerceClient {
   public async login({ token }: LoginProps): Promise<LoginResponse> {
     return api.post(`/ecommerce/user/login`, undefined, {
       headers: {
@@ -131,5 +131,3 @@ class EcommerceClient {
     return api.get(`ecommerce/merchant/checkavailable/${tokenSymbol}`)
   }
 }
-
-export default EcommerceClient

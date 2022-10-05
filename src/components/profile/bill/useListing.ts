@@ -15,7 +15,7 @@ import { rateCheckInterval } from '@/lib/data/constants'
 import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { setMerchantMode } from '@/lib/redux/ui'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 import { BillProps } from './listing'
 
 const useListing = ({ profile }: BillProps) => {

@@ -29,7 +29,7 @@ import {
 import { EcommerceClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
 import type {
   IEcommerceBill,
@@ -41,7 +41,7 @@ import type {
 } from '@/lib/backend/main/types.backend.main'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { useAppSelector } from '@/lib/redux/hooks'
-import { VISAMASTER } from '@/core/backend/types.core.backend'
+import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { validatePhone } from '@/lib/helpers.global'
 import Maintenance from '@/components/home/form-group/form/common/maintenance'
 
@@ -143,10 +143,10 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
-      selectedPayment == 'QIWI'
+      selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCard = selectedPayment != 'QIWI' ? details.length == 16 : true
+    const validCard = selectedPayment != QIWI ? details.length == 16 : true
 
     setErrors((prev) => ({
       ...prev,
@@ -249,7 +249,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
                 type="email"
                 changeable
               />
-              {selectedPayment == 'QIWI' ? (
+              {selectedPayment == QIWI ? (
                 <InputSelect
                   label={t('phoneNumber')}
                   id={inputIds.phone}

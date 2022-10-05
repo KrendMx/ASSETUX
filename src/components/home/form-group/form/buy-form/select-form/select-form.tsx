@@ -24,6 +24,7 @@ import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
 
 import type { Error, SelectFormProps } from './types.select-buy'
 import type { Option } from '@/components/common/input-select/types.input-select'
+import { QIWI } from '@/core/backend/types.core.backend'
 
 const inputIds = {
   get: 'get',
@@ -420,7 +421,7 @@ const SelectForm = ({
               changeable
             />
             <HideableWithMargin hide={false} margins>
-              {currentPayment == 'QIWI' ? (
+              {currentPayment == QIWI ? (
                 <InputSelect
                   label={t('home:buy_phoneNumber')}
                   id={inputIds.phoneNumber}

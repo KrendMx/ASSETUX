@@ -19,6 +19,7 @@ import type {
   Token
 } from '@/lib/backend/main/types.backend.main'
 import type { CurrenciesType } from '@/lib/data/currencies'
+import { QIWI } from '@/core/backend/types.core.backend'
 
 type BuyFormProps = {
   currentBlockchain: Blockchain | null
@@ -85,7 +86,7 @@ const BuyForm = ({
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
-        card: selectedPayment == 'QIWI' ? phoneNumber : details
+        card: selectedPayment == QIWI ? phoneNumber : details
       })
 
       setProcessingRequest(false)

@@ -28,7 +28,7 @@ import {
 import { BackendClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
 import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type { FiatRate } from '@/lib/backend/main/types.backend.main'
@@ -37,7 +37,7 @@ import { useAppSelector } from '@/lib/redux/hooks'
 import ExchangeInfo from '@/components/common/exchange-info'
 import { PaymentProps } from './payment'
 import { useIsomorphicLayoutEffect } from '@/lib/hooks'
-import { VISAMASTER } from '@/core/backend/types.core.backend'
+import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { mapBlockchains, mapTokens, validatePhone } from '@/lib/helpers.global'
 import Maintenance, {
   MerchantPaymentMaintenance
@@ -198,10 +198,10 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
-      selectedPayment == 'QIWI'
+      selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCard = selectedPayment != 'QIWI' ? details.length == 16 : true
+    const validCard = selectedPayment != QIWI ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
       Number(+get * fiatrate?.buy[currentCurrency])
@@ -370,7 +370,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                 type="email"
                 changeable
               />
-              {selectedPayment == 'QIWI' ? (
+              {selectedPayment == QIWI ? (
                 <InputSelect
                   label={t('phoneNumber')}
                   id={inputIds.phone}

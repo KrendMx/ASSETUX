@@ -1,6 +1,6 @@
 import { MerchantMode } from './backend/ecommerce/types.backend.ecommerce.js'
 import { CurrenciesType } from './data/currencies.js'
-import { env } from './env/client.mjs'
+import { env } from './env/client'
 import { getEcommercePrefix } from './utils/helpers.utils'
 
 const host = env.hostProtocol + '://' + env.host

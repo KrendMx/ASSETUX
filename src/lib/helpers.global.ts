@@ -5,7 +5,7 @@ import {
 } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import { Blockchain, Token } from './backend/main/types.backend.main'
 import type { Option } from '@/components/common/input-select/types.input-select'
-import { env } from './env/client.mjs'
+import { env } from './env/client'
 
 export const mapTokens = (tokens: Token[] | IMerchantToken[]): TokenOption[] =>
   tokens
