@@ -349,7 +349,6 @@ const SelectForm = ({
                   selectedValue={currentPayment}
                   displayInSelect={1}
                   displayIcon
-                  selectable={!!checkedPayments && checkedPayments.length > 1}
                 />
               ) : (
                 <Skeleton containerClassName="input-skeleton" />
