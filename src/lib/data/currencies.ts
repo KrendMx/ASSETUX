@@ -2,9 +2,9 @@ import { AppDispatch } from '../redux/store'
 import { setCurrentCurrency } from '@/lib/redux/ui'
 import { locales } from './locales'
 
-export type CurrenciesType = 'RUB' | 'UAH' | 'KZT'
+export const currencies = ['RUB', 'UAH', 'KZT'] as const
 
-export const currencies: CurrenciesType[] = ['RUB', 'UAH', 'KZT']
+export type CurrenciesType = typeof currencies[number]
 
 export const mapCurrency = (currency: CurrenciesType) => {
   switch (currency) {
