@@ -3,8 +3,7 @@ const locales = require('./locales')
 const config = {
   defaultLocale: 'ru',
   locales,
-  localeDetection: true,
-  nonExplicitSupportedLngs: true
+  localeDetection: true
 }
 
 module.exports = {
