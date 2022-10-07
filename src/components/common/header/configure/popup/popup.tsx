@@ -63,7 +63,7 @@ const Popup = React.forwardRef<HTMLDivElement, PopupProps>(
         direction={direction}
       >
         <Languages onClick={handleClick} />
-        <Currencies onClick={handleClick} />
+        {/* <Currencies onClick={handleClick} /> */}
       </Container>
     )
   }

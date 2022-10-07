@@ -2,7 +2,7 @@ import { AppDispatch } from '../redux/store'
 import { setCurrentCurrency } from '@/lib/redux/ui'
 import { locales } from './locales'
 
-export const currencies = ['RUB', 'UAH', 'KZT'] as const
+export const currencies = ['RUB'] as const
 
 export type CurrenciesType = typeof currencies[number]
 
@@ -10,10 +10,8 @@ export const mapCurrency = (currency: CurrenciesType) => {
   switch (currency) {
     case 'RUB':
       return '₽'
-    case 'UAH':
-      return '₴'
-    case 'KZT':
-      return '₸'
+    // case "UAH":
+    //   return "₴"
   }
 }
 
@@ -21,10 +19,8 @@ export const mapShortCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case 'RUB':
       return 'Rus'
-    case 'UAH':
-      return 'Ukr'
-    case 'KZT':
-      return 'Kaz'
+    // case "UAH":
+    //   return "Ukr"
   }
 }
 
@@ -32,10 +28,8 @@ export const mapCurrencyName = (currency: CurrenciesType) => {
   switch (currency) {
     case 'RUB':
       return 'Russian Ruble'
-    case 'UAH':
-      return 'Ukrainian hryvnia'
-    case 'KZT':
-      return 'Kazakhstani tenge'
+    // case "UAH":
+    //   return "Ukrainian hryvnia"
   }
 }
 
