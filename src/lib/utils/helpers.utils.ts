@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import cookie from 'cookie'
 import sanitizeHtml from 'sanitize-html'
 
-import { env } from '../env/client.mjs'
+import { env } from '../env/client'
 import { EcommerceClient } from '../backend/clients'
 import { mappedCookies, floatRegexp } from '../data/constants'
 

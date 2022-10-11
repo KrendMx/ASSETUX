@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import Logo from './logo'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
 const LogoLink = styled.a`
   display: flex;

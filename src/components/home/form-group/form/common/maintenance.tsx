@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
@@ -8,6 +8,8 @@ import Icon from '@/components/common/modal-components/Icon'
 import Info from '@/components/common/modal-components/Info'
 import Shadow from '@/components/common/modal-components/Shadow'
 import Title from '@/components/common/modal-components/Title'
+
+import ExclamRed from '@/assets/Exclamation-red.svg'
 
 const SmallContainer = styled(Container)`
   width: 72%;
@@ -25,17 +27,23 @@ const Background = styled.div`
   left: 0;
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(4px);
+  z-index: 2;
+`
+
+const MerchantBackground = styled(Background)`
+  border-radius: 10px;
+  z-index: 2;
 `
 
 const ColoredInfo = styled(Info)`
   color: #6e6e73;
 `
 
-const Maintenance = () => {
+const Maintenance = ({ bgStyle }: { bgStyle?: CSSProperties }) => {
   const { t } = useTranslation('home')
 
   return (
-    <Background>
+    <Background style={bgStyle}>
       <SmallContainer allowScrolling resetZIndex>
         <Title>
           <Shadow>
@@ -55,6 +63,46 @@ const Maintenance = () => {
         <ColoredInfo misc>{t('home:maintenance_p2')}</ColoredInfo>
       </SmallContainer>
     </Background>
+  )
+}
+
+export const MerchantPaymentMaintenance = ({
+  tokenAmount,
+  symbol
+}: {
+  tokenAmount: number
+  symbol: string
+}) => {
+  const { t } = useTranslation('profile-listing')
+
+  return (
+    <MerchantBackground>
+      <SmallContainer allowScrolling resetZIndex>
+        <Title>
+          <Shadow>
+            <Icon>
+              <Image
+                src={ExclamRed}
+                layout="fill"
+                alt="Exclamation"
+                objectFit="contain"
+                objectPosition="center"
+              />
+            </Icon>
+          </Shadow>
+          <span>
+            {t('maintenance_title', { X: `${tokenAmount} ${symbol}` })}
+          </span>
+        </Title>
+        {tokenAmount > 0 ? (
+          <ColoredInfo misc>
+            {t('maintenance_p1', { X: `${tokenAmount} ${symbol}` })}
+          </ColoredInfo>
+        ) : (
+          <ColoredInfo misc>{t('maintenance_p2')}</ColoredInfo>
+        )}
+      </SmallContainer>
+    </MerchantBackground>
   )
 }
 

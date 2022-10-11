@@ -1,13 +1,11 @@
-import { env } from "./src/lib/env/server.mjs"
-
-const enablePWA = env.ENABLE_PWA == "true"
+const enablePWA = process.env.ENABLE_PWA == 'true'
 
 const runtimeCaching = [
   {
     urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
-    handler: "StaleWhileRevalidate",
+    handler: 'StaleWhileRevalidate',
     options: {
-      cacheName: "static-font-assets",
+      cacheName: 'static-font-assets',
       expiration: {
         maxEntries: 4,
         maxAgeSeconds: 7 * 24 * 60 * 60 // 7 days
@@ -16,9 +14,9 @@ const runtimeCaching = [
   },
   {
     urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
-    handler: "StaleWhileRevalidate",
+    handler: 'StaleWhileRevalidate',
     options: {
-      cacheName: "static-image-assets",
+      cacheName: 'static-image-assets',
       expiration: {
         maxEntries: 64,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -27,9 +25,9 @@ const runtimeCaching = [
   },
   {
     urlPattern: /\/_next\/image\?url=.+$/i,
-    handler: "StaleWhileRevalidate",
+    handler: 'StaleWhileRevalidate',
     options: {
-      cacheName: "next-image",
+      cacheName: 'next-image',
       expiration: {
         maxEntries: 64,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -38,9 +36,9 @@ const runtimeCaching = [
   },
   {
     urlPattern: /\.(?:js)$/i,
-    handler: "StaleWhileRevalidate",
+    handler: 'StaleWhileRevalidate',
     options: {
-      cacheName: "static-js-assets",
+      cacheName: 'static-js-assets',
       expiration: {
         maxEntries: 32,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -49,9 +47,9 @@ const runtimeCaching = [
   },
   {
     urlPattern: /\.(?:css|less)$/i,
-    handler: "StaleWhileRevalidate",
+    handler: 'StaleWhileRevalidate',
     options: {
-      cacheName: "static-style-assets",
+      cacheName: 'static-style-assets',
       expiration: {
         maxEntries: 32,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -68,19 +66,19 @@ const runtimeCaching = [
       }
 
       if (
-        pathname.includes("profile") ||
-        pathname.includes("bill") ||
-        pathname.includes("history") ||
-        pathname.includes("payment")
+        pathname.includes('profile') ||
+        pathname.includes('bill') ||
+        pathname.includes('history') ||
+        pathname.includes('payment')
       ) {
         return false
       }
 
       return true
     },
-    handler: "StaleWhileRevalidate",
+    handler: 'StaleWhileRevalidate',
     options: {
-      cacheName: "next-data",
+      cacheName: 'next-data',
       expiration: {
         maxEntries: 32,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -97,23 +95,23 @@ const runtimeCaching = [
       }
 
       return (
-        pathname.includes("profile") ||
-        pathname.includes("bill") ||
-        pathname.includes("history") ||
-        pathname.includes("payment")
+        pathname.includes('profile') ||
+        pathname.includes('bill') ||
+        pathname.includes('history') ||
+        pathname.includes('payment')
       )
     },
-    handler: "NetworkOnly",
-    method: "GET",
+    handler: 'NetworkOnly',
+    method: 'GET',
     options: {
-      cacheName: "next-data-commerce"
+      cacheName: 'next-data-commerce'
     }
   },
   {
     urlPattern: /\.(?:json|xml|csv)$/i,
-    handler: "NetworkFirst",
+    handler: 'NetworkFirst',
     options: {
-      cacheName: "static-data-assets",
+      cacheName: 'static-data-assets',
       expiration: {
         maxEntries: 32,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -124,15 +122,15 @@ const runtimeCaching = [
     urlPattern: ({ url }) => {
       const pathname = url.pathname
       return (
-        pathname.startsWith("/ecommerce") ||
-        pathname.startsWith("/api") ||
-        pathname.startsWith("/websocket")
+        pathname.startsWith('/ecommerce') ||
+        pathname.startsWith('/api') ||
+        pathname.startsWith('/websocket')
       )
     },
-    handler: "NetworkOnly",
-    method: "GET",
+    handler: 'NetworkOnly',
+    method: 'GET',
     options: {
-      cacheName: "api"
+      cacheName: 'api'
     }
   },
   {
@@ -140,9 +138,9 @@ const runtimeCaching = [
       const isSameOrigin = self.origin === url.origin
       return isSameOrigin
     },
-    handler: "NetworkFirst",
+    handler: 'NetworkFirst',
     options: {
-      cacheName: "others",
+      cacheName: 'others',
       expiration: {
         maxEntries: 32,
         maxAgeSeconds: 24 * 60 * 60 // 24 hours
@@ -155,9 +153,9 @@ const runtimeCaching = [
       const isSameOrigin = self.origin === url.origin
       return !isSameOrigin
     },
-    handler: "NetworkFirst",
+    handler: 'NetworkFirst',
     options: {
-      cacheName: "cross-origin",
+      cacheName: 'cross-origin',
       expiration: {
         maxEntries: 32,
         maxAgeSeconds: 60 * 60 // 1 hour
@@ -168,8 +166,8 @@ const runtimeCaching = [
 ]
 
 export const pwa = {
-  dest: "public",
-  disable: !enablePWA || env.NODE_ENV === "development",
+  dest: 'public',
+  disable: !enablePWA || process.env.NODE_ENV === 'development',
   buildExcludes: [
     /chunks\/pages\/profile\/(?!login)/,
     /chunks\/pages\/profile-.*$/

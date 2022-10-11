@@ -1,3 +1,7 @@
+/**
+ * @group Events
+ */
+
 export type Option = {
   chain_id?: number
   icon?: string

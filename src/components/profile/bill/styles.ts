@@ -48,7 +48,7 @@ type FormProps = {
 }
 
 export const Form = styled(SharedForm)<FormProps>`
-  height: ${(props) => (props.getActive ? '570px' : '427px')};
+  min-height: ${(props) => (props.getActive ? '570px' : '427px')};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -68,11 +68,11 @@ export const Form = styled(SharedForm)<FormProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => (props.getActive ? '550px' : '407px')};
+    min-height: ${(props) => (props.getActive ? '550px' : '407px')};
   }
 
   @media only screen and (max-width: 370px) {
-    height: ${(props) => (props.getActive ? '36em' : '27em')};
+    min-height: ${(props) => (props.getActive ? '36em' : '27em')};
   }
 `
 

@@ -202,6 +202,14 @@ export type CreatePaymentResponse = Response<{
 
 export type MerchantBillResponse = Response<MerchantData>
 
+export type TokenBalanceResponse = Response<ITokenBalance>
+
+export type CalcFeeResponse = Response<any>
+
+export interface ITokenBalance {
+  balance: string
+}
+
 export interface MerchantData {
   token: IMerchantToken
   chain: IChain

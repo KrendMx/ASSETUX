@@ -20,6 +20,7 @@ import {
 
 import {
   currencies as definedCurrencies,
+  CurrenciesType,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
@@ -27,7 +28,7 @@ import {
 import { BackendClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
 import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type { FiatRate } from '@/lib/backend/main/types.backend.main'
@@ -36,8 +37,11 @@ import { useAppSelector } from '@/lib/redux/hooks'
 import ExchangeInfo from '@/components/common/exchange-info'
 import { PaymentProps } from './payment'
 import { useIsomorphicLayoutEffect } from '@/lib/hooks'
-import { VISAMASTER } from '@/core/backend/types.core.backend'
+import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { mapBlockchains, mapTokens, validatePhone } from '@/lib/helpers.global'
+import Maintenance, {
+  MerchantPaymentMaintenance
+} from '@/components/home/form-group/form/common/maintenance'
 
 const inputIds = {
   email: 'email',
@@ -52,7 +56,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     bill: { token, chain, widget },
     providers,
     blockchainURL,
-    fiatrate
+    fiatrate,
+    balanceOfToken
   } = props
   const displayHeader =
     widget.logoCompany != null ||
@@ -73,10 +78,16 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
-    currentCurrency
-  )
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
+  const [serviceUnavaliable, setServiceUnavaliable] = useState<{
+    unavaliable: boolean
+    invalidBalance: boolean
+  }>({
+    unavaliable: false,
+    invalidBalance: false
+  })
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -97,7 +108,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
   useIsomorphicLayoutEffect(() => {
     const errorRanges = checkRanges(
-      Number(+get * fiatrate?.buy[currentCurrency])
+      Number(+get * fiatrate?.buy[selectedCurrency])
     )
 
     if (errorRanges) {
@@ -111,7 +122,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         [inputIds.give]: undefined
       })
     }
-  }, [selectedPayment, get, providers])
+  }, [selectedPayment, get, providers, selectedCurrency])
 
   const paymentOptions: Option[] = useMemo(() => {
     const options = providers
@@ -177,12 +188,20 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   ) => {
     event.preventDefault()
 
+    if (!!balanceOfToken?.balance && +get > +balanceOfToken.balance) {
+      setServiceUnavaliable({
+        invalidBalance: true,
+        unavaliable: false
+      })
+      return
+    }
+
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
-      selectedPayment == 'QIWI'
+      selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCard = selectedPayment != 'QIWI' ? details.length == 16 : true
+    const validCard = selectedPayment != QIWI ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
       Number(+get * fiatrate?.buy[currentCurrency])
@@ -229,6 +248,10 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     setWaitingResponse(false)
 
     if (response.state != 'success' || !response.data.link) {
+      setServiceUnavaliable({
+        invalidBalance: false,
+        unavaliable: true
+      })
       return
     }
 
@@ -264,6 +287,17 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         }
       >
         <Form onSubmit={handleSubmit}>
+          {balanceOfToken?.balance &&
+            (+balanceOfToken?.balance === 0 ||
+              serviceUnavaliable.invalidBalance) && (
+              <MerchantPaymentMaintenance
+                tokenAmount={+balanceOfToken.balance}
+                symbol={'YAY'}
+              />
+            )}
+          {serviceUnavaliable.unavaliable && (
+            <Maintenance bgStyle={{ borderRadius: 10 }} />
+          )}
           <InputSelect
             label={t('home:buy_blockchain')}
             id={'blockchains'}
@@ -289,8 +323,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           />
           <ExchangeInfo
             token={token.symbol}
-            currency={currentCurrency}
-            rate={fiatrate?.buy[currentCurrency]}
+            currency={selectedCurrency}
+            rate={fiatrate?.buy[selectedCurrency]}
             isLoading={false}
             placeholder={t('home:exchange_fees')}
             text="asd"
@@ -303,7 +337,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
             }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
-            onSelect={(val) => setSelectedCurrency(val)}
+            onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
             selectable={!!currencies && currencies.length > 1}
@@ -336,7 +370,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                 type="email"
                 changeable
               />
-              {selectedPayment == 'QIWI' ? (
+              {selectedPayment == QIWI ? (
                 <InputSelect
                   label={t('phoneNumber')}
                   id={inputIds.phone}

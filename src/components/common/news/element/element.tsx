@@ -9,7 +9,7 @@ import { selectShowSkeleton } from '@/lib/redux/ui/selectors'
 import { useAppSelector } from '@/lib/redux/hooks'
 import { getFormattedDate } from '@/lib/utils/date'
 
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 import { BackendClient } from '@/lib/backend/clients'
 
 import AbsoluteSkeletonContainer from '@/components/common/absolute-skeleton-container'

@@ -21,7 +21,7 @@ import {
 } from '@/lib/routes'
 import { isCurrencyDeclared } from '@/lib/data/currencies'
 import { logout, getEcommercePrefix } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
 import NavGroup from './group'
 import NavLink from '../common/nav-link'

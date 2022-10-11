@@ -33,11 +33,10 @@ import type {
   CreateFeedbackProps,
   GetTokensProps
 } from './types.backend.main'
-import { env } from '@/lib/env/client.mjs'
 import { api } from '@/core/backend/handle-request'
 import { constructURL } from '@/lib/helpers.global'
 
-class BackendClient {
+export class BackendClient {
   public async getFiatRates({
     apiHost,
     signal
@@ -177,22 +176,12 @@ class BackendClient {
     chainId,
     signal
   }: CheckLiquidityProps & Abortable): Promise<CheckLiquidityResponse> {
-    return !env.isStage
-      ? api.get(`${constructURL(apiHost)}/api/liquidity`, {
-          params: {
-            chainId
-          },
-          signal
-        })
-      : Promise.resolve({
-          state: 'success',
-          status: 200,
-          message: 'string',
-          data: {
-            buy: true,
-            sell: true
-          }
-        })
+    return api.get(`${constructURL(apiHost)}/api/liquidity`, {
+      params: {
+        chainId
+      },
+      signal
+    })
   }
 
   public async getNews({
@@ -235,5 +224,3 @@ class BackendClient {
     )
   }
 }
-
-export default BackendClient

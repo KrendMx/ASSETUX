@@ -20,6 +20,7 @@ import {
 
 import {
   currencies as definedCurrencies,
+  CurrenciesType,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
@@ -28,17 +29,21 @@ import {
 import { EcommerceClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 
-import type { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
+import type {
+  IEcommerceBill,
+  ITokenBalance
+} from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type {
   FiatProvider,
   FiatRate
 } from '@/lib/backend/main/types.backend.main'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { useAppSelector } from '@/lib/redux/hooks'
-import { VISAMASTER } from '@/core/backend/types.core.backend'
+import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { validatePhone } from '@/lib/helpers.global'
+import Maintenance from '@/components/home/form-group/form/common/maintenance'
 
 const inputIds = {
   email: 'email',
@@ -52,6 +57,7 @@ export type PaymentProps<T, B> = {
   providers: FiatProvider[]
   blockchainURL: string
   fiatrate: B
+  balanceOfToken?: ITokenBalance
 }
 
 const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
@@ -74,10 +80,10 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(
-    currentCurrency
-  )
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
+  const [serviceUnavaliable, setServiceUnavaliable] = useState<boolean>(false)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -137,10 +143,10 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
-      selectedPayment == 'QIWI'
+      selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCard = selectedPayment != 'QIWI' ? details.length == 16 : true
+    const validCard = selectedPayment != QIWI ? details.length == 16 : true
 
     setErrors((prev) => ({
       ...prev,
@@ -169,6 +175,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     setWaitingResponse(false)
 
     if (response.state != 'success') {
+      setServiceUnavaliable(true)
       return
     }
 
@@ -204,15 +211,16 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         }
       >
         <Form onSubmit={handleSubmit} style={{ minHeight: 440 }}>
+          {serviceUnavaliable && <Maintenance bgStyle={{ borderRadius: 10 }} />}
           <InputSelect
             label={t('toPay')}
             value={bill.bill.sendAmount + ''}
             visuallyDisabled
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
-            onSelect={(val) => setSelectedCurrency(val)}
+            onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
-            displayInSelect={1}
+            displayInSelect={2}
             selectable={!!currencies && currencies.length > 1}
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
@@ -241,7 +249,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
                 type="email"
                 changeable
               />
-              {selectedPayment == 'QIWI' ? (
+              {selectedPayment == QIWI ? (
                 <InputSelect
                   label={t('phoneNumber')}
                   id={inputIds.phone}

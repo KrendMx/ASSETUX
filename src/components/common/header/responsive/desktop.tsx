@@ -10,7 +10,7 @@ import TextLogo from '@/components/common/text-logo'
 
 import { commerce } from '@/lib/routes'
 import { logout, getEcommercePrefix } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 import {
   DesktopContainer,
   NavContainer,

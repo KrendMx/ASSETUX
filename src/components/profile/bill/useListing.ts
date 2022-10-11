@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
@@ -16,7 +15,7 @@ import { rateCheckInterval } from '@/lib/data/constants'
 import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { setMerchantMode } from '@/lib/redux/ui'
-import { env } from '@/lib/env/client.mjs'
+import { env } from '@/lib/env/client'
 import { BillProps } from './listing'
 
 const useListing = ({ profile }: BillProps) => {
@@ -44,7 +43,8 @@ const useListing = ({ profile }: BillProps) => {
   const [inputError, setInputError] = useState('')
   const [outputError, setOutputError] = useState('')
   const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<CurrenciesType>(currentCurrency)
   const [get, setGet] = useState({
     visible: '',
     actual: 0
@@ -182,7 +182,7 @@ const useListing = ({ profile }: BillProps) => {
   > = async (event) => {
     event.preventDefault()
 
-    if (!selectedToken || !availableTokens || !selectedCurrency) {
+    if (!selectedToken || !selectedCurrency) {
       return
     }
 
@@ -254,7 +254,7 @@ const useListing = ({ profile }: BillProps) => {
       if (response.state == 'success') {
         const fiatProviders = response.data
         const buyProviders = fiatProviders.filter(
-          ({ type, currency }) => type == 'BUY' && currency === currentCurrency
+          ({ type, currency }) => type == 'BUY' && currency === selectedCurrency
         )
 
         if (buyProviders.length != 0) {
@@ -281,6 +281,21 @@ const useListing = ({ profile }: BillProps) => {
       }
     }
 
+    const controller = new AbortController()
+    fetch(controller.signal)
+
+    const rateInterval = setInterval(
+      () => fetch(controller.signal),
+      rateCheckInterval
+    )
+
+    return () => {
+      clearInterval(rateInterval)
+      controller.abort()
+    }
+  }, [selectedCurrency])
+
+  useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
       value: currency,
       description: mapCurrencyName(currency),
@@ -294,19 +309,6 @@ const useListing = ({ profile }: BillProps) => {
         mappedCurrencies.find(({ value }) => value === currentCurrency)
           ?.value || mappedCurrencies[0].value
       )
-    }
-
-    const controller = new AbortController()
-    fetch(controller.signal)
-
-    const rateInterval = setInterval(
-      () => fetch(controller.signal),
-      rateCheckInterval
-    )
-
-    return () => {
-      clearInterval(rateInterval)
-      controller.abort()
     }
   }, [currentCurrency])
 
