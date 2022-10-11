@@ -90,7 +90,7 @@ const ListingComponent = ({ profile }: BillProps) => {
                     onChange={handleSend}
                     value={send}
                     selectedValue={selectedCurrency}
-                    selectable={!!currencies && currencies.length > 1}
+                    selectable={false}
                     error={inputError == '' ? undefined : inputError}
                     changeable
                     onlyNumbers
@@ -126,7 +126,7 @@ const ListingComponent = ({ profile }: BillProps) => {
                     onChange={handleGet}
                     value={get.visible}
                     selectedValue={selectedCurrency}
-                    selectable={!!currencies && currencies.length > 1}
+                    selectable={false}
                     error={outputError == '' ? undefined : outputError}
                     changeable={isTRANSFER}
                     onlyNumbers

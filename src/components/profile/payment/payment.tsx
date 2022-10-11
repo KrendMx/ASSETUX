@@ -29,7 +29,6 @@ import {
 import { EcommerceClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client'
 
 import type {
   IEcommerceBill,
@@ -44,6 +43,7 @@ import { useAppSelector } from '@/lib/redux/hooks'
 import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { validatePhone } from '@/lib/helpers.global'
 import Maintenance from '@/components/home/form-group/form/common/maintenance'
+import { env } from '@/lib/env/client'
 
 const inputIds = {
   email: 'email',
@@ -221,7 +221,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
             onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
-            selectable={!!currencies && currencies.length > 1}
+            selectable={false}
           />
           <HideableWithMargin hide={getCurrencyActive} space="0.842em">
             <InputSelect
