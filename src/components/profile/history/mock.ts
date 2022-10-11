@@ -8,7 +8,7 @@ const tableHeadings = (
   t: TFunction,
   merchantMode: MerchantMode = 'RETENTION'
 ) =>
-  merchantMode === 'RETENTION'
+  merchantMode !== 'TRANSFER'
     ? [
         {
           value: t('dateTime'),
@@ -61,7 +61,7 @@ const tableHeadings = (
       ]
 
 const cardNames = (t: TFunction, merchantMode: MerchantMode = 'RETENTION') =>
-  merchantMode === 'RETENTION'
+  merchantMode !== 'TRANSFER'
     ? [t('dateTime'), t('email'), t('creditCard'), t('received'), t('amount')]
     : [
         t('dateTime'),

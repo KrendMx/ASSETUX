@@ -11,7 +11,7 @@ import { BackendClient } from '@/lib/backend/clients'
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
 import { setOrdersActive } from '@/lib/redux/ui'
 
-import type { OrderInfo } from './order-modal/types.order-modal'
+import type { OrderInfo } from './order-modal/types'
 import type { OrdersData } from '@/lib/backend/main/types.backend.main'
 import type { RequestState } from '@/core/backend/types.core.backend'
 
