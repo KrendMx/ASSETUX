@@ -65,7 +65,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       ? VISAMASTER
       : providers[0].method
   )
-  const [get, setGet] = useState('10000')
+  const [get, setGet] = useState('0')
   const [paymentActive, setPaymentActive] = useState(false)
   const [email, setEmail] = useState('')
   const [details, setDetails] = useState('')

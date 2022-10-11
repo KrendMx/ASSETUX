@@ -254,7 +254,7 @@ const useListing = ({ profile }: BillProps) => {
       if (response.state == 'success') {
         const fiatProviders = response.data
         const buyProviders = fiatProviders.filter(
-          (provider) => provider.type == 'BUY'
+          ({ type, currency }) => type == 'BUY' && currency === currentCurrency
         )
 
         if (buyProviders.length != 0) {
