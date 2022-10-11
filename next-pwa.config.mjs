@@ -167,7 +167,7 @@ const runtimeCaching = [
 
 export const pwa = {
   dest: 'public',
-  disable: !enablePWA || env.NODE_ENV === 'development',
+  disable: !enablePWA || process.env.NODE_ENV === 'development',
   buildExcludes: [
     /chunks\/pages\/profile\/(?!login)/,
     /chunks\/pages\/profile-.*$/
