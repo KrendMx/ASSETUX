@@ -11,7 +11,7 @@ import NextButton from '../../common/next-button'
 import ExchangeRow from '@/components/common/exchange-info'
 import NetworkRow from '../../common/network-row'
 import HideableWithMargin from '../../common/hideable-with-margin'
-import Maintenance from '../../common/maintenance'
+import Maintenance, { EuroUsingWarning } from '../../common/maintenance'
 
 import { Container, FormContainer } from './styles'
 
@@ -77,6 +77,7 @@ const SelectForm = ({
   const [giveActive, setGiveActive] = useState(false)
   const [getActive, setGetActive] = useState(false)
   const [paymentActive, setPaymentActive] = useState(false)
+  const [euroModalOpen, setEuroModalOpen] = useState(false)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
@@ -249,6 +250,17 @@ const SelectForm = ({
 
   const handleNextStep = () => {
     if (serviceUnavailable) {
+      return
+    }
+
+    const euroAccept = !!sessionStorage.getItem('euro_accept')
+
+    if (
+      currentStep == Step.Details &&
+      !euroAccept &&
+      currentCurrency === 'EUR'
+    ) {
+      setEuroModalOpen(true)
       return
     }
 
@@ -452,6 +464,7 @@ const SelectForm = ({
 
   return (
     <Container formStep={currentStep} lastSelectorActive={getActive}>
+      {euroModalOpen && <EuroUsingWarning setOpen={setEuroModalOpen} />}
       {renderFields()}
 
       {!isLoading && serviceUnavailable && <Maintenance />}

@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
@@ -10,6 +10,8 @@ import Shadow from '@/components/common/modal-components/Shadow'
 import Title from '@/components/common/modal-components/Title'
 
 import ExclamRed from '@/assets/Exclamation-red.svg'
+import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
+import Button from '@/components/common/modal-components/Button'
 
 const SmallContainer = styled(Container)`
   width: 72%;
@@ -32,11 +34,15 @@ const Background = styled.div`
 
 const MerchantBackground = styled(Background)`
   border-radius: 10px;
-  z-index: 2;
 `
 
 const ColoredInfo = styled(Info)`
   color: #6e6e73;
+`
+
+const SkrollingColoredInfo = styled(ColoredInfo)`
+  max-height: 200px;
+  overflow-y: auto;
 `
 
 const Maintenance = ({ bgStyle }: { bgStyle?: CSSProperties }) => {
@@ -103,6 +109,52 @@ export const MerchantPaymentMaintenance = ({
         )}
       </SmallContainer>
     </MerchantBackground>
+  )
+}
+
+export const EuroUsingWarning = ({
+  setOpen,
+  bgStyle
+}: {
+  setOpen: Dispatch<SetStateAction<boolean>>
+  bgStyle?: CSSProperties
+}) => {
+  const { t } = useTranslation('common')
+
+  const handleClick = () => {
+    sessionStorage.setItem('euro_accept', 'true')
+    setOpen(false)
+  }
+
+  return (
+    <Background style={bgStyle}>
+      <SmallContainer allowScrolling resetZIndex>
+        <Title>
+          <Shadow>
+            <Icon>
+              <Image
+                src={ExclamRed}
+                layout="fill"
+                alt="Exclamation"
+                objectFit="contain"
+                objectPosition="center"
+              />
+            </Icon>
+          </Shadow>
+          <span>{t('attention')}</span>
+        </Title>
+        <SkrollingColoredInfo misc>
+          {t('euro_not_working_with')}
+          {t('euro_not_working_countries')}
+        </SkrollingColoredInfo>
+        <ColoredInfo misc>{t('euro_not_working_continue')}</ColoredInfo>
+        <ButtonsRow>
+          <Button onClick={handleClick} main>
+            OK
+          </Button>
+        </ButtonsRow>
+      </SmallContainer>
+    </Background>
   )
 }
 

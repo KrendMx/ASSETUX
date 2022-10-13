@@ -98,6 +98,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       blockchainURL: blockchain.url,
       fiatrate: null,
       ...(await serverSideTranslations(locale!, [
+        'common',
         'profile-payment',
         'inputSelect',
         'footer',
