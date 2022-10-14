@@ -12,12 +12,13 @@ type ContainerProps = {
 export const Container = styled.div<ContainerProps>`
   position: relative;
   width: 100%;
-  height: ${(props) =>
+  /* height: ${(props) =>
     props.formStep == Step.Credentials
       ? '519px'
       : props.lastSelectorActive
       ? '649px'
-      : '490px'};
+      : '490px'}; */
+  height: auto;
   background-color: var(--bgColor);
   display: flex;
   flex-direction: column;
@@ -39,12 +40,8 @@ export const Container = styled.div<ContainerProps>`
   }
 
   @media only screen and (max-width: ${mobile}px) {
-    height: ${(props) => (props.lastSelectorActive ? '599px' : '445px')};
+    height: auto;
     padding: 21px 17px;
-  }
-
-  @media only screen and (max-width: 370px) {
-    height: ${(props) => (props.lastSelectorActive ? '40em' : '30em')};
   }
 `
 

@@ -54,6 +54,8 @@ buy_invalidCard: Invalid card number
 buy_phoneNumber: Phone Number
 buy_invalidPhoneNumber: Invalid phone number
 buy_blockchainLabel: You are using ASSETUX on
+buy_cardholder: Card Holder
+buy_invalidCardHolder: Invalid Card Holder
 
 sell_blockchain: Blockchain
 sell_give: You give

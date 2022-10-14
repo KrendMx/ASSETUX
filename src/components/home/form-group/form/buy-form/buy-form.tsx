@@ -57,12 +57,13 @@ const BuyForm = ({
   const [email, setEmail] = useState('')
   const [details, setDetails] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
   const [walletAddress, setWalletAddress] = useState('')
   const [apiError, setApiError] = useState(false)
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
-
   const [cardError, setCardError] = useState('')
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
@@ -86,6 +87,8 @@ const BuyForm = ({
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
+        firstName,
+        lastName,
         card: selectedPayment == QIWI ? phoneNumber : details
       })
 
@@ -184,6 +187,8 @@ const BuyForm = ({
       currentDetails={details}
       currentPhoneNumber={phoneNumber}
       payments={processedPayments}
+      firstName={firstName}
+      lastName={lastName}
       currentWallet={walletAddress}
       giveAmount={giveAmount}
       getAmount={getAmount}
@@ -194,6 +199,8 @@ const BuyForm = ({
       serviceAvailable={serviceAvailable && !apiError}
       setCurrentStep={setCurrentStep}
       setGetAmount={setGetAmount}
+      setFirstName={setFirstName}
+      setLastName={setLastName}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}

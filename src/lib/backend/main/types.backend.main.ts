@@ -1,4 +1,5 @@
 import { Response, UrlRequest } from '@/core/backend/types.core.backend'
+import { CurrenciesType } from '@/lib/data/currencies'
 
 export type FiatRate = {
   chain_id: string
@@ -35,11 +36,7 @@ export type Token = {
 }
 
 export type MarketHistoryData = {
-  price: {
-    RUB: number
-    UAH: number
-    USD: number
-  }
+  price: { [key in CurrenciesType]: number }
   timestamp: string
 }
 
@@ -80,6 +77,8 @@ export type GetPaymentUrlProps = UrlRequest & {
   chainId: number
   email: string
   card: string
+  firstName?: string
+  lastName?: string
 }
 
 export type GetTokensProps = {
@@ -209,8 +208,7 @@ export type GetRefundAmountsProps = UrlRequest & {
 
 export type GetRefundAmountsResponse = Response<
   {
-    RUB: number
-    UAH: number
+    [key in CurrenciesType]: number
   },
   { message: string }
 >
