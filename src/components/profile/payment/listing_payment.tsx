@@ -204,7 +204,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     const validCard = selectedPayment != QIWI ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
-      Number(+get * fiatrate?.buy[currentCurrency])
+      Number(+get * fiatrate?.buy[selectedCurrency])
     )
 
     setErrors((prev) => ({
@@ -233,7 +233,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       apiHost: blockchainURL,
       ticker: selectedCurrency,
       provider: selectedPayment,
-      amount: Number(+get * fiatrate?.buy[currentCurrency]),
+      amount: Number(+get * fiatrate?.buy[selectedCurrency]),
       cryptoAddress: wallet,
       chainId: token.chain_id,
       tokenAddress: token.address,
@@ -333,14 +333,14 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           <InputSelect
             label={t('toPay')}
             value={
-              Number((+get * fiatrate?.buy[currentCurrency]).toFixed(2)) + ''
+              Number((+get * fiatrate?.buy[selectedCurrency]).toFixed(2)) + ''
             }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
             onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
-            selectable={false}
+            selectable={!!currencies && currencies.length > 1}
             visuallyDisabled
             error={errors[inputIds.give]}
           />
@@ -356,7 +356,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                 setDetails('')
               }}
               displayIcon
-              selectable
+              selectable={!!paymentOptions && paymentOptions.length > 1}
             />
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
