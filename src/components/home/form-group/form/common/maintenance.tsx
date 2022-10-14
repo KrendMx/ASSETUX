@@ -40,8 +40,8 @@ const ColoredInfo = styled(Info)`
   color: #6e6e73;
 `
 
-const SkrollingColoredInfo = styled(ColoredInfo)`
-  max-height: 200px;
+const SkrollingColoredInfo = styled(ColoredInfo)<{ miniScroll?: boolean }>`
+  max-height: ${(props) => (props?.miniScroll ? '100px' : '200px')};
   overflow-y: auto;
 `
 
@@ -114,10 +114,12 @@ export const MerchantPaymentMaintenance = ({
 
 export const EuroUsingWarning = ({
   setOpen,
-  bgStyle
+  bgStyle,
+  miniScroll
 }: {
   setOpen: Dispatch<SetStateAction<boolean>>
   bgStyle?: CSSProperties
+  miniScroll?: boolean
 }) => {
   const { t } = useTranslation('common')
 
@@ -143,7 +145,7 @@ export const EuroUsingWarning = ({
           </Shadow>
           <span>{t('attention')}</span>
         </Title>
-        <SkrollingColoredInfo misc>
+        <SkrollingColoredInfo misc miniScroll={miniScroll}>
           {t('euro_not_working_with')}
           {t('euro_not_working_countries')}
         </SkrollingColoredInfo>

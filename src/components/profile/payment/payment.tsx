@@ -97,7 +97,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
   const paymentOptions: Option[] = useMemo(() => {
     const options = providers
-      .filter(({ currency }) => currency === selectedCurrency)
+      // TODO: Maybe add recalculate send sum by changing currency and filter providers by min max
+      .filter(({ currency, max, min }) => currency === selectedCurrency)
       .map((provider) => ({
         icon: provider.logo
           ? env.hostProtocol + '://' + blockchainURL + provider.logo
@@ -201,6 +202,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
             <EuroUsingWarning
               setOpen={setEuroModalOpen}
               bgStyle={{ borderRadius: 10 }}
+              miniScroll
             />
           )}
           <InputSelect
@@ -226,7 +228,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
                 setDetails('')
               }}
               displayIcon
-              selectable
+              selectable={paymentOptions.length > 1}
             />
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect

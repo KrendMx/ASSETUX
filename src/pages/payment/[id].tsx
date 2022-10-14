@@ -83,8 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const toPay = bill.data.bill.sendAmount
 
   const buyProviders = fiatProviders.data.filter(
-    (provider) =>
-      provider.type == 'BUY' && toPay <= provider.max && toPay >= provider.min
+    (provider) => provider.type == 'BUY'
   )
 
   if (buyProviders.length == 0) {
