@@ -36,7 +36,9 @@ export type Token = {
 }
 
 export type MarketHistoryData = {
-  price: { [key in CurrenciesType]: number }
+  price: {
+    [key in CurrenciesType]: number
+  }
   timestamp: string
 }
 

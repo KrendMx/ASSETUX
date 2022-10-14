@@ -351,6 +351,7 @@ const SelectForm = ({
                 selectedValue={currentCurrency}
                 selectable={!!checkedCurrencies && checkedCurrencies.length > 1}
                 onlyNumbers
+                displayInSelect={2}
                 changeable
               />
             ) : (
