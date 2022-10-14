@@ -3,7 +3,6 @@ import { setCurrentCurrency } from '@/lib/redux/ui'
 import { locales } from './locales'
 import { countryCodes } from './mock'
 
-
 export type CurrenciesType = 'RUB' | 'UAH' | 'KZT' | 'EUR' | 'USD'
 
 export const currencies: CurrenciesType[] = ['RUB', 'UAH', 'KZT', 'EUR', 'USD']

@@ -340,7 +340,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
             onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
-            selectable={!!currencies && currencies.length > 1}
+            selectable={false}
             visuallyDisabled
             error={errors[inputIds.give]}
           />
