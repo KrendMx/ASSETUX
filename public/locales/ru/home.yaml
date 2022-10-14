@@ -63,6 +63,8 @@ buy_invalidCard: Недействительный номер карты
 buy_phoneNumber: Номер телефона
 buy_invalidPhoneNumber: Неверный номер телефона
 buy_blockchainLabel: Вы используете ASSETUX на
+buy_cardholder: Держатель карты
+buy_invalidCardHolder: Недействительный владелец карты
 
 sell_blockchain: Блокчейн (сеть)
 sell_give: Вы отдаете

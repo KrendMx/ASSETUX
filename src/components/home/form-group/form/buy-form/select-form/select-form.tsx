@@ -34,7 +34,8 @@ const inputIds = {
   blockchains: 'blockchains',
   payments: 'payments',
   details: 'cardnumber',
-  phoneNumber: 'phone'
+  phoneNumber: 'phone',
+  cardholder: 'cardholder'
 }
 
 const SelectForm = ({
@@ -68,15 +69,18 @@ const SelectForm = ({
   onWalletChange,
   onGiveAmountChange,
   onEmailChange,
-  onSubmit
+  onSubmit,
+  setFirstName,
+  setLastName
 }: SelectFormProps) => {
   const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})
-  const [chainActive, setChainActive] = useState(false)
-  const [giveActive, setGiveActive] = useState(false)
-  const [getActive, setGetActive] = useState(false)
-  const [paymentActive, setPaymentActive] = useState(false)
+  const [chainActive, setChainActive] = useState<boolean>(false)
+  const [giveActive, setGiveActive] = useState<boolean>(false)
+  const [getActive, setGetActive] = useState<boolean>(false)
+  const [paymentActive, setPaymentActive] = useState<boolean>(false)
+  const [cardHolder, setCardHolder] = useState<string>('')
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
@@ -247,6 +251,12 @@ const SelectForm = ({
     onPhoneChange(value)
   }
 
+  const handleFirstnameInput: React.ChangeEventHandler<HTMLInputElement> = ({
+    target
+  }) => {
+    setCardHolder(target.value)
+  }
+
   const handleNextStep = () => {
     if (serviceUnavailable) {
       return
@@ -269,6 +279,13 @@ const SelectForm = ({
 
       if (currentWallet == '' || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = t('home:buy_invalidWallet')
+      }
+      if (/^[a-zA-Z]+\ [a-zA-Z]+$/g.test(cardHolder)) {
+        const res = cardHolder.split(' ')
+        setFirstName(res[0])
+        setLastName(res[1])
+      } else {
+        errorObject[inputIds.cardholder] = t('home:buy_invalidCardHolder')
       }
 
       if (currentPayment == 'QIWI') {
@@ -420,6 +437,21 @@ const SelectForm = ({
               type="email"
               changeable
             />
+            {(currentCurrency === 'EUR' || currentCurrency === 'USD') && (
+              <>
+                <HideableWithMargin hide={false} margins>
+                  <InputSelect
+                    label={t('home:buy_cardholder')}
+                    id={inputIds.cardholder}
+                    onChange={handleFirstnameInput}
+                    value={cardHolder}
+                    error={inputError[inputIds.cardholder]}
+                    placeholder=""
+                    changeable
+                  />
+                </HideableWithMargin>
+              </>
+            )}
             <HideableWithMargin hide={false} margins>
               {currentPayment == QIWI ? (
                 <InputSelect

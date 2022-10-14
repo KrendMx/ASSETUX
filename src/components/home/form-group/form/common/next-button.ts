@@ -9,6 +9,7 @@ const NextButton = styled.button<NextButtonProps>`
   width: 100%;
   font-weight: 500;
   font-size: 0.85em;
+  margin-top: 16px;
   border: none;
   outline: none;
   color: #ffffff;

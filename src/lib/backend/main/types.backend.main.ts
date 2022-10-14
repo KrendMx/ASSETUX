@@ -79,6 +79,8 @@ export type GetPaymentUrlProps = UrlRequest & {
   chainId: number
   email: string
   card: string
+  firstName?: string
+  lastName?: string
 }
 
 export type GetTokensProps = {

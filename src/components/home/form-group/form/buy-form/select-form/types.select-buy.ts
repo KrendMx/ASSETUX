@@ -2,6 +2,7 @@ import Step from './steps'
 
 import type { Option } from '@/components/common/input-select/types.input-select'
 import type { PaymentOption } from '../../types.form'
+import React from 'react'
 
 export type Error = {
   [key: string]: string | undefined
@@ -20,12 +21,16 @@ export type SelectFormProps = {
   currentPayment: string | null
   payments: PaymentOption[] | null
   currentWallet: string
+  firstName: string
+  lastName: string
   giveAmount: string
   getAmount: string
   email: string
   rate: number | null
   processingRequest: boolean
   cardError: string
+  setFirstName: React.Dispatch<React.SetStateAction<string>>
+  setLastName: React.Dispatch<React.SetStateAction<string>>
   serviceAvailable: boolean | null
   setCurrentStep: (step: Step) => void
   setGetAmount: (getAmount: string) => void

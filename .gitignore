@@ -42,3 +42,6 @@ yarn-error.log*
 
 /docs
 /documentation
+
+.history
+yarn.lock
