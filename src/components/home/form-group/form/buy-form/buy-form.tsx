@@ -57,8 +57,7 @@ const BuyForm = ({
   const [email, setEmail] = useState('')
   const [details, setDetails] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
+  const [cardHolder, setCardHolder] = useState<string>('')
   const [walletAddress, setWalletAddress] = useState('')
   const [apiError, setApiError] = useState(false)
   const [processedPayments, setProcessedPayments] = useState<
@@ -77,6 +76,7 @@ const BuyForm = ({
     ) {
       setProcessingRequest(true)
       const tokenAddress = currentToken.address
+      const [firstName, lastName] = cardHolder.split(' ')
 
       const response = await BackendClient.getPaymentUrl({
         apiHost: currentBlockchain.url,
@@ -187,8 +187,6 @@ const BuyForm = ({
       currentDetails={details}
       currentPhoneNumber={phoneNumber}
       payments={processedPayments}
-      firstName={firstName}
-      lastName={lastName}
       currentWallet={walletAddress}
       giveAmount={giveAmount}
       getAmount={getAmount}
@@ -199,8 +197,6 @@ const BuyForm = ({
       serviceAvailable={serviceAvailable && !apiError}
       setCurrentStep={setCurrentStep}
       setGetAmount={setGetAmount}
-      setFirstName={setFirstName}
-      setLastName={setLastName}
       onBlockchainChange={(blockchain) => {}}
       onCurrencyChange={setSelectedCurrency}
       onTokenChange={onTokenChange}
@@ -211,6 +207,8 @@ const BuyForm = ({
       onGiveAmountChange={setGiveAmount}
       onEmailChange={setEmail}
       onSubmit={onSubmit}
+      cardHolder={cardHolder}
+      setCardHolder={setCardHolder}
     />
   )
 }

@@ -21,16 +21,12 @@ export type SelectFormProps = {
   currentPayment: string | null
   payments: PaymentOption[] | null
   currentWallet: string
-  firstName: string
-  lastName: string
   giveAmount: string
   getAmount: string
   email: string
   rate: number | null
   processingRequest: boolean
   cardError: string
-  setFirstName: React.Dispatch<React.SetStateAction<string>>
-  setLastName: React.Dispatch<React.SetStateAction<string>>
   serviceAvailable: boolean | null
   setCurrentStep: (step: Step) => void
   setGetAmount: (getAmount: string) => void
@@ -44,4 +40,6 @@ export type SelectFormProps = {
   onGiveAmountChange: (amount: string) => void
   onEmailChange: (email: string) => void
   onSubmit: () => void
+  cardHolder: string
+  setCardHolder: React.Dispatch<React.SetStateAction<string>>
 }
