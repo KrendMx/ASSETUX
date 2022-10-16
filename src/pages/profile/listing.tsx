@@ -7,15 +7,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import BaseContainer from '@/components/common/base-container'
 import HeadingRow from '@/components/profile/common/heading-row'
 
-import { EcommerceClient } from '@/lib/backend/clients'
+import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
 import {
   checkAuthorization,
   getEcommercePrefix
 } from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
-import type { BillProps } from '@/components/profile/bill'
-import ListingComponent from '@/components/profile/bill/listing'
+import type { BillProps } from '@/components/profile/listing'
+import ListingComponent from '@/components/profile/listing/listing'
 
 const Container = styled(BaseContainer)`
   max-width: var(--max-width);
@@ -27,13 +27,13 @@ const Container = styled(BaseContainer)`
 
 const Listing = (props: BillProps) => {
   const { t } = useTranslation('profile-listing')
-
+  console.log('BillProps', props)
   return (
     <>
       <NextSeo title={t('title')} />
       <Container>
         <HeadingRow heading={t('bill')} id={`M-${props.profile.user.userId}`} />
-        <ListingComponent profile={props.profile} />
+        <ListingComponent profile={props.profile} rate={props.rate} />
       </Container>
     </>
   )
@@ -69,6 +69,16 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
     return errorProps
   }
 
+  const rate = await BackendClient.getFiatRateByToken({
+    token: profile.data.tokens[0].symbol
+  })
+
+  console.log('rate', rate)
+
+  if (rate.state != 'success') {
+    return notTransferProps
+  }
+
   if (profile.data.user.mode !== 'TRANSFER') {
     return notTransferProps
   }
@@ -76,6 +86,7 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
   return {
     props: {
       profile: profile.data,
+      rate: rate.data,
       ...(await serverSideTranslations(locale!, [
         'header',
         'footer',

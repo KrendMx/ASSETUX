@@ -12,9 +12,9 @@ import {
 } from '@/lib/utils/helpers.utils'
 
 import type { GetServerSideProps } from 'next'
-import type { BillProps } from '@/components/profile/bill'
-import ListingComponent from '@/components/profile/bill/listing'
-import { Wrapper } from '@/components/profile/bill/styles'
+import type { BillProps } from '@/components/profile/listing'
+import ListingComponent from '@/components/profile/listing/listing'
+import { Wrapper } from '@/components/profile/listing/styles'
 
 const Bill = (props: BillProps) => {
   const { t } = useTranslation('profile-bill')

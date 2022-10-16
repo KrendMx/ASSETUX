@@ -17,6 +17,7 @@ import LinkModal from './link-modal'
 import type { IMerchant } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import useListing from './useListing'
 import { CurrenciesType } from '@/lib/data/currencies'
+import { FiatRate } from '@/lib/backend/main/types.backend.main'
 
 const inputIds = {
   get: 'get',
@@ -24,9 +25,9 @@ const inputIds = {
   blockchains: 'blockchains'
 }
 
-export type BillProps = { profile: IMerchant }
+export type BillProps = { profile: IMerchant; rate?: FiatRate }
 
-const ListingComponent = ({ profile }: BillProps) => {
+const ListingComponent = (props: BillProps) => {
   const {
     linkModalProps,
     setLinkModalProps,
@@ -49,8 +50,11 @@ const ListingComponent = ({ profile }: BillProps) => {
     submitValue,
     t,
     outputError,
-    isRETENTION
-  } = useListing({ profile })
+    isRETENTION,
+    selectedToken,
+    mappedTokens
+  } = useListing(props)
+
   return (
     <>
       {linkModalProps.open && (
@@ -117,15 +121,27 @@ const ListingComponent = ({ profile }: BillProps) => {
               <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
-                    label={t('send', {
-                      min: ranges?.min,
-                      max: ranges?.max
-                    })}
+                    label={
+                      isRETENTION
+                        ? t('send', {
+                            min: ranges?.min,
+                            max: ranges?.max
+                          })
+                        : t('give')
+                    }
                     id={inputIds.send}
-                    options={currencies ? currencies : undefined}
+                    options={
+                      isRETENTION && currencies
+                        ? currencies
+                        : isTRANSFER && !!mappedTokens
+                        ? mappedTokens
+                        : undefined
+                    }
                     onChange={handleGet}
                     value={get.visible}
-                    selectedValue={selectedCurrency}
+                    selectedValue={
+                      isRETENTION ? selectedCurrency : selectedToken
+                    }
                     selectable={false}
                     error={outputError == '' ? undefined : outputError}
                     changeable={isTRANSFER}

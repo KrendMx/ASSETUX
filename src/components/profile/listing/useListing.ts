@@ -18,7 +18,7 @@ import { setMerchantMode } from '@/lib/redux/ui'
 import { env } from '@/lib/env/client'
 import { BillProps } from './listing'
 
-const useListing = ({ profile }: BillProps) => {
+const useListing = ({ profile, rate }: BillProps) => {
   const {
     user: { mode },
     tokens
@@ -34,6 +34,7 @@ const useListing = ({ profile }: BillProps) => {
     dispatch(setMerchantMode(mode))
   }, [dispatch, mode])
 
+  const [mappedTokens, setMappedTokens] = useState<Option[] | null>(null)
   const [selectedToken, setSelectedToken] = useState<string | null>(null)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
@@ -73,7 +74,7 @@ const useListing = ({ profile }: BillProps) => {
   const handleGet: React.ChangeEventHandler<HTMLInputElement> = async (
     event
   ) => {
-    if (!ranges) {
+    if (!ranges || (isTRANSFER && !rate)) {
       return
     }
 
@@ -85,32 +86,44 @@ const useListing = ({ profile }: BillProps) => {
       return
     }
 
-    const sumWithFee = await EcommerceClient.calcFee(
-      Number(result),
-      selectedCurrency as CurrenciesType,
-      'BUY',
-      true
-    )
-
-    if (sumWithFee.state === 'success') {
-      setSend(
-        Number(sumWithFee.data.amount)
-          ? Number(sumWithFee.data.amount.toFixed(2)) + ''
-          : ''
-      )
-
-      const resultNum = Number(result)
-      const sendRes = sumWithFee.data.amount
-      const sendAmount = resultNum
-
-      if (sendRes < ranges.min) {
-        setInputError(t('minError', { min: ranges.min }))
-      } else if (sendRes > ranges.max) {
-        setInputError(t('maxError', { max: ranges.max }))
-      } else {
-        setInputError('')
+    const sumTRANSFER = {
+      state: 'success',
+      data: {
+        amount: Number(result) / rate!?.buy[selectedCurrency]
       }
+    }
 
+    const sumWithFee = isRETENTION
+      ? await EcommerceClient.calcFee(
+          Number(result),
+          selectedCurrency as CurrenciesType,
+          'BUY',
+          true
+        )
+      : sumTRANSFER
+
+    if (sumWithFee.state !== 'success') {
+      setGet({
+        visible: result,
+        actual: Number(result)
+      })
+      return
+    }
+
+    const sendRes = sumWithFee.data.amount
+    const sendAmount = Number(result)
+
+    setSend(Number(sendRes) ? Number(sendRes.toFixed(2)) + '' : '')
+
+    if (sendRes < ranges.min) {
+      setInputError(t('minError', { min: ranges.min }))
+    } else if (sendRes > ranges.max) {
+      setInputError(t('maxError', { max: ranges.max }))
+    } else {
+      setInputError('')
+    }
+
+    if (isRETENTION) {
       if (sendAmount < ranges.min) {
         setOutputError(t('minError', { min: ranges.min }))
       } else if (sendAmount > ranges.max) {
@@ -119,17 +132,12 @@ const useListing = ({ profile }: BillProps) => {
         setOutputError('')
       }
     }
-
-    setGet({
-      visible: result,
-      actual: Number(result)
-    })
   }
 
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = async (
     event
   ) => {
-    if (!ranges) {
+    if (!ranges || (isTRANSFER && !rate)) {
       return
     }
 
@@ -143,12 +151,21 @@ const useListing = ({ profile }: BillProps) => {
 
     setSend(result)
 
-    const sumWithFee = await EcommerceClient.calcFee(
-      Number(result),
-      selectedCurrency as CurrenciesType,
-      'BUY',
-      false
-    )
+    const sumTRANSFER = {
+      state: 'success',
+      data: {
+        amount: Number(result) / rate!?.buy[selectedCurrency]
+      }
+    }
+
+    const sumWithFee = isRETENTION
+      ? await EcommerceClient.calcFee(
+          Number(result),
+          selectedCurrency as CurrenciesType,
+          'BUY',
+          false
+        )
+      : sumTRANSFER
 
     if (sumWithFee.state === 'success') {
       const amountRes = sumWithFee.data.amount
@@ -167,12 +184,14 @@ const useListing = ({ profile }: BillProps) => {
         setInputError('')
       }
 
-      if (+amountRes < ranges.min) {
-        setOutputError(t('minError', { min: ranges.min }))
-      } else if (+amountRes > ranges.max) {
-        setOutputError(t('maxError', { max: ranges.max }))
-      } else {
-        setOutputError('')
+      if (isRETENTION) {
+        if (+amountRes < ranges.min) {
+          setOutputError(t('minError', { min: ranges.min }))
+        } else if (+amountRes > ranges.max) {
+          setOutputError(t('maxError', { max: ranges.max }))
+        } else {
+          setOutputError('')
+        }
       }
     }
   }
@@ -182,7 +201,11 @@ const useListing = ({ profile }: BillProps) => {
   > = async (event) => {
     event.preventDefault()
 
-    if (!selectedToken || !selectedCurrency) {
+    if (!selectedCurrency) {
+      return
+    }
+
+    if (isTRANSFER && !selectedToken) {
       return
     }
 
@@ -351,7 +374,7 @@ const useListing = ({ profile }: BillProps) => {
     if (mappedTokens.length == 0) {
       return
     }
-
+    setMappedTokens(mappedTokens)
     setSelectedToken(mappedTokens[0].value)
   }, [tokens, isTRANSFER])
 
@@ -366,12 +389,21 @@ const useListing = ({ profile }: BillProps) => {
   useEffect(() => {
     ;(async () => {
       if (!selectedCurrency) return
-      const sumWithFee = await EcommerceClient.calcFee(
-        10000,
-        selectedCurrency as CurrenciesType,
-        'BUY',
-        false
-      )
+      const sumTRANSFER = {
+        state: 'success',
+        data: {
+          amount: 10000 / rate!?.buy[selectedCurrency],
+          amountIn: 10000
+        }
+      }
+      const sumWithFee = isRETENTION
+        ? await EcommerceClient.calcFee(
+            10000,
+            selectedCurrency as CurrenciesType,
+            'BUY',
+            false
+          )
+        : sumTRANSFER
       if (sumWithFee.state === 'success') {
         setGet({
           visible: Number(sumWithFee.data.amount.toFixed(2)) + '',
@@ -385,27 +417,29 @@ const useListing = ({ profile }: BillProps) => {
 
   return {
     linkModalProps,
-    setLinkModalProps,
     getActive,
     getCurrencyActive,
-    handleSubmit,
     loading,
     isTRANSFER,
-    handleGet,
     get,
     selectedCurrency,
     ranges,
     currencies,
-    handleSend,
     send,
     inputError,
-    setSelectedCurrency,
-    setGetCurrencyActive,
     waitingResponse,
     submitValue,
-    t,
     outputError,
-    isRETENTION
+    isRETENTION,
+    selectedToken,
+    mappedTokens,
+    setLinkModalProps,
+    handleSubmit,
+    handleGet,
+    handleSend,
+    setSelectedCurrency,
+    setGetCurrencyActive,
+    t
   }
 }
 
