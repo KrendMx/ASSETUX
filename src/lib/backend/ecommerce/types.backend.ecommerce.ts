@@ -213,11 +213,13 @@ export interface ITokenBalance {
 export interface MerchantData {
   token: IMerchantToken
   chain: IChain
-  widget: {
-    nameCompany: string
-    logoCompany: string
-    backgroundCompany: string
-  }
+  widget: IMerchantWidget
+}
+
+export interface IMerchantWidget {
+  nameCompany: string
+  logoCompany: string
+  backgroundCompany: string
 }
 
 export interface IMerchantToken {

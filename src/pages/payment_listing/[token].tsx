@@ -109,6 +109,7 @@ export const getServerSideProps: GetServerSideProps<
       fiatrate: currentFiatrate,
       balanceOfToken: balanceOfToken.data,
       ...(await serverSideTranslations(locale!, [
+        'common',
         'profile-payment',
         'profile-listing',
         'inputSelect',

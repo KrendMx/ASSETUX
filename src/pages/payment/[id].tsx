@@ -83,8 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const toPay = bill.data.bill.sendAmount
 
   const buyProviders = fiatProviders.data.filter(
-    (provider) =>
-      provider.type == 'BUY' && toPay <= provider.max && toPay >= provider.min
+    (provider) => provider.type == 'BUY'
   )
 
   if (buyProviders.length == 0) {
@@ -98,6 +97,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       blockchainURL: blockchain.url,
       fiatrate: null,
       ...(await serverSideTranslations(locale!, [
+        'common',
         'profile-payment',
         'inputSelect',
         'footer',
