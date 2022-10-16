@@ -1,22 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 
-import Configure from '@/components/common/header/configure'
 import InputSelect from '@/components/common/input-select'
 import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
-import {
-  Header,
-  Footer,
-  Content,
-  Form,
-  LogoContainer,
-  Name,
-  Submit,
-  PoweredBy
-} from './styles'
+import { Content, Form, Submit } from './styles'
 
 import {
   currencies as definedCurrencies,
@@ -42,8 +30,12 @@ import type { Option } from '@/components/common/input-select/types.input-select
 import { useAppSelector } from '@/lib/redux/hooks'
 import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { validatePhone } from '@/lib/helpers.global'
-import Maintenance from '@/components/home/form-group/form/common/maintenance'
+import Maintenance, {
+  EuroUsingWarning
+} from '@/components/home/form-group/form/common/maintenance'
 import { env } from '@/lib/env/client'
+import PaymentHeader from './header'
+import PaymentFooter from './footer'
 
 const inputIds = {
   email: 'email',
@@ -84,6 +76,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
   const [serviceUnavaliable, setServiceUnavaliable] = useState<boolean>(false)
+  const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -104,7 +97,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
   const paymentOptions: Option[] = useMemo(() => {
     const options = providers
-      .filter(({ currency }) => currency === selectedCurrency)
+      // TODO: Maybe add recalculate send sum by changing currency and filter providers by min max
+      .filter(({ currency, max, min }) => currency === selectedCurrency)
       .map((provider) => ({
         icon: provider.logo
           ? env.hostProtocol + '://' + blockchainURL + provider.logo
@@ -140,6 +134,13 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     event
   ) => {
     event.preventDefault()
+
+    const euroAccept = !!sessionStorage.getItem('euro_accept')
+
+    if (!euroAccept && selectedCurrency === 'EUR') {
+      setEuroModalOpen(true)
+      return
+    }
 
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
@@ -184,22 +185,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
   return (
     <>
-      {displayHeader && (
-        <Header>
-          {widget.logoCompany && (
-            <LogoContainer>
-              <Image
-                src={genericURL + widget.logoCompany}
-                layout="fill"
-                objectFit="contain"
-                objectPosition="center"
-                alt=""
-              />
-            </LogoContainer>
-          )}
-          {widget.nameCompany && <Name>{widget.nameCompany}</Name>}
-        </Header>
-      )}
+      <PaymentHeader widget={widget} displayHeader={displayHeader} />
       <Content
         displayHeader={displayHeader}
         style={
@@ -212,6 +198,13 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
       >
         <Form onSubmit={handleSubmit} style={{ minHeight: 440 }}>
           {serviceUnavaliable && <Maintenance bgStyle={{ borderRadius: 10 }} />}
+          {euroModalOpen && (
+            <EuroUsingWarning
+              setOpen={setEuroModalOpen}
+              bgStyle={{ borderRadius: 10 }}
+              miniScroll
+            />
+          )}
           <InputSelect
             label={t('toPay')}
             value={bill.bill.sendAmount + ''}
@@ -235,7 +228,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
                 setDetails('')
               }}
               displayIcon
-              selectable
+              selectable={paymentOptions.length > 1}
             />
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
@@ -281,21 +274,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
           </HideableWithMargin>
         </Form>
       </Content>
-      <Footer>
-        {env.isStage ? (
-          <Link href="/" passHref>
-            <a>
-              <PoweredBy />
-            </a>
-          </Link>
-        ) : (
-          <a href="https://assetux.com">
-            <PoweredBy />
-          </a>
-        )}
-
-        <Configure direction="top" />
-      </Footer>
+      <PaymentFooter />
     </>
   )
 }

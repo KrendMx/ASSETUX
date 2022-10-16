@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import type { Response } from './types.core.backend'
 import Cookies from 'js-cookie'
 import { genericURL } from '@/lib/data/constants'
@@ -41,28 +41,30 @@ api.interceptors.request.use(
   }
 )
 
-api.interceptors.response.use(
-  async (response) => {
-    if (
-      (response?.data as Object).hasOwnProperty('success') &&
-      !response?.data?.success
-    ) {
-      throw {
-        status: 404,
-        statusText: 'Not success from backend',
-        data: null
-      }
+export const formatAPIResponse = async (response: AxiosResponse) => {
+  if (
+    (response?.data as Object).hasOwnProperty('success') &&
+    !response?.data?.success
+  ) {
+    throw {
+      status: 404,
+      statusText: 'Not success from backend',
+      data: null
     }
+  }
 
-    return {
-      state: 'success',
-      status: response.status,
-      message: response.statusText,
-      data: (response?.data as Object).hasOwnProperty('success')
-        ? response.data.data
-        : response.data
-    }
-  },
+  return {
+    state: 'success',
+    status: response.status,
+    message: response.statusText,
+    data: (response?.data as Object).hasOwnProperty('success')
+      ? response.data.data
+      : response.data
+  }
+}
+
+api.interceptors.response.use(
+  formatAPIResponse,
   async (error: AxiosError | Error) => {
     if (axios.isAxiosError(error) && error.response) {
       const response = error.response
