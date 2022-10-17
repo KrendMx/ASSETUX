@@ -16,7 +16,8 @@ import Info from '@/components/common/modal-components/Info'
 import Button from '@/components/common/modal-components/Button'
 
 const WarningPopup: React.FC<{ caseNumber: number; setClose: () => void }> = ({
-  caseNumber
+  caseNumber,
+  setClose
 }) => {
   const { t } = useTranslation('home')
 
@@ -49,7 +50,7 @@ const WarningPopup: React.FC<{ caseNumber: number; setClose: () => void }> = ({
         <Info misc style={{ fontWeight: 400 }} margin={'20px 0'}>
           {t(`warningPopup_agrees`)}
         </Info>
-        <Button onClick={() => {}} main>
+        <Button onClick={setClose} main>
           OK
         </Button>
       </Container>

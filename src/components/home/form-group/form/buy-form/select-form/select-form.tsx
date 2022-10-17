@@ -84,7 +84,7 @@ const SelectForm = ({
   const [cardHolder, setCardHolder] = useState<string>('')
 
   const [visPopup, setVisPopup] = useState<boolean>(false)
-  const [popupCase, setPopupCase] = useState<number>(0)
+  const [popupCase, setPopupCase] = useState<number>(1)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
@@ -458,14 +458,6 @@ const SelectForm = ({
               type="email"
               changeable
             />
-            {visPopup && (
-              <WarningPopup
-                caseNumber={popupCase}
-                setClose={() => {
-                  setVisPopup(false)
-                }}
-              />
-            )}
             {(currentCurrency === 'EUR' || currentCurrency === 'USD') && (
               <>
                 <HideableWithMargin hide={false} margins>
@@ -514,7 +506,14 @@ const SelectForm = ({
   return (
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
-      {/* <WarningPopup caseNumber={1} setClose={() => {}} /> */}
+      {visPopup && (
+        <WarningPopup
+          caseNumber={popupCase}
+          setClose={() => {
+            setVisPopup(false)
+          }}
+        />
+      )}
       {!isLoading && serviceUnavailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
