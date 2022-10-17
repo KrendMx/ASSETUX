@@ -25,6 +25,7 @@ import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
 import type { Error, SelectFormProps } from './types.select-buy'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { QIWI } from '@/core/backend/types.core.backend'
+import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 
 const inputIds = {
   get: 'get',
@@ -81,6 +82,9 @@ const SelectForm = ({
   const [getActive, setGetActive] = useState<boolean>(false)
   const [paymentActive, setPaymentActive] = useState<boolean>(false)
   const [cardHolder, setCardHolder] = useState<string>('')
+
+  const [visPopup, setVisPopup] = useState<boolean>(false)
+  const [popupCase, setPopupCase] = useState<number>(0)
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
@@ -454,6 +458,14 @@ const SelectForm = ({
               type="email"
               changeable
             />
+            {visPopup && (
+              <WarningPopup
+                caseNumber={popupCase}
+                setClose={() => {
+                  setVisPopup(false)
+                }}
+              />
+            )}
             {(currentCurrency === 'EUR' || currentCurrency === 'USD') && (
               <>
                 <HideableWithMargin hide={false} margins>
