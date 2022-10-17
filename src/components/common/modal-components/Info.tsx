@@ -2,10 +2,11 @@ import styled from 'styled-components'
 
 type InfoProps = {
   misc?: boolean
+  margin?: string
 }
 
 const Info = styled.p<InfoProps>`
-  margin: 0.786em 0;
+  margin: ${(props) => props.margin || '0.786em 0;'};
   padding: 0;
   font-size: 0.87em;
   color: var(--black);

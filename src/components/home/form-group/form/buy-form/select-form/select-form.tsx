@@ -221,6 +221,23 @@ const SelectForm = ({
     setGetAmount(result)
   }
 
+  const phoneFormat = (s: string, plus = true) => {
+    const startsWith = plus ? '+7' : '8'
+
+    let phone = s.replace(/[^0-9]/g, '')
+    if (phone.startsWith('7') && plus) {
+      phone = phone.substr(1)
+    }
+    if (phone.startsWith('8')) {
+      phone = phone.substr(1)
+    }
+
+    return phone.replace(
+      /(\d{3})(\d{3})(\d{2})(\d{2})/g,
+      `${startsWith} ($1) $2 $3 $4`
+    )
+  }
+
   const handleWalletInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -248,7 +265,7 @@ const SelectForm = ({
   ) => {
     const value = event.target.value
 
-    onPhoneChange(value)
+    onPhoneChange(phoneFormat(value))
   }
 
   const handleFirstnameInput: React.ChangeEventHandler<HTMLInputElement> = ({
@@ -485,7 +502,7 @@ const SelectForm = ({
   return (
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {renderFields()}
-
+      {/* <WarningPopup caseNumber={1} setClose={() => {}} /> */}
       {!isLoading && serviceUnavailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
