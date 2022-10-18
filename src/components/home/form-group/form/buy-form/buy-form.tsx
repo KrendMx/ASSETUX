@@ -60,6 +60,9 @@ const BuyForm = ({
   const [cardHolder, setCardHolder] = useState<string>('')
   const [walletAddress, setWalletAddress] = useState('')
   const [apiError, setApiError] = useState(false)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
@@ -207,6 +210,8 @@ const BuyForm = ({
       onGiveAmountChange={setGiveAmount}
       onEmailChange={setEmail}
       onSubmit={onSubmit}
+      setFirstName={setFirstName}
+      setLastName={setLastName}
       cardHolder={cardHolder}
       setCardHolder={setCardHolder}
     />

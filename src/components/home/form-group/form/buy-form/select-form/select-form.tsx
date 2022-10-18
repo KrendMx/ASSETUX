@@ -75,6 +75,8 @@ const SelectForm = ({
   onPaymentChange,
   onDetailsChange,
   onPhoneChange,
+  setFirstName,
+  setLastName,
   onWalletChange,
   onGiveAmountChange,
   onEmailChange,
@@ -84,15 +86,13 @@ const SelectForm = ({
   const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})
-  
   const [chainActive, setChainActive] = useState<boolean>(false)
   const [giveActive, setGiveActive] = useState<boolean>(false)
   const [getActive, setGetActive] = useState<boolean>(false)
   const [paymentActive, setPaymentActive] = useState<boolean>(false)
-  const [cardHolder, setCardHolder] = useState<string>('')
-
   const [visPopup, setVisPopup] = useState<boolean>(false)
   const [popupCase, setPopupCase] = useState<number>(1)
+  const [euroModalOpen, setEuroModalOpen] = useState(false)
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
@@ -532,7 +532,6 @@ const SelectForm = ({
           }}
         />
       )}
-      {/* {!isLoading && serviceUnavailable && <Maintenance />} */}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton

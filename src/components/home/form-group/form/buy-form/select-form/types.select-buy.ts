@@ -28,6 +28,8 @@ export type SelectFormProps = {
   processingRequest: boolean
   cardError: string
   serviceAvailable: boolean | null
+  setFirstName: (s: string) => void
+  setLastName: (s: string) => void
   setCurrentStep: (step: Step) => void
   setGetAmount: (getAmount: string) => void
   onBlockchainChange: (blockchain: string) => void
