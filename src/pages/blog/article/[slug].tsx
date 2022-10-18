@@ -64,7 +64,6 @@ export const getStaticProps: GetStaticProps<
   const recentPostsResponse = responses[1]
 
   if (postResponse.state != 'success') {
-    console.log(0)
     return errorProps
   }
 

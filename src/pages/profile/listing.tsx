@@ -27,7 +27,6 @@ const Container = styled(BaseContainer)`
 
 const Listing = (props: BillProps) => {
   const { t } = useTranslation('profile-listing')
-  console.log('BillProps', props)
   return (
     <>
       <NextSeo title={t('title')} />
@@ -72,8 +71,6 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
   const rate = await BackendClient.getFiatRateByToken({
     token: profile.data.tokens[0].symbol
   })
-
-  console.log('rate', rate)
 
   if (rate.state != 'success') {
     return notTransferProps
