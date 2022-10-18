@@ -17,7 +17,14 @@ import { Container, FormContainer } from './styles'
 
 import Step from './steps'
 
-import { emailRegexp, allowSkeletons, walletRegexp } from '@/lib/data/constants'
+import {
+  emailRegexp,
+  allowSkeletons,
+  walletRegexp,
+  detailRegex,
+  phoneReplaceRegex,
+  cardholderRegex
+} from '@/lib/data/constants'
 import { useAppSelector } from '@/lib/redux/hooks'
 
 import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
@@ -25,6 +32,7 @@ import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
 import type { Error, SelectFormProps } from './types.select-buy'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { QIWI } from '@/core/backend/types.core.backend'
+import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 
 const inputIds = {
   get: 'get',
@@ -76,11 +84,15 @@ const SelectForm = ({
   const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})
-  const [chainActive, setChainActive] = useState(false)
-  const [giveActive, setGiveActive] = useState(false)
-  const [getActive, setGetActive] = useState(false)
-  const [paymentActive, setPaymentActive] = useState(false)
-  const [euroModalOpen, setEuroModalOpen] = useState(false)
+  
+  const [chainActive, setChainActive] = useState<boolean>(false)
+  const [giveActive, setGiveActive] = useState<boolean>(false)
+  const [getActive, setGetActive] = useState<boolean>(false)
+  const [paymentActive, setPaymentActive] = useState<boolean>(false)
+  const [cardHolder, setCardHolder] = useState<string>('')
+
+  const [visPopup, setVisPopup] = useState<boolean>(false)
+  const [popupCase, setPopupCase] = useState<number>(1)
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
@@ -222,6 +234,20 @@ const SelectForm = ({
     setGetAmount(result)
   }
 
+  const phoneFormat = (s: string, plus = true) => {
+    const startsWith = plus ? '+7' : '8'
+
+    let phone = s.replace(/[^0-9]/g, '')
+    if (phone.startsWith('7') && plus) {
+      phone = phone.substr(1)
+    }
+    if (phone.startsWith('8')) {
+      phone = phone.substr(1)
+    }
+
+    return phone.replace(phoneReplaceRegex, `${startsWith} ($1) $2 $3 $4`)
+  }
+
   const handleWalletInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -240,7 +266,7 @@ const SelectForm = ({
     event
   ) => {
     const value = event.target.value.replaceAll(' ', '')
-    const validated = /^[0-9]*$/.test(value)
+    const validated = detailRegex.test(value)
     validated && onDetailsChange(value)
   }
 
@@ -249,7 +275,7 @@ const SelectForm = ({
   ) => {
     const value = event.target.value
 
-    onPhoneChange(value)
+    onPhoneChange(phoneFormat(value))
   }
 
   const handleFirstNameInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -292,10 +318,11 @@ const SelectForm = ({
       if (currentWallet == '' || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = t('home:buy_invalidWallet')
       }
-      if (
-        (currentCurrency === 'EUR' || currentCurrency === 'USD') &&
-        !/^[a-zA-Z]+\ [a-zA-Z]+$/g.test(cardHolder)
-      ) {
+      if (cardholderRegex.test(cardHolder)) {
+        const res = cardHolder.split(' ')
+        setFirstName(res[0])
+        setLastName(res[1])
+      } else {
         errorObject[inputIds.cardholder] = t('home:buy_invalidCardHolder')
       }
 
@@ -448,7 +475,7 @@ const SelectForm = ({
               type="email"
               changeable
             />
-            {(currentCurrency === 'EUR' || currentCurrency === 'USD') && (
+            {currentPayment === 'VISAMASTER' && (
               <>
                 <HideableWithMargin hide={false} margins>
                   <InputSelect
@@ -497,8 +524,15 @@ const SelectForm = ({
     <Container formStep={currentStep} lastSelectorActive={getActive}>
       {euroModalOpen && <EuroUsingWarning setOpen={setEuroModalOpen} />}
       {renderFields()}
-
-      {!isLoading && serviceUnavailable && <Maintenance />}
+      {visPopup && (
+        <WarningPopup
+          caseNumber={popupCase}
+          setClose={() => {
+            setVisPopup(false)
+          }}
+        />
+      )}
+      {/* {!isLoading && serviceUnavailable && <Maintenance />} */}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
