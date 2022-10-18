@@ -102,11 +102,11 @@ const useListing = ({ profile, rate }: BillProps) => {
         )
       : sumTRANSFER
 
+    setGet({
+      visible: result,
+      actual: Number(result)
+    })
     if (sumWithFee.state !== 'success') {
-      setGet({
-        visible: result,
-        actual: Number(result)
-      })
       return
     }
 
