@@ -39,7 +39,7 @@ export interface IMerchant {
     public_key: string
     mode: MerchantMode
     type: string
-    balance: number
+    balance: { [key: string]: number }
     userId: string
   }
   widget: {
@@ -67,7 +67,7 @@ export interface Profile {
   widget_id: number
   email: string
   phone?: null
-  balance: number
+  balance: { [key: string]: number }
   fee?: null
   type: string
   mode: MerchantMode

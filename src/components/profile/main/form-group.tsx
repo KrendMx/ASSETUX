@@ -8,7 +8,7 @@ import SupportPopup from './support-popup'
 import styles from './popup.module.css'
 import OutIcon from '../../../../public/assets/Out.svg'
 import { Container, Flex, Label } from './styles'
-import { FormGroupProps, inputId } from './types.main'
+import { currenciesSymbol, FormGroupProps, inputId } from './types.main'
 import useFormGroup from './useFormGroup'
 
 const FormGroup = (props: FormGroupProps) => {
@@ -50,37 +50,41 @@ const FormGroup = (props: FormGroupProps) => {
       <Container>
         <Form as="section">
           <FormHeading>{t('balance')}</FormHeading>
-          {/* {!!balance ? ( */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 17
-            }}
-          >
-            <Balance
-              amount={balance ? parseFloat((+balance).toFixed(2)) + '' : '0.00'}
-              icon="₽"
-              symbol="RUB"
-              fiat
-              style={{ width: '100%' }}
-            />
-            <button
-              className={styles.copyButton}
-              onClick={() => setSupportOpen(true)}
-            >
-              <Shadow>
-                <Icon>
-                  <Image
-                    src={OutIcon}
-                    layout="fill"
-                    alt="copy"
-                    objectFit="contain"
-                    objectPosition="center"
-                  />
-                </Icon>
-              </Shadow>
-            </button>
-          </div>
+          {Object.keys(balance).map((el: string, i: number) => (
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 17
+                }}
+                key={i}
+              >
+                <Balance
+                  amount={balance[el].toFixed(2)}
+                  icon={currenciesSymbol[el]}
+                  symbol={el}
+                  fiat
+                  style={{ width: '100%' }}
+                />
+                <button
+                  className={styles.copyButton}
+                  onClick={() => setSupportOpen(true)}
+                >
+                  <Shadow>
+                    <Icon>
+                      <Image
+                        src={OutIcon}
+                        layout="fill"
+                        alt="copy"
+                        objectFit="contain"
+                        objectPosition="center"
+                      />
+                    </Icon>
+                  </Shadow>
+                </button>
+              </div>
+            </>
+          ))}
           {/* ) : (
             <Paragraph>{t("assets")}</Paragraph>
           )} */}

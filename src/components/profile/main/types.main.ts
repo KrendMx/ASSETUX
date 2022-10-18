@@ -20,4 +20,12 @@ export type Option = {
   chain_id?: number
 }
 
+export const currenciesSymbol: { [key: string]: string } = {
+  RUB: '₽',
+  EUR: '€',
+  USD: '$',
+  KZT: '₸',
+  UAH: '₴'
+}
+
 export type FormGroupProps = IMerchant
