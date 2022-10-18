@@ -6,7 +6,6 @@ type ContainerProps = {
   fixed?: boolean
   allowScrolling?: boolean
   resetZIndex?: boolean
-  customTransform?: string
 }
 
 const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
@@ -19,10 +18,8 @@ const Container = styled.div.attrs<ContainerProps>(({ allowScrolling }) => ({
   top: 50%;
   left: ${(props) => (props.spanContent ? '50%' : '0')};
   transform: ${(props) =>
-    props?.customTransform || props.spanContent
-      ? 'translate(-50%, -50%)'
-      : 'translateY(-50%)'};
-  width: ${(props) => (props.spanContent ? '100%' : 'calc(100% - 40px)')};
+    props.spanContent ? 'translate(-50%, -50%)' : 'translateY(-50%)'};
+  width: ${(props) => (props.spanContent ? 'auto' : 'calc(100% - 40px)')};
   background: var(--white);
   margin: 0 20px;
   z-index: ${(props) => (props.resetZIndex ? '1' : '100000')};

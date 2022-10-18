@@ -31,7 +31,6 @@ const HideableWithMargin = styled(Hideable)<HideableWithMarginProps>`
         margin-top: ${props.space};
       }
     `}
-  position: relative;
 `
 
 export default HideableWithMargin

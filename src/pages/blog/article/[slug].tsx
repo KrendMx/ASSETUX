@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NextSeo } from 'next-seo'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
@@ -40,7 +40,7 @@ type GetStaticPropsParams = ParsedUrlQuery & {
 }
 
 export const getStaticProps: GetStaticProps<
-  any,
+  ArticleProps,
   GetStaticPropsParams
 > = async ({ locale, params }) => {
   const errorProps = {
@@ -64,7 +64,10 @@ export const getStaticProps: GetStaticProps<
   const recentPostsResponse = responses[1]
 
   if (postResponse.state != 'success') {
-    console.log(0)
+    return errorProps
+  }
+
+  if (postResponse.data.news == null) {
     return errorProps
   }
 
@@ -78,7 +81,7 @@ export const getStaticProps: GetStaticProps<
 
   return {
     props: {
-      data: postResponse.data,
+      data: postResponse.data.news,
       recentPosts,
       ...(await serverSideTranslations(locale!, [
         'header',
