@@ -1,22 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { isValidPhoneNumber } from 'libphonenumber-js'
 
-import Configure from '@/components/common/header/configure'
 import InputSelect from '@/components/common/input-select'
 import HideableWithMargin from '@/components/home/form-group/form/common/hideable-with-margin'
-import {
-  Header,
-  Footer,
-  Content,
-  Form,
-  LogoContainer,
-  Name,
-  Submit,
-  PoweredBy
-} from './styles'
+import { Content, Form, Submit } from './styles'
 
 import {
   currencies as definedCurrencies,
@@ -28,7 +16,6 @@ import {
 import { BackendClient } from '@/lib/backend/clients'
 import { emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
-import { env } from '@/lib/env/client'
 
 import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import type { FiatRate } from '@/lib/backend/main/types.backend.main'
@@ -40,8 +27,12 @@ import { useIsomorphicLayoutEffect } from '@/lib/hooks'
 import { QIWI, VISAMASTER } from '@/core/backend/types.core.backend'
 import { mapBlockchains, mapTokens, validatePhone } from '@/lib/helpers.global'
 import Maintenance, {
+  EuroUsingWarning,
   MerchantPaymentMaintenance
 } from '@/components/home/form-group/form/common/maintenance'
+import { env } from '@/lib/env/client'
+import PaymentHeader from './header'
+import PaymentFooter from './footer'
 
 const inputIds = {
   email: 'email',
@@ -81,6 +72,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const [selectedCurrency, setSelectedCurrency] =
     useState<CurrenciesType>(currentCurrency)
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
+  const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
   const [serviceUnavaliable, setServiceUnavaliable] = useState<{
     unavaliable: boolean
     invalidBalance: boolean
@@ -187,6 +179,12 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     event
   ) => {
     event.preventDefault()
+    const euroAccept = !!sessionStorage.getItem('euro_accept')
+
+    if (!euroAccept && selectedCurrency === 'EUR') {
+      setEuroModalOpen(true)
+      return
+    }
 
     if (!!balanceOfToken?.balance && +get > +balanceOfToken.balance) {
       setServiceUnavaliable({
@@ -204,7 +202,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     const validCard = selectedPayment != QIWI ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
-      Number(+get * fiatrate?.buy[currentCurrency])
+      Number(+get * fiatrate?.buy[selectedCurrency])
     )
 
     setErrors((prev) => ({
@@ -233,7 +231,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       apiHost: blockchainURL,
       ticker: selectedCurrency,
       provider: selectedPayment,
-      amount: Number(+get * fiatrate?.buy[currentCurrency]),
+      amount: Number(+get * fiatrate?.buy[selectedCurrency]),
       cryptoAddress: wallet,
       chainId: token.chain_id,
       tokenAddress: token.address,
@@ -260,22 +258,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
   return (
     <>
-      {displayHeader && (
-        <Header>
-          {widget.logoCompany && (
-            <LogoContainer>
-              <Image
-                src={genericURL + widget.logoCompany}
-                layout="fill"
-                objectFit="contain"
-                objectPosition="center"
-                alt=""
-              />
-            </LogoContainer>
-          )}
-          {widget.nameCompany && <Name>{widget.nameCompany}</Name>}
-        </Header>
-      )}
+      <PaymentHeader widget={widget} displayHeader={displayHeader} />
       <Content
         displayHeader={displayHeader}
         style={
@@ -297,6 +280,12 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
             )}
           {serviceUnavaliable.unavaliable && (
             <Maintenance bgStyle={{ borderRadius: 10 }} />
+          )}
+          {euroModalOpen && (
+            <EuroUsingWarning
+              setOpen={setEuroModalOpen}
+              bgStyle={{ borderRadius: 10 }}
+            />
           )}
           <InputSelect
             label={t('home:buy_blockchain')}
@@ -333,14 +322,14 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           <InputSelect
             label={t('toPay')}
             value={
-              Number((+get * fiatrate?.buy[currentCurrency]).toFixed(2)) + ''
+              Number((+get * fiatrate?.buy[selectedCurrency]).toFixed(2)) + ''
             }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
             onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
-            selectable={false}
+            selectable={!!currencies && currencies.length > 1}
             visuallyDisabled
             error={errors[inputIds.give]}
           />
@@ -356,7 +345,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                 setDetails('')
               }}
               displayIcon
-              selectable
+              selectable={!!paymentOptions && paymentOptions.length > 1}
             />
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
@@ -411,21 +400,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           </Submit>
         </Form>
       </Content>
-      <Footer>
-        {env.isStage ? (
-          <Link href="/" passHref>
-            <a>
-              <PoweredBy />
-            </a>
-          </Link>
-        ) : (
-          <a href="https://assetux.com">
-            <PoweredBy />
-          </a>
-        )}
-
-        <Configure direction="top" />
-      </Footer>
+      <PaymentFooter />
     </>
   )
 }

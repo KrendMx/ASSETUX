@@ -63,6 +63,7 @@ export type FiatProvider = {
 }
 
 export type GetFiatRates = Response<FiatRate[]>
+export type GetFiatRateByToken = Response<FiatRate>
 
 export type GetTokens = Response<Token[]>
 

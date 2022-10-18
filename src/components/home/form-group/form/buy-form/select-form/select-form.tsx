@@ -11,7 +11,7 @@ import NextButton from '../../common/next-button'
 import ExchangeRow from '@/components/common/exchange-info'
 import NetworkRow from '../../common/network-row'
 import HideableWithMargin from '../../common/hideable-with-margin'
-import Maintenance from '../../common/maintenance'
+import Maintenance, { EuroUsingWarning } from '../../common/maintenance'
 
 import { Container, FormContainer } from './styles'
 
@@ -66,6 +66,7 @@ const SelectForm = ({
   processingRequest,
   cardError,
   serviceAvailable,
+  cardHolder,
   setCurrentStep,
   setGetAmount,
   onBlockchainChange,
@@ -78,12 +79,12 @@ const SelectForm = ({
   onGiveAmountChange,
   onEmailChange,
   onSubmit,
-  setFirstName,
-  setLastName
+  setCardHolder
 }: SelectFormProps) => {
   const { t } = useTranslation('home')
 
   const [inputError, setInputError] = useState<Error>({})
+  
   const [chainActive, setChainActive] = useState<boolean>(false)
   const [giveActive, setGiveActive] = useState<boolean>(false)
   const [getActive, setGetActive] = useState<boolean>(false)
@@ -277,14 +278,25 @@ const SelectForm = ({
     onPhoneChange(phoneFormat(value))
   }
 
-  const handleFirstnameInput: React.ChangeEventHandler<HTMLInputElement> = ({
-    target
-  }) => {
-    setCardHolder(target.value)
+  const handleFirstNameInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    setCardHolder(event.target.value)
   }
 
   const handleNextStep = () => {
     if (serviceUnavailable) {
+      return
+    }
+
+    const euroAccept = !!sessionStorage.getItem('euro_accept')
+
+    if (
+      currentStep == Step.Details &&
+      !euroAccept &&
+      currentCurrency === 'EUR'
+    ) {
+      setEuroModalOpen(true)
       return
     }
 
@@ -469,7 +481,7 @@ const SelectForm = ({
                   <InputSelect
                     label={t('home:buy_cardholder')}
                     id={inputIds.cardholder}
-                    onChange={handleFirstnameInput}
+                    onChange={handleFirstNameInput}
                     value={cardHolder}
                     error={inputError[inputIds.cardholder]}
                     placeholder=""
@@ -510,6 +522,7 @@ const SelectForm = ({
 
   return (
     <Container formStep={currentStep} lastSelectorActive={getActive}>
+      {euroModalOpen && <EuroUsingWarning setOpen={setEuroModalOpen} />}
       {renderFields()}
       {visPopup && (
         <WarningPopup

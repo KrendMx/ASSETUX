@@ -31,7 +31,8 @@ import type {
   FindPostProps,
   FindPostResponse,
   CreateFeedbackProps,
-  GetTokensProps
+  GetTokensProps,
+  GetFiatRateByToken
 } from './types.backend.main'
 import { api } from '@/core/backend/handle-request'
 import { constructURL } from '@/lib/helpers.global'
@@ -42,6 +43,15 @@ export class BackendClient {
     signal
   }: UrlRequest & Abortable): Promise<GetFiatRates> {
     return api.get(`${constructURL(apiHost)}/api/fiatrates`, {
+      signal
+    })
+  }
+
+  public async getFiatRateByToken({
+    signal,
+    token
+  }: Abortable & { token: string }): Promise<GetFiatRateByToken> {
+    return api.get(`/api/fiatrates/${token}`, {
       signal
     })
   }

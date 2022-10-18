@@ -87,12 +87,12 @@ export const detectUserLocaleForCurrency = () => {
   else if (locale === 'en' || locale.split('-')[0] === 'en')
     return currencies[4] // USD - en locales
   else if (locale === 'kk') return currencies[2] // Kazakhstani users
-  else return currencies[0] // default RUB
+  else return currencies[0] // default RUB`
 }
 
 export const checkCurrency = (dispatch: AppDispatch) => {
   const savedCurrency = window.localStorage.getItem('currency')
-  // console.log()
+
   if (savedCurrency) {
     if (isCurrencyDeclared(savedCurrency)) {
       dispatch(setCurrentCurrency(savedCurrency))

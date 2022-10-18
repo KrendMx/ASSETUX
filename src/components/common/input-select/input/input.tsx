@@ -77,7 +77,7 @@ const InputSelect = ({
 
   let selectedOption: Option | undefined
   if (hasOptions) {
-    if (selectable) {
+    if (selectable || selectedValue) {
       selectedOption = options.find((option) => option.value == selectedValue)
     } else {
       selectedOption = options[0]
