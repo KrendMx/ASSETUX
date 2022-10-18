@@ -93,13 +93,13 @@ const Blog = ({ pinnedPost, posts, totalPages, category }: BlogProps) => {
       return
     }
 
-    if (response.state == 'unavailable' || response.data.news == null) {
+    if (response.state == 'unavailable' || response.data == null) {
       setPostsToDisplay(null)
 
       return
     }
 
-    setPostsToDisplay([response.data.news])
+    setPostsToDisplay([response.data])
   }
 
   useEffect(() => {
