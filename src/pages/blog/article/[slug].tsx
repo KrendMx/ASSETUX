@@ -40,7 +40,7 @@ type GetStaticPropsParams = ParsedUrlQuery & {
 }
 
 export const getStaticProps: GetStaticProps<
-  any,
+  ArticleProps,
   GetStaticPropsParams
 > = async ({ locale, params }) => {
   const errorProps = {
@@ -50,7 +50,7 @@ export const getStaticProps: GetStaticProps<
 
   const { slug } = params!
 
-  const responses = await Promise.all([
+  const [postResponse, recentPostsResponse] = await Promise.all([
     BackendClient.findPost({
       query: slug,
       category: 'all',
@@ -60,10 +60,10 @@ export const getStaticProps: GetStaticProps<
     BackendClient.getNews({ category: 'all', page: 1, lang: locale! })
   ])
 
-  const postResponse = responses[0]
-  const recentPostsResponse = responses[1]
-
-  if (postResponse.state != 'success') {
+  if (
+    postResponse.state != 'success' ||
+    recentPostsResponse.state != 'success'
+  ) {
     return errorProps
   }
 
