@@ -94,7 +94,7 @@ const ListingComponent = (props: BillProps) => {
                     onChange={handleSend}
                     value={send}
                     selectedValue={selectedCurrency}
-                    selectable={false}
+                    selectable={!!currencies && currencies.length > 1}
                     error={inputError == '' ? undefined : inputError}
                     changeable
                     onlyNumbers
@@ -102,14 +102,14 @@ const ListingComponent = (props: BillProps) => {
                       setSelectedCurrency(val as CurrenciesType)
                     }
                     onActiveChange={setGetCurrencyActive}
-                    displayInSelect={1}
+                    displayInSelect={2}
                     maxValue={ranges?.max}
                   />
                 ) : (
                   <Skeleton containerClassName="input-skeleton" />
                 )}
               </HideableWithMargin>
-              <HideableWithMargin hide={false} margins>
+              <HideableWithMargin hide={getCurrencyActive} margins>
                 <ExchangeInfoWrapper>
                   <ExchangeInfo
                     isLoading={loading}
@@ -118,7 +118,7 @@ const ListingComponent = (props: BillProps) => {
                   />
                 </ExchangeInfoWrapper>
               </HideableWithMargin>
-              <HideableWithMargin hide={false} margins>
+              <HideableWithMargin hide={getCurrencyActive} margins>
                 {!loading ? (
                   <InputSelect
                     label={
