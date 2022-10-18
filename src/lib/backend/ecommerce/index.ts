@@ -118,10 +118,20 @@ export class EcommerceClient {
     amount: number,
     currency: CurrenciesType,
     method: ActionType,
-    reverseCalc: boolean
+    reverseCalc: boolean,
+    token: string,
+    tokenAddress?: string
   ): Promise<CalcFeeResponse> {
     return api.get(
-      `/api/buytoken/calc_fee?amount=${amount}&currency=${currency}&reverseCalc=${reverseCalc}&method=${method}`
+      `/ecommerce/bill/calc_fee?amount=${amount}
+      &currency=${currency}&reverseCalc=${reverseCalc}
+      &method=${method}
+      &tokenAddress=${tokenAddress}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
     )
   }
 

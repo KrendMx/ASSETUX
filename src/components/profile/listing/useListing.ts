@@ -11,12 +11,13 @@ import {
   mapCurrencyName,
   mapShortCurrencyName
 } from '@/lib/data/currencies'
-import { rateCheckInterval } from '@/lib/data/constants'
+import { mappedCookies, rateCheckInterval } from '@/lib/data/constants'
 import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { setMerchantMode } from '@/lib/redux/ui'
 import { env } from '@/lib/env/client'
 import { BillProps } from './listing'
+import Cookies from 'js-cookie'
 
 const useListing = ({ profile, rate }: BillProps) => {
   const {
@@ -98,7 +99,9 @@ const useListing = ({ profile, rate }: BillProps) => {
           Number(result),
           selectedCurrency as CurrenciesType,
           'BUY',
-          true
+          true,
+          Cookies.get(mappedCookies.authToken)!,
+          '0x4a6088feeede9d137fc26aaea06b185cda36c37c'
         )
       : sumTRANSFER
 
@@ -163,7 +166,9 @@ const useListing = ({ profile, rate }: BillProps) => {
           Number(result),
           selectedCurrency as CurrenciesType,
           'BUY',
-          false
+          false,
+          Cookies.get(mappedCookies.authToken)!,
+          '0x4a6088feeede9d137fc26aaea06b185cda36c37c'
         )
       : sumTRANSFER
 
@@ -401,7 +406,8 @@ const useListing = ({ profile, rate }: BillProps) => {
             10000,
             selectedCurrency as CurrenciesType,
             'BUY',
-            false
+            false,
+            Cookies.get(mappedCookies.authToken)!
           )
         : sumTRANSFER
       if (sumWithFee.state === 'success') {
