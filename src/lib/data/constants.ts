@@ -15,6 +15,12 @@ export const emailRegexp =
 
 export const floatRegexp = /^[0-9]+(\.)?[0-9]*$/
 
+export const cardholderRegex = /^[a-zA-Z]+\ [a-zA-Z]+$/g
+
+export const detailRegex = /^[0-9]*$/
+
+export const phoneReplaceRegex = /(\d{3})(\d{3})(\d{2})(\d{2})/g
+
 /*
   Здесь поменял регулярку 
   добавил дефисы 

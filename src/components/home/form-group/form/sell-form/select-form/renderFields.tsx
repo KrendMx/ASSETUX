@@ -19,7 +19,6 @@ import { SelectFormProps } from './types.select-form'
 import { memo, useMemo } from 'react'
 import { inputIds } from './select-form'
 import { validateDecimal } from '@/lib/utils/helpers.utils'
-import type { Option } from '@/components/common/input-select/types.input-select'
 import { PaymentOption } from '../../types.form'
 
 const RenderFields = ({

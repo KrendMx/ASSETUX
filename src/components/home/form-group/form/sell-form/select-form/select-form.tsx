@@ -20,6 +20,7 @@ import type { SelectFormProps } from './types.select-form'
 import { Container } from './styles'
 import RenderFields from './renderFields'
 import useSelectSellForm from './useSelectSellForm'
+import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 
 export const inputIds = {
   get: 'get',
@@ -64,6 +65,9 @@ const SelectForm = (props: SelectFormProps) => {
   )
   const [showExpiredModal, setShowExpiredModal] = useState(false)
   const [showNotEnoughModal, setShowNotEnoughModal] = useState(false)
+
+  const [showPopup, setShowPopup] = useState<boolean>(false)
+  const [popupCase, setPopupCase] = useState<number>(1)
 
   const {
     showRefundModal,
@@ -299,7 +303,14 @@ const SelectForm = (props: SelectFormProps) => {
         />
       )}
 
-      {!isLoading && serviceUnavailable && <Maintenance />}
+      {!isLoading && serviceUnavailable && showPopup && (
+        <WarningPopup
+          setClose={() => {
+            setShowPopup(false)
+          }}
+          caseNumber={popupCase}
+        />
+      )}
 
       {(showRefundModal ||
         showRefundWalletModal ||
