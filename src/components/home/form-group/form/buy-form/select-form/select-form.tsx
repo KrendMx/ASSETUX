@@ -17,7 +17,14 @@ import { Container, FormContainer } from './styles'
 
 import Step from './steps'
 
-import { emailRegexp, allowSkeletons, walletRegexp } from '@/lib/data/constants'
+import {
+  emailRegexp,
+  allowSkeletons,
+  walletRegexp,
+  detailRegex,
+  phoneReplaceRegex,
+  cardholderRegex
+} from '@/lib/data/constants'
 import { useAppSelector } from '@/lib/redux/hooks'
 
 import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
@@ -85,6 +92,7 @@ const SelectForm = ({
 
   const [visPopup, setVisPopup] = useState<boolean>(false)
   const [popupCase, setPopupCase] = useState<number>(1)
+
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
   const piecedDetails = useMemo(
@@ -236,10 +244,7 @@ const SelectForm = ({
       phone = phone.substr(1)
     }
 
-    return phone.replace(
-      /(\d{3})(\d{3})(\d{2})(\d{2})/g,
-      `${startsWith} ($1) $2 $3 $4`
-    )
+    return phone.replace(phoneReplaceRegex, `${startsWith} ($1) $2 $3 $4`)
   }
 
   const handleWalletInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -260,7 +265,7 @@ const SelectForm = ({
     event
   ) => {
     const value = event.target.value.replaceAll(' ', '')
-    const validated = /^[0-9]*$/.test(value)
+    const validated = detailRegex.test(value)
     validated && onDetailsChange(value)
   }
 
@@ -301,7 +306,7 @@ const SelectForm = ({
       if (currentWallet == '' || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = t('home:buy_invalidWallet')
       }
-      if (/^[a-zA-Z]+\ [a-zA-Z]+$/g.test(cardHolder)) {
+      if (cardholderRegex.test(cardHolder)) {
         const res = cardHolder.split(' ')
         setFirstName(res[0])
         setLastName(res[1])
@@ -458,7 +463,7 @@ const SelectForm = ({
               type="email"
               changeable
             />
-            {(currentCurrency === 'EUR' || currentCurrency === 'USD') && (
+            {currentPayment === 'VISAMASTER' && (
               <>
                 <HideableWithMargin hide={false} margins>
                   <InputSelect
@@ -514,7 +519,7 @@ const SelectForm = ({
           }}
         />
       )}
-      {!isLoading && serviceUnavailable && <Maintenance />}
+      {/* {!isLoading && serviceUnavailable && <Maintenance />} */}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton

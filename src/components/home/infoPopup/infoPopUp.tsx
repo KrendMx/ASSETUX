@@ -1,24 +1,22 @@
 import React from 'react'
 import Image from 'next/image'
 
-// import Background from '@/components/common/background'
-// import Popup from '@/components/common/header/configure/popup'
 import Title from '@/components/common/modal-components/Title'
 import Container from '@/components/common/modal-components/Container'
 import Shadow from '@/components/common/modal-components/Shadow'
 import Icon from '@/components/common/modal-components/Icon'
 import ExclamationGreenIcon from '../../../../public/assets/Exclamation-red.svg'
-import styled from 'styled-components'
-import AdaptiveFont from '@/components/common/adaptive-font'
 import { useTranslation } from 'next-i18next'
 import { BackgroundLocal, ScrolledBlock } from './styles'
 import Info from '@/components/common/modal-components/Info'
 import Button from '@/components/common/modal-components/Button'
 
-const WarningPopup: React.FC<{ caseNumber: number; setClose: () => void }> = ({
-  caseNumber,
-  setClose
-}) => {
+type WarningProps = {
+  caseNumber: number
+  setClose: () => void
+}
+
+const WarningPopup = ({ caseNumber, setClose }: WarningProps) => {
   const { t } = useTranslation('home')
 
   return (
