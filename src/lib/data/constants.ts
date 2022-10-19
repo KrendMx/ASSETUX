@@ -47,11 +47,11 @@ export const genericURL = `${env.hostProtocol}://bsc.${env.host}`
 export const listCurrencyError: Required<any> = {
   USD: {
     VISA: 2,
-    MASTER: 3
+    MASTERCARD: 3
   },
   EUR: {
     VISA: 2,
-    MASTER: 3
+    MASTERCARD: 3
   },
   RUB: {
     MIR: 5

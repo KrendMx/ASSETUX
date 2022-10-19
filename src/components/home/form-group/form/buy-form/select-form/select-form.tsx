@@ -350,6 +350,7 @@ const SelectForm = ({
             if (card_res.status === 200) {
               return
             } else {
+              console.log(card_res.data.data.message.type)
               setVisPopup(true)
               if (currentCurrency === 'RUB') {
                 setPopupCase(5)
