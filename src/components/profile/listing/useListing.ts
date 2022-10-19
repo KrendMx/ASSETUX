@@ -11,12 +11,13 @@ import {
   mapCurrencyName,
   mapShortCurrencyName
 } from '@/lib/data/currencies'
-import { rateCheckInterval } from '@/lib/data/constants'
+import { mappedCookies, rateCheckInterval } from '@/lib/data/constants'
 import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { setMerchantMode } from '@/lib/redux/ui'
 import { env } from '@/lib/env/client'
 import { BillProps } from './listing'
+import Cookies from 'js-cookie'
 
 const useListing = ({ profile, rate }: BillProps) => {
   const {
@@ -24,7 +25,7 @@ const useListing = ({ profile, rate }: BillProps) => {
     tokens
   } = profile
   const isTRANSFER = mode === 'TRANSFER'
-  const isRETENTION = !isTRANSFER
+  const isRETENTION = mode === 'RETENTION'
   const { t } = useTranslation(isRETENTION ? 'profile-bill' : 'profile-listing')
   const router = useRouter()
   const checkAuthorized = useAuthorized()
@@ -92,13 +93,23 @@ const useListing = ({ profile, rate }: BillProps) => {
         amount: Number(result) / rate!?.buy[selectedCurrency]
       }
     }
+    console.log(
+      Number(result),
+      selectedCurrency as CurrenciesType,
+      'BUY',
+      true,
+      Cookies.get(mappedCookies.authToken)!,
+      selectedToken!
+    )
 
     const sumWithFee = isRETENTION
       ? await EcommerceClient.calcFee(
           Number(result),
           selectedCurrency as CurrenciesType,
           'BUY',
-          true
+          true,
+          Cookies.get(mappedCookies.authToken)!,
+          selectedToken!
         )
       : sumTRANSFER
 
@@ -163,7 +174,9 @@ const useListing = ({ profile, rate }: BillProps) => {
           Number(result),
           selectedCurrency as CurrenciesType,
           'BUY',
-          false
+          false,
+          Cookies.get(mappedCookies.authToken)!,
+          selectedToken! !== 'BUSD' ? selectedToken! : ''
         )
       : sumTRANSFER
 
@@ -401,7 +414,9 @@ const useListing = ({ profile, rate }: BillProps) => {
             10000,
             selectedCurrency as CurrenciesType,
             'BUY',
-            false
+            false,
+            Cookies.get(mappedCookies.authToken)!,
+            selectedToken!
           )
         : sumTRANSFER
       if (sumWithFee.state === 'success') {

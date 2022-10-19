@@ -50,7 +50,7 @@ const BuyForm = ({
 
   const [currentStep, setCurrentStep] = useState(Step.Details)
   const [processingRequest, setProcessingRequest] = useState(false)
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<string>('')
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState('10000') // in form it is validated to be a number
   const [getAmount, setGetAmount] = useState('')
@@ -126,9 +126,7 @@ const BuyForm = ({
     if (selectedCurrency && payments) {
       const numberGive = Number(giveAmount)
 
-      const rangedPayments = payments.filter(
-        (payment) => payment.min <= numberGive && payment.max >= numberGive
-      )
+      const rangedPayments = payments
 
       const paymentsToProcess =
         rangedPayments.length == 0 ? payments : rangedPayments
@@ -148,7 +146,6 @@ const BuyForm = ({
       const sortedPayments = processedPayments.sort((a, b) => b.max - a.max)
 
       setProcessedPayments(sortedPayments)
-
       if (sortedPayments.length > 0) {
         setSelectedPayment(sortedPayments[0].value)
       } else {

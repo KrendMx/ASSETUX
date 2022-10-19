@@ -233,6 +233,22 @@ export type GetEmailOrdersProps = UrlRequest & {
   code: string
 }
 
+export type GetCardNumberValidationProps = UrlRequest & {
+  bin: string
+  currency: CurrenciesType
+}
+
+export type GetCardNumberValidationResult = Response<{
+  data: {
+    success: boolean
+    data?: {
+      message: {
+        type: string
+      }
+    }
+  }
+}>
+
 export type GetEmailOrdersResponse = Response<
   OrdersData,
   {

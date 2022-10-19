@@ -23,7 +23,8 @@ import {
   walletRegexp,
   detailRegex,
   phoneReplaceRegex,
-  cardholderRegex
+  cardholderRegex,
+  listCurrencyError
 } from '@/lib/data/constants'
 import { useAppSelector } from '@/lib/redux/hooks'
 
@@ -33,6 +34,8 @@ import type { Error, SelectFormProps } from './types.select-buy'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { QIWI } from '@/core/backend/types.core.backend'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
+import { BackendClient } from '@/lib/backend/clients'
+import { CurrenciesType } from '@/lib/data/currencies'
 
 const inputIds = {
   get: 'get',
@@ -151,19 +154,20 @@ const SelectForm = ({
       serviceAvailable == null)
 
   const checkRanges = (value: number): string | null => {
-    if (!currentPaymentOption) {
+    if (!currentPayment) {
       return null
     }
-
-    if (value < currentPaymentOption.min || value > currentPaymentOption.max) {
-      if (value > currentPaymentOption.max) {
-        return t('home:buy_maximumIs') + ' ' + currentPaymentOption.max
-      } else {
-        return t('home:buy_minimumIs') + ' ' + currentPaymentOption.min
+    if (
+      value < currentPaymentOption!.min! ||
+      value > currentPaymentOption!.max!
+    ) {
+      if (value > currentPaymentOption!.max) {
+        return t('home:buy_maximumIs') + ' ' + currentPaymentOption!.max
+      } else if (value < currentPaymentOption!.max) {
+        return t('home:buy_minimumIs') + ' ' + currentPaymentOption!.min
       }
-    } else {
-      return null
     }
+    return null
   }
 
   const handleGiveInput: React.ChangeEventHandler<HTMLInputElement> = (
@@ -284,7 +288,7 @@ const SelectForm = ({
     setCardHolder(event.target.value)
   }
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (serviceUnavailable) {
       return
     }
@@ -336,6 +340,34 @@ const SelectForm = ({
       } else {
         if (currentDetails == '') {
           errorObject[inputIds.details] = t('home:buy_invalidCard')
+        } else {
+          await (async () => {
+            const card_res = await BackendClient.checkCardValidation({
+              apiHost: 'bsc.dev.assetux.com',
+              bin: currentDetails.slice(0, 6),
+              currency: currentCurrency as CurrenciesType
+            })
+            if (card_res.status === 200) {
+              return
+            } else {
+              console.log(card_res.data.data.message.type)
+              setVisPopup(true)
+              if (currentCurrency === 'RUB') {
+                setPopupCase(5)
+              } else if (currentCurrency === 'UAH') {
+                setPopupCase(6)
+              } else if (currentCurrency === 'KZT') {
+                setPopupCase(4)
+              } else {
+                setPopupCase(
+                  listCurrencyError[currentCurrency][
+                    card_res.data.data.message.type as string
+                  ]
+                )
+              }
+              errorObject[inputIds.details] = t('home:buy_invalidCard')
+            }
+          })()
         }
       }
     }
@@ -386,6 +418,7 @@ const SelectForm = ({
                 onActiveChange={(active) => setGiveActive(active)}
                 onSelect={onCurrencyChange}
                 error={inputError[inputIds.give]}
+                // error={"123"}
                 selectedValue={currentCurrency}
                 selectable={!!checkedCurrencies && checkedCurrencies.length > 1}
                 onlyNumbers

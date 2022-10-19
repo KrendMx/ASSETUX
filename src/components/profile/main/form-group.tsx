@@ -10,6 +10,8 @@ import OutIcon from '../../../../public/assets/Out.svg'
 import { Container, Flex, Label } from './styles'
 import { currenciesSymbol, FormGroupProps, inputId } from './types.main'
 import useFormGroup from './useFormGroup'
+import { CurrenciesType, mapCurrency } from '@/lib/data/currencies'
+import { AnyMap } from 'immer/dist/internal'
 
 const FormGroup = (props: FormGroupProps) => {
   const {
@@ -61,7 +63,7 @@ const FormGroup = (props: FormGroupProps) => {
               >
                 <Balance
                   amount={balance[el].toFixed(2)}
-                  icon={currenciesSymbol[el]}
+                  icon={mapCurrency(el as CurrenciesType)}
                   symbol={el}
                   fiat
                   style={{ width: '100%' }}
