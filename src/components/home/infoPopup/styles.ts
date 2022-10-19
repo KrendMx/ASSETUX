@@ -10,7 +10,7 @@ const BackgroundLocal = styled.div`
 `
 
 const ScrolledBlock = styled.div<{ height: string }>`
-  height: ${(props) => props.height}!important;
+  max-height: ${(props) => props.height}!important;
   width: 100%;
   overflow-y: scroll;
 `
