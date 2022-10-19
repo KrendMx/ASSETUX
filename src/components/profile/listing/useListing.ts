@@ -101,7 +101,7 @@ const useListing = ({ profile, rate }: BillProps) => {
           'BUY',
           true,
           Cookies.get(mappedCookies.authToken)!,
-          '0x4a6088feeede9d137fc26aaea06b185cda36c37c'
+          selectedToken!
         )
       : sumTRANSFER
 
@@ -407,7 +407,8 @@ const useListing = ({ profile, rate }: BillProps) => {
             selectedCurrency as CurrenciesType,
             'BUY',
             false,
-            Cookies.get(mappedCookies.authToken)!
+            Cookies.get(mappedCookies.authToken)!,
+            selectedToken!
           )
         : sumTRANSFER
       if (sumWithFee.state === 'success') {
