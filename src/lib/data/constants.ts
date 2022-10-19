@@ -44,7 +44,7 @@ export const mappedCookies = {
 
 export const genericURL = `${env.hostProtocol}://bsc.${env.host}`
 
-export const listCurrencyError = {
+export const listCurrencyError: Required<any> = {
   USD: {
     VISA: 2,
     MASTER: 3

@@ -50,7 +50,7 @@ const BuyForm = ({
 
   const [currentStep, setCurrentStep] = useState(Step.Details)
   const [processingRequest, setProcessingRequest] = useState(false)
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<string>('')
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
   const [giveAmount, setGiveAmount] = useState('10000') // in form it is validated to be a number
   const [getAmount, setGetAmount] = useState('')
