@@ -376,8 +376,10 @@ const SelectForm = ({
           <HideableWithMargin hide={chainActive} margins>
             {!isLoading ? (
               <InputSelect
-                label={`${t('home:buy_give')}: ${currentPaymentOption?.min} - ${
-                  currentPaymentOption?.max
+                label={`${t('home:buy_give')}: ${
+                  currentPaymentOption?.min && currentPaymentOption?.max
+                    ? `${currentPaymentOption?.min} - ${currentPaymentOption?.max}`
+                    : '~'
                 }`}
                 id={inputIds.give}
                 value={giveAmount}

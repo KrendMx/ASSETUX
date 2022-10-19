@@ -168,7 +168,7 @@ const useListing = ({ profile, rate }: BillProps) => {
           'BUY',
           false,
           Cookies.get(mappedCookies.authToken)!,
-          '0x4a6088feeede9d137fc26aaea06b185cda36c37c'
+          selectedToken!
         )
       : sumTRANSFER
 

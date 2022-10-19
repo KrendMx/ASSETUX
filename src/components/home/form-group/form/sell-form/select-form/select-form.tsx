@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'next-i18next'
 import NextButton from '../../common/next-button'
-import Maintenance from '../../common/maintenance'
 import RefundModal from './modals/refund/modal'
 import RefundWalletModal from './modals/refund/wallet'
 import RefundCodeModal from './modals/refund/code'
