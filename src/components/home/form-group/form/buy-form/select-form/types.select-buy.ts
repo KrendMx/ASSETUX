@@ -12,7 +12,7 @@ export type SelectFormProps = {
   currentStep: Step
   currentBlockchain: string | null
   blockchains: Option[] | null
-  currentCurrency: string | null
+  currentCurrency: string
   currencies: Option[] | null
   currentToken: string | null
   tokens: Option[] | null

@@ -15,7 +15,7 @@ export const emailRegexp =
 
 export const floatRegexp = /^[0-9]+(\.)?[0-9]*$/
 
-export const cardholderRegex = /^[a-zA-Z]+\ [a-zA-Z]+$/g
+export const cardholderRegex = /^[A-Z]+\ [A-Z]+$/g
 
 export const detailRegex = /^[0-9]*$/
 
@@ -43,3 +43,19 @@ export const mappedCookies = {
 }
 
 export const genericURL = `${env.hostProtocol}://bsc.${env.host}`
+
+export const listCurrencyError = {
+  USD: {
+    VISA: 2,
+    MASTER: 3
+  },
+  EUR: {
+    VISA: 2,
+    MASTER: 3
+  },
+  RUB: {
+    MIR: 5
+  },
+  KZT: 4,
+  UAH: 6
+}

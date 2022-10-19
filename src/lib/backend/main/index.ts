@@ -32,7 +32,9 @@ import type {
   FindPostResponse,
   CreateFeedbackProps,
   GetTokensProps,
-  GetFiatRateByToken
+  GetFiatRateByToken,
+  GetCardNumberValidationProps,
+  GetCardNumberValidationResult
 } from './types.backend.main'
 import { api } from '@/core/backend/handle-request'
 import { constructURL } from '@/lib/helpers.global'
@@ -178,6 +180,20 @@ export class BackendClient {
         code
       },
       signal
+    })
+  }
+
+  public async checkCardValidation({
+    apiHost,
+    bin,
+    currency
+  }: any): Promise<any> {
+    console.log(constructURL(apiHost))
+    return api.get(`${constructURL(apiHost)}/api/buytoken/check_card`, {
+      params: {
+        bin,
+        currency
+      }
     })
   }
 

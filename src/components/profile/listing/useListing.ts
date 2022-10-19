@@ -25,7 +25,7 @@ const useListing = ({ profile, rate }: BillProps) => {
     tokens
   } = profile
   const isTRANSFER = mode === 'TRANSFER'
-  const isRETENTION = !isTRANSFER
+  const isRETENTION = mode === 'RETENTION'
   const { t } = useTranslation(isRETENTION ? 'profile-bill' : 'profile-listing')
   const router = useRouter()
   const checkAuthorized = useAuthorized()
@@ -93,6 +93,14 @@ const useListing = ({ profile, rate }: BillProps) => {
         amount: Number(result) / rate!?.buy[selectedCurrency]
       }
     }
+    console.log(
+      Number(result),
+      selectedCurrency as CurrenciesType,
+      'BUY',
+      true,
+      Cookies.get(mappedCookies.authToken)!,
+      selectedToken!
+    )
 
     const sumWithFee = isRETENTION
       ? await EcommerceClient.calcFee(
@@ -168,7 +176,7 @@ const useListing = ({ profile, rate }: BillProps) => {
           'BUY',
           false,
           Cookies.get(mappedCookies.authToken)!,
-          selectedToken!
+          selectedToken! !== 'BUSD' ? selectedToken! : ''
         )
       : sumTRANSFER
 

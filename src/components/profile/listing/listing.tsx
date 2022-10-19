@@ -65,13 +65,6 @@ const ListingComponent = (props: BillProps) => {
       )}
       <CryptoManager getToken />
       <ContainerForListing>
-        {/* <Paragraph>{t("p1")}</Paragraph>
-        <List>
-          <Item>{t("item1")}</Item>
-          <Item>{t("item2")}</Item>
-          <Item>{t("item3")}</Item>
-        </List>
-        <Paragraph>{t("p2")}</Paragraph> */}
         <FormContainer>
           <Form
             getActive={getActive || getCurrencyActive}

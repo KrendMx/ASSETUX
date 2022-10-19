@@ -60,6 +60,8 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
     return errorProps
   }
 
+  console.log(profile)
+
   if (profile.data.user.mode !== 'RETENTION') {
     return transferProps
   }
