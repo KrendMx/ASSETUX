@@ -204,7 +204,7 @@ export type MerchantBillResponse = Response<MerchantData>
 
 export type TokenBalanceResponse = Response<ITokenBalance>
 
-export type CalcFeeResponse = Response<any>
+export type CalcFeeResponse = any
 
 export interface ITokenBalance {
   balance: string

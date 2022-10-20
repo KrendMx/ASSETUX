@@ -23,6 +23,7 @@ import type {
 } from './types.backend.ecommerce'
 import { CurrenciesType } from '@/lib/data/currencies'
 import { ActionType } from '@/lib/redux/crypto/types.crypto'
+import axios from 'axios'
 
 export class EcommerceClient {
   public async login({ token }: LoginProps): Promise<LoginResponse> {
@@ -122,17 +123,19 @@ export class EcommerceClient {
     token: string,
     tokenAddress?: string
   ): Promise<CalcFeeResponse> {
-    return api.get(
-      `/ecommerce/bill/calc_fee?amount=${amount}
-      &currency=${currency}&reverseCalc=${reverseCalc}
-      &method=${method}
-      &tokenAddress=${tokenAddress}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    return axios.get(`https://bsc.dev.assetux.com/ecommerce/bill/calc_fee`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      params: {
+        amount,
+        currency,
+        method,
+        reverseCalc,
+        token,
+        tokenAddress
       }
-    )
+    })
   }
 
   public async checkBalanceOfToken(

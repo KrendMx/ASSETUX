@@ -38,11 +38,11 @@ const ListingComponent = (props: BillProps) => {
     isTRANSFER,
     handleGet,
     get,
+    send,
     selectedCurrency,
     ranges,
     currencies,
     handleSend,
-    send,
     inputError,
     setSelectedCurrency,
     setGetCurrencyActive,
@@ -122,6 +122,7 @@ const ListingComponent = (props: BillProps) => {
                           })
                         : t('give')
                     }
+                    value={get}
                     id={inputIds.send}
                     options={
                       isRETENTION && currencies
@@ -131,20 +132,17 @@ const ListingComponent = (props: BillProps) => {
                         : undefined
                     }
                     onChange={handleGet}
-                    value={get.visible}
                     selectedValue={
                       isRETENTION ? selectedCurrency : selectedToken
                     }
-                    selectable={false}
                     error={outputError == '' ? undefined : outputError}
-                    changeable={isTRANSFER}
+                    changeable={true}
                     onlyNumbers
                     onSelect={(val) =>
                       setSelectedCurrency(val as CurrenciesType)
                     }
                     onActiveChange={setGetCurrencyActive}
                     displayInSelect={1}
-                    visuallyDisabled={isRETENTION}
                   />
                 ) : (
                   <Skeleton containerClassName="input-skeleton" />
@@ -159,11 +157,9 @@ const ListingComponent = (props: BillProps) => {
                 <Button
                   type="submit"
                   disabled={
-                    get.visible == '' ||
-                    send == '' ||
                     waitingResponse ||
                     !ranges ||
-                    get.actual > ranges?.max ||
+                    Number(get) > ranges?.max ||
                     +send < ranges?.min
                   }
                 >
@@ -182,7 +178,7 @@ const ListingComponent = (props: BillProps) => {
                 <Button
                   type="submit"
                   onClick={handleSubmit}
-                  disabled={get.visible == '' || send == '' || waitingResponse}
+                  disabled={waitingResponse}
                 >
                   {submitValue}
                 </Button>
