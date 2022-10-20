@@ -60,7 +60,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     (widget.nameCompany != null && widget.nameCompany != '')
 
   const { t } = useTranslation('profile-payment')
-  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const currentCurrency = props.bill.bill.currency
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == VISAMASTER)
       ? 'QIWIVISAMASTER'
@@ -72,8 +72,9 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
-  const [selectedCurrency, setSelectedCurrency] =
-    useState<CurrenciesType>(currentCurrency)
+  const [selectedCurrency, setSelectedCurrency] = useState<CurrenciesType>(
+    currentCurrency as CurrenciesType
+  )
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
   const [serviceUnavaliable, setServiceUnavaliable] = useState<boolean>(false)
   const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
@@ -88,10 +89,11 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
     if (mappedCurrencies.length > 0) {
       setCurrencies(mappedCurrencies)
-      setSelectedCurrency(
-        mappedCurrencies.find(({ value }) => value === currentCurrency)
-          ?.value || mappedCurrencies[0].value
-      )
+      // setSelectedCurrency()
+      // setSelectedCurrency(
+      //   mappedCurrencies.find(({ value }) => value === currentCurrency)
+      //     ?.value || mappedCurrencies[0].value
+      // )
     }
   }, [currentCurrency])
 
@@ -210,8 +212,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
             value={bill.bill.sendAmount + ''}
             visuallyDisabled
             options={currencies ? currencies : undefined}
-            selectedValue={selectedCurrency}
-            onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
+            selectedValue={props.bill.bill.currency}
+            // onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
             selectable={false}
