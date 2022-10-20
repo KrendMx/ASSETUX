@@ -180,7 +180,10 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     const response = await EcommerceClient.createPayment({
       paymentMethod: selectedPayment,
       email,
-      cardholder,
+      cardHolder: {
+        firstName: cardholder.split(' ')[0],
+        lastName: cardholder.split(' ')[1]
+      },
       creditCard: details
         .replaceAll('(', '')
         .replaceAll(')', '')

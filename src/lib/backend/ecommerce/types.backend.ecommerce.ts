@@ -192,7 +192,10 @@ export interface IEcommerceBill {
 export interface ICreatePaymentProps {
   paymentMethod: string
   email: string
-  cardholder: string
+  cardHolder: {
+    firstName: string
+    lastName: string
+  }
   creditCard: string
   ecommerceBillHash: string
 }
