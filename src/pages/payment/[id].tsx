@@ -89,7 +89,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   if (buyProviders.length == 0) {
     return errorProps
   }
-
   return {
     props: {
       bill: bill.data,

@@ -69,7 +69,7 @@ export const getServerSideProps: GetServerSideProps<BillProps> = async ({
   }
 
   const rate = await BackendClient.getFiatRateByToken({
-    token: profile.data.tokens[0].symbol
+    token: profile.data.tokens[0]?.symbol
   })
 
   if (rate.state != 'success') {

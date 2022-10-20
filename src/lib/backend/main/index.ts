@@ -188,7 +188,6 @@ export class BackendClient {
     bin,
     currency
   }: any): Promise<any> {
-    console.log(constructURL(apiHost))
     return api.get(`${constructURL(apiHost)}/api/buytoken/check_card`, {
       params: {
         bin,

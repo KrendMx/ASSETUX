@@ -47,11 +47,8 @@ const useListing = ({ profile, rate }: BillProps) => {
   const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
   const [selectedCurrency, setSelectedCurrency] =
     useState<CurrenciesType>(currentCurrency)
-  const [get, setGet] = useState({
-    visible: '',
-    actual: 0
-  })
-  const [send, setSend] = useState('10000')
+  const [get, setGet] = useState<string>('0')
+  const [send, setSend] = useState<string>('10000')
 
   const [getActive, setGetActive] = useState(false)
   const [getCurrencyActive, setGetCurrencyActive] = useState(false)
@@ -67,11 +64,12 @@ const useListing = ({ profile, rate }: BillProps) => {
 
   const copyTimeout = useRef<NodeJS.Timeout | null>(null)
 
-  const loading = selectedCurrency == null || ranges == null
+  const loading: any = selectedCurrency == null || ranges == null
   const availableTokens = useAppSelector(
-    (state) => state.crypto.availableTokens
+    (state) => state?.crypto.availableTokens
   )
 
+  //Верхний инпут
   const handleGet: React.ChangeEventHandler<HTMLInputElement> = async (
     event
   ) => {
@@ -81,50 +79,36 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     const value = event.target.value
 
+    setGet(value)
+    setSend('~')
+
     const [validated, result] = validateDecimal(value)
 
     if (!validated) {
       return
     }
 
-    const sumTRANSFER = {
-      state: 'success',
-      data: {
-        amount: Number(result) / rate!?.buy[selectedCurrency]
-      }
-    }
-    console.log(
+    const sumWithFee = await EcommerceClient.calcFee(
       Number(result),
       selectedCurrency as CurrenciesType,
       'BUY',
-      true,
+      false,
       Cookies.get(mappedCookies.authToken)!,
-      selectedToken!
+      tokens[0]?.address
     )
 
-    const sumWithFee = isRETENTION
-      ? await EcommerceClient.calcFee(
-          Number(result),
-          selectedCurrency as CurrenciesType,
-          'BUY',
-          true,
-          Cookies.get(mappedCookies.authToken)!,
-          selectedToken!
-        )
-      : sumTRANSFER
-
-    setGet({
-      visible: result,
-      actual: Number(result)
-    })
-    if (sumWithFee.state !== 'success') {
-      return
+    if (sumWithFee.data.success) {
+      setSend(
+        sumWithFee.data.data.amount
+          ? sumWithFee.data.data.amount
+          : sumWithFee.data.data.amountToken
+      )
     }
 
-    const sendRes = sumWithFee.data.amount
+    const sendRes = sumWithFee.data.data.amount
+      ? sumWithFee.data.data.amount
+      : sumWithFee.data.data.amountToken
     const sendAmount = Number(result)
-
-    setSend(Number(sendRes) ? Number(sendRes.toFixed(2)) + '' : '')
 
     if (sendRes < ranges.min) {
       setInputError(t('minError', { min: ranges.min }))
@@ -144,7 +128,7 @@ const useListing = ({ profile, rate }: BillProps) => {
       }
     }
   }
-
+  //Нижний инпут
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = async (
     event
   ) => {
@@ -156,36 +140,29 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     const [validated, result] = validateDecimal(value)
 
+    setSend(value)
+    setGet('~')
+
     if (!validated) {
       return
     }
 
-    setSend(result)
+    const sumWithFee = await EcommerceClient.calcFee(
+      Number(result),
+      selectedCurrency as CurrenciesType,
+      'BUY',
+      true,
+      Cookies.get(mappedCookies.authToken)!,
+      tokens[0]?.address
+    )
 
-    const sumTRANSFER = {
-      state: 'success',
-      data: {
-        amount: Number(result) / rate!?.buy[selectedCurrency]
-      }
-    }
+    console.log(sumWithFee)
 
-    const sumWithFee = isRETENTION
-      ? await EcommerceClient.calcFee(
-          Number(result),
-          selectedCurrency as CurrenciesType,
-          'BUY',
-          false,
-          Cookies.get(mappedCookies.authToken)!,
-          selectedToken! !== 'BUSD' ? selectedToken! : ''
-        )
-      : sumTRANSFER
-
-    if (sumWithFee.state === 'success') {
-      const amountRes = sumWithFee.data.amount
-      setGet({
-        visible: Number(amountRes) > 0 ? Number(amountRes.toFixed(2)) + '' : '',
-        actual: amountRes
-      })
+    if (sumWithFee!.data!.success) {
+      const amountRes = sumWithFee.data.data.amount
+        ? sumWithFee.data.data.amount
+        : sumWithFee.data.data.amountToken
+      setGet(amountRes)
 
       const resultNum = Number(result)
 
@@ -237,6 +214,8 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     setSubmitValue(t('loading'))
 
+    console.log(token, Number(get), selectedCurrency)
+
     const response =
       isRETENTION &&
       (await EcommerceClient.createBill({
@@ -244,6 +223,8 @@ const useListing = ({ profile, rate }: BillProps) => {
         amountIn: Number(send),
         currency: selectedCurrency
       }))
+
+    console.log(response)
 
     setWaitingResponse(false)
 
@@ -402,28 +383,16 @@ const useListing = ({ profile, rate }: BillProps) => {
   useEffect(() => {
     ;(async () => {
       if (!selectedCurrency) return
-      const sumTRANSFER = {
-        state: 'success',
-        data: {
-          amount: 10000 / rate!?.buy[selectedCurrency],
-          amountIn: 10000
-        }
-      }
-      const sumWithFee = isRETENTION
-        ? await EcommerceClient.calcFee(
-            10000,
-            selectedCurrency as CurrenciesType,
-            'BUY',
-            false,
-            Cookies.get(mappedCookies.authToken)!,
-            selectedToken!
-          )
-        : sumTRANSFER
+      const sumWithFee = await EcommerceClient.calcFee(
+        10000,
+        selectedCurrency as CurrenciesType,
+        'BUY',
+        false,
+        Cookies.get(mappedCookies.authToken)!,
+        tokens[0]?.address
+      )
       if (sumWithFee.state === 'success') {
-        setGet({
-          visible: Number(sumWithFee.data.amount.toFixed(2)) + '',
-          actual: sumWithFee.data.amount
-        })
+        setGet(sumWithFee.data.amount)
         setSend(Number(sumWithFee.data.amountIn.toFixed(2)) + '')
       }
     })()

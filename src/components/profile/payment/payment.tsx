@@ -15,7 +15,7 @@ import {
 } from '@/lib/data/currencies'
 
 import { EcommerceClient } from '@/lib/backend/clients'
-import { emailRegexp, genericURL } from '@/lib/data/constants'
+import { cardholderRegex, emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
 
 import type {
@@ -41,7 +41,8 @@ const inputIds = {
   email: 'email',
   phone: 'phone',
   card: 'cardnumber',
-  wallet: 'publickey'
+  wallet: 'publickey',
+  cardholder: 'cardholder'
 }
 
 export type PaymentProps<T, B> = {
@@ -60,7 +61,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     (widget.nameCompany != null && widget.nameCompany != '')
 
   const { t } = useTranslation('profile-payment')
-  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const currentCurrency = props.bill.bill.currency
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == VISAMASTER)
       ? 'QIWIVISAMASTER'
@@ -72,11 +73,13 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [errors, setErrors] = useState<Record<string, string | undefined>>({})
   const [waitingResponse, setWaitingResponse] = useState(false)
   const [currencies, setCurrencies] = useState<Option[] | null>(null)
-  const [selectedCurrency, setSelectedCurrency] =
-    useState<CurrenciesType>(currentCurrency)
+  const [selectedCurrency, setSelectedCurrency] = useState<CurrenciesType>(
+    currentCurrency as CurrenciesType
+  )
   const [getCurrencyActive, setGetCurrencyActive] = useState<boolean>(false)
   const [serviceUnavaliable, setServiceUnavaliable] = useState<boolean>(false)
   const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
+  const [cardholder, setCardholder] = useState<string>('')
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -88,10 +91,11 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
     if (mappedCurrencies.length > 0) {
       setCurrencies(mappedCurrencies)
-      setSelectedCurrency(
-        mappedCurrencies.find(({ value }) => value === currentCurrency)
-          ?.value || mappedCurrencies[0].value
-      )
+      // setSelectedCurrency()
+      // setSelectedCurrency(
+      //   mappedCurrencies.find(({ value }) => value === currentCurrency)
+      //     ?.value || mappedCurrencies[0].value
+      // )
     }
   }, [currentCurrency])
 
@@ -115,6 +119,13 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     const value = event.target.value
 
     setEmail(value)
+  }
+
+  const handleCardholderInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    const value = event.target.value
+    setCardholder(value.toUpperCase())
   }
 
   const handleCard: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -148,15 +159,19 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
     const validCard = selectedPayment != QIWI ? details.length == 16 : true
+    const validCardholder = cardholderRegex.test(cardholder)
 
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t('invalidEmail'),
       [inputIds.phone]: validPhone ? undefined : t('invalidPhone'),
-      [inputIds.card]: validCard ? undefined : t('invalidCard')
+      [inputIds.card]: validCard ? undefined : t('invalidCard'),
+      [inputIds.cardholder]: validCardholder
+        ? undefined
+        : t('invalidCardholder')
     }))
 
-    if (!validEmail || !validPhone || !validCard) {
+    if (!validEmail || !validPhone || !validCard || !validCardholder) {
       return
     }
 
@@ -165,6 +180,10 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
     const response = await EcommerceClient.createPayment({
       paymentMethod: selectedPayment,
       email,
+      cardHolder: {
+        firstName: cardholder.split(' ')[0],
+        lastName: cardholder.split(' ')[1]
+      },
       creditCard: details
         .replaceAll('(', '')
         .replaceAll(')', '')
@@ -230,6 +249,21 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
               displayIcon
               selectable={paymentOptions.length > 1}
             />
+            {(bill.bill.currency === 'EUR' || bill.bill.currency === 'USD') && (
+              <>
+                <HideableWithMargin hide={false} margins>
+                  <InputSelect
+                    label={t('home:buy_cardholder')}
+                    id={inputIds.cardholder}
+                    onChange={handleCardholderInput}
+                    value={cardholder}
+                    error={errors[inputIds.cardholder]}
+                    placeholder=""
+                    changeable
+                  />
+                </HideableWithMargin>
+              </>
+            )}
             <HideableWithMargin hide={paymentActive} space="0.842em">
               <InputSelect
                 id={inputIds.email}

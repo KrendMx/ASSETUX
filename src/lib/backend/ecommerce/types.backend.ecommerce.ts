@@ -192,6 +192,10 @@ export interface IEcommerceBill {
 export interface ICreatePaymentProps {
   paymentMethod: string
   email: string
+  cardHolder: {
+    firstName: string
+    lastName: string
+  }
   creditCard: string
   ecommerceBillHash: string
 }
@@ -204,7 +208,7 @@ export type MerchantBillResponse = Response<MerchantData>
 
 export type TokenBalanceResponse = Response<ITokenBalance>
 
-export type CalcFeeResponse = Response<any>
+export type CalcFeeResponse = any
 
 export interface ITokenBalance {
   balance: string
