@@ -68,6 +68,7 @@ const useListing = ({ profile, rate }: BillProps) => {
   const availableTokens = useAppSelector(
     (state) => state.crypto.availableTokens
   )
+
   //Верхний инпут
   const handleGet: React.ChangeEventHandler<HTMLInputElement> = async (
     event
@@ -93,14 +94,20 @@ const useListing = ({ profile, rate }: BillProps) => {
       'BUY',
       false,
       Cookies.get(mappedCookies.authToken)!,
-      selectedToken ? selectedToken : undefined
+      tokens[0].address
     )
 
     if (sumWithFee.data.success) {
-      setSend(sumWithFee.data.data.amount)
+      setSend(
+        sumWithFee.data.data.amount
+          ? sumWithFee.data.data.amount
+          : sumWithFee.data.data.amountToken
+      )
     }
 
-    const sendRes = sumWithFee.data.amount
+    const sendRes = sumWithFee.data.data.amount
+      ? sumWithFee.data.data.amount
+      : sumWithFee.data.data.amountToken
     const sendAmount = Number(result)
 
     if (sendRes < ranges.min) {
@@ -146,11 +153,15 @@ const useListing = ({ profile, rate }: BillProps) => {
       'BUY',
       true,
       Cookies.get(mappedCookies.authToken)!,
-      selectedToken ? selectedToken : undefined
+      tokens[0].address
     )
+
+    console.log(sumWithFee)
 
     if (sumWithFee!.data!.success) {
       const amountRes = sumWithFee.data.data.amount
+        ? sumWithFee.data.data.amount
+        : sumWithFee.data.data.amountToken
       setGet(amountRes)
 
       const resultNum = Number(result)
@@ -368,20 +379,13 @@ const useListing = ({ profile, rate }: BillProps) => {
   useEffect(() => {
     ;(async () => {
       if (!selectedCurrency) return
-      const sumTRANSFER = {
-        state: 'success',
-        data: {
-          amount: 10000 / rate!?.buy[selectedCurrency],
-          amountIn: 10000
-        }
-      }
       const sumWithFee = await EcommerceClient.calcFee(
         10000,
         selectedCurrency as CurrenciesType,
         'BUY',
         false,
         Cookies.get(mappedCookies.authToken)!,
-        selectedToken ? selectedToken : undefined
+        tokens[0].address
       )
       if (sumWithFee.state === 'success') {
         setGet(sumWithFee.data.amount)

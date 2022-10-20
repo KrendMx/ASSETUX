@@ -132,7 +132,6 @@ export class EcommerceClient {
         currency,
         method,
         reverseCalc,
-        token,
         tokenAddress
       }
     })
