@@ -94,7 +94,7 @@ const useListing = ({ profile, rate }: BillProps) => {
       'BUY',
       false,
       Cookies.get(mappedCookies.authToken)!,
-      tokens[0].address
+      tokens[0]?.address
     )
 
     if (sumWithFee.data.success) {
@@ -153,7 +153,7 @@ const useListing = ({ profile, rate }: BillProps) => {
       'BUY',
       true,
       Cookies.get(mappedCookies.authToken)!,
-      tokens[0].address
+      tokens[0]?.address
     )
 
     console.log(sumWithFee)
@@ -214,6 +214,8 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     setSubmitValue(t('loading'))
 
+    console.log(token, Number(get), selectedCurrency)
+
     const response =
       isRETENTION &&
       (await EcommerceClient.createBill({
@@ -221,6 +223,8 @@ const useListing = ({ profile, rate }: BillProps) => {
         amountIn: Number(send),
         currency: selectedCurrency
       }))
+
+    console.log(response)
 
     setWaitingResponse(false)
 
@@ -385,7 +389,7 @@ const useListing = ({ profile, rate }: BillProps) => {
         'BUY',
         false,
         Cookies.get(mappedCookies.authToken)!,
-        tokens[0].address
+        tokens[0]?.address
       )
       if (sumWithFee.state === 'success') {
         setGet(sumWithFee.data.amount)

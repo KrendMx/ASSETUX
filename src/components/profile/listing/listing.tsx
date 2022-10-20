@@ -83,7 +83,14 @@ const ListingComponent = (props: BillProps) => {
                       max: ranges?.max
                     })}
                     id={inputIds.send}
-                    options={currencies ? currencies : undefined}
+                    // options={currencies ? currencies : undefined}
+                    options={
+                      isRETENTION && currencies
+                        ? currencies
+                        : isTRANSFER && !!mappedTokens
+                        ? mappedTokens
+                        : undefined
+                    }
                     onChange={handleSend}
                     value={send}
                     selectedValue={selectedCurrency}
@@ -102,7 +109,7 @@ const ListingComponent = (props: BillProps) => {
                   <Skeleton containerClassName="input-skeleton" />
                 )}
               </HideableWithMargin>
-              <HideableWithMargin hide={getCurrencyActive} margins>
+              <HideableWithMargin hide={false} margins>
                 <ExchangeInfoWrapper>
                   <ExchangeInfo
                     isLoading={loading}
@@ -111,7 +118,7 @@ const ListingComponent = (props: BillProps) => {
                   />
                 </ExchangeInfoWrapper>
               </HideableWithMargin>
-              <HideableWithMargin hide={getCurrencyActive} margins>
+              <HideableWithMargin hide={false} margins>
                 {!loading ? (
                   <InputSelect
                     label={
