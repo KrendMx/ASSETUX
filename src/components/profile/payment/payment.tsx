@@ -212,8 +212,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
             value={bill.bill.sendAmount + ''}
             visuallyDisabled
             options={currencies ? currencies : undefined}
-            selectedValue={props.bill.bill.currency}
-            // onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
+            selectedValue={bill.bill.currency}
+            onSelect={(val) => setSelectedCurrency(val as CurrenciesType)}
             onActiveChange={setGetCurrencyActive}
             displayInSelect={2}
             selectable={false}
