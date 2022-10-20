@@ -79,7 +79,7 @@ const useListing = ({ profile, rate }: BillProps) => {
     const value = event.target.value
 
     setGet(value)
-    setSend('*')
+    setSend('~')
 
     const [validated, result] = validateDecimal(value)
 
