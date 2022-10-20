@@ -10,4 +10,5 @@ invalidEmail: Invalid e-mail
 invalidPhone: Invalid phone number
 invalidCard: Invalid card number
 invalidWallet: Invalid wallet address
+invalidCardholder: Invalid card holder
 loading: Loading ...

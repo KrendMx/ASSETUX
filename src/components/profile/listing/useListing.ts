@@ -66,7 +66,7 @@ const useListing = ({ profile, rate }: BillProps) => {
 
   const loading: any = selectedCurrency == null || ranges == null
   const availableTokens = useAppSelector(
-    (state) => state?.crypto?.availableTokens
+    (state) => state?.crypto.availableTokens
   )
 
   //Верхний инпут
