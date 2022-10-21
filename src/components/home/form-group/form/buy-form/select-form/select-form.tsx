@@ -326,7 +326,7 @@ const SelectForm = ({
         const res = cardHolder.split(' ')
         setFirstName(res[0])
         setLastName(res[1])
-      } else {
+      } else if (currentPayment !== 'QIWI') {
         errorObject[inputIds.cardholder] = t('home:buy_invalidCardHolder')
       }
 
@@ -350,6 +350,7 @@ const SelectForm = ({
             if (card_res.status === 200) {
               return
             } else {
+              console.log(card_res)
               setVisPopup(true)
               if (currentCurrency === 'RUB') {
                 setPopupCase(5)
@@ -357,6 +358,9 @@ const SelectForm = ({
                 setPopupCase(6)
               } else if (currentCurrency === 'KZT') {
                 setPopupCase(4)
+              }
+              if (card_res.data.data.message === 'Unsupported') {
+                setPopupCase(1)
               } else {
                 setPopupCase(
                   listCurrencyError[currentCurrency][
@@ -374,6 +378,9 @@ const SelectForm = ({
     setInputError(errorObject)
 
     // actions
+
+    console.log(Object.keys(errorObject))
+    console.log(cardHolder.length)
 
     if (Object.keys(errorObject).length == 0) {
       if (currentStep == Step.Details) {
