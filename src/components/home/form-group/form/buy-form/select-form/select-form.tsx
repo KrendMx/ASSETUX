@@ -285,7 +285,7 @@ const SelectForm = ({
   const handleFirstNameInput: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    setCardHolder(event.target.value)
+    setCardHolder(event.target.value.toUpperCase())
   }
 
   const handleNextStep = async () => {
