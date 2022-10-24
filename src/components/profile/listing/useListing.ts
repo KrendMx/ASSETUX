@@ -149,7 +149,7 @@ const useListing = ({ profile, rate }: BillProps) => {
     const [validated, result] = validateDecimal(value)
 
     setSend(value)
-    if (Number(value) > ranges.min && Number(value) < ranges.max) {
+    if (Number(value) >= ranges.min && Number(value) <= ranges.max) {
       setGet('~')
     }
 
@@ -170,7 +170,7 @@ const useListing = ({ profile, rate }: BillProps) => {
       const amountRes = sumWithFee.data.data.amount
         ? sumWithFee.data.data.amount
         : sumWithFee.data.data.amountToken
-      if (Number(value) > ranges.min && Number(value) < ranges.max) {
+      if (Number(value) >= ranges.min && Number(value) <= ranges.max) {
         setGet(amountRes)
       }
 

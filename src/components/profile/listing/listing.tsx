@@ -86,8 +86,8 @@ const ListingComponent = (props: BillProps) => {
                     options={
                       isRETENTION && currencies
                         ? currencies
-                        : isTRANSFER && !!mappedTokens
-                        ? mappedTokens
+                        : isTRANSFER && !!currencies
+                        ? currencies
                         : undefined
                     }
                     onChange={handleSend}
