@@ -97,7 +97,7 @@ const SelectForm = ({
   const [visPopup, setVisPopup] = useState<boolean>(false)
   const [popupCase, setPopupCase] = useState<number>(1)
   const [euroModalOpen, setEuroModalOpen] = useState(false)
-  const [visWrongPopup, setVisWrongPopup] = useState(true)
+  const [visWrongPopup, setVisWrongPopup] = useState(false)
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
@@ -293,8 +293,6 @@ const SelectForm = ({
   const handleNextStep = async () => {
     const euroAccept = !!sessionStorage.getItem('euro_accept')
 
-    setVisWrongPopup(true)
-
     if (
       currentStep == Step.Details &&
       !euroAccept &&
@@ -341,46 +339,41 @@ const SelectForm = ({
         if (currentDetails == '') {
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         } else {
-          await (async () => {
-            const card_res = await BackendClient.checkCardValidation({
-              apiHost: 'bsc.dev.assetux.com',
-              bin: currentDetails.slice(0, 6),
-              currency: currentCurrency as CurrenciesType
-            })
-            if (card_res.status === 200) {
-              return
-            } else if (card_res.status === 500) {
-              return
-            } else {
-              setVisPopup(true)
-              if (currentCurrency === 'RUB') {
-                setPopupCase(5)
-                return
-              } else if (currentCurrency === 'UAH') {
-                setPopupCase(6)
-                return
-              } else if (currentCurrency === 'KZT') {
-                setPopupCase(4)
-                return
-              }
-              if (card_res.data.data.message === 'Unsupported') {
-                setPopupCase(1)
-                return
-              } else {
-                setPopupCase(
-                  listCurrencyError[currentCurrency][
-                    card_res.data.data.message.type as string
-                  ]
-                )
-              }
-              errorObject[inputIds.details] = t('home:buy_invalidCard')
+          const card_res = await BackendClient.checkCardValidation({
+            apiHost: 'bsc.dev.assetux.com',
+            bin: currentDetails.slice(0, 6),
+            currency: currentCurrency as CurrenciesType
+          })
+          if (card_res.status === 200) {
+          } else if (card_res.status === 500) {
+            setVisWrongPopup(true)
+            return
+          } else {
+            setVisPopup(true)
+            if (currentCurrency === 'RUB') {
+              setPopupCase(5)
+            } else if (currentCurrency === 'UAH') {
+              setPopupCase(6)
+            } else if (currentCurrency === 'KZT') {
+              setPopupCase(4)
             }
-          })()
+            if (card_res.data.data.message === 'Unsupported') {
+              setPopupCase(1)
+            } else {
+              setPopupCase(
+                listCurrencyError[currentCurrency][
+                  card_res.data.data.message.type as string
+                ]
+              )
+            }
+            errorObject[inputIds.details] = t('home:buy_invalidCard')
+          }
         }
       }
     }
 
     setInputError(errorObject)
+    console.log(errorObject)
 
     if (Object.keys(errorObject).length > 0) {
       setVisWrongPopup(false)
@@ -578,7 +571,7 @@ const SelectForm = ({
         />
       )}
 
-      {!isLoading && serviceUnavailable && visWrongPopup && !visPopup && (
+      {!isLoading && (serviceUnavailable || visWrongPopup) && !visPopup && (
         <Popup505
           setClose={() => {
             setVisWrongPopup(false)
