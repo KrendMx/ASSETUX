@@ -60,6 +60,10 @@ export const getStaticProps: GetStaticProps<
     BackendClient.getNews({ category: 'all', page: 1, lang: locale! })
   ])
 
+  if ((postResponse as any).data == null) {
+    return errorProps
+  }
+
   if (
     postResponse.state != 'success' ||
     recentPostsResponse.state != 'success'

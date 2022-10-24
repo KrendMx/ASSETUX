@@ -36,6 +36,8 @@ import { QIWI } from '@/core/backend/types.core.backend'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 import { BackendClient } from '@/lib/backend/clients'
 import { CurrenciesType } from '@/lib/data/currencies'
+import UnknownError from '../../sell-form/select-form/modals/exchange/unknown-error'
+import Popup505 from '@/components/home/infoPopup/Popup_505/Popup_505'
 
 const inputIds = {
   get: 'get',
@@ -96,6 +98,7 @@ const SelectForm = ({
   const [visPopup, setVisPopup] = useState<boolean>(false)
   const [popupCase, setPopupCase] = useState<number>(1)
   const [euroModalOpen, setEuroModalOpen] = useState(false)
+  const [visWrongPopup, setVisWrongPopup] = useState(true)
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
@@ -350,17 +353,20 @@ const SelectForm = ({
             if (card_res.status === 200) {
               return
             } else {
-              console.log(card_res)
               setVisPopup(true)
               if (currentCurrency === 'RUB') {
                 setPopupCase(5)
+                return
               } else if (currentCurrency === 'UAH') {
                 setPopupCase(6)
+                return
               } else if (currentCurrency === 'KZT') {
                 setPopupCase(4)
+                return
               }
               if (card_res.data.data.message === 'Unsupported') {
                 setPopupCase(1)
+                return
               } else {
                 setPopupCase(
                   listCurrencyError[currentCurrency][
@@ -378,9 +384,6 @@ const SelectForm = ({
     setInputError(errorObject)
 
     // actions
-
-    console.log(Object.keys(errorObject))
-    console.log(cardHolder.length)
 
     if (Object.keys(errorObject).length == 0) {
       if (currentStep == Step.Details) {
@@ -568,6 +571,14 @@ const SelectForm = ({
           caseNumber={popupCase}
           setClose={() => {
             setVisPopup(false)
+          }}
+        />
+      )}
+
+      {!isLoading && serviceUnavailable && !visPopup && (
+        <Popup505
+          setClose={() => {
+            setVisWrongPopup(false)
           }}
         />
       )}

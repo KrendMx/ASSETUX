@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, { useState, useMemo, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
@@ -25,6 +26,18 @@ import Select from '../select'
 import type { ChangeEventHandler } from 'react'
 import { InputSelectProps } from './types.input'
 import type { Option } from '../types.input-select'
+
+const LabelComponent = React.memo(({ error, file, id, label }: any) => {
+  return (
+    <Label
+      error={error != undefined}
+      htmlFor={!file ? id : undefined}
+      as={file ? 'span' : 'label'}
+    >
+      {error != undefined ? error : label}
+    </Label>
+  )
+})
 
 const InputSelect = ({
   label,
@@ -172,13 +185,7 @@ const InputSelect = ({
       >
         <InputContainer swap={hideLabel}>
           {!hideLabel && label && (
-            <Label
-              error={error != undefined}
-              htmlFor={!file ? id : undefined}
-              as={file ? 'span' : 'label'}
-            >
-              {error != undefined ? error : label}
-            </Label>
+            <LabelComponent error={error} id={id} file={file} label={label} />
           )}
           {hideLabel && (
             <ImageBox>
@@ -199,9 +206,7 @@ const InputSelect = ({
             </ImageBox>
           )}
           {file && !uploadedFileName && (
-            <Label htmlFor={id} file>
-              {fileLabel}
-            </Label>
+            <LabelComponent id file label={fileLabel} />
           )}
           {file && uploadedFileName && (
             <Input value={uploadedFileName} disabled />

@@ -46,8 +46,6 @@ const FormGroup = (props: FormGroupProps) => {
     userId
   } = useFormGroup(props)
 
-  console.log(selectedToken)
-
   return (
     <Flex>
       <CryptoManager />

@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
@@ -47,8 +48,8 @@ const useListing = ({ profile, rate }: BillProps) => {
   const [submitValue, setSubmitValue] = useState<string>(t('copyLink'))
   const [selectedCurrency, setSelectedCurrency] =
     useState<CurrenciesType>(currentCurrency)
-  const [get, setGet] = useState<string>('0')
-  const [send, setSend] = useState<string>('10000')
+  const [get, setGet] = useState<string>('10')
+  const [send, setSend] = useState<string>('10')
 
   const [getActive, setGetActive] = useState(false)
   const [getCurrencyActive, setGetCurrencyActive] = useState(false)
@@ -80,7 +81,9 @@ const useListing = ({ profile, rate }: BillProps) => {
     const value = event.target.value
 
     setGet(value)
-    setSend('~')
+    if (Number(value) > ranges.min && Number(value) < ranges.max) {
+      setSend('~')
+    }
 
     const [validated, result] = validateDecimal(value)
 
@@ -97,7 +100,11 @@ const useListing = ({ profile, rate }: BillProps) => {
       tokens[0]?.address
     )
 
-    if (sumWithFee.data.success) {
+    if (
+      sumWithFee.data.success &&
+      Number(value) > ranges.min &&
+      Number(value) < ranges.max
+    ) {
       setSend(
         sumWithFee.data.data.amount
           ? sumWithFee.data.data.amount
@@ -128,6 +135,7 @@ const useListing = ({ profile, rate }: BillProps) => {
       }
     }
   }
+
   //Нижний инпут
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = async (
     event
@@ -141,7 +149,9 @@ const useListing = ({ profile, rate }: BillProps) => {
     const [validated, result] = validateDecimal(value)
 
     setSend(value)
-    setGet('~')
+    if (Number(value) > ranges.min && Number(value) < ranges.max) {
+      setGet('~')
+    }
 
     if (!validated) {
       return
@@ -156,13 +166,13 @@ const useListing = ({ profile, rate }: BillProps) => {
       tokens[0]?.address
     )
 
-    console.log(sumWithFee)
-
     if (sumWithFee!.data!.success) {
       const amountRes = sumWithFee.data.data.amount
         ? sumWithFee.data.data.amount
         : sumWithFee.data.data.amountToken
-      setGet(amountRes)
+      if (Number(value) > ranges.min && Number(value) < ranges.max) {
+        setGet(amountRes)
+      }
 
       const resultNum = Number(result)
 
@@ -214,8 +224,6 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     setSubmitValue(t('loading'))
 
-    console.log(token, Number(get), selectedCurrency)
-
     const response =
       isRETENTION &&
       (await EcommerceClient.createBill({
@@ -223,8 +231,6 @@ const useListing = ({ profile, rate }: BillProps) => {
         amountIn: Number(send),
         currency: selectedCurrency
       }))
-
-    console.log(response)
 
     setWaitingResponse(false)
 
@@ -261,6 +267,24 @@ const useListing = ({ profile, rate }: BillProps) => {
       setSubmitValue(t('copyLink'))
     }
   }
+
+  useMemo(() => {
+    ;(async () => {
+      const sumWithFee = await EcommerceClient.calcFee(
+        Number(get),
+        selectedCurrency as CurrenciesType,
+        'BUY',
+        true,
+        Cookies.get(mappedCookies.authToken)!,
+        tokens[0]?.address
+      )
+      setGet(
+        sumWithFee.data.data.amount
+          ? sumWithFee.data.data.amount
+          : sumWithFee.data.data.amountToken
+      )
+    })()
+  }, [])
 
   useEffect(() => {
     const fetch = async (signal: AbortSignal) => {
@@ -381,23 +405,22 @@ const useListing = ({ profile, rate }: BillProps) => {
   }, [submitValue, selectedToken])
 
   useEffect(() => {
-    ;(async () => {
-      if (!selectedCurrency) return
-      const sumWithFee = await EcommerceClient.calcFee(
-        10000,
-        selectedCurrency as CurrenciesType,
-        'BUY',
-        false,
-        Cookies.get(mappedCookies.authToken)!,
-        tokens[0]?.address
-      )
-      if (sumWithFee.state === 'success') {
-        setGet(sumWithFee.data.amount)
-        setSend(Number(sumWithFee.data.amountIn.toFixed(2)) + '')
-      }
-    })()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCurrency])
+    if (Number(get) < (ranges as any)?.min) {
+      setInputError(t('minError', { min: ranges?.min }))
+    } else if (Number(get) > (ranges as any)?.max) {
+      setInputError(t('maxError', { max: ranges?.max }))
+    } else {
+      setInputError('')
+    }
+
+    if (Number(send) < (ranges as any)?.min) {
+      setOutputError(t('minError', { min: ranges?.min }))
+    } else if (Number(send) > (ranges as any)?.max) {
+      setOutputError(t('maxError', { max: ranges?.max }))
+    } else {
+      setOutputError('')
+    }
+  }, [ranges])
 
   return {
     linkModalProps,
