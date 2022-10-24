@@ -36,7 +36,6 @@ import { QIWI } from '@/core/backend/types.core.backend'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 import { BackendClient } from '@/lib/backend/clients'
 import { CurrenciesType } from '@/lib/data/currencies'
-import UnknownError from '../../sell-form/select-form/modals/exchange/unknown-error'
 import Popup505 from '@/components/home/infoPopup/Popup_505/Popup_505'
 
 const inputIds = {
@@ -575,7 +574,7 @@ const SelectForm = ({
         />
       )}
 
-      {!isLoading && serviceUnavailable && !visPopup && (
+      {!isLoading && serviceUnavailable && visWrongPopup && !visPopup && (
         <Popup505
           setClose={() => {
             setVisWrongPopup(false)
