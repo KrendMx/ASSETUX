@@ -382,6 +382,10 @@ const SelectForm = ({
 
     setInputError(errorObject)
 
+    if (Object.keys(errorObject).length > 0) {
+      setVisWrongPopup(false)
+    }
+
     // actions
 
     if (Object.keys(errorObject).length == 0) {
