@@ -11,7 +11,7 @@ import NextButton from '../../common/next-button'
 import ExchangeRow from '@/components/common/exchange-info'
 import NetworkRow from '../../common/network-row'
 import HideableWithMargin from '../../common/hideable-with-margin'
-import Maintenance, { EuroUsingWarning } from '../../common/maintenance'
+import { EuroUsingWarning } from '../../common/maintenance'
 
 import { Container, FormContainer } from './styles'
 
@@ -85,7 +85,8 @@ const SelectForm = ({
   onGiveAmountChange,
   onEmailChange,
   onSubmit,
-  setCardHolder
+  setCardHolder,
+  ...props
 }: SelectFormProps) => {
   const { t } = useTranslation('home')
 
@@ -334,6 +335,7 @@ const SelectForm = ({
           !isValidPhoneNumber(currentPhoneNumber, 'RU')
         ) {
           errorObject[inputIds.phoneNumber] = t('home:buy_invalidPhoneNumber')
+          setVisWrongPopup(true)
         }
       } else {
         if (currentDetails == '') {
@@ -570,9 +572,10 @@ const SelectForm = ({
         />
       )}
 
-      {!isLoading && (serviceUnavailable || visWrongPopup) && !visPopup && (
+      {!isLoading && (props?.errorVisiableModal || visWrongPopup) && !visPopup && (
         <Popup505
           setClose={() => {
+            ;(props as any).setErrorVisiableModal(false)
             setVisWrongPopup(false)
           }}
         />

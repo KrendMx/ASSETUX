@@ -25,6 +25,7 @@ export type SelectFormProps = {
   getAmount: string
   email: string
   rate: number | null
+  errorVisiableModal?: boolean
   processingRequest: boolean
   cardError: string
   serviceAvailable: boolean | null
@@ -42,6 +43,7 @@ export type SelectFormProps = {
   onGiveAmountChange: (amount: string) => void
   onEmailChange: (email: string) => void
   onSubmit: () => void
+  setErrorVisiableModal?: React.Dispatch<React.SetStateAction<boolean>>
   cardHolder: string
   setCardHolder: React.Dispatch<React.SetStateAction<string>>
 }

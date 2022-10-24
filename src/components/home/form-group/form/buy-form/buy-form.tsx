@@ -62,13 +62,14 @@ const BuyForm = ({
   const [apiError, setApiError] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [visiableModal, setVisiableModal] = useState<boolean>(false)
 
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
   const [cardError, setCardError] = useState('')
 
-  const currentRate = useAppSelector((state) => state.crypto.currentRate)
+  const currentRate = useAppSelector((state) => state!.crypto.currentRate)
 
   const onSubmit = async () => {
     if (
@@ -92,13 +93,22 @@ const BuyForm = ({
         email,
         firstName,
         lastName,
-        card: selectedPayment == QIWI ? phoneNumber : details
+        card:
+          selectedPayment == QIWI
+            ? phoneNumber
+                .replaceAll(/\s/g, '')
+                .replaceAll(/\+/g, '')
+                .replaceAll(/\s/g, '')
+                .replaceAll(/\(/g, '')
+                .replaceAll(/\)/g, '')
+            : details
       })
 
       setProcessingRequest(false)
 
       if (response.state == 'error') {
         setApiError(true)
+        setVisiableModal(true)
         return
       }
 
@@ -211,6 +221,8 @@ const BuyForm = ({
       setLastName={setLastName}
       cardHolder={cardHolder}
       setCardHolder={setCardHolder}
+      errorVisiableModal={visiableModal}
+      setErrorVisiableModal={setVisiableModal}
     />
   )
 }
