@@ -83,12 +83,11 @@ const ListingComponent = (props: BillProps) => {
                       max: ranges?.max
                     })}
                     id={inputIds.send}
-                    // options={currencies ? currencies : undefined}
                     options={
                       isRETENTION && currencies
                         ? currencies
-                        : isTRANSFER && !!mappedTokens
-                        ? mappedTokens
+                        : isTRANSFER && !!currencies
+                        ? currencies
                         : undefined
                     }
                     onChange={handleSend}
@@ -166,8 +165,8 @@ const ListingComponent = (props: BillProps) => {
                   disabled={
                     waitingResponse ||
                     !ranges ||
-                    Number(get) > ranges?.max ||
-                    +send < ranges?.min
+                    inputError != '' ||
+                    outputError != ''
                   }
                 >
                   {submitValue}

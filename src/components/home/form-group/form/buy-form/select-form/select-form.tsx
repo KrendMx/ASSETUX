@@ -36,6 +36,7 @@ import { QIWI } from '@/core/backend/types.core.backend'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 import { BackendClient } from '@/lib/backend/clients'
 import { CurrenciesType } from '@/lib/data/currencies'
+import Popup505 from '@/components/home/infoPopup/Popup_505/Popup_505'
 
 const inputIds = {
   get: 'get',
@@ -96,6 +97,7 @@ const SelectForm = ({
   const [visPopup, setVisPopup] = useState<boolean>(false)
   const [popupCase, setPopupCase] = useState<number>(1)
   const [euroModalOpen, setEuroModalOpen] = useState(false)
+  const [visWrongPopup, setVisWrongPopup] = useState(false)
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
@@ -289,10 +291,6 @@ const SelectForm = ({
   }
 
   const handleNextStep = async () => {
-    if (serviceUnavailable) {
-      return
-    }
-
     const euroAccept = !!sessionStorage.getItem('euro_accept')
 
     if (
@@ -341,46 +339,46 @@ const SelectForm = ({
         if (currentDetails == '') {
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         } else {
-          await (async () => {
-            const card_res = await BackendClient.checkCardValidation({
-              apiHost: 'bsc.dev.assetux.com',
-              bin: currentDetails.slice(0, 6),
-              currency: currentCurrency as CurrenciesType
-            })
-            if (card_res.status === 200) {
-              return
-            } else {
-              console.log(card_res)
-              setVisPopup(true)
-              if (currentCurrency === 'RUB') {
-                setPopupCase(5)
-              } else if (currentCurrency === 'UAH') {
-                setPopupCase(6)
-              } else if (currentCurrency === 'KZT') {
-                setPopupCase(4)
-              }
-              if (card_res.data.data.message === 'Unsupported') {
-                setPopupCase(1)
-              } else {
-                setPopupCase(
-                  listCurrencyError[currentCurrency][
-                    card_res.data.data.message.type as string
-                  ]
-                )
-              }
-              errorObject[inputIds.details] = t('home:buy_invalidCard')
+          const card_res = await BackendClient.checkCardValidation({
+            apiHost: 'bsc.dev.assetux.com',
+            bin: currentDetails.slice(0, 6),
+            currency: currentCurrency as CurrenciesType
+          })
+          if (card_res.status === 200) {
+          } else if (card_res.status === 500) {
+            setVisWrongPopup(true)
+            return
+          } else {
+            setVisPopup(true)
+            if (currentCurrency === 'RUB') {
+              setPopupCase(5)
+            } else if (currentCurrency === 'UAH') {
+              setPopupCase(6)
+            } else if (currentCurrency === 'KZT') {
+              setPopupCase(4)
             }
-          })()
+            if (card_res.data.data.message === 'Unsupported') {
+              setPopupCase(1)
+            } else {
+              setPopupCase(
+                listCurrencyError[currentCurrency][
+                  card_res.data.data.message.type as string
+                ]
+              )
+            }
+            errorObject[inputIds.details] = t('home:buy_invalidCard')
+          }
         }
       }
     }
 
     setInputError(errorObject)
 
-    // actions
+    if (Object.keys(errorObject).length > 0) {
+      setVisWrongPopup(false)
+    }
 
-    console.log(Object.keys(errorObject))
-    console.log(cardHolder.length)
+    // actions
 
     if (Object.keys(errorObject).length == 0) {
       if (currentStep == Step.Details) {
@@ -572,10 +570,18 @@ const SelectForm = ({
         />
       )}
 
+      {!isLoading && (serviceUnavailable || visWrongPopup) && !visPopup && (
+        <Popup505
+          setClose={() => {
+            setVisWrongPopup(false)
+          }}
+        />
+      )}
+
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
           onClick={handleNextStep}
-          disabled={processingRequest || isLoading || serviceUnavailable}
+          disabled={isLoading}
           isLoading={isLoading}
         >
           {isLoading ? (

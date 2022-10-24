@@ -97,7 +97,7 @@ const BuyForm = ({
 
       setProcessingRequest(false)
 
-      if (response.state != 'success') {
+      if (response.state == 'error') {
         setApiError(true)
         return
       }
@@ -106,7 +106,7 @@ const BuyForm = ({
 
       Object.assign(document.createElement('a'), {
         target: '_blank',
-        href: response.data.link
+        href: (response as any).data.link
       }).click()
     }
   }

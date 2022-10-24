@@ -386,7 +386,7 @@ export type FindPostProps = {
   lang: string
 }
 
-export type FindPostResponse = Response<PostData>
+export type FindPostResponse = Response<any>
 
 export type CreateFeedbackProps = UrlRequest & {
   content: string

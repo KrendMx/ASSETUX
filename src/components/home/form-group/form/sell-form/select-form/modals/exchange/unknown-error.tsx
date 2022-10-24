@@ -33,7 +33,7 @@ const UnknownError = ({ onAccept }: UnknownErrorProps) => {
         </Shadow>
         <span>{t('home:sell_smthWentWrong')}</span>
       </Title>
-      <Info misc>{t('home:sell_refundError')}</Info>
+      {/* <Info misc>{t('home:sell_smthWentWrong')}</Info> */}
       <Info misc>{t('home:sell_callSupport')}</Info>
       <ButtonsRow>
         <Button onClick={onAccept} main>
