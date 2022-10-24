@@ -373,7 +373,6 @@ const SelectForm = ({
     }
 
     setInputError(errorObject)
-    console.log(errorObject)
 
     if (Object.keys(errorObject).length > 0) {
       setVisWrongPopup(false)

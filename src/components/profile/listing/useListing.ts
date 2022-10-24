@@ -219,7 +219,6 @@ const useListing = ({ profile, rate }: BillProps) => {
     if (copyTimeout.current != null) {
       clearTimeout(copyTimeout.current)
     }
-
     setWaitingResponse(true)
 
     setSubmitValue(t('loading'))
@@ -413,12 +412,14 @@ const useListing = ({ profile, rate }: BillProps) => {
       setInputError('')
     }
 
-    if (Number(send) < (ranges as any)?.min) {
-      setOutputError(t('minError', { min: ranges?.min }))
-    } else if (Number(send) > (ranges as any)?.max) {
-      setOutputError(t('maxError', { max: ranges?.max }))
-    } else {
-      setOutputError('')
+    if (!isTRANSFER) {
+      if (Number(send) < (ranges as any)?.min) {
+        setOutputError(t('minError', { min: ranges?.min }))
+      } else if (Number(send) > (ranges as any)?.max) {
+        setOutputError(t('maxError', { max: ranges?.max }))
+      } else {
+        setOutputError('')
+      }
     }
   }, [ranges])
 
