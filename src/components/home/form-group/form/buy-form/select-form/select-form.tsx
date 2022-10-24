@@ -321,11 +321,15 @@ const SelectForm = ({
       if (currentWallet == '' || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = t('home:buy_invalidWallet')
       }
+
       if (cardholderRegex.test(cardHolder)) {
         const res = cardHolder.split(' ')
         setFirstName(res[0])
         setLastName(res[1])
-      } else if (currentPayment !== 'QIWI') {
+      } else if (
+        !cardholderRegex.test(cardHolder) &&
+        currentPayment != 'QIWI'
+      ) {
         errorObject[inputIds.cardholder] = t('home:buy_invalidCardHolder')
       }
 
@@ -340,41 +344,41 @@ const SelectForm = ({
       } else {
         if (currentDetails == '') {
           errorObject[inputIds.details] = t('home:buy_invalidCard')
+        }
+        const card_res = await BackendClient.checkCardValidation({
+          apiHost: 'bsc.dev.assetux.com',
+          bin: currentDetails.slice(0, 6),
+          currency: currentCurrency as CurrenciesType
+        })
+        if (card_res.status === 200) {
+        } else if (card_res.status === 500) {
+          setVisWrongPopup(true)
+          return
         } else {
-          const card_res = await BackendClient.checkCardValidation({
-            apiHost: 'bsc.dev.assetux.com',
-            bin: currentDetails.slice(0, 6),
-            currency: currentCurrency as CurrenciesType
-          })
-          if (card_res.status === 200) {
-          } else if (card_res.status === 500) {
-            setVisWrongPopup(true)
-            return
-          } else {
-            setVisPopup(true)
-            if (currentCurrency === 'RUB') {
-              setPopupCase(5)
-            } else if (currentCurrency === 'UAH') {
-              setPopupCase(6)
-            } else if (currentCurrency === 'KZT') {
-              setPopupCase(4)
-            }
-            if (card_res.data.data.message === 'Unsupported') {
-              setPopupCase(1)
-            } else {
-              setPopupCase(
-                listCurrencyError[currentCurrency][
-                  card_res.data.data.message.type as string
-                ]
-              )
-            }
-            errorObject[inputIds.details] = t('home:buy_invalidCard')
+          setVisPopup(true)
+          if (currentCurrency == 'RUB') {
+            setPopupCase(5)
+          } else if (currentCurrency == 'UAH') {
+            setPopupCase(6)
+          } else if (currentCurrency == 'KZT') {
+            setPopupCase(4)
           }
+          if (card_res.data.data.message == 'Unsupported') {
+            setPopupCase(1)
+          } else {
+            setPopupCase(
+              listCurrencyError[currentCurrency][
+                card_res.data.data.message.type as string
+              ]
+            )
+          }
+          errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
       }
     }
 
     setInputError(errorObject)
+    console.log(errorObject)
 
     if (Object.keys(errorObject).length > 0) {
       setVisWrongPopup(false)
