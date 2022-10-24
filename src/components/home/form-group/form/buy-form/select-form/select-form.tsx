@@ -589,7 +589,7 @@ const SelectForm = ({
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
           onClick={handleNextStep}
-          disabled={processingRequest || isLoading || serviceUnavailable}
+          disabled={processingRequest || isLoading}
           isLoading={isLoading}
         >
           {isLoading ? (
