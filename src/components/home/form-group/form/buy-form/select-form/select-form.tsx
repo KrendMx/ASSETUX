@@ -291,11 +291,9 @@ const SelectForm = ({
   }
 
   const handleNextStep = async () => {
-    if (serviceUnavailable) {
-      return
-    }
-
     const euroAccept = !!sessionStorage.getItem('euro_accept')
+
+    setVisWrongPopup(true)
 
     if (
       currentStep == Step.Details &&
@@ -350,6 +348,8 @@ const SelectForm = ({
               currency: currentCurrency as CurrenciesType
             })
             if (card_res.status === 200) {
+              return
+            } else if (card_res.status === 500) {
               return
             } else {
               setVisPopup(true)
@@ -589,7 +589,7 @@ const SelectForm = ({
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
           onClick={handleNextStep}
-          disabled={processingRequest || isLoading}
+          disabled={isLoading}
           isLoading={isLoading}
         >
           {isLoading ? (
