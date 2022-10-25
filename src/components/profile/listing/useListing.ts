@@ -95,12 +95,10 @@ const useListing = ({ profile, rate }: BillProps) => {
       Number(result),
       selectedCurrency as CurrenciesType,
       'BUY',
-      true,
+      false,
       Cookies.get(mappedCookies.authToken)!,
       tokens[0]?.address
     )
-
-    console.log(44)
 
     if (
       sumWithFee.state == 'success' &&
@@ -279,11 +277,10 @@ const useListing = ({ profile, rate }: BillProps) => {
         Cookies.get(mappedCookies.authToken)!,
         tokens[0]?.address
       )
-      console.log(sumWithFee)
       setGet(
-        sumWithFee?.data?.data?.amount
-          ? sumWithFee?.data?.data?.amount
-          : sumWithFee?.data?.data?.amountToken
+        sumWithFee?.data?.amount
+          ? sumWithFee?.data?.amount
+          : sumWithFee?.data?.amountToken
       )
     })()
   }, [])

@@ -236,17 +236,13 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         setVisPopup(true)
         if (currentCurrency == 'RUB') {
           setPopupCase(5)
-          console.log(5)
         } else if (currentCurrency == 'UAH') {
           setPopupCase(6)
-          console.log(6)
         } else if (currentCurrency == 'KZT') {
           setPopupCase(4)
-          console.log(4)
         }
         if (card_res.data.data.message == 'Unsupported') {
           setPopupCase(1)
-          console.log(1)
         } else if (
           currentCurrency != 'KZT' &&
           currentCurrency != 'UAH' &&
