@@ -14,7 +14,12 @@ import {
   mapShortCurrencyName
 } from '@/lib/data/currencies'
 import { BackendClient } from '@/lib/backend/clients'
-import { emailRegexp, genericURL } from '@/lib/data/constants'
+import {
+  cardholderRegex,
+  emailRegexp,
+  genericURL,
+  listCurrencyError
+} from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
 
 import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
@@ -33,13 +38,16 @@ import Maintenance, {
 import { env } from '@/lib/env/client'
 import PaymentHeader from './header'
 import PaymentFooter from './footer'
+import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 
 const inputIds = {
   email: 'email',
   phone: 'phone',
   card: 'cardnumber',
   wallet: 'publickey',
-  give: 'give'
+  give: 'give',
+  cardholder: 'cardholder',
+  details: 'details'
 }
 
 const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
@@ -80,6 +88,9 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     unavaliable: false,
     invalidBalance: false
   })
+  const [cardHolder, setCardHolder] = useState<string>('')
+  const [visPopup, setVisPopup] = useState<boolean>(false)
+  const [popupCase, setPopupCase] = useState<number>(1)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -156,6 +167,12 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     setEmail(value)
   }
 
+  const handleFirstNameInput: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    setCardHolder(event.target.value.toUpperCase())
+  }
+
   const handleCard: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = event.target.value.replaceAll(' ', '')
     const validated = /^[0-9]*$/.test(value)
@@ -199,11 +216,53 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
+    const validCardHolder = cardholderRegex.test(cardHolder)
     const validCard = selectedPayment != QIWI ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
       Number(+get * fiatrate?.buy[selectedCurrency])
     )
+    if (selectedPayment != QIWI) {
+      const card_res = await BackendClient.checkCardValidation({
+        apiHost: 'bsc.dev.assetux.com',
+        bin: details.slice(0, 6),
+        currency: currentCurrency as CurrenciesType
+      })
+      if (card_res.status === 200) {
+      } else if (card_res.status === 500) {
+        return
+      } else {
+        setVisPopup(true)
+        if (currentCurrency == 'RUB') {
+          setPopupCase(5)
+          console.log(5)
+        } else if (currentCurrency == 'UAH') {
+          setPopupCase(6)
+          console.log(6)
+        } else if (currentCurrency == 'KZT') {
+          setPopupCase(4)
+          console.log(4)
+        }
+        if (card_res.data.data.message == 'Unsupported') {
+          setPopupCase(1)
+          console.log(1)
+        } else if (
+          currentCurrency != 'KZT' &&
+          currentCurrency != 'UAH' &&
+          currentCurrency != 'RUB'
+        ) {
+          setPopupCase(
+            listCurrencyError[currentCurrency][
+              card_res.data.data.message.type as string
+            ]
+          )
+        }
+        setErrors((prev) => ({
+          ...prev,
+          [inputIds.details]: t('home:buy_invalidCard')
+        }))
+      }
+    }
 
     setErrors((prev) => ({
       ...prev,
@@ -211,7 +270,10 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       [inputIds.phone]: validPhone ? undefined : t('invalidPhone'),
       [inputIds.card]: validCard ? undefined : t('invalidCard'),
       [inputIds.wallet]: validWallet ? undefined : t('invalidWallet'),
-      [inputIds.give]: validRanges
+      [inputIds.give]: validRanges,
+      [inputIds.cardholder]: validCardHolder
+        ? undefined
+        : t('invalidCardHolder')
     }))
 
     if (
@@ -220,7 +282,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       !validCard ||
       !validWallet ||
       !selectedCurrency ||
-      validRanges
+      validRanges ||
+      !validCardHolder
     ) {
       return
     }
@@ -236,6 +299,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       chainId: token.chain_id,
       tokenAddress: token.address,
       email,
+      firstName: cardHolder.split(' ')[0],
+      lastName: cardHolder.split(' ')[1],
       card: details
         .replaceAll('(', '')
         .replaceAll(')', '')
@@ -270,14 +335,14 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         }
       >
         <Form onSubmit={handleSubmit}>
-          {balanceOfToken?.balance &&
+          {/* {balanceOfToken?.balance &&
             (+balanceOfToken?.balance === 0 ||
               serviceUnavaliable.invalidBalance) && (
               <MerchantPaymentMaintenance
                 tokenAmount={+balanceOfToken.balance}
                 symbol={'YAY'}
               />
-            )}
+            )} */}
           {serviceUnavaliable.unavaliable && (
             <Maintenance bgStyle={{ borderRadius: 10 }} />
           )}
@@ -372,17 +437,30 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                   placeholder="+7 (123) 456 7890"
                 />
               ) : (
-                <InputSelect
-                  id={inputIds.card}
-                  placeholder="0000 0000 0000 0000"
-                  value={stringToPieces(details, 4, ' ')}
-                  onChange={handleCard}
-                  label={t('creditCard')}
-                  autocomplete="cc-number"
-                  error={errors[inputIds.card]}
-                  onlyNumbers
-                  changeable
-                />
+                <>
+                  <InputSelect
+                    id={inputIds.card}
+                    placeholder="0000 0000 0000 0000"
+                    value={stringToPieces(details, 4, ' ')}
+                    onChange={handleCard}
+                    label={t('creditCard')}
+                    autocomplete="cc-number"
+                    error={errors[inputIds.card]}
+                    onlyNumbers
+                    changeable
+                  />
+                  <HideableWithMargin hide={false} margins>
+                    <InputSelect
+                      label={t('home:buy_cardholder')}
+                      id={inputIds.cardholder}
+                      onChange={handleFirstNameInput}
+                      value={cardHolder}
+                      error={errors[inputIds.cardholder]}
+                      placeholder="IVAN PETROV"
+                      changeable
+                    />
+                  </HideableWithMargin>
+                </>
               )}
             </HideableWithMargin>
           </HideableWithMargin>
@@ -398,6 +476,14 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           <Submit disabled={waitingResponse}>
             {waitingResponse ? t('loading') : t('submit')}
           </Submit>
+          {visPopup && (
+            <WarningPopup
+              caseNumber={popupCase}
+              setClose={() => {
+                setVisPopup(false)
+              }}
+            />
+          )}
         </Form>
       </Content>
       <PaymentFooter />

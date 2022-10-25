@@ -375,7 +375,6 @@ const SelectForm = ({
             currentCurrency != 'UAH' &&
             currentCurrency != 'RUB'
           ) {
-            console.log('2/3')
             setPopupCase(
               listCurrencyError[currentCurrency][
                 card_res.data.data.message.type as string
@@ -539,7 +538,7 @@ const SelectForm = ({
                     onChange={handleFirstNameInput}
                     value={cardHolder}
                     error={inputError[inputIds.cardholder]}
-                    placeholder=""
+                    placeholder={'IVANOV IVAN'}
                     changeable
                   />
                 </HideableWithMargin>
