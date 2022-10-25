@@ -11,7 +11,7 @@ import NextButton from '../../common/next-button'
 import ExchangeRow from '@/components/common/exchange-info'
 import NetworkRow from '../../common/network-row'
 import HideableWithMargin from '../../common/hideable-with-margin'
-import Maintenance, { EuroUsingWarning } from '../../common/maintenance'
+import { EuroUsingWarning } from '../../common/maintenance'
 
 import { Container, FormContainer } from './styles'
 
@@ -85,7 +85,8 @@ const SelectForm = ({
   onGiveAmountChange,
   onEmailChange,
   onSubmit,
-  setCardHolder
+  setCardHolder,
+  ...props
 }: SelectFormProps) => {
   const { t } = useTranslation('home')
 
@@ -320,11 +321,15 @@ const SelectForm = ({
       if (currentWallet == '' || !walletRegexp.test(currentWallet)) {
         errorObject[inputIds.wallet] = t('home:buy_invalidWallet')
       }
+
       if (cardholderRegex.test(cardHolder)) {
         const res = cardHolder.split(' ')
         setFirstName(res[0])
         setLastName(res[1])
-      } else if (currentPayment !== 'QIWI') {
+      } else if (
+        !cardholderRegex.test(cardHolder) &&
+        currentPayment != 'QIWI'
+      ) {
         errorObject[inputIds.cardholder] = t('home:buy_invalidCardHolder')
       }
 
@@ -334,45 +339,57 @@ const SelectForm = ({
           !isValidPhoneNumber(currentPhoneNumber, 'RU')
         ) {
           errorObject[inputIds.phoneNumber] = t('home:buy_invalidPhoneNumber')
+          setVisWrongPopup(true)
         }
       } else {
         if (currentDetails == '') {
           errorObject[inputIds.details] = t('home:buy_invalidCard')
+        }
+        const card_res = await BackendClient.checkCardValidation({
+          apiHost: 'bsc.dev.assetux.com',
+          bin: currentDetails.slice(0, 6),
+          currency: currentCurrency as CurrenciesType
+        })
+        if (card_res.status === 200) {
+        } else if (card_res.status === 500) {
+          setVisWrongPopup(true)
+          console.log(123)
+          return
         } else {
-          const card_res = await BackendClient.checkCardValidation({
-            apiHost: 'bsc.dev.assetux.com',
-            bin: currentDetails.slice(0, 6),
-            currency: currentCurrency as CurrenciesType
-          })
-          if (card_res.status === 200) {
-          } else if (card_res.status === 500) {
-            setVisWrongPopup(true)
-            return
-          } else {
-            setVisPopup(true)
-            if (currentCurrency === 'RUB') {
-              setPopupCase(5)
-            } else if (currentCurrency === 'UAH') {
-              setPopupCase(6)
-            } else if (currentCurrency === 'KZT') {
-              setPopupCase(4)
-            }
-            if (card_res.data.data.message === 'Unsupported') {
-              setPopupCase(1)
-            } else {
-              setPopupCase(
-                listCurrencyError[currentCurrency][
-                  card_res.data.data.message.type as string
-                ]
-              )
-            }
-            errorObject[inputIds.details] = t('home:buy_invalidCard')
+          setVisPopup(true)
+          if (currentCurrency == 'RUB') {
+            setPopupCase(5)
+            console.log(5)
+          } else if (currentCurrency == 'UAH') {
+            setPopupCase(6)
+            console.log(6)
+          } else if (currentCurrency == 'KZT') {
+            setPopupCase(4)
+            console.log(4)
           }
+          if (card_res.data.data.message == 'Unsupported') {
+            setPopupCase(1)
+            console.log(1)
+          } else if (
+            currentCurrency != 'KZT' &&
+            currentCurrency != 'UAH' &&
+            currentCurrency != 'RUB'
+          ) {
+            setPopupCase(
+              listCurrencyError[currentCurrency][
+                card_res.data.data.message.type as string
+              ]
+            )
+          } else {
+            console.log(card_res.data.data)
+          }
+          errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
       }
     }
 
     setInputError(errorObject)
+    console.log(errorObject)
 
     if (Object.keys(errorObject).length > 0) {
       setVisWrongPopup(false)
@@ -521,7 +538,7 @@ const SelectForm = ({
                     onChange={handleFirstNameInput}
                     value={cardHolder}
                     error={inputError[inputIds.cardholder]}
-                    placeholder=""
+                    placeholder={'IVANOV IVAN'}
                     changeable
                   />
                 </HideableWithMargin>
@@ -570,9 +587,10 @@ const SelectForm = ({
         />
       )}
 
-      {!isLoading && (serviceUnavailable || visWrongPopup) && !visPopup && (
+      {!isLoading && (props?.errorVisiableModal || visWrongPopup) && !visPopup && (
         <Popup505
           setClose={() => {
+            ;(props as any).setErrorVisiableModal(false)
             setVisWrongPopup(false)
           }}
         />
