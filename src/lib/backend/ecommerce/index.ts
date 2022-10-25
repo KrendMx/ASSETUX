@@ -123,7 +123,7 @@ export class EcommerceClient {
     token: string,
     tokenAddress?: string
   ): Promise<CalcFeeResponse> {
-    return axios.get(`https://bsc.dev.assetux.com/ecommerce/bill/calc_fee`, {
+    return api.get(`/ecommerce/bill/calc_fee`, {
       headers: {
         Authorization: `Bearer ${token}`
       },

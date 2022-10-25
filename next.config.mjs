@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 import withPWA from 'next-pwa'
 import bundleAnalyzer from '@next/bundle-analyzer'
 
