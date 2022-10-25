@@ -335,14 +335,14 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         }
       >
         <Form onSubmit={handleSubmit}>
-          {/* {balanceOfToken?.balance &&
+          {balanceOfToken?.balance &&
             (+balanceOfToken?.balance === 0 ||
               serviceUnavaliable.invalidBalance) && (
               <MerchantPaymentMaintenance
                 tokenAmount={+balanceOfToken.balance}
                 symbol={'YAY'}
               />
-            )} */}
+            )}
           {serviceUnavaliable.unavaliable && (
             <Maintenance bgStyle={{ borderRadius: 10 }} />
           )}
