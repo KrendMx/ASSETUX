@@ -95,7 +95,7 @@ const useListing = ({ profile, rate }: BillProps) => {
       Number(result),
       selectedCurrency as CurrenciesType,
       'BUY',
-      true,
+      false,
       Cookies.get(mappedCookies.authToken)!,
       tokens[0]?.address
     )
@@ -113,6 +113,8 @@ const useListing = ({ profile, rate }: BillProps) => {
           : sumWithFee.data.amountToken
       )
     }
+
+    console.log(sumWithFee)
 
     const sendRes = sumWithFee?.amount
       ? sumWithFee?.amountIn
