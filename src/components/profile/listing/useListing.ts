@@ -95,26 +95,28 @@ const useListing = ({ profile, rate }: BillProps) => {
       Number(result),
       selectedCurrency as CurrenciesType,
       'BUY',
-      false,
+      true,
       Cookies.get(mappedCookies.authToken)!,
       tokens[0]?.address
     )
 
+    console.log(44)
+
     if (
-      sumWithFee.data.success &&
+      sumWithFee.state == 'success' &&
       Number(value) > ranges.min &&
       Number(value) < ranges.max
     ) {
       setSend(
-        sumWithFee.data.data.amount
-          ? sumWithFee.data.data.amount
-          : sumWithFee.data.data.amountToken
+        sumWithFee.data.amount
+          ? sumWithFee.data.amount
+          : sumWithFee.data.amountToken
       )
     }
 
-    const sendRes = sumWithFee.data.data.amount
-      ? sumWithFee.data.data.amount
-      : sumWithFee.data.data.amountToken
+    const sendRes = sumWithFee?.amount
+      ? sumWithFee?.amountIn
+      : sumWithFee?.amountToken
     const sendAmount = Number(result)
 
     if (sendRes < ranges.min) {
@@ -166,10 +168,10 @@ const useListing = ({ profile, rate }: BillProps) => {
       tokens[0]?.address
     )
 
-    if (sumWithFee!.data!.success) {
-      const amountRes = sumWithFee.data.data.amount
-        ? sumWithFee.data.data.amount
-        : sumWithFee.data.data.amountToken
+    if (sumWithFee.state == 'success') {
+      const amountRes = sumWithFee?.data?.amount
+        ? sumWithFee?.data?.amount
+        : sumWithFee?.data?.amountToken
       if (Number(value) >= ranges.min && Number(value) <= ranges.max) {
         setGet(amountRes)
       }
@@ -277,10 +279,11 @@ const useListing = ({ profile, rate }: BillProps) => {
         Cookies.get(mappedCookies.authToken)!,
         tokens[0]?.address
       )
+      console.log(sumWithFee)
       setGet(
-        sumWithFee.data.data.amount
-          ? sumWithFee.data.data.amount
-          : sumWithFee.data.data.amountToken
+        sumWithFee?.data?.data?.amount
+          ? sumWithFee?.data?.data?.amount
+          : sumWithFee?.data?.data?.amountToken
       )
     })()
   }, [])

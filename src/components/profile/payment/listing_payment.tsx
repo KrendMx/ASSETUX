@@ -39,6 +39,7 @@ import { env } from '@/lib/env/client'
 import PaymentHeader from './header'
 import PaymentFooter from './footer'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
+import { Button } from '../common/form-components'
 
 const inputIds = {
   email: 'email',
@@ -222,7 +223,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     const validRanges = checkRanges(
       Number(+get * fiatrate?.buy[selectedCurrency])
     )
-    if (selectedPayment != QIWI) {
+    if (selectedPayment != QIWI && details.length > 0) {
       const card_res = await BackendClient.checkCardValidation({
         apiHost: 'bsc.dev.assetux.com',
         bin: details.slice(0, 6),
