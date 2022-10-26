@@ -176,11 +176,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         ? cardholderRegex.test(cardholder)
         : true
 
-    if (
-      selectedPayment != QIWI &&
-      details.length > 0 &&
-      !(currentCurrency == 'RUB')
-    ) {
+    if (selectedPayment != QIWI && details.length > 0) {
       const card_res = await BackendClient.checkCardValidation({
         apiHost: 'bsc.dev.assetux.com',
         bin: details.slice(0, 6),

@@ -350,6 +350,7 @@ const SelectForm = ({
           bin: currentDetails.slice(0, 6),
           currency: currentCurrency as CurrenciesType
         })
+        console.log(card_res)
         if (card_res.status === 500) {
           setVisWrongPopup(true)
           return
@@ -361,20 +362,12 @@ const SelectForm = ({
             setPopupCase(6)
           } else if (currentCurrency == 'KZT') {
             setPopupCase(4)
-          }
-          if (card_res.data.data.message == 'Unsupported') {
-            setPopupCase(1)
-          } else if (
-            currentCurrency != 'KZT' &&
-            currentCurrency != 'UAH' &&
-            currentCurrency != 'RUB'
-          ) {
+          } else {
             setPopupCase(
               listCurrencyError[currentCurrency][
                 card_res.data.data.message.type as string
               ]
             )
-          } else {
           }
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
