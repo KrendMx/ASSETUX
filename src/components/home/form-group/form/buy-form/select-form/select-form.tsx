@@ -350,7 +350,6 @@ const SelectForm = ({
           bin: currentDetails.slice(0, 6),
           currency: currentCurrency as CurrenciesType
         })
-        console.log(card_res)
         if (card_res.status === 500) {
           setVisWrongPopup(true)
           return
@@ -362,12 +361,10 @@ const SelectForm = ({
             setPopupCase(6)
           } else if (currentCurrency == 'KZT') {
             setPopupCase(4)
-          } else {
-            setPopupCase(
-              listCurrencyError[currentCurrency][
-                card_res.data.data.message.type as string
-              ]
-            )
+          } else if (card_res.data.data.message === 'VISA') {
+            setPopupCase(2)
+          } else if (card_res.data.data.message === 'MASTERCARD') {
+            setPopupCase(3)
           }
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
