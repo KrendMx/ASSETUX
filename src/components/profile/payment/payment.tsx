@@ -14,8 +14,13 @@ import {
   mapShortCurrencyName
 } from '@/lib/data/currencies'
 
-import { EcommerceClient } from '@/lib/backend/clients'
-import { cardholderRegex, emailRegexp, genericURL } from '@/lib/data/constants'
+import { BackendClient, EcommerceClient } from '@/lib/backend/clients'
+import {
+  cardholderRegex,
+  emailRegexp,
+  genericURL,
+  listCurrencyError
+} from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
 
 import type {
@@ -36,6 +41,8 @@ import Maintenance, {
 import { env } from '@/lib/env/client'
 import PaymentHeader from './header'
 import PaymentFooter from './footer'
+import WarningPopup from '@/components/home/infoPopup/infoPopUp'
+import Popup505 from '@/components/home/infoPopup/Popup_505/Popup_505'
 
 const inputIds = {
   email: 'email',
@@ -80,6 +87,9 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [serviceUnavaliable, setServiceUnavaliable] = useState<boolean>(false)
   const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
   const [cardholder, setCardholder] = useState<string>('')
+  const [visPopup, setVisPopup] = useState<boolean>(false)
+  const [popupCase, setPopupCase] = useState<number>(0)
+  const [visWrongPopup, setVisWrongPopup] = useState<boolean>(false)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -153,30 +163,93 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
       return
     }
 
+    setWaitingResponse(true)
+
     const validEmail = email != '' && emailRegexp.test(email)
     const validPhone =
       selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
     const validCard = selectedPayment != QIWI ? details.length == 16 : true
-    const validCardholder = cardholderRegex.test(cardholder)
+    const validCardholder =
+      bill.bill.currency === 'EUR' || bill.bill.currency === 'USD'
+        ? cardholderRegex.test(cardholder)
+        : true
+
+    if (
+      selectedPayment != QIWI &&
+      details.length > 0 &&
+      !(currentCurrency == 'RUB')
+    ) {
+      const card_res = await BackendClient.checkCardValidation({
+        apiHost: 'bsc.dev.assetux.com',
+        bin: details.slice(0, 6),
+        currency: currentCurrency as CurrenciesType
+      })
+      if (card_res.status === 500) {
+        setVisWrongPopup(true)
+        setWaitingResponse(false)
+        return
+      } else if (card_res.status !== 200) {
+        setVisPopup(true)
+        if (currentCurrency == 'RUB') {
+          setPopupCase(5)
+        } else if (currentCurrency == 'UAH') {
+          setPopupCase(6)
+        } else if (currentCurrency == 'KZT') {
+          setPopupCase(4)
+        }
+        if (card_res.data.data.message == 'Unsupported') {
+          setPopupCase(1)
+        } else if (
+          currentCurrency != 'KZT' &&
+          currentCurrency != 'UAH' &&
+          currentCurrency != 'RUB'
+        ) {
+          setPopupCase(
+            listCurrencyError[currentCurrency][
+              card_res.data.data.message.type as string
+            ]
+          )
+        }
+      }
+    }
+
+    console.log(cardholderRegex.test(cardholder), cardholder)
 
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t('invalidEmail'),
       [inputIds.phone]: validPhone ? undefined : t('invalidPhone'),
-      [inputIds.card]: validCard ? undefined : t('invalidCard'),
+      [inputIds.card]:
+        validCard && popupCase == 0 ? undefined : t('invalidCard'),
       [inputIds.cardholder]: validCardholder
         ? undefined
         : t('invalidCardholder')
     }))
 
-    if (!validEmail || !validPhone || !validCard || !validCardholder) {
+    setWaitingResponse(false)
+
+    if (
+      !validEmail ||
+      !validPhone ||
+      !validCard ||
+      !validCardholder ||
+      popupCase !== 0 ||
+      visWrongPopup
+    ) {
+      setWaitingResponse(false)
       return
     }
-
-    setWaitingResponse(true)
-
+    console.log(
+      !validEmail ||
+        !validPhone ||
+        !validCard ||
+        !validCardholder ||
+        popupCase !== 0 ||
+        visWrongPopup
+    )
+    // return
     const response = await EcommerceClient.createPayment({
       paymentMethod: selectedPayment,
       email,
@@ -215,7 +288,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
             : undefined
         }
       >
-        <Form onSubmit={handleSubmit} style={{ minHeight: 440 }}>
+        <Form onSubmit={handleSubmit} style={{ minHeight: 500 }}>
           {serviceUnavaliable && <Maintenance bgStyle={{ borderRadius: 10 }} />}
           {euroModalOpen && (
             <EuroUsingWarning
@@ -306,6 +379,21 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
               </Submit>
             </HideableWithMargin>
           </HideableWithMargin>
+          {visPopup && (
+            <WarningPopup
+              caseNumber={popupCase}
+              setClose={() => {
+                setVisPopup(false)
+              }}
+            />
+          )}
+          {visWrongPopup && !visPopup && (
+            <Popup505
+              setClose={() => {
+                setVisWrongPopup(false)
+              }}
+            />
+          )}
         </Form>
       </Content>
       <PaymentFooter />
