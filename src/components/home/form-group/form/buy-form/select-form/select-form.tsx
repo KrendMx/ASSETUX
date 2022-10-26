@@ -350,11 +350,10 @@ const SelectForm = ({
           bin: currentDetails.slice(0, 6),
           currency: currentCurrency as CurrenciesType
         })
-        if (card_res.status === 200) {
-        } else if (card_res.status === 500) {
+        if (card_res.status === 500) {
           setVisWrongPopup(true)
           return
-        } else {
+        } else if (card_res.status !== 200) {
           setVisPopup(true)
           if (currentCurrency == 'RUB') {
             setPopupCase(5)

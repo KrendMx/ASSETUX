@@ -215,8 +215,6 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
       }
     }
 
-    console.log(cardholderRegex.test(cardholder), cardholder)
-
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t('invalidEmail'),
@@ -241,15 +239,6 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
       setWaitingResponse(false)
       return
     }
-    console.log(
-      !validEmail ||
-        !validPhone ||
-        !validCard ||
-        !validCardholder ||
-        popupCase !== 0 ||
-        visWrongPopup
-    )
-    // return
     const response = await EcommerceClient.createPayment({
       paymentMethod: selectedPayment,
       email,

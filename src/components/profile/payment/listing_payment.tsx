@@ -64,7 +64,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     (widget.nameCompany != null && widget.nameCompany != '')
 
   const { t } = useTranslation('profile-payment')
-  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const { currentCurrency } = useAppSelector((state) => state.ui)
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == VISAMASTER)
       ? VISAMASTER
@@ -337,7 +337,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
               serviceUnavaliable.invalidBalance) && (
               <MerchantPaymentMaintenance
                 tokenAmount={+balanceOfToken.balance}
-                symbol={'YAY'}
+                symbol={token.symbol}
               />
             )}
           {serviceUnavaliable.unavaliable && (
