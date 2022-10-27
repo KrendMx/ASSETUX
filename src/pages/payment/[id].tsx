@@ -53,8 +53,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const id = params!.id
 
-  console.log(locales)
-
   if (!id || Array.isArray(id)) {
     return errorProps
   }

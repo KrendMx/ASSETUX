@@ -88,8 +88,9 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
   const [cardholder, setCardholder] = useState<string>('')
   const [visPopup, setVisPopup] = useState<boolean>(false)
-  const [popupCase, setPopupCase] = useState<number>(0)
+  const [popupCase, setPopupCase] = useState<number>(9)
   const [visWrongPopup, setVisWrongPopup] = useState<boolean>(false)
+  const [validating, setValidating] = useState<boolean>(false)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -108,6 +109,32 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
       // )
     }
   }, [currentCurrency])
+
+  useEffect(() => {
+    if (validating) {
+      ;(async () => {
+        const response = await EcommerceClient.createPayment({
+          paymentMethod: selectedPayment,
+          email,
+          cardHolder: {
+            firstName: cardholder.split(' ')[0],
+            lastName: cardholder.split(' ')[1]
+          },
+          creditCard: details
+            .replaceAll('(', '')
+            .replaceAll(')', '')
+            .replaceAll(' ', '')
+            .replaceAll('-', ''),
+          ecommerceBillHash: bill.bill.hash
+        })
+        if (response.state != 'success') {
+          setServiceUnavaliable(true)
+          return
+        }
+        location.href = response.data.linkToPaymentString
+      })()
+    }
+  }, [bill.bill.hash, cardholder, details, email, selectedPayment, validating])
 
   const paymentOptions: Option[] = useMemo(() => {
     const options = providers
@@ -176,38 +203,35 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         ? cardholderRegex.test(cardholder)
         : true
 
+    const card_res = await BackendClient.checkCardValidation({
+      apiHost: 'bsc.dev.assetux.com',
+      bin: details.slice(0, 6),
+      currency: currentCurrency as CurrenciesType
+    })
+
     if (selectedPayment != QIWI && details.length > 0) {
-      const card_res = await BackendClient.checkCardValidation({
-        apiHost: 'bsc.dev.assetux.com',
-        bin: details.slice(0, 6),
-        currency: currentCurrency as CurrenciesType
-      })
       if (card_res.status === 500) {
         setVisWrongPopup(true)
         setWaitingResponse(false)
         return
       } else if (card_res.status !== 200) {
         setVisPopup(true)
+        setWaitingResponse(false)
         if (currentCurrency == 'RUB') {
           setPopupCase(5)
         } else if (currentCurrency == 'UAH') {
           setPopupCase(6)
         } else if (currentCurrency == 'KZT') {
           setPopupCase(4)
-        }
-        if (card_res.data.data.message == 'Unsupported') {
+        } else if (card_res.data.data.message === 'VISA') {
+          setPopupCase(2)
+        } else if (card_res.data.data.message === 'MASTERCARD') {
+          setPopupCase(3)
+        } else {
           setPopupCase(1)
-        } else if (
-          currentCurrency != 'KZT' &&
-          currentCurrency != 'UAH' &&
-          currentCurrency != 'RUB'
-        ) {
-          setPopupCase(
-            listCurrencyError[currentCurrency][
-              card_res.data.data.message.type as string
-            ]
-          )
         }
+      } else if (card_res.status == 200) {
+        setPopupCase(0)
       }
     }
 
@@ -222,43 +246,21 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         : t('invalidCardholder')
     }))
 
-    setWaitingResponse(false)
-
     if (
-      !validEmail ||
-      !validPhone ||
-      !validCard ||
-      !validCardholder ||
-      popupCase !== 0 ||
-      visWrongPopup
+      validEmail &&
+      (selectedPayment == 'QIWI' ? validPhone : validCard) &&
+      (selectedCurrency == 'EUR' || selectedCurrency == 'USD'
+        ? validCardholder
+        : true) &&
+      popupCase == 0 &&
+      !waitingResponse
     ) {
+      setValidating(true)
+    } else {
       setWaitingResponse(false)
-      return
     }
-    const response = await EcommerceClient.createPayment({
-      paymentMethod: selectedPayment,
-      email,
-      cardHolder: {
-        firstName: cardholder.split(' ')[0],
-        lastName: cardholder.split(' ')[1]
-      },
-      creditCard: details
-        .replaceAll('(', '')
-        .replaceAll(')', '')
-        .replaceAll(' ', '')
-        .replaceAll('-', ''),
-      ecommerceBillHash: bill.bill.hash
-    })
-
-    setWaitingResponse(false)
-
-    if (response.state != 'success') {
-      setServiceUnavaliable(true)
-      return
-    }
-
-    location.href = response.data.linkToPaymentString
   }
+  // return
 
   return (
     <>
