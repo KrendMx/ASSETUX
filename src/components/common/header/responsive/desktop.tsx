@@ -25,6 +25,7 @@ const Desktop = () => {
   const { t } = useTranslation('header')
 
   const isMainPage = router.pathname == '/'
+  const isNewsPage = router.pathname.includes('/blog')
   const isCommercePage =
     router.pathname.startsWith('/profile') &&
     router.pathname != '/profile/login'
@@ -62,7 +63,7 @@ const Desktop = () => {
               </NavLink>
             </>
           )}
-          {isMainPage && (
+          {(isMainPage || isNewsPage) && (
             <NavLink
               as="button"
               onClick={() => dispatch(setOrdersActive(true))}

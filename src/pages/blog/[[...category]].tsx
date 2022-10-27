@@ -16,6 +16,8 @@ import type { GetStaticProps, GetStaticPaths, GetStaticPathsResult } from 'next'
 import type { ParsedUrlQuery } from 'querystring'
 import type { PostCategory } from '@/lib/backend/main/types.backend.main'
 import type { BlogProps } from '@/components/blog'
+import Orders from '@/components/home/orders'
+import CryptoManager from '@/components/common/crypto-manager'
 
 const Blog = (props: BlogProps) => {
   const { t } = useTranslation('news')
@@ -31,6 +33,8 @@ const Blog = (props: BlogProps) => {
         })}
       />
       <BlogComponent {...props} />
+      <Orders />
+      <CryptoManager />
     </>
   )
 }
@@ -86,7 +90,8 @@ export const getStaticProps: GetStaticProps<
         'footer',
         'news',
         'routes',
-        'controlRow'
+        'controlRow',
+        'home'
       ]))
     },
     revalidate: 3600

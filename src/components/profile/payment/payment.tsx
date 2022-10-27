@@ -232,6 +232,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         } else {
           setPopupCase(1)
         }
+        return
       } else if (card_res.status == 200) {
         setPopupCase(0)
       }

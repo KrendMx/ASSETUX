@@ -93,55 +93,6 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const [validating, setValidating] = useState<boolean>(false)
 
   useEffect(() => {
-    if (validating) {
-      ;(async () => {
-        const response = await BackendClient.getPaymentUrl({
-          apiHost: blockchainURL,
-          ticker: selectedCurrency,
-          provider: selectedPayment,
-          amount: Number(+get * fiatrate?.buy[selectedCurrency]),
-          cryptoAddress: wallet,
-          chainId: token.chain_id,
-          tokenAddress: token.address,
-          email,
-          firstName: cardHolder.split(' ')[0],
-          lastName: cardHolder.split(' ')[1],
-          card: details
-            .replaceAll('(', '')
-            .replaceAll(')', '')
-            .replaceAll(' ', '')
-            .replaceAll('-', '')
-        })
-
-        setWaitingResponse(false)
-
-        if (response.state != 'success' || !response.data.link) {
-          setServiceUnavaliable({
-            invalidBalance: false,
-            unavaliable: true
-          })
-          return
-        }
-
-        location.href = response.data.link
-      })()
-    }
-  }, [
-    blockchainURL,
-    cardHolder,
-    details,
-    email,
-    fiatrate?.buy,
-    get,
-    selectedCurrency,
-    selectedPayment,
-    token.address,
-    token.chain_id,
-    validating,
-    wallet
-  ])
-
-  useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
       value: currency,
       description: mapCurrencyName(currency),
@@ -245,6 +196,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     event
   ) => {
     event.preventDefault()
+    setWaitingResponse(true)
     const euroAccept = !!sessionStorage.getItem('euro_accept')
 
     if (!euroAccept && selectedCurrency === 'EUR') {
@@ -273,38 +225,6 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       Number(+get * fiatrate?.buy[selectedCurrency])
     )
 
-    if (selectedPayment != QIWI && details.length == 16) {
-      const card_res = await BackendClient.checkCardValidation({
-        apiHost: selectedBlockchain!.url,
-        bin: details.slice(0, 6),
-        currency: currentCurrency as CurrenciesType
-      })
-      console.log(card_res)
-      if (card_res.status === 500) {
-        setVisWrongPopup(true)
-        setWaitingResponse(false)
-        return
-      } else if (card_res.status !== 200) {
-        setVisPopup(true)
-        setWaitingResponse(false)
-        if (currentCurrency == 'RUB') {
-          setPopupCase(5)
-        } else if (currentCurrency == 'UAH') {
-          setPopupCase(6)
-        } else if (currentCurrency == 'KZT') {
-          setPopupCase(4)
-        } else if (card_res.data.data.message.type === 'VISA') {
-          setPopupCase(2)
-        } else if (card_res.data.data.message.type === 'MASTERCARD') {
-          setPopupCase(3)
-        } else {
-          setPopupCase(1)
-        }
-      } else if (card_res.status == 200) {
-        setPopupCase(0)
-      }
-    }
-
     setErrors((prev) => ({
       ...prev,
       [inputIds.email]: validEmail ? undefined : t('invalidEmail'),
@@ -317,28 +237,74 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         : t('invalidCardholder')
     }))
 
-    console.log(
-      validEmail &&
-        (validPhone || (validCard && popupCase == 0)) &&
-        validWallet &&
-        selectedCurrency &&
-        validRanges &&
-        validCardHolder &&
-        !serviceUnavaliable.unavaliable
-    )
-
     if (
-      validEmail &&
-      (validPhone || (validCard && popupCase == 0)) &&
-      validWallet &&
-      selectedCurrency &&
-      validRanges &&
-      validCardHolder &&
-      popupCase == 0 &&
-      !serviceUnavaliable.unavaliable
+      !validEmail ||
+      !validPhone ||
+      !validCard ||
+      !validWallet ||
+      !selectedCurrency ||
+      !validCardHolder ||
+      serviceUnavaliable.unavaliable
     ) {
-      setValidating(true)
+      setWaitingResponse(false)
+      return
     }
+
+    if (selectedPayment != QIWI && details.length == 16) {
+      const card_res = await BackendClient.checkCardValidation({
+        bin: details.slice(0, 6),
+        currency: selectedCurrency as CurrenciesType
+      })
+      console.log(card_res)
+
+      if (card_res.state !== 'success') {
+        setVisPopup(true)
+        setWaitingResponse(false)
+        if (selectedCurrency == 'RUB') {
+          setPopupCase(5)
+        } else if (selectedCurrency == 'UAH') {
+          setPopupCase(6)
+        } else if (selectedCurrency == 'KZT') {
+          setPopupCase(4)
+        } else if (card_res.data.data.message.type === 'VISA') {
+          setPopupCase(2)
+        } else if (card_res.data.data.message.type === 'MASTERCARD') {
+          setPopupCase(3)
+        } else {
+          setPopupCase(1)
+        }
+        return
+      }
+      setPopupCase(0)
+    }
+
+    const response = await BackendClient.getPaymentUrl({
+      apiHost: blockchainURL,
+      ticker: selectedCurrency,
+      provider: selectedPayment,
+      amount: Number(+get * fiatrate?.buy[selectedCurrency]),
+      cryptoAddress: wallet,
+      chainId: token.chain_id,
+      tokenAddress: token.address,
+      email,
+      firstName: cardHolder.split(' ')[0],
+      lastName: cardHolder.split(' ')[1],
+      card: details
+        .replaceAll('(', '')
+        .replaceAll(')', '')
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+    })
+    if (response.state != 'success' || !response.data.link) {
+      setServiceUnavaliable({
+        invalidBalance: false,
+        unavaliable: true
+      })
+      return
+    }
+
+    location.href = response.data.link
+    setWaitingResponse(false)
   }
 
   return (

@@ -17,6 +17,17 @@ const Payment = styled.a`
   text-decoration: none;
   color: var(--blue);
   font-weight: 500;
+  word-break: break-all;
+`
+
+const FixedContainer = styled(Container)`
+  width: 500px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  @media (max-width: 500px) {
+    width: 300px;
+  }
 `
 
 type LinkModalProps = {
@@ -29,7 +40,7 @@ const LinkModal = ({ link, onAccept }: LinkModalProps) => {
 
   return (
     <Background>
-      <Container spanContent>
+      <FixedContainer>
         <Title>
           <Shadow>
             <Icon>
@@ -56,7 +67,7 @@ const LinkModal = ({ link, onAccept }: LinkModalProps) => {
             OK
           </Button>
         </ButtonsRow>
-      </Container>
+      </FixedContainer>
     </Background>
   )
 }
