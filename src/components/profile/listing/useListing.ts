@@ -249,7 +249,9 @@ const useListing = ({ profile, rate }: BillProps) => {
       setSubmitValue(t('copyLink'))
     }
 
-    if ('clipboard' in navigator) {
+    console.log()
+
+    if (navigator.userAgent.includes('Chrome')) {
       navigator.clipboard.writeText(link)
 
       setSubmitValue(t('copied'))
