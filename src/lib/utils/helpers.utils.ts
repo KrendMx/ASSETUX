@@ -110,4 +110,4 @@ export const sanitize = (html: string) =>
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null }
 
-export const getEcommercePrefix = () => (env.isStage ? '' : '')
+export const getEcommercePrefix = () => (env.isStage ? '/profile' : '')
