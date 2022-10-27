@@ -76,7 +76,7 @@ const Desktop = () => {
               <Link
                 href={
                   process.env.NODE_ENV == 'development'
-                    ? ''
+                    ? '/profile'
                     : 'https://commerce.dev.assetux.com/profile'
                 }
                 passHref
