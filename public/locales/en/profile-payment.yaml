@@ -6,6 +6,7 @@ email: E-Mail
 creditCard: Credit card
 phoneNumber: Phone number
 submit: Continue
+cardholder: Card Holder
 invalidEmail: Invalid e-mail
 invalidPhone: Invalid phone number
 invalidCard: Invalid card number

@@ -171,7 +171,7 @@ warningPopup_case2: "List of countries we do not work with on Visa: \n Afghanist
 warningPopup_case3: "List of countries we work with on Mastercard: \n Austria, Belgium, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden, Ukraine, UK"
 
 warningPopup_case4: Deposits are supported only from cards of banks issued in Kazakhstan
-warningPopup_case5: Deposits are supported only with the cards of banks of the payment system "MIR" issued in Russia
+warningPopup_case5: Deposits are supported only with cards of banks of payment systems "MIR, MasterCard and VISA" issued in Russia
 warningPopup_case6: Deposits are supported only with cards of banks issued in Ukraine
 
 warningPopup_agrees: "By clicking continue, you are confirming that you are not a citizen of any of the listed countries"

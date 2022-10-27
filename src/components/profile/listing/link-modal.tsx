@@ -13,10 +13,23 @@ import Button from '@/components/common/modal-components/Button'
 import Icon from '@/components/common/modal-components/Icon'
 import Shadow from '@/components/common/modal-components/Shadow'
 
+import ExclamBlue from '@/assets/Exclamation-blue.svg'
+
 const Payment = styled.a`
   text-decoration: none;
   color: var(--blue);
   font-weight: 500;
+  word-break: break-all;
+`
+
+const FixedContainer = styled(Container)`
+  width: 500px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  @media (max-width: 500px) {
+    width: 300px;
+  }
 `
 
 type LinkModalProps = {
@@ -29,12 +42,12 @@ const LinkModal = ({ link, onAccept }: LinkModalProps) => {
 
   return (
     <Background>
-      <Container spanContent>
+      <FixedContainer>
         <Title>
           <Shadow>
             <Icon>
               <Image
-                src="/assets/Exclamation-blue.svg"
+                src={ExclamBlue}
                 layout="fill"
                 alt="Question"
                 objectFit="contain"
@@ -56,7 +69,7 @@ const LinkModal = ({ link, onAccept }: LinkModalProps) => {
             OK
           </Button>
         </ButtonsRow>
-      </Container>
+      </FixedContainer>
     </Background>
   )
 }

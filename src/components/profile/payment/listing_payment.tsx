@@ -14,12 +14,7 @@ import {
   mapShortCurrencyName
 } from '@/lib/data/currencies'
 import { BackendClient } from '@/lib/backend/clients'
-import {
-  cardholderRegex,
-  emailRegexp,
-  genericURL,
-  listCurrencyError
-} from '@/lib/data/constants'
+import { cardholderRegex, emailRegexp, genericURL } from '@/lib/data/constants'
 import { stringToPieces } from '@/lib/utils/helpers.utils'
 
 import type { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
@@ -40,6 +35,7 @@ import PaymentHeader from './header'
 import PaymentFooter from './footer'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 import { Button } from '../common/form-components'
+import Popup505 from '@/components/home/infoPopup/Popup_505/Popup_505'
 
 const inputIds = {
   email: 'email',
@@ -63,8 +59,9 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     widget.logoCompany != null ||
     (widget.nameCompany != null && widget.nameCompany != '')
 
+  const { selectedBlockchain } = useAppSelector((state) => state.crypto)
   const { t } = useTranslation('profile-payment')
-  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const { currentCurrency } = useAppSelector((state) => state.ui)
   const [selectedPayment, setSelectedPayment] = useState(
     providers.find((provider) => provider.method == VISAMASTER)
       ? VISAMASTER
@@ -92,6 +89,8 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const [cardHolder, setCardHolder] = useState<string>('')
   const [visPopup, setVisPopup] = useState<boolean>(false)
   const [popupCase, setPopupCase] = useState<number>(1)
+  const [visWrongPopup, setVisWrongPopup] = useState<boolean>(false)
+  const [validating, setValidating] = useState<boolean>(false)
 
   useEffect(() => {
     const mappedCurrencies = definedCurrencies.map((currency) => ({
@@ -197,6 +196,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     event
   ) => {
     event.preventDefault()
+    setWaitingResponse(true)
     const euroAccept = !!sessionStorage.getItem('euro_accept')
 
     if (!euroAccept && selectedCurrency === 'EUR') {
@@ -217,49 +217,13 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       selectedPayment == QIWI
         ? details != '' && isValidPhoneNumber(details, 'RU')
         : true
-    const validCardHolder = cardholderRegex.test(cardHolder)
+    const validCardHolder =
+      selectedPayment != QIWI ? cardholderRegex.test(cardHolder) : true
     const validCard = selectedPayment != QIWI ? details.length == 16 : true
     const validWallet = wallet.length === 42
     const validRanges = checkRanges(
       Number(+get * fiatrate?.buy[selectedCurrency])
     )
-    if (selectedPayment != QIWI && details.length > 0) {
-      const card_res = await BackendClient.checkCardValidation({
-        apiHost: 'bsc.dev.assetux.com',
-        bin: details.slice(0, 6),
-        currency: currentCurrency as CurrenciesType
-      })
-      if (card_res.status === 200) {
-      } else if (card_res.status === 500) {
-        return
-      } else {
-        setVisPopup(true)
-        if (currentCurrency == 'RUB') {
-          setPopupCase(5)
-        } else if (currentCurrency == 'UAH') {
-          setPopupCase(6)
-        } else if (currentCurrency == 'KZT') {
-          setPopupCase(4)
-        }
-        if (card_res.data.data.message == 'Unsupported') {
-          setPopupCase(1)
-        } else if (
-          currentCurrency != 'KZT' &&
-          currentCurrency != 'UAH' &&
-          currentCurrency != 'RUB'
-        ) {
-          setPopupCase(
-            listCurrencyError[currentCurrency][
-              card_res.data.data.message.type as string
-            ]
-          )
-        }
-        setErrors((prev) => ({
-          ...prev,
-          [inputIds.details]: t('home:buy_invalidCard')
-        }))
-      }
-    }
 
     setErrors((prev) => ({
       ...prev,
@@ -270,7 +234,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       [inputIds.give]: validRanges,
       [inputIds.cardholder]: validCardHolder
         ? undefined
-        : t('invalidCardHolder')
+        : t('invalidCardholder')
     }))
 
     if (
@@ -279,13 +243,40 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
       !validCard ||
       !validWallet ||
       !selectedCurrency ||
-      validRanges ||
-      !validCardHolder
+      !validCardHolder ||
+      serviceUnavaliable.unavaliable
     ) {
+      setWaitingResponse(false)
       return
     }
 
-    setWaitingResponse(true)
+    if (selectedPayment != QIWI && details.length == 16) {
+      const card_res = await BackendClient.checkCardValidation({
+        bin: details.slice(0, 6),
+        currency: selectedCurrency as CurrenciesType
+      })
+      console.log(card_res)
+
+      if (card_res.state !== 'success') {
+        setVisPopup(true)
+        setWaitingResponse(false)
+        if (selectedCurrency == 'RUB') {
+          setPopupCase(5)
+        } else if (selectedCurrency == 'UAH') {
+          setPopupCase(6)
+        } else if (selectedCurrency == 'KZT') {
+          setPopupCase(4)
+        } else if (card_res.data.data.message.type === 'VISA') {
+          setPopupCase(2)
+        } else if (card_res.data.data.message.type === 'MASTERCARD') {
+          setPopupCase(3)
+        } else {
+          setPopupCase(1)
+        }
+        return
+      }
+      setPopupCase(0)
+    }
 
     const response = await BackendClient.getPaymentUrl({
       apiHost: blockchainURL,
@@ -304,9 +295,6 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         .replaceAll(' ', '')
         .replaceAll('-', '')
     })
-
-    setWaitingResponse(false)
-
     if (response.state != 'success' || !response.data.link) {
       setServiceUnavaliable({
         invalidBalance: false,
@@ -316,6 +304,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     }
 
     location.href = response.data.link
+    setWaitingResponse(false)
   }
 
   return (
@@ -337,7 +326,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
               serviceUnavaliable.invalidBalance) && (
               <MerchantPaymentMaintenance
                 tokenAmount={+balanceOfToken.balance}
-                symbol={'YAY'}
+                symbol={token.symbol}
               />
             )}
           {serviceUnavaliable.unavaliable && (
@@ -448,7 +437,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
                   />
                   <HideableWithMargin hide={false} margins>
                     <InputSelect
-                      label={t('home:buy_cardholder')}
+                      label={t('cardholder')}
                       id={inputIds.cardholder}
                       onChange={handleFirstNameInput}
                       value={cardHolder}
@@ -478,6 +467,13 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
               caseNumber={popupCase}
               setClose={() => {
                 setVisPopup(false)
+              }}
+            />
+          )}
+          {visWrongPopup && !visPopup && (
+            <Popup505
+              setClose={() => {
+                setVisWrongPopup(false)
               }}
             />
           )}

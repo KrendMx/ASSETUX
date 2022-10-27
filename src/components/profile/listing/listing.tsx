@@ -102,7 +102,6 @@ const ListingComponent = (props: BillProps) => {
                     }
                     onActiveChange={setGetCurrencyActive}
                     displayInSelect={2}
-                    maxValue={ranges?.max}
                   />
                 ) : (
                   <Skeleton containerClassName="input-skeleton" />
@@ -184,7 +183,9 @@ const ListingComponent = (props: BillProps) => {
                 <Button
                   type="submit"
                   onClick={handleSubmit}
-                  disabled={waitingResponse}
+                  disabled={
+                    waitingResponse || inputError != '' || outputError != ''
+                  }
                 >
                   {submitValue}
                 </Button>

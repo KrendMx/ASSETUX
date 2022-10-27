@@ -13,6 +13,8 @@ import type { PaymentProps } from '@/components/profile/payment'
 import { IEcommerceBill } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import { FiatRate } from '@/lib/backend/main/types.backend.main'
 import { genericURL } from '@/lib/data/constants'
+import { locale } from 'dayjs'
+import locales from 'locales'
 
 const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const { t } = useTranslation('profile-payment')
@@ -42,7 +44,8 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
 
 export const getServerSideProps: GetServerSideProps = async ({
   locale,
-  params
+  params,
+  query
 }) => {
   const errorProps = {
     notFound: true
@@ -93,8 +96,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     props: {
       bill: bill.data,
       providers: buyProviders,
+      paths: locales.map((el: any) => ({ params: query, locales: el })),
       blockchainURL: blockchain.url,
       fiatrate: null,
+      fallback: false,
       ...(await serverSideTranslations(locale!, [
         'common',
         'profile-payment',

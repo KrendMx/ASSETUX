@@ -106,6 +106,7 @@ const SelectForm = ({
     () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
   )
+  const { selectedBlockchain } = useAppSelector((state) => state.crypto)
 
   useEffect(() => {
     if (rate && giveAmount != '') {
@@ -346,15 +347,14 @@ const SelectForm = ({
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
         const card_res = await BackendClient.checkCardValidation({
-          apiHost: 'bsc.dev.assetux.com',
+          apiHost: selectedBlockchain?.url || 'bsc.dev.assetux.com',
           bin: currentDetails.slice(0, 6),
           currency: currentCurrency as CurrenciesType
         })
-        if (card_res.status === 200) {
-        } else if (card_res.status === 500) {
+        if (card_res.status === 500) {
           setVisWrongPopup(true)
           return
-        } else {
+        } else if (card_res.status !== 200) {
           setVisPopup(true)
           if (currentCurrency == 'RUB') {
             setPopupCase(5)
@@ -362,20 +362,12 @@ const SelectForm = ({
             setPopupCase(6)
           } else if (currentCurrency == 'KZT') {
             setPopupCase(4)
-          }
-          if (card_res.data.data.message == 'Unsupported') {
-            setPopupCase(1)
-          } else if (
-            currentCurrency != 'KZT' &&
-            currentCurrency != 'UAH' &&
-            currentCurrency != 'RUB'
-          ) {
-            setPopupCase(
-              listCurrencyError[currentCurrency][
-                card_res.data.data.message.type as string
-              ]
-            )
+          } else if (card_res.data.data.message.type === 'VISA') {
+            setPopupCase(2)
+          } else if (card_res.data.data.message.type === 'MASTERCARD') {
+            setPopupCase(3)
           } else {
+            setPopupCase(1)
           }
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }

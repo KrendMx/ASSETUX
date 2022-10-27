@@ -5,11 +5,12 @@ import Title from '@/components/common/modal-components/Title'
 import Container from '@/components/common/modal-components/Container'
 import Shadow from '@/components/common/modal-components/Shadow'
 import Icon from '@/components/common/modal-components/Icon'
-import ExclamationGreenIcon from '../../../../public/assets/Exclamation-red.svg'
 import { useTranslation } from 'next-i18next'
 import { BackgroundLocal, ScrolledBlock } from './styles'
 import Info from '@/components/common/modal-components/Info'
 import Button from '@/components/common/modal-components/Button'
+
+import ExclamRed from '@/assets/Exclamation-red.svg'
 
 type WarningProps = {
   caseNumber: number
@@ -30,7 +31,7 @@ const WarningPopup = ({ caseNumber, setClose }: WarningProps) => {
           <Shadow>
             <Icon>
               <Image
-                src={ExclamationGreenIcon}
+                src={ExclamRed}
                 layout="fill"
                 alt="Exclamation"
                 objectFit="contain"

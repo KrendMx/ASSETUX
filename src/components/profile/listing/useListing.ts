@@ -70,77 +70,10 @@ const useListing = ({ profile, rate }: BillProps) => {
     (state) => state?.crypto.availableTokens
   )
 
-  //Верхний инпут
-  const handleGet: React.ChangeEventHandler<HTMLInputElement> = async (
-    event
-  ) => {
-    if (!ranges || (isTRANSFER && !rate)) {
-      return
-    }
-
-    const value = event.target.value
-
-    setGet(value)
-    if (Number(value) > ranges.min && Number(value) < ranges.max) {
-      setSend('~')
-    }
-
-    const [validated, result] = validateDecimal(value)
-
-    if (!validated) {
-      return
-    }
-
-    const sumWithFee = await EcommerceClient.calcFee(
-      Number(result),
-      selectedCurrency as CurrenciesType,
-      'BUY',
-      false,
-      Cookies.get(mappedCookies.authToken)!,
-      tokens[0]?.address
-    )
-
-    if (
-      sumWithFee.state == 'success' &&
-      Number(value) > ranges.min &&
-      Number(value) < ranges.max
-    ) {
-      setSend(
-        sumWithFee.data.amount
-          ? sumWithFee.data.amount
-          : sumWithFee.data.amountToken
-      )
-    }
-
-    const sendRes = sumWithFee?.amount
-      ? sumWithFee?.amountIn
-      : sumWithFee?.amountToken
-    const sendAmount = Number(result)
-
-    if (sendRes < ranges.min) {
-      setInputError(t('minError', { min: ranges.min }))
-    } else if (sendRes > ranges.max) {
-      setInputError(t('maxError', { max: ranges.max }))
-    } else {
-      setInputError('')
-    }
-
-    if (isRETENTION) {
-      if (sendAmount < ranges.min) {
-        setOutputError(t('minError', { min: ranges.min }))
-      } else if (sendAmount > ranges.max) {
-        setOutputError(t('maxError', { max: ranges.max }))
-      } else {
-        setOutputError('')
-      }
-    }
-  }
-
-  //Нижний инпут
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = async (
     event
   ) => {
-    if (!ranges || (isTRANSFER && !rate)) {
+    if (!ranges) {
       return
     }
 
@@ -174,6 +107,8 @@ const useListing = ({ profile, rate }: BillProps) => {
         setGet(amountRes)
       }
 
+      console.log(sumWithFee)
+
       const resultNum = Number(result)
 
       if (resultNum < ranges.min) {
@@ -192,6 +127,67 @@ const useListing = ({ profile, rate }: BillProps) => {
         } else {
           setOutputError('')
         }
+      }
+    }
+  }
+
+  const handleGet: React.ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    if (!ranges) {
+      return
+    }
+
+    const value = event.target.value
+
+    setGet(value)
+    if (Number(value) > ranges.min && Number(value) < ranges.max) {
+      setSend('~')
+    }
+
+    const [validated, result] = validateDecimal(value)
+
+    if (!validated) {
+      return
+    }
+
+    const sumWithFee = await EcommerceClient.calcFee(
+      Number(result),
+      selectedCurrency as CurrenciesType,
+      'BUY',
+      false,
+      Cookies.get(mappedCookies.authToken)!,
+      tokens[0]?.address
+    )
+
+    console.log(sumWithFee)
+
+    if (
+      sumWithFee.state == 'success' &&
+      Number(sumWithFee.data.amount) > ranges.min &&
+      Number(sumWithFee.data.amount) < ranges.max * 10
+    ) {
+      setSend(sumWithFee.data.amount)
+    }
+
+    const sendRes = sumWithFee.data.amount
+    const sendAmount = Number(result)
+
+    if (sendRes < ranges.min) {
+      setInputError(t('minError', { min: ranges.min }))
+    } else if (sendRes > ranges.max) {
+      setInputError(t('maxError', { max: ranges.max }))
+    } else {
+      setInputError('')
+    }
+
+    if (isRETENTION) {
+      if (sendAmount < ranges.min) {
+        setOutputError(t('minError', { min: ranges.min }))
+      } else if (sendAmount > ranges.max) {
+        setOutputError(t('maxError', { max: ranges.max }))
+      } else {
+        setOutputError('')
       }
     }
   }
@@ -235,6 +231,8 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     let link = ''
 
+    console.log(window.location.host)
+
     if (!!response && response.state == 'success') {
       link =
         window.location.protocol +
@@ -251,7 +249,9 @@ const useListing = ({ profile, rate }: BillProps) => {
       setSubmitValue(t('copyLink'))
     }
 
-    if ('clipboard' in navigator) {
+    console.log()
+
+    if (navigator.userAgent.includes('Chrome')) {
       navigator.clipboard.writeText(link)
 
       setSubmitValue(t('copied'))
@@ -404,7 +404,7 @@ const useListing = ({ profile, rate }: BillProps) => {
   }, [submitValue, selectedToken])
 
   useEffect(() => {
-    if (Number(get) < (ranges as any)?.min) {
+    if (Number(get) <= (ranges as any)?.min) {
       setInputError(t('minError', { min: ranges?.min }))
     } else if (Number(get) > (ranges as any)?.max) {
       setInputError(t('maxError', { max: ranges?.max }))
@@ -413,9 +413,9 @@ const useListing = ({ profile, rate }: BillProps) => {
     }
 
     if (!isTRANSFER) {
-      if (Number(send) < (ranges as any)?.min) {
+      if (Number(send) <= (ranges as any)?.min) {
         setOutputError(t('minError', { min: ranges?.min }))
-      } else if (Number(send) > (ranges as any)?.max) {
+      } else if (Number(send) >= (ranges as any)?.max) {
         setOutputError(t('maxError', { max: ranges?.max }))
       } else {
         setOutputError('')
