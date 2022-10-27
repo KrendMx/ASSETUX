@@ -13,6 +13,8 @@ import Button from '@/components/common/modal-components/Button'
 import Icon from '@/components/common/modal-components/Icon'
 import Shadow from '@/components/common/modal-components/Shadow'
 
+import ExclamBlue from '@/assets/Exclamation-blue.svg'
+
 const Payment = styled.a`
   text-decoration: none;
   color: var(--blue);
@@ -45,7 +47,7 @@ const LinkModal = ({ link, onAccept }: LinkModalProps) => {
           <Shadow>
             <Icon>
               <Image
-                src="/assets/Exclamation-blue.svg"
+                src={ExclamBlue}
                 layout="fill"
                 alt="Question"
                 objectFit="contain"
