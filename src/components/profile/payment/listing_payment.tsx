@@ -59,6 +59,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
     widget.logoCompany != null ||
     (widget.nameCompany != null && widget.nameCompany != '')
 
+  const { selectedBlockchain } = useAppSelector((state) => state.crypto)
   const { t } = useTranslation('profile-payment')
   const { currentCurrency } = useAppSelector((state) => state.ui)
   const [selectedPayment, setSelectedPayment] = useState(
@@ -274,7 +275,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
     if (selectedPayment != QIWI && details.length == 16) {
       const card_res = await BackendClient.checkCardValidation({
-        apiHost: 'bsc.dev.assetux.com',
+        apiHost: selectedBlockchain.dev,
         bin: details.slice(0, 6),
         currency: currentCurrency as CurrenciesType
       })

@@ -106,6 +106,7 @@ const SelectForm = ({
     () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
   )
+  const { selectedBlockchain } = useAppSelector((state) => state.crypto)
 
   useEffect(() => {
     if (rate && giveAmount != '') {
@@ -346,7 +347,7 @@ const SelectForm = ({
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
         const card_res = await BackendClient.checkCardValidation({
-          apiHost: 'bsc.dev.assetux.com',
+          apiHost: selectedBlockchain!.url,
           bin: currentDetails.slice(0, 6),
           currency: currentCurrency as CurrenciesType
         })
