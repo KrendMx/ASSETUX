@@ -88,7 +88,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
   const [euroModalOpen, setEuroModalOpen] = useState<boolean>(false)
   const [cardholder, setCardholder] = useState<string>('')
   const [visPopup, setVisPopup] = useState<boolean>(false)
-  const [popupCase, setPopupCase] = useState<number>(9)
+  const [popupCase, setPopupCase] = useState<number>(0)
   const [visWrongPopup, setVisWrongPopup] = useState<boolean>(false)
   const [validating, setValidating] = useState<boolean>(false)
 

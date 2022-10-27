@@ -6,6 +6,7 @@ email: E-Mail
 creditCard: Кредитная карта
 phoneNumber: Номер телефона
 submit: Продолжить
+cardholder: Держатель карты
 invalidEmail: Неверный Email
 invalidPhone: Неверный номер телефона
 invalidCard: Неверный номер карты

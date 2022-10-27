@@ -15,7 +15,7 @@ export const emailRegexp =
 
 export const floatRegexp = /^[0-9]+(\.)?[0-9]*$/
 
-export const cardholderRegex = /^[A-Z]+\ [A-Z]+$/g
+export const cardholderRegex = /^[A-Z]+\ [A-Z]+$/
 
 export const detailRegex = /^[0-9]*$/
 
