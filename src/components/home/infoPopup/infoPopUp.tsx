@@ -10,6 +10,8 @@ import { BackgroundLocal, ScrolledBlock } from './styles'
 import Info from '@/components/common/modal-components/Info'
 import Button from '@/components/common/modal-components/Button'
 
+import ExclamRed from '@/assets/Exclamation-red.svg'
+
 type WarningProps = {
   caseNumber: number
   setClose: () => void
@@ -29,7 +31,7 @@ const WarningPopup = ({ caseNumber, setClose }: WarningProps) => {
           <Shadow>
             <Icon>
               <Image
-                src={'/assets/Exclamation-red.svg'}
+                src={ExclamRed}
                 layout="fill"
                 alt="Exclamation"
                 objectFit="contain"
