@@ -54,24 +54,28 @@ export const getServerSideProps: GetServerSideProps = async ({
   const id = params!.id
 
   if (!id || Array.isArray(id)) {
+    console.log('!id || Array.isArray(id)')
     return errorProps
   }
 
   const bill = await EcommerceClient.getBill(id)
 
   if (bill.state != 'success') {
+    console.log('bill.state != success')
     return errorProps
   }
 
   const blockchains = await BackendClient.getBlockchains()
 
   if (blockchains.state != 'success') {
+    console.log('blockchains.state != success')
     return errorProps
   }
 
   const blockchain = blockchains.data[0]
 
   if (!blockchain) {
+    console.log('!blockchain')
     return errorProps
   }
 
@@ -80,16 +84,18 @@ export const getServerSideProps: GetServerSideProps = async ({
   })
 
   if (fiatProviders.state != 'success') {
+    console.log('fiatProviders.state != success')
     return errorProps
   }
 
-  const toPay = bill.data.bill.sendAmount
-
+  // const toPay = bill.data.bill.sendAmount
+  console.log('jopa')
   const buyProviders = fiatProviders.data.filter(
     (provider) => provider.type == 'BUY'
   )
 
   if (buyProviders.length == 0) {
+    console.log('buyProviders.length == 0')
     return errorProps
   }
   return {
