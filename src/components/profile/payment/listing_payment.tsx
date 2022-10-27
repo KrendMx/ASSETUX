@@ -285,7 +285,6 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         setWaitingResponse(false)
         return
       } else if (card_res.status !== 200) {
-        console.log(1)
         setVisPopup(true)
         setWaitingResponse(false)
         if (currentCurrency == 'RUB') {
@@ -294,9 +293,9 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           setPopupCase(6)
         } else if (currentCurrency == 'KZT') {
           setPopupCase(4)
-        } else if (card_res.data.data.message === 'VISA') {
+        } else if (card_res.data.data.message.type === 'VISA') {
           setPopupCase(2)
-        } else if (card_res.data.data.message === 'MASTERCARD') {
+        } else if (card_res.data.data.message.type === 'MASTERCARD') {
           setPopupCase(3)
         } else {
           setPopupCase(1)

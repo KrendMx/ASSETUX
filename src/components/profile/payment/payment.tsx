@@ -225,9 +225,9 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
           setPopupCase(6)
         } else if (currentCurrency == 'KZT') {
           setPopupCase(4)
-        } else if (card_res.data.data.message === 'VISA') {
+        } else if (card_res.data.data.message.type === 'VISA') {
           setPopupCase(2)
-        } else if (card_res.data.data.message === 'MASTERCARD') {
+        } else if (card_res.data.data.message.type === 'MASTERCARD') {
           setPopupCase(3)
         } else {
           setPopupCase(1)
