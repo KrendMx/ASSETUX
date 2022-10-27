@@ -366,6 +366,8 @@ const SelectForm = ({
             setPopupCase(2)
           } else if (card_res.data.data.message.type === 'MASTERCARD') {
             setPopupCase(3)
+          } else {
+            setPopupCase(1)
           }
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
