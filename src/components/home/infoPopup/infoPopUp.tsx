@@ -5,7 +5,6 @@ import Title from '@/components/common/modal-components/Title'
 import Container from '@/components/common/modal-components/Container'
 import Shadow from '@/components/common/modal-components/Shadow'
 import Icon from '@/components/common/modal-components/Icon'
-import ExclamationGreenIcon from '../../../../public/assets/Exclamation-red.svg'
 import { useTranslation } from 'next-i18next'
 import { BackgroundLocal, ScrolledBlock } from './styles'
 import Info from '@/components/common/modal-components/Info'
@@ -30,7 +29,7 @@ const WarningPopup = ({ caseNumber, setClose }: WarningProps) => {
           <Shadow>
             <Icon>
               <Image
-                src={ExclamationGreenIcon}
+                src={'/assets/Exclamation-red.svg'}
                 layout="fill"
                 alt="Exclamation"
                 objectFit="contain"

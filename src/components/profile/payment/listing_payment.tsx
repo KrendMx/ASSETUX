@@ -275,7 +275,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
 
     if (selectedPayment != QIWI && details.length == 16) {
       const card_res = await BackendClient.checkCardValidation({
-        apiHost: selectedBlockchain.dev,
+        apiHost: selectedBlockchain!.url,
         bin: details.slice(0, 6),
         currency: currentCurrency as CurrenciesType
       })

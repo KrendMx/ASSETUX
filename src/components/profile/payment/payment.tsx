@@ -206,7 +206,7 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
         : true
 
     const card_res = await BackendClient.checkCardValidation({
-      apiHost: selectedBlockchain!.url,
+      apiHost: selectedBlockchain?.url || 'bsc.dev.assetux.com',
       bin: details.slice(0, 6),
       currency: currentCurrency as CurrenciesType
     })
