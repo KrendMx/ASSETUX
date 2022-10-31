@@ -13,6 +13,7 @@ import ExclamRed from '@/assets/Exclamation-red.svg'
 import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
 import Button from '@/components/common/modal-components/Button'
 import { Submit } from '@/components/profile/payment/styles'
+import redError from '@/assets/Exclamation-red.svg'
 
 const SmallContainer = styled(Container)`
   width: 72%;
@@ -56,7 +57,7 @@ const Maintenance = ({ bgStyle }: { bgStyle?: CSSProperties }) => {
           <Shadow>
             <Icon>
               <Image
-                src="@/assets/Exclamation-red.svg"
+                src={ExclamRed}
                 layout="fill"
                 alt="Exclamation"
                 objectFit="contain"
