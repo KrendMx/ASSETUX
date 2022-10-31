@@ -23,7 +23,7 @@ const UnknownError = ({ onAccept }: UnknownErrorProps) => {
         <Shadow>
           <Icon>
             <Image
-              src="/assets/Exclamation-red.svg"
+              src="@/assets/Exclamation-red.svg"
               layout="fill"
               alt="Exclamation"
               objectFit="contain"

@@ -263,7 +263,6 @@ const Payment = (props: PaymentProps<IEcommerceBill, FiatRate[]>) => {
       setWaitingResponse(false)
     }
   }
-  // return
 
   return (
     <>

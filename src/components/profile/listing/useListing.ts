@@ -70,6 +70,8 @@ const useListing = ({ profile, rate }: BillProps) => {
     (state) => state?.crypto.availableTokens
   )
 
+  const { locale } = useRouter()
+
   const handleSend: React.ChangeEventHandler<HTMLInputElement> = async (
     event
   ) => {
@@ -244,6 +246,8 @@ const useListing = ({ profile, rate }: BillProps) => {
         window.location.protocol +
         '//' +
         window.location.host +
+        '/' +
+        locale +
         `/payment_listing/${selectedToken}`
     } else {
       setSubmitValue(t('copyLink'))

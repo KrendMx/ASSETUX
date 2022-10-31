@@ -329,7 +329,8 @@ const SelectForm = ({
         setLastName(res[1])
       } else if (
         !cardholderRegex.test(cardHolder) &&
-        currentPayment != 'QIWI'
+        currentPayment != 'QIWI' &&
+        (currentCurrency == 'USD' || currentCurrency == 'EUR')
       ) {
         errorObject[inputIds.cardholder] = t('home:buy_invalidCardHolder')
       }
@@ -514,21 +515,22 @@ const SelectForm = ({
               type="email"
               changeable
             />
-            {currentPayment === 'VISAMASTER' && (
-              <>
-                <HideableWithMargin hide={false} margins>
-                  <InputSelect
-                    label={t('home:buy_cardholder')}
-                    id={inputIds.cardholder}
-                    onChange={handleFirstNameInput}
-                    value={cardHolder}
-                    error={inputError[inputIds.cardholder]}
-                    placeholder={'IVANOV IVAN'}
-                    changeable
-                  />
-                </HideableWithMargin>
-              </>
-            )}
+            {currentPayment === 'VISAMASTER' &&
+              (currentCurrency == 'EUR' || currentCurrency == 'USD') && (
+                <>
+                  <HideableWithMargin hide={false} margins>
+                    <InputSelect
+                      label={t('home:buy_cardholder')}
+                      id={inputIds.cardholder}
+                      onChange={handleFirstNameInput}
+                      value={cardHolder}
+                      error={inputError[inputIds.cardholder]}
+                      placeholder={'IVANOV IVAN'}
+                      changeable
+                    />
+                  </HideableWithMargin>
+                </>
+              )}
             <HideableWithMargin hide={false} margins>
               {currentPayment == QIWI ? (
                 <InputSelect
