@@ -38,6 +38,7 @@ import type {
 } from './types.backend.main'
 import { api } from '@/core/backend/handle-request'
 import { constructURL } from '@/lib/helpers.global'
+import { CurrenciesType } from '@/lib/data/currencies'
 
 export class BackendClient {
   public async getFiatRates({
@@ -184,10 +185,12 @@ export class BackendClient {
   }
 
   public async checkCardValidation({
-    apiHost,
     bin,
     currency
-  }: any): Promise<any> {
+  }: {
+    bin: string
+    currency: CurrenciesType
+  }): Promise<any> {
     return api.get(`/api/buytoken/check_card`, {
       params: {
         bin,

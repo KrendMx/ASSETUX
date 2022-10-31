@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<
     props: {
       bill: merchantBill,
       providers: buyProviders,
-      paths: locales.map((el: any) => ({ params: query, locales: el })),
+      paths: locales.map((el: string) => ({ params: query, locales: el })),
       blockchainURL: blockchains.data[0].url,
       fiatrate: currentFiatrate,
       balanceOfToken: balanceOfToken.data,

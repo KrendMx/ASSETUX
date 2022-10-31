@@ -348,7 +348,6 @@ const SelectForm = ({
           errorObject[inputIds.details] = t('home:buy_invalidCard')
         }
         const card_res = await BackendClient.checkCardValidation({
-          apiHost: selectedBlockchain?.url || 'bsc.dev.assetux.com',
           bin: currentDetails.slice(0, 6),
           currency: currentCurrency as CurrenciesType
         })
