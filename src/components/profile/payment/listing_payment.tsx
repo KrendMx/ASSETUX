@@ -255,7 +255,6 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         bin: details.slice(0, 6),
         currency: selectedCurrency as CurrenciesType
       })
-      console.log(card_res)
 
       if (card_res.state !== 'success') {
         setVisPopup(true)
@@ -275,7 +274,6 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
         }
         return
       }
-      setPopupCase(0)
     }
 
     const response = await BackendClient.getPaymentUrl({
@@ -327,6 +325,13 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
               <MerchantPaymentMaintenance
                 tokenAmount={+balanceOfToken.balance}
                 symbol={token.symbol}
+                closeModal={() => {
+                  setWaitingResponse(false)
+                  setServiceUnavaliable({
+                    invalidBalance: false,
+                    unavaliable: false
+                  })
+                }}
               />
             )}
           {serviceUnavaliable.unavaliable && (

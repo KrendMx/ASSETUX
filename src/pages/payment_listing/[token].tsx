@@ -12,6 +12,7 @@ import { MerchantData } from '@/lib/backend/ecommerce/types.backend.ecommerce'
 import ListingPayment from '@/components/profile/payment/listing_payment'
 import { FiatRate } from '@/lib/backend/main/types.backend.main'
 import { genericURL } from '@/lib/data/constants'
+import locales from 'locales'
 
 const Payment = (props: PaymentProps<MerchantData, FiatRate>) => {
   const { t } = useTranslation('profile-payment')
@@ -47,7 +48,7 @@ type Params = ParsedUrlQuery & {
 export const getServerSideProps: GetServerSideProps<
   PaymentProps<MerchantData, FiatRate>,
   Params
-> = async ({ locale, params }) => {
+> = async ({ locale, params, query }) => {
   const errorProps = {
     notFound: true
   } as const
@@ -66,6 +67,8 @@ export const getServerSideProps: GetServerSideProps<
   const merchantBill = bill.data
 
   const blockchains = await BackendClient.getBlockchains()
+
+  console.log(blockchains)
 
   if (blockchains.state != 'success') {
     return errorProps
@@ -105,6 +108,7 @@ export const getServerSideProps: GetServerSideProps<
     props: {
       bill: merchantBill,
       providers: buyProviders,
+      paths: locales.map((el: string) => ({ params: query, locales: el })),
       blockchainURL: blockchains.data[0].url,
       fiatrate: currentFiatrate,
       balanceOfToken: balanceOfToken.data,

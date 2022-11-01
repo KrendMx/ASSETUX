@@ -42,7 +42,9 @@ export const mappedCookies = {
   authToken: 'ecommerce_token'
 }
 
-export const genericURL = `${env.hostProtocol}://bsc.${env.host}`
+export const genericURL = `${env.hostProtocol}://bsc${
+  env.host == 'dev.assetux.com' ? '_' : '.'
+}${env.host}`
 
 export const listCurrencyError: Required<any> = {
   USD: {

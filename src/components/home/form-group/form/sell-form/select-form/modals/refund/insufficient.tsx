@@ -14,6 +14,8 @@ import Info from '@/components/common/modal-components/Info'
 
 import type { Option } from '@/components/common/input-select/types.input-select'
 
+import ExclamRed from '@/assets/Exclamation-red.svg'
+
 const Ahtung = styled(Info)`
   color: var(--red);
 `
@@ -43,7 +45,7 @@ const RefundInsufficient = ({
         <Shadow>
           <Icon>
             <Image
-              src="/assets/Exclamation-red.svg"
+              src={ExclamRed}
               layout="fill"
               alt="Exclamation"
               objectFit="contain"

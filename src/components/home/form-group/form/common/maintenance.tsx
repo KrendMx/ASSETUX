@@ -12,6 +12,7 @@ import Title from '@/components/common/modal-components/Title'
 import ExclamRed from '@/assets/Exclamation-red.svg'
 import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
 import Button from '@/components/common/modal-components/Button'
+import { Submit } from '@/components/profile/payment/styles'
 
 const SmallContainer = styled(Container)`
   width: 72%;
@@ -55,7 +56,7 @@ const Maintenance = ({ bgStyle }: { bgStyle?: CSSProperties }) => {
           <Shadow>
             <Icon>
               <Image
-                src="/assets/Exclamation-red.svg"
+                src={ExclamRed}
                 layout="fill"
                 alt="Exclamation"
                 objectFit="contain"
@@ -74,10 +75,12 @@ const Maintenance = ({ bgStyle }: { bgStyle?: CSSProperties }) => {
 
 export const MerchantPaymentMaintenance = ({
   tokenAmount,
-  symbol
+  symbol,
+  closeModal = undefined
 }: {
   tokenAmount: number
   symbol: string
+  closeModal?: () => void
 }) => {
   const { t } = useTranslation('profile-listing')
 
@@ -107,6 +110,7 @@ export const MerchantPaymentMaintenance = ({
         ) : (
           <ColoredInfo misc>{t('maintenance_p2')}</ColoredInfo>
         )}
+        {closeModal && <Submit onClick={closeModal}>OK</Submit>}
       </SmallContainer>
     </MerchantBackground>
   )

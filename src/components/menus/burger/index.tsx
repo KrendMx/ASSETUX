@@ -139,7 +139,7 @@ const BurgerMenu = () => {
                     href={
                       process.env.NODE_ENV == 'development'
                         ? '/profile'
-                        : 'https://commerce.dev.assetux.com/profile'
+                        : 'https://commerce_dev.assetux.com/profile'
                     }
                     passHref
                   >
