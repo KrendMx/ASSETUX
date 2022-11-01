@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import type { Response } from './types.core.backend'
 import Cookies from 'js-cookie'
 import { genericURL } from '@/lib/data/constants'
+import https from 'https'
 
 export const devHandleSuccessRequest = (
   data: any
@@ -15,7 +16,10 @@ export const devHandleSuccessRequest = (
 }
 
 export const api = axios.create({
-  baseURL: genericURL
+  baseURL: genericURL,
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false
+  })
 })
 
 api.interceptors.request.use(
