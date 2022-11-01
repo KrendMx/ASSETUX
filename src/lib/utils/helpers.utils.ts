@@ -105,7 +105,7 @@ export const validateDecimal = (value: string): [boolean, string] => {
 
 export const sanitize = (html: string) =>
   sanitizeHtml(html, {
-    allowedTags: ['p', 'br', 'b', 'strong', 'i', 'em']
+    allowedTags: ['p', 'br', 'b', 'strong', 'i', 'em', 'a']
   })
 
 export type Nullable<T> = { [K in keyof T]: T[K] | null }
