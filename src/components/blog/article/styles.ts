@@ -109,6 +109,12 @@ export const Text = styled.div`
     font-weight: 400;
     font-style: italic;
   }
+
+  a {
+    text-decoration: none;
+    color: rgb(0, 102, 204);
+    font-weight: 500;
+  }
 `
 
 export const RecentPosts = styled.div``
