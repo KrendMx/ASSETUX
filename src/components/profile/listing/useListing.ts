@@ -292,7 +292,7 @@ const useListing = ({ profile, rate }: BillProps) => {
   useEffect(() => {
     const fetch = async (signal: AbortSignal) => {
       const response = await BackendClient.getFiatProviders({
-        apiHost: `bsc.${env.host}`,
+        apiHost: `bsc${env.host === 'dev.assetux.com' ? '_' : '.'}${env.host}`,
         signal
       })
       if (response.state == 'success') {

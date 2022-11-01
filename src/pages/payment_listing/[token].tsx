@@ -68,6 +68,8 @@ export const getServerSideProps: GetServerSideProps<
 
   const blockchains = await BackendClient.getBlockchains()
 
+  console.log(blockchains)
+
   if (blockchains.state != 'success') {
     return errorProps
   }
