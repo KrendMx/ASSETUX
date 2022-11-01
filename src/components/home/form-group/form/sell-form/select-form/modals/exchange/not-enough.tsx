@@ -10,6 +10,8 @@ import Icon from '@/components/common/modal-components/Icon'
 import Shadow from '@/components/common/modal-components/Shadow'
 import Info from '@/components/common/modal-components/Info'
 
+import ExclamRed from '@/assets/Exclamation-red.svg'
+
 type NotEnoughProps = {
   min: number
   fiat: string
@@ -25,7 +27,7 @@ const NotEnough = ({ min, fiat, onAccept }: NotEnoughProps) => {
         <Shadow>
           <Icon>
             <Image
-              src="/assets/Exclamation-red.svg"
+              src={ExclamRed}
               layout="fill"
               alt="Exclamation"
               objectFit="contain"

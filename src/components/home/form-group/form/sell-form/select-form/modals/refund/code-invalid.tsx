@@ -10,6 +10,8 @@ import Shadow from '@/components/common/modal-components/Shadow'
 import Info from '@/components/common/modal-components/Info'
 import Title from '@/components/common/modal-components/Title'
 
+import ExclamRed from '@/assets/Exclamation-red.svg'
+
 type RefundCodeInvalidProps = {
   onAccept: () => void
 }
@@ -23,7 +25,7 @@ const RefundCodeInvalid = ({ onAccept }: RefundCodeInvalidProps) => {
         <Shadow>
           <Icon>
             <Image
-              src="/assets/Exclamation-red.svg"
+              src={ExclamRed}
               layout="fill"
               alt="Exclamation"
               objectFit="contain"

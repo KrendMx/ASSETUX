@@ -14,6 +14,8 @@ import InputSelect from '@/components/common/input-select'
 
 import type { Option } from '@/components/common/input-select/types.input-select'
 
+import ExclamRed from '@/assets/Exclamation-red.svg'
+
 const Success = styled(Info)`
   background-color: #68cc4533;
   color: var(--green);
@@ -71,7 +73,7 @@ const ExchangeExpired = ({
         <Shadow>
           <Icon>
             <Image
-              src="/assets/Exclamation-red.svg"
+              src={ExclamRed}
               layout="fill"
               alt="Exclamation"
               objectFit="contain"
