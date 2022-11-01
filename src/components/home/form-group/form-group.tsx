@@ -5,7 +5,6 @@ import Info from './info'
 import Form from './form'
 
 import { mobile, mobileLayoutForTablet } from '@/lib/data/constants'
-import { env } from '@/lib/env/client'
 
 const Container = styled.section`
   display: flex;

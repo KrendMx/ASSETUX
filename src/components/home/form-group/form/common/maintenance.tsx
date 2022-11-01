@@ -13,7 +13,6 @@ import ExclamRed from '@/assets/Exclamation-red.svg'
 import ButtonsRow from '@/components/common/modal-components/ButtonsRow'
 import Button from '@/components/common/modal-components/Button'
 import { Submit } from '@/components/profile/payment/styles'
-import redError from '@/assets/Exclamation-red.svg'
 
 const SmallContainer = styled(Container)`
   width: 72%;
