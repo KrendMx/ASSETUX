@@ -240,6 +240,8 @@ const useListing = ({ profile, rate }: BillProps) => {
         window.location.protocol +
         '//' +
         window.location.host +
+        '/' +
+        locale +
         `/payment/${response.data.hash}`
     } else if (isTRANSFER) {
       link =
