@@ -20,6 +20,7 @@ import type {
 } from '@/lib/backend/main/types.backend.main'
 import type { CurrenciesType } from '@/lib/data/currencies'
 import { QIWI } from '@/core/backend/types.core.backend'
+import { setCurrentCurrency } from '@/lib/redux/ui'
 
 type BuyFormProps = {
   currentBlockchain: Blockchain | null
@@ -208,7 +209,10 @@ const BuyForm = ({
       setCurrentStep={setCurrentStep}
       setGetAmount={setGetAmount}
       onBlockchainChange={(blockchain) => {}}
-      onCurrencyChange={setSelectedCurrency}
+      onCurrencyChange={(value: string) => {
+        dispatch(setCurrentCurrency(value as CurrenciesType))
+        setSelectedCurrency(value)
+      }}
       onTokenChange={onTokenChange}
       onPaymentChange={setSelectedPayment}
       onWalletChange={setWalletAddress}

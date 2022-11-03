@@ -76,11 +76,13 @@ const Maintenance = ({ bgStyle }: { bgStyle?: CSSProperties }) => {
 export const MerchantPaymentMaintenance = ({
   tokenAmount,
   symbol,
+  showButton = true,
   closeModal = undefined
 }: {
   tokenAmount: number
   symbol: string
   closeModal?: () => void
+  showButton?: boolean
 }) => {
   const { t } = useTranslation('profile-listing')
 
@@ -110,7 +112,7 @@ export const MerchantPaymentMaintenance = ({
         ) : (
           <ColoredInfo misc>{t('maintenance_p2')}</ColoredInfo>
         )}
-        {closeModal && <Submit onClick={closeModal}>OK</Submit>}
+        {closeModal && showButton && <Submit onClick={closeModal}>OK</Submit>}
       </SmallContainer>
     </MerchantBackground>
   )

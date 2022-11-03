@@ -325,6 +325,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
               <MerchantPaymentMaintenance
                 tokenAmount={+balanceOfToken.balance}
                 symbol={token.symbol}
+                showButton={balanceOfToken?.balance !== '0'}
                 closeModal={() => {
                   setWaitingResponse(false)
                   setServiceUnavaliable({

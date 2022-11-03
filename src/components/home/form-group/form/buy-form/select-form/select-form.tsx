@@ -26,7 +26,7 @@ import {
   cardholderRegex,
   listCurrencyError
 } from '@/lib/data/constants'
-import { useAppSelector } from '@/lib/redux/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks'
 
 import { stringToPieces, validateDecimal } from '@/lib/utils/helpers.utils'
 
@@ -37,6 +37,7 @@ import WarningPopup from '@/components/home/infoPopup/infoPopUp'
 import { BackendClient } from '@/lib/backend/clients'
 import { CurrenciesType } from '@/lib/data/currencies'
 import Popup505 from '@/components/home/infoPopup/Popup_505/Popup_505'
+import { setCurrentCurrency } from '@/lib/redux/ui'
 
 const inputIds = {
   get: 'get',
@@ -102,6 +103,8 @@ const SelectForm = ({
 
   const appLoaded = useAppSelector((state) => state.ui.appLoaded)
 
+  const dispatch = useAppDispatch()
+
   const piecedDetails = useMemo(
     () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
@@ -141,8 +144,6 @@ const SelectForm = ({
   if (tokens) checkedTokens = tokens
   let checkedPayments: Option[] | undefined
   if (payments) checkedPayments = payments
-
-  const serviceUnavailable = serviceAvailable == null || !serviceAvailable
 
   const currentPaymentOption = payments?.find(
     (payment) => payment.value == currentPayment
@@ -421,7 +422,9 @@ const SelectForm = ({
                 value={giveAmount}
                 onChange={handleGiveInput}
                 options={checkedCurrencies}
-                onActiveChange={(active) => setGiveActive(active)}
+                onActiveChange={(active) => {
+                  setGiveActive(active)
+                }}
                 onSelect={onCurrencyChange}
                 error={inputError[inputIds.give]}
                 // error={"123"}

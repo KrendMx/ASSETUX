@@ -24,19 +24,17 @@ const MainBlock = ({ pinnedPost, posts }: MainBlockProps) => {
           pinned
         />
       )}
-      {posts
-        .reverse()
-        .map(({ id, title, img, created, short_description, slug }) => (
-          <Element
-            key={id}
-            title={title}
-            img={img}
-            created={created}
-            shortDescription={short_description}
-            slug={slug}
-            withSkeletons={false}
-          />
-        ))}
+      {posts.map(({ id, title, img, created, short_description, slug }) => (
+        <Element
+          key={id}
+          title={title}
+          img={img}
+          created={created}
+          shortDescription={short_description}
+          slug={slug}
+          withSkeletons={false}
+        />
+      ))}
     </Container>
   )
 }
