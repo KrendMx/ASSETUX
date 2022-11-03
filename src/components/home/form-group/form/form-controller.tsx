@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useMemo } from 'react'
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
@@ -10,6 +11,7 @@ import { Option } from '@/components/common/input-select/types.input-select'
 
 import {
   currencies as definedCurrencies,
+  CurrenciesType,
   mapCurrency,
   mapCurrencyName,
   mapShortCurrencyName
@@ -24,6 +26,8 @@ import type {
   Blockchain
 } from '@/lib/backend/main/types.backend.main'
 import { mapBlockchains, mapTokens } from '@/lib/helpers.global'
+import { useRouter } from 'next/router'
+import { setCurrentCurrency } from '@/lib/redux/ui'
 
 const FormController = () => {
   const dispatch = useAppDispatch()
@@ -198,6 +202,14 @@ const FormController = () => {
         )
     )
   }, [sellPayments, buyPayments])
+  const { query } = useRouter()
+
+  useMemo(() => {
+    if (typeof window !== 'undefined') {
+      ;(query?.currency as any)?.toUpperCase() &&
+        dispatch(setCurrentCurrency((query?.currency as any).toUpperCase()))
+    }
+  }, [])
 
   return action == 'BUY' ? (
     <BuyForm
@@ -209,7 +221,10 @@ const FormController = () => {
       serviceAvailable={liquidityData ? liquidityData.buy : null}
       currentBlockchain={selectedBlockchain}
       currentToken={selectedToken}
-      currentCurrency={currentCurrency}
+      currentCurrency={
+        ((query?.currency as any)?.toUpperCase() as CurrenciesType) ||
+        currentCurrency
+      }
       onTokenChange={handleTokenChange}
     />
   ) : (

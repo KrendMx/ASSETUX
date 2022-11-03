@@ -17,8 +17,9 @@ import { getDefaultMetaTags } from '@/lib/utils/seo'
 
 import { BackendClient } from '@/lib/backend/clients'
 
-import type { GetStaticProps } from 'next'
+import type { GetServerSideProps, GetStaticProps } from 'next'
 import type { PostData } from '@/lib/backend/main/types.backend.main'
+import { useRouter } from 'next/router'
 
 const CryptoSlide = dynamic(() => import('@/components/home/crypto-slide'))
 const CryptoExplorer = dynamic(
@@ -58,14 +59,15 @@ const Index = ({ news }: IndexProps) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<IndexProps> = async ({
-  locale
+export const getServerSideProps: GetServerSideProps<IndexProps> = async ({
+  locale,
+  locales,
+  query
 }) => {
   const response = await BackendClient.getNews({
     category: 'news',
     lang: locale!
   })
-
   if (
     response.state == 'success' &&
     !!response?.data?.pin &&
@@ -73,6 +75,8 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
   ) {
     response.data.news.splice(0, 0, response.data.pin)
   }
+
+  console.log(query)
 
   return {
     props: {
@@ -85,9 +89,14 @@ export const getStaticProps: GetStaticProps<IndexProps> = async ({
         'news',
         'routes',
         'inputSelect'
-      ]))
-    },
-    revalidate: 3600
+      ])),
+      paths: locales!.map((el: any) => ({
+        params: query,
+        locales: el
+      })),
+      revalidate: 3600,
+      query
+    }
   }
 }
 
