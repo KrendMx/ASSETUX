@@ -204,13 +204,6 @@ const FormController = () => {
   }, [sellPayments, buyPayments])
   const { query } = useRouter()
 
-  useMemo(() => {
-    if (typeof window !== 'undefined') {
-      ;(query?.currency as any)?.toUpperCase() &&
-        dispatch(setCurrentCurrency((query?.currency as any).toUpperCase()))
-    }
-  }, [])
-
   return action == 'BUY' ? (
     <BuyForm
       blockchains={blockchains}

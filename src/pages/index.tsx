@@ -20,6 +20,7 @@ import { BackendClient } from '@/lib/backend/clients'
 import type { GetServerSideProps, GetStaticProps } from 'next'
 import type { PostData } from '@/lib/backend/main/types.backend.main'
 import { useRouter } from 'next/router'
+import { useAppDispatch } from '@/lib/redux/hooks'
 
 const CryptoSlide = dynamic(() => import('@/components/home/crypto-slide'))
 const CryptoExplorer = dynamic(
@@ -75,8 +76,6 @@ export const getServerSideProps: GetServerSideProps<IndexProps> = async ({
   ) {
     response.data.news.splice(0, 0, response.data.pin)
   }
-
-  console.log(query)
 
   return {
     props: {

@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       pinnedPost: response.data.pin,
-      posts: response.data.news,
+      posts: response.data.news!.reverse(),
       totalPages: response.data.total_pages,
       category: checkedCategory,
       ...(await serverSideTranslations(locale!, [
