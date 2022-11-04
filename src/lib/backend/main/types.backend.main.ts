@@ -82,6 +82,7 @@ export type GetPaymentUrlProps = UrlRequest & {
   card: string
   firstName?: string
   lastName?: string
+  ref?: string
 }
 
 export type GetTokensProps = {
@@ -111,6 +112,7 @@ export type SellTokenCreateProps = UrlRequest & {
   }
   email: string
   totalAmount: number
+  ref?: string
 }
 
 export type SellTokenCreateData = {
