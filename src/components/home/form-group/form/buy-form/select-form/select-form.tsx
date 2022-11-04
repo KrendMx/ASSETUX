@@ -437,6 +437,34 @@ const SelectForm = ({
             ) : (
               <Skeleton containerClassName="input-skeleton" />
             )}
+            <HideableWithMargin hide={paymentActive}>
+              <ExchangeRow
+                token={currentToken}
+                currency={currentCurrency}
+                rate={rate}
+                isLoading={isLoading}
+                placeholder={t('home:exchange_fees')}
+                text="asd"
+                margins
+              />
+              {!isLoading ? (
+                <InputSelect
+                  label={t('home:buy_get')}
+                  id={inputIds.get}
+                  options={checkedTokens}
+                  displayInSelect={2}
+                  onActiveChange={(active) => setGetActive(active)}
+                  onSelect={onTokenChange}
+                  onChange={handleGetInput}
+                  value={getAmount}
+                  selectedValue={currentToken}
+                  onlyNumbers
+                  changeable
+                />
+              ) : (
+                <Skeleton containerClassName="input-skeleton" />
+              )}
+            </HideableWithMargin>
             <HideableWithMargin hide={giveActive} margins>
               {!isLoading ? (
                 <InputSelect
@@ -452,34 +480,6 @@ const SelectForm = ({
               ) : (
                 <Skeleton containerClassName="input-skeleton" />
               )}
-              <HideableWithMargin hide={paymentActive}>
-                <ExchangeRow
-                  token={currentToken}
-                  currency={currentCurrency}
-                  rate={rate}
-                  isLoading={isLoading}
-                  placeholder={t('home:exchange_fees')}
-                  text="asd"
-                  margins
-                />
-                {!isLoading ? (
-                  <InputSelect
-                    label={t('home:buy_get')}
-                    id={inputIds.get}
-                    options={checkedTokens}
-                    displayInSelect={2}
-                    onActiveChange={(active) => setGetActive(active)}
-                    onSelect={onTokenChange}
-                    onChange={handleGetInput}
-                    value={getAmount}
-                    selectedValue={currentToken}
-                    onlyNumbers
-                    changeable
-                  />
-                ) : (
-                  <Skeleton containerClassName="input-skeleton" />
-                )}
-              </HideableWithMargin>
             </HideableWithMargin>
           </HideableWithMargin>
         </FormContainer>
