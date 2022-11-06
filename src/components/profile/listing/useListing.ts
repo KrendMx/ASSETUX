@@ -12,7 +12,11 @@ import {
   mapCurrencyName,
   mapShortCurrencyName
 } from '@/lib/data/currencies'
-import { mappedCookies, rateCheckInterval } from '@/lib/data/constants'
+import {
+  genericURL,
+  mappedCookies,
+  rateCheckInterval
+} from '@/lib/data/constants'
 import { validateDecimal, getEcommercePrefix } from '@/lib/utils/helpers.utils'
 import type { Option } from '@/components/common/input-select/types.input-select'
 import { setMerchantMode } from '@/lib/redux/ui'
@@ -294,7 +298,7 @@ const useListing = ({ profile, rate }: BillProps) => {
   useEffect(() => {
     const fetch = async (signal: AbortSignal) => {
       const response = await BackendClient.getFiatProviders({
-        apiHost: `bsc${env.host === 'dev.assetux.com' ? '_' : '.'}${env.host}`,
+        apiHost: genericURL,
         signal
       })
       if (response.state == 'success') {
