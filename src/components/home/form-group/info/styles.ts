@@ -100,11 +100,15 @@ export const Sponsors = styled.div<SponsorsProps>`
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: center;
   visibility: ${(props) => (props.isLoading ? 'hidden' : 'visible')};
 
   & > *:not(:last-child) {
     margin-right: 15px;
+  }
+
+  @media only screen and (max-width: ${mobileLayoutForTablet}px) {
+    justify-content: flex-start;
   }
 `
 
