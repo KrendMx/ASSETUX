@@ -113,7 +113,7 @@ const SelectForm = ({
 
   useEffect(() => {
     if (rate && giveAmount != '') {
-      setGetAmount((Number(giveAmount) / rate).toFixed(2))
+      setGetAmount((Number(giveAmount) / rate).toFixed(6))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rate])
@@ -221,7 +221,7 @@ const SelectForm = ({
     let estimatedGiveAmount = ''
 
     if (rate != null && result != '') {
-      estimatedGiveAmount = (Number(result) * rate).toFixed(2)
+      estimatedGiveAmount = (Number(result) * rate).toFixed(6)
     }
 
     const errorRanges = checkRanges(Number(estimatedGiveAmount))
