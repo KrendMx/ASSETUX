@@ -585,7 +585,7 @@ const SelectForm = ({
         />
       )}
 
-      {!serviceAvailable && <Maintenance />}
+      {serviceAvailable !== null && !serviceAvailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton

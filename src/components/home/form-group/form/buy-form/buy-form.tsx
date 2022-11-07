@@ -209,7 +209,7 @@ const BuyForm = ({
       rate={currentRate}
       processingRequest={processingRequest}
       cardError={cardError}
-      serviceAvailable={serviceAvailable && !apiError}
+      serviceAvailable={serviceAvailable}
       setCurrentStep={setCurrentStep}
       setGetAmount={setGetAmount}
       onBlockchainChange={(blockchain) => {}}
