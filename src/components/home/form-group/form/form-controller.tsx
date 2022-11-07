@@ -28,6 +28,7 @@ import type {
 import { mapBlockchains, mapTokens } from '@/lib/helpers.global'
 import { useRouter } from 'next/router'
 import { setCurrentCurrency } from '@/lib/redux/ui'
+import Maintenance from './common/maintenance'
 
 const FormController = () => {
   const dispatch = useAppDispatch()
@@ -127,6 +128,8 @@ const FormController = () => {
         })
       ])
 
+      console.log(liquidity)
+
       if (fiatProviders.state == 'success') {
         setPayments(fiatProviders.data)
       }
@@ -204,35 +207,39 @@ const FormController = () => {
   }, [sellPayments, buyPayments])
   const { query } = useRouter()
 
-  return action == 'BUY' ? (
-    <BuyForm
-      blockchains={blockchains}
-      tokens={tokens}
-      currencies={currenciesForBuy}
-      rates={fiatRates}
-      payments={buyPayments}
-      serviceAvailable={liquidityData ? liquidityData.buy : null}
-      currentBlockchain={selectedBlockchain}
-      currentToken={selectedToken}
-      currentCurrency={
-        ((query?.currency as any)?.toUpperCase() as CurrenciesType) ||
-        currentCurrency
-      }
-      onTokenChange={handleTokenChange}
-    />
-  ) : (
-    <SellForm
-      blockchains={blockchains}
-      tokens={tokensForSell}
-      currencies={currenciesForSell}
-      rates={fiatRates}
-      payments={sellPayments}
-      serviceAvailable={liquidityData ? liquidityData.sell : null}
-      currentBlockchain={selectedBlockchain}
-      currentToken={selectedSellToken}
-      currentCurrency={'RUB'}
-      onTokenChange={handleTokenSellChange}
-    />
+  return (
+    <>
+      {action == 'BUY' ? (
+        <BuyForm
+          blockchains={blockchains}
+          tokens={tokens}
+          currencies={currenciesForBuy}
+          rates={fiatRates}
+          payments={buyPayments}
+          serviceAvailable={liquidityData ? liquidityData.buy : null}
+          currentBlockchain={selectedBlockchain}
+          currentToken={selectedToken}
+          currentCurrency={
+            ((query?.currency as any)?.toUpperCase() as CurrenciesType) ||
+            currentCurrency
+          }
+          onTokenChange={handleTokenChange}
+        />
+      ) : (
+        <SellForm
+          blockchains={blockchains}
+          tokens={tokensForSell}
+          currencies={currenciesForSell}
+          rates={fiatRates}
+          payments={sellPayments}
+          serviceAvailable={liquidityData ? liquidityData.sell : null}
+          currentBlockchain={selectedBlockchain}
+          currentToken={selectedSellToken}
+          currentCurrency={'RUB'}
+          onTokenChange={handleTokenSellChange}
+        />
+      )}
+    </>
   )
 }
 

@@ -188,6 +188,7 @@ const useSelectSellForm = ({
   ])
 
   const handleNextStep = () => {
+    // console.log(serviceUnavailable)
     if (serviceUnavailable) {
       return
     }

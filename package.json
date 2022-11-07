@@ -2,7 +2,8 @@
   "name": "front",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev:prod": "cross-env ENABLE_PWA=true NEXT_PUBLIC_HOST_PROTOCOL=https NEXT_PUBLIC_HOST=assetux.com NEXT_PUBLIC_MAGIC_PUB_KEY=pk_live_D4AD05ED86B0E146 NEXT_PUBLIC_IS_STAGE=false next dev",
+    "dev": "cross-env ENABLE_PWA=true NEXT_PUBLIC_HOST_PROTOCOL=https NEXT_PUBLIC_HOST=dev.assetux.com NEXT_PUBLIC_MAGIC_PUB_KEY=pk_live_D4AD05ED86B0E146 NEXT_PUBLIC_IS_STAGE=true next dev",
     "build": "next build",
     "build:stage": "cross-env ENABLE_PWA=true NEXT_PUBLIC_HOST_PROTOCOL=https NEXT_PUBLIC_HOST=dev.assetux.com NEXT_PUBLIC_MAGIC_PUB_KEY=pk_live_D4AD05ED86B0E146 NEXT_PUBLIC_IS_STAGE=true next build",
     "build:prod": "cross-env ENABLE_PWA=true NEXT_PUBLIC_HOST_PROTOCOL=https NEXT_PUBLIC_HOST=assetux.com NEXT_PUBLIC_MAGIC_PUB_KEY=pk_live_D4AD05ED86B0E146 NEXT_PUBLIC_IS_STAGE=false next build",

@@ -11,7 +11,7 @@ import NextButton from '../../common/next-button'
 import ExchangeRow from '@/components/common/exchange-info'
 import NetworkRow from '../../common/network-row'
 import HideableWithMargin from '../../common/hideable-with-margin'
-import { EuroUsingWarning } from '../../common/maintenance'
+import Maintenance, { EuroUsingWarning } from '../../common/maintenance'
 
 import { Container, FormContainer } from './styles'
 
@@ -584,6 +584,8 @@ const SelectForm = ({
           }}
         />
       )}
+
+      {!serviceAvailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton
