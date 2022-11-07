@@ -379,7 +379,7 @@ const ListingPayment = (props: PaymentProps<MerchantData, FiatRate>) => {
           <InputSelect
             label={t('toPay')}
             value={
-              Number((+get * fiatrate?.buy[selectedCurrency]).toFixed(2)) + ''
+              Number((+get * fiatrate?.buy[selectedCurrency]).toFixed(6)) + ''
             }
             options={currencies ? currencies : undefined}
             selectedValue={selectedCurrency}
