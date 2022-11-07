@@ -64,7 +64,7 @@ export class BackendClient {
     signal,
     type
   }: UrlRequest & Abortable & GetTokensProps): Promise<GetTokens> {
-    return api.get(`${apiHost}/api/tokens?type=${type}`, {
+    return api.get(`/api/tokens?type=${type}`, {
       signal
     })
   }
@@ -73,7 +73,7 @@ export class BackendClient {
     apiHost,
     signal
   }: UrlRequest & Abortable): Promise<GetFiatProviders> {
-    return api.get(`${apiHost}/api/fiatproviders`, {
+    return api.get(`/api/fiatproviders`, {
       signal
     })
   }

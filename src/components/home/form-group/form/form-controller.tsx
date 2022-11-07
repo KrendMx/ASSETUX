@@ -45,7 +45,7 @@ const FormController = () => {
 
   const availableSellTokens = useAppSelector((state) => state.crypto.sellTokens)
 
-  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
+  const currentCurrency = useAppSelector((state) => state?.ui.currentCurrency)
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const selectedSellToken = useAppSelector(
     (state) => state.crypto.selectedSellToken
@@ -112,6 +112,7 @@ const FormController = () => {
     }
 
     const fetch = async (signal: AbortSignal) => {
+      console.log(selectedBlockchain.url)
       const [fiatProviders, fiatRates, liquidity] = await Promise.all([
         BackendClient.getFiatProviders({
           apiHost: selectedBlockchain.url,
