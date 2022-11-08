@@ -109,7 +109,6 @@ const SelectForm = ({
     () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
   )
-  const { selectedBlockchain } = useAppSelector((state) => state.crypto)
 
   useEffect(() => {
     if (rate && giveAmount != '') {

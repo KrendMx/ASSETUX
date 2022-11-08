@@ -14,4 +14,5 @@ export type CryptoState = {
   action: ActionType
   explorerData: ExplorerData[] | null
   sellOrderId: string | null
+  ref: string | null
 }

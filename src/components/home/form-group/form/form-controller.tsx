@@ -2,7 +2,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
-import { setSelectedSellToken, setSelectedToken } from '@/lib/redux/crypto'
+import {
+  setRef,
+  setSelectedSellToken,
+  setSelectedToken
+} from '@/lib/redux/crypto'
 import { BackendClient } from '@/lib/backend/clients'
 
 import SellForm from './sell-form'
@@ -27,8 +31,6 @@ import type {
 } from '@/lib/backend/main/types.backend.main'
 import { mapBlockchains, mapTokens } from '@/lib/helpers.global'
 import { useRouter } from 'next/router'
-import { setCurrentCurrency } from '@/lib/redux/ui'
-import Maintenance from './common/maintenance'
 
 const FormController = () => {
   const dispatch = useAppDispatch()
@@ -45,7 +47,7 @@ const FormController = () => {
 
   const availableSellTokens = useAppSelector((state) => state.crypto.sellTokens)
 
-  const currentCurrency = useAppSelector((state) => state?.ui.currentCurrency)
+  const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const selectedSellToken = useAppSelector(
     (state) => state.crypto.selectedSellToken
@@ -207,6 +209,10 @@ const FormController = () => {
     )
   }, [sellPayments, buyPayments])
   const { query } = useRouter()
+
+  useMemo(() => {
+    query.ref && dispatch(setRef(query.ref as string))
+  }, [])
 
   return (
     <>

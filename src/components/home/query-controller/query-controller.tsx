@@ -32,6 +32,7 @@ const QueryController = () => {
   )
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
+  const ref = useAppSelector((state) => state.crypto.ref)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const sellOrderId = useAppSelector((state) => state.crypto.sellOrderId)
   const prevSellOrderId = usePrevious(sellOrderId)
@@ -39,6 +40,8 @@ const QueryController = () => {
   useEffect(() => {
     if (processedQuery) {
       const query: QueryObject = {}
+
+      if (ref) query['ref'] = ref
 
       query['action'] = action.toLowerCase()
 

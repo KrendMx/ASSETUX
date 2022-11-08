@@ -66,14 +66,14 @@ const BuyForm = ({
   const [lastName, setLastName] = useState('')
   const [visiableModal, setVisiableModal] = useState<boolean>(false)
 
-  const { query } = useRouter()
-
   const [processedPayments, setProcessedPayments] = useState<
     PaymentOption[] | null
   >(null)
   const [cardError, setCardError] = useState('')
 
   const currentRate = useAppSelector((state) => state!.crypto.currentRate)
+
+  const ref = useAppSelector((state) => state.crypto.ref)
 
   const onSubmit = async () => {
     if (
@@ -92,7 +92,7 @@ const BuyForm = ({
         provider: selectedPayment,
         amount: Number(giveAmount),
         cryptoAddress: walletAddress,
-        ref: (query?.ref as string) || undefined,
+        ref: ref || undefined,
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,

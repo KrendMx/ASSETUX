@@ -25,7 +25,8 @@ const initialState: CryptoState = {
   currentRate: null,
   action: 'BUY',
   explorerData: null,
-  sellOrderId: null
+  sellOrderId: null,
+  ref: null
 }
 
 export const slice = createSlice({
@@ -54,6 +55,9 @@ export const slice = createSlice({
           state.action = 'BUY'
         }
       }
+    },
+    setRef: (state, action: PayloadAction<string | null>) => {
+      state.ref = action.payload
     },
     setExplorerData: (state, action: PayloadAction<ExplorerData[] | null>) => {
       state.explorerData = action.payload
