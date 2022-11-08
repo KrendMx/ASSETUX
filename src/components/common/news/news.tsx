@@ -35,18 +35,16 @@ const News = ({ news }: NewsProps) => {
       </Row>
       <SliderContainer>
         <Slider {...sliderConfig}>
-          {news
-            .reverse()
-            .map(({ id, title, short_description, img, created, slug }) => (
-              <Element
-                key={id}
-                title={title}
-                shortDescription={short_description}
-                img={img}
-                created={created}
-                slug={slug}
-              />
-            ))}
+          {news.map(({ id, title, short_description, img, created, slug }) => (
+            <Element
+              key={id}
+              title={title}
+              shortDescription={short_description}
+              img={img}
+              created={created}
+              slug={slug}
+            />
+          ))}
         </Slider>
       </SliderContainer>
     </Container>
