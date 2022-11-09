@@ -40,7 +40,7 @@
     "scheduler": "^0.22.0",
     "sharp": "^0.30.7",
     "socket.io-client": "^4.4.1",
-    "styled-components": "^5.3.5",
+    "styled-components": "^5.3.6",
     "victory": "^36.3.0",
     "zod": "^3.17.10"
   },
@@ -55,7 +55,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-slick": "^0.23.8",
     "@types/sanitize-html": "^2.6.2",
-    "@types/styled-components": "^5.1.25",
+    "@types/styled-components": "^5.1.26",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.14.0",
