@@ -43,14 +43,14 @@ const Index = ({ news }: IndexProps) => {
           pathname: ''
         })}
       />
-      <Container>
+      <>
         <FormGroup />
 
         <Orders />
 
         <CryptoManager getToken getChart />
         <QueryController />
-      </Container>
+      </>
     </>
   )
 }

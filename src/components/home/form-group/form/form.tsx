@@ -8,7 +8,6 @@ import AdaptiveFont from '@/components/common/adaptive-font'
 const Container = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
-  max-width: 469px;
   width: 100%;
   align-self: center;
   box-shadow: 1px 4px 19px rgba(0, 0, 0, 0.12);
