@@ -9,7 +9,6 @@ export const Wrapper = styled.main<WrapperProps>`
 `
 
 export const Container = styled.div<ContainerProps>`
-  margin-top: ${(props) => (props.resetMargins ? 0 : 'var(--header-height)')};
   width: 100%;
   font-size: 1rem;
 
