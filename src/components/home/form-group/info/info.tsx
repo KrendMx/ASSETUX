@@ -51,12 +51,30 @@ const Info = () => {
       </TextColumn>
       <SponsorsContainer>
         <Sponsors isLoading={showSkeleton}>
-          <Image
-            src="/sponsors/binance.png"
-            width={183}
-            height={39}
-            alt="BINANCE CHAIN"
-          />
+          <SponsorContainer>
+            <Image
+              src="/sponsors/binance.png"
+              width={383}
+              height={79}
+              alt="BINANCE CHAIN"
+            />
+          </SponsorContainer>
+          <SponsorContainer>
+            <Image
+              src="/sponsors/avalanche.png"
+              width={349}
+              height={64}
+              alt="AVALANCHE"
+            />
+          </SponsorContainer>
+          <SponsorContainer>
+            <Image
+              src="/sponsors/fantom.png"
+              width={210}
+              height={56}
+              alt="fantom"
+            />
+          </SponsorContainer>
         </Sponsors>
         {showSkeleton && (
           <AbsoluteSkeletonContainer>

@@ -49,7 +49,6 @@ const useSellForm = ({
   )
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
-  const ref = useAppSelector((state) => state.crypto.ref)
 
   const onSubmit = async () => {
     if (
@@ -75,8 +74,7 @@ const useSellForm = ({
           type: selectedPayment
         },
         email,
-        totalAmount: Number(giveAmount),
-        ref: ref || undefined
+        totalAmount: Number(giveAmount)
       })
 
       setProcessingRequest(false)

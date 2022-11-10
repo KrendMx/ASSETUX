@@ -11,7 +11,7 @@ import NextButton from '../../common/next-button'
 import ExchangeRow from '@/components/common/exchange-info'
 import NetworkRow from '../../common/network-row'
 import HideableWithMargin from '../../common/hideable-with-margin'
-import Maintenance, { EuroUsingWarning } from '../../common/maintenance'
+import { EuroUsingWarning } from '../../common/maintenance'
 
 import { Container, FormContainer } from './styles'
 
@@ -109,10 +109,11 @@ const SelectForm = ({
     () => stringToPieces(currentDetails, 4, ' '),
     [currentDetails]
   )
+  const { selectedBlockchain } = useAppSelector((state) => state.crypto)
 
   useEffect(() => {
     if (rate && giveAmount != '') {
-      setGetAmount((Number(giveAmount) / rate).toFixed(6))
+      setGetAmount((Number(giveAmount) / rate).toFixed(2))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rate])
@@ -220,7 +221,7 @@ const SelectForm = ({
     let estimatedGiveAmount = ''
 
     if (rate != null && result != '') {
-      estimatedGiveAmount = (Number(result) * rate).toFixed(6)
+      estimatedGiveAmount = (Number(result) * rate).toFixed(2)
     }
 
     const errorRanges = checkRanges(Number(estimatedGiveAmount))
@@ -436,34 +437,6 @@ const SelectForm = ({
             ) : (
               <Skeleton containerClassName="input-skeleton" />
             )}
-            <HideableWithMargin hide={paymentActive}>
-              <ExchangeRow
-                token={currentToken}
-                currency={currentCurrency}
-                rate={rate}
-                isLoading={isLoading}
-                placeholder={t('home:exchange_fees')}
-                text="asd"
-                margins
-              />
-              {!isLoading ? (
-                <InputSelect
-                  label={t('home:buy_get')}
-                  id={inputIds.get}
-                  options={checkedTokens}
-                  displayInSelect={2}
-                  onActiveChange={(active) => setGetActive(active)}
-                  onSelect={onTokenChange}
-                  onChange={handleGetInput}
-                  value={getAmount}
-                  selectedValue={currentToken}
-                  onlyNumbers
-                  changeable
-                />
-              ) : (
-                <Skeleton containerClassName="input-skeleton" />
-              )}
-            </HideableWithMargin>
             <HideableWithMargin hide={giveActive} margins>
               {!isLoading ? (
                 <InputSelect
@@ -479,6 +452,34 @@ const SelectForm = ({
               ) : (
                 <Skeleton containerClassName="input-skeleton" />
               )}
+              <HideableWithMargin hide={paymentActive}>
+                <ExchangeRow
+                  token={currentToken}
+                  currency={currentCurrency}
+                  rate={rate}
+                  isLoading={isLoading}
+                  placeholder={t('home:exchange_fees')}
+                  text="asd"
+                  margins
+                />
+                {!isLoading ? (
+                  <InputSelect
+                    label={t('home:buy_get')}
+                    id={inputIds.get}
+                    options={checkedTokens}
+                    displayInSelect={2}
+                    onActiveChange={(active) => setGetActive(active)}
+                    onSelect={onTokenChange}
+                    onChange={handleGetInput}
+                    value={getAmount}
+                    selectedValue={currentToken}
+                    onlyNumbers
+                    changeable
+                  />
+                ) : (
+                  <Skeleton containerClassName="input-skeleton" />
+                )}
+              </HideableWithMargin>
             </HideableWithMargin>
           </HideableWithMargin>
         </FormContainer>
@@ -583,8 +584,6 @@ const SelectForm = ({
           }}
         />
       )}
-
-      {serviceAvailable !== null && !serviceAvailable && <Maintenance />}
 
       {!chainActive && !giveActive && !getActive && !paymentActive && (
         <NextButton

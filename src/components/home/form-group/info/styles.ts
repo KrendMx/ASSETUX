@@ -100,6 +100,7 @@ export const Sponsors = styled.div<SponsorsProps>`
   width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
   visibility: ${(props) => (props.isLoading ? 'hidden' : 'visible')};
 
   & > *:not(:last-child) {

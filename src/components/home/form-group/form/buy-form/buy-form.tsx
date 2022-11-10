@@ -21,7 +21,6 @@ import type {
 import type { CurrenciesType } from '@/lib/data/currencies'
 import { QIWI } from '@/core/backend/types.core.backend'
 import { setCurrentCurrency } from '@/lib/redux/ui'
-import { useRouter } from 'next/router'
 
 type BuyFormProps = {
   currentBlockchain: Blockchain | null
@@ -73,8 +72,6 @@ const BuyForm = ({
 
   const currentRate = useAppSelector((state) => state!.crypto.currentRate)
 
-  const ref = useAppSelector((state) => state.crypto.ref)
-
   const onSubmit = async () => {
     if (
       currentBlockchain &&
@@ -92,7 +89,6 @@ const BuyForm = ({
         provider: selectedPayment,
         amount: Number(giveAmount),
         cryptoAddress: walletAddress,
-        ref: ref || undefined,
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
@@ -209,7 +205,7 @@ const BuyForm = ({
       rate={currentRate}
       processingRequest={processingRequest}
       cardError={cardError}
-      serviceAvailable={serviceAvailable}
+      serviceAvailable={serviceAvailable && !apiError}
       setCurrentStep={setCurrentStep}
       setGetAmount={setGetAmount}
       onBlockchainChange={(blockchain) => {}}

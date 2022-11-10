@@ -169,7 +169,7 @@ export const Form = styled.form`
   justify-content: center;
   max-width: 469px;
   width: 100%;
-  min-height: 800px;
+  min-height: 520px;
   padding: 30px 25px;
   background: var(--white);
   border-radius: 10px;

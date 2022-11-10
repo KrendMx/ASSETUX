@@ -45,11 +45,6 @@ const Index = ({ news }: IndexProps) => {
       />
       <Container>
         <FormGroup />
-        {/* <Investments /> */}
-        <CryptoSlide />
-        <CryptoExplorer />
-        {news && <NewsRoom news={news} />}
-        <AboutUs />
 
         <Orders />
 

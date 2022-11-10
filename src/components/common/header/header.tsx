@@ -6,12 +6,9 @@ import { Wrapper, OuterContainer } from './styles'
 
 const Header = () => {
   return (
-    <Wrapper>
-      <OuterContainer>
-        <Desktop />
-        <Mobile />
-      </OuterContainer>
-    </Wrapper>
+    <>
+      <OuterContainer></OuterContainer>
+    </>
   )
 }
 

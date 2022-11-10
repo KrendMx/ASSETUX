@@ -20,7 +20,6 @@ import { Container } from './styles'
 import RenderFields from './renderFields'
 import useSelectSellForm from './useSelectSellForm'
 import WarningPopup from '@/components/home/infoPopup/infoPopUp'
-import Maintenance from '../../common/maintenance'
 
 export const inputIds = {
   get: 'get',
@@ -311,8 +310,6 @@ const SelectForm = (props: SelectFormProps) => {
           caseNumber={popupCase}
         />
       )}
-
-      {serviceUnavailable && <Maintenance />}
 
       {(showRefundModal ||
         showRefundWalletModal ||

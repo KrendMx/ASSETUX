@@ -2,11 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
-import {
-  setRef,
-  setSelectedSellToken,
-  setSelectedToken
-} from '@/lib/redux/crypto'
+import { setSelectedSellToken, setSelectedToken } from '@/lib/redux/crypto'
 import { BackendClient } from '@/lib/backend/clients'
 
 import SellForm from './sell-form'
@@ -31,6 +27,7 @@ import type {
 } from '@/lib/backend/main/types.backend.main'
 import { mapBlockchains, mapTokens } from '@/lib/helpers.global'
 import { useRouter } from 'next/router'
+import { setCurrentCurrency } from '@/lib/redux/ui'
 
 const FormController = () => {
   const dispatch = useAppDispatch()
@@ -114,7 +111,6 @@ const FormController = () => {
     }
 
     const fetch = async (signal: AbortSignal) => {
-      console.log(selectedBlockchain.url)
       const [fiatProviders, fiatRates, liquidity] = await Promise.all([
         BackendClient.getFiatProviders({
           apiHost: selectedBlockchain.url,
@@ -130,8 +126,6 @@ const FormController = () => {
           signal
         })
       ])
-
-      console.log(liquidity)
 
       if (fiatProviders.state == 'success') {
         setPayments(fiatProviders.data)
@@ -210,43 +204,35 @@ const FormController = () => {
   }, [sellPayments, buyPayments])
   const { query } = useRouter()
 
-  useMemo(() => {
-    query.ref && dispatch(setRef(query.ref as string))
-  }, [])
-
-  return (
-    <>
-      {action == 'BUY' ? (
-        <BuyForm
-          blockchains={blockchains}
-          tokens={tokens}
-          currencies={currenciesForBuy}
-          rates={fiatRates}
-          payments={buyPayments}
-          serviceAvailable={liquidityData ? liquidityData.buy : null}
-          currentBlockchain={selectedBlockchain}
-          currentToken={selectedToken}
-          currentCurrency={
-            ((query?.currency as any)?.toUpperCase() as CurrenciesType) ||
-            currentCurrency
-          }
-          onTokenChange={handleTokenChange}
-        />
-      ) : (
-        <SellForm
-          blockchains={blockchains}
-          tokens={tokensForSell}
-          currencies={currenciesForSell}
-          rates={fiatRates}
-          payments={sellPayments}
-          serviceAvailable={liquidityData ? liquidityData.sell : null}
-          currentBlockchain={selectedBlockchain}
-          currentToken={selectedSellToken}
-          currentCurrency={'RUB'}
-          onTokenChange={handleTokenSellChange}
-        />
-      )}
-    </>
+  return action == 'BUY' ? (
+    <BuyForm
+      blockchains={blockchains}
+      tokens={tokens}
+      currencies={currenciesForBuy}
+      rates={fiatRates}
+      payments={buyPayments}
+      serviceAvailable={liquidityData ? liquidityData.buy : null}
+      currentBlockchain={selectedBlockchain}
+      currentToken={selectedToken}
+      currentCurrency={
+        ((query?.currency as any)?.toUpperCase() as CurrenciesType) ||
+        currentCurrency
+      }
+      onTokenChange={handleTokenChange}
+    />
+  ) : (
+    <SellForm
+      blockchains={blockchains}
+      tokens={tokensForSell}
+      currencies={currenciesForSell}
+      rates={fiatRates}
+      payments={sellPayments}
+      serviceAvailable={liquidityData ? liquidityData.sell : null}
+      currentBlockchain={selectedBlockchain}
+      currentToken={selectedSellToken}
+      currentCurrency={'RUB'}
+      onTokenChange={handleTokenSellChange}
+    />
   )
 }
 

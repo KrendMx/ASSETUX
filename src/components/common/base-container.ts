@@ -3,7 +3,6 @@ import { mobile } from '@/lib/data/constants'
 
 const BaseContainer = styled.div`
   width: 100%;
-  padding: 74px 0;
   font-size: 1em;
 
   & > section {

@@ -53,11 +53,6 @@ const ContentManager = (props: ContentManagerProps) => {
           {MemoizedComponent}
         </Container>
       </Wrapper>
-      <MemoizedFooter
-        hide={
-          burgerActive || (configureActive && isMobile) || isCommercePayment
-        }
-      />
       {burgerActive && <BurgerMenu />}
       {configureActive && isMobile && <ConfigureMenu />}
     </>

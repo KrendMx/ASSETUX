@@ -156,13 +156,13 @@ const useSelectSellForm = ({
 
   const getAmount = useMemo(() => {
     if (rate && giveAmount != '') {
-      return (Number(giveAmount) * rate).toFixed(6)
+      return (Number(giveAmount) * rate).toFixed(2)
     } else return ''
   }, [giveAmount, rate])
 
   const creditedGetAmount = useMemo(() => {
     if (rate && giveAmount != '' && exchangeInfo) {
-      return (exchangeInfo.creditedAmount * rate).toFixed(6)
+      return (exchangeInfo.creditedAmount * rate).toFixed(2)
     } else return ''
   }, [exchangeInfo, giveAmount, rate])
 
@@ -188,7 +188,6 @@ const useSelectSellForm = ({
   ])
 
   const handleNextStep = () => {
-    // console.log(serviceUnavailable)
     if (serviceUnavailable) {
       return
     }

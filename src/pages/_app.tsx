@@ -41,8 +41,8 @@ const MyApp = (props: AppProps) => {
         <link rel="manifest" href={`/manifests/${router.locale}.json`} />
         <meta name="theme-color" content="#FFFFFF" />
       </Head>
-      <DefaultSeo title="ASSETUX" />
-      {!isCommercePayment && <Header />}
+      {/* <DefaultSeo title="ASSETUX" />   */}
+      {/* {!isCommercePayment && <Header />} */}
       <SkeletonTheme borderRadius={10}>
         <ContentManager appProps={props} />
       </SkeletonTheme>

@@ -103,12 +103,12 @@ export const InputContainer = styled.div<InputContainerProps>`
   }
 
   & > input[type='file'] {
-    width: 110.1px;
-    height: 50.1px;
+    width: 0.1px;
+    height: 0.1px;
     opacity: 0;
     overflow: hidden;
     position: absolute;
-    z-index: 1;
+    z-index: -1;
   }
 
   @media only screen and (max-width: 370px) {

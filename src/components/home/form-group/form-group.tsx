@@ -45,10 +45,9 @@ const Container = styled.section`
 
 const FormGroup = () => {
   return (
-    <Container>
-      <Info />
+    <>
       <Form />
-    </Container>
+    </>
   )
 }
 
