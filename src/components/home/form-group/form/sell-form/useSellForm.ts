@@ -74,6 +74,7 @@ const useSellForm = ({
           type: selectedPayment
         },
         email,
+        ref: window ? window.location.href : undefined,
         totalAmount: Number(giveAmount)
       })
 

@@ -92,6 +92,7 @@ const BuyForm = ({
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
+        ref: window ? window.location.href : undefined,
         firstName,
         lastName,
         card:
