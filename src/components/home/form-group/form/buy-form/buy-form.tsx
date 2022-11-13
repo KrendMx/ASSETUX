@@ -73,7 +73,7 @@ const BuyForm = ({
 
   const currentRate = useAppSelector((state) => state!.crypto.currentRate)
 
-  const { query } = useRouter()
+  const ref = useAppSelector((state) => state!.crypto.ref)
 
   const onSubmit = async () => {
     if (
@@ -95,7 +95,7 @@ const BuyForm = ({
         chainId: currentBlockchain.chain_id,
         tokenAddress,
         email,
-        ref: query!.ref as string,
+        ref: ref as string,
         firstName,
         lastName,
         card:

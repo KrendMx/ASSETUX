@@ -27,14 +27,6 @@ const ScrollButton = dynamic(
 )
 
 const MyApp = (props: AppProps) => {
-  const { isCommercePayment, router } = useAppMount()
-
-  useEffect(() => {
-    if (document) {
-      console.log(document.getElementById('asdf'))
-    }
-  }, [])
-
   return (
     <>
       <SkeletonTheme borderRadius={10}>

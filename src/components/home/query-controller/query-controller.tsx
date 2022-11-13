@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
 
 import { useAppSelector, useAppDispatch } from '@/lib/redux/hooks'
@@ -6,7 +7,8 @@ import {
   setSelectedToken,
   setSelectedBlockchain,
   swapAction,
-  setSellOrderId
+  setSellOrderId,
+  setRef
 } from '@/lib/redux/crypto'
 import { setCurrentCurrency } from '@/lib/redux/ui'
 import { isCurrencyDeclared } from '@/lib/data/currencies'
@@ -32,15 +34,25 @@ const QueryController = () => {
   )
   const selectedToken = useAppSelector((state) => state.crypto.selectedToken)
   const action = useAppSelector((state) => state.crypto.action)
+  const ref = useAppSelector((state) => state.crypto.ref)
   const currentCurrency = useAppSelector((state) => state.ui.currentCurrency)
   const sellOrderId = useAppSelector((state) => state.crypto.sellOrderId)
   const prevSellOrderId = usePrevious(sellOrderId)
+
+  const { query } = useRouter()
+
+  useMemo(() => {
+    const ref = query!.ref
+    dispatch(setRef(ref as string))
+  }, [query])
 
   useEffect(() => {
     if (processedQuery) {
       const query: QueryObject = {}
 
       query['action'] = action.toLowerCase()
+
+      query['ref'] = ref as string
 
       if (sellOrderId) {
         query['id'] = sellOrderId

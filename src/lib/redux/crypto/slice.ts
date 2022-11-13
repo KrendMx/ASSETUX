@@ -25,7 +25,8 @@ const initialState: CryptoState = {
   currentRate: null,
   action: 'BUY',
   explorerData: null,
-  sellOrderId: null
+  sellOrderId: null,
+  ref: null
 }
 
 export const slice = createSlice({
@@ -34,6 +35,9 @@ export const slice = createSlice({
   reducers: {
     setSelectedBlockchain: (state, action: PayloadAction<Blockchain>) => {
       state.selectedBlockchain = action.payload
+    },
+    setRef: (state, action: PayloadAction<string>) => {
+      state.ref = action.payload
     },
     setSelectedToken: (state, action: PayloadAction<Token>) => {
       state.selectedToken = action.payload

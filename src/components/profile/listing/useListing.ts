@@ -109,8 +109,6 @@ const useListing = ({ profile, rate }: BillProps) => {
         setGet(amountRes)
       }
 
-      console.log(sumWithFee)
-
       const resultNum = Number(result)
 
       if (resultNum < ranges.min) {
@@ -161,8 +159,6 @@ const useListing = ({ profile, rate }: BillProps) => {
       Cookies.get(mappedCookies.authToken)!,
       tokens[0]?.address
     )
-
-    console.log(sumWithFee)
 
     if (
       sumWithFee.state == 'success' &&
@@ -233,8 +229,6 @@ const useListing = ({ profile, rate }: BillProps) => {
 
     let link = ''
 
-    console.log(window.location.host)
-
     if (!!response && response.state == 'success') {
       link =
         window.location.protocol +
@@ -254,8 +248,6 @@ const useListing = ({ profile, rate }: BillProps) => {
     } else {
       setSubmitValue(t('copyLink'))
     }
-
-    console.log()
 
     if (navigator.userAgent.includes('Chrome')) {
       navigator.clipboard.writeText(link)

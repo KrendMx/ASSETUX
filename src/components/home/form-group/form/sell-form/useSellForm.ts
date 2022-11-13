@@ -50,7 +50,7 @@ const useSellForm = ({
 
   const currentRate = useAppSelector((state) => state.crypto.currentRate)
 
-  const { query } = useRouter()
+  const ref = useAppSelector((state) => state!.crypto.ref)
 
   const onSubmit = async () => {
     if (
@@ -76,7 +76,7 @@ const useSellForm = ({
           type: selectedPayment
         },
         email,
-        ref: query!.ref as string,
+        ref: ref as string,
         totalAmount: Number(giveAmount)
       })
 

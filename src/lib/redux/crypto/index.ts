@@ -7,7 +7,8 @@ export const {
   swapAction,
   setCurrentRate,
   setExplorerData,
-  setSellOrderId
+  setSellOrderId,
+  setRef
 } = slice.actions
 
 export default slice.reducer
