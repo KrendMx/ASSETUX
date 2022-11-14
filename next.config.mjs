@@ -36,7 +36,8 @@ const config = {
       'bscscan.com',
       'assetux.com',
       'bsc.assetux.com',
-      'bsc_dev.assetux.com'
+      'bsc_dev.assetux.com',
+      'widget.assetux.com'
     ]
   },
   eslint: {
