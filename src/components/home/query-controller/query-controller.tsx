@@ -42,9 +42,8 @@ const QueryController = () => {
   const { query } = useRouter()
 
   useMemo(() => {
-    const ref = query!.ref
-    dispatch(setRef(ref as string))
-  }, [query])
+    dispatch(setRef(query?.ref as string))
+  }, [])
 
   useEffect(() => {
     if (processedQuery) {
@@ -60,7 +59,7 @@ const QueryController = () => {
         query['currency'] = currentCurrency.toLowerCase()
 
         if (selectedBlockchain) {
-          // query["blockchain"] = selectedBlockchain.chain_id.toString()
+          query['blockchain'] = selectedBlockchain.chain_id.toString()
         }
 
         if (selectedToken) {

@@ -18,6 +18,8 @@ import type { AppProps } from 'next/app'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'core-js/features/array/at'
 import '@/lib/styles/fonts.css'
+import { DefaultSeo } from 'next-seo'
+import Header from '@/components/common/header'
 
 const ScrollButton = dynamic(
   () => import('@/components/common/scroll-button'),
@@ -27,8 +29,20 @@ const ScrollButton = dynamic(
 )
 
 const MyApp = (props: AppProps) => {
+  const { isCommercePayment, router } = useAppMount()
+
   return (
     <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <link rel="manifest" href={`/manifests/${router.locale}.json`} />
+        <meta name="theme-color" content="#FFFFFF" />
+      </Head>
+      <DefaultSeo title="ASSETUX" />
+      {!isCommercePayment && <Header />}
       <SkeletonTheme borderRadius={10}>
         <ContentManager appProps={props} />
       </SkeletonTheme>
